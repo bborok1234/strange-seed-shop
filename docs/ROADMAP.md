@@ -85,13 +85,13 @@ Goal: make the project increasingly self-managing.
 | Document automerge governance | review | `docs/AUTOMERGE_GOVERNANCE.md`, `scripts/check-governance.mjs` | Branch protection, required checks, and `ENABLE_AGENT_AUTOMERGE` operating rules are checkable |
 | Accumulate PR automation audit | review | `reports/audits/pr_automation_20260427.md`, `scripts/check-audit-reports.mjs` | PR #1-#5 automation results are preserved and checkable |
 | Audit Branch protection status | review | `reports/audits/branch_protection_20260427.md` | `main.protected=false` and Branch protection access limit are recorded |
-| Generate PR automation audit | review | `scripts/update-pr-automation-audit.mjs`, `reports/audits/pr_automation_20260427.md` | PR automation audit can be regenerated from `gh pr list`; PR #1-#9 are recorded |
+| Generate PR automation audit | review | `scripts/update-pr-automation-audit.mjs`, `reports/audits/pr_automation_20260427.md` | PR automation audit can be regenerated from `gh pr list`; `check:audit` validates snapshot consistency instead of forcing endless self-refresh |
 | Browser Use QA gate | review | `scripts/check-browser-qa.mjs`, `reports/visual/browser-use-main-20260427.png` | Browser Use first policy and visual evidence are checked by `npm run check:browser-qa` |
 
 ## Current Next Action
 
 Browser Use 기반 스크린샷 자동화, 핵심 클릭 플로우, 오프라인 복귀, 모바일/데스크톱 캡처가 확인됐다.
 
-1. PR #8/#9 audit refresh 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
+1. PR audit snapshot gate 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
 2. 자동 머지 trial을 통해 main에 반영한다.
 3. 다음 게임 기능 작업을 `items/` 단위로 등록한다.
