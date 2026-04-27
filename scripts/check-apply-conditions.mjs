@@ -11,6 +11,8 @@ const requiredPaths = [
   "items/0003-browser-offline-desktop-qa.md",
   "items/0004-automerge-governance.md",
   "items/0005-pr-automation-audit.md",
+  "items/0006-branch-protection-audit.md",
+  "items/0007-generated-pr-audit.md",
   "reports/audits/audit_20260427.md",
   "reports/audits/pr_automation_20260427.md",
   "reports/reviews/README.md"

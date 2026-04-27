@@ -36,7 +36,8 @@ const rows = [
   ["대시보드 자동 갱신", stepStatus("Create dashboard", "review"), "`npm run update:dashboard`, `npm run check:dashboard`"],
   ["자동 머지 거버넌스", stepStatus("Document automerge governance", "review"), "`npm run check:governance`"],
   ["PR 자동화 audit", stepStatus("Accumulate PR automation audit", "review"), "`npm run check:audit`"],
-  ["Branch protection audit", stepStatus("Audit Branch protection status", "review"), "`reports/audits/branch_protection_20260427.md`"]
+  ["Branch protection audit", stepStatus("Audit Branch protection status", "review"), "`reports/audits/branch_protection_20260427.md`"],
+  ["PR audit 생성기", stepStatus("Generate PR automation audit", "review"), "`npm run update:pr-audit`"]
 ];
 
 const commands = [
@@ -75,9 +76,9 @@ ${rows.map((row) => `| ${row[0]} | ${row[1]} | ${row[2]} |`).join("\n")}
 
 ## 다음 작업
 
-1. PR 결과 audit을 \`gh\` 조회 기반으로 생성하는 스크립트를 추가한다.
+1. 다음 게임 기능 작업을 \`items/\` 단위로 등록한다.
 2. Branch protection 사용 가능 조건이 바뀌면 required checks 설정을 별도 승인으로 진행한다.
-3. 다음 게임 기능 작업을 \`items/\` 단위로 등록한다.
+3. PR check URL까지 포함하는 audit 확장을 검토한다.
 
 ## 검증 상태
 

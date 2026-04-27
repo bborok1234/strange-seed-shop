@@ -18,21 +18,22 @@ Updated: 2026-04-27
 | 자동 머지 거버넌스 | review | `npm run check:governance` |
 | PR 자동화 audit | review | `npm run check:audit` |
 | Branch protection audit | review | `reports/audits/branch_protection_20260427.md` |
+| PR audit 생성기 | review | `npm run update:pr-audit` |
 
 ## 로드맵 요약
 
 | 상태 | 개수 |
 | --- | ---: |
 | done | 24 |
-| review | 8 |
+| review | 9 |
 | todo | 0 |
 | blocked | 0 |
 
 ## 다음 작업
 
-1. PR 결과 audit을 `gh` 조회 기반으로 생성하는 스크립트를 추가한다.
+1. 다음 게임 기능 작업을 `items/` 단위로 등록한다.
 2. Branch protection 사용 가능 조건이 바뀌면 required checks 설정을 별도 승인으로 진행한다.
-3. 다음 게임 기능 작업을 `items/` 단위로 등록한다.
+3. PR check URL까지 포함하는 audit 확장을 검토한다.
 
 ## 검증 상태
 

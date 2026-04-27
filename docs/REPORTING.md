@@ -67,3 +67,5 @@ Status: pass | warn | fail
 `npm run check:dashboard`는 생성 결과와 현재 `docs/DASHBOARD.md`가 일치하는지 확인한다.
 
 `npm run check:audit`는 필수 audit report와 PR 자동화 결과 기록이 존재하는지 확인한다.
+
+`npm run update:pr-audit`는 GitHub CLI로 PR 목록을 조회해 `reports/audits/pr_automation_20260427.md`를 갱신한다.
