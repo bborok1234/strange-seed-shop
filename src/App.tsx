@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { getAssetPath, loadAssetManifest } from "./lib/assetManifest";
+import { getAssetPath, getPlayfieldAnimationAssets, loadAssetManifest } from "./lib/assetManifest";
 import { createNewSave, localSaveStore } from "./lib/persistence";
 import { content, getStarterSeeds } from "./lib/content";
 import { readEvents, trackEvent } from "./lib/analytics";
@@ -50,11 +50,14 @@ export default function App() {
     }
 
     const qaOfflineMinutes = getLocalQaOfflineMinutes();
-    const existingSave = getLocalQaExpeditionReady()
-      ? createExpeditionReadyQaSave()
-      : qaOfflineMinutes
-        ? createOfflineQaSave(qaOfflineMinutes)
-        : localSaveStore.load();
+    const qaSpriteState = getLocalQaSpriteState();
+    const existingSave = qaSpriteState
+      ? createSpriteQaSave(qaSpriteState)
+      : getLocalQaExpeditionReady()
+        ? createExpeditionReadyQaSave()
+        : qaOfflineMinutes
+          ? createOfflineQaSave(qaOfflineMinutes)
+          : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -93,6 +96,7 @@ export default function App() {
   const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
   const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
   const gardenViewModel = useMemo(() => buildGardenPlayfieldViewModel(save, now), [save, now]);
+  const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
 
   function commit(mutator: (draft: PlayerSave) => void) {
     setSave((current) => {
@@ -342,7 +346,7 @@ export default function App() {
         {offlineMessage && <div className="toast">{offlineMessage}</div>}
 
         <section className="garden-panel" aria-label="정원">
-          <GardenPlayfieldHost onAction={handlePlayfieldAction} viewModel={gardenViewModel} />
+          <GardenPlayfieldHost onAction={handlePlayfieldAction} playfieldAssets={playfieldAssets} viewModel={gardenViewModel} />
 
           <aside className="starter-panel">
             <p className="panel-label">다음 행동</p>
@@ -647,6 +651,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number): Ga
       index: plot.index,
       state: progressPercent >= 100 ? "ready" : "growing",
       label: seed.name,
+      seedId: seed.id,
       family: seed.family,
       progressPercent,
       secondsRemaining
@@ -789,6 +794,40 @@ function getLocalQaExpeditionReady(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaExpeditionReady") === "1";
+}
+
+function getLocalQaSpriteState(): "growing" | "ready" | null {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return null;
+  }
+
+  const value = new URLSearchParams(window.location.search).get("qaSpriteState");
+  return value === "growing" || value === "ready" ? value : null;
+}
+
+function createSpriteQaSave(spriteState: "growing" | "ready"): PlayerSave {
+  const save = createNewSave();
+  const plantedAt = new Date(Date.now() - (spriteState === "ready" ? 35_000 : 8_000)).toISOString();
+
+  return {
+    ...save,
+    leaves: 10,
+    selectedStarterSeedId: "seed_herb_001",
+    plotCount: 1,
+    plots: save.plots.map((plot) =>
+      plot.index === 0
+        ? {
+            ...plot,
+            seedId: "seed_herb_001",
+            plantedAt,
+            tapProgressSeconds: 0,
+            harvestedCreatureId: undefined
+          }
+        : plot
+    ),
+    lastSeenAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
 }
 
 function createOfflineQaSave(minutesAway: number): PlayerSave {

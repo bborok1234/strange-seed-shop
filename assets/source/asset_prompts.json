@@ -244,6 +244,78 @@
         "readable and clean at mobile card sizes",
         "consistent greenhouse visual style"
       ]
+    },
+    {
+      "asset_id": "seed_herb_001_idle_strip",
+      "output_path": "public/assets/game/sprites/starter/seed_herb_001_idle_strip.png",
+      "prompt": "Use case: Phaser spritesheet strip for a mobile idle browser game.\nAsset type: starter plant/creature horizontal spritesheet\nPrimary request: Create 4 equal frame cells in one horizontal strip for seed_herb_001_idle_strip. The strip must be transparent/clean background, no gutter, no text, no watermark, no logo.\nStrip layout: one row, 4 frames, each frame 96x96px, total expected size 384x96px, consistent anchor and scale.\nAnimation intent: playfield_idle_animation, frame rate 6 fps, looping animation.\nStyle: cute-strange 이상한 씨앗상회 Herb greenhouse style, rounded silhouette, warm leaf yellow highlights, readable at 96px.\nReference asset id: seed_herb_001_icon.\nConstraints: static pre-produced asset only; runtime image generation is forbidden; avoid copyrighted characters, brands, living artist imitation, busy backgrounds, tiny unreadable details.",
+      "acceptance": [
+        "horizontal strip has exactly 4 visually distinct equal cells",
+        "pixel dimensions are 384x96 or manifest records equivalent slicing metadata",
+        "consistent anchor and scale across frames",
+        "readable at 96px with no text, watermark, logo, or background clutter",
+        "runtime generation remains disabled and output is saved in the workspace"
+      ]
+    },
+    {
+      "asset_id": "seed_herb_001_tap_strip",
+      "output_path": "public/assets/game/sprites/starter/seed_herb_001_tap_strip.png",
+      "prompt": "Use case: Phaser spritesheet strip for a mobile idle browser game.\nAsset type: starter plant/creature horizontal spritesheet\nPrimary request: Create 4 equal frame cells in one horizontal strip for seed_herb_001_tap_strip. The strip must be transparent/clean background, no gutter, no text, no watermark, no logo.\nStrip layout: one row, 4 frames, each frame 96x96px, total expected size 384x96px, consistent anchor and scale.\nAnimation intent: playfield_tap_response, frame rate 12 fps, one-shot animation.\nStyle: cute-strange 이상한 씨앗상회 Herb greenhouse style, rounded silhouette, warm leaf yellow highlights, readable at 96px.\nReference asset id: seed_herb_001_icon.\nConstraints: static pre-produced asset only; runtime image generation is forbidden; avoid copyrighted characters, brands, living artist imitation, busy backgrounds, tiny unreadable details.",
+      "acceptance": [
+        "horizontal strip has exactly 4 visually distinct equal cells",
+        "pixel dimensions are 384x96 or manifest records equivalent slicing metadata",
+        "consistent anchor and scale across frames",
+        "readable at 96px with no text, watermark, logo, or background clutter",
+        "runtime generation remains disabled and output is saved in the workspace"
+      ]
+    },
+    {
+      "asset_id": "sprout_herb_001_grow_strip",
+      "output_path": "public/assets/game/sprites/starter/sprout_herb_001_grow_strip.png",
+      "prompt": "Use case: Phaser spritesheet strip for a mobile idle browser game.\nAsset type: starter plant/creature horizontal spritesheet\nPrimary request: Create 6 equal frame cells in one horizontal strip for sprout_herb_001_grow_strip. The strip must be transparent/clean background, no gutter, no text, no watermark, no logo.\nStrip layout: one row, 6 frames, each frame 96x96px, total expected size 576x96px, consistent anchor and scale.\nAnimation intent: playfield_growth_loop, frame rate 8 fps, looping animation.\nStyle: cute-strange 이상한 씨앗상회 Herb greenhouse style, rounded silhouette, warm leaf yellow highlights, readable at 96px.\nReference asset id: seed_herb_001_icon.\nConstraints: static pre-produced asset only; runtime image generation is forbidden; avoid copyrighted characters, brands, living artist imitation, busy backgrounds, tiny unreadable details.",
+      "acceptance": [
+        "horizontal strip has exactly 6 visually distinct equal cells",
+        "pixel dimensions are 576x96 or manifest records equivalent slicing metadata",
+        "consistent anchor and scale across frames",
+        "readable at 96px with no text, watermark, logo, or background clutter",
+        "runtime generation remains disabled and output is saved in the workspace"
+      ]
+    },
+    {
+      "asset_id": "creature_herb_common_ready_strip",
+      "output_path": "public/assets/game/sprites/starter/creature_herb_common_ready_strip.png",
+      "prompt": "Use case: Phaser spritesheet strip for a mobile idle browser game.\nAsset type: starter plant/creature horizontal spritesheet\nPrimary request: Create 4 equal frame cells in one horizontal strip for creature_herb_common_ready_strip. The strip must be transparent/clean background, no gutter, no text, no watermark, no logo.\nStrip layout: one row, 4 frames, each frame 96x96px, total expected size 384x96px, consistent anchor and scale.\nAnimation intent: playfield_ready_pulse, frame rate 6 fps, looping animation.\nStyle: cute-strange 이상한 씨앗상회 Herb greenhouse style, rounded silhouette, warm leaf yellow highlights, readable at 96px.\nReference asset id: creature_herb_common_001.\nConstraints: static pre-produced asset only; runtime image generation is forbidden; avoid copyrighted characters, brands, living artist imitation, busy backgrounds, tiny unreadable details.",
+      "acceptance": [
+        "horizontal strip has exactly 4 visually distinct equal cells",
+        "pixel dimensions are 384x96 or manifest records equivalent slicing metadata",
+        "consistent anchor and scale across frames",
+        "readable at 96px with no text, watermark, logo, or background clutter",
+        "runtime generation remains disabled and output is saved in the workspace"
+      ]
+    },
+    {
+      "asset_id": "fx_harvest_sparkle_strip",
+      "output_path": "public/assets/game/fx/fx_harvest_sparkle_strip.png",
+      "prompt": "Use case: Phaser spritesheet strip for a mobile idle browser game.\nAsset type: greenhouse feedback FX horizontal spritesheet\nPrimary request: Create 6 equal frame cells in one horizontal strip for fx_harvest_sparkle_strip. The strip must be transparent/clean background, no gutter, no text, no watermark, no logo.\nStrip layout: one row, 6 frames, each frame 96x96px, total expected size 576x96px, consistent anchor and scale.\nAnimation intent: playfield_harvest_fx, frame rate 12 fps, one-shot animation.\nStyle: cute-strange 이상한 씨앗상회 Herb greenhouse style, rounded silhouette, warm leaf yellow highlights, readable at 96px.\nReference asset id: creature_herb_common_001.\nConstraints: static pre-produced asset only; runtime image generation is forbidden; avoid copyrighted characters, brands, living artist imitation, busy backgrounds, tiny unreadable details.",
+      "acceptance": [
+        "horizontal strip has exactly 6 visually distinct equal cells",
+        "pixel dimensions are 576x96 or manifest records equivalent slicing metadata",
+        "consistent anchor and scale across frames",
+        "readable at 96px with no text, watermark, logo, or background clutter",
+        "runtime generation remains disabled and output is saved in the workspace"
+      ]
+    },
+    {
+      "asset_id": "fx_leaf_reward_pop_strip",
+      "output_path": "public/assets/game/fx/fx_leaf_reward_pop_strip.png",
+      "prompt": "Use case: Phaser spritesheet strip for a mobile idle browser game.\nAsset type: greenhouse feedback FX horizontal spritesheet\nPrimary request: Create 5 equal frame cells in one horizontal strip for fx_leaf_reward_pop_strip. The strip must be transparent/clean background, no gutter, no text, no watermark, no logo.\nStrip layout: one row, 5 frames, each frame 96x96px, total expected size 480x96px, consistent anchor and scale.\nAnimation intent: playfield_reward_fx, frame rate 12 fps, one-shot animation.\nStyle: cute-strange 이상한 씨앗상회 Herb greenhouse style, rounded silhouette, warm leaf yellow highlights, readable at 96px.\nReference asset id: seed_herb_001_icon.\nConstraints: static pre-produced asset only; runtime image generation is forbidden; avoid copyrighted characters, brands, living artist imitation, busy backgrounds, tiny unreadable details.",
+      "acceptance": [
+        "horizontal strip has exactly 5 visually distinct equal cells",
+        "pixel dimensions are 480x96 or manifest records equivalent slicing metadata",
+        "consistent anchor and scale across frames",
+        "readable at 96px with no text, watermark, logo, or background clutter",
+        "runtime generation remains disabled and output is saved in the workspace"
+      ]
     }
   ]
 }

@@ -29,3 +29,16 @@ export function getAsset(manifest: AssetManifest | null, assetId: string): Manif
 export function getAssetPath(manifest: AssetManifest | null, assetId: string): string {
   return getAsset(manifest, assetId)?.path ?? "";
 }
+
+export function getPlayfieldAnimationAssets(manifest: AssetManifest | null): ManifestAsset[] {
+  if (!manifest) {
+    return [];
+  }
+
+  return Object.values(manifest.assets).filter(
+    (asset) =>
+      asset.status === "accepted" &&
+      (asset.category === "sprite_strip" || asset.category === "fx_strip") &&
+      asset.animation?.kind === "spritesheet"
+  );
+}

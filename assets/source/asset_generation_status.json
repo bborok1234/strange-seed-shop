@@ -2,13 +2,14 @@
   "source_prompts": "assets/source/asset_prompts.json",
   "generated_at": "2026-04-27",
   "generation_mode": "codex_native_image_generation",
-  "total": 20,
-  "completed": 20,
+  "total": 26,
+  "completed": 26,
   "missing": [],
   "blocked": false,
   "notes": [
     "Initial run incorrectly stopped after 11/20 assets; resumed and completed all remaining assets.",
-    "Workflow guardrails added to .codex/skills/gpt-game-asset-generate/SKILL.md."
+    "Workflow guardrails added to .codex/skills/gpt-game-asset-generate/SKILL.md.",
+    "sprite_batch_001: 6 starter spritesheet/fx strips saved as static workspace PNGs; runtime generation remains disabled. Codex native file export was approximated with deterministic local strip normalization for strict Phaser slicing."
   ],
   "outputs": [
     "public/assets/game/creatures/creature_herb_common_001.png",
@@ -30,6 +31,12 @@
     "public/assets/game/backgrounds/background_greenhouse_night_001.png",
     "public/assets/game/shop/shop_starter_pack_001.png",
     "public/assets/game/shop/shop_monthly_license_001.png",
-    "public/assets/game/ui/ui_album_card_frame_001.png"
+    "public/assets/game/ui/ui_album_card_frame_001.png",
+    "public/assets/game/sprites/starter/seed_herb_001_idle_strip.png",
+    "public/assets/game/sprites/starter/seed_herb_001_tap_strip.png",
+    "public/assets/game/sprites/starter/sprout_herb_001_grow_strip.png",
+    "public/assets/game/sprites/starter/creature_herb_common_ready_strip.png",
+    "public/assets/game/fx/fx_harvest_sparkle_strip.png",
+    "public/assets/game/fx/fx_leaf_reward_pop_strip.png"
   ]
 }

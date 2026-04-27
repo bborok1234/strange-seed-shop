@@ -39,7 +39,12 @@ const rows = [
   ["PR 자동화 audit", stepStatus("Accumulate PR automation audit", "review"), "`npm run check:audit`"],
   ["Branch protection audit", stepStatus("Audit Branch protection status", "review"), "`reports/audits/branch_protection_20260427.md`"],
   ["PR audit 생성기", stepStatus("Generate PR automation audit", "review"), "`npm run update:pr-audit`"],
-  ["Browser Use QA gate", stepStatus("Browser Use QA gate", "review"), "`npm run check:browser-qa`"]
+  ["Browser Use QA gate", stepStatus("Browser Use QA gate", "review"), "`npm run check:browser-qa`"],
+  [
+    "Sprite batch QA gate",
+    stepStatus("Starter seed sprite-pipeline first batch", "review"),
+    "`npm run check:sprite-batch`"
+  ]
 ];
 
 const commands = [
@@ -50,6 +55,7 @@ const commands = [
   "npm run check:apply",
   "npm run check:dashboard",
   "npm run check:browser-qa",
+  "npm run check:sprite-batch",
   "npm run check:governance",
   "npm run check:audit",
   "npm run build"
@@ -91,7 +97,7 @@ ${commands.map((command) => `| \`${command}\` | tracked |`).join("\n")}
 
 ## 열린 위험
 
-- \`main\` Branch protection은 현재 비활성이고 private repo 제한으로 endpoint가 HTTP 403을 반환했다. \`ENABLE_AGENT_AUTOMERGE\`는 계속 비활성 상태로 유지한다.
+- \`main\` Branch protection은 2026-04-28 기준 활성이고 required checks를 강제한다. \`ENABLE_AGENT_AUTOMERGE\` 활성화는 별도 운영 결정으로 유지한다.
 - Browser Use QA는 Phase 0 기준을 통과했지만, 신규 UI가 생기면 같은 캡처 절차로 갱신해야 한다.
 - 대시보드는 자동 생성되지만 검증 결과 자체를 실행해 저장하지는 않는다.
 `;

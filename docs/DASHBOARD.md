@@ -21,13 +21,14 @@ Updated: 2026-04-28
 | Branch protection audit | done | `reports/audits/branch_protection_20260427.md` |
 | PR audit 생성기 | review | `npm run update:pr-audit` |
 | Browser Use QA gate | review | `npm run check:browser-qa` |
+| Sprite batch QA gate | review | `npm run check:sprite-batch` |
 
 ## 로드맵 요약
 
 | 상태 | 개수 |
 | --- | ---: |
 | done | 27 |
-| review | 20 |
+| review | 21 |
 | todo | 17 |
 | blocked | 0 |
 
@@ -48,12 +49,13 @@ Updated: 2026-04-28
 | `npm run check:apply` | tracked |
 | `npm run check:dashboard` | tracked |
 | `npm run check:browser-qa` | tracked |
+| `npm run check:sprite-batch` | tracked |
 | `npm run check:governance` | tracked |
 | `npm run check:audit` | tracked |
 | `npm run build` | tracked |
 
 ## 열린 위험
 
-- `main` Branch protection은 현재 비활성이고 private repo 제한으로 endpoint가 HTTP 403을 반환했다. `ENABLE_AGENT_AUTOMERGE`는 계속 비활성 상태로 유지한다.
+- `main` Branch protection은 2026-04-28 기준 활성이고 required checks를 강제한다. `ENABLE_AGENT_AUTOMERGE` 활성화는 별도 운영 결정으로 유지한다.
 - Browser Use QA는 Phase 0 기준을 통과했지만, 신규 UI가 생기면 같은 캡처 절차로 갱신해야 한다.
 - 대시보드는 자동 생성되지만 검증 결과 자체를 실행해 저장하지는 않는다.

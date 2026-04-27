@@ -1,4 +1,5 @@
 import * as Phaser from "phaser";
+import type { ManifestAsset } from "../../types/game";
 import type { GardenPlayfieldActionHandler, GardenPlayfieldViewModel, GardenPlotView } from "./types";
 
 const FAMILY_COLORS: Record<NonNullable<GardenPlotView["family"]>, { fill: number; accent: number; text: string }> = {
@@ -14,19 +15,33 @@ const STATE_COLORS: Record<GardenPlotView["state"], { fill: number; stroke: numb
   ready: { fill: 0xf7d65f, stroke: 0xb37724, label: "수확" }
 };
 
+const SPRITE_KEYS = {
+  idle: "seed_herb_001_idle_strip",
+  tap: "seed_herb_001_tap_strip",
+  grow: "sprout_herb_001_grow_strip",
+  ready: "creature_herb_common_ready_strip",
+  harvestFx: "fx_harvest_sparkle_strip",
+  rewardFx: "fx_leaf_reward_pop_strip"
+} as const;
+
 export class GardenScene extends Phaser.Scene {
   private readonly onActionRef: { current: GardenPlayfieldActionHandler };
   private viewModel: GardenPlayfieldViewModel | null = null;
+  private playfieldAssets: ManifestAsset[] = [];
   private root?: Phaser.GameObjects.Container;
+  private fxRoot?: Phaser.GameObjects.Container;
   private lastTapAt = 0;
 
-  constructor(onActionRef: { current: GardenPlayfieldActionHandler }) {
+  constructor(onActionRef: { current: GardenPlayfieldActionHandler }, playfieldAssets: ManifestAsset[] = []) {
     super("GardenScene");
     this.onActionRef = onActionRef;
+    this.playfieldAssets = playfieldAssets;
   }
 
   create() {
+    this.fxRoot = this.add.container(0, 0).setDepth(20);
     this.scale.on("resize", () => this.renderPlayfield());
+    this.loadPlayfieldAssets(this.playfieldAssets);
     this.renderPlayfield();
   }
 
@@ -34,6 +49,86 @@ export class GardenScene extends Phaser.Scene {
     this.viewModel = viewModel;
     if (this.sys.isActive()) {
       this.renderPlayfield();
+    }
+  }
+
+  setPlayfieldAssets(playfieldAssets: ManifestAsset[]) {
+    this.playfieldAssets = playfieldAssets;
+    if (!this.sys.isActive()) {
+      return;
+    }
+
+    this.loadPlayfieldAssets(playfieldAssets);
+    this.renderPlayfield();
+  }
+
+  loadPlayfieldAssets(playfieldAssets: ManifestAsset[]) {
+    if (!this.sys.isActive() || playfieldAssets.length === 0) {
+      return;
+    }
+
+    this.registerLoadedAnimations(playfieldAssets);
+
+    const pendingAssets = playfieldAssets.filter((asset) => {
+      const animation = asset.animation;
+      return (
+        asset.status === "accepted" &&
+        animation?.kind === "spritesheet" &&
+        !this.textures.exists(animation.key)
+      );
+    });
+
+    if (pendingAssets.length === 0) {
+      return;
+    }
+
+    const handleLoadError = (file: { key?: string }) => {
+      console.warn("playfield spritesheet load failed", file.key);
+    };
+
+    const registerAndRender = () => {
+      this.load.off(Phaser.Loader.Events.FILE_LOAD_ERROR, handleLoadError);
+      this.registerLoadedAnimations(playfieldAssets);
+      this.renderPlayfield();
+    };
+
+    this.load.once(Phaser.Loader.Events.COMPLETE, registerAndRender);
+    this.load.on(Phaser.Loader.Events.FILE_LOAD_ERROR, handleLoadError);
+
+    for (const asset of pendingAssets) {
+      const animation = asset.animation;
+      if (!animation) {
+        continue;
+      }
+
+      this.load.spritesheet(animation.key, asset.path, {
+        frameWidth: animation.frameWidth,
+        frameHeight: animation.frameHeight,
+        margin: animation.margin ?? 0,
+        spacing: animation.spacing ?? 0,
+        endFrame: animation.frames - 1
+      });
+    }
+
+    if (!this.load.isLoading()) {
+      this.load.start();
+    }
+  }
+
+  private registerLoadedAnimations(playfieldAssets: ManifestAsset[]) {
+    for (const asset of playfieldAssets) {
+      const animation = asset.animation;
+      if (!animation || !this.textures.exists(animation.key) || this.anims.exists(this.getAnimationKey(animation.key))) {
+        continue;
+      }
+
+      this.anims.create({
+        key: this.getAnimationKey(animation.key),
+        frames: this.anims.generateFrameNumbers(animation.key, { start: 0, end: animation.frames - 1 }),
+        frameRate: animation.frameRate,
+        repeat: animation.repeat,
+        yoyo: animation.yoyo ?? false
+      });
     }
   }
 
@@ -134,7 +229,7 @@ export class GardenScene extends Phaser.Scene {
     }
 
     const hitZone = this.add.zone(width / 2, height / 2, width, height).setInteractive({ useHandCursor: plot.state !== "locked" });
-    hitZone.on("pointerdown", () => this.emitPlotAction(plot));
+    hitZone.on("pointerdown", () => this.emitPlotAction(plot, x + width / 2, y + height * 0.55));
     group.add(hitZone);
   }
 
@@ -145,6 +240,16 @@ export class GardenScene extends Phaser.Scene {
     height: number,
     accent: number
   ) {
+    if (plot.seedId === "seed_herb_001") {
+      const spriteKey = plot.state === "ready" ? SPRITE_KEYS.ready : plot.progressPercent < 18 ? SPRITE_KEYS.idle : SPRITE_KEYS.grow;
+      const sprite = this.addAnimatedSprite(spriteKey, width / 2, height * 0.54, Math.min(width * 0.54, height * 0.58));
+
+      if (sprite) {
+        group.add(sprite);
+        return;
+      }
+    }
+
     const progress = Math.max(0.16, plot.progressPercent / 100);
     const stemHeight = Math.max(22, height * 0.34 * progress);
     const centerX = width / 2;
@@ -191,7 +296,7 @@ export class GardenScene extends Phaser.Scene {
     group.add(label);
   }
 
-  private emitPlotAction(plot: GardenPlotView) {
+  private emitPlotAction(plot: GardenPlotView, x: number, y: number) {
     const now = this.time.now;
     const action =
       plot.state === "ready"
@@ -202,10 +307,45 @@ export class GardenScene extends Phaser.Scene {
 
     this.onActionRef.current(action);
 
+    if (plot.seedId === "seed_herb_001" && plot.state === "growing") {
+      this.playOneShot(SPRITE_KEYS.tap, x, y, 78);
+    }
+
+    if (plot.seedId === "seed_herb_001" && plot.state === "ready") {
+      this.playOneShot(SPRITE_KEYS.harvestFx, x, y - 4, 96);
+      this.playOneShot(SPRITE_KEYS.rewardFx, x + 16, y - 18, 78);
+    }
+
     if (plot.state !== "locked" && now - this.lastTapAt > 80) {
       this.lastTapAt = now;
       this.cameras.main.shake(90, plot.state === "ready" ? 0.004 : 0.0025);
     }
+  }
+
+  private addAnimatedSprite(textureKey: string, x: number, y: number, displaySize: number) {
+    const animationKey = this.getAnimationKey(textureKey);
+    if (!this.textures.exists(textureKey) || !this.anims.exists(animationKey)) {
+      return null;
+    }
+
+    const sprite = this.add.sprite(x, y, textureKey, 0);
+    sprite.setDisplaySize(displaySize, displaySize);
+    sprite.play(animationKey);
+    return sprite;
+  }
+
+  private playOneShot(textureKey: string, x: number, y: number, displaySize: number) {
+    const sprite = this.addAnimatedSprite(textureKey, x, y, displaySize);
+    if (!sprite) {
+      return;
+    }
+
+    this.fxRoot?.add(sprite);
+    sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => sprite.destroy());
+  }
+
+  private getAnimationKey(textureKey: string) {
+    return `${textureKey}_anim`;
   }
 
   private addText(x: number, y: number, text: string, style: Phaser.Types.GameObjects.Text.TextStyle) {

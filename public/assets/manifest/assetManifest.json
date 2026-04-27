@@ -357,6 +357,184 @@
         "card_frame"
       ],
       "notes": "Reusable album card frame with no embedded text. Should support creature portrait and rarity badge overlay."
+    },
+    "seed_herb_001_idle_strip": {
+      "path": "/assets/game/sprites/starter/seed_herb_001_idle_strip.png",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "playfield_idle_animation",
+      "width": 384,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "sprite_batch_001",
+        "sprite_strip",
+        "herb",
+        "starter"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=4; frame_width=96; frame_height=96; intended_frame_rate=6; loop=true; source_reference_asset_id=seed_herb_001_icon",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "seed_herb_001_idle_strip",
+        "frames": 4,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 6,
+        "repeat": -1,
+        "sourceAssetIds": [
+          "seed_herb_001_icon"
+        ]
+      }
+    },
+    "seed_herb_001_tap_strip": {
+      "path": "/assets/game/sprites/starter/seed_herb_001_tap_strip.png",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "playfield_tap_response",
+      "width": 384,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "sprite_batch_001",
+        "sprite_strip",
+        "herb",
+        "starter"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=4; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; source_reference_asset_id=seed_herb_001_icon",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "seed_herb_001_tap_strip",
+        "frames": 4,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "seed_herb_001_icon"
+        ]
+      }
+    },
+    "sprout_herb_001_grow_strip": {
+      "path": "/assets/game/sprites/starter/sprout_herb_001_grow_strip.png",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "playfield_growth_loop",
+      "width": 576,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "sprite_batch_001",
+        "sprite_strip",
+        "herb",
+        "starter"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=6; frame_width=96; frame_height=96; intended_frame_rate=8; loop=true; source_reference_asset_id=seed_herb_001_icon",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "sprout_herb_001_grow_strip",
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 8,
+        "repeat": -1,
+        "sourceAssetIds": [
+          "seed_herb_001_icon"
+        ]
+      }
+    },
+    "creature_herb_common_ready_strip": {
+      "path": "/assets/game/sprites/starter/creature_herb_common_ready_strip.png",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "playfield_ready_pulse",
+      "width": 384,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "sprite_batch_001",
+        "sprite_strip",
+        "herb",
+        "starter"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=4; frame_width=96; frame_height=96; intended_frame_rate=6; loop=true; source_reference_asset_id=creature_herb_common_001",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "creature_herb_common_ready_strip",
+        "frames": 4,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 6,
+        "repeat": -1,
+        "sourceAssetIds": [
+          "creature_herb_common_001"
+        ]
+      }
+    },
+    "fx_harvest_sparkle_strip": {
+      "path": "/assets/game/fx/fx_harvest_sparkle_strip.png",
+      "category": "fx_strip",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "playfield_harvest_fx",
+      "width": 576,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "sprite_batch_001",
+        "fx_strip",
+        "greenhouse"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=6; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; source_reference_asset_id=creature_herb_common_001",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "fx_harvest_sparkle_strip",
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "creature_herb_common_001"
+        ]
+      }
+    },
+    "fx_leaf_reward_pop_strip": {
+      "path": "/assets/game/fx/fx_leaf_reward_pop_strip.png",
+      "category": "fx_strip",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "playfield_reward_fx",
+      "width": 480,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "sprite_batch_001",
+        "fx_strip",
+        "greenhouse"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=5; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; source_reference_asset_id=seed_herb_001_icon",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "fx_leaf_reward_pop_strip",
+        "frames": 5,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "seed_herb_001_icon"
+        ]
+      }
     }
   }
 }
