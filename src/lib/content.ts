@@ -5,7 +5,7 @@ import rewards from "../data/rewards.json";
 import expeditions from "../data/expeditions.json";
 import missions from "../data/missions.json";
 import shopSurfaces from "../data/shop_surfaces.json";
-import type { CreatureDefinition, SeedDefinition } from "../types/game";
+import type { CreatureDefinition, MissionDefinition, SeedDefinition } from "../types/game";
 
 export const content = {
   seeds: seeds as SeedDefinition[],
@@ -13,7 +13,7 @@ export const content = {
   growthCurves,
   rewards,
   expeditions,
-  missions,
+  missions: missions as MissionDefinition[],
   shopSurfaces
 };
 

@@ -52,6 +52,14 @@ export interface CreatureDefinition {
   albumHint: string;
 }
 
+export interface MissionDefinition {
+  id: string;
+  type: "tutorial" | "daily";
+  label: string;
+  target: number;
+  rewardLeaves: number;
+}
+
 export interface PlayerSave {
   version: number;
   playerId: string;
@@ -63,6 +71,8 @@ export interface PlayerSave {
   unlockedSeedIds: string[];
   discoveredCreatureIds: string[];
   claimedAlbumMilestoneIds: string[];
+  missionProgress: Record<string, number>;
+  claimedMissionIds: string[];
   selectedStarterSeedId?: string;
   plotCount: number;
   tapPowerLevel: number;
