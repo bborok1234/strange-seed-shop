@@ -36,7 +36,6 @@ export default function App() {
   const [now, setNow] = useState(() => Date.now());
   const [offlineMessage, setOfflineMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<MainTab>("garden");
-  const [tappedPlotIndex, setTappedPlotIndex] = useState<number | null>(null);
   const [rewardPulse, setRewardPulse] = useState<number | null>(null);
   const [harvestReveal, setHarvestReveal] = useState<CreatureDefinition | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
@@ -161,8 +160,6 @@ export default function App() {
       plot.tapProgressSeconds += seed.tapSecondsRemoved * (1 + draft.tapPowerLevel * 0.12);
       trackEvent("growth_tapped", { seedId: seed.id, plotIndex });
     });
-    setTappedPlotIndex(plotIndex);
-    window.setTimeout(() => setTappedPlotIndex(null), 220);
   }
 
   function harvest(plotIndex: number) {
