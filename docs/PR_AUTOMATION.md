@@ -9,7 +9,7 @@
 ## 현재 구성
 
 - `.github/workflows/ci.yml`: PR과 `main` push에서 전체 프로젝트 검증을 실행한다.
-- `.github/workflows/agent-automerge.yml`: PR이 자동 머지 후보인지 확인하고, 저장소 변수가 켜진 경우에만 GitHub native auto-merge를 요청한다.
+- `.github/workflows/agent-automerge.yml`: PR이 자동 머지 후보인지 확인하고, 저장소 변수가 켜진 경우에만 GitHub native auto-merge를 요청한다. 후보 판정 직전에 `gh pr view`로 현재 PR label을 다시 읽어, PR 생성 직후 label 이벤트 순서 차이로 후보 판정이 실패하지 않게 한다.
 - `scripts/check-automerge-readiness.mjs`: 자동 머지 후보 조건을 로컬에서도 검증할 수 있게 만든다.
 - `docs/AUTOMERGE_GOVERNANCE.md`: Branch protection, required checks, 저장소 변수 운영 조건을 정의한다.
 - `scripts/check-governance.mjs`: 자동 머지 운영 정책과 workflow 핵심 문구가 유지되는지 확인한다.

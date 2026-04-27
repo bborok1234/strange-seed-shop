@@ -32,6 +32,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Read live PR labels
+        id: live-pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          labels="$(gh pr view "$PR_NUMBER" --json labels --jq '.labels[].name' | paste -sd, -)"
+          echo "labels=$labels" >> "$GITHUB_OUTPUT"
+
       - name: Check eligibility
         env:
           GITHUB_EVENT_NAME: ${{ github.event_name }}
@@ -39,7 +48,7 @@ jobs:
           PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
           PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
           PR_IS_FORK: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
-          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+          PR_LABELS: ${{ steps.live-pr.outputs.labels }}
         run: npm run check:automerge
 
       - name: Run full project checks

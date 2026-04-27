@@ -19,6 +19,7 @@ const requiredPaths = [
   "items/0011-mission-reward-loop.md",
   "items/0012-seed-purchase-loop.md",
   "items/0013-expedition-reward-loop.md",
+  "items/0014-bottom-tab-surfaces.md",
   "reports/audits/audit_20260427.md",
   "reports/audits/pr_automation_20260427.md",
   "reports/reviews/README.md"

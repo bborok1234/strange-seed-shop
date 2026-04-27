@@ -285,6 +285,11 @@ h1 {
   font-weight: 800;
 }
 
+.bottom-tabs .tab-active {
+  background: #315b45;
+  color: #fff9de;
+}
+
 .dev-panel {
   align-self: start;
   max-width: 720px;
@@ -298,6 +303,25 @@ h1 {
   margin-top: 8px;
 }
 
+.status-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.status-list li {
+  margin: 0;
+  padding: 6px 9px;
+  border: 1px solid rgba(45, 73, 58, 0.14);
+  border-radius: 999px;
+  background: rgba(232, 240, 216, 0.72);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.tab-panel,
 .album-strip,
 .mission-board,
 .expedition-card {
@@ -306,7 +330,9 @@ h1 {
 
 .album-strip h3,
 .mission-board h3,
-.expedition-card h3 {
+.expedition-card h3,
+.seed-inventory-panel h3,
+.shop-panel h3 {
   margin: 0 0 8px;
 }
 
@@ -362,6 +388,54 @@ h1 {
 
 .mission-claimed {
   background: rgba(232, 240, 216, 0.82);
+}
+
+.seed-inventory-list,
+.shop-list {
+  display: grid;
+  gap: 10px;
+}
+
+.seed-inventory-row,
+.shop-card {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) minmax(76px, auto);
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(45, 73, 58, 0.16);
+  border-radius: 8px;
+  background: #fff9de;
+}
+
+.seed-inventory-row img,
+.shop-card img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.seed-inventory-row strong,
+.seed-inventory-row span,
+.shop-card strong,
+.shop-card span {
+  display: block;
+}
+
+.seed-inventory-row span,
+.shop-card span {
+  color: #557247;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.shop-card button {
+  min-height: 38px;
+  border: 0;
+  border-radius: 8px;
+  background: #315b45;
+  color: #fff9de;
+  font-weight: 800;
 }
 
 .creature-list {
