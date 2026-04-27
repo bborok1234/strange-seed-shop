@@ -8,6 +8,7 @@ const requiredPaths = [
   "reports/visual/browser-use-offline-reward-20260427.png",
   "reports/visual/browser-use-main-20260427.png",
   "reports/visual/mission-reward-loop-20260427.png",
+  "reports/visual/seed-purchase-loop-20260427.png",
   "reports/visual/chrome-cdp-mobile-360-20260427.png",
   "reports/visual/chrome-cdp-desktop-1280-20260427.png"
 ];
@@ -21,7 +22,8 @@ const requiredPhrases = new Map([
       "Browser Use를 시도하기 전에",
       "정확한 viewport 크기 지정이 필요한 경우",
       "reports/visual/browser-use-main-20260427.png",
-      "reports/visual/mission-reward-loop-20260427.png"
+      "reports/visual/mission-reward-loop-20260427.png",
+      "reports/visual/seed-purchase-loop-20260427.png"
     ]
   ],
   [
@@ -30,6 +32,7 @@ const requiredPhrases = new Map([
       "Browser Use `iab` backend",
       "reports/visual/browser-use-main-20260427.png",
       "reports/visual/mission-reward-loop-20260427.png",
+      "reports/visual/seed-purchase-loop-20260427.png",
       "Chrome DevTools Protocol은 viewport 고정 캡처에만 보조로 사용했다"
     ]
   ]

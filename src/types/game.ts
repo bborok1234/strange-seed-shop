@@ -71,6 +71,7 @@ export interface PlayerSave {
   unlockedSeedIds: string[];
   discoveredCreatureIds: string[];
   claimedAlbumMilestoneIds: string[];
+  seedInventory: Record<string, number>;
   missionProgress: Record<string, number>;
   claimedMissionIds: string[];
   selectedStarterSeedId?: string;

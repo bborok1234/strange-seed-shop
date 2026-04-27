@@ -8,6 +8,7 @@ import type { AssetManifest, ExpeditionState, MissionDefinition, PlayerSave, Plo
 const FIRST_UPGRADE_COST = 25;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
+const MIN_REPEAT_SEED_COST = 10;
 
 export default function App() {
   const [manifest, setManifest] = useState<AssetManifest | null>(null);
@@ -57,7 +58,9 @@ export default function App() {
   const expeditionReady = save?.activeExpedition
     ? isExpeditionReady(save.activeExpedition, now) && !save.activeExpedition.claimed
     : false;
-  const visibleMissions = save ? content.missions.slice(0, 4) : [];
+  const visibleMissions = save ? content.missions : [];
+  const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
+  const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
 
   function commit(mutator: (draft: PlayerSave) => void) {
     setSave((current) => {
@@ -80,6 +83,37 @@ export default function App() {
       advanceMission(draft, "tutorial_plant_first_seed");
       trackEvent("starter_seed_selected", { seedId: seed.id });
       trackEvent("seed_planted", { seedId: seed.id, plotIndex: 0 });
+    });
+  }
+
+  function buySeed(seed: SeedDefinition) {
+    commit((draft) => {
+      const costLeaves = getSeedPurchaseCost(seed);
+      if (!draft.unlockedSeedIds.includes(seed.id) || draft.leaves < costLeaves) {
+        return;
+      }
+
+      draft.leaves -= costLeaves;
+      draft.seedInventory[seed.id] = (draft.seedInventory[seed.id] ?? 0) + 1;
+      advanceMission(draft, "daily_buy_3_seeds");
+      trackEvent("seed_purchased", { seedId: seed.id, costLeaves });
+    });
+  }
+
+  function plantOwnedSeed(seed: SeedDefinition) {
+    commit((draft) => {
+      if ((draft.seedInventory[seed.id] ?? 0) <= 0) {
+        return;
+      }
+
+      const plot = draft.plots.find((candidate) => candidate.index < draft.plotCount && !candidate.seedId);
+      if (!plot) {
+        return;
+      }
+
+      draft.seedInventory[seed.id] -= 1;
+      draft.plots[plot.index] = plantSeedInPlot(plot, seed);
+      trackEvent("seed_planted", { seedId: seed.id, plotIndex: plot.index, source: "inventory" });
     });
   }
 
@@ -254,19 +288,38 @@ export default function App() {
 
           <aside className="starter-panel">
             <p className="panel-label">{save?.selectedStarterSeedId ? "다음 행동" : "스타터 씨앗"}</p>
-            {starterSeeds.map((seed) => (
-              <button
-                className="seed-row"
-                disabled={Boolean(save?.selectedStarterSeedId)}
-                key={seed.id}
-                onClick={() => selectStarter(seed)}
-                type="button"
-              >
-                <img alt="" src={getAssetPath(manifest, seed.iconAssetId)} />
-                <span>{seed.name}</span>
-                <strong>{seed.baseGrowthSeconds}s</strong>
-              </button>
-            ))}
+            {!save?.selectedStarterSeedId &&
+              starterSeeds.map((seed) => (
+                <button className="seed-row" key={seed.id} onClick={() => selectStarter(seed)} type="button">
+                  <img alt="" src={getAssetPath(manifest, seed.iconAssetId)} />
+                  <span>{seed.name}</span>
+                  <strong>{seed.baseGrowthSeconds}s</strong>
+                </button>
+              ))}
+            {save?.selectedStarterSeedId && (
+              <div className="seed-shop-list">
+                {availableSeeds.map((seed) => {
+                  const owned = save.seedInventory[seed.id] ?? 0;
+                  const costLeaves = getSeedPurchaseCost(seed);
+
+                  return (
+                    <article className="seed-shop-row" key={seed.id}>
+                      <img alt="" src={getAssetPath(manifest, seed.iconAssetId)} />
+                      <div>
+                        <strong>{seed.name}</strong>
+                        <span>보유 {owned}개</span>
+                      </div>
+                      <button disabled={save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">
+                        구매 {costLeaves}
+                      </button>
+                      <button disabled={owned <= 0 || !hasOpenPlot} onClick={() => plantOwnedSeed(seed)} type="button">
+                        심기
+                      </button>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
             {activePlot && <p className="hint">밭을 누르면 성장이 빨라지고, 100%가 되면 수확합니다.</p>}
             {firstAlbumRewardReady && (
               <button className="primary-action" onClick={claimAlbumReward} type="button">
@@ -384,6 +437,10 @@ function advanceMission(draft: PlayerSave, missionId: string, amount = 1) {
 
   const current = draft.missionProgress[mission.id] ?? 0;
   draft.missionProgress[mission.id] = Math.min(mission.target, current + amount);
+}
+
+function getSeedPurchaseCost(seed: SeedDefinition): number {
+  return Math.max(MIN_REPEAT_SEED_COST, seed.costLeaves);
 }
 
 function plantSeedInPlot(plot: PlotState, seed: SeedDefinition): PlotState {

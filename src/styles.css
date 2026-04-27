@@ -182,6 +182,56 @@ h1 {
   object-fit: contain;
 }
 
+.seed-shop-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.seed-shop-row {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) minmax(64px, auto) minmax(48px, auto);
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 7px;
+  border: 1px solid rgba(45, 73, 58, 0.18);
+  border-radius: 8px;
+  background: #fff9de;
+}
+
+.seed-shop-row img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.seed-shop-row strong,
+.seed-shop-row span {
+  display: block;
+}
+
+.seed-shop-row span {
+  color: #557247;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.seed-shop-row button {
+  min-height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: #315b45;
+  color: #fff9de;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.seed-shop-row button:disabled {
+  background: rgba(49, 91, 69, 0.2);
+  color: rgba(47, 79, 61, 0.58);
+}
+
 .primary-action {
   width: 100%;
   min-height: 46px;
