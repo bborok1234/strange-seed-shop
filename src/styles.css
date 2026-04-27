@@ -72,7 +72,7 @@ h1 {
 .currency-cluster {
   display: grid;
   gap: 6px;
-  min-width: 96px;
+  min-width: 112px;
 }
 
 .currency-cluster span {
@@ -113,13 +113,25 @@ h1 {
 }
 
 .plot img {
-  width: 90%;
-  height: 90%;
+  display: block;
+  width: 58%;
+  height: 58%;
+  margin: 0 auto 2px;
   object-fit: contain;
 }
 
-.plot-active {
+.plot-ready {
   background: rgba(253, 244, 193, 0.9);
+  border-color: rgba(131, 101, 31, 0.55);
+}
+
+.plot-locked {
+  color: rgba(64, 83, 56, 0.48);
+  background: rgba(230, 229, 207, 0.54);
+}
+
+.plot:disabled {
+  cursor: default;
 }
 
 .starter-panel,
@@ -145,10 +157,45 @@ h1 {
   text-align: left;
 }
 
+.seed-row:disabled {
+  opacity: 0.58;
+}
+
 .seed-row img {
   width: 38px;
   height: 38px;
   object-fit: contain;
+}
+
+.primary-action {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 8px;
+  background: #315b45;
+  color: #fff9de;
+  font-weight: 800;
+}
+
+.primary-action:disabled {
+  background: rgba(49, 91, 69, 0.36);
+  color: rgba(255, 249, 222, 0.84);
+}
+
+.hint {
+  margin: 10px 0 0;
+  color: #425f39;
+  font-size: 13px;
+}
+
+.toast {
+  margin: 0 18px;
+  padding: 10px 12px;
+  border: 1px solid rgba(73, 95, 58, 0.26);
+  border-radius: 8px;
+  background: rgba(255, 249, 222, 0.92);
+  font-weight: 800;
 }
 
 .bottom-tabs {
@@ -183,6 +230,42 @@ h1 {
 
 .dev-panel li {
   margin-top: 8px;
+}
+
+.album-strip,
+.expedition-card {
+  margin-top: 18px;
+}
+
+.album-strip h3,
+.expedition-card h3 {
+  margin: 0 0 8px;
+}
+
+.creature-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+  gap: 10px;
+}
+
+.creature-list figure {
+  margin: 0;
+  padding: 8px;
+  border: 1px solid rgba(45, 73, 58, 0.16);
+  border-radius: 8px;
+  background: #fff9de;
+  text-align: center;
+}
+
+.creature-list img {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+}
+
+.creature-list figcaption {
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .error-text {

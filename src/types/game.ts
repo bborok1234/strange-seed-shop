@@ -62,6 +62,27 @@ export interface PlayerSave {
   materials: number;
   unlockedSeedIds: string[];
   discoveredCreatureIds: string[];
+  claimedAlbumMilestoneIds: string[];
   selectedStarterSeedId?: string;
+  plotCount: number;
+  tapPowerLevel: number;
+  plots: PlotState[];
+  activeExpedition?: ExpeditionState;
   lastSeenAt: string;
+}
+
+export interface PlotState {
+  index: number;
+  seedId?: string;
+  plantedAt?: string;
+  tapProgressSeconds: number;
+  harvestedCreatureId?: string;
+}
+
+export interface ExpeditionState {
+  expeditionId: string;
+  creatureIds: string[];
+  startedAt: string;
+  durationSeconds: number;
+  claimed: boolean;
 }
