@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import Phaser from "phaser";
+import * as Phaser from "phaser";
 import { GardenScene } from "./GardenScene";
 import type { GardenPlayfieldActionHandler, GardenPlayfieldViewModel } from "./types";
 

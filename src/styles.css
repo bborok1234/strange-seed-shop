@@ -955,3 +955,34 @@ h1 {
     transition-duration: 0.001ms !important;
   }
 }
+
+.garden-playfield-host {
+  position: relative;
+  min-width: 0;
+  min-height: 220px;
+  overflow: hidden;
+  border: 1px solid rgba(39, 86, 64, 0.18);
+  border-radius: calc(var(--radius-panel) + 8px);
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 249, 201, 0.18), transparent 42%),
+    linear-gradient(180deg, rgba(39, 86, 64, 0.28), rgba(28, 61, 43, 0.38));
+  box-shadow: inset 0 0 32px rgba(23, 60, 45, 0.18);
+}
+
+.garden-playfield-host canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 900px) {
+  .garden-playfield-host {
+    min-height: clamp(188px, 31dvh, 310px);
+  }
+}
+
+@media (max-width: 380px) {
+  .garden-playfield-host {
+    min-height: clamp(164px, 27dvh, 250px);
+  }
+}

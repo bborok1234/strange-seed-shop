@@ -598,38 +598,73 @@ function getNextAction(save: PlayerSave | null, activePlot: PlotState | undefine
   };
 }
 
-function getPlotClassName({
-  locked,
-  ready,
-  hasSeed,
-  hasOpenPlot,
-  tapped
-}: {
-  locked: boolean;
-  ready: boolean;
-  hasSeed: boolean;
-  hasOpenPlot: boolean;
-  tapped: boolean;
-}) {
-  const classNames = ["plot"];
-
-  if (locked) {
-    classNames.push("plot-locked");
-  }
-  if (ready) {
-    classNames.push("plot-ready");
-  }
-  if (hasSeed && !ready) {
-    classNames.push("plot-growing");
-  }
-  if (hasOpenPlot) {
-    classNames.push("plot-open");
-  }
-  if (tapped) {
-    classNames.push("plot-tapped");
+function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number): GardenPlayfieldViewModel {
+  if (!save) {
+    return {
+      headline: "정원 준비 중",
+      hint: "씨앗과 정원 기록을 불러오고 있습니다",
+      updatedAt: now,
+      plots: Array.from({ length: 9 }, (_, index): GardenPlotView => ({
+        index,
+        state: index === 0 ? "empty" : "locked",
+        label: index === 0 ? "첫 밭" : "잠김",
+        progressPercent: 0
+      }))
+    };
   }
 
-  return classNames.join(" ");
+  const plots = save.plots.map((plot): GardenPlotView => {
+    const locked = plot.index >= save.plotCount;
+    const seed = getSeed(plot.seedId);
+
+    if (locked) {
+      return {
+        index: plot.index,
+        state: "locked",
+        label: `${plot.index + 1}번 밭`,
+        progressPercent: 0
+      };
+    }
+
+    if (!seed) {
+      return {
+        index: plot.index,
+        state: "empty",
+        label: plot.index === 0 ? "첫 밭" : `${plot.index + 1}번 밭`,
+        progressPercent: 0
+      };
+    }
+
+    const progressPercent = getGrowthProgress(plot, seed, now);
+    const secondsRemaining = Math.max(0, Math.ceil(seed.baseGrowthSeconds * (1 - progressPercent / 100)));
+
+    return {
+      index: plot.index,
+      state: progressPercent >= 100 ? "ready" : "growing",
+      label: seed.name,
+      family: seed.family,
+      progressPercent,
+      secondsRemaining
+    };
+  });
+
+  const readyCount = plots.filter((plot) => plot.state === "ready").length;
+  const growingPlot = plots.find((plot) => plot.state === "growing");
+  const openCount = plots.filter((plot) => plot.state === "empty").length;
+
+  return {
+    plots,
+    headline: readyCount > 0 ? "수확할 씨앗이 반짝입니다" : growingPlot ? "밭을 눌러 성장을 밀어주세요" : "새 씨앗을 기다리는 정원",
+    hint:
+      readyCount > 0
+        ? "빛나는 밭을 누르면 React가 수확을 처리합니다"
+        : growingPlot
+          ? `${growingPlot.secondsRemaining ?? 0}초 남음 · 탭하면 시간이 줄어듭니다`
+          : openCount > 0
+            ? "오른쪽 HUD에서 씨앗을 골라 심으세요"
+            : "두 번째 밭을 열어 반복 속도를 올리세요",
+    updatedAt: now
+  };
 }
 
 function getShopSurfaceDescription(surfaceId: string): string {

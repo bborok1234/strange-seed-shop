@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import * as Phaser from "phaser";
 import type { GardenPlayfieldActionHandler, GardenPlayfieldViewModel, GardenPlotView } from "./types";
 
 const FAMILY_COLORS: Record<NonNullable<GardenPlotView["family"]>, { fill: number; accent: number; text: string }> = {
