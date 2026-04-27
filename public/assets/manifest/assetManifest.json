@@ -1,0 +1,362 @@
+{
+  "version": "phase0-v1",
+  "project": "이상한 씨앗상회",
+  "source_plan": "assets/source/asset_plan.json",
+  "source_prompts": "assets/source/asset_prompts.json",
+  "generated_from": "assets/source/asset_generation_status.json",
+  "reviewed_at": "2026-04-27",
+  "runtime_generation_allowed": false,
+  "assets": {
+    "creature_herb_common_001": {
+      "path": "/assets/game/creatures/creature_herb_common_001.png",
+      "category": "creature",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "album_card",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "creature",
+        "herb",
+        "common",
+        "gatherer"
+      ],
+      "notes": "Gameplay entity herb_common_001. Starter-friendly leafy round gatherer."
+    },
+    "creature_herb_common_002": {
+      "path": "/assets/game/creatures/creature_herb_common_002.png",
+      "category": "creature",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "album_card",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "creature",
+        "herb",
+        "common",
+        "guardian"
+      ],
+      "notes": "Gameplay entity herb_common_002. Friendly sprout guardian with broad leaf shield motif."
+    },
+    "creature_herb_uncommon_001": {
+      "path": "/assets/game/creatures/creature_herb_uncommon_001.png",
+      "category": "creature",
+      "family": "herb",
+      "rarity": "uncommon",
+      "intended_use": "album_card",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "creature",
+        "herb",
+        "uncommon",
+        "alchemist"
+      ],
+      "notes": "Gameplay entity herb_uncommon_001. Small herbal alchemist carrying dew/pollen details."
+    },
+    "creature_candy_common_001": {
+      "path": "/assets/game/creatures/creature_candy_common_001.png",
+      "category": "creature",
+      "family": "candy",
+      "rarity": "common",
+      "intended_use": "album_card",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "creature",
+        "candy",
+        "common",
+        "gatherer"
+      ],
+      "notes": "Gameplay entity candy_common_001. Jelly-bean plant creature, glossy but simple."
+    },
+    "creature_candy_common_002": {
+      "path": "/assets/game/creatures/creature_candy_common_002.png",
+      "category": "creature",
+      "family": "candy",
+      "rarity": "common",
+      "intended_use": "album_card",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "creature",
+        "candy",
+        "common",
+        "merchant"
+      ],
+      "notes": "Gameplay entity candy_common_002. Candy sprout merchant with wrapper-like leaves."
+    },
+    "creature_candy_rare_001": {
+      "path": "/assets/game/creatures/creature_candy_rare_001.png",
+      "category": "creature",
+      "family": "candy",
+      "rarity": "rare",
+      "intended_use": "album_card",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "creature",
+        "candy",
+        "rare",
+        "alchemist"
+      ],
+      "notes": "Gameplay entity candy_rare_001. Caramel-root alchemist, more ornate than common but still readable."
+    },
+    "creature_lunar_common_001": {
+      "path": "/assets/game/creatures/creature_lunar_common_001.png",
+      "category": "creature",
+      "family": "lunar",
+      "rarity": "common",
+      "intended_use": "album_card",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "creature",
+        "lunar",
+        "common",
+        "guardian"
+      ],
+      "notes": "Gameplay entity lunar_common_001. Moon-drop creature with soft crescent motif."
+    },
+    "creature_lunar_uncommon_001": {
+      "path": "/assets/game/creatures/creature_lunar_uncommon_001.png",
+      "category": "creature",
+      "family": "lunar",
+      "rarity": "uncommon",
+      "intended_use": "album_card",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "creature",
+        "lunar",
+        "uncommon",
+        "alchemist"
+      ],
+      "notes": "Gameplay entity lunar_uncommon_001. Silver moss alchemist with glowing pollen vial."
+    },
+    "creature_lunar_rare_001": {
+      "path": "/assets/game/creatures/creature_lunar_rare_001.png",
+      "category": "creature",
+      "family": "lunar",
+      "rarity": "rare",
+      "intended_use": "album_card",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "creature",
+        "lunar",
+        "rare",
+        "mascot"
+      ],
+      "notes": "Gameplay entity lunar_rare_001. Distinct rare mascot with crescent halo and glassy night bloom."
+    },
+    "seed_herb_001_icon": {
+      "path": "/assets/game/seeds/seed_herb_001_icon.png",
+      "category": "seed_icon",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "seed_shop_icon",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "seed",
+        "herb",
+        "common",
+        "starter"
+      ],
+      "notes": "Icon for 말랑잎 씨앗. Must read clearly as a starter herb seed."
+    },
+    "seed_herb_002_icon": {
+      "path": "/assets/game/seeds/seed_herb_002_icon.png",
+      "category": "seed_icon",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "seed_shop_icon",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "seed",
+        "herb",
+        "common"
+      ],
+      "notes": "Icon for 방울새싹 씨앗. Round seed with tiny dew/bell sprout clue."
+    },
+    "seed_candy_001_icon": {
+      "path": "/assets/game/seeds/seed_candy_001_icon.png",
+      "category": "seed_icon",
+      "family": "candy",
+      "rarity": "common",
+      "intended_use": "seed_shop_icon",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "seed",
+        "candy",
+        "common"
+      ],
+      "notes": "Icon for 젤리콩 씨앗. Glossy candy-bean seed, no wrapper logo."
+    },
+    "seed_candy_002_icon": {
+      "path": "/assets/game/seeds/seed_candy_002_icon.png",
+      "category": "seed_icon",
+      "family": "candy",
+      "rarity": "uncommon",
+      "intended_use": "seed_shop_icon",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "seed",
+        "candy",
+        "uncommon"
+      ],
+      "notes": "Icon for 솜사탕순 씨앗. Soft cotton-candy sprout silhouette."
+    },
+    "seed_lunar_001_icon": {
+      "path": "/assets/game/seeds/seed_lunar_001_icon.png",
+      "category": "seed_icon",
+      "family": "lunar",
+      "rarity": "common",
+      "intended_use": "seed_shop_icon",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "seed",
+        "lunar",
+        "common"
+      ],
+      "notes": "Icon for 달방울 씨앗. Pale seed with crescent highlight."
+    },
+    "seed_lunar_002_icon": {
+      "path": "/assets/game/seeds/seed_lunar_002_icon.png",
+      "category": "seed_icon",
+      "family": "lunar",
+      "rarity": "uncommon",
+      "intended_use": "seed_shop_icon",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "seed",
+        "lunar",
+        "uncommon"
+      ],
+      "notes": "Icon for 은빛이끼 씨앗. Silver moss texture, readable at small size."
+    },
+    "background_greenhouse_day_001": {
+      "path": "/assets/game/backgrounds/background_greenhouse_day_001.png",
+      "category": "background",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "garden_screen_background",
+      "width": 1024,
+      "height": 1536,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "background",
+        "greenhouse",
+        "day"
+      ],
+      "notes": "Primary garden background. Must leave open space for plot grid and UI overlay."
+    },
+    "background_greenhouse_night_001": {
+      "path": "/assets/game/backgrounds/background_greenhouse_night_001.png",
+      "category": "background",
+      "family": "greenhouse",
+      "rarity": "uncommon",
+      "intended_use": "comeback_or_lunar_background",
+      "width": 1024,
+      "height": 1536,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "background",
+        "greenhouse",
+        "night",
+        "lunar"
+      ],
+      "notes": "Moonlit greenhouse variant for Lunar unlock/comeback mood."
+    },
+    "shop_starter_pack_001": {
+      "path": "/assets/game/shop/shop_starter_pack_001.png",
+      "category": "shop_image",
+      "family": "shop",
+      "rarity": "common",
+      "intended_use": "starter_pack_mock",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "shop",
+        "mock_monetization",
+        "starter_pack"
+      ],
+      "notes": "Mock starter pack image: rare seed, small crate, greenhouse ticket. No price text."
+    },
+    "shop_monthly_license_001": {
+      "path": "/assets/game/shop/shop_monthly_license_001.png",
+      "category": "shop_image",
+      "family": "shop",
+      "rarity": "uncommon",
+      "intended_use": "monthly_greenhouse_license_mock",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "shop",
+        "mock_monetization",
+        "monthly_license"
+      ],
+      "notes": "Mock monthly greenhouse license image: polished pass card, watering token, offline clock. No price text."
+    },
+    "ui_album_card_frame_001": {
+      "path": "/assets/game/ui/ui_album_card_frame_001.png",
+      "category": "ui_frame",
+      "family": "album",
+      "rarity": "common",
+      "intended_use": "album_card_frame",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "ui",
+        "album",
+        "card_frame"
+      ],
+      "notes": "Reusable album card frame with no embedded text. Should support creature portrait and rarity badge overlay."
+    }
+  }
+}

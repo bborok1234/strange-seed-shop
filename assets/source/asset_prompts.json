@@ -1,0 +1,249 @@
+{
+  "version": "phase0-v1",
+  "source_plan": "assets/source/asset_plan.json",
+  "generation_mode": "codex_native_image_generation",
+  "runtime_generation_allowed": false,
+  "shared_style": "Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.",
+  "prompts": [
+    {
+      "asset_id": "creature_herb_common_001",
+      "output_path": "public/assets/game/creatures/creature_herb_common_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature album card\nPrimary request: Create a starter-friendly Herb family plant-creature gatherer for 이상한 씨앗상회.\nSubject: A small round leafy creature with two stubby feet, soft sprout ears, a curious face, and a tiny leaf satchel for gathering. It should feel like the first collectible creature a player receives.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, subtle painterly texture, clean mobile readability.\nComposition/framing: Centered full-body character, generous padding, simple clean removable background, readable at 96px.\nColor palette: Fresh herb greens, warm leaf yellow highlights, cream facial accents, tiny deep greenhouse teal details.\nConstraints: No text, no logo, no watermark, no realistic insect anatomy, no busy background, friendly expression, clear silhouette.\nAvoid: Copyrighted characters, brand references, horror, photorealism, dark low-contrast shapes, excessive tiny details.",
+      "acceptance": [
+        "matches Herb family with leafy fresh motifs",
+        "reads clearly as a friendly common gatherer creature at 96px",
+        "full subject is centered with generous padding",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "background is clean enough for card/icon use"
+      ]
+    },
+    {
+      "asset_id": "creature_herb_common_002",
+      "output_path": "public/assets/game/creatures/creature_herb_common_002.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature album card\nPrimary request: Create a common Herb family guardian plant-creature for 이상한 씨앗상회.\nSubject: A friendly sprout guardian with a broad shield-like leaf held in front, rounded body, short roots as feet, and calm protective eyes.\nStyle/medium: Polished 2D game art, cute-strange greenhouse collectible, soft rounded silhouettes, clear mobile readability.\nComposition/framing: Centered full-body character with the leaf shield visible, generous padding, clean removable background.\nColor palette: Fresh greens, warm yellow-green highlights, cream face, slightly deeper teal shadow accents.\nConstraints: Must look defensive but gentle, no weapon, no text, no logos, no watermark, no busy scene.\nAvoid: Aggressive armor, scary monster traits, copyrighted character shapes, photorealistic textures, tiny unreadable details.",
+      "acceptance": [
+        "matches Herb family and guardian role",
+        "shield-like leaf is visible without making the silhouette cluttered",
+        "readable at 96px",
+        "friendly rather than aggressive",
+        "no text, watermark, logo, or brand resemblance"
+      ]
+    },
+    {
+      "asset_id": "creature_herb_uncommon_001",
+      "output_path": "public/assets/game/creatures/creature_herb_uncommon_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature album card\nPrimary request: Create an uncommon Herb family alchemist plant-creature.\nSubject: A small herbal alchemist creature with leafy hair, a dew-drop vial, pollen pouch, and a slightly wiser expression. It should be more detailed than common Herb creatures but still simple enough for small UI.\nStyle/medium: Cute-strange polished 2D game art, whimsical greenhouse collectible, soft shapes, clean edges.\nComposition/framing: Centered full-body character, dew vial held close to body, generous padding, clean removable background.\nColor palette: Fresh green, mint, warm leaf yellow, dew blue accent, cream face.\nConstraints: No text, no logo, no watermark, no realistic glass complexity, keep the vial simple and readable.\nAvoid: Laboratory realism, brand symbols, living artist style imitation, horror, low contrast, excess accessories.",
+      "acceptance": [
+        "uncommon rarity feels slightly more special than common Herb assets",
+        "alchemist role is readable through dew vial or pollen pouch",
+        "silhouette remains clear at 96px",
+        "consistent cute-strange greenhouse style",
+        "no text, watermark, logo, or copyrighted resemblance"
+      ]
+    },
+    {
+      "asset_id": "creature_candy_common_001",
+      "output_path": "public/assets/game/creatures/creature_candy_common_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature album card\nPrimary request: Create a common Candy family jelly-bean plant-creature gatherer.\nSubject: A glossy jelly-bean shaped creature with tiny sprout leaves, little root feet, cheerful face, and a simple candy-seed pouch. It should be sweet and playful without looking like branded candy.\nStyle/medium: Cute-strange greenhouse collectible, polished 2D game art, glossy but simplified surfaces, rounded mobile-readable silhouette.\nComposition/framing: Centered full-body character, generous padding, clean removable background.\nColor palette: Soft candy pink, cream highlights, warm yellow, small mint-green sprout accents.\nConstraints: No text, no logo, no wrapper brand, no watermark, no sticky realism, no busy background.\nAvoid: Existing candy mascots, brand-like packaging, hard neon colors, horror, photorealistic food texture.",
+      "acceptance": [
+        "matches Candy family with glossy sweet visual language",
+        "does not resemble a real candy brand or mascot",
+        "readable as a common gatherer at 96px",
+        "centered with generous padding",
+        "no text, watermark, logo, or brand resemblance"
+      ]
+    },
+    {
+      "asset_id": "creature_candy_common_002",
+      "output_path": "public/assets/game/creatures/creature_candy_common_002.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature album card\nPrimary request: Create a common Candy family merchant plant-creature.\nSubject: A small candy sprout merchant with wrapper-like leaves, a tiny pouch of seed coins, round friendly eyes, and a shopkeeper posture. It must feel like an original creature, not a packaged candy mascot.\nStyle/medium: Polished 2D mobile game asset, cute-strange greenhouse collectible, soft rounded candy shapes.\nComposition/framing: Centered full-body character, simple pose, generous padding, clean removable background.\nColor palette: Pastel pink, soft coral, cream, small mint leaf accents, warm yellow highlights.\nConstraints: No readable text, no logo, no brand-like wrapper mark, no watermark, no busy background.\nAvoid: Existing candy packaging, mascot resemblance, harsh neon, photorealistic sugar texture, excessive props.",
+      "acceptance": [
+        "merchant role is visible through pouch or shopkeeper posture",
+        "Candy family is clear without brand resemblance",
+        "silhouette readable at 96px",
+        "no text, watermark, or logo",
+        "style is consistent with other creature prompts"
+      ]
+    },
+    {
+      "asset_id": "creature_candy_rare_001",
+      "output_path": "public/assets/game/creatures/creature_candy_rare_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature album card\nPrimary request: Create a rare Candy family caramel-root alchemist creature.\nSubject: A slightly ornate caramel-root creature with curled candy-vine hair, a small syrup-glass vial, glowing sugar pollen, and a confident but cute expression.\nStyle/medium: Cute-strange polished 2D game art, collectible idle game character, glossy candy accents, readable mobile silhouette.\nComposition/framing: Centered full-body character, rarity conveyed through extra glow and detail, generous padding, clean removable background.\nColor palette: Caramel gold, soft candy pink, cream, warm amber highlights, small mint sprout accents.\nConstraints: Rare but not overdesigned, no text, no logos, no watermark, no realistic sticky mess.\nAvoid: Brand candy resemblance, horror, photorealistic food, overly thin details, dark low-contrast silhouette.",
+      "acceptance": [
+        "rare rarity is visually apparent through glow/detail",
+        "alchemist role is visible",
+        "Candy family remains original and unbranded",
+        "readable at 96px despite extra detail",
+        "no text, watermark, logo, or brand resemblance"
+      ]
+    },
+    {
+      "asset_id": "creature_lunar_common_001",
+      "output_path": "public/assets/game/creatures/creature_lunar_common_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature album card\nPrimary request: Create a common Lunar family guardian plant-creature.\nSubject: A soft moon-drop creature with a round body, tiny crescent leaf crest, gentle sleepy eyes, and a subtle protective aura. It should feel calm and magical, not dark.\nStyle/medium: Cute-strange greenhouse collectible, polished 2D game art, soft glow, clean mobile-readable silhouette.\nComposition/framing: Centered full-body character, gentle crescent motif visible, generous padding, clean removable background.\nColor palette: Moonlit blue, silver lavender, cream highlights, pale leaf green accent.\nConstraints: No text, no watermark, no logo, no horror, no dark occult symbols, no busy background.\nAvoid: Scary ghost design, copyrighted moon mascots, heavy darkness, photorealism, excessive glow that hides silhouette.",
+      "acceptance": [
+        "matches Lunar family through moonlit palette and crescent motif",
+        "guardian role feels gentle/protective",
+        "readable at 96px",
+        "no horror or dark occult tone",
+        "no text, watermark, logo, or copyrighted resemblance"
+      ]
+    },
+    {
+      "asset_id": "creature_lunar_uncommon_001",
+      "output_path": "public/assets/game/creatures/creature_lunar_uncommon_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature album card\nPrimary request: Create an uncommon Lunar family silver moss alchemist.\nSubject: A small silver-moss plant creature with crescent-shaped leaves, a glowing pollen vial, soft star-speck accents, and a thoughtful expression.\nStyle/medium: Polished 2D mobile game art, cute-strange moonlit greenhouse collectible, soft glow but crisp edges.\nComposition/framing: Centered full-body character, vial close to silhouette, generous padding, clean removable background.\nColor palette: Silver lavender, moonlit blue, pale mint, cream glow accents.\nConstraints: Uncommon detail level, no text, no logos, no watermark, no clutter, no dark horror mood.\nAvoid: Witchcraft symbols, existing mascots, hard neon glow, low contrast, photorealistic moss.",
+      "acceptance": [
+        "Lunar family and alchemist role are both visible",
+        "uncommon rarity feels slightly elevated",
+        "silhouette readable at 96px",
+        "soft magical mood without horror",
+        "no text, watermark, logo, or copyrighted resemblance"
+      ]
+    },
+    {
+      "asset_id": "creature_lunar_rare_001",
+      "output_path": "public/assets/game/creatures/creature_lunar_rare_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature album card\nPrimary request: Create a rare Lunar family mascot plant-creature.\nSubject: A distinctive rare mascot with a glassy night-bloom body, crescent halo, tiny floating pollen motes, and a serene cute face. It should feel special enough for an album milestone.\nStyle/medium: Cute-strange polished 2D game art, premium collectible idle game asset, soft moonlit glow, clean readable silhouette.\nComposition/framing: Centered full-body character, halo contained inside padding, simple clean removable background.\nColor palette: Moonlit blue, silver lavender, pale cream glow, tiny teal-green plant accents.\nConstraints: Rare but not overcomplicated, no text, no logo, no watermark, no scary ghost look, no busy background.\nAvoid: Existing moon characters, dark fantasy horror, religious/occult symbols, excessive particles, low contrast.",
+      "acceptance": [
+        "rare mascot feels special and collectible",
+        "Lunar family is unmistakable",
+        "halo and particles do not clutter the silhouette",
+        "readable at 96px",
+        "no text, watermark, logo, or copyrighted resemblance"
+      ]
+    },
+    {
+      "asset_id": "seed_herb_001_icon",
+      "output_path": "public/assets/game/seeds/seed_herb_001_icon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game seed shop icon\nPrimary request: Create the icon for 말랑잎 씨앗, the starter Herb seed.\nSubject: A plump soft green seed with a tiny leaf nub and warm friendly highlight, simple enough for a shop grid icon.\nStyle/medium: Polished 2D game icon, cute greenhouse collectible, clean edges, subtle texture.\nComposition/framing: Centered single seed icon, generous padding, clean removable background, no cast shadow unless very soft.\nColor palette: Fresh herb green, warm leaf yellow, cream highlight.\nConstraints: No text, no logo, no watermark, no face unless extremely subtle, must read as a seed at 48px and 96px.\nAvoid: Realistic bean photography, brand marks, complex leaf clusters, dark outlines that overpower the small icon.",
+      "acceptance": [
+        "reads clearly as a starter Herb seed at 48px",
+        "simple centered icon with generous padding",
+        "no text, watermark, or logo",
+        "matches Herb palette",
+        "suitable for seed shop grid"
+      ]
+    },
+    {
+      "asset_id": "seed_herb_002_icon",
+      "output_path": "public/assets/game/seeds/seed_herb_002_icon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game seed shop icon\nPrimary request: Create the icon for 방울새싹 씨앗.\nSubject: A round herb seed with a tiny bell-shaped sprout and a dew drop accent, friendly and simple.\nStyle/medium: Polished 2D game icon, cute-strange greenhouse style, crisp mobile UI readability.\nComposition/framing: Centered single object, generous padding, clean removable background.\nColor palette: Fresh green, mint, warm yellow-green, small dew blue accent.\nConstraints: No text, no logo, no watermark, no detailed scene, read as a seed not a full creature.\nAvoid: Realistic seed photography, brand resemblance, excessive dew details, dark low-contrast shape.",
+      "acceptance": [
+        "reads as Herb seed at 48px and 96px",
+        "bell sprout/dew motif is visible but simple",
+        "no text, watermark, or logo",
+        "centered with clean background",
+        "distinct from seed_herb_001_icon"
+      ]
+    },
+    {
+      "asset_id": "seed_candy_001_icon",
+      "output_path": "public/assets/game/seeds/seed_candy_001_icon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game seed shop icon\nPrimary request: Create the icon for 젤리콩 씨앗.\nSubject: A glossy candy-bean seed with a tiny sprout, rounded body, soft shine, and no wrapper or brand mark.\nStyle/medium: Polished 2D game icon, cute-strange greenhouse collectible, simplified glossy candy material.\nComposition/framing: Centered single seed icon, generous padding, clean removable background.\nColor palette: Soft candy pink, cream highlight, warm yellow shine, tiny mint sprout.\nConstraints: No text, no logo, no watermark, no brand-like packaging, readable at 48px.\nAvoid: Existing candy shapes/mascots, hard neon, sticky realism, wrapper text, busy props.",
+      "acceptance": [
+        "reads as Candy family seed icon",
+        "no candy brand or packaging resemblance",
+        "readable at 48px",
+        "no text, watermark, or logo",
+        "centered with clean background"
+      ]
+    },
+    {
+      "asset_id": "seed_candy_002_icon",
+      "output_path": "public/assets/game/seeds/seed_candy_002_icon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game seed shop icon\nPrimary request: Create the icon for 솜사탕순 씨앗.\nSubject: A soft cotton-candy-like seed sprout, fluffy but still clearly seed-shaped, with a tiny plant base.\nStyle/medium: Polished 2D mobile game icon, cute-strange greenhouse collectible, soft candy texture, clean edges.\nComposition/framing: Centered single seed/sprout icon, generous padding, clean removable background.\nColor palette: Pastel pink, pale lavender, cream, small mint-green sprout accent.\nConstraints: No text, no logo, no watermark, no real candy brand, no messy fluff that hurts small-size readability.\nAvoid: Photoreal cotton candy, branded wrapper, hard neon, excessive hair-like strands, low contrast.",
+      "acceptance": [
+        "reads as a Candy seed/sprout at 48px",
+        "soft cotton-candy motif is visible",
+        "distinct from seed_candy_001_icon",
+        "no text, watermark, logo, or brand resemblance",
+        "clean centered shop icon"
+      ]
+    },
+    {
+      "asset_id": "seed_lunar_001_icon",
+      "output_path": "public/assets/game/seeds/seed_lunar_001_icon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game seed shop icon\nPrimary request: Create the icon for 달방울 씨앗.\nSubject: A pale moon-drop seed with a small crescent highlight and subtle glow, simple and friendly.\nStyle/medium: Polished 2D mobile game icon, cute-strange moonlit greenhouse collectible, crisp silhouette.\nComposition/framing: Centered single seed icon, generous padding, clean removable background.\nColor palette: Moonlit blue, silver lavender, cream highlight, tiny pale mint accent.\nConstraints: No text, no logo, no watermark, no dark occult look, readable at 48px.\nAvoid: Horror moon symbols, existing mascots, excessive glow, low contrast, photorealistic gemstone.",
+      "acceptance": [
+        "reads as Lunar family seed at 48px",
+        "crescent highlight is visible",
+        "friendly magical tone without horror",
+        "no text, watermark, or logo",
+        "centered with clean background"
+      ]
+    },
+    {
+      "asset_id": "seed_lunar_002_icon",
+      "output_path": "public/assets/game/seeds/seed_lunar_002_icon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game seed shop icon\nPrimary request: Create the icon for 은빛이끼 씨앗.\nSubject: A silver moss-covered lunar seed with a crescent-shaped sprout, pale glow, and simple texture readable at small size.\nStyle/medium: Polished 2D game icon, cute-strange moonlit greenhouse collectible, clean edges.\nComposition/framing: Centered single seed icon, generous padding, clean removable background.\nColor palette: Silver lavender, moonlit blue, pale mint moss, cream glow.\nConstraints: No text, no logo, no watermark, no realistic moss complexity, no dark horror mood.\nAvoid: Photoreal moss clumps, occult symbols, heavy particles, low contrast, existing character resemblance.",
+      "acceptance": [
+        "reads as Lunar seed at 48px",
+        "silver moss texture is simple and visible",
+        "distinct from seed_lunar_001_icon",
+        "no text, watermark, or logo",
+        "centered and suitable for seed shop"
+      ]
+    },
+    {
+      "asset_id": "background_greenhouse_day_001",
+      "output_path": "public/assets/game/backgrounds/background_greenhouse_day_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: mobile idle game garden screen background\nPrimary request: Create the primary daytime greenhouse background for 이상한 씨앗상회.\nScene/backdrop: A cozy small greenhouse interior with warm daylight, soft glass panels, shelves of strange seed jars, and open floor space for a 3x3 plot grid overlay.\nSubject: Environment only, no characters, no readable text.\nStyle/medium: Polished 2D game background, cute-strange greenhouse mood, soft painterly texture, clean mobile UI readability.\nComposition/framing: Vertical mobile-friendly composition, lower-middle area intentionally open for plots, upper area with gentle greenhouse detail, edges safe for UI overlays.\nColor palette: Warm greens, cream sunlight, soft yellow, deep greenhouse teal accents.\nConstraints: No text, no logo, no watermark, avoid clutter where plots/buttons will appear, no strong focal character.\nAvoid: Photorealism, dark atmosphere, brand signs, complex tiny props, heavy perspective distortion.",
+      "acceptance": [
+        "works as a garden screen background with room for plot grid overlay",
+        "no characters or readable text",
+        "cozy daytime greenhouse mood",
+        "not too visually busy for UI",
+        "no watermark, logo, or brand reference"
+      ]
+    },
+    {
+      "asset_id": "background_greenhouse_night_001",
+      "output_path": "public/assets/game/backgrounds/background_greenhouse_night_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: mobile idle game comeback or lunar background\nPrimary request: Create a moonlit greenhouse background variant for comeback rewards and Lunar unlock mood.\nScene/backdrop: The same cozy greenhouse at night, softly lit by moonlight through glass panels, with faint crescent reflections and calm shelves of seed jars.\nSubject: Environment only, no characters, no readable text.\nStyle/medium: Polished 2D mobile game background, cute-strange greenhouse, soft moonlit glow, clear UI readability.\nComposition/framing: Vertical mobile-friendly composition, lower-middle area open for reward modal or plot overlay, subtle details around edges.\nColor palette: Moonlit blue, silver lavender, pale cream glow, deep teal shadows.\nConstraints: No text, no logo, no watermark, no scary mood, no busy foreground objects.\nAvoid: Horror lighting, occult symbols, photorealism, heavy darkness, clutter where UI appears.",
+      "acceptance": [
+        "clearly a night/lunar greenhouse variant",
+        "has open space for UI overlay",
+        "calm magical mood without horror",
+        "no characters or readable text",
+        "no watermark, logo, or brand reference"
+      ]
+    },
+    {
+      "asset_id": "shop_starter_pack_001",
+      "output_path": "public/assets/game/shop/shop_starter_pack_001.png",
+      "prompt": "Use case: ads-marketing\nAsset type: in-game shop mock product image\nPrimary request: Create a starter merchant pack image for 이상한 씨앗상회, without any price or readable text.\nSubject: A charming small crate containing one rare-looking seed, a tiny greenhouse ticket, a leaf coin pouch, and a soft glow. It should look like a helpful beginner bundle, not a loot box.\nStyle/medium: Polished 2D game shop illustration, cute-strange greenhouse collectible style, clean UI-ready product art.\nComposition/framing: Centered product bundle on clean removable background, generous padding, clear silhouette for shop card use.\nColor palette: Fresh green, warm yellow, cream, tiny lavender/candy accents.\nConstraints: No text, no price, no logo, no watermark, no gambling/slot-machine implication, no brand marks.\nAvoid: Aggressive sales imagery, casino cues, real currency symbols, excessive sparkle clutter, copyrighted props.",
+      "acceptance": [
+        "reads as starter pack product image",
+        "no price or readable text",
+        "does not imply gambling or loot box mechanics",
+        "centered and suitable for shop card",
+        "no watermark, logo, or brand reference"
+      ]
+    },
+    {
+      "asset_id": "shop_monthly_license_001",
+      "output_path": "public/assets/game/shop/shop_monthly_license_001.png",
+      "prompt": "Use case: ads-marketing\nAsset type: in-game shop mock product image\nPrimary request: Create a monthly greenhouse license product image for 이상한 씨앗상회, without any price or readable text.\nSubject: A polished greenhouse pass card, watering token, small offline clock icon, and daily rare seed pouch arranged as a convenience bundle. The pass should look premium but friendly.\nStyle/medium: Polished 2D game shop illustration, cute-strange greenhouse collectible, clean mobile UI product art.\nComposition/framing: Centered bundle composition, card and token clearly visible, generous padding, clean removable background.\nColor palette: Deep greenhouse teal, cream, warm yellow, fresh green, subtle silver lavender.\nConstraints: No readable text, no price, no logo, no watermark, no real payment symbols, no aggressive urgency.\nAvoid: Real brand card designs, casino/passport resemblance, clutter, tiny unreadable labels, copyrighted symbols.",
+      "acceptance": [
+        "reads as monthly convenience license product image",
+        "no readable text or price",
+        "premium but non-aggressive tone",
+        "centered and suitable for shop card",
+        "no watermark, logo, or brand resemblance"
+      ]
+    },
+    {
+      "asset_id": "ui_album_card_frame_001",
+      "output_path": "public/assets/game/ui/ui_album_card_frame_001.png",
+      "prompt": "Use case: ui-mockup\nAsset type: reusable album card frame UI asset\nPrimary request: Create a reusable album card frame for creature portraits in 이상한 씨앗상회.\nSubject: A clean decorative card frame with greenhouse leaf corners, subtle rarity badge space, and empty center area for a creature portrait. No embedded text.\nStyle/medium: Polished 2D mobile game UI frame, cute-strange greenhouse collectible, crisp edges, simple layered ornament.\nComposition/framing: Square card frame, centered, transparent or clean removable background, large empty portrait area, small top-right badge slot.\nColor palette: Cream base, fresh green leaf accents, warm yellow highlights, subtle teal shadow.\nConstraints: No text, no logo, no watermark, no creature inside, no overly ornate border that reduces portrait space.\nAvoid: Trading-card brand resemblance, readable symbols, excessive filigree, dark low-contrast frame, photoreal material.",
+      "acceptance": [
+        "works as an empty album card frame",
+        "has clear portrait space and badge slot",
+        "no text, watermark, logo, or creature inside",
+        "readable and clean at mobile card sizes",
+        "consistent greenhouse visual style"
+      ]
+    }
+  ]
+}

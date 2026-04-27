@@ -1,0 +1,35 @@
+{
+  "source_prompts": "assets/source/asset_prompts.json",
+  "generated_at": "2026-04-27",
+  "generation_mode": "codex_native_image_generation",
+  "total": 20,
+  "completed": 20,
+  "missing": [],
+  "blocked": false,
+  "notes": [
+    "Initial run incorrectly stopped after 11/20 assets; resumed and completed all remaining assets.",
+    "Workflow guardrails added to .codex/skills/gpt-game-asset-generate/SKILL.md."
+  ],
+  "outputs": [
+    "public/assets/game/creatures/creature_herb_common_001.png",
+    "public/assets/game/creatures/creature_herb_common_002.png",
+    "public/assets/game/creatures/creature_herb_uncommon_001.png",
+    "public/assets/game/creatures/creature_candy_common_001.png",
+    "public/assets/game/creatures/creature_candy_common_002.png",
+    "public/assets/game/creatures/creature_candy_rare_001.png",
+    "public/assets/game/creatures/creature_lunar_common_001.png",
+    "public/assets/game/creatures/creature_lunar_uncommon_001.png",
+    "public/assets/game/creatures/creature_lunar_rare_001.png",
+    "public/assets/game/seeds/seed_herb_001_icon.png",
+    "public/assets/game/seeds/seed_herb_002_icon.png",
+    "public/assets/game/seeds/seed_candy_001_icon.png",
+    "public/assets/game/seeds/seed_candy_002_icon.png",
+    "public/assets/game/seeds/seed_lunar_001_icon.png",
+    "public/assets/game/seeds/seed_lunar_002_icon.png",
+    "public/assets/game/backgrounds/background_greenhouse_day_001.png",
+    "public/assets/game/backgrounds/background_greenhouse_night_001.png",
+    "public/assets/game/shop/shop_starter_pack_001.png",
+    "public/assets/game/shop/shop_monthly_license_001.png",
+    "public/assets/game/ui/ui_album_card_frame_001.png"
+  ]
+}
