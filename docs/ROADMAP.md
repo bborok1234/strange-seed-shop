@@ -79,9 +79,9 @@ Goal: make the project increasingly self-managing.
 | Create `items/` work records | done | `items/0001-pr-automation-trial.md` | 첫 자동화 작업이 item record로 표현되고 검증 기록이 남음 |
 | Create PR verification scaffold | review | `.github/workflows/ci.yml`, `.github/workflows/agent-automerge.yml`, `docs/PR_AUTOMATION.md` | 로컬 검증 통과; GitHub Actions 실행 증거는 push/PR 이후 필요 |
 | Create review report format | review | `docs/REPORTING.md`, `reports/reviews/README.md` | Agents can propose changes without applying them |
-| Create apply conditions | todo | docs/scripts | Mutations require valid proposal + acceptance criteria |
+| Create apply conditions | review | `docs/APPLY_CONDITIONS.md`, `scripts/check-apply-conditions.mjs` | Mutations require valid proposal + acceptance criteria |
 | Create audit report | review | `reports/audits/audit_20260427.md`, `scripts/check-docs-index.mjs` | Drift between docs, items, code, assets is detectable |
-| Create dashboard | todo | `docs/DASHBOARD.md` | Current status, next item, verification health visible |
+| Create dashboard | review | `docs/DASHBOARD.md` | Current status, next item, verification health visible |
 
 ## Current Next Action
 
@@ -89,4 +89,4 @@ Browser Use 기반 스크린샷 자동화와 핵심 클릭 플로우는 사용 �
 
 1. Browser Use로 오프라인 복귀와 데스크톱 폭 QA를 추가 확인한다.
 2. 이 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
-3. 다음 Milestone 5 항목으로 apply conditions와 dashboard를 추가한다.
+3. apply conditions와 dashboard를 PR 단위로 검증한다.

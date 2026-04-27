@@ -11,8 +11,9 @@
     "check:loop": "node scripts/check-game-loop.mjs",
     "simulate:economy": "node scripts/simulate-economy.mjs",
     "check:docs": "node scripts/check-docs-index.mjs",
+    "check:apply": "node scripts/check-apply-conditions.mjs",
     "check:automerge": "node scripts/check-automerge-readiness.mjs",
-    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run build"
+    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run build"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
