@@ -10,6 +10,8 @@
 
 `Agent Automerge Trial` workflow는 PR이 자동 머지 후보인지 판정하고 전체 검증을 실행한다. 실제 GitHub native auto-merge 요청은 저장소 변수 `ENABLE_AGENT_AUTOMERGE`가 `true`일 때만 실행된다.
 
+2026-04-27 audit 기준으로 `main`은 `protected: false`이며, private repository의 Branch protection endpoint는 `HTTP 403`을 반환했다. 따라서 `ENABLE_AGENT_AUTOMERGE`는 계속 꺼진 상태를 유지한다.
+
 ## Branch protection
 
 `main`에는 아래 required checks를 요구하는 Branch protection을 권장한다.
