@@ -48,3 +48,9 @@ Browser Use 스킬을 먼저 읽었으나 현재 세션에는 Node REPL `js` 도
 - 후속 운영 이슈: https://github.com/bborok1234/strange-seed-shop/issues/17
 - Browser Use 복구 이슈: https://github.com/bborok1234/strange-seed-shop/issues/18
 - PR에는 `agent-automerge` label을 붙였지만 draft 상태라 native merge 단계는 실행되지 않는다.
+
+## PR Check 결과
+
+- Check automerge eligibility: pass — https://github.com/bborok1234/strange-seed-shop/actions/runs/24999247283/job/73204479549
+- Verify game baseline: pass — https://github.com/bborok1234/strange-seed-shop/actions/runs/24999247286/job/73204479727
+- PR은 draft 상태이므로 native merge 단계는 의도적으로 실행하지 않는다.

@@ -116,7 +116,7 @@ Goal: make the project increasingly self-managing.
 
 Deep interview 결과가 `.omx/specs/deep-interview-game-studio-realignment.md`에 정리되었고, Phase 0 핵심 재미 축은 **이름 있는 생명체 수집**으로 고정되었다. `items/0016-phaser-playfield-runtime-spike.md`는 Phaser 중앙 playfield 전환과 남은 리스크 정리까지 완료되었다.
 
-1. Draft PR #19의 CI/Agent Automerge Trial 결과를 감사 증거로 확인한다.
+1. Draft PR #19의 CI와 Agent Automerge Trial은 통과했다. Draft 상태를 유지하며 review/merge 정책을 따른다.
 2. 다음 제품 작업은 sprite-pipeline 첫 batch다: starter seed의 idle/tap/grow/ready/harvest/reward 피크에 집중한다.
 3. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 계속 보존한다.
 4. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
