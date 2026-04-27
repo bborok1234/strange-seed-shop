@@ -59,3 +59,5 @@ Status: pass | warn | fail
 ## 현재 자동 점검
 
 `npm run check:docs`는 필수 문서, 필수 디렉터리, 로드맵의 Milestone 5 추적 문구를 확인한다.
+
+`npm run check:apply`는 apply gate 문서, dashboard, roadmap 상태, 필수 보고 위치가 존재하는지 확인한다.
