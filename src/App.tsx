@@ -21,7 +21,8 @@ export default function App() {
       .then(setManifest)
       .catch((error: unknown) => setManifestError(error instanceof Error ? error.message : "manifest load failed"));
 
-    const existingSave = localSaveStore.load();
+    const qaOfflineMinutes = getLocalQaOfflineMinutes();
+    const existingSave = qaOfflineMinutes ? createOfflineQaSave(qaOfflineMinutes) : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -359,4 +360,38 @@ function calculateOfflineLeaves(save: PlayerSave, now: number): number {
 function isExpeditionReady(expedition: ExpeditionState, now: number): boolean {
   const elapsedSeconds = (now - new Date(expedition.startedAt).getTime()) / 1000;
   return elapsedSeconds >= expedition.durationSeconds;
+}
+
+function getLocalQaOfflineMinutes(): number | null {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return null;
+  }
+
+  const raw = new URLSearchParams(window.location.search).get("qaOfflineMinutes");
+  if (!raw) {
+    return null;
+  }
+
+  const minutes = Number.parseInt(raw, 10);
+  if (!Number.isFinite(minutes) || minutes < 15) {
+    return null;
+  }
+
+  return Math.min(minutes, 8 * 60);
+}
+
+function createOfflineQaSave(minutesAway: number): PlayerSave {
+  const lastSeen = new Date(Date.now() - minutesAway * 60 * 1000);
+  const save = createNewSave(lastSeen);
+
+  return {
+    ...save,
+    leaves: 10,
+    selectedStarterSeedId: "seed_herb_001",
+    discoveredCreatureIds: ["creature_herb_common_001"],
+    claimedAlbumMilestoneIds: ["album_1"],
+    plotCount: 2,
+    lastSeenAt: lastSeen.toISOString(),
+    updatedAt: lastSeen.toISOString()
+  };
 }

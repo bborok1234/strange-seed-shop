@@ -12,6 +12,7 @@
 
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 
 button {
@@ -24,6 +25,7 @@ button {
   grid-template-columns: minmax(320px, 430px) minmax(280px, 1fr);
   gap: 24px;
   padding: 24px;
+  min-width: 0;
   background:
     linear-gradient(90deg, rgba(232, 240, 216, 0.92), rgba(246, 239, 218, 0.95)),
     #e8f0d8;
@@ -31,6 +33,7 @@ button {
 
 .garden-stage {
   position: relative;
+  min-width: 0;
   min-height: min(860px, calc(100vh - 48px));
   overflow: hidden;
   border: 1px solid rgba(45, 73, 58, 0.22);
@@ -48,6 +51,10 @@ button {
   gap: 16px;
   padding: 18px;
   background: linear-gradient(180deg, rgba(248, 244, 221, 0.92), rgba(248, 244, 221, 0.2));
+}
+
+.top-bar > div:first-child {
+  min-width: 0;
 }
 
 .eyebrow,
@@ -90,20 +97,28 @@ h1 {
   position: absolute;
   left: 18px;
   right: 18px;
+  top: 132px;
   bottom: 82px;
   display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   gap: 14px;
+}
+
+.toast + .garden-panel {
+  top: 220px;
 }
 
 .plot-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   gap: 10px;
+  min-height: 0;
 }
 
 .plot {
-  aspect-ratio: 1;
   min-width: 0;
+  min-height: 0;
   border: 1px solid rgba(73, 95, 58, 0.34);
   border-radius: 8px;
   background: rgba(255, 248, 214, 0.74);
@@ -211,6 +226,7 @@ h1 {
 }
 
 .bottom-tabs button {
+  min-width: 0;
   min-height: 48px;
   border: 0;
   border-radius: 8px;
@@ -273,10 +289,23 @@ h1 {
   font-weight: 700;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .app-shell {
     grid-template-columns: 1fr;
     padding: 0;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .top-bar {
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .currency-cluster {
+    min-width: 98px;
   }
 
   .garden-stage {

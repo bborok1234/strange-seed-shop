@@ -22,6 +22,7 @@ Browser Use를 시도하기 전에 별도 Playwright 설치, Computer Use, macOS
 - Node REPL `js` 실행 도구가 노출되지 않는다.
 - Browser Use 런타임이 로컬 앱에 접근하지 못하며, 에러가 재시도 후에도 재현된다.
 - CI처럼 Codex in-app browser가 없는 환경에서 자동 검증이 필요하다.
+- 정확한 viewport 크기 지정이 필요한 경우에는 `npm run capture:local -- <url> <output> <width> <height>`로 Chrome DevTools Protocol 캡처를 사용한다.
 
 ## 현재 검증 증거
 
@@ -30,8 +31,12 @@ Browser Use를 시도하기 전에 별도 Playwright 설치, Computer Use, macOS
 - 2026-04-27: 페이지 제목 `이상한 씨앗상회` 확인.
 - 2026-04-27: 스타터 씨앗 선택, 밭 탭 성장, 첫 수확, 도감 보상, 두 번째 밭 업그레이드, 원정 시작 클릭 플로우 확인.
 - 2026-04-27: 클릭 플로우 후속 스크린샷 저장: `reports/visual/browser-use-click-flow-20260427.png`
+- 2026-04-27: 개발 전용 `qaOfflineMinutes` URL 파라미터로 오프라인 복귀 보상 Browser Use 검증 완료.
+- 2026-04-27: 오프라인 복귀 스크린샷 저장: `reports/visual/browser-use-offline-reward-20260427.png`
+- 2026-04-27: Chrome DevTools Protocol로 360x900 viewport 캡처 저장: `reports/visual/chrome-cdp-mobile-360-20260427.png`
+- 2026-04-27: Chrome DevTools Protocol로 1280x900 viewport 캡처 저장: `reports/visual/chrome-cdp-desktop-1280-20260427.png`
 
 ## 남은 QA
 
-- 오프라인 복귀 모달을 브라우저에서 확인한다.
-- 넓은 데스크톱 폭에서 레이아웃을 한 번 더 확인한다.
+- Browser Use와 CDP 캡처 증거는 Phase 0 기준을 통과했다.
+- 다음 QA는 신규 UI 또는 새 게임 루프가 추가될 때 갱신한다.
