@@ -27,7 +27,11 @@ export default function App() {
     }
 
     const qaOfflineMinutes = getLocalQaOfflineMinutes();
-    const existingSave = qaOfflineMinutes ? createOfflineQaSave(qaOfflineMinutes) : localSaveStore.load();
+    const existingSave = getLocalQaExpeditionReady()
+      ? createExpeditionReadyQaSave()
+      : qaOfflineMinutes
+        ? createOfflineQaSave(qaOfflineMinutes)
+        : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -508,6 +512,14 @@ function getLocalQaReset(): boolean {
   return new URLSearchParams(window.location.search).get("qaReset") === "1";
 }
 
+function getLocalQaExpeditionReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaExpeditionReady") === "1";
+}
+
 function createOfflineQaSave(minutesAway: number): PlayerSave {
   const lastSeen = new Date(Date.now() - minutesAway * 60 * 1000);
   const save = createNewSave(lastSeen);
@@ -521,5 +533,30 @@ function createOfflineQaSave(minutesAway: number): PlayerSave {
     plotCount: 2,
     lastSeenAt: lastSeen.toISOString(),
     updatedAt: lastSeen.toISOString()
+  };
+}
+
+function createExpeditionReadyQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createNewSave(now);
+  const expedition = content.expeditions.find((item) => item.id === FIRST_EXPEDITION_ID);
+  const startedAt = new Date(now.getTime() - ((expedition?.durationSeconds ?? 300) + 5) * 1000);
+
+  return {
+    ...save,
+    leaves: 20,
+    selectedStarterSeedId: "seed_herb_001",
+    discoveredCreatureIds: ["creature_herb_common_001"],
+    claimedAlbumMilestoneIds: ["album_1"],
+    plotCount: 2,
+    activeExpedition: {
+      expeditionId: FIRST_EXPEDITION_ID,
+      creatureIds: ["creature_herb_common_001"],
+      startedAt: startedAt.toISOString(),
+      durationSeconds: expedition?.durationSeconds ?? 300,
+      claimed: false
+    },
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
   };
 }

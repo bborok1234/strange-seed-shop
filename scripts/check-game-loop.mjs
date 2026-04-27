@@ -55,6 +55,8 @@ if (!firstExpedition) {
   failures.push("quick_scout expedition missing");
 } else if (firstExpedition.durationSeconds > 600) {
   failures.push(`first expedition exceeds 10 minutes: ${firstExpedition.durationSeconds}`);
+} else if (firstExpedition.rewardLeaves <= 0) {
+  failures.push("quick_scout expedition must reward leaves");
 }
 
 const seedBuyMission = missions.find((mission) => mission.id === "daily_buy_3_seeds");
@@ -91,6 +93,7 @@ console.log(
       firstUpgradeCost,
       repeatStarterCost,
       firstExpeditionSeconds: firstExpedition.durationSeconds,
+      firstExpeditionRewardLeaves: firstExpedition.rewardLeaves,
       firstLoopMissions: requiredMissionIds
     },
     null,
