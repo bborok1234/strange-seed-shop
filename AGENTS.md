@@ -32,6 +32,12 @@ For image asset work, also read the relevant project-local skill:
 - `.codex/skills/gpt-game-asset-generate/SKILL.md`
 - `.codex/skills/gpt-game-asset-review/SKILL.md`
 
+For browser visual QA, use the Codex Browser Use plugin first:
+
+- `browser-use:browser` with the in-app browser `iab` backend is the default path for local browser inspection, DOM snapshots, clicks, and screenshots.
+- Do not fall back to separate Playwright scripts, Computer Use, or macOS screenshots until Browser Use has been tried and the blocker is recorded.
+- Persist important visual QA evidence under `reports/visual/`.
+
 ## Product Direction
 
 - Build Phase 0 first; do not jump to full live-service scope.

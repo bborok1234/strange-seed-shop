@@ -68,7 +68,7 @@ Goal: make the game measurable and tunable.
 | Economy simulator | done | `scripts/simulate-economy.mjs` | 1h/D1/D3/D7 projections exist and run with `npm run simulate:economy` |
 | Analytics event log | done | `src/lib/analytics.ts` | Required first-loop events are tracked to localStorage |
 | Acceptance test checklist | done | `docs/ACCEPTANCE_PHASE0.md` | PRD and economy criteria are listed with verification commands |
-| Visual/mobile QA | blocked | screenshots/report | Browser screenshot automation not yet available in this session |
+| Visual/mobile QA | review | `reports/visual/browser_use_qa_20260427.md` | Browser Use로 로컬 앱 접속, 모바일 스크린샷, 첫 수확/업그레이드/원정 시작 클릭 플로우 확인 |
 
 ## Milestone 5: Autonomous Project Management Scaffold
 
@@ -76,7 +76,8 @@ Goal: make the project increasingly self-managing.
 
 | Step | Status | Output | Acceptance Criteria |
 | --- | --- | --- | --- |
-| Create `items/` work records | todo | `items/*.md` | Roadmap tasks can be represented as item records |
+| Create `items/` work records | done | `items/0001-pr-automation-trial.md` | 첫 자동화 작업이 item record로 표현되고 검증 기록이 남음 |
+| Create PR verification scaffold | review | `.github/workflows/ci.yml`, `.github/workflows/agent-automerge.yml`, `docs/PR_AUTOMATION.md` | 로컬 검증 통과; GitHub Actions 실행 증거는 push/PR 이후 필요 |
 | Create review report format | todo | `reports/reviews/*.md` | Agents can propose changes without applying them |
 | Create apply conditions | todo | docs/scripts | Mutations require valid proposal + acceptance criteria |
 | Create audit report | todo | `reports/audits/*.md` | Drift between docs, items, code, assets is detectable |
@@ -84,9 +85,8 @@ Goal: make the project increasingly self-managing.
 
 ## Current Next Action
 
-Milestone 4 is complete except visual/mobile screenshot QA, which is blocked until browser screenshot automation is available.
+Browser Use 기반 스크린샷 자동화와 핵심 클릭 플로우는 사용 가능하다는 것이 확인됐다.
 
-1. Either run visual/mobile QA with a browser screenshot tool.
-2. Or start Milestone 5 autonomous project-management scaffold.
-
-Do not start the React/Vite implementation until Milestone 1 has at least one accepted asset batch or the user explicitly asks to use placeholder assets.
+1. Browser Use로 오프라인 복귀와 데스크톱 폭 QA를 추가 확인한다.
+2. PR 자동화 스캐폴드를 GitHub Actions에서 검증한다.
+3. 다음 Milestone 5 항목으로 review report format과 audit report format을 추가한다.

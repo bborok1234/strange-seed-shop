@@ -10,6 +10,8 @@ This folder is the durable memory for `이상한 씨앗상회` and the autonomou
 | `PRD_PHASE0.md` | Phase 0 product requirements and UX contract | Before product or UI work |
 | `ECONOMY_PHASE0.md` | Phase 0 economy tables, formulas, tuning levers | Before economy/config work |
 | `AUTONOMOUS_PROJECT_OPERATING_MODEL.md` | ClawSweeper-inspired agent operating model | Before automation/project-management work |
+| `BROWSER_QA.md` | Browser Use 기반 로컬 브라우저 검증 절차 | Before visual/mobile QA |
+| `PR_AUTOMATION.md` | PR 자동 검증과 제한적 자동 머지 정책 | Before CI/PR automation work |
 
 ## Project-Local Skills
 
