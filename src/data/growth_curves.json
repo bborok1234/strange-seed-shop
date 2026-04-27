@@ -1,0 +1,17 @@
+{
+  "version": "phase0-v1",
+  "plotUpgradeCost": {
+    "base": 30,
+    "exponent": 2.15
+  },
+  "tapPowerCost": {
+    "base": 20,
+    "exponent": 1.8,
+    "bonusPerLevel": 0.12
+  },
+  "offlineReward": {
+    "defaultCapSeconds": 14400,
+    "experimentalCapSeconds": 28800,
+    "efficiency": 0.35
+  }
+}

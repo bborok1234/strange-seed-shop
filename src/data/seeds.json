@@ -1,0 +1,74 @@
+[
+  {
+    "id": "seed_herb_001",
+    "name": "말랑잎 씨앗",
+    "family": "herb",
+    "unlock": "start",
+    "costLeaves": 0,
+    "baseGrowthSeconds": 30,
+    "tapSecondsRemoved": 3,
+    "baseHarvestLeaves": 10,
+    "iconAssetId": "seed_herb_001_icon",
+    "creaturePool": ["creature_herb_common_001", "creature_herb_common_002"]
+  },
+  {
+    "id": "seed_herb_002",
+    "name": "방울새싹 씨앗",
+    "family": "herb",
+    "unlock": "album_1",
+    "costLeaves": 25,
+    "baseGrowthSeconds": 60,
+    "tapSecondsRemoved": 4,
+    "baseHarvestLeaves": 24,
+    "iconAssetId": "seed_herb_002_icon",
+    "creaturePool": ["creature_herb_common_002", "creature_herb_uncommon_001"]
+  },
+  {
+    "id": "seed_candy_001",
+    "name": "젤리콩 씨앗",
+    "family": "candy",
+    "unlock": "garden_level_2",
+    "costLeaves": 60,
+    "baseGrowthSeconds": 120,
+    "tapSecondsRemoved": 5,
+    "baseHarvestLeaves": 58,
+    "iconAssetId": "seed_candy_001_icon",
+    "creaturePool": ["creature_candy_common_001", "creature_candy_common_002"]
+  },
+  {
+    "id": "seed_candy_002",
+    "name": "솜사탕순 씨앗",
+    "family": "candy",
+    "unlock": "album_3",
+    "costLeaves": 140,
+    "baseGrowthSeconds": 300,
+    "tapSecondsRemoved": 8,
+    "baseHarvestLeaves": 135,
+    "iconAssetId": "seed_candy_002_icon",
+    "creaturePool": ["creature_candy_common_002", "creature_candy_rare_001"]
+  },
+  {
+    "id": "seed_lunar_001",
+    "name": "달방울 씨앗",
+    "family": "lunar",
+    "unlock": "garden_level_4",
+    "costLeaves": 300,
+    "baseGrowthSeconds": 600,
+    "tapSecondsRemoved": 10,
+    "baseHarvestLeaves": 260,
+    "iconAssetId": "seed_lunar_001_icon",
+    "creaturePool": ["creature_lunar_common_001", "creature_lunar_uncommon_001"]
+  },
+  {
+    "id": "seed_lunar_002",
+    "name": "은빛이끼 씨앗",
+    "family": "lunar",
+    "unlock": "album_5",
+    "costLeaves": 650,
+    "baseGrowthSeconds": 1320,
+    "tapSecondsRemoved": 16,
+    "baseHarvestLeaves": 570,
+    "iconAssetId": "seed_lunar_002_icon",
+    "creaturePool": ["creature_lunar_uncommon_001", "creature_lunar_rare_001"]
+  }
+]

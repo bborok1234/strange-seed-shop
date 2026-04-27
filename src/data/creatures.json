@@ -1,0 +1,83 @@
+[
+  {
+    "id": "creature_herb_common_001",
+    "name": "말랑잎 포리",
+    "family": "herb",
+    "rarity": "common",
+    "role": "gatherer",
+    "assetId": "creature_herb_common_001",
+    "albumHint": "첫 온실에서 가장 자주 만나는 잎사귀 수집가"
+  },
+  {
+    "id": "creature_herb_common_002",
+    "name": "방패새싹 모모",
+    "family": "herb",
+    "rarity": "common",
+    "role": "guardian",
+    "assetId": "creature_herb_common_002",
+    "albumHint": "넓은 잎으로 잠든 씨앗을 지켜준다"
+  },
+  {
+    "id": "creature_herb_uncommon_001",
+    "name": "이슬연금 라미",
+    "family": "herb",
+    "rarity": "uncommon",
+    "role": "alchemist",
+    "assetId": "creature_herb_uncommon_001",
+    "albumHint": "새벽 이슬을 꽃가루로 바꾸는 작은 연금술사"
+  },
+  {
+    "id": "creature_candy_common_001",
+    "name": "젤리콩 통통",
+    "family": "candy",
+    "rarity": "common",
+    "role": "gatherer",
+    "assetId": "creature_candy_common_001",
+    "albumHint": "달콤한 향을 따라 잎을 모은다"
+  },
+  {
+    "id": "creature_candy_common_002",
+    "name": "포장잎 상인",
+    "family": "candy",
+    "rarity": "common",
+    "role": "merchant",
+    "assetId": "creature_candy_common_002",
+    "albumHint": "씨앗 주머니를 늘 챙겨 다닌다"
+  },
+  {
+    "id": "creature_candy_rare_001",
+    "name": "카라멜 연금뿌리",
+    "family": "candy",
+    "rarity": "rare",
+    "role": "alchemist",
+    "assetId": "creature_candy_rare_001",
+    "albumHint": "끈적한 설탕빛 꽃가루를 만든다"
+  },
+  {
+    "id": "creature_lunar_common_001",
+    "name": "달방울 누누",
+    "family": "lunar",
+    "rarity": "common",
+    "role": "guardian",
+    "assetId": "creature_lunar_common_001",
+    "albumHint": "달빛 아래에서 오프라인 보상을 지켜준다"
+  },
+  {
+    "id": "creature_lunar_uncommon_001",
+    "name": "은빛이끼 세리",
+    "family": "lunar",
+    "rarity": "uncommon",
+    "role": "alchemist",
+    "assetId": "creature_lunar_uncommon_001",
+    "albumHint": "은빛 이끼 사이에서 희미한 꽃가루를 모은다"
+  },
+  {
+    "id": "creature_lunar_rare_001",
+    "name": "밤유리 루미",
+    "family": "lunar",
+    "rarity": "rare",
+    "role": "mascot",
+    "assetId": "creature_lunar_rare_001",
+    "albumHint": "온실의 밤을 대표하는 희귀 마스코트"
+  }
+]

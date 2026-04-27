@@ -42,10 +42,10 @@ Goal: create the playable browser foundation.
 
 | Step | Status | Output | Acceptance Criteria |
 | --- | --- | --- | --- |
-| Choose frontend stack and scaffold app | todo | Vite/React app or equivalent | App runs locally and shows the garden screen |
-| Add content config schemas | todo | `config/*.json` or `src/data/*.json` | Seeds, creatures, growth curves, rewards load from config |
-| Add local persistence | todo | local save layer | Refresh preserves player state |
-| Add asset manifest loading | todo | manifest loader | UI renders static assets by manifest id |
+| Choose frontend stack and scaffold app | done | Vite/React app | `npm run build` succeeds and app shell renders the garden screen |
+| Add content config schemas | done | `src/data/*.json` | Seeds, creatures, growth curves, rewards, expeditions, missions, shop surfaces load from config |
+| Add local persistence | done | `src/lib/persistence.ts` | Local save interface and first-save creation stub exist |
+| Add asset manifest loading | done | `src/lib/assetManifest.ts` | UI renders static assets by manifest id |
 
 ## Milestone 3: First Playable Loop
 
@@ -84,11 +84,12 @@ Goal: make the project increasingly self-managing.
 
 ## Current Next Action
 
-Milestone 1 is complete. Start Milestone 2 unless the user requests another asset batch.
+Milestone 2 scaffold is complete. Start Milestone 3 unless the user requests scaffold changes.
 
-1. Scaffold the Phase 0 browser app.
-2. Add content config schemas.
-3. Add local persistence.
-4. Add asset manifest loading.
+1. Implement starter seed selection.
+2. Implement plant/grow/tap/harvest.
+3. Implement first album reward and first upgrade.
+4. Implement first expedition teaser.
+5. Implement offline reward claim.
 
 Do not start the React/Vite implementation until Milestone 1 has at least one accepted asset batch or the user explicitly asks to use placeholder assets.

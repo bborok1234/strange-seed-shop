@@ -1,0 +1,8 @@
+[
+  { "id": "tutorial_plant_first_seed", "type": "tutorial", "label": "첫 씨앗 심기", "target": 1, "rewardLeaves": 10 },
+  { "id": "tutorial_harvest_first_creature", "type": "tutorial", "label": "첫 생명체 수확", "target": 1, "rewardLeaves": 20 },
+  { "id": "tutorial_claim_album_reward", "type": "tutorial", "label": "도감 보상 받기", "target": 1, "rewardLeaves": 20 },
+  { "id": "daily_harvest_5", "type": "daily", "label": "생명체 5회 수확", "target": 5, "rewardLeaves": 50 },
+  { "id": "daily_buy_3_seeds", "type": "daily", "label": "씨앗 3개 구매", "target": 3, "rewardLeaves": 45 },
+  { "id": "daily_start_expedition", "type": "daily", "label": "원정 1회 시작", "target": 1, "rewardLeaves": 60 }
+]

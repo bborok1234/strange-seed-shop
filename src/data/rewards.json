@@ -1,0 +1,19 @@
+{
+  "version": "phase0-v1",
+  "albumMilestones": [
+    { "id": "album_1", "requiredDiscoveries": 1, "leaves": 25, "pollen": 0 },
+    { "id": "album_3", "requiredDiscoveries": 3, "leaves": 80, "pollen": 1 },
+    { "id": "album_5", "requiredDiscoveries": 5, "leaves": 180, "pollen": 2 },
+    { "id": "album_8", "requiredDiscoveries": 8, "leaves": 420, "pollen": 4 }
+  ],
+  "merge": {
+    "duplicatesRequired": 3,
+    "baseFeeLeaves": 25,
+    "rarityMultipliers": {
+      "common": 1,
+      "uncommon": 2.5,
+      "rare": 6,
+      "epic": 15
+    }
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "starter_pack_mock",
+    "name": "스타터 상인팩",
+    "assetId": "shop_starter_pack_001",
+    "phase": "phase0_mock",
+    "cta": "관심 있음",
+    "realPayment": false
+  },
+  {
+    "id": "monthly_license_mock",
+    "name": "월간 온실권",
+    "assetId": "shop_monthly_license_001",
+    "phase": "phase0_mock",
+    "cta": "혜택 보기",
+    "realPayment": false
+  }
+]

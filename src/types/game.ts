@@ -1,0 +1,67 @@
+export type AssetCategory =
+  | "background"
+  | "creature"
+  | "seed_icon"
+  | "shop_image"
+  | "ui_frame";
+
+export type SeedFamily = "herb" | "candy" | "lunar" | "greenhouse" | "shop" | "album";
+
+export type Rarity = "common" | "uncommon" | "rare" | "epic";
+
+export interface ManifestAsset {
+  path: string;
+  category: AssetCategory;
+  family: SeedFamily;
+  rarity: Rarity;
+  intended_use: string;
+  width: number;
+  height: number;
+  status: "accepted" | "rejected" | "needs_review";
+  tags?: string[];
+  notes?: string;
+}
+
+export interface AssetManifest {
+  version: string;
+  project: string;
+  runtime_generation_allowed: boolean;
+  assets: Record<string, ManifestAsset>;
+}
+
+export interface SeedDefinition {
+  id: string;
+  name: string;
+  family: Extract<SeedFamily, "herb" | "candy" | "lunar">;
+  unlock: string;
+  costLeaves: number;
+  baseGrowthSeconds: number;
+  tapSecondsRemoved: number;
+  baseHarvestLeaves: number;
+  iconAssetId: string;
+  creaturePool: string[];
+}
+
+export interface CreatureDefinition {
+  id: string;
+  name: string;
+  family: Extract<SeedFamily, "herb" | "candy" | "lunar">;
+  rarity: Rarity;
+  role: "gatherer" | "alchemist" | "guardian" | "merchant" | "mascot";
+  assetId: string;
+  albumHint: string;
+}
+
+export interface PlayerSave {
+  version: number;
+  playerId: string;
+  createdAt: string;
+  updatedAt: string;
+  leaves: number;
+  pollen: number;
+  materials: number;
+  unlockedSeedIds: string[];
+  discoveredCreatureIds: string[];
+  selectedStarterSeedId?: string;
+  lastSeenAt: string;
+}

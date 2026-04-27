@@ -1,0 +1,29 @@
+[
+  {
+    "id": "quick_scout",
+    "name": "틈새길 정찰",
+    "durationSeconds": 300,
+    "requiredCreatures": 1,
+    "rewardLeaves": 35,
+    "rewardMaterials": 0,
+    "pollenChance": 0.1
+  },
+  {
+    "id": "tidy_route",
+    "name": "뒷마당 정리",
+    "durationSeconds": 900,
+    "requiredCreatures": 1,
+    "rewardLeaves": 120,
+    "rewardMaterials": 1,
+    "pollenChance": 0
+  },
+  {
+    "id": "moon_hint",
+    "name": "달빛 흔적 찾기",
+    "durationSeconds": 3600,
+    "requiredCreatures": 2,
+    "rewardLeaves": 420,
+    "rewardMaterials": 2,
+    "pollenChance": 0.35
+  }
+]
