@@ -65,3 +65,5 @@ Status: pass | warn | fail
 `npm run update:dashboard`는 로드맵과 주요 파일 존재 여부를 기준으로 `docs/DASHBOARD.md`를 다시 생성한다.
 
 `npm run check:dashboard`는 생성 결과와 현재 `docs/DASHBOARD.md`가 일치하는지 확인한다.
+
+`npm run check:audit`는 필수 audit report와 PR 자동화 결과 기록이 존재하는지 확인한다.

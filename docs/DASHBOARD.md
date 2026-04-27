@@ -16,20 +16,21 @@ Updated: 2026-04-27
 | Apply gate | verified | `npm run check:apply` |
 | 대시보드 자동 갱신 | review | `npm run update:dashboard`, `npm run check:dashboard` |
 | 자동 머지 거버넌스 | review | `npm run check:governance` |
+| PR 자동화 audit | review | `npm run check:audit` |
 
 ## 로드맵 요약
 
 | 상태 | 개수 |
 | --- | ---: |
 | done | 24 |
-| review | 6 |
+| review | 7 |
 | todo | 0 |
 | blocked | 0 |
 
 ## 다음 작업
 
-1. PR 자동화 결과를 audit report에 누적한다.
-2. GitHub Branch protection 설정 여부를 별도 audit로 확인한다.
+1. GitHub Branch protection 설정 여부를 별도 audit로 확인한다.
+2. PR 결과 audit을 `gh` 조회 기반으로 생성하는 스크립트를 추가한다.
 3. 다음 게임 기능 작업을 `items/` 단위로 등록한다.
 
 ## 검증 상태
@@ -43,6 +44,7 @@ Updated: 2026-04-27
 | `npm run check:apply` | tracked |
 | `npm run check:dashboard` | tracked |
 | `npm run check:governance` | tracked |
+| `npm run check:audit` | tracked |
 | `npm run build` | tracked |
 
 ## 열린 위험

@@ -34,7 +34,8 @@ const rows = [
   ["PR 자동 검증", fileStatus([".github/workflows/ci.yml", ".github/workflows/agent-automerge.yml"]), "PR #1, PR #2"],
   ["Apply gate", fileStatus(["docs/APPLY_CONDITIONS.md", "scripts/check-apply-conditions.mjs"]), "`npm run check:apply`"],
   ["대시보드 자동 갱신", stepStatus("Create dashboard", "review"), "`npm run update:dashboard`, `npm run check:dashboard`"],
-  ["자동 머지 거버넌스", stepStatus("Document automerge governance", "review"), "`npm run check:governance`"]
+  ["자동 머지 거버넌스", stepStatus("Document automerge governance", "review"), "`npm run check:governance`"],
+  ["PR 자동화 audit", stepStatus("Accumulate PR automation audit", "review"), "`npm run check:audit`"]
 ];
 
 const commands = [
@@ -45,6 +46,7 @@ const commands = [
   "npm run check:apply",
   "npm run check:dashboard",
   "npm run check:governance",
+  "npm run check:audit",
   "npm run build"
 ];
 
@@ -72,8 +74,8 @@ ${rows.map((row) => `| ${row[0]} | ${row[1]} | ${row[2]} |`).join("\n")}
 
 ## 다음 작업
 
-1. PR 자동화 결과를 audit report에 누적한다.
-2. GitHub Branch protection 설정 여부를 별도 audit로 확인한다.
+1. GitHub Branch protection 설정 여부를 별도 audit로 확인한다.
+2. PR 결과 audit을 \`gh\` 조회 기반으로 생성하는 스크립트를 추가한다.
 3. 다음 게임 기능 작업을 \`items/\` 단위로 등록한다.
 
 ## 검증 상태
