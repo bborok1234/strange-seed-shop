@@ -35,6 +35,7 @@ Browser Use를 시도하기 전에 별도 Playwright 설치, Computer Use, macOS
 - 2026-04-27: 오프라인 복귀 스크린샷 저장: `reports/visual/browser-use-offline-reward-20260427.png`
 - 2026-04-27: Browser Use `iab` backend로 현재 main 앱 접속 재확인: `reports/visual/browser-use-main-20260427.png`
 - 2026-04-27: Browser Use `iab` backend로 `qaReset=1` 접속 후 첫 씨앗 심기 미션 보상 수령 확인: `reports/visual/mission-reward-loop-20260427.png`
+- 2026-04-27: Browser Use `iab` backend로 `qaOfflineMinutes=60` 접속 후 씨앗 3회 구매, buy-3 미션 보상 수령 확인: `reports/visual/seed-purchase-loop-20260427.png`
 - 2026-04-27: Chrome DevTools Protocol로 360x900 viewport 캡처 저장: `reports/visual/chrome-cdp-mobile-360-20260427.png`
 - 2026-04-27: Chrome DevTools Protocol로 1280x900 viewport 캡처 저장: `reports/visual/chrome-cdp-desktop-1280-20260427.png`
 - 2026-04-27: `npm run check:browser-qa`로 Browser Use 우선 원칙과 시각 QA 증거 파일 존재를 검증하도록 고정했다.

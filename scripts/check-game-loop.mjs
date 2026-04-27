@@ -10,10 +10,12 @@ const starterSeeds = seeds.filter((seed) => starterSeedIds.includes(seed.id));
 const firstSeed = seeds.find((seed) => seed.id === "seed_herb_001");
 const firstAlbumReward = rewards.albumMilestones.find((milestone) => milestone.id === "album_1");
 const firstExpedition = expeditions.find((expedition) => expedition.id === "quick_scout");
+const repeatStarterCost = Math.max(10, firstSeed?.costLeaves ?? 0);
 const requiredMissionIds = [
   "tutorial_plant_first_seed",
   "tutorial_harvest_first_creature",
   "tutorial_claim_album_reward",
+  "daily_buy_3_seeds",
   "daily_start_expedition"
 ];
 const requiredMissions = requiredMissionIds.map((missionId) => missions.find((mission) => mission.id === missionId));
@@ -55,6 +57,13 @@ if (!firstExpedition) {
   failures.push(`first expedition exceeds 10 minutes: ${firstExpedition.durationSeconds}`);
 }
 
+const seedBuyMission = missions.find((mission) => mission.id === "daily_buy_3_seeds");
+if (!seedBuyMission) {
+  failures.push("daily_buy_3_seeds mission missing");
+} else if (repeatStarterCost * seedBuyMission.target > 60) {
+  failures.push(`seed buy mission is too expensive for offline QA: ${repeatStarterCost * seedBuyMission.target} > 60`);
+}
+
 requiredMissions.forEach((mission, index) => {
   const missionId = requiredMissionIds[index];
   if (!mission) {
@@ -80,6 +89,7 @@ console.log(
       firstSeedGrowthSeconds: firstSeed.baseGrowthSeconds,
       firstUpgradeLeavesAvailable: firstHarvestLeaves + firstAlbumLeaves,
       firstUpgradeCost,
+      repeatStarterCost,
       firstExpeditionSeconds: firstExpedition.durationSeconds,
       firstLoopMissions: requiredMissionIds
     },
