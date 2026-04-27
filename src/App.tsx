@@ -3,7 +3,9 @@ import { getAssetPath, loadAssetManifest } from "./lib/assetManifest";
 import { createNewSave, localSaveStore } from "./lib/persistence";
 import { content, getStarterSeeds } from "./lib/content";
 import { readEvents, trackEvent } from "./lib/analytics";
-import type { AssetManifest, CreatureDefinition, ExpeditionState, MissionDefinition, PlayerSave, PlotState, SeedDefinition } from "./types/game";
+import { GardenPlayfieldHost } from "./game/playfield";
+import type { GardenPlayfieldAction, GardenPlayfieldViewModel, GardenPlotView } from "./game/playfield";
+import type { AssetManifest, ExpeditionState, MissionDefinition, PlayerSave, PlotState, SeedDefinition } from "./types/game";
 
 type MainTab = "garden" | "seeds" | "album" | "expedition" | "shop";
 
@@ -83,6 +85,7 @@ export default function App() {
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
   const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
   const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
+  const gardenViewModel = useMemo(() => buildGardenPlayfieldViewModel(save, now), [save, now]);
 
   function commit(mutator: (draft: PlayerSave) => void) {
     setSave((current) => {
@@ -274,6 +277,17 @@ export default function App() {
     triggerRewardPulse();
   }
 
+  function handlePlayfieldAction(action: GardenPlayfieldAction) {
+    if (action.type === "tap_growth") {
+      tapGrowth(action.plotIndex);
+      return;
+    }
+
+    if (action.type === "harvest_plot") {
+      harvest(action.plotIndex);
+    }
+  }
+
   function triggerRewardPulse() {
     setRewardPulse(Date.now());
     window.setTimeout(() => setRewardPulse(null), 420);
@@ -323,41 +337,7 @@ export default function App() {
         {offlineMessage && <div className="toast">{offlineMessage}</div>}
 
         <section className="garden-panel" aria-label="정원">
-          <div className="plot-grid" aria-label="밭 9칸">
-            {save?.plots.map((plot) => {
-              const seed = getSeed(plot.seedId);
-              const ready = seed ? isPlotReady(plot, seed, now) : false;
-              const progress = seed ? getGrowthProgress(plot, seed, now) : 0;
-              const locked = plot.index >= (save?.plotCount ?? 1);
-              const plotClassName = getPlotClassName({
-                locked,
-                ready,
-                hasSeed: Boolean(seed),
-                hasOpenPlot: !locked && !seed,
-                tapped: tappedPlotIndex === plot.index
-              });
-
-              return (
-                <button
-                  className={plotClassName}
-                  disabled={locked || !seed}
-                  key={plot.index}
-                  onClick={() => (ready ? harvest(plot.index) : tapGrowth(plot.index))}
-                  type="button"
-                >
-                  {seed ? (
-                    <>
-                      {renderAsset(seed.iconAssetId, "씨앗")}
-                      <span>{ready ? "수확 가능" : `${Math.round(progress)}% 성장`}</span>
-                      <progress max={100} value={Math.round(progress)} />
-                    </>
-                  ) : (
-                    <span>{locked ? "잠김" : "빈 밭"}</span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+          <GardenPlayfieldHost onAction={handlePlayfieldAction} viewModel={gardenViewModel} />
 
           <aside className="starter-panel">
             <p className="panel-label">다음 행동</p>
