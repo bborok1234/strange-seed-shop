@@ -249,13 +249,69 @@ h1 {
 }
 
 .album-strip,
+.mission-board,
 .expedition-card {
   margin-top: 18px;
 }
 
 .album-strip h3,
+.mission-board h3,
 .expedition-card h3 {
   margin: 0 0 8px;
+}
+
+.mission-list {
+  display: grid;
+  gap: 8px;
+}
+
+.mission-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(86px, auto);
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(45, 73, 58, 0.16);
+  border-radius: 8px;
+  background: #fff9de;
+}
+
+.mission-row span {
+  display: block;
+  margin-bottom: 2px;
+  color: #557247;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.mission-row strong {
+  display: block;
+  color: #2f4f3d;
+}
+
+.mission-row progress {
+  width: 100%;
+  height: 8px;
+  margin-top: 7px;
+  accent-color: #315b45;
+}
+
+.mission-row button {
+  min-height: 38px;
+  border: 0;
+  border-radius: 8px;
+  background: #315b45;
+  color: #fff9de;
+  font-weight: 800;
+}
+
+.mission-row button:disabled {
+  background: rgba(49, 91, 69, 0.18);
+  color: rgba(47, 79, 61, 0.58);
+}
+
+.mission-claimed {
+  background: rgba(232, 240, 216, 0.82);
 }
 
 .creature-list {

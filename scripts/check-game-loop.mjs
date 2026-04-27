@@ -3,12 +3,20 @@ import fs from "node:fs";
 const seeds = JSON.parse(fs.readFileSync("src/data/seeds.json", "utf8"));
 const expeditions = JSON.parse(fs.readFileSync("src/data/expeditions.json", "utf8"));
 const rewards = JSON.parse(fs.readFileSync("src/data/rewards.json", "utf8"));
+const missions = JSON.parse(fs.readFileSync("src/data/missions.json", "utf8"));
 
 const starterSeedIds = ["seed_herb_001", "seed_herb_002", "seed_candy_001"];
 const starterSeeds = seeds.filter((seed) => starterSeedIds.includes(seed.id));
 const firstSeed = seeds.find((seed) => seed.id === "seed_herb_001");
 const firstAlbumReward = rewards.albumMilestones.find((milestone) => milestone.id === "album_1");
 const firstExpedition = expeditions.find((expedition) => expedition.id === "quick_scout");
+const requiredMissionIds = [
+  "tutorial_plant_first_seed",
+  "tutorial_harvest_first_creature",
+  "tutorial_claim_album_reward",
+  "daily_start_expedition"
+];
+const requiredMissions = requiredMissionIds.map((missionId) => missions.find((mission) => mission.id === missionId));
 
 const failures = [];
 
@@ -47,6 +55,18 @@ if (!firstExpedition) {
   failures.push(`first expedition exceeds 10 minutes: ${firstExpedition.durationSeconds}`);
 }
 
+requiredMissions.forEach((mission, index) => {
+  const missionId = requiredMissionIds[index];
+  if (!mission) {
+    failures.push(`${missionId} mission missing`);
+    return;
+  }
+
+  if (mission.rewardLeaves <= 0) {
+    failures.push(`${missionId} mission must reward leaves`);
+  }
+});
+
 if (failures.length > 0) {
   console.error(JSON.stringify({ ok: false, failures }, null, 2));
   process.exit(1);
@@ -60,7 +80,8 @@ console.log(
       firstSeedGrowthSeconds: firstSeed.baseGrowthSeconds,
       firstUpgradeLeavesAvailable: firstHarvestLeaves + firstAlbumLeaves,
       firstUpgradeCost,
-      firstExpeditionSeconds: firstExpedition.durationSeconds
+      firstExpeditionSeconds: firstExpedition.durationSeconds,
+      firstLoopMissions: requiredMissionIds
     },
     null,
     2

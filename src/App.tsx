@@ -3,7 +3,7 @@ import { getAssetPath, loadAssetManifest } from "./lib/assetManifest";
 import { createNewSave, localSaveStore } from "./lib/persistence";
 import { content, getStarterSeeds } from "./lib/content";
 import { readEvents, trackEvent } from "./lib/analytics";
-import type { AssetManifest, ExpeditionState, PlayerSave, PlotState, SeedDefinition } from "./types/game";
+import type { AssetManifest, ExpeditionState, MissionDefinition, PlayerSave, PlotState, SeedDefinition } from "./types/game";
 
 const FIRST_UPGRADE_COST = 25;
 const FIRST_EXPEDITION_ID = "quick_scout";
@@ -20,6 +20,10 @@ export default function App() {
     loadAssetManifest()
       .then(setManifest)
       .catch((error: unknown) => setManifestError(error instanceof Error ? error.message : "manifest load failed"));
+
+    if (getLocalQaReset()) {
+      localSaveStore.clear();
+    }
 
     const qaOfflineMinutes = getLocalQaOfflineMinutes();
     const existingSave = qaOfflineMinutes ? createOfflineQaSave(qaOfflineMinutes) : localSaveStore.load();
@@ -53,6 +57,7 @@ export default function App() {
   const expeditionReady = save?.activeExpedition
     ? isExpeditionReady(save.activeExpedition, now) && !save.activeExpedition.claimed
     : false;
+  const visibleMissions = save ? content.missions.slice(0, 4) : [];
 
   function commit(mutator: (draft: PlayerSave) => void) {
     setSave((current) => {
@@ -72,6 +77,7 @@ export default function App() {
     commit((draft) => {
       draft.selectedStarterSeedId = seed.id;
       draft.plots[0] = plantSeedInPlot(draft.plots[0], seed);
+      advanceMission(draft, "tutorial_plant_first_seed");
       trackEvent("starter_seed_selected", { seedId: seed.id });
       trackEvent("seed_planted", { seedId: seed.id, plotIndex: 0 });
     });
@@ -108,6 +114,8 @@ export default function App() {
       if (!draft.discoveredCreatureIds.includes(creatureId)) {
         draft.discoveredCreatureIds.push(creatureId);
       }
+      advanceMission(draft, "tutorial_harvest_first_creature");
+      advanceMission(draft, "daily_harvest_5");
       trackEvent("creature_harvested", { seedId: seed.id, creatureId, leaves: seed.baseHarvestLeaves });
     });
   }
@@ -120,6 +128,7 @@ export default function App() {
 
       draft.claimedAlbumMilestoneIds.push("album_1");
       draft.leaves += 25;
+      advanceMission(draft, "tutorial_claim_album_reward");
       trackEvent("album_reward_claimed", { milestoneId: "album_1", leaves: 25 });
     });
   }
@@ -155,7 +164,24 @@ export default function App() {
         durationSeconds: expedition.durationSeconds,
         claimed: false
       };
+      advanceMission(draft, "daily_start_expedition");
       trackEvent("expedition_started", { expeditionId: expedition.id, creatureId: firstCreatureId });
+    });
+  }
+
+  function claimMissionReward(mission: MissionDefinition) {
+    commit((draft) => {
+      if (draft.claimedMissionIds.includes(mission.id)) {
+        return;
+      }
+
+      if ((draft.missionProgress[mission.id] ?? 0) < mission.target) {
+        return;
+      }
+
+      draft.claimedMissionIds.push(mission.id);
+      draft.leaves += mission.rewardLeaves;
+      trackEvent("mission_reward_claimed", { missionId: mission.id, leaves: mission.rewardLeaves });
     });
   }
 
@@ -292,6 +318,33 @@ export default function App() {
             </div>
           )}
         </section>
+        <section className="mission-board">
+          <h3>오늘의 의뢰</h3>
+          <div className="mission-list">
+            {visibleMissions.map((mission) => {
+              const progress = Math.min(save?.missionProgress[mission.id] ?? 0, mission.target);
+              const ready = progress >= mission.target;
+              const claimed = save?.claimedMissionIds.includes(mission.id) ?? false;
+
+              return (
+                <article className={claimed ? "mission-row mission-claimed" : "mission-row"} key={mission.id}>
+                  <div>
+                    <span>{mission.type === "tutorial" ? "튜토리얼" : "일일"}</span>
+                    <strong>{mission.label}</strong>
+                    <progress max={mission.target} value={progress} />
+                  </div>
+                  <button
+                    disabled={!ready || claimed}
+                    onClick={() => claimMissionReward(mission)}
+                    type="button"
+                  >
+                    {claimed ? "완료" : `+${mission.rewardLeaves} 잎`}
+                  </button>
+                </article>
+              );
+            })}
+          </div>
+        </section>
         <section className="expedition-card">
           <h3>원정</h3>
           {!save?.activeExpedition && (
@@ -321,6 +374,16 @@ export default function App() {
 
 function getSeed(seedId: string | undefined): SeedDefinition | undefined {
   return seedId ? content.seeds.find((seed) => seed.id === seedId) : undefined;
+}
+
+function advanceMission(draft: PlayerSave, missionId: string, amount = 1) {
+  const mission = content.missions.find((item) => item.id === missionId);
+  if (!mission || draft.claimedMissionIds.includes(mission.id)) {
+    return;
+  }
+
+  const current = draft.missionProgress[mission.id] ?? 0;
+  draft.missionProgress[mission.id] = Math.min(mission.target, current + amount);
 }
 
 function plantSeedInPlot(plot: PlotState, seed: SeedDefinition): PlotState {
@@ -378,6 +441,14 @@ function getLocalQaOfflineMinutes(): number | null {
   }
 
   return Math.min(minutes, 8 * 60);
+}
+
+function getLocalQaReset(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaReset") === "1";
 }
 
 function createOfflineQaSave(minutesAway: number): PlayerSave {
