@@ -63,6 +63,25 @@ Goal: implement the minimum game loop from first seed to first comeback.
 | Expedition reward loop | review | `src/App.tsx`, `items/0013-expedition-reward-loop.md` | Ready expeditions can be claimed for configured rewards and verified through Browser Use |
 | Bottom tab surfaces | review | `src/App.tsx`, `items/0014-bottom-tab-surfaces.md` | Bottom tabs switch panel content for garden, seeds, album, expedition, and mock shop surfaces |
 
+## Milestone 3.5: Design System + First 5 Minutes UX Rescue
+
+Goal: improve the first 5 minutes without adding new game systems, while preserving the existing save/content/analytics contracts.
+
+| Step | Status | Output | Acceptance Criteria |
+| --- | --- | --- | --- |
+| Devil's advocate UX review | review | `docs/UX_REVIEW_20260427.md` | Current UI risks are recorded by severity with allowed/forbidden change boundaries |
+| Design system foundation | review | `docs/DESIGN_SYSTEM.md`, `items/0015-design-system-foundation.md` | Usage rules precede tokens; first-session loop, bottom tabs, mock shop safety, and Browser Use evidence requirements are explicit |
+| Mobile HUD rescue implementation | review | `src/App.tsx`, `src/styles.css` | 360x800 garden viewport, 1280x900 desktop, 하단 5개 탭, 상점 CTA 안전성이 `reports/visual/design-system-*-20260427.*`로 검증됨 |
+
+## Milestone 3.6: Phaser Playfield Runtime + Sprite Pipeline Spike
+
+Goal: prove whether the garden must become a real 2D playfield, instead of continuing React DOM dashboard polish.
+
+| Step | Status | Output | Acceptance Criteria |
+| --- | --- | --- | --- |
+| Game Studio structure review | review | `docs/GAME_STUDIO_REVIEW_20260427.md` | CSS-only polish limits, Phaser playfield boundary, and sprite state needs are recorded |
+| Phaser playfield runtime spike | proposed | `items/0016-phaser-playfield-runtime-spike.md` | React owns save/HUD/panels; Phaser or equivalent 2D scene owns central garden playfield without changing save/content/analytics contracts |
+
 ## Milestone 4: Economy and Verification
 
 Goal: make the game measurable and tunable.
@@ -94,8 +113,8 @@ Goal: make the project increasingly self-managing.
 
 ## Current Next Action
 
-Browser Use 기반 스크린샷 자동화, 핵심 클릭 플로우, 오프라인 복귀, 모바일/데스크톱 캡처가 확인됐다.
+Game Studio 기준 재검토 결과, 더 이상의 CSS-only polish보다 별도 세션의 deep interview가 우선이다.
 
-1. Bottom tab surfaces 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
-2. 자동 머지 trial을 통해 main에 반영한다.
-3. Browser Use로 하단 탭 전환과 mock 상점 표면을 클릭 검증하고 다음 게임 기능 작업을 `items/` 단위로 등록한다.
+1. OMX CLI/tmux 환경에서 `$deep-interview --deep`로 게임 시스템, 내부 기획, runtime, sprite pipeline, monetization mock을 다시 정렬한다.
+2. deep interview 결과를 기준으로 `items/0016-phaser-playfield-runtime-spike.md`를 유지/수정/폐기한다.
+3. 이후 중앙 정원 Phaser spike와 sprite-pipeline 첫 batch를 실행한다.

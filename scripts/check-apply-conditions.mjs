@@ -20,6 +20,8 @@ const requiredPaths = [
   "items/0012-seed-purchase-loop.md",
   "items/0013-expedition-reward-loop.md",
   "items/0014-bottom-tab-surfaces.md",
+  "items/0015-design-system-foundation.md",
+  "items/0016-phaser-playfield-runtime-spike.md",
   "reports/audits/audit_20260427.md",
   "reports/audits/pr_automation_20260427.md",
   "reports/reviews/README.md"
