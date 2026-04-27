@@ -61,3 +61,7 @@ Status: pass | warn | fail
 `npm run check:docs`는 필수 문서, 필수 디렉터리, 로드맵의 Milestone 5 추적 문구를 확인한다.
 
 `npm run check:apply`는 apply gate 문서, dashboard, roadmap 상태, 필수 보고 위치가 존재하는지 확인한다.
+
+`npm run update:dashboard`는 로드맵과 주요 파일 존재 여부를 기준으로 `docs/DASHBOARD.md`를 다시 생성한다.
+
+`npm run check:dashboard`는 생성 결과와 현재 `docs/DASHBOARD.md`가 일치하는지 확인한다.

@@ -7,7 +7,10 @@ const requiredDocs = [
   "docs/ECONOMY_PHASE0.md",
   "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
   "docs/BROWSER_QA.md",
-  "docs/PR_AUTOMATION.md"
+  "docs/PR_AUTOMATION.md",
+  "docs/REPORTING.md",
+  "docs/APPLY_CONDITIONS.md",
+  "docs/DASHBOARD.md"
 ];
 
 const index = fs.readFileSync("docs/README.md", "utf8");
@@ -34,7 +37,7 @@ for (const dir of requiredDirs) {
   }
 }
 
-for (const phrase of ["Milestone 5", "review report", "audit report"]) {
+for (const phrase of ["Milestone 5", "review report", "audit report", "dashboard"]) {
   if (!roadmap.includes(phrase)) {
     failures.push(`docs/ROADMAP.md missing phrase: ${phrase}`);
   }

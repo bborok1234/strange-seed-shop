@@ -7,6 +7,7 @@ const requiredPaths = [
   "docs/DASHBOARD.md",
   "docs/APPLY_CONDITIONS.md",
   "items/0001-pr-automation-trial.md",
+  "items/0002-dashboard-auto-update.md",
   "reports/audits/audit_20260427.md",
   "reports/reviews/README.md"
 ];
