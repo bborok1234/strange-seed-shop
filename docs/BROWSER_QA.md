@@ -41,8 +41,13 @@ Browser Use를 시도하기 전에 별도 Playwright 설치, Computer Use, macOS
 - 2026-04-27: Chrome DevTools Protocol로 360x900 viewport 캡처 저장: `reports/visual/chrome-cdp-mobile-360-20260427.png`
 - 2026-04-27: Chrome DevTools Protocol로 1280x900 viewport 캡처 저장: `reports/visual/chrome-cdp-desktop-1280-20260427.png`
 - 2026-04-27: `npm run check:browser-qa`로 Browser Use 우선 원칙과 시각 QA 증거 파일 존재를 검증하도록 고정했다.
+- 2026-04-27: Milestone 3.5 디자인 시스템 기반 UI rescue의 검증 기준을 `docs/DESIGN_SYSTEM.md`, `docs/UX_REVIEW_20260427.md`, `items/0015-design-system-foundation.md`에 고정했다.
+- 2026-04-27: Browser Use `iab` backend로 `qaReset=1` 첫 세션 루프를 다시 확인했다. 스타터 씨앗 선택, 탭 성장, 수확, 도감 보상, 두 번째 밭 열기가 유지된다.
+- 2026-04-27: Chrome DevTools Protocol로 360x800 garden viewport 캡처 저장: `reports/visual/design-system-mobile-360-20260427.png`
+- 2026-04-27: Chrome DevTools Protocol로 1280x900 viewport 캡처 저장: `reports/visual/design-system-desktop-1280-20260427.png`
+- 2026-04-27: Browser Use `iab` backend로 하단 5개 탭 전환과 상점 bottom sheet를 확인했다: `reports/visual/design-system-tabs-20260427.png`
+- 2026-04-27: Browser Use `iab` backend로 상점 CTA 클릭 후 URL 무변경, 결제/외부 이동/계정 흐름 없음, raw `mock` 텍스트 미노출, 이벤트 카운트 +1을 확인했다: `reports/visual/design-system-shop-click-20260427.md`
 
 ## 남은 QA
 
-- Browser Use와 CDP 캡처 증거는 Phase 0 기준을 통과했다.
-- 다음 QA는 신규 UI 또는 새 게임 루프가 추가될 때 갱신한다.
+- 다음 QA는 새 게임 시스템, 저장 구조, 콘텐츠 schema, analytics event 이름을 변경하는 작업이 생길 때 갱신한다.

@@ -12,7 +12,11 @@ const requiredPaths = [
   "reports/visual/expedition-reward-loop-20260427.png",
   "reports/visual/bottom-tab-surfaces-20260427.png",
   "reports/visual/chrome-cdp-mobile-360-20260427.png",
-  "reports/visual/chrome-cdp-desktop-1280-20260427.png"
+  "reports/visual/chrome-cdp-desktop-1280-20260427.png",
+  "reports/visual/design-system-mobile-360-20260427.png",
+  "reports/visual/design-system-desktop-1280-20260427.png",
+  "reports/visual/design-system-tabs-20260427.png",
+  "reports/visual/design-system-shop-click-20260427.md"
 ];
 
 const requiredPhrases = new Map([
@@ -27,7 +31,11 @@ const requiredPhrases = new Map([
       "reports/visual/mission-reward-loop-20260427.png",
       "reports/visual/seed-purchase-loop-20260427.png",
       "reports/visual/expedition-reward-loop-20260427.png",
-      "reports/visual/bottom-tab-surfaces-20260427.png"
+      "reports/visual/bottom-tab-surfaces-20260427.png",
+      "reports/visual/design-system-mobile-360-20260427.png",
+      "reports/visual/design-system-desktop-1280-20260427.png",
+      "reports/visual/design-system-tabs-20260427.png",
+      "reports/visual/design-system-shop-click-20260427.md"
     ]
   ],
   [
@@ -39,6 +47,10 @@ const requiredPhrases = new Map([
       "reports/visual/seed-purchase-loop-20260427.png",
       "reports/visual/expedition-reward-loop-20260427.png",
       "reports/visual/bottom-tab-surfaces-20260427.png",
+      "reports/visual/design-system-mobile-360-20260427.png",
+      "reports/visual/design-system-desktop-1280-20260427.png",
+      "reports/visual/design-system-tabs-20260427.png",
+      "reports/visual/design-system-shop-click-20260427.md",
       "Chrome DevTools Protocol은 viewport 고정 캡처에만 보조로 사용했다"
     ]
   ]

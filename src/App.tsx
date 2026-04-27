@@ -26,6 +26,9 @@ export default function App() {
   const [now, setNow] = useState(() => Date.now());
   const [offlineMessage, setOfflineMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<MainTab>("garden");
+  const [tappedPlotIndex, setTappedPlotIndex] = useState<number | null>(null);
+  const [rewardPulse, setRewardPulse] = useState<number | null>(null);
+  const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
 
   useEffect(() => {
     loadAssetManifest()
@@ -49,6 +52,7 @@ export default function App() {
       nextSave.lastSeenAt = new Date().toISOString();
       nextSave.updatedAt = nextSave.lastSeenAt;
       setOfflineMessage(`자리를 비운 동안 잎 ${offlineLeaves}개를 모았습니다.`);
+      triggerRewardPulse();
       trackEvent("offline_reward_claimed", { leaves: offlineLeaves });
     }
     localSaveStore.save(nextSave);
@@ -75,6 +79,7 @@ export default function App() {
   const visibleMissions = save ? content.missions : [];
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
+  const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
 
   function commit(mutator: (draft: PlayerSave) => void) {
     setSave((current) => {
@@ -142,6 +147,8 @@ export default function App() {
       plot.tapProgressSeconds += seed.tapSecondsRemoved * (1 + draft.tapPowerLevel * 0.12);
       trackEvent("growth_tapped", { seedId: seed.id, plotIndex });
     });
+    setTappedPlotIndex(plotIndex);
+    window.setTimeout(() => setTappedPlotIndex(null), 220);
   }
 
   function harvest(plotIndex: number) {
@@ -166,6 +173,7 @@ export default function App() {
       advanceMission(draft, "daily_harvest_5");
       trackEvent("creature_harvested", { seedId: seed.id, creatureId, leaves: seed.baseHarvestLeaves });
     });
+    triggerRewardPulse();
   }
 
   function claimAlbumReward() {
@@ -179,6 +187,7 @@ export default function App() {
       advanceMission(draft, "tutorial_claim_album_reward");
       trackEvent("album_reward_claimed", { milestoneId: "album_1", leaves: 25 });
     });
+    triggerRewardPulse();
   }
 
   function buyFirstUpgrade() {
@@ -231,6 +240,7 @@ export default function App() {
       draft.leaves += mission.rewardLeaves;
       trackEvent("mission_reward_claimed", { missionId: mission.id, leaves: mission.rewardLeaves });
     });
+    triggerRewardPulse();
   }
 
   function claimExpedition() {
@@ -249,6 +259,34 @@ export default function App() {
       });
       draft.activeExpedition = undefined;
     });
+    triggerRewardPulse();
+  }
+
+  function triggerRewardPulse() {
+    setRewardPulse(Date.now());
+    window.setTimeout(() => setRewardPulse(null), 420);
+  }
+
+  function markAssetBroken(assetId: string) {
+    setBrokenAssetIds((current) => {
+      const next = new Set(current);
+      next.add(assetId);
+      return next;
+    });
+  }
+
+  function renderAsset(assetId: string, fallbackText: string) {
+    const path = brokenAssetIds.has(assetId) ? "" : getAssetPath(manifest, assetId);
+
+    if (!path) {
+      return (
+        <span className="asset-fallback" aria-hidden="true">
+          {fallbackText}
+        </span>
+      );
+    }
+
+    return <img alt="" onError={() => markAssetBroken(assetId)} src={path} />;
   }
 
   return (
@@ -259,10 +297,11 @@ export default function App() {
       >
         <div className="top-bar">
           <div>
-            <p className="eyebrow">Phase 0 Playable Loop</p>
+            <p className="eyebrow">mobile garden HUD</p>
             <h1>이상한 씨앗상회</h1>
+            <p className="objective-chip">{nextAction.title}</p>
           </div>
-          <div className="currency-cluster" aria-label="현재 재화">
+          <div className={rewardPulse ? "currency-cluster reward-pop" : "currency-cluster"} aria-label="현재 재화">
             <span>잎 {save?.leaves ?? 0}</span>
             <span>꽃가루 {save?.pollen ?? 0}</span>
             <span>재료 {save?.materials ?? 0}</span>
@@ -278,10 +317,17 @@ export default function App() {
               const ready = seed ? isPlotReady(plot, seed, now) : false;
               const progress = seed ? getGrowthProgress(plot, seed, now) : 0;
               const locked = plot.index >= (save?.plotCount ?? 1);
+              const plotClassName = getPlotClassName({
+                locked,
+                ready,
+                hasSeed: Boolean(seed),
+                hasOpenPlot: !locked && !seed,
+                tapped: tappedPlotIndex === plot.index
+              });
 
               return (
                 <button
-                  className={ready ? "plot plot-ready" : locked ? "plot plot-locked" : "plot"}
+                  className={plotClassName}
                   disabled={locked || !seed}
                   key={plot.index}
                   onClick={() => (ready ? harvest(plot.index) : tapGrowth(plot.index))}
@@ -289,8 +335,9 @@ export default function App() {
                 >
                   {seed ? (
                     <>
-                      <img alt="" src={getAssetPath(manifest, seed.iconAssetId)} />
-                      <span>{ready ? "수확" : `${Math.round(progress)}%`}</span>
+                      {renderAsset(seed.iconAssetId, "씨앗")}
+                      <span>{ready ? "수확 가능" : `${Math.round(progress)}% 성장`}</span>
+                      <progress max={100} value={Math.round(progress)} />
                     </>
                   ) : (
                     <span>{locked ? "잠김" : "빈 밭"}</span>
@@ -301,11 +348,13 @@ export default function App() {
           </div>
 
           <aside className="starter-panel">
-            <p className="panel-label">{save?.selectedStarterSeedId ? "다음 행동" : "스타터 씨앗"}</p>
+            <p className="panel-label">다음 행동</p>
+            <h2>{nextAction.title}</h2>
+            <p className="action-copy">{nextAction.body}</p>
             {!save?.selectedStarterSeedId &&
               starterSeeds.map((seed) => (
                 <button className="seed-row" key={seed.id} onClick={() => selectStarter(seed)} type="button">
-                  <img alt="" src={getAssetPath(manifest, seed.iconAssetId)} />
+                  {renderAsset(seed.iconAssetId, "씨앗")}
                   <span>{seed.name}</span>
                   <strong>{seed.baseGrowthSeconds}s</strong>
                 </button>
@@ -318,7 +367,7 @@ export default function App() {
 
                   return (
                     <article className="seed-shop-row" key={seed.id}>
-                      <img alt="" src={getAssetPath(manifest, seed.iconAssetId)} />
+                      {renderAsset(seed.iconAssetId, "씨앗")}
                       <div>
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개</span>
@@ -363,10 +412,10 @@ export default function App() {
               {tab.label}
             </button>
           ))}
-        </nav>
+          </nav>
       </section>
 
-      <section className="dev-panel" aria-label="스캐폴드 검증 정보">
+      <section className={`dev-panel tab-${activeTab}`} aria-label="스캐폴드 검증 정보">
         <h2>{MAIN_TABS.find((tab) => tab.id === activeTab)?.label}</h2>
         <ul className="status-list">
           <li>asset {manifest ? Object.keys(manifest.assets).length : "loading"}</li>
@@ -407,7 +456,7 @@ export default function App() {
             <div className="seed-inventory-list">
               {availableSeeds.map((seed) => (
                 <article className="seed-inventory-row" key={seed.id}>
-                  <img alt="" src={getAssetPath(manifest, seed.iconAssetId)} />
+                  {renderAsset(seed.iconAssetId, "씨앗")}
                   <div>
                     <strong>{seed.name}</strong>
                     <span>보유 {save?.seedInventory[seed.id] ?? 0}개</span>
@@ -428,7 +477,7 @@ export default function App() {
               <div className="creature-list">
                 {discoveredCreatures.map((creature) => (
                   <figure key={creature.id}>
-                    <img alt="" src={getAssetPath(manifest, creature.assetId)} />
+                    {renderAsset(creature.assetId, "생명체")}
                     <figcaption>{creature.name}</figcaption>
                   </figure>
                 ))}
@@ -467,10 +516,11 @@ export default function App() {
             <div className="shop-list">
               {content.shopSurfaces.map((surface) => (
                 <article className="shop-card" key={surface.id}>
-                  <img alt="" src={getAssetPath(manifest, surface.assetId)} />
+                  {renderAsset(surface.assetId, "상품")}
                   <div>
                     <strong>{surface.name}</strong>
-                    <span>{surface.realPayment ? "결제" : "mock"}</span>
+                    <span>{getShopSurfaceDescription(surface.id)}</span>
+                    <small>{surface.realPayment ? "결제 준비 중" : "실제 결제 없음"}</small>
                   </div>
                   <button
                     onClick={() => trackEvent("shop_surface_clicked", { surfaceId: surface.id, realPayment: surface.realPayment })}
@@ -487,6 +537,95 @@ export default function App() {
       </section>
     </main>
   );
+}
+
+function getNextAction(save: PlayerSave | null, activePlot: PlotState | undefined, firstAlbumRewardReady: boolean | null) {
+  if (!save) {
+    return {
+      title: "정원 준비 중",
+      body: "씨앗과 정원 기록을 불러오고 있습니다."
+    };
+  }
+
+  if (!save.selectedStarterSeedId) {
+    return {
+      title: "첫 씨앗을 고르세요",
+      body: "씨앗 하나를 심으면 정원이 바로 자라기 시작합니다."
+    };
+  }
+
+  if (activePlot) {
+    const seed = getSeed(activePlot.seedId);
+    return {
+      title: seed ? `${seed.name} 성장 중` : "성장 중",
+      body: "밭을 눌러 시간을 줄이고, 100%가 되면 수확하세요."
+    };
+  }
+
+  if (firstAlbumRewardReady) {
+    return {
+      title: "도감 보상 받기",
+      body: "첫 생명체 발견 보상으로 두 번째 밭에 가까워집니다."
+    };
+  }
+
+  if (save.plotCount < 2) {
+    return {
+      title: "두 번째 밭 열기",
+      body: "잎을 모아 정원의 반복 속도를 올리세요."
+    };
+  }
+
+  return {
+    title: "씨앗을 다시 심으세요",
+    body: "씨앗 탭에서 보유 씨앗을 확인하고 빈 밭에 심을 수 있습니다."
+  };
+}
+
+function getPlotClassName({
+  locked,
+  ready,
+  hasSeed,
+  hasOpenPlot,
+  tapped
+}: {
+  locked: boolean;
+  ready: boolean;
+  hasSeed: boolean;
+  hasOpenPlot: boolean;
+  tapped: boolean;
+}) {
+  const classNames = ["plot"];
+
+  if (locked) {
+    classNames.push("plot-locked");
+  }
+  if (ready) {
+    classNames.push("plot-ready");
+  }
+  if (hasSeed && !ready) {
+    classNames.push("plot-growing");
+  }
+  if (hasOpenPlot) {
+    classNames.push("plot-open");
+  }
+  if (tapped) {
+    classNames.push("plot-tapped");
+  }
+
+  return classNames.join(" ");
+}
+
+function getShopSurfaceDescription(surfaceId: string): string {
+  if (surfaceId === "starter_pack_mock") {
+    return "초반 정원 성장을 빠르게 상상해보는 미리보기";
+  }
+
+  if (surfaceId === "monthly_license_mock") {
+    return "매일 돌아오고 싶은 온실 혜택 미리보기";
+  }
+
+  return "관심 확인용 미리보기";
 }
 
 function getSeed(seedId: string | undefined): SeedDefinition | undefined {

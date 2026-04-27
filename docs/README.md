@@ -9,6 +9,10 @@ This folder is the durable memory for `이상한 씨앗상회` and the autonomou
 | `ROADMAP.md` | Milestone tracking, next tasks, current status | Before deciding what to do next |
 | `PRD_PHASE0.md` | Phase 0 product requirements and UX contract | Before product or UI work |
 | `ECONOMY_PHASE0.md` | Phase 0 economy tables, formulas, tuning levers | Before economy/config work |
+| `DESIGN_SYSTEM.md` | Phase 0 UI usage rules, token draft, and visual QA contract | Before UI or visual hierarchy work |
+| `UX_REVIEW_20260427.md` | Devil's advocate UX review and Milestone 3.5 guardrails | Before design-system implementation |
+| `GAME_STUDIO_REVIEW_20260427.md` | Game Studio 기준 playfield/runtime/sprite 구조 재검토 | Before changing the game runtime or sprite pipeline |
+| `SESSION_HANDOFF_20260427.md` | 이번 세션의 작업 맥락과 다음 deep interview 시작점 | Before starting a new session |
 | `AUTONOMOUS_PROJECT_OPERATING_MODEL.md` | ClawSweeper-inspired agent operating model | Before automation/project-management work |
 | `BROWSER_QA.md` | Browser Use 기반 로컬 브라우저 검증 절차 | Before visual/mobile QA |
 | `PR_AUTOMATION.md` | PR 자동 검증과 제한적 자동 머지 정책 | Before CI/PR automation work |
@@ -44,6 +48,12 @@ Phase 0 validates:
 - offline reward comeback
 - mock monetization interest
 - static asset pipeline
+
+Current Game Studio direction:
+
+- React remains the app shell, save/content/analytics owner, DOM HUD, and secondary panel layer.
+- The central garden should be tested as a Phaser 2D playfield before more CSS polish.
+- Sprite work should shift from static card art toward state strips: seed idle, tap response, growth, harvest-ready, and reward FX.
 
 ## Current Operating Summary
 
