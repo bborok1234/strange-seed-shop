@@ -38,13 +38,14 @@ starter seed의 첫 수확 피크를 정적 spritesheet strip으로 증명한다
 - [x] `scripts/check-sprite-batch.mjs`가 sprite batch와 evidence를 검증한다.
 - [x] Browser/visual QA evidence가 `reports/visual/`에 저장된다.
 - [x] `npm run check:all`이 통과한다.
-- [ ] draft PR이 생성되고 main에는 자동 merge하지 않는다.
+- [x] draft PR이 생성되고 main에는 자동 merge하지 않는다. (`PR #20`)
 
 ## 검증 기록
 
 - 정적 sprite dimensions: `npm run check:sprite-batch` 통과
 - Loop/economy/content/build: `npm run check:all` 통과
 - Visual evidence: `reports/visual/sprite-batch-browser-use-fallback-20260427.md`, `reports/visual/sprite-batch-mobile-360-20260427.png`, `reports/visual/sprite-batch-desktop-1280-20260427.png`
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/20
 
 ## 후속 위험
 

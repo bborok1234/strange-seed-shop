@@ -182,7 +182,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 `docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 다음 안전한 운영사 작업은 **Milestone 6: Ralph-Session Operating Company v0**의 첫 항목부터 시작해, 장시간 실행을 주장하기 전에 heartbeat, stuck report, CI repair loop, issue-to-PR evidence를 먼저 만드는 것이다.
 
-1. PR #20의 starter sprite batch는 최신 `main` 위에서 충돌 해결과 `npm run check:all` 검증을 완료한 뒤 별도 review/merge 흐름으로 닫는다.
+1. PR #20의 starter sprite batch는 최신 `main` 위에서 충돌 해결과 `npm run check:all` 검증을 완료해 Draft PR #20으로 갱신하고, 별도 review/merge 흐름으로 닫는다.
 2. 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선하며, starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
 3. 운영사 작업은 `items/`와 `reports/operations/`를 확장해 Ralph-session 안에서 issue -> branch -> commit -> draft PR -> local check -> GitHub check -> follow-up까지 한 번의 닫힌 루프를 증명한다.
 4. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
