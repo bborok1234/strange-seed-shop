@@ -37,7 +37,8 @@ const rows = [
   ["자동 머지 거버넌스", stepStatus("Document automerge governance", "review"), "`npm run check:governance`"],
   ["PR 자동화 audit", stepStatus("Accumulate PR automation audit", "review"), "`npm run check:audit`"],
   ["Branch protection audit", stepStatus("Audit Branch protection status", "review"), "`reports/audits/branch_protection_20260427.md`"],
-  ["PR audit 생성기", stepStatus("Generate PR automation audit", "review"), "`npm run update:pr-audit`"]
+  ["PR audit 생성기", stepStatus("Generate PR automation audit", "review"), "`npm run update:pr-audit`"],
+  ["Browser Use QA gate", stepStatus("Browser Use QA gate", "review"), "`npm run check:browser-qa`"]
 ];
 
 const commands = [
@@ -47,6 +48,7 @@ const commands = [
   "npm run check:docs",
   "npm run check:apply",
   "npm run check:dashboard",
+  "npm run check:browser-qa",
   "npm run check:governance",
   "npm run check:audit",
   "npm run build"

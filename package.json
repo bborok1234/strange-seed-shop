@@ -15,11 +15,12 @@
     "update:dashboard": "node scripts/update-dashboard.mjs",
     "check:dashboard": "node scripts/update-dashboard.mjs --check",
     "capture:local": "node scripts/capture-local-screenshot.mjs",
+    "check:browser-qa": "node scripts/check-browser-qa.mjs",
     "check:automerge": "node scripts/check-automerge-readiness.mjs",
     "check:governance": "node scripts/check-governance.mjs",
     "update:pr-audit": "node scripts/update-pr-automation-audit.mjs",
     "check:audit": "node scripts/check-audit-reports.mjs",
-    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run check:dashboard && npm run check:governance && npm run check:audit && npm run build"
+    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run check:dashboard && npm run check:browser-qa && npm run check:governance && npm run check:audit && npm run build"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
