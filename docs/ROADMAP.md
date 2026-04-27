@@ -84,6 +84,7 @@ Goal: make the project increasingly self-managing.
 | Create dashboard | review | `docs/DASHBOARD.md`, `scripts/update-dashboard.mjs` | Current status, next item, verification health visible and checkable |
 | Document automerge governance | review | `docs/AUTOMERGE_GOVERNANCE.md`, `scripts/check-governance.mjs` | Branch protection, required checks, and `ENABLE_AGENT_AUTOMERGE` operating rules are checkable |
 | Accumulate PR automation audit | review | `reports/audits/pr_automation_20260427.md`, `scripts/check-audit-reports.mjs` | PR #1-#5 automation results are preserved and checkable |
+| Audit Branch protection status | review | `reports/audits/branch_protection_20260427.md` | `main.protected=false` and Branch protection access limit are recorded |
 
 ## Current Next Action
 
@@ -91,4 +92,4 @@ Browser Use 기반 스크린샷 자동화, 핵심 클릭 플로우, 오프라인
 
 1. 이 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
 2. 자동 머지 trial을 통해 main에 반영한다.
-3. 다음 자동화 항목으로 GitHub Branch protection 설정 여부를 audit한다.
+3. 다음 자동화 항목으로 PR 결과 audit 자동 생성 스크립트를 추가한다.

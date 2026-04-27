@@ -35,7 +35,8 @@ const rows = [
   ["Apply gate", fileStatus(["docs/APPLY_CONDITIONS.md", "scripts/check-apply-conditions.mjs"]), "`npm run check:apply`"],
   ["대시보드 자동 갱신", stepStatus("Create dashboard", "review"), "`npm run update:dashboard`, `npm run check:dashboard`"],
   ["자동 머지 거버넌스", stepStatus("Document automerge governance", "review"), "`npm run check:governance`"],
-  ["PR 자동화 audit", stepStatus("Accumulate PR automation audit", "review"), "`npm run check:audit`"]
+  ["PR 자동화 audit", stepStatus("Accumulate PR automation audit", "review"), "`npm run check:audit`"],
+  ["Branch protection audit", stepStatus("Audit Branch protection status", "review"), "`reports/audits/branch_protection_20260427.md`"]
 ];
 
 const commands = [
@@ -74,8 +75,8 @@ ${rows.map((row) => `| ${row[0]} | ${row[1]} | ${row[2]} |`).join("\n")}
 
 ## 다음 작업
 
-1. GitHub Branch protection 설정 여부를 별도 audit로 확인한다.
-2. PR 결과 audit을 \`gh\` 조회 기반으로 생성하는 스크립트를 추가한다.
+1. PR 결과 audit을 \`gh\` 조회 기반으로 생성하는 스크립트를 추가한다.
+2. Branch protection 사용 가능 조건이 바뀌면 required checks 설정을 별도 승인으로 진행한다.
 3. 다음 게임 기능 작업을 \`items/\` 단위로 등록한다.
 
 ## 검증 상태
@@ -86,7 +87,7 @@ ${commands.map((command) => `| \`${command}\` | tracked |`).join("\n")}
 
 ## 열린 위험
 
-- \`ENABLE_AGENT_AUTOMERGE\` 저장소 변수와 Branch protection은 문서화됐지만 실제 GitHub 설정 변경은 별도 승인 대상이다.
+- \`main\` Branch protection은 현재 비활성이고 private repo 제한으로 endpoint가 HTTP 403을 반환했다. \`ENABLE_AGENT_AUTOMERGE\`는 계속 비활성 상태로 유지한다.
 - Browser Use QA는 Phase 0 기준을 통과했지만, 신규 UI가 생기면 같은 캡처 절차로 갱신해야 한다.
 - 대시보드는 자동 생성되지만 검증 결과 자체를 실행해 저장하지는 않는다.
 `;
