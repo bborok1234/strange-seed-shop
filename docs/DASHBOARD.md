@@ -19,13 +19,14 @@ Updated: 2026-04-27
 | PR 자동화 audit | review | `npm run check:audit` |
 | Branch protection audit | review | `reports/audits/branch_protection_20260427.md` |
 | PR audit 생성기 | review | `npm run update:pr-audit` |
+| Browser Use QA gate | review | `npm run check:browser-qa` |
 
 ## 로드맵 요약
 
 | 상태 | 개수 |
 | --- | ---: |
 | done | 24 |
-| review | 9 |
+| review | 10 |
 | todo | 0 |
 | blocked | 0 |
 
@@ -45,6 +46,7 @@ Updated: 2026-04-27
 | `npm run check:docs` | tracked |
 | `npm run check:apply` | tracked |
 | `npm run check:dashboard` | tracked |
+| `npm run check:browser-qa` | tracked |
 | `npm run check:governance` | tracked |
 | `npm run check:audit` | tracked |
 | `npm run build` | tracked |

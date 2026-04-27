@@ -13,6 +13,7 @@ const requiredPaths = [
   "items/0005-pr-automation-audit.md",
   "items/0006-branch-protection-audit.md",
   "items/0007-generated-pr-audit.md",
+  "items/0008-browser-use-qa-gate.md",
   "reports/audits/audit_20260427.md",
   "reports/audits/pr_automation_20260427.md",
   "reports/reviews/README.md"
@@ -21,7 +22,7 @@ const requiredPaths = [
 const requiredPhrases = new Map([
   ["docs/APPLY_CONDITIONS.md", ["Apply gate", "중단 조건", "검증 증거"]],
   ["docs/DASHBOARD.md", ["현재 상태", "다음 작업", "검증 상태"]],
-  ["docs/ROADMAP.md", ["Create apply conditions", "Create dashboard"]]
+  ["docs/ROADMAP.md", ["Create apply conditions", "Create dashboard", "Browser Use QA gate"]]
 ]);
 
 const failures = [];
