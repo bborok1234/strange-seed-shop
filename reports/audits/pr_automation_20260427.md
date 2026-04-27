@@ -19,11 +19,13 @@ PR 단위 자동 체크와 GitHub native auto-merge trial이 실제 저장소에
 | PR #5 | 자동 머지 운영 거버넌스 추가 | `codex/automerge-governance` | MERGED | CI pass, Agent Automerge Trial pass, main CI pass |
 | PR #6 | PR 자동화 결과 audit 누적 | `codex/pr-automation-audit` | MERGED | CI pass, Agent Automerge Trial pass, main CI pass |
 | PR #7 | Branch protection 상태 audit | `codex/branch-protection-audit` | MERGED | CI pass, Agent Automerge Trial pass, main CI pass |
+| PR #8 | PR audit 생성을 gh 조회로 자동화 | `codex/generated-pr-audit` | MERGED | CI pass, Agent Automerge Trial pass, main CI pass |
+| PR #9 | Browser Use QA를 자동 검증 루프에 고정 | `codex/browser-use-qa-gate` | MERGED | CI pass, Agent Automerge Trial pass, main CI pass |
 
 ## 확인한 조건
 
-- 자동화 PR 수: 7
-- 병합된 자동화 PR 수: 7
+- 자동화 PR 수: 9
+- 병합된 자동화 PR 수: 9
 - 모든 자동화 PR은 base branch가 `main`이었다: yes
 - 모든 자동화 PR은 `codex/` 또는 `agent/` branch prefix를 사용했다: yes
 - 모든 병합 PR은 `agent-automerge` label을 사용해 Agent Automerge Trial workflow를 통과한 PR이다.

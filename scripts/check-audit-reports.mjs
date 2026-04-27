@@ -7,6 +7,7 @@ const requiredPaths = [
   "items/0005-pr-automation-audit.md",
   "items/0006-branch-protection-audit.md",
   "items/0007-generated-pr-audit.md",
+  "items/0009-pr-audit-refresh-9.md",
   "scripts/update-pr-automation-audit.mjs"
 ];
 
@@ -22,6 +23,10 @@ const requiredPhrases = new Map([
       "PR #5",
       "PR #6",
       "PR #7",
+      "PR #8",
+      "PR #9",
+      "자동화 PR 수: 9",
+      "병합된 자동화 PR 수: 9",
       "MERGED",
       "Agent Automerge Trial",
       "main CI"
@@ -32,7 +37,8 @@ const requiredPhrases = new Map([
     ["protected: false", "HTTP 403", "ENABLE_AGENT_AUTOMERGE", "required checks", "warn"]
   ],
   ["items/0005-pr-automation-audit.md", ["Status: verified", "PR 자동화 결과", "npm run check:audit"]],
-  ["items/0007-generated-pr-audit.md", ["Status: verified", "PR 결과 audit 자동 생성", "npm run update:pr-audit"]]
+  ["items/0007-generated-pr-audit.md", ["Status: verified", "PR 결과 audit 자동 생성", "npm run update:pr-audit"]],
+  ["items/0009-pr-audit-refresh-9.md", ["Status: verified", "PR #9", "npm run update:pr-audit"]]
 ]);
 
 const failures = [];
