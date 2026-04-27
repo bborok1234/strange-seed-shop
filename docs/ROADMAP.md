@@ -68,7 +68,7 @@ Goal: make the game measurable and tunable.
 | Economy simulator | done | `scripts/simulate-economy.mjs` | 1h/D1/D3/D7 projections exist and run with `npm run simulate:economy` |
 | Analytics event log | done | `src/lib/analytics.ts` | Required first-loop events are tracked to localStorage |
 | Acceptance test checklist | done | `docs/ACCEPTANCE_PHASE0.md` | PRD and economy criteria are listed with verification commands |
-| Visual/mobile QA | review | `reports/visual/browser_use_qa_20260427.md` | Browser Use로 로컬 앱 접속, 모바일 스크린샷, 첫 수확/업그레이드/원정 시작 클릭 플로우 확인 |
+| Visual/mobile QA | done | `reports/visual/browser_use_qa_20260427.md` | Browser Use 오프라인 복귀 QA, 360px 모바일 캡처, 1280px 데스크톱 캡처까지 확인 |
 
 ## Milestone 5: Autonomous Project Management Scaffold
 
@@ -85,8 +85,8 @@ Goal: make the project increasingly self-managing.
 
 ## Current Next Action
 
-Browser Use 기반 스크린샷 자동화와 핵심 클릭 플로우는 사용 가능하다는 것이 확인됐다.
+Browser Use 기반 스크린샷 자동화, 핵심 클릭 플로우, 오프라인 복귀, 모바일/데스크톱 캡처가 확인됐다.
 
-1. Browser Use로 오프라인 복귀와 데스크톱 폭 QA를 추가 확인한다.
-2. 이 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
-3. 대시보드 자동 갱신을 PR 단위로 검증한다.
+1. 이 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
+2. 자동 머지 trial을 통해 main에 반영한다.
+3. 다음 자동화 항목으로 브랜치 보호/`ENABLE_AGENT_AUTOMERGE` 운영 정책을 문서화한다.
