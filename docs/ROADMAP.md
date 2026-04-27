@@ -79,8 +79,9 @@ Goal: prove whether the garden must become a real 2D playfield, instead of conti
 
 | Step | Status | Output | Acceptance Criteria |
 | --- | --- | --- | --- |
-| Game Studio structure review | review | `docs/GAME_STUDIO_REVIEW_20260427.md` | CSS-only polish limits, Phaser playfield boundary, and sprite state needs are recorded |
-| Phaser central garden playfield transition | active | `items/0016-phaser-playfield-runtime-spike.md`, `src/App.tsx`, `src/styles.css`, `scripts/check-game-loop.mjs` | React owns save/HUD/panels; Phaser or equivalent 2D scene owns central garden playfield; first loop preserves named creature ownership -> album reward -> second plot/next collection goal without changing save/content/analytics contracts |
+| Game Studio structure review | done | `docs/GAME_STUDIO_REVIEW_20260427.md`, `.omx/specs/deep-interview-game-studio-realignment.md` | CSS-only polish limits, Phaser playfield boundary, and sprite state needs are recorded |
+| Phaser central garden playfield transition | done | `items/0016-phaser-playfield-runtime-spike.md`, `src/game/playfield/GardenPlayfieldHost.tsx`, `src/game/playfield/GardenScene.ts`, `vite.config.ts`, `reports/visual/phaser-playfield-*-20260427.png` | React owns save/HUD/panels; Phaser owns central garden playfield; first loop preserves named creature ownership -> album reward -> second plot/next collection goal; Phaser runtime is lazy-loaded into a separate chunk |
+| Phaser risk closure and PR readiness | review | `reports/audits/phaser_risk_resolution_20260427.md`, `reports/visual/phaser-browser-use-fallback-20260427.md` | Bundle warning, Browser Use fallback reason, and team shutdown risk are recorded before draft PR publication |
 
 ## Milestone 4: Economy and Verification
 
@@ -113,9 +114,9 @@ Goal: make the project increasingly self-managing.
 
 ## Current Next Action
 
-Deep interview 결과가 `.omx/specs/deep-interview-game-studio-realignment.md`에 정리되었고, Phase 0 핵심 재미 축은 **이름 있는 생명체 수집**으로 고정되었다.
+Deep interview 결과가 `.omx/specs/deep-interview-game-studio-realignment.md`에 정리되었고, Phase 0 핵심 재미 축은 **이름 있는 생명체 수집**으로 고정되었다. `items/0016-phaser-playfield-runtime-spike.md`는 Phaser 중앙 playfield 전환과 남은 리스크 정리까지 완료되었다.
 
-1. `items/0016-phaser-playfield-runtime-spike.md`를 중앙 garden Phaser playfield 전환 item으로 실행한다.
-2. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 계속 보존한다.
-3. sprite-pipeline 첫 batch는 starter seed의 idle/tap/grow/ready/harvest/reward 피크에 집중한다.
+1. 현재 변경은 `codex/` 브랜치 draft PR로 올리고, PR/issue 링크를 감사 증거에 남긴다.
+2. 다음 제품 작업은 sprite-pipeline 첫 batch다: starter seed의 idle/tap/grow/ready/harvest/reward 피크에 집중한다.
+3. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 계속 보존한다.
 4. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.

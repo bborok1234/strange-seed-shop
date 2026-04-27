@@ -975,6 +975,25 @@ h1 {
   height: 100% !important;
 }
 
+.playfield-loading,
+.playfield-error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: var(--space-4);
+  color: #fff7d2;
+  font-size: 13px;
+  font-weight: 900;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(11, 28, 18, 0.42);
+}
+
+.playfield-error {
+  color: #ffe1c7;
+}
+
 @media (max-width: 900px) {
   .garden-playfield-host {
     min-height: clamp(188px, 31dvh, 310px);

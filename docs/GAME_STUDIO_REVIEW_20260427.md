@@ -147,3 +147,14 @@ React App
 ## 다음 작업
 
 `items/0016-phaser-playfield-runtime-spike.md`를 중앙 garden playfield 전환 item으로 실행한다. Phaser dependency 추가 시 bundle risk와 DOM fallback을 기록하고, 첫 sprite batch는 starter seed의 성장/수확/소유 피크에 집중한다. 이 작업 전에는 `items/0015-design-system-foundation.md`의 CSS polish를 완성하려고 더 밀지 않는다. 0015는 guardrail과 임시 HUD rescue로 남기고, 0016이 게임 느낌을 결정하는 구조 검증 역할을 맡는다.
+
+## 2026-04-27 실행 결과
+
+- 중앙 garden은 Phaser playfield boundary로 전환되었다.
+- React는 save/content/economy/analytics/HUD/panel/mock monetization 책임을 유지한다.
+- Phaser scene은 plot snapshot을 렌더링하고 `tap_growth`, `harvest_plot` action만 React로 emit한다.
+- 첫 수확은 잎 보상보다 이름 있는 생명체 소유 reveal을 먼저 보여준다.
+- Phaser runtime은 lazy import와 `phaser-runtime` chunk로 분리했다.
+- Browser Use가 현재 도구 표면에서 실행되지 않은 사유와 CDP 대체 증거는 `reports/visual/phaser-browser-use-fallback-20260427.md`에 남겼다.
+
+다음 Game Studio 작업은 전체 생명체 sprite가 아니라 starter seed의 idle/tap/grow/ready/harvest/reward state strip batch로 제한한다.

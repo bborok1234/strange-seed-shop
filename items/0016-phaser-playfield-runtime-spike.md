@@ -1,6 +1,6 @@
 # Phaser central garden playfield transition
 
-Status: active
+Status: verified
 Owner: agent
 Created: 2026-04-27
 Updated: 2026-04-27
@@ -101,3 +101,14 @@ React may reject invalid actions based on save/content state. Phaser renders dis
 ## Relationship to 0015
 
 `0015-design-system-foundation`은 UI guardrail과 임시 HUD rescue다. `0016`은 게임 느낌의 핵심 원인인 playfield/runtime 부재를 해결하는 전환 item이다. 0016이 성공하면 0015의 CSS polish는 Phaser host 주변 HUD 규칙으로 축소한다.
+
+## Completion Evidence
+
+- Phaser dependency was added and isolated behind `src/game/playfield/GardenPlayfieldHost.tsx`.
+- `GardenPlayfieldHost` lazy-loads `phaser` and `GardenScene`, keeping the initial React shell separate from the Phaser runtime chunk.
+- `GardenScene` renders central plot states and emits only `tap_growth` / `harvest_plot` actions back to React.
+- React still owns save, content, economy, analytics, HUD, panels, and mock monetization click intent.
+- Named creature ownership reveal remains the first harvest reward peak before album reward and second plot.
+- Visual evidence: `reports/visual/phaser-playfield-mobile-360-20260427.png`, `reports/visual/phaser-playfield-desktop-1280-20260427.png`, `reports/visual/phaser-playfield-after-loop-20260427.png`.
+- Risk evidence: `reports/audits/phaser_risk_resolution_20260427.md`, `reports/visual/phaser-browser-use-fallback-20260427.md`.
+- Verification: `npm run build`, `npm run check:browser-qa`, final `npm run check:all`.
