@@ -38,5 +38,13 @@ Browser Use 스킬을 먼저 읽었으나 현재 세션에는 Node REPL `js` 도
 
 ## 후속
 
-- Browser Use Node REPL 노출 문제는 GitHub issue로 추적한다.
-- 이 PR은 draft로 열어 CI와 PR automation evidence를 받는다.
+- Browser Use Node REPL 노출 문제는 GitHub issue #18로 추적한다.
+- 작업 완료 시 PR/issue 생성 누락 방지는 GitHub issue #17로 추적한다.
+- Draft PR #19에서 CI와 PR automation evidence를 받는다.
+
+## GitHub 운영 증거
+
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/19
+- 후속 운영 이슈: https://github.com/bborok1234/strange-seed-shop/issues/17
+- Browser Use 복구 이슈: https://github.com/bborok1234/strange-seed-shop/issues/18
+- PR에는 `agent-automerge` label을 붙였지만 draft 상태라 native merge 단계는 실행되지 않는다.
