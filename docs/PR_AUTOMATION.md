@@ -11,6 +11,8 @@
 - `.github/workflows/ci.yml`: PR과 `main` push에서 전체 프로젝트 검증을 실행한다.
 - `.github/workflows/agent-automerge.yml`: PR이 자동 머지 후보인지 확인하고, 저장소 변수가 켜진 경우에만 GitHub native auto-merge를 요청한다.
 - `scripts/check-automerge-readiness.mjs`: 자동 머지 후보 조건을 로컬에서도 검증할 수 있게 만든다.
+- `docs/AUTOMERGE_GOVERNANCE.md`: Branch protection, required checks, 저장소 변수 운영 조건을 정의한다.
+- `scripts/check-governance.mjs`: 자동 머지 운영 정책과 workflow 핵심 문구가 유지되는지 확인한다.
 
 ## 자동 머지 후보 조건
 
@@ -31,12 +33,29 @@
 
 자동 머지는 GitHub native auto-merge 요청으로 제한한다. 즉시 강제 병합하지 않고, 브랜치 보호 규칙과 필수 체크가 있다면 그 규칙을 따른다.
 
+## Branch protection과 required checks
+
+저장소 변수 `ENABLE_AGENT_AUTOMERGE`를 켜기 전에 `main` Branch protection을 먼저 설정한다.
+
+권장 required checks:
+
+- `Verify game baseline`
+- `Check automerge eligibility`
+
+브랜치 보호 없이 `ENABLE_AGENT_AUTOMERGE`를 켜면 auto-merge 요청이 사실상 즉시 병합으로 이어질 수 있다. 따라서 자동 머지 활성화는 `docs/AUTOMERGE_GOVERNANCE.md`의 중단 조건과 저장소 변수 운영 기준을 따른다.
+
 ## 로컬 검증
 
 일반 검증:
 
 ```bash
 npm run check:all
+```
+
+정책 점검:
+
+```bash
+npm run check:governance
 ```
 
 자동 머지 후보 판정 예시:
@@ -55,4 +74,4 @@ npm run check:automerge
 - `items/` 작업 기록과 PR을 연결한다.
 - 자동 머지 실행 결과를 `reports/audits/`에 남긴다.
 - 브랜치 보호 규칙과 required checks를 GitHub 설정에서 명시한다.
-- 첫 실험 PR은 문서 또는 테스트 전용 변경으로 제한한다.
+- `ENABLE_AGENT_AUTOMERGE`를 켜는 경우 audit report에 변경 시각과 이유를 남긴다.
