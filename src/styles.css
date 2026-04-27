@@ -399,6 +399,74 @@ h1 {
   font-weight: 700;
 }
 
+.ownership-card {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: 8px;
+  border: 1px solid rgba(151, 105, 25, 0.28);
+  border-radius: var(--radius-control);
+  background: linear-gradient(135deg, rgba(255, 247, 198, 0.94), rgba(230, 242, 205, 0.88));
+}
+
+.ownership-card strong,
+.ownership-card span {
+  display: block;
+}
+
+.ownership-card strong {
+  color: var(--action-primary-strong);
+}
+
+.ownership-card span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ownership-portrait img,
+.ownership-portrait .asset-fallback {
+  width: 48px;
+  height: 48px;
+  margin: 0;
+}
+
+.harvest-reveal {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background: rgba(19, 35, 26, 0.48);
+}
+
+.harvest-reveal-card {
+  width: min(320px, calc(100vw - 32px));
+  padding: var(--space-4);
+  border: 1px solid rgba(246, 212, 94, 0.52);
+  border-radius: var(--radius-panel);
+  background: var(--surface-panel);
+  box-shadow: 0 22px 60px rgba(10, 24, 16, 0.32);
+  text-align: center;
+  animation: creature-reveal 280ms ease-out;
+}
+
+.harvest-reveal-card img,
+.harvest-reveal-card .asset-fallback {
+  width: 112px;
+  height: 112px;
+  margin: 0 auto var(--space-2);
+}
+
+.harvest-reveal-card p {
+  margin: var(--space-2) 0 0;
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
 .bottom-tabs {
   position: absolute;
   z-index: 5;
@@ -652,6 +720,17 @@ h1 {
     transform: translateY(-3px) scale(1.08);
   }
   100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes creature-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
     transform: translateY(0) scale(1);
   }
 }

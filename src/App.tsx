@@ -81,6 +81,7 @@ export default function App() {
   const visibleMissions = save ? content.missions : [];
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
+  const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
   const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
 
   function commit(mutator: (draft: PlayerSave) => void) {
@@ -370,7 +371,7 @@ export default function App() {
                   <strong>{seed.baseGrowthSeconds}s</strong>
                 </button>
               ))}
-            {save?.selectedStarterSeedId && (
+            {showSeedShop && (
               <div className="seed-shop-list">
                 {availableSeeds.map((seed) => {
                   const owned = save.seedInventory[seed.id] ?? 0;
