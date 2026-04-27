@@ -3,7 +3,17 @@ import { getAssetPath, loadAssetManifest } from "./lib/assetManifest";
 import { createNewSave, localSaveStore } from "./lib/persistence";
 import { content, getStarterSeeds } from "./lib/content";
 import { readEvents, trackEvent } from "./lib/analytics";
-import type { AssetManifest, ExpeditionState, MissionDefinition, PlayerSave, PlotState, SeedDefinition } from "./types/game";
+import { GardenPlayfieldHost } from "./game/playfield";
+import type { GardenPlayfieldAction, GardenPlayfieldViewModel, GardenPlotView } from "./game/playfield";
+import type {
+  AssetManifest,
+  CreatureDefinition,
+  ExpeditionState,
+  MissionDefinition,
+  PlayerSave,
+  PlotState,
+  SeedDefinition
+} from "./types/game";
 
 type MainTab = "garden" | "seeds" | "album" | "expedition" | "shop";
 
@@ -26,8 +36,8 @@ export default function App() {
   const [now, setNow] = useState(() => Date.now());
   const [offlineMessage, setOfflineMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<MainTab>("garden");
-  const [tappedPlotIndex, setTappedPlotIndex] = useState<number | null>(null);
   const [rewardPulse, setRewardPulse] = useState<number | null>(null);
+  const [harvestReveal, setHarvestReveal] = useState<CreatureDefinition | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
 
   useEffect(() => {
@@ -70,6 +80,7 @@ export default function App() {
   const discoveredCreatures = save
     ? content.creatures.filter((creature) => save.discoveredCreatureIds.includes(creature.id))
     : [];
+  const firstOwnedCreature = discoveredCreatures[0];
   const activePlot = save?.plots.find((plot) => plot.seedId && !plot.harvestedCreatureId);
   const firstAlbumRewardReady =
     save && save.discoveredCreatureIds.length > 0 && !save.claimedAlbumMilestoneIds.includes("album_1");
@@ -79,7 +90,9 @@ export default function App() {
   const visibleMissions = save ? content.missions : [];
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
+  const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
   const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
+  const gardenViewModel = useMemo(() => buildGardenPlayfieldViewModel(save, now), [save, now]);
 
   function commit(mutator: (draft: PlayerSave) => void) {
     setSave((current) => {
@@ -147,11 +160,15 @@ export default function App() {
       plot.tapProgressSeconds += seed.tapSecondsRemoved * (1 + draft.tapPowerLevel * 0.12);
       trackEvent("growth_tapped", { seedId: seed.id, plotIndex });
     });
-    setTappedPlotIndex(plotIndex);
-    window.setTimeout(() => setTappedPlotIndex(null), 220);
   }
 
   function harvest(plotIndex: number) {
+    const currentPlot = save?.plots[plotIndex];
+    const currentSeed = getSeed(currentPlot?.seedId);
+    const harvestedCreature = currentSeed && currentPlot && isPlotReady(currentPlot, currentSeed, now)
+      ? getCreature(currentSeed.creaturePool[0])
+      : undefined;
+
     commit((draft) => {
       const plot = draft.plots[plotIndex];
       const seed = getSeed(plot.seedId);
@@ -173,6 +190,9 @@ export default function App() {
       advanceMission(draft, "daily_harvest_5");
       trackEvent("creature_harvested", { seedId: seed.id, creatureId, leaves: seed.baseHarvestLeaves });
     });
+    if (harvestedCreature) {
+      setHarvestReveal(harvestedCreature);
+    }
     triggerRewardPulse();
   }
 
@@ -262,6 +282,17 @@ export default function App() {
     triggerRewardPulse();
   }
 
+  function handlePlayfieldAction(action: GardenPlayfieldAction) {
+    if (action.type === "tap_growth") {
+      tapGrowth(action.plotIndex);
+      return;
+    }
+
+    if (action.type === "harvest_plot") {
+      harvest(action.plotIndex);
+    }
+  }
+
   function triggerRewardPulse() {
     setRewardPulse(Date.now());
     window.setTimeout(() => setRewardPulse(null), 420);
@@ -311,41 +342,7 @@ export default function App() {
         {offlineMessage && <div className="toast">{offlineMessage}</div>}
 
         <section className="garden-panel" aria-label="정원">
-          <div className="plot-grid" aria-label="밭 9칸">
-            {save?.plots.map((plot) => {
-              const seed = getSeed(plot.seedId);
-              const ready = seed ? isPlotReady(plot, seed, now) : false;
-              const progress = seed ? getGrowthProgress(plot, seed, now) : 0;
-              const locked = plot.index >= (save?.plotCount ?? 1);
-              const plotClassName = getPlotClassName({
-                locked,
-                ready,
-                hasSeed: Boolean(seed),
-                hasOpenPlot: !locked && !seed,
-                tapped: tappedPlotIndex === plot.index
-              });
-
-              return (
-                <button
-                  className={plotClassName}
-                  disabled={locked || !seed}
-                  key={plot.index}
-                  onClick={() => (ready ? harvest(plot.index) : tapGrowth(plot.index))}
-                  type="button"
-                >
-                  {seed ? (
-                    <>
-                      {renderAsset(seed.iconAssetId, "씨앗")}
-                      <span>{ready ? "수확 가능" : `${Math.round(progress)}% 성장`}</span>
-                      <progress max={100} value={Math.round(progress)} />
-                    </>
-                  ) : (
-                    <span>{locked ? "잠김" : "빈 밭"}</span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+          <GardenPlayfieldHost onAction={handlePlayfieldAction} viewModel={gardenViewModel} />
 
           <aside className="starter-panel">
             <p className="panel-label">다음 행동</p>
@@ -359,7 +356,7 @@ export default function App() {
                   <strong>{seed.baseGrowthSeconds}s</strong>
                 </button>
               ))}
-            {save?.selectedStarterSeedId && (
+            {save && showSeedShop && (
               <div className="seed-shop-list">
                 {availableSeeds.map((seed) => {
                   const owned = save.seedInventory[seed.id] ?? 0;
@@ -384,6 +381,16 @@ export default function App() {
               </div>
             )}
             {activePlot && <p className="hint">밭을 누르면 성장이 빨라지고, 100%가 되면 수확합니다.</p>}
+            {firstOwnedCreature && (
+              <article className="ownership-card" aria-label="첫 생명체 소유 증거">
+                <div className="ownership-portrait">{renderAsset(firstOwnedCreature.assetId, "생명체")}</div>
+                <div>
+                  <p className="panel-label">내 첫 생명체</p>
+                  <strong>{firstOwnedCreature.name}</strong>
+                  <span>{getCreatureRoleLabel(firstOwnedCreature.role)} · {firstOwnedCreature.albumHint}</span>
+                </div>
+              </article>
+            )}
             {firstAlbumRewardReady && (
               <button className="primary-action" onClick={claimAlbumReward} type="button">
                 첫 도감 보상 받기 +25 잎
@@ -414,6 +421,20 @@ export default function App() {
           ))}
           </nav>
       </section>
+
+      {harvestReveal && (
+        <section className="harvest-reveal" aria-live="polite" aria-label="첫 생명체 획득">
+          <div className="harvest-reveal-card">
+            {renderAsset(harvestReveal.assetId, "생명체")}
+            <p className="panel-label">새 생명체 소유</p>
+            <h2>{harvestReveal.name}</h2>
+            <p>{getCreatureRoleLabel(harvestReveal.role)} · {harvestReveal.albumHint}</p>
+            <button className="primary-action" onClick={() => setHarvestReveal(null)} type="button">
+              도감에 기록하기
+            </button>
+          </div>
+        </section>
+      )}
 
       <section className={`dev-panel tab-${activeTab}`} aria-label="스캐폴드 검증 정보">
         <h2>{MAIN_TABS.find((tab) => tab.id === activeTab)?.label}</h2>
@@ -564,56 +585,91 @@ function getNextAction(save: PlayerSave | null, activePlot: PlotState | undefine
 
   if (firstAlbumRewardReady) {
     return {
-      title: "도감 보상 받기",
-      body: "첫 생명체 발견 보상으로 두 번째 밭에 가까워집니다."
+      title: "첫 생명체를 소유했습니다",
+      body: "이름 있는 생명체가 도감에 들어왔습니다. 보상을 받아 두 번째 밭을 여세요."
     };
   }
 
   if (save.plotCount < 2) {
     return {
       title: "두 번째 밭 열기",
-      body: "잎을 모아 정원의 반복 속도를 올리세요."
+      body: "다음 생명체를 키울 공간입니다. 잎을 모아 정원 확장을 시작하세요."
     };
   }
 
   return {
-    title: "씨앗을 다시 심으세요",
-    body: "씨앗 탭에서 보유 씨앗을 확인하고 빈 밭에 심을 수 있습니다."
+    title: "다음 생명체를 준비하세요",
+    body: "씨앗을 구매해 열린 밭에 심고, 다음 도감 칸을 채우세요."
   };
 }
 
-function getPlotClassName({
-  locked,
-  ready,
-  hasSeed,
-  hasOpenPlot,
-  tapped
-}: {
-  locked: boolean;
-  ready: boolean;
-  hasSeed: boolean;
-  hasOpenPlot: boolean;
-  tapped: boolean;
-}) {
-  const classNames = ["plot"];
-
-  if (locked) {
-    classNames.push("plot-locked");
-  }
-  if (ready) {
-    classNames.push("plot-ready");
-  }
-  if (hasSeed && !ready) {
-    classNames.push("plot-growing");
-  }
-  if (hasOpenPlot) {
-    classNames.push("plot-open");
-  }
-  if (tapped) {
-    classNames.push("plot-tapped");
+function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number): GardenPlayfieldViewModel {
+  if (!save) {
+    return {
+      headline: "정원 준비 중",
+      hint: "씨앗과 정원 기록을 불러오고 있습니다",
+      updatedAt: now,
+      plots: Array.from({ length: 9 }, (_, index): GardenPlotView => ({
+        index,
+        state: index === 0 ? "empty" : "locked",
+        label: index === 0 ? "첫 밭" : "잠김",
+        progressPercent: 0
+      }))
+    };
   }
 
-  return classNames.join(" ");
+  const plots = save.plots.map((plot): GardenPlotView => {
+    const locked = plot.index >= save.plotCount;
+    const seed = getSeed(plot.seedId);
+
+    if (locked) {
+      return {
+        index: plot.index,
+        state: "locked",
+        label: `${plot.index + 1}번 밭`,
+        progressPercent: 0
+      };
+    }
+
+    if (!seed) {
+      return {
+        index: plot.index,
+        state: "empty",
+        label: plot.index === 0 ? "첫 밭" : `${plot.index + 1}번 밭`,
+        progressPercent: 0
+      };
+    }
+
+    const progressPercent = getGrowthProgress(plot, seed, now);
+    const secondsRemaining = Math.max(0, Math.ceil(seed.baseGrowthSeconds * (1 - progressPercent / 100)));
+
+    return {
+      index: plot.index,
+      state: progressPercent >= 100 ? "ready" : "growing",
+      label: seed.name,
+      family: seed.family,
+      progressPercent,
+      secondsRemaining
+    };
+  });
+
+  const readyCount = plots.filter((plot) => plot.state === "ready").length;
+  const growingPlot = plots.find((plot) => plot.state === "growing");
+  const openCount = plots.filter((plot) => plot.state === "empty").length;
+
+  return {
+    plots,
+    headline: readyCount > 0 ? "수확할 씨앗이 반짝입니다" : growingPlot ? "밭을 눌러 성장을 밀어주세요" : "새 씨앗을 기다리는 정원",
+    hint:
+      readyCount > 0
+        ? "빛나는 밭을 누르면 React가 수확을 처리합니다"
+        : growingPlot
+          ? `${growingPlot.secondsRemaining ?? 0}초 남음 · 탭하면 시간이 줄어듭니다`
+          : openCount > 0
+            ? "오른쪽 HUD에서 씨앗을 골라 심으세요"
+            : "두 번째 밭을 열어 반복 속도를 올리세요",
+    updatedAt: now
+  };
 }
 
 function getShopSurfaceDescription(surfaceId: string): string {
@@ -630,6 +686,22 @@ function getShopSurfaceDescription(surfaceId: string): string {
 
 function getSeed(seedId: string | undefined): SeedDefinition | undefined {
   return seedId ? content.seeds.find((seed) => seed.id === seedId) : undefined;
+}
+
+function getCreature(creatureId: string | undefined): CreatureDefinition | undefined {
+  return creatureId ? content.creatures.find((creature) => creature.id === creatureId) : undefined;
+}
+
+function getCreatureRoleLabel(role: CreatureDefinition["role"]): string {
+  const labels: Record<CreatureDefinition["role"], string> = {
+    gatherer: "수집가",
+    alchemist: "연금술사",
+    guardian: "수호자",
+    merchant: "상인",
+    mascot: "마스코트"
+  };
+
+  return labels[role];
 }
 
 function advanceMission(draft: PlayerSave, missionId: string, amount = 1) {

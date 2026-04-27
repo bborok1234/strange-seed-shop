@@ -16,7 +16,11 @@ const requiredPaths = [
   "reports/visual/design-system-mobile-360-20260427.png",
   "reports/visual/design-system-desktop-1280-20260427.png",
   "reports/visual/design-system-tabs-20260427.png",
-  "reports/visual/design-system-shop-click-20260427.md"
+  "reports/visual/design-system-shop-click-20260427.md",
+  "reports/visual/phaser-browser-use-fallback-20260427.md",
+  "reports/visual/phaser-playfield-mobile-360-20260427.png",
+  "reports/visual/phaser-playfield-desktop-1280-20260427.png",
+  "reports/visual/phaser-playfield-after-loop-20260427.png"
 ];
 
 const requiredPhrases = new Map([
@@ -35,7 +39,21 @@ const requiredPhrases = new Map([
       "reports/visual/design-system-mobile-360-20260427.png",
       "reports/visual/design-system-desktop-1280-20260427.png",
       "reports/visual/design-system-tabs-20260427.png",
-      "reports/visual/design-system-shop-click-20260427.md"
+      "reports/visual/design-system-shop-click-20260427.md",
+      "reports/visual/phaser-browser-use-fallback-20260427.md",
+      "reports/visual/phaser-playfield-mobile-360-20260427.png",
+      "reports/visual/phaser-playfield-desktop-1280-20260427.png",
+      "reports/visual/phaser-playfield-after-loop-20260427.png"
+    ]
+  ],
+  [
+    "reports/visual/phaser-browser-use-fallback-20260427.md",
+    [
+      "accepted fallback",
+      "Node REPL `js`",
+      "reports/visual/phaser-playfield-mobile-360-20260427.png",
+      "reports/visual/phaser-playfield-desktop-1280-20260427.png",
+      "reports/visual/phaser-playfield-after-loop-20260427.png"
     ]
   ],
   [

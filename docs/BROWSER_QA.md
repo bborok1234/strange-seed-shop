@@ -48,6 +48,11 @@ Browser Use를 시도하기 전에 별도 Playwright 설치, Computer Use, macOS
 - 2026-04-27: Browser Use `iab` backend로 하단 5개 탭 전환과 상점 bottom sheet를 확인했다: `reports/visual/design-system-tabs-20260427.png`
 - 2026-04-27: Browser Use `iab` backend로 상점 CTA 클릭 후 URL 무변경, 결제/외부 이동/계정 흐름 없음, raw `mock` 텍스트 미노출, 이벤트 카운트 +1을 확인했다: `reports/visual/design-system-shop-click-20260427.md`
 
+- 2026-04-27: Phaser playfield 전환 작업에서는 `browser-use:browser` 스킬을 먼저 읽었으나 현재 도구 표면에 Node REPL `js` 실행 도구가 노출되지 않아 폴백 사유를 기록했다: `reports/visual/phaser-browser-use-fallback-20260427.md`
+- 2026-04-27: Chrome DevTools Protocol로 Phaser playfield 360x900 viewport 캡처 저장: `reports/visual/phaser-playfield-mobile-360-20260427.png`
+- 2026-04-27: Chrome DevTools Protocol로 Phaser playfield 1280x900 viewport 캡처 저장: `reports/visual/phaser-playfield-desktop-1280-20260427.png`
+- 2026-04-27: Chrome DevTools Protocol로 Phaser playfield 첫 loop 이후 캡처 저장: `reports/visual/phaser-playfield-after-loop-20260427.png`
+
 ## 남은 QA
 
 - 다음 QA는 새 게임 시스템, 저장 구조, 콘텐츠 schema, analytics event 이름을 변경하는 작업이 생길 때 갱신한다.

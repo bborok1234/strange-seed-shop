@@ -1,0 +1,218 @@
+import * as Phaser from "phaser";
+import type { GardenPlayfieldActionHandler, GardenPlayfieldViewModel, GardenPlotView } from "./types";
+
+const FAMILY_COLORS: Record<NonNullable<GardenPlotView["family"]>, { fill: number; accent: number; text: string }> = {
+  herb: { fill: 0x8ccf72, accent: 0x2f6f45, text: "#213f2e" },
+  candy: { fill: 0xf2a7c9, accent: 0xaa4f7a, text: "#4e2438" },
+  lunar: { fill: 0x9fb5f5, accent: 0x4b5eaa, text: "#242b58" }
+};
+
+const STATE_COLORS: Record<GardenPlotView["state"], { fill: number; stroke: number; label: string }> = {
+  locked: { fill: 0x87907f, stroke: 0x66705e, label: "잠김" },
+  empty: { fill: 0xe9d99a, stroke: 0x9c7d43, label: "빈 밭" },
+  growing: { fill: 0xaedc82, stroke: 0x4f803f, label: "성장" },
+  ready: { fill: 0xf7d65f, stroke: 0xb37724, label: "수확" }
+};
+
+export class GardenScene extends Phaser.Scene {
+  private readonly onActionRef: { current: GardenPlayfieldActionHandler };
+  private viewModel: GardenPlayfieldViewModel | null = null;
+  private root?: Phaser.GameObjects.Container;
+  private lastTapAt = 0;
+
+  constructor(onActionRef: { current: GardenPlayfieldActionHandler }) {
+    super("GardenScene");
+    this.onActionRef = onActionRef;
+  }
+
+  create() {
+    this.scale.on("resize", () => this.renderPlayfield());
+    this.renderPlayfield();
+  }
+
+  setViewModel(viewModel: GardenPlayfieldViewModel) {
+    this.viewModel = viewModel;
+    if (this.sys.isActive()) {
+      this.renderPlayfield();
+    }
+  }
+
+  private renderPlayfield() {
+    this.root?.destroy(true);
+    this.root = this.add.container(0, 0);
+
+    const width = Math.max(320, Number(this.scale.width) || 640);
+    const height = Math.max(220, Number(this.scale.height) || 360);
+    const graphics = this.add.graphics();
+    this.root.add(graphics);
+
+    graphics.fillStyle(0x2f5b42, 0.2);
+    graphics.fillRoundedRect(8, 8, width - 16, height - 16, 28);
+    graphics.lineStyle(2, 0xf9efc7, 0.35);
+    graphics.strokeRoundedRect(10, 10, width - 20, height - 20, 26);
+
+    graphics.fillStyle(0xe8f2c5, 0.35);
+    graphics.fillEllipse(width * 0.5, height * 0.62, width * 0.92, height * 0.54);
+
+    this.addText(width / 2, 26, this.viewModel?.headline ?? "정원 준비 중", {
+      color: "#fff7d2",
+      fontSize: "18px",
+      fontStyle: "800"
+    }).setOrigin(0.5, 0).setShadow(0, 2, "rgba(22, 45, 31, 0.4)", 3);
+
+    const plots = this.viewModel?.plots ?? [];
+    const gap = width < 420 ? 8 : 12;
+    const top = height < 300 ? 58 : 70;
+    const usableWidth = width - 36;
+    const usableHeight = height - top - 46;
+    const cellWidth = (usableWidth - gap * 2) / 3;
+    const cellHeight = Math.max(48, (usableHeight - gap * 2) / 3);
+
+    plots.slice(0, 9).forEach((plot) => {
+      const col = plot.index % 3;
+      const row = Math.floor(plot.index / 3);
+      const x = 18 + col * (cellWidth + gap);
+      const y = top + row * (cellHeight + gap);
+      this.drawPlot(plot, x, y, cellWidth, cellHeight);
+    });
+
+    this.addText(width / 2, height - 26, this.viewModel?.hint ?? "밭을 눌러 성장과 수확을 진행하세요", {
+      color: "#fff7d2",
+      fontSize: width < 420 ? "12px" : "13px",
+      fontStyle: "700"
+    }).setOrigin(0.5, 0.5).setAlpha(0.92);
+  }
+
+  private drawPlot(plot: GardenPlotView, x: number, y: number, width: number, height: number) {
+    const stateColor = STATE_COLORS[plot.state];
+    const familyColor = plot.family ? FAMILY_COLORS[plot.family] : undefined;
+    const fill = familyColor?.fill ?? stateColor.fill;
+    const stroke = plot.state === "ready" ? STATE_COLORS.ready.stroke : familyColor?.accent ?? stateColor.stroke;
+    const alpha = plot.state === "locked" ? 0.48 : 0.88;
+    const group = this.add.container(x, y);
+    this.root?.add(group);
+
+    const tile = this.add.graphics();
+    tile.fillStyle(fill, alpha);
+    tile.fillRoundedRect(0, 0, width, height, 16);
+    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, plot.state === "locked" ? 0.35 : 0.82);
+    tile.strokeRoundedRect(1, 1, width - 2, height - 2, 16);
+    group.add(tile);
+
+    const mound = this.add.graphics();
+    mound.fillStyle(0x795435, plot.state === "locked" ? 0.26 : 0.48);
+    mound.fillEllipse(width / 2, height * 0.67, width * 0.62, Math.max(13, height * 0.18));
+    group.add(mound);
+
+    if (plot.state === "growing" || plot.state === "ready") {
+      this.drawPlant(group, plot, width, height, familyColor?.accent ?? 0x3c7041);
+    }
+
+    if (plot.state === "ready") {
+      const glow = this.add.graphics();
+      glow.lineStyle(3, 0xfff0a3, 0.66 + Math.sin(this.time.now / 260) * 0.18);
+      glow.strokeRoundedRect(6, 6, width - 12, height - 12, 18);
+      group.add(glow);
+    }
+
+    const label = this.addText(width / 2, 8, plot.label, {
+      color: plot.family ? FAMILY_COLORS[plot.family].text : "#33452f",
+      fontSize: width < 100 ? "11px" : "12px",
+      fontStyle: "800"
+    }).setOrigin(0.5, 0);
+    group.add(label);
+
+    if (plot.state === "growing" || plot.state === "ready") {
+      this.drawProgress(group, plot.progressPercent, width, height);
+    } else {
+      const stateLabel = this.addText(width / 2, height * 0.48, stateColor.label, {
+        color: plot.state === "locked" ? "#4f594b" : "#4a613d",
+        fontSize: "12px",
+        fontStyle: "800"
+      }).setOrigin(0.5, 0.5);
+      group.add(stateLabel);
+    }
+
+    const hitZone = this.add.zone(width / 2, height / 2, width, height).setInteractive({ useHandCursor: plot.state !== "locked" });
+    hitZone.on("pointerdown", () => this.emitPlotAction(plot));
+    group.add(hitZone);
+  }
+
+  private drawPlant(
+    group: Phaser.GameObjects.Container,
+    plot: GardenPlotView,
+    width: number,
+    height: number,
+    accent: number
+  ) {
+    const progress = Math.max(0.16, plot.progressPercent / 100);
+    const stemHeight = Math.max(22, height * 0.34 * progress);
+    const centerX = width / 2;
+    const baseY = height * 0.68;
+    const plant = this.add.graphics();
+
+    plant.lineStyle(5, accent, 0.9);
+    plant.lineBetween(centerX, baseY, centerX, baseY - stemHeight);
+    plant.fillStyle(accent, 0.86);
+    plant.fillEllipse(centerX - 13, baseY - stemHeight * 0.55, 24, 13);
+    plant.fillEllipse(centerX + 13, baseY - stemHeight * 0.72, 24, 13);
+
+    if (plot.state === "ready") {
+      plant.fillStyle(0xfff0a3, 0.95);
+      plant.fillCircle(centerX, baseY - stemHeight - 10, 15);
+      plant.lineStyle(2, 0xffffff, 0.75);
+      plant.strokeCircle(centerX, baseY - stemHeight - 10, 18);
+    } else {
+      plant.fillStyle(0xf5e49b, 0.95);
+      plant.fillCircle(centerX, baseY - stemHeight - 6, 10);
+    }
+
+    group.add(plant);
+  }
+
+  private drawProgress(group: Phaser.GameObjects.Container, progressPercent: number, width: number, height: number) {
+    const barWidth = width * 0.68;
+    const barX = (width - barWidth) / 2;
+    const barY = height - 22;
+    const progress = Phaser.Math.Clamp(progressPercent / 100, 0, 1);
+    const graphics = this.add.graphics();
+
+    graphics.fillStyle(0x24412f, 0.28);
+    graphics.fillRoundedRect(barX, barY, barWidth, 8, 999);
+    graphics.fillStyle(progress >= 1 ? 0xfff0a3 : 0x2f6f45, 0.92);
+    graphics.fillRoundedRect(barX, barY, Math.max(8, barWidth * progress), 8, 999);
+    group.add(graphics);
+
+    const label = this.addText(width / 2, barY - 16, progress >= 1 ? "수확 가능" : `${Math.round(progressPercent)}%`, {
+      color: "#2b442f",
+      fontSize: "11px",
+      fontStyle: "900"
+    }).setOrigin(0.5, 0);
+    group.add(label);
+  }
+
+  private emitPlotAction(plot: GardenPlotView) {
+    const now = this.time.now;
+    const action =
+      plot.state === "ready"
+        ? ({ type: "harvest_plot", plotIndex: plot.index } as const)
+        : plot.state === "growing"
+          ? ({ type: "tap_growth", plotIndex: plot.index } as const)
+          : ({ type: "select_plot", plotIndex: plot.index } as const);
+
+    this.onActionRef.current(action);
+
+    if (plot.state !== "locked" && now - this.lastTapAt > 80) {
+      this.lastTapAt = now;
+      this.cameras.main.shake(90, plot.state === "ready" ? 0.004 : 0.0025);
+    }
+  }
+
+  private addText(x: number, y: number, text: string, style: Phaser.Types.GameObjects.Text.TextStyle) {
+    return this.add.text(x, y, text, {
+      fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
+      align: "center",
+      ...style
+    });
+  }
+}

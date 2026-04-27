@@ -52,8 +52,9 @@ Phase 0 validates:
 Current Game Studio direction:
 
 - React remains the app shell, save/content/analytics owner, DOM HUD, and secondary panel layer.
-- The central garden should be tested as a Phaser 2D playfield before more CSS polish.
-- Sprite work should shift from static card art toward state strips: seed idle, tap response, growth, harvest-ready, and reward FX.
+- The central garden now uses a Phaser 2D playfield boundary for plot state, tap feedback, ready state, and harvest input.
+- Phaser is lazy-loaded into a separate runtime chunk; dense HUD/panels stay in DOM.
+- Sprite work should now shift from static card art toward state strips: seed idle, tap response, growth, harvest-ready, and reward FX.
 
 ## Current Operating Summary
 
