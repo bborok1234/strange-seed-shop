@@ -5,7 +5,15 @@ import { content, getStarterSeeds } from "./lib/content";
 import { readEvents, trackEvent } from "./lib/analytics";
 import { GardenPlayfieldHost } from "./game/playfield";
 import type { GardenPlayfieldAction, GardenPlayfieldViewModel, GardenPlotView } from "./game/playfield";
-import type { AssetManifest, ExpeditionState, MissionDefinition, PlayerSave, PlotState, SeedDefinition } from "./types/game";
+import type {
+  AssetManifest,
+  CreatureDefinition,
+  ExpeditionState,
+  MissionDefinition,
+  PlayerSave,
+  PlotState,
+  SeedDefinition
+} from "./types/game";
 
 type MainTab = "garden" | "seeds" | "album" | "expedition" | "shop";
 
