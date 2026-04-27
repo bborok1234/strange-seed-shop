@@ -25,8 +25,9 @@ const requiredPhrases = new Map([
       "PR #7",
       "PR #8",
       "PR #9",
-      "자동화 PR 수: 9",
-      "병합된 자동화 PR 수: 9",
+      "이 report는 생성 시점의 스냅샷",
+      "고정 PR 번호가 아니라 report 내부 일관성을 검증",
+      "무한 갱신 루프는 만들지 않는다",
       "MERGED",
       "Agent Automerge Trial",
       "main CI"
@@ -59,6 +60,27 @@ for (const [path, phrases] of requiredPhrases.entries()) {
     if (!content.includes(phrase)) {
       failures.push(`${path} missing phrase: ${phrase}`);
     }
+  }
+}
+
+const prAuditPath = "reports/audits/pr_automation_20260427.md";
+if (fs.existsSync(prAuditPath)) {
+  const content = fs.readFileSync(prAuditPath, "utf8");
+  const prRows = content.match(/^\| PR #\d+ \|/gm) ?? [];
+  const totalMatch = content.match(/- 자동화 PR 수: (\d+)/);
+  const mergedMatch = content.match(/- 병합된 자동화 PR 수: (\d+)/);
+  const mergedRows = content.match(/^\| PR #\d+ \|.*\| MERGED \|/gm) ?? [];
+
+  if (!totalMatch) {
+    failures.push(`${prAuditPath} missing automation PR count`);
+  } else if (Number(totalMatch[1]) !== prRows.length) {
+    failures.push(`${prAuditPath} automation PR count mismatch: ${totalMatch[1]} != ${prRows.length}`);
+  }
+
+  if (!mergedMatch) {
+    failures.push(`${prAuditPath} missing merged automation PR count`);
+  } else if (Number(mergedMatch[1]) !== mergedRows.length) {
+    failures.push(`${prAuditPath} merged automation PR count mismatch: ${mergedMatch[1]} != ${mergedRows.length}`);
   }
 }
 

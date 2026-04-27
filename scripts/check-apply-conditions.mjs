@@ -15,6 +15,7 @@ const requiredPaths = [
   "items/0007-generated-pr-audit.md",
   "items/0008-browser-use-qa-gate.md",
   "items/0009-pr-audit-refresh-9.md",
+  "items/0010-pr-audit-snapshot-gate.md",
   "reports/audits/audit_20260427.md",
   "reports/audits/pr_automation_20260427.md",
   "reports/reviews/README.md"

@@ -7,6 +7,7 @@ Status: pass
 PR 단위 자동 체크와 GitHub native auto-merge trial이 실제 저장소에서 반복 가능하게 동작했는지 확인했다.
 
 이 파일은 `npm run update:pr-audit`로 갱신한다.
+이 report는 생성 시점의 스냅샷이다. audit 갱신 PR 자체는 다음 스냅샷에 반드시 포함하지 않아도 되며, `check:audit`는 고정 PR 번호가 아니라 report 내부 일관성을 검증한다.
 
 ## 결과 요약
 
@@ -37,6 +38,7 @@ PR 단위 자동 체크와 GitHub native auto-merge trial이 실제 저장소에
 
 - Branch protection과 `ENABLE_AGENT_AUTOMERGE` 저장소 변수는 아직 실제 GitHub 설정으로 고정하지 않았다.
 - 이 report는 `gh pr list`에서 얻은 PR 상태를 기준으로 생성하며, 개별 check URL은 별도 `gh run list` 증거로 확인한다.
+- audit 갱신 PR이 자기 자신을 다시 audit해야 하는 무한 갱신 루프는 만들지 않는다.
 - auto-merge 실패 케이스는 아직 별도 PR로 검증하지 않았다.
 
 ## 다음 조치
