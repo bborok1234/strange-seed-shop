@@ -56,3 +56,5 @@ The project should move toward a ClawSweeper-style autonomous model:
 - audit lane detects drift
 
 Until the richer item system exists, `ROADMAP.md` is the tracking surface.
+
+Current PR automation audit evidence is stored in `reports/audits/pr_automation_20260427.md`.

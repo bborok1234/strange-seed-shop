@@ -38,7 +38,7 @@ for (const dir of requiredDirs) {
   }
 }
 
-for (const phrase of ["Milestone 5", "review report", "audit report", "dashboard"]) {
+for (const phrase of ["Milestone 5", "review report", "audit report", "dashboard", "PR automation audit"]) {
   if (!roadmap.includes(phrase)) {
     failures.push(`docs/ROADMAP.md missing phrase: ${phrase}`);
   }
