@@ -371,7 +371,7 @@ export default function App() {
                   <strong>{seed.baseGrowthSeconds}s</strong>
                 </button>
               ))}
-            {showSeedShop && (
+            {save && showSeedShop && (
               <div className="seed-shop-list">
                 {availableSeeds.map((seed) => {
                   const owned = save.seedInventory[seed.id] ?? 0;
