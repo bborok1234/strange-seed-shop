@@ -80,7 +80,7 @@ Goal: prove whether the garden must become a real 2D playfield, instead of conti
 | Step | Status | Output | Acceptance Criteria |
 | --- | --- | --- | --- |
 | Game Studio structure review | review | `docs/GAME_STUDIO_REVIEW_20260427.md` | CSS-only polish limits, Phaser playfield boundary, and sprite state needs are recorded |
-| Phaser playfield runtime spike | proposed | `items/0016-phaser-playfield-runtime-spike.md` | React owns save/HUD/panels; Phaser or equivalent 2D scene owns central garden playfield without changing save/content/analytics contracts |
+| Phaser central garden playfield transition | active | `items/0016-phaser-playfield-runtime-spike.md`, `src/App.tsx`, `src/styles.css`, `scripts/check-game-loop.mjs` | React owns save/HUD/panels; Phaser or equivalent 2D scene owns central garden playfield; first loop preserves named creature ownership -> album reward -> second plot/next collection goal without changing save/content/analytics contracts |
 
 ## Milestone 4: Economy and Verification
 
@@ -113,8 +113,9 @@ Goal: make the project increasingly self-managing.
 
 ## Current Next Action
 
-Game Studio 기준 재검토 결과, 더 이상의 CSS-only polish보다 별도 세션의 deep interview가 우선이다.
+Deep interview 결과가 `.omx/specs/deep-interview-game-studio-realignment.md`에 정리되었고, Phase 0 핵심 재미 축은 **이름 있는 생명체 수집**으로 고정되었다.
 
-1. OMX CLI/tmux 환경에서 `$deep-interview --deep`로 게임 시스템, 내부 기획, runtime, sprite pipeline, monetization mock을 다시 정렬한다.
-2. deep interview 결과를 기준으로 `items/0016-phaser-playfield-runtime-spike.md`를 유지/수정/폐기한다.
-3. 이후 중앙 정원 Phaser spike와 sprite-pipeline 첫 batch를 실행한다.
+1. `items/0016-phaser-playfield-runtime-spike.md`를 중앙 garden Phaser playfield 전환 item으로 실행한다.
+2. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 계속 보존한다.
+3. sprite-pipeline 첫 batch는 starter seed의 idle/tap/grow/ready/harvest/reward 피크에 집중한다.
+4. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
