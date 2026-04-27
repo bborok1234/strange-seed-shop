@@ -5,10 +5,19 @@ import { content, getStarterSeeds } from "./lib/content";
 import { readEvents, trackEvent } from "./lib/analytics";
 import type { AssetManifest, ExpeditionState, MissionDefinition, PlayerSave, PlotState, SeedDefinition } from "./types/game";
 
+type MainTab = "garden" | "seeds" | "album" | "expedition" | "shop";
+
 const FIRST_UPGRADE_COST = 25;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
+const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
+  { id: "garden", label: "정원" },
+  { id: "seeds", label: "씨앗" },
+  { id: "album", label: "도감" },
+  { id: "expedition", label: "원정" },
+  { id: "shop", label: "상점" }
+];
 
 export default function App() {
   const [manifest, setManifest] = useState<AssetManifest | null>(null);
@@ -16,6 +25,7 @@ export default function App() {
   const [manifestError, setManifestError] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const [offlineMessage, setOfflineMessage] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<MainTab>("garden");
 
   useEffect(() => {
     loadAssetManifest()
@@ -342,87 +352,137 @@ export default function App() {
         </section>
 
         <nav className="bottom-tabs" aria-label="주요 화면">
-          <button type="button">정원</button>
-          <button type="button">씨앗</button>
-          <button type="button">도감</button>
-          <button type="button">원정</button>
-          <button type="button">상점</button>
+          {MAIN_TABS.map((tab) => (
+            <button
+              aria-pressed={activeTab === tab.id}
+              className={activeTab === tab.id ? "tab-active" : undefined}
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              type="button"
+            >
+              {tab.label}
+            </button>
+          ))}
         </nav>
       </section>
 
       <section className="dev-panel" aria-label="스캐폴드 검증 정보">
-        <h2>플레이 루프 상태</h2>
-        <ul>
-          <li>manifest asset 수: {manifest ? Object.keys(manifest.assets).length : "loading"}</li>
-          <li>seed config 수: {content.seeds.length}</li>
-          <li>creature config 수: {content.creatures.length}</li>
-          <li>local save: {save ? "ready" : "loading"}</li>
-          <li>analytics events: {readEvents().length}</li>
-          <li>runtime image generation: disabled</li>
+        <h2>{MAIN_TABS.find((tab) => tab.id === activeTab)?.label}</h2>
+        <ul className="status-list">
+          <li>asset {manifest ? Object.keys(manifest.assets).length : "loading"}</li>
+          <li>save {save ? "ready" : "loading"}</li>
+          <li>events {readEvents().length}</li>
+          <li>runtime image generation disabled</li>
         </ul>
-        <section className="album-strip">
-          <h3>발견한 생명체</h3>
-          {discoveredCreatures.length === 0 ? (
-            <p>아직 없습니다. 씨앗을 키워 첫 생명체를 수확하세요.</p>
-          ) : (
-            <div className="creature-list">
-              {discoveredCreatures.map((creature) => (
-                <figure key={creature.id}>
-                  <img alt="" src={getAssetPath(manifest, creature.assetId)} />
-                  <figcaption>{creature.name}</figcaption>
-                </figure>
+
+        {activeTab === "garden" && (
+          <section className="tab-panel mission-board" aria-label="정원 미션">
+            <h3>오늘의 의뢰</h3>
+            <div className="mission-list">
+              {visibleMissions.map((mission) => {
+                const progress = Math.min(save?.missionProgress[mission.id] ?? 0, mission.target);
+                const ready = progress >= mission.target;
+                const claimed = save?.claimedMissionIds.includes(mission.id) ?? false;
+
+                return (
+                  <article className={claimed ? "mission-row mission-claimed" : "mission-row"} key={mission.id}>
+                    <div>
+                      <span>{mission.type === "tutorial" ? "튜토리얼" : "일일"}</span>
+                      <strong>{mission.label}</strong>
+                      <progress max={mission.target} value={progress} />
+                    </div>
+                    <button disabled={!ready || claimed} onClick={() => claimMissionReward(mission)} type="button">
+                      {claimed ? "완료" : `+${mission.rewardLeaves} 잎`}
+                    </button>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {activeTab === "seeds" && (
+          <section className="tab-panel seed-inventory-panel" aria-label="씨앗 주머니">
+            <h3>씨앗 주머니</h3>
+            <div className="seed-inventory-list">
+              {availableSeeds.map((seed) => (
+                <article className="seed-inventory-row" key={seed.id}>
+                  <img alt="" src={getAssetPath(manifest, seed.iconAssetId)} />
+                  <div>
+                    <strong>{seed.name}</strong>
+                    <span>보유 {save?.seedInventory[seed.id] ?? 0}개</span>
+                  </div>
+                  <span>{seed.baseGrowthSeconds}s</span>
+                </article>
               ))}
             </div>
-          )}
-        </section>
-        <section className="mission-board">
-          <h3>오늘의 의뢰</h3>
-          <div className="mission-list">
-            {visibleMissions.map((mission) => {
-              const progress = Math.min(save?.missionProgress[mission.id] ?? 0, mission.target);
-              const ready = progress >= mission.target;
-              const claimed = save?.claimedMissionIds.includes(mission.id) ?? false;
+          </section>
+        )}
 
-              return (
-                <article className={claimed ? "mission-row mission-claimed" : "mission-row"} key={mission.id}>
+        {activeTab === "album" && (
+          <section className="tab-panel album-strip" aria-label="도감">
+            <h3>발견한 생명체</h3>
+            {discoveredCreatures.length === 0 ? (
+              <p>아직 없습니다. 씨앗을 키워 첫 생명체를 수확하세요.</p>
+            ) : (
+              <div className="creature-list">
+                {discoveredCreatures.map((creature) => (
+                  <figure key={creature.id}>
+                    <img alt="" src={getAssetPath(manifest, creature.assetId)} />
+                    <figcaption>{creature.name}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {activeTab === "expedition" && (
+          <section className="tab-panel expedition-card" aria-label="원정">
+            <h3>원정</h3>
+            {!save?.activeExpedition && (
+              <button
+                className="primary-action"
+                disabled={!save || save.discoveredCreatureIds.length === 0}
+                onClick={startExpedition}
+                type="button"
+              >
+                틈새길 정찰 시작
+              </button>
+            )}
+            {save?.activeExpedition && (
+              <>
+                <p>{expeditionReady ? "원정 완료" : "원정 진행 중"}</p>
+                <button className="primary-action" disabled={!expeditionReady} onClick={claimExpedition} type="button">
+                  원정 보상 받기
+                </button>
+              </>
+            )}
+          </section>
+        )}
+
+        {activeTab === "shop" && (
+          <section className="tab-panel shop-panel" aria-label="상점">
+            <h3>상점</h3>
+            <div className="shop-list">
+              {content.shopSurfaces.map((surface) => (
+                <article className="shop-card" key={surface.id}>
+                  <img alt="" src={getAssetPath(manifest, surface.assetId)} />
                   <div>
-                    <span>{mission.type === "tutorial" ? "튜토리얼" : "일일"}</span>
-                    <strong>{mission.label}</strong>
-                    <progress max={mission.target} value={progress} />
+                    <strong>{surface.name}</strong>
+                    <span>{surface.realPayment ? "결제" : "mock"}</span>
                   </div>
                   <button
-                    disabled={!ready || claimed}
-                    onClick={() => claimMissionReward(mission)}
+                    onClick={() => trackEvent("shop_surface_clicked", { surfaceId: surface.id, realPayment: surface.realPayment })}
                     type="button"
                   >
-                    {claimed ? "완료" : `+${mission.rewardLeaves} 잎`}
+                    {surface.cta}
                   </button>
                 </article>
-              );
-            })}
-          </div>
-        </section>
-        <section className="expedition-card">
-          <h3>원정</h3>
-          {!save?.activeExpedition && (
-            <button
-              className="primary-action"
-              disabled={!save || save.discoveredCreatureIds.length === 0}
-              onClick={startExpedition}
-              type="button"
-            >
-              틈새길 정찰 시작
-            </button>
-          )}
-          {save?.activeExpedition && (
-            <>
-              <p>{expeditionReady ? "원정 완료" : "원정 진행 중"}</p>
-              <button className="primary-action" disabled={!expeditionReady} onClick={claimExpedition} type="button">
-                원정 보상 받기
-              </button>
-            </>
-          )}
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
         {manifestError && <p className="error-text">{manifestError}</p>}
       </section>
     </main>

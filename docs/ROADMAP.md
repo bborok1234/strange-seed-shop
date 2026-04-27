@@ -61,6 +61,7 @@ Goal: implement the minimum game loop from first seed to first comeback.
 | Mission reward loop | review | `src/App.tsx`, `items/0011-mission-reward-loop.md` | First-loop actions advance missions and completed missions pay leaves once |
 | Seed purchase loop | review | `src/App.tsx`, `items/0012-seed-purchase-loop.md` | Unlocked seeds can be bought into inventory, planted into open plots, and advance the buy-3 mission |
 | Expedition reward loop | review | `src/App.tsx`, `items/0013-expedition-reward-loop.md` | Ready expeditions can be claimed for configured rewards and verified through Browser Use |
+| Bottom tab surfaces | review | `src/App.tsx`, `items/0014-bottom-tab-surfaces.md` | Bottom tabs switch panel content for garden, seeds, album, expedition, and mock shop surfaces |
 
 ## Milestone 4: Economy and Verification
 
@@ -95,6 +96,6 @@ Goal: make the project increasingly self-managing.
 
 Browser Use 기반 스크린샷 자동화, 핵심 클릭 플로우, 오프라인 복귀, 모바일/데스크톱 캡처가 확인됐다.
 
-1. Expedition reward loop 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
+1. Bottom tab surfaces 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
 2. 자동 머지 trial을 통해 main에 반영한다.
-3. Browser Use로 원정 보상 수령 UI를 클릭 검증하고 다음 게임 기능 작업을 `items/` 단위로 등록한다.
+3. Browser Use로 하단 탭 전환과 mock 상점 표면을 클릭 검증하고 다음 게임 기능 작업을 `items/` 단위로 등록한다.
