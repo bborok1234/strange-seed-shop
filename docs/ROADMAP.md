@@ -82,6 +82,7 @@ Goal: make the project increasingly self-managing.
 | Create apply conditions | review | `docs/APPLY_CONDITIONS.md`, `scripts/check-apply-conditions.mjs` | Mutations require valid proposal + acceptance criteria |
 | Create audit report | review | `reports/audits/audit_20260427.md`, `scripts/check-docs-index.mjs` | Drift between docs, items, code, assets is detectable |
 | Create dashboard | review | `docs/DASHBOARD.md`, `scripts/update-dashboard.mjs` | Current status, next item, verification health visible and checkable |
+| Document automerge governance | review | `docs/AUTOMERGE_GOVERNANCE.md`, `scripts/check-governance.mjs` | Branch protection, required checks, and `ENABLE_AGENT_AUTOMERGE` operating rules are checkable |
 
 ## Current Next Action
 
@@ -89,4 +90,4 @@ Browser Use 기반 스크린샷 자동화, 핵심 클릭 플로우, 오프라인
 
 1. 이 브랜치를 PR로 올려 GitHub Actions의 PR 이벤트 검증을 확인한다.
 2. 자동 머지 trial을 통해 main에 반영한다.
-3. 다음 자동화 항목으로 브랜치 보호/`ENABLE_AGENT_AUTOMERGE` 운영 정책을 문서화한다.
+3. 다음 자동화 항목으로 PR 결과 audit 누적을 자동화한다.

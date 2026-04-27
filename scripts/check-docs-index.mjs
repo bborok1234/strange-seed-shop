@@ -8,6 +8,7 @@ const requiredDocs = [
   "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
   "docs/BROWSER_QA.md",
   "docs/PR_AUTOMATION.md",
+  "docs/AUTOMERGE_GOVERNANCE.md",
   "docs/REPORTING.md",
   "docs/APPLY_CONDITIONS.md",
   "docs/DASHBOARD.md"

@@ -16,7 +16,8 @@
     "check:dashboard": "node scripts/update-dashboard.mjs --check",
     "capture:local": "node scripts/capture-local-screenshot.mjs",
     "check:automerge": "node scripts/check-automerge-readiness.mjs",
-    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run check:dashboard && npm run build"
+    "check:governance": "node scripts/check-governance.mjs",
+    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run check:dashboard && npm run check:governance && npm run build"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
