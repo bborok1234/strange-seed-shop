@@ -382,7 +382,12 @@ export default function App() {
                 <div className="next-creature-portrait">{renderAsset(nextCreatureGoal.creature.assetId, "?")}</div>
                 <div>
                   <p className="panel-label">다음에 만날 아이</p>
-                  <strong>{nextCreatureGoal.creature.name}</strong>
+                  <div className="next-creature-title-line">
+                    <strong>{nextCreatureGoal.creature.name}</strong>
+                    <span className="next-creature-trait-line">
+                      {getRarityLabel(nextCreatureGoal.creature.rarity)} · {getCreatureFamilyLabel(nextCreatureGoal.creature.family)}
+                    </span>
+                  </div>
                   <span>힌트: {nextCreatureGoal.creature.albumHint}</span>
                   <small>
                     {nextCreatureGoal.seed.name}에서 만날 수 있어요 · 도감 {nextCreatureGoal.discoveredCount}/{nextCreatureGoal.totalCount}
