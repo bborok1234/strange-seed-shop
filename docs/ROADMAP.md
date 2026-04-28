@@ -181,6 +181,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Add live operator status report | review | `scripts/update-operator-live-status.mjs`, `reports/operations/operator-live-status-20260428.md`, `items/0040-operator-live-status-report.md` | Running trial의 heartbeat freshness, deadline, completed PRs, recovery, next action을 한 파일로 생성하고 `check:operator`가 검증함 |
 | Run 4-hour supervised trial | review | `reports/operations/operator-trial-20260428T053230Z.md`, `items/0035-supervised-4h-operator-trial.md` | heartbeat 47건, merge된 PR 15개, green main CI, initial stuck report, final watchdog freshness, heartbeat gap warning이 기록됨 |
 | Harden heartbeat daemon before 24h run | review | Issue #84, `scripts/operator-heartbeat-daemon.mjs`, `reports/operations/heartbeat-daemon-hardening-20260428.md`, `items/0051-heartbeat-daemon-hardening.md` | 독립 heartbeat daemon, stale-gap dry-run guard, watchdog stuck-output guard로 600초 초과 gap을 완료로 오인하지 않게 한다 |
+| Add operator control room and playable mode | review | Issue #87, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/PLAYABLE_MODE.md`, `.github/ISSUE_TEMPLATE/agent-work-item.md`, `.github/pull_request_template.md`, `scripts/prepare-playable-main.mjs`, `items/0052-operator-control-room-playable-mode.md` | 사람이 active mission, small win, visual evidence, PR/issue, playable main command를 한 화면에서 파악하고 agent 작업 중에도 게임을 실행할 수 있음 |
 
 ## Milestone 8: Feedback + GTM Mock Intake
 
@@ -206,7 +207,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. Issue #53의 4h supervised trial report는 PR #85로 merge되어 닫혔고, 현재 안전한 다음 작업은 Issue #84의 heartbeat daemon hardening을 PR로 검증·merge하는 것이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. Issue #53의 4h supervised trial report와 Issue #84 heartbeat daemon hardening은 merge 완료되었다. 현재 안전한 다음 작업은 Issue #87의 operator control room + playable mode를 PR로 검증·merge해 사람이 자동화 중에도 현재 mission과 게임 실행 상태를 즉시 파악하게 하는 것이다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
@@ -241,3 +242,4 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 31. Issue #82 / PR #83은 merge 완료되어 하단 원정 탭에 진행/완료 배지를 붙여 다른 탭에서도 복귀·수령 신호를 놓치지 않게 한다.
 32. Issue #53의 4h supervised trial report는 `reports/operations/operator-trial-20260428T053230Z.md`로 작성되었고, PR #85로 merge되어 닫혔다.
 33. Issue #84는 24h run 전 heartbeat daemon hardening 작업으로, 4h trial에서 드러난 702.5초 gap을 dry-run failure와 watchdog stuck report로 고정한다.
+34. Issue #87은 24h dry run 전 operator control room과 playable mode를 고정해 사람이 중간에 현재 mission, small win, evidence, 게임 실행법을 즉시 파악하게 한다.
