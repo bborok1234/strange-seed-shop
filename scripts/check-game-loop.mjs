@@ -76,7 +76,11 @@ for (const phrase of [
   "도감 {nextCreatureGoal.discoveredCount}/{nextCreatureGoal.totalCount}",
   "getDeterministicCreatureForSeed",
   "만날 아이: {previewCreature.name}",
-  "seed-creature-preview"
+  "seed-creature-preview",
+  "reveal-next-goal",
+  "qaHarvestReveal",
+  "createHarvestRevealQaSave",
+  "수확 후 다음 목표"
 ]) {
   if (!appSource.includes(phrase)) {
     failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);
@@ -173,6 +177,7 @@ console.log(
         creatureName: nextCreatureGoal.name
       },
       seedCreaturePreview,
+      harvestRevealNextGoalQa: "qaHarvestReveal",
       firstLoopMissions: requiredMissionIds
     },
     null,

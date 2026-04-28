@@ -58,13 +58,16 @@ export default function App() {
 
     const qaOfflineMinutes = getLocalQaOfflineMinutes();
     const qaSpriteState = getLocalQaSpriteState();
+    const qaHarvestReveal = getLocalQaHarvestReveal();
     const existingSave = qaSpriteState
       ? createSpriteQaSave(qaSpriteState)
-      : getLocalQaExpeditionReady()
-        ? createExpeditionReadyQaSave()
-        : qaOfflineMinutes
-          ? createOfflineQaSave(qaOfflineMinutes)
-          : localSaveStore.load();
+      : qaHarvestReveal
+        ? createHarvestRevealQaSave()
+        : getLocalQaExpeditionReady()
+          ? createExpeditionReadyQaSave()
+          : qaOfflineMinutes
+            ? createOfflineQaSave(qaOfflineMinutes)
+            : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -77,6 +80,9 @@ export default function App() {
     }
     localSaveStore.save(nextSave);
     setSave(nextSave);
+    if (qaHarvestReveal) {
+      setHarvestReveal(getCreature("creature_herb_common_001") ?? null);
+    }
     trackEvent("session_start", { playerId: nextSave.playerId });
   }, []);
 
@@ -464,6 +470,13 @@ export default function App() {
             <h2>{harvestReveal.name}</h2>
             <p>{getCreatureRoleLabel(harvestReveal.role)} · {harvestReveal.albumHint}</p>
             <blockquote>“{harvestReveal.greeting}”</blockquote>
+            {nextCreatureGoal && (
+              <article className="reveal-next-goal" aria-label="수확 후 다음 목표">
+                <p className="panel-label">다음에 만날 아이</p>
+                <strong>{nextCreatureGoal.creature.name}</strong>
+                <span>{nextCreatureGoal.seed.name}을 심으면 만날 수 있어요.</span>
+              </article>
+            )}
             <button className="primary-action" onClick={() => setHarvestReveal(null)} type="button">
               도감에 기록하기
             </button>
@@ -879,6 +892,14 @@ function getLocalQaExpeditionReady(): boolean {
   return new URLSearchParams(window.location.search).get("qaExpeditionReady") === "1";
 }
 
+function getLocalQaHarvestReveal(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaHarvestReveal") === "1";
+}
+
 function getLocalQaSpriteState(): "growing" | "ready" | null {
   if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
     return null;
@@ -926,6 +947,22 @@ function createOfflineQaSave(minutesAway: number): PlayerSave {
     plotCount: 2,
     lastSeenAt: lastSeen.toISOString(),
     updatedAt: lastSeen.toISOString()
+  };
+}
+
+function createHarvestRevealQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createNewSave(now);
+
+  return {
+    ...save,
+    leaves: 20,
+    selectedStarterSeedId: "seed_herb_001",
+    discoveredCreatureIds: ["creature_herb_common_001"],
+    claimedAlbumMilestoneIds: ["album_1"],
+    plotCount: 2,
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
   };
 }
 
