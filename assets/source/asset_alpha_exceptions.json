@@ -1,0 +1,102 @@
+{
+  "version": "phase0-p0-ui-rescue",
+  "policy": "creature/seed_icon/ui_frame/sprite/fx accepted assets need alpha unless explicitly excepted",
+  "exceptions": [
+    {
+      "asset_id": "creature_candy_common_001",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "creature_candy_common_002",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "creature_candy_rare_001",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "creature_herb_common_001",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "creature_herb_common_002",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "creature_herb_uncommon_001",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "creature_lunar_common_001",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "creature_lunar_rare_001",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "creature_lunar_uncommon_001",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "seed_candy_001_icon",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "seed_candy_002_icon",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "seed_herb_001_icon",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "seed_herb_002_icon",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "seed_lunar_001_icon",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "seed_lunar_002_icon",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    },
+    {
+      "asset_id": "ui_album_card_frame_001",
+      "reason": "P0 이전 생성 asset이 RGB PNG라 투명 배경 cutout/remaster가 필요함",
+      "follow_up": "Issue #89 P0 asset alpha/background quality pass",
+      "expires_after": "P0 UI/UX Rescue 종료 전 재생성 또는 cutout 필요"
+    }
+  ]
+}

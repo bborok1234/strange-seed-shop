@@ -144,25 +144,19 @@ export class GardenScene extends Phaser.Scene {
     const graphics = this.add.graphics();
     this.root.add(graphics);
 
-    graphics.fillStyle(0x2f5b42, 0.2);
+    graphics.fillStyle(0xf7edc7, 0.16);
     graphics.fillRoundedRect(8, 8, width - 16, height - 16, 28);
-    graphics.lineStyle(2, 0xf9efc7, 0.35);
+    graphics.lineStyle(2, 0xf9efc7, 0.48);
     graphics.strokeRoundedRect(10, 10, width - 20, height - 20, 26);
 
-    graphics.fillStyle(0xe8f2c5, 0.35);
+    graphics.fillStyle(0xffefb0, 0.22);
     graphics.fillEllipse(width * 0.5, height * 0.62, width * 0.92, height * 0.54);
-
-    this.addText(width / 2, 26, this.viewModel?.headline ?? "정원 준비 중", {
-      color: "#fff7d2",
-      fontSize: "18px",
-      fontStyle: "800"
-    }).setOrigin(0.5, 0).setShadow(0, 2, "rgba(22, 45, 31, 0.4)", 3);
 
     const plots = this.viewModel?.plots ?? [];
     const gap = width < 420 ? 8 : 12;
-    const top = height < 300 ? 58 : 70;
+    const top = height < 300 ? 32 : 42;
     const usableWidth = width - 36;
-    const usableHeight = height - top - 46;
+    const usableHeight = height - top - 24;
     const cellWidth = (usableWidth - gap * 2) / 3;
     const cellHeight = Math.max(48, (usableHeight - gap * 2) / 3);
 
@@ -173,12 +167,6 @@ export class GardenScene extends Phaser.Scene {
       const y = top + row * (cellHeight + gap);
       this.drawPlot(plot, x, y, cellWidth, cellHeight);
     });
-
-    this.addText(width / 2, height - 26, this.viewModel?.hint ?? "밭을 눌러 성장과 수확을 진행하세요", {
-      color: "#fff7d2",
-      fontSize: width < 420 ? "12px" : "13px",
-      fontStyle: "700"
-    }).setOrigin(0.5, 0.5).setAlpha(0.92);
   }
 
   private drawPlot(plot: GardenPlotView, x: number, y: number, width: number, height: number) {
@@ -186,19 +174,19 @@ export class GardenScene extends Phaser.Scene {
     const familyColor = plot.family ? FAMILY_COLORS[plot.family] : undefined;
     const fill = familyColor?.fill ?? stateColor.fill;
     const stroke = plot.state === "ready" ? STATE_COLORS.ready.stroke : familyColor?.accent ?? stateColor.stroke;
-    const alpha = plot.state === "locked" ? 0.48 : 0.88;
+    const alpha = plot.state === "locked" ? 0.18 : plot.state === "ready" ? 0.86 : 0.66;
     const group = this.add.container(x, y);
     this.root?.add(group);
 
     const tile = this.add.graphics();
     tile.fillStyle(fill, alpha);
     tile.fillRoundedRect(0, 0, width, height, 16);
-    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, plot.state === "locked" ? 0.35 : 0.82);
+    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, plot.state === "locked" ? 0.2 : 0.78);
     tile.strokeRoundedRect(1, 1, width - 2, height - 2, 16);
     group.add(tile);
 
     const mound = this.add.graphics();
-    mound.fillStyle(0x795435, plot.state === "locked" ? 0.26 : 0.48);
+    mound.fillStyle(0x795435, plot.state === "locked" ? 0.16 : 0.42);
     mound.fillEllipse(width / 2, height * 0.67, width * 0.62, Math.max(13, height * 0.18));
     group.add(mound);
 

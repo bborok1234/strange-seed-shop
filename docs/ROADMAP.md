@@ -18,6 +18,22 @@ Status values:
 
 공통 헌장은 `docs/NORTH_STAR.md`가 소유한다. 게임 작업은 재미와 수집 욕구를, 운영사 작업은 장시간 자율성과 증거 기반 복구 능력을 개선해야 한다.
 
+## P0 Game Studio Operating Mode — UI/UX Rescue
+
+Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 게임처럼 보이고 자동화가 실제 화면 회귀를 잡는 상태가 될 때까지 운영모드로 반복한다.
+
+| Step | Status | Output | Acceptance Criteria |
+| --- | --- | --- | --- |
+| P0 UI/UX research baseline | active | `docs/GAME_UI_UX_RESEARCH_20260428.md`, `items/0053-game-ui-ux-p0-rescue.md`, Issue #89 | HUD/playfield, Phaser viewport, CLI visual QA, alpha asset 기준과 프로젝트 결정이 문서화됨 |
+| Playfield-first garden screen | active | `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenScene.ts` | 정원 기본 화면에서 안내/하이라이트/패널이 밭을 가리지 않고 Phaser playfield가 주 시각 영역으로 보임 |
+| Player/debug surface split | active | app shell/debug mode policy | `asset count`, `save ready`, `events`, `runtime image generation disabled`는 playable 기본 화면에서 숨겨지고 debug mode에서만 노출됨 |
+| Mobile/desktop viewport policy | active | `docs/DESIGN_SYSTEM.md`, visual evidence | 모바일 세로 game frame과 데스크톱 중앙 game frame 기준으로 capture evidence가 남음 |
+| CLI visual QA gate | active | CDP/Playwright-ready scripts, `docs/BROWSER_QA.md` | Browser Use 차단 시 fallback이 기록되고, 반복 QA는 CLI screenshot/layout checker로 토큰 효율 있게 수행됨 |
+| Asset alpha/background quality gate | active | asset checker, asset review follow-up | creature/seed/icon/fx는 alpha 필요 조건 또는 명시 예외를 검증하고, checkerboard/배경 오염 asset은 후속 cutout/remaster 대상으로 기록됨 |
+| P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
+
+Exit criteria: 위 항목이 모두 검증되고, `npm run check:all` 및 mobile/desktop visual evidence가 최신 main에서 통과할 때 P0 UI/UX Rescue를 닫는다.
+
 ## Current Milestone
 
 **Milestone 0: Planning and Autonomous Project Backbone**
@@ -206,6 +222,20 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 | Prepare split-ready operator package | todo | docs/scripts package plan | Operator surfaces that should move to a future separate repo are inventoried |
 
 ## Current Next Action
+
+현재 운영모드는 **P0 Game Studio Operating Mode — UI/UX Rescue**다. Issue #89가 현재 active mission이며, 목표는 단순 겹침 버그 수정이 아니라 게임 첫 화면의 미려함, Phaser playfield 보호, playable/debug 분리, CLI visual QA, asset alpha/background quality gate를 P0 완료 조건으로 고정하는 것이다.
+
+즉시 다음 작업:
+
+1. `docs/GAME_UI_UX_RESEARCH_20260428.md`와 `items/0053-game-ui-ux-p0-rescue.md`를 기준으로 PR #89 구현 branch를 진행한다.
+2. 정원 기본 화면에서 seed shop/다음 행동 패널이 밭을 덮지 않게 축소·분리한다.
+3. 플레이어 기본 화면에서 debug panel을 숨기고, 필요한 경우 debug mode에서만 보이게 한다.
+4. CDP CLI screenshot과 layout/asset checker를 추가해 이번 회귀를 자동으로 잡는다.
+5. mobile/desktop before-after evidence를 PR에 연결한다.
+6. Playwright CLI dependency 도입은 새 dependency 설치 승인 대상이므로, 이번 iteration에서는 기존 CDP CLI를 사용하고 별도 승인 필요 follow-up으로 남긴다.
+
+## Previous Next Action History
+
 
 `docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. Issue #53의 4h supervised trial report와 Issue #84 heartbeat daemon hardening은 merge 완료되었다. 현재 안전한 다음 작업은 Issue #87의 operator control room + playable mode를 PR로 검증·merge해 사람이 자동화 중에도 현재 mission과 게임 실행 상태를 즉시 파악하게 하는 것이다.
 

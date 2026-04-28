@@ -12,6 +12,20 @@
 4. DOM snapshot, 클릭, 스크린샷을 통해 실제 사용자 화면 기준으로 확인한다.
 5. 중요한 증거는 `reports/visual/`에 저장하고 로드맵 또는 수용 기준 문서에 연결한다.
 
+
+## 2026-04-28 P0 실기 QA 운영 결정
+
+사용자 피드백에 따라 P0의 반복 가능한 실기 QA는 Browser Use 단일 의존이 아니라 다층 구조로 운영한다.
+
+1. Browser Use가 세션에 노출되면 우선 사용한다.
+2. Browser Use가 차단되면 blocker report를 남기고 Computer Use 또는 Chrome DevTools Protocol 캡처를 fallback으로 사용한다.
+3. PR/CI의 반복 게이트는 토큰 효율을 위해 CLI 기반 screenshot/layout checker를 기본으로 한다.
+4. 장기 목표는 Playwright CLI visual comparison이지만, `@playwright/test` 설치는 새 dependency action-time 승인 대상이므로 승인 전에는 기존 `npm run capture:local` CDP CLI와 정적 checker를 사용한다.
+5. UI 변경 PR은 최소 mobile/desktop screenshot path, 확인 viewport, 남은 시각 리스크를 PR 본문에 적는다.
+
+Current P0 issue: #89
+Research: `docs/GAME_UI_UX_RESEARCH_20260428.md`
+
 ## 폴백 기준
 
 Browser Use를 시도하기 전에 별도 Playwright 설치, Computer Use, macOS `screencapture`를 기본 선택지로 쓰지 않는다.
@@ -66,6 +80,9 @@ Issue #18에서 Browser Use `iab` backend 직접 검증을 다시 시도했다. 
 - 2026-04-28: Browser Use `iab` backend 직접 복구를 재시도했으나 Node REPL `js` 실행 tool 미노출과 `functions.js_repl` static `node:os` import 제한으로 환경 차단을 기록했다: `reports/visual/browser-use-iab-runtime-diagnostic-20260428.md`
 - 2026-04-28: Chrome DevTools Protocol로 Browser Use fallback Phaser playfield 360x900 캡처 저장: `reports/visual/browser-use-iab-fallback-phaser-mobile-20260428.png`
 - 2026-04-28: Chrome DevTools Protocol로 Browser Use fallback Phaser playfield 1280x900 캡처 저장: `reports/visual/browser-use-iab-fallback-phaser-desktop-20260428.png`
+
+
+- 2026-04-28: P0 UI/UX rescue에서 CDP CLI로 before/after mobile/desktop evidence를 저장했다: `reports/visual/p0-ui-ux-rescue-20260428.md`, `reports/visual/p0-ui-ux-before-main-mobile-20260428.png`, `reports/visual/p0-ui-ux-after-mobile-20260428.png`, `reports/visual/p0-ui-ux-after-desktop-20260428.png`.
 
 ## 남은 QA
 

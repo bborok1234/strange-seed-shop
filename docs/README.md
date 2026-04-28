@@ -13,6 +13,7 @@ This folder is the durable memory for `이상한 씨앗상회` and the agent-nat
 | `DESIGN_SYSTEM.md` | Phase 0 UI usage rules, token draft, and visual QA contract | Before UI or visual hierarchy work |
 | `UX_REVIEW_20260427.md` | Devil's advocate UX review and Milestone 3.5 guardrails | Before design-system implementation |
 | `GAME_STUDIO_REVIEW_20260427.md` | Game Studio 기준 playfield/runtime/sprite 구조 재검토 | Before changing the game runtime or sprite pipeline |
+| `GAME_UI_UX_RESEARCH_20260428.md` | P0 게임 UI/UX 리서치, 화면 비율, HUD, CLI visual QA, alpha asset 결정 | Before major UI/visual QA work |
 | `SESSION_HANDOFF_20260427.md` | 이번 세션의 작업 맥락과 다음 deep interview 시작점 | Before starting a new session |
 | `AUTONOMOUS_PROJECT_OPERATING_MODEL.md` | ClawSweeper-inspired agent operating model | Before automation/project-management work |
 | `OPERATOR_RUNBOOK.md` | 장시간 `$ralph` 운영사의 start, monitor, recover, stop, summarize 절차 | Before supervised 4h/24h operator runs |

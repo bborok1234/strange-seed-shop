@@ -149,6 +149,8 @@ export default function App() {
     : visibleSeedInventorySeeds;
   const gardenViewModel = useMemo(() => buildGardenPlayfieldViewModel(save, now), [save, now]);
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
+  const showDebugPanel = getLocalDebugMode();
+  const showSidePanel = showDebugPanel || activeTab !== "garden" || Boolean(manifestError);
 
   function commit(mutator: (draft: PlayerSave) => void) {
     setSave((current) => {
@@ -377,7 +379,7 @@ export default function App() {
   }
 
   return (
-    <main className="app-shell">
+    <main className={showSidePanel ? "app-shell" : "app-shell playable-focus"}>
       <section
         className="garden-stage"
         style={backgroundPath ? { backgroundImage: `url(${backgroundPath})` } : undefined}
@@ -431,39 +433,16 @@ export default function App() {
                 </button>
               ))}
             {save && showSeedShop && (
-              <div className="seed-shop-list">
-                {seedInventorySeeds.map((seed) => {
-                  const owned = save.seedInventory[seed.id] ?? 0;
-                  const costLeaves = getSeedPurchaseCost(seed);
-                  const leafShortfall = Math.max(0, costLeaves - save.leaves);
-                  const previewCreature = getDeterministicCreatureForSeed(seed);
-                  const previewDiscovered = previewCreature ? save.discoveredCreatureIds.includes(previewCreature.id) : false;
-                  const targetSeed = seed.id === nextCreatureGoal?.seed.id;
-
-                  return (
-                    <article className={targetSeed ? "seed-shop-row seed-shop-row-target" : "seed-shop-row"} key={seed.id}>
-                      {renderAsset(seed.iconAssetId, "씨앗")}
-                      <div>
-                        <strong>{seed.name}</strong>
-                        <span>보유 {owned}개 · {getSeedHarvestSummary(seed)}</span>
-                        {targetSeed && <span className="seed-target-badge">다음 발견</span>}
-                        {leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}
-                        {previewCreature && (
-                          <small className="seed-creature-preview">
-                            만날 아이: {previewCreature.name} · {previewDiscovered ? "발견함" : "미발견"}
-                          </small>
-                        )}
-                      </div>
-                      <button disabled={save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">
-                        {leafShortfall > 0 ? `${leafShortfall} 잎 부족` : `구매 ${costLeaves}`}
-                      </button>
-                      <button disabled={owned <= 0 || !hasOpenPlot} onClick={() => plantOwnedSeed(seed)} type="button">
-                        심기
-                      </button>
-                    </article>
-                  );
-                })}
-              </div>
+              <article className="garden-action-dock" aria-label="정원 빠른 행동">
+                <div>
+                  <p className="panel-label">씨앗 행동</p>
+                  <strong>{hasOpenPlot ? "열린 밭에 다음 씨앗을 심어보세요" : "밭이 가득 찼어요"}</strong>
+                  <span>씨앗 구매와 보유 목록은 씨앗 탭에서 정리해 볼 수 있어요.</span>
+                </div>
+                <button onClick={() => setActiveTab("seeds")} type="button">
+                  씨앗 탭 열기
+                </button>
+              </article>
             )}
             {activePlot && <p className="hint">밭을 누르면 성장이 빨라지고, 100%가 되면 수확합니다.</p>}
             {firstOwnedCreature && (
@@ -548,16 +527,19 @@ export default function App() {
         </section>
       )}
 
-      <section className={`dev-panel tab-${activeTab}`} aria-label="스캐폴드 검증 정보">
-        <h2>{MAIN_TABS.find((tab) => tab.id === activeTab)?.label}</h2>
-        <ul className="status-list">
-          <li>asset {manifest ? Object.keys(manifest.assets).length : "loading"}</li>
-          <li>save {save ? "ready" : "loading"}</li>
-          <li>events {readEvents().length}</li>
-          <li>runtime image generation disabled</li>
-        </ul>
+      {showSidePanel && (
+        <section className={`dev-panel tab-${activeTab}`} aria-label={showDebugPanel ? "디버그 및 탭 정보" : "탭 상세 정보"}>
+          <h2>{MAIN_TABS.find((tab) => tab.id === activeTab)?.label}</h2>
+          {showDebugPanel && (
+            <ul className="status-list">
+              <li>asset {manifest ? Object.keys(manifest.assets).length : "loading"}</li>
+              <li>save {save ? "ready" : "loading"}</li>
+              <li>events {readEvents().length}</li>
+              <li>runtime image generation disabled</li>
+            </ul>
+          )}
 
-        {activeTab === "garden" && (
+          {showDebugPanel && activeTab === "garden" && (
           <section className="tab-panel mission-board" aria-label="정원 미션">
             <h3>오늘의 의뢰</h3>
             <div className="mission-list">
@@ -603,24 +585,36 @@ export default function App() {
             )}
             <div className="seed-inventory-list">
               {seedInventorySeeds.map((seed) => {
+                const owned = save?.seedInventory[seed.id] ?? 0;
+                const costLeaves = getSeedPurchaseCost(seed);
+                const currentLeaves = save?.leaves ?? 0;
+                const leafShortfall = Math.max(0, costLeaves - currentLeaves);
                 const previewCreature = getDeterministicCreatureForSeed(seed);
                 const previewDiscovered = previewCreature ? (save?.discoveredCreatureIds.includes(previewCreature.id) ?? false) : false;
                 const targetSeed = seed.id === nextCreatureGoal?.seed.id;
 
                 return (
-                  <article className={targetSeed ? "seed-inventory-row seed-inventory-row-target" : "seed-inventory-row"} key={seed.id}>
+                  <article className={targetSeed ? "seed-inventory-row seed-inventory-row-target seed-shop-row-target" : "seed-inventory-row"} key={seed.id}>
                     {renderAsset(seed.iconAssetId, "씨앗")}
                     <div>
                       <strong>{seed.name}</strong>
-                      <span>보유 {save?.seedInventory[seed.id] ?? 0}개</span>
+                      <span>보유 {owned}개 · {getSeedHarvestSummary(seed)}</span>
                       {targetSeed && <span className="seed-target-badge">다음 발견</span>}
+                      {leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}
                       {previewCreature && (
                         <small className="seed-creature-preview">
                           만날 아이: {previewCreature.name} · {previewDiscovered ? "발견함" : "미발견"}
                         </small>
                       )}
                     </div>
-                    <span>{getSeedHarvestSummary(seed)}</span>
+                    <div className="seed-row-actions">
+                      <button disabled={!save || save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">
+                        {leafShortfall > 0 ? `${leafShortfall} 잎 부족` : `구매 ${costLeaves}`}
+                      </button>
+                      <button disabled={owned <= 0 || !hasOpenPlot} onClick={() => plantOwnedSeed(seed)} type="button">
+                        심기
+                      </button>
+                    </div>
                   </article>
                 );
               })}
@@ -786,8 +780,9 @@ export default function App() {
             </div>
           </section>
         )}
-        {manifestError && <p className="error-text">{manifestError}</p>}
-      </section>
+          {manifestError && <p className="error-text">{manifestError}</p>}
+        </section>
+      )}
     </main>
   );
 }
@@ -1119,6 +1114,15 @@ function getLocalQaHarvestReveal(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaHarvestReveal") === "1";
+}
+
+function getLocalDebugMode() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  return params.get("debug") === "1" || params.get("qaDebug") === "1";
 }
 
 function getLocalQaTab(): MainTab | null {

@@ -47,8 +47,8 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
         parent: hostRef.current,
         width: Math.max(320, hostRef.current.clientWidth || 640),
         height: Math.max(260, hostRef.current.clientHeight || 360),
-        backgroundColor: "rgba(0, 0, 0, 0)",
-        transparent: true,
+        backgroundColor: "#dcebbd",
+        transparent: false,
         scene,
         scale: {
           mode: Phaser.Scale.RESIZE,

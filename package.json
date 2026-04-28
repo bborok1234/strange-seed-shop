@@ -20,7 +20,7 @@
     "check:governance": "node scripts/check-governance.mjs",
     "update:pr-audit": "node scripts/update-pr-automation-audit.mjs",
     "check:audit": "node scripts/check-audit-reports.mjs",
-    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run check:dashboard && npm run check:browser-qa && npm run check:sprite-batch && npm run check:asset-normalization && npm run check:playtest-intake && npm run check:gtm-mock && npm run check:control-room && npm run operator:trial:gap-guard && npm run operator:watchdog:stuck-guard && npm run check:operator && npm run check:governance && npm run check:audit && npm run build",
+    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run check:dashboard && npm run check:browser-qa && npm run check:p0-ui-ux && npm run check:sprite-batch && npm run check:asset-normalization && npm run check:asset-alpha && npm run check:playtest-intake && npm run check:gtm-mock && npm run check:control-room && npm run operator:trial:gap-guard && npm run operator:watchdog:stuck-guard && npm run check:operator && npm run check:governance && npm run check:audit && npm run build",
     "check:sprite-batch": "node scripts/check-sprite-batch.mjs",
     "check:operator": "node scripts/check-operator.mjs",
     "operator:watchdog": "node scripts/operator-watchdog.mjs",
@@ -37,7 +37,9 @@
     "play:main": "node scripts/prepare-playable-main.mjs",
     "check:control-room": "node scripts/check-operator-control-room.mjs && node scripts/prepare-playable-main.mjs --check",
     "play:main:install": "node scripts/prepare-playable-main.mjs --install",
-    "play:main:serve": "node scripts/prepare-playable-main.mjs --install --serve"
+    "play:main:serve": "node scripts/prepare-playable-main.mjs --install --serve",
+    "check:p0-ui-ux": "node scripts/check-p0-game-ui-ux.mjs",
+    "check:asset-alpha": "node scripts/check-asset-alpha-quality.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
