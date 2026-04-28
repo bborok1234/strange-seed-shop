@@ -109,6 +109,7 @@ Goal: improve the first 5 minutes without adding new game systems, while preserv
 | Expedition reward preview v0 | review | `src/App.tsx`, `src/styles.css`, `items/0047-expedition-reward-preview.md`, `reports/visual/expedition-reward-preview-mobile-20260428.png` | 원정 탭에서 첫 원정의 시간·필요 생명체·보상을 보여 원정 루프 동기를 명확히 함 |
 | Expedition unlock hint v0 | review | `src/App.tsx`, `src/styles.css`, `items/0048-expedition-unlock-hint.md`, `reports/visual/expedition-unlock-hint-mobile-20260428.png` | 원정 시작 전 필요한 생명체 수와 시작 가능 상태를 보여 첫 수확 후 원정 전환 마찰을 줄임 |
 | Expedition progress hint v0 | review | `src/App.tsx`, `src/styles.css`, `items/0049-expedition-progress-hint.md`, `reports/visual/expedition-progress-hint-mobile-20260428.png` | 진행 중인 원정의 남은 시간과 완료 보상 상태를 보여 idle comeback 루프를 명확히 함 |
+| Expedition tab status badge v0 | review | `src/App.tsx`, `items/0050-expedition-tab-status-badge.md`, `reports/visual/expedition-tab-status-badge-mobile-20260428.png` | 하단 원정 탭에 진행/완료 배지를 붙여 다른 탭에서도 복귀·수령 신호를 놓치지 않게 함 |
 
 ## Milestone 3.6: Phaser Playfield Runtime + Sprite Pipeline Spike
 
@@ -204,7 +205,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #80 / PR #81의 원정 progress hint이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #82 / PR #83의 원정 tab status badge이다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
@@ -235,4 +236,5 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 27. Issue #74 / PR #75는 merge 완료되어 도감 화면에 다음 album milestone 보상과 남은 발견 수를 보여 수집 동기를 강화한다.
 28. Issue #76 / PR #77은 merge 완료되어 원정 탭에서 첫 원정의 시간·필요 생명체·보상 요약을 보여 원정 루프 동기를 명확히 한다.
 29. Issue #78 / PR #79는 merge 완료되어 원정 시작 전 필요한 생명체 수와 시작 가능 상태를 보여 첫 수확 후 원정 전환 마찰을 줄인다.
-30. Issue #80 / PR #81은 진행 중인 원정의 남은 시간과 완료 보상 상태를 보여 idle comeback 루프를 명확히 한다.
+30. Issue #80 / PR #81은 merge 완료되어 진행 중인 원정의 남은 시간과 완료 보상 상태를 보여 idle comeback 루프를 명확히 한다.
+31. Issue #82 / PR #83은 하단 원정 탭에 진행/완료 배지를 붙여 다른 탭에서도 복귀·수령 신호를 놓치지 않게 한다.

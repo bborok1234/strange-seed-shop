@@ -498,6 +498,8 @@ export default function App() {
           {MAIN_TABS.map((tab) => {
             const albumProgressBadge =
               tab.id === "album" && save ? `${albumDiscoveredCount}/${content.creatures.length}` : null;
+            const expeditionStatusBadge =
+              tab.id === "expedition" && save?.activeExpedition ? (expeditionReady ? "완료" : "진행") : null;
 
             return (
               <button
@@ -511,6 +513,11 @@ export default function App() {
                 {albumProgressBadge && (
                   <span aria-label={`도감 진행 ${albumProgressBadge}`} className="tab-progress-badge">
                     {albumProgressBadge}
+                  </span>
+                )}
+                {expeditionStatusBadge && (
+                  <span aria-label={`원정 상태 ${expeditionStatusBadge}`} className="tab-progress-badge">
+                    {expeditionStatusBadge}
                   </span>
                 )}
               </button>
