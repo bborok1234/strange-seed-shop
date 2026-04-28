@@ -85,4 +85,4 @@ The 2h supervised operator trial is accepted as a successful Milestone 7 proof: 
 - Local check: `npm run check:operator` PASS
 - Local check: `npm run check:all` PASS
 - Architect verification: APPROVED
-- GitHub PR checks: pending for PR #50 (`Verify game baseline`, `Check automerge eligibility`)
+- GitHub PR checks: PR #50 PASS (`Verify game baseline`, `Check automerge eligibility`)
