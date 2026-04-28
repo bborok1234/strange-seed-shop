@@ -143,7 +143,7 @@ Goal: before claiming overnight autonomy again, make a single `$ralph`/Codex ses
 | Add heartbeat ledger | review | `.omx/state/operator-heartbeat.json`, `reports/operations/operator-heartbeat-20260428.jsonl`, `scripts/write-operator-heartbeat.mjs` | A running session writes timestamp, phase, branch, PR, current command, and next action at least once per iteration |
 | Add Ralph stuck report procedure | review | `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `reports/operations/stuck-drill-20260428.md`, `scripts/report-operator-stuck.mjs` | `collab: Wait`, stale tmux, orphan process, red CI, and timeout states produce explicit reports instead of false completion |
 | Add CI repair loop contract | review | `docs/PR_AUTOMATION.md`, `reports/operations/operator-loop-20260428.md` | PR checks are polled; red checks trigger log inspection, fix attempt, re-run, or blocker report |
-| Prove one closed loop | active | Issue #25, `reports/operations/operator-loop-20260428.md` | One issue/work item reaches branch -> commit -> draft PR -> local checks -> GitHub checks -> follow-up issue/comment without main auto-merge |
+| Prove one closed loop | done | Issue #25, PR #26, Issue #27, `reports/operations/operator-loop-20260428.md` | One issue/work item reached branch -> commit -> PR -> local checks -> GitHub checks -> follow-up issue/comment without main auto-merge |
 
 ## Milestone 7: Supervised Multi-Hour Operator
 
@@ -151,8 +151,8 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 
 | Step | Status | Output | Acceptance Criteria |
 | --- | --- | --- | --- |
-| Build watchdog runner | todo | `scripts/operator-runner.*` or equivalent | Runner detects stale heartbeat, stuck child process, and command timeout; it restarts or records blocker |
-| Add iteration budget and stop rules | todo | `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` | Time, token, branch, risk, and network/credential stop conditions are explicit |
+| Build watchdog runner | review | `scripts/operator-watchdog.mjs`, `reports/operations/watchdog-fresh-drill-20260428.md`, `reports/operations/watchdog-stale-drill-20260428.md` | Runner detects stale heartbeat and records a reportable state before supervised restart behavior |
+| Add iteration budget and stop rules | review | `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `reports/operations/operator-trial-template-20260428.md` | Time, branch, risk, and network/credential stop conditions are explicit before long-running trials |
 | Run 2-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | Heartbeat coverage, work completed, failures, CI status, and recovery attempts are recorded |
 | Run 4-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | At least one complete issue-to-PR loop or an honest blocker report exists; no red PR is called complete |
 
@@ -184,6 +184,6 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
-3. 현재 안전한 운영사 작업은 Issue #25 / `items/0019-ralph-session-operating-company-v0.md`로 진행 중이며, Ralph-session 안에서 issue -> branch -> commit -> draft PR -> local check -> GitHub check -> follow-up까지 한 번의 닫힌 루프를 증명한다.
+3. Issue #25 / PR #26으로 첫 운영사 루프가 닫혔고, 현재 안전한 후속 작업은 Issue #27 / `items/0020-operator-watchdog-runner-trial-scaffold.md`로 watchdog freshness 판정과 supervised trial report scaffold를 검증하는 것이다.
 4. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
 5. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
