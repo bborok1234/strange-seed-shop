@@ -26,7 +26,8 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | --- | --- | --- | --- |
 | P0 UI/UX research baseline | active | `docs/GAME_UI_UX_RESEARCH_20260428.md`, `items/0053-game-ui-ux-p0-rescue.md`, Issue #89 | HUD/playfield, Phaser viewport, CLI visual QA, alpha asset 기준과 프로젝트 결정이 문서화됨 |
 | Playfield-first garden screen | active | `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenScene.ts` | 정원 기본 화면에서 안내/하이라이트/패널이 밭을 가리지 않고 Phaser playfield가 주 시각 영역으로 보임 |
-| Phaser playfield presentation polish | active | Issue #99, `items/0058-playfield-presentation-polish.md`, `src/game/playfield/GardenScene.ts` | ready/locked/empty plot 상태가 모바일 수집 게임 화면처럼 더 선명하게 구분됨 |
+| Phaser playfield presentation polish | done | Issue #99, PR #100, `items/0058-playfield-presentation-polish.md`, `src/game/playfield/GardenScene.ts` | ready/locked/empty plot 상태가 모바일 수집 게임 화면처럼 더 선명하게 구분되고 main CI가 통과함 |
+| Phaser playfield visual-noise cleanup | active | Issue #101, `items/0059-playfield-visual-noise-cleanup.md`, `src/game/playfield/GardenScene.ts` | locked plot 반복 텍스트/강한 선을 줄여 ready plot이 먼저 보이게 함 |
 | Player/debug surface split | active | app shell/debug mode policy | `asset count`, `save ready`, `events`, `runtime image generation disabled`는 playable 기본 화면에서 숨겨지고 debug mode에서만 노출됨 |
 | Mobile/desktop viewport policy | active | `docs/DESIGN_SYSTEM.md`, visual evidence | 모바일 세로 game frame과 데스크톱 중앙 game frame 기준으로 capture evidence가 남음 |
 | Mobile tab screen architecture | done | Issue #95, PR #96, `items/0056-mobile-tab-screen-visual-regression.md`, `src/App.tsx`, `src/styles.css` | 모바일 non-garden 탭은 half overlay가 아니라 body scroll 없는 full tab screen으로 전환되고 main CI가 통과함 |
@@ -226,12 +227,12 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 운영모드는 **P0 Game Studio Operating Mode — UI/UX Rescue**다. Issue #99가 현재 active mission이며, 목표는 Phaser playfield 내부 plot 상태가 수집형 모바일 게임처럼 더 선명하게 읽히게 만드는 것이다.
+현재 운영모드는 **P0 Game Studio Operating Mode — UI/UX Rescue**다. Issue #101이 현재 active mission이며, 목표는 Phaser playfield 내부 locked/empty slot이 grid noise처럼 보이는 문제를 줄여 ready plot이 먼저 읽히게 만드는 것이다.
 
 즉시 다음 작업:
 
-1. `items/0058-playfield-presentation-polish.md` 기준으로 PR #99 구현 branch를 진행한다.
-2. ready/locked/empty plot presentation을 정리해 “지금 누를 곳”과 “아직 잠긴 곳”을 더 선명하게 만든다.
+1. `items/0059-playfield-visual-noise-cleanup.md` 기준으로 PR #101 구현 branch를 진행한다.
+2. locked plot 반복 텍스트/번호/강한 선을 줄인다.
 3. 393/375/360 mobile Playwright gate와 screenshot evidence를 갱신한다.
 4. 통과 후 다음 P0 루프는 tap/harvest fx, creature reveal, 탭별 game UI skinning을 이어간다.
 
