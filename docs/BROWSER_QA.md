@@ -84,6 +84,9 @@ Issue #18에서 Browser Use `iab` backend 직접 검증을 다시 시도했다. 
 
 - 2026-04-28: P0 UI/UX rescue에서 CDP CLI로 before/after mobile/desktop evidence를 저장했다: `reports/visual/p0-ui-ux-rescue-20260428.md`, `reports/visual/p0-ui-ux-before-main-mobile-20260428.png`, `reports/visual/p0-ui-ux-after-mobile-20260428.png`, `reports/visual/p0-ui-ux-after-desktop-20260428.png`.
 
+
+- 2026-04-28: P0 asset alpha cutout 후 harvest reveal과 album context에서 체커보드 배경이 사라진 것을 CDP CLI로 확인했다: `reports/visual/p0-alpha-cutout-harvest-reveal-20260428.png`, `reports/visual/p0-alpha-cutout-album-20260428.png`.
+
 ## 남은 QA
 
 - Browser Use 직접 검증은 Node REPL `js` execution tool이 세션에 노출되면 재시도한다.
