@@ -28,13 +28,14 @@ Updated: 2026-04-28
 | Sprite batch QA gate | review | `npm run check:sprite-batch` |
 | 플레이테스트 intake | review | `npm run check:playtest-intake` |
 | GTM mock lane | review | `npm run check:gtm-mock` |
+| Asset normalization | review | `npm run check:asset-normalization` |
 
 ## 로드맵 요약
 
 | 상태 | 개수 |
 | --- | ---: |
 | done | 28 |
-| review | 35 |
+| review | 36 |
 | todo | 6 |
 | blocked | 0 |
 
@@ -56,6 +57,7 @@ Updated: 2026-04-28
 | `npm run check:dashboard` | tracked |
 | `npm run check:browser-qa` | tracked |
 | `npm run check:sprite-batch` | tracked |
+| `npm run check:asset-normalization` | tracked |
 | `npm run check:playtest-intake` | tracked |
 | `npm run check:gtm-mock` | tracked |
 | `npm run check:operator` | tracked |

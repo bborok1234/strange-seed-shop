@@ -50,7 +50,8 @@ const rows = [
     "`npm run check:sprite-batch`"
   ],
   ["플레이테스트 intake", stepStatus("Create feedback intake format", "todo"), "`npm run check:playtest-intake`"],
-  ["GTM mock lane", stepStatus("Add GTM mock lane", "todo"), "`npm run check:gtm-mock`"]
+  ["GTM mock lane", stepStatus("Add GTM mock lane", "todo"), "`npm run check:gtm-mock`"],
+  ["Asset normalization", stepStatus("Asset export and strip normalization path", "todo"), "`npm run check:asset-normalization`"]
 ];
 
 const commands = [
@@ -62,6 +63,7 @@ const commands = [
   "npm run check:dashboard",
   "npm run check:browser-qa",
   "npm run check:sprite-batch",
+  "npm run check:asset-normalization",
   "npm run check:playtest-intake",
   "npm run check:gtm-mock",
   "npm run check:operator",
