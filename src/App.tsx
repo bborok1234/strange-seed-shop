@@ -24,6 +24,13 @@ interface NextCreatureGoal {
   totalCount: number;
 }
 
+interface AlbumMilestone {
+  id: string;
+  requiredDiscoveries: number;
+  leaves: number;
+  pollen: number;
+}
+
 const FIRST_UPGRADE_COST = 25;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
@@ -111,6 +118,10 @@ export default function App() {
   const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
   const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
   const nextCreatureGoal = useMemo(() => getNextCreatureGoal(save), [save]);
+  const nextAlbumMilestone = save ? getNextAlbumMilestone(albumDiscoveredCount, save.claimedAlbumMilestoneIds) : null;
+  const nextAlbumRewardRemaining = nextAlbumMilestone
+    ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
+    : 0;
   const visibleSeedInventorySeeds =
     nextCreatureGoal && !availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)
       ? [nextCreatureGoal.seed, ...availableSeeds]
@@ -600,6 +611,21 @@ export default function App() {
               발견한 생명체 {albumDiscoveredCount}/{content.creatures.length}
             </h3>
             <p className="album-progress-copy">미발견 슬롯의 단서를 따라 씨앗을 심고 도감 칸을 채워보세요.</p>
+            {nextAlbumMilestone && (
+              <article className="album-reward-preview" aria-label="다음 도감 보상">
+                <div>
+                  <p className="panel-label">다음 도감 보상</p>
+                  <strong>
+                    발견 {albumDiscoveredCount}/{nextAlbumMilestone.requiredDiscoveries}
+                  </strong>
+                  <span>
+                    {nextAlbumRewardRemaining > 0 ? `${nextAlbumRewardRemaining}마리 더 발견하면` : "보상 준비됨"} · +{nextAlbumMilestone.leaves} 잎
+                    {nextAlbumMilestone.pollen > 0 ? ` · +${nextAlbumMilestone.pollen} 꽃가루` : ""}
+                  </span>
+                </div>
+                <span className="album-reward-chip">수집 보상 예고</span>
+              </article>
+            )}
             {nextCreatureGoal && (
               <button
                 aria-label={`다음 발견 목표 ${nextCreatureGoal.creature.name}, ${nextCreatureGoal.seed.name} 씨앗 보러가기`}
@@ -708,6 +734,11 @@ export default function App() {
       </section>
     </main>
   );
+}
+
+function getNextAlbumMilestone(discoveredCount: number, claimedMilestoneIds: string[]): AlbumMilestone | null {
+  const milestones = content.rewards.albumMilestones as AlbumMilestone[];
+  return milestones.find((milestone) => !claimedMilestoneIds.includes(milestone.id) || discoveredCount < milestone.requiredDiscoveries) ?? null;
 }
 
 function getNextCreatureGoal(save: PlayerSave | null): NextCreatureGoal | null {
