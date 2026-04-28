@@ -35,14 +35,14 @@
 
 ## Branch protection과 required checks
 
-저장소 변수 `ENABLE_AGENT_AUTOMERGE`를 켜기 전에 `main` Branch protection을 먼저 설정한다.
+`main` Branch protection은 2026-04-28에 설정되었고 required checks를 강제한다. 저장소 변수 `ENABLE_AGENT_AUTOMERGE`를 켜는 것은 별도 운영 결정이다.
 
 권장 required checks:
 
 - `Verify game baseline`
 - `Check automerge eligibility`
 
-브랜치 보호 없이 `ENABLE_AGENT_AUTOMERGE`를 켜면 auto-merge 요청이 사실상 즉시 병합으로 이어질 수 있다. 따라서 자동 머지 활성화는 `docs/AUTOMERGE_GOVERNANCE.md`의 중단 조건과 저장소 변수 운영 기준을 따른다.
+브랜치 보호는 설정되었지만, 자동 머지 활성화는 여전히 `docs/AUTOMERGE_GOVERNANCE.md`의 중단 조건과 저장소 변수 운영 기준을 따른다.
 
 ## 로컬 검증
 

@@ -128,7 +128,7 @@ Goal: make the project increasingly self-managing.
 | Create dashboard | review | `docs/DASHBOARD.md`, `scripts/update-dashboard.mjs` | Current status, next item, verification health visible and checkable |
 | Document automerge governance | review | `docs/AUTOMERGE_GOVERNANCE.md`, `scripts/check-governance.mjs` | Branch protection, required checks, and `ENABLE_AGENT_AUTOMERGE` operating rules are checkable |
 | Accumulate PR automation audit | review | `reports/audits/pr_automation_20260427.md`, `scripts/check-audit-reports.mjs` | PR #1-#5 automation results are preserved and checkable |
-| Audit Branch protection status | review | `reports/audits/branch_protection_20260427.md` | `main.protected=false` and Branch protection access limit are recorded |
+| Audit Branch protection status | done | `reports/audits/branch_protection_20260427.md` | `main.protected=true`; required checks `Verify game baseline`, `Check automerge eligibility` are enforced |
 | Generate PR automation audit | review | `scripts/update-pr-automation-audit.mjs`, `reports/audits/pr_automation_20260427.md` | PR automation audit can be regenerated from `gh pr list`; `check:audit` validates snapshot consistency instead of forcing endless self-refresh |
 | Browser Use QA gate | review | `scripts/check-browser-qa.mjs`, `reports/visual/browser-use-main-20260427.png` | Browser Use first policy and visual evidence are checked by `npm run check:browser-qa` |
 

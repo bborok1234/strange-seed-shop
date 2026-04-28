@@ -12,7 +12,7 @@
 
 후보 판정은 pull request 이벤트 페이로드의 label 목록에만 의존하지 않는다. workflow는 체크 직전에 `gh pr view`로 현재 PR label을 다시 읽어, PR 생성 직후 label 적용 순서 차이 때문에 `agent-automerge`가 누락되어 보이는 실패를 줄인다.
 
-2026-04-27 audit 기준으로 `main`은 `protected: false`이며, private repository의 Branch protection endpoint는 `HTTP 403`을 반환했다. 따라서 `ENABLE_AGENT_AUTOMERGE`는 계속 꺼진 상태를 유지한다.
+2026-04-28 audit 기준으로 repository는 `PUBLIC`이고 `main`은 `protected: true`다. Branch protection은 `Verify game baseline`, `Check automerge eligibility` required checks를 strict 모드로 강제한다. `ENABLE_AGENT_AUTOMERGE` 활성화 여부는 별도 운영 결정으로 남긴다.
 
 ## Branch protection
 

@@ -18,7 +18,7 @@ Updated: 2026-04-28
 | 대시보드 자동 갱신 | review | `npm run update:dashboard`, `npm run check:dashboard` |
 | 자동 머지 거버넌스 | review | `npm run check:governance` |
 | PR 자동화 audit | review | `npm run check:audit` |
-| Branch protection audit | review | `reports/audits/branch_protection_20260427.md` |
+| Branch protection audit | done | `reports/audits/branch_protection_20260427.md` |
 | PR audit 생성기 | review | `npm run update:pr-audit` |
 | Browser Use QA gate | review | `npm run check:browser-qa` |
 
@@ -26,8 +26,8 @@ Updated: 2026-04-28
 
 | 상태 | 개수 |
 | --- | ---: |
-| done | 26 |
-| review | 21 |
+| done | 27 |
+| review | 20 |
 | todo | 17 |
 | blocked | 0 |
 
