@@ -135,6 +135,7 @@ Goal: make the project increasingly self-managing.
 | Audit Branch protection status | done | `reports/audits/branch_protection_20260427.md` | `main.protected=true`; required checks `Verify game baseline`, `Check automerge eligibility` are enforced |
 | Generate PR automation audit | review | `scripts/update-pr-automation-audit.mjs`, `reports/audits/pr_automation_20260427.md` | PR automation audit can be regenerated from `gh pr list`; `check:audit` validates snapshot consistency instead of forcing endless self-refresh |
 | Browser Use QA gate | review | `scripts/check-browser-qa.mjs`, `reports/visual/browser-use-main-20260427.png` | Browser Use first policy and visual evidence are checked by `npm run check:browser-qa` |
+| Browser Use iab recovery diagnostic | review | `reports/visual/browser-use-iab-runtime-diagnostic-20260428.md`, `reports/visual/browser-use-iab-fallback-phaser-mobile-20260428.png`, `reports/visual/browser-use-iab-fallback-phaser-desktop-20260428.png` | Browser Use 직접 실행 차단 조건과 CDP fallback evidence가 Issue #18 기준으로 고정됨 |
 
 ## Milestone 6: Ralph-Session Operating Company v0
 

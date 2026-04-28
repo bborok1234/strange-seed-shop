@@ -20,7 +20,10 @@ const requiredPaths = [
   "reports/visual/phaser-browser-use-fallback-20260427.md",
   "reports/visual/phaser-playfield-mobile-360-20260427.png",
   "reports/visual/phaser-playfield-desktop-1280-20260427.png",
-  "reports/visual/phaser-playfield-after-loop-20260427.png"
+  "reports/visual/phaser-playfield-after-loop-20260427.png",
+  "reports/visual/browser-use-iab-runtime-diagnostic-20260428.md",
+  "reports/visual/browser-use-iab-fallback-phaser-mobile-20260428.png",
+  "reports/visual/browser-use-iab-fallback-phaser-desktop-20260428.png"
 ];
 
 const requiredPhrases = new Map([
@@ -43,7 +46,10 @@ const requiredPhrases = new Map([
       "reports/visual/phaser-browser-use-fallback-20260427.md",
       "reports/visual/phaser-playfield-mobile-360-20260427.png",
       "reports/visual/phaser-playfield-desktop-1280-20260427.png",
-      "reports/visual/phaser-playfield-after-loop-20260427.png"
+      "reports/visual/phaser-playfield-after-loop-20260427.png",
+      "reports/visual/browser-use-iab-runtime-diagnostic-20260428.md",
+      "reports/visual/browser-use-iab-fallback-phaser-mobile-20260428.png",
+      "reports/visual/browser-use-iab-fallback-phaser-desktop-20260428.png"
     ]
   ],
   [
@@ -54,6 +60,20 @@ const requiredPhrases = new Map([
       "reports/visual/phaser-playfield-mobile-360-20260427.png",
       "reports/visual/phaser-playfield-desktop-1280-20260427.png",
       "reports/visual/phaser-playfield-after-loop-20260427.png"
+    ]
+  ],
+  [
+    "reports/visual/browser-use-iab-runtime-diagnostic-20260428.md",
+    [
+      "Status: accepted fallback",
+      "Issue: #18",
+      "Browser Use 우선 시도",
+      "Node REPL `js`",
+      "Static import \"node:os\" is not supported",
+      "Accepted fallback evidence",
+      "reports/visual/browser-use-iab-fallback-phaser-mobile-20260428.png",
+      "reports/visual/browser-use-iab-fallback-phaser-desktop-20260428.png",
+      "다음 복구 조건"
     ]
   ],
   [

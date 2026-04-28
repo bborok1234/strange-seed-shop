@@ -24,6 +24,16 @@ Browser Use를 시도하기 전에 별도 Playwright 설치, Computer Use, macOS
 - CI처럼 Codex in-app browser가 없는 환경에서 자동 검증이 필요하다.
 - 정확한 viewport 크기 지정이 필요한 경우에는 `npm run capture:local -- <url> <output> <width> <height>`로 Chrome DevTools Protocol 캡처를 사용한다.
 
+## 2026-04-28 Browser Use `iab` 복구 진단
+
+Issue #18에서 Browser Use `iab` backend 직접 검증을 다시 시도했다. Browser Use plugin의 `scripts/browser-client.mjs` 파일은 존재하지만, 현재 callable tool 표면에는 skill이 요구하는 Node REPL `js` 실행 tool(`mcp__node_repl__js` 또는 동등 tool)이 노출되지 않았다. 대체로 사용 가능한 `functions.js_repl`은 plugin module import 중 static `node:os` import 제한으로 bootstrap에 실패했다.
+
+따라서 이번 검증은 `reports/visual/browser-use-iab-runtime-diagnostic-20260428.md`에 환경 차단으로 기록하고, CDP fallback 캡처를 최신 Phaser playfield evidence로 저장했다. Browser Use 직접 검증은 Node REPL `js` tool이 노출되거나 Browser Use plugin이 현재 JS REPL 제한과 호환될 때 재시도한다.
+
+- Diagnostic report: `reports/visual/browser-use-iab-runtime-diagnostic-20260428.md`
+- CDP fallback mobile: `reports/visual/browser-use-iab-fallback-phaser-mobile-20260428.png`
+- CDP fallback desktop: `reports/visual/browser-use-iab-fallback-phaser-desktop-20260428.png`
+
 ## 현재 검증 증거
 
 - 2026-04-27: Browser Use `iab` backend로 `http://127.0.0.1:3000/` 접속 확인.
@@ -53,6 +63,12 @@ Browser Use를 시도하기 전에 별도 Playwright 설치, Computer Use, macOS
 - 2026-04-27: Chrome DevTools Protocol로 Phaser playfield 1280x900 viewport 캡처 저장: `reports/visual/phaser-playfield-desktop-1280-20260427.png`
 - 2026-04-27: Chrome DevTools Protocol로 Phaser playfield 첫 loop 이후 캡처 저장: `reports/visual/phaser-playfield-after-loop-20260427.png`
 
+- 2026-04-28: Browser Use `iab` backend 직접 복구를 재시도했으나 Node REPL `js` 실행 tool 미노출과 `functions.js_repl` static `node:os` import 제한으로 환경 차단을 기록했다: `reports/visual/browser-use-iab-runtime-diagnostic-20260428.md`
+- 2026-04-28: Chrome DevTools Protocol로 Browser Use fallback Phaser playfield 360x900 캡처 저장: `reports/visual/browser-use-iab-fallback-phaser-mobile-20260428.png`
+- 2026-04-28: Chrome DevTools Protocol로 Browser Use fallback Phaser playfield 1280x900 캡처 저장: `reports/visual/browser-use-iab-fallback-phaser-desktop-20260428.png`
+
 ## 남은 QA
 
+- Browser Use 직접 검증은 Node REPL `js` execution tool이 세션에 노출되면 재시도한다.
+- 그 전까지는 Browser Use skill을 먼저 읽고 `reports/visual/` blocker report를 남긴 뒤에만 CDP fallback을 허용한다.
 - 다음 QA는 새 게임 시스템, 저장 구조, 콘텐츠 schema, analytics event 이름을 변경하는 작업이 생길 때 갱신한다.
