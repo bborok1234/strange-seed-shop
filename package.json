@@ -24,7 +24,8 @@
     "check:sprite-batch": "node scripts/check-sprite-batch.mjs",
     "check:operator": "node scripts/check-operator.mjs",
     "operator:watchdog": "node scripts/operator-watchdog.mjs",
-    "operator:trial:dry-run": "node scripts/operator-trial-dry-run.mjs"
+    "operator:trial:dry-run": "node scripts/operator-trial-dry-run.mjs",
+    "operator:trial:readiness": "node scripts/check-operator-trial-readiness.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
