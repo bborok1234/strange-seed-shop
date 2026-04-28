@@ -15,10 +15,10 @@ const FAMILY_COLORS: Record<NonNullable<GardenPlotView["family"]>, { fill: numbe
 };
 
 const STATE_COLORS: Record<GardenPlotView["state"], { fill: number; stroke: number; label: string }> = {
-  locked: { fill: 0x87907f, stroke: 0x66705e, label: "잠김" },
-  empty: { fill: 0xe9d99a, stroke: 0x9c7d43, label: "빈 밭" },
-  growing: { fill: 0xaedc82, stroke: 0x4f803f, label: "성장" },
-  ready: { fill: 0xf7d65f, stroke: 0xb37724, label: "수확" }
+  locked: { fill: 0xa2aa97, stroke: 0x6c765f, label: "잠금" },
+  empty: { fill: 0xf1df9f, stroke: 0xa2803f, label: "빈 자리" },
+  growing: { fill: 0xaedc82, stroke: 0x4f803f, label: "성장 중" },
+  ready: { fill: 0xffd95b, stroke: 0xb37724, label: "수확!" }
 };
 
 const EFFECT_LAYOUT: Partial<Record<PlayfieldAnimationSlot, { displaySize: number; offsetX: number; offsetY: number }>> = {
@@ -144,12 +144,12 @@ export class GardenScene extends Phaser.Scene {
     const graphics = this.add.graphics();
     this.root.add(graphics);
 
-    graphics.fillStyle(0xf8efc9, 0.78);
+    graphics.fillStyle(0xfff3c9, 0.82);
     graphics.fillRoundedRect(8, 8, width - 16, height - 16, 28);
-    graphics.lineStyle(2, 0x31563e, 0.18);
+    graphics.lineStyle(2, 0x31563e, 0.2);
     graphics.strokeRoundedRect(10, 10, width - 20, height - 20, 26);
 
-    graphics.fillStyle(0xd8efb5, 0.38);
+    graphics.fillStyle(0xd8efb5, 0.3);
     graphics.fillEllipse(width * 0.5, height * 0.62, width * 0.92, height * 0.54);
 
     const plots = this.viewModel?.plots ?? [];
@@ -174,24 +174,30 @@ export class GardenScene extends Phaser.Scene {
     const familyColor = plot.family ? FAMILY_COLORS[plot.family] : undefined;
     const fill = familyColor?.fill ?? stateColor.fill;
     const stroke = plot.state === "ready" ? STATE_COLORS.ready.stroke : familyColor?.accent ?? stateColor.stroke;
-    const alpha = plot.state === "locked" ? 0.2 : plot.state === "ready" ? 0.92 : 0.78;
+    const alpha = plot.state === "locked" ? 0.13 : plot.state === "ready" ? 0.98 : 0.82;
     const group = this.add.container(x, y);
     this.root?.add(group);
 
     const tile = this.add.graphics();
+    if (plot.state === "ready") {
+      this.drawHarvestAura(group, width, height);
+    }
+
     tile.fillStyle(fill, alpha);
     tile.fillRoundedRect(0, 0, width, height, 16);
-    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, plot.state === "locked" ? 0.24 : 0.82);
+    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, plot.state === "locked" ? 0.2 : 0.86);
     tile.strokeRoundedRect(1, 1, width - 2, height - 2, 16);
     group.add(tile);
 
     const mound = this.add.graphics();
-    mound.fillStyle(0x795435, plot.state === "locked" ? 0.16 : 0.42);
-    mound.fillEllipse(width / 2, height * 0.67, width * 0.62, Math.max(13, height * 0.18));
+    mound.fillStyle(0x795435, plot.state === "locked" ? 0.1 : 0.36);
+    mound.fillEllipse(width / 2, height * 0.7, width * 0.58, Math.max(12, height * 0.14));
     group.add(mound);
 
     if (plot.state === "growing" || plot.state === "ready") {
       this.drawPlant(group, plot, width, height, familyColor?.accent ?? 0x3c7041);
+    } else if (plot.state === "empty") {
+      this.drawEmptyCue(group, width, height);
     }
 
     if (plot.state === "ready") {
@@ -201,19 +207,29 @@ export class GardenScene extends Phaser.Scene {
       group.add(glow);
     }
 
-    const label = this.addText(width / 2, 8, plot.label, {
-      color: plot.family ? FAMILY_COLORS[plot.family].text : "#33452f",
-      fontSize: width < 100 ? "11px" : "12px",
-      fontStyle: "800"
-    }).setOrigin(0.5, 0);
-    group.add(label);
+    this.drawPlotBadge(group, plot, width);
+
+    if (plot.state !== "locked") {
+      const label = this.addText(width / 2, 10, plot.label, {
+        color: plot.family ? FAMILY_COLORS[plot.family].text : "#33452f",
+        fontSize: width < 100 ? "10px" : "11px",
+        fontStyle: "900"
+      }).setOrigin(0.5, 0);
+      label.setWordWrapWidth(width - 18);
+      group.add(label);
+    }
 
     if (plot.state === "growing" || plot.state === "ready") {
+      if (plot.state === "ready") {
+        this.drawStatusPill(group, STATE_COLORS.ready.label, width / 2, height * 0.28, width);
+      }
       this.drawProgress(group, plot.progressPercent, width, height);
+    } else if (plot.state === "locked") {
+      this.drawLockGlyph(group, width, height);
     } else {
-      const stateLabel = this.addText(width / 2, height * 0.48, stateColor.label, {
-        color: plot.state === "locked" ? "#4f594b" : "#4a613d",
-        fontSize: "12px",
+      const stateLabel = this.addText(width / 2, height * 0.5, stateColor.label, {
+        color: "#4a613d",
+        fontSize: "11px",
         fontStyle: "800"
       }).setOrigin(0.5, 0.5);
       group.add(stateLabel);
@@ -222,6 +238,63 @@ export class GardenScene extends Phaser.Scene {
     const hitZone = this.add.zone(width / 2, height / 2, width, height).setInteractive({ useHandCursor: plot.state !== "locked" });
     hitZone.on("pointerdown", () => this.emitPlotAction(plot, x + width / 2, y + height * 0.55));
     group.add(hitZone);
+  }
+
+  private drawPlotBadge(group: Phaser.GameObjects.Container, plot: GardenPlotView, width: number) {
+    const indexText = this.addText(16, 9, `${plot.index + 1}`, {
+      color: plot.state === "ready" ? "#6b4a13" : plot.state === "locked" ? "#63705b" : "#fff8d5",
+      fontSize: "10px",
+      fontStyle: "900"
+    }).setOrigin(0.5, 0);
+    group.add(indexText);
+
+    if (plot.state === "ready") {
+      const sparkle = this.addText(width - 16, 7, "✦", {
+        color: "#fff4a7",
+        fontSize: "15px",
+        fontStyle: "900"
+      }).setOrigin(0.5, 0);
+      group.add(sparkle);
+    }
+  }
+
+  private drawHarvestAura(group: Phaser.GameObjects.Container, width: number, height: number) {
+    const aura = this.add.graphics();
+    aura.fillStyle(0xfff4a7, 0.24);
+    aura.fillRoundedRect(-5, -5, width + 10, height + 10, 20);
+    aura.lineStyle(5, 0xfff0a3, 0.18);
+    aura.strokeRoundedRect(-4, -4, width + 8, height + 8, 20);
+    group.add(aura);
+  }
+
+  private drawEmptyCue(group: Phaser.GameObjects.Container, width: number, height: number) {
+    const cue = this.addText(width / 2, height * 0.34, "＋", {
+      color: "#6f8a58",
+      fontSize: "24px",
+      fontStyle: "800"
+    }).setOrigin(0.5, 0.5);
+    cue.setAlpha(0.32);
+    group.add(cue);
+  }
+
+  private drawLockGlyph(group: Phaser.GameObjects.Container, width: number, height: number) {
+    const lock = this.addText(width / 2, height * 0.46, "잠금", {
+      color: "#5e684f",
+      fontSize: "11px",
+      fontStyle: "900"
+    }).setOrigin(0.5, 0.5);
+    lock.setAlpha(0.34);
+    group.add(lock);
+  }
+
+  private drawStatusPill(group: Phaser.GameObjects.Container, label: string, x: number, y: number, width: number) {
+    const text = this.addText(x, y + 4, label, {
+      color: "#1f5a3c",
+      fontSize: width < 100 ? "10px" : "11px",
+      fontStyle: "900"
+    }).setOrigin(0.5, 0);
+    text.setShadow(0, 1, "#fff6bd", 3, true, true);
+    group.add(text);
   }
 
   private drawPlant(
@@ -243,22 +316,22 @@ export class GardenScene extends Phaser.Scene {
     }
 
     const progress = Math.max(0.16, plot.progressPercent / 100);
-    const stemHeight = Math.max(22, height * 0.34 * progress);
+    const stemHeight = Math.max(22, height * 0.38 * progress);
     const centerX = width / 2;
-    const baseY = height * 0.68;
+    const baseY = height * 0.7;
     const plant = this.add.graphics();
 
-    plant.lineStyle(5, accent, 0.9);
+    plant.lineStyle(plot.state === "ready" ? 6 : 5, accent, 0.92);
     plant.lineBetween(centerX, baseY, centerX, baseY - stemHeight);
-    plant.fillStyle(accent, 0.86);
-    plant.fillEllipse(centerX - 13, baseY - stemHeight * 0.55, 24, 13);
-    plant.fillEllipse(centerX + 13, baseY - stemHeight * 0.72, 24, 13);
+    plant.fillStyle(accent, 0.88);
+    plant.fillEllipse(centerX - 14, baseY - stemHeight * 0.55, 28, 14);
+    plant.fillEllipse(centerX + 14, baseY - stemHeight * 0.72, 28, 14);
 
     if (plot.state === "ready") {
       plant.fillStyle(0xfff0a3, 0.95);
-      plant.fillCircle(centerX, baseY - stemHeight - 10, 15);
+      plant.fillCircle(centerX, baseY - stemHeight - 10, 16);
       plant.lineStyle(2, 0xffffff, 0.75);
-      plant.strokeCircle(centerX, baseY - stemHeight - 10, 18);
+      plant.strokeCircle(centerX, baseY - stemHeight - 10, 20);
     } else {
       plant.fillStyle(0xf5e49b, 0.95);
       plant.fillCircle(centerX, baseY - stemHeight - 6, 10);
@@ -270,7 +343,7 @@ export class GardenScene extends Phaser.Scene {
   private drawProgress(group: Phaser.GameObjects.Container, progressPercent: number, width: number, height: number) {
     const barWidth = width * 0.68;
     const barX = (width - barWidth) / 2;
-    const barY = height - 22;
+    const barY = height - 20;
     const progress = Phaser.Math.Clamp(progressPercent / 100, 0, 1);
     const graphics = this.add.graphics();
 
@@ -280,9 +353,9 @@ export class GardenScene extends Phaser.Scene {
     graphics.fillRoundedRect(barX, barY, Math.max(8, barWidth * progress), 8, 999);
     group.add(graphics);
 
-    const label = this.addText(width / 2, barY - 16, progress >= 1 ? "수확 가능" : `${Math.round(progressPercent)}%`, {
+    const label = this.addText(width / 2, barY - 15, progress >= 1 ? "준비 완료" : `${Math.round(progressPercent)}%`, {
       color: "#2b442f",
-      fontSize: "11px",
+      fontSize: "10px",
       fontStyle: "900"
     }).setOrigin(0.5, 0);
     group.add(label);

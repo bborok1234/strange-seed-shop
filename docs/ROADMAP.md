@@ -26,10 +26,11 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | --- | --- | --- | --- |
 | P0 UI/UX research baseline | active | `docs/GAME_UI_UX_RESEARCH_20260428.md`, `items/0053-game-ui-ux-p0-rescue.md`, Issue #89 | HUD/playfield, Phaser viewport, CLI visual QA, alpha asset 기준과 프로젝트 결정이 문서화됨 |
 | Playfield-first garden screen | active | `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenScene.ts` | 정원 기본 화면에서 안내/하이라이트/패널이 밭을 가리지 않고 Phaser playfield가 주 시각 영역으로 보임 |
+| Phaser playfield presentation polish | active | Issue #99, `items/0058-playfield-presentation-polish.md`, `src/game/playfield/GardenScene.ts` | ready/locked/empty plot 상태가 모바일 수집 게임 화면처럼 더 선명하게 구분됨 |
 | Player/debug surface split | active | app shell/debug mode policy | `asset count`, `save ready`, `events`, `runtime image generation disabled`는 playable 기본 화면에서 숨겨지고 debug mode에서만 노출됨 |
 | Mobile/desktop viewport policy | active | `docs/DESIGN_SYSTEM.md`, visual evidence | 모바일 세로 game frame과 데스크톱 중앙 game frame 기준으로 capture evidence가 남음 |
 | Mobile tab screen architecture | done | Issue #95, PR #96, `items/0056-mobile-tab-screen-visual-regression.md`, `src/App.tsx`, `src/styles.css` | 모바일 non-garden 탭은 half overlay가 아니라 body scroll 없는 full tab screen으로 전환되고 main CI가 통과함 |
-| Mobile garden HUD/action card polish | active | Issue #97, `items/0057-mobile-garden-hud-polish.md`, visual evidence | 모바일 정원 기본 화면의 개발 라벨과 잘리는 설명을 제거하고 action card가 하단 nav에 가리지 않음 |
+| Mobile garden HUD/action card polish | done | Issue #97, PR #98, `items/0057-mobile-garden-hud-polish.md`, visual evidence | 모바일 정원 기본 화면의 개발 라벨과 잘리는 설명을 제거하고 action card가 하단 nav에 가리지 않으며 main CI가 통과함 |
 | CLI visual QA gate | active | Playwright CLI, `tests/visual/p0-mobile-game-shell.spec.ts`, `docs/BROWSER_QA.md` | `npm run check:visual`이 mobile/desktop layout regression과 screenshot artifact를 CI에서 검증함 |
 | Asset alpha/background quality gate | active | asset checker, asset review follow-up | creature/seed/icon/fx는 alpha 필요 조건 또는 명시 예외를 검증하고, checkerboard/배경 오염 asset은 후속 cutout/remaster 대상으로 기록됨 |
 | P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
@@ -225,15 +226,14 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 운영모드는 **P0 Game Studio Operating Mode — UI/UX Rescue**다. Issue #97이 현재 active mission이며, 목표는 #95/#96으로 고정한 모바일 tab architecture 위에서 정원 기본 화면을 더 게임답게 polish하는 것이다.
+현재 운영모드는 **P0 Game Studio Operating Mode — UI/UX Rescue**다. Issue #99가 현재 active mission이며, 목표는 Phaser playfield 내부 plot 상태가 수집형 모바일 게임처럼 더 선명하게 읽히게 만드는 것이다.
 
 즉시 다음 작업:
 
-1. `items/0057-mobile-garden-hud-polish.md` 기준으로 PR #97 구현 branch를 진행한다.
-2. 모바일 정원 상단 개발 라벨과 잘리는 보조 설명을 제거한다.
-3. 정원 action card가 내부 스크롤 없이 하단 nav 위에 완전히 들어오는지 Playwright로 검증한다.
-4. mobile/desktop Playwright screenshot evidence를 PR에 연결한다.
-5. 통과 후 다음 P0 루프는 Phaser playfield art direction, 탭별 game UI skinning, 수집 카드 polish를 이어간다.
+1. `items/0058-playfield-presentation-polish.md` 기준으로 PR #99 구현 branch를 진행한다.
+2. ready/locked/empty plot presentation을 정리해 “지금 누를 곳”과 “아직 잠긴 곳”을 더 선명하게 만든다.
+3. 393/375/360 mobile Playwright gate와 screenshot evidence를 갱신한다.
+4. 통과 후 다음 P0 루프는 tap/harvest fx, creature reveal, 탭별 game UI skinning을 이어간다.
 
 ## Previous Next Action History
 

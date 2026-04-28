@@ -40,7 +40,13 @@ const requiredPaths = [
   "reports/visual/p0-mobile-garden-hud-polish-20260428.md",
   "reports/visual/p0-mobile-garden-hud-polish-mobile-20260428.png",
   "reports/visual/p0-mobile-garden-hud-polish-mobile-360-20260428.png",
-  "reports/visual/p0-mobile-garden-hud-polish-desktop-20260428.png"
+  "reports/visual/p0-mobile-garden-hud-polish-desktop-20260428.png",
+  "items/0058-playfield-presentation-polish.md",
+  "reports/visual/p0-playfield-presentation-polish-20260428.md",
+  "reports/visual/p0-playfield-presentation-polish-mobile-393-20260428.png",
+  "reports/visual/p0-playfield-presentation-polish-mobile-375-20260428.png",
+  "reports/visual/p0-playfield-presentation-polish-mobile-360-20260428.png",
+  "reports/visual/p0-playfield-presentation-polish-desktop-20260428.png"
 ];
 for (const path of requiredPaths) requirePath(path);
 
@@ -107,6 +113,16 @@ for (const phrase of [
   "max-height: none"
 ]) {
   requirePhrase("src/styles.css", phrase);
+}
+
+
+for (const phrase of [
+  "drawHarvestAura",
+  "drawLockGlyph",
+  "drawEmptyCue",
+  "drawStatusPill"
+]) {
+  requirePhrase("src/game/playfield/GardenScene.ts", phrase);
 }
 
 forbidPhrase("src/game/playfield/GardenScene.ts", "this.viewModel?.headline ?? \"정원 준비 중\"");
