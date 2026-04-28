@@ -12,6 +12,11 @@ const firstSeed = seeds.find((seed) => seed.id === "seed_herb_001");
 const firstAlbumReward = rewards.albumMilestones.find((milestone) => milestone.id === "album_1");
 const firstExpedition = expeditions.find((expedition) => expedition.id === "quick_scout");
 const firstCreature = creatures.find((creature) => creature.id === firstSeed?.creaturePool?.[0]);
+const nextDeterministicSeed = seeds.find(
+  (seed) => starterSeedIds.includes(seed.id) && seed.creaturePool?.[0] && seed.creaturePool[0] !== firstSeed?.creaturePool?.[0]
+);
+const nextCreatureGoal = creatures.find((creature) => creature.id === nextDeterministicSeed?.creaturePool?.[0]);
+const appSource = fs.readFileSync("src/App.tsx", "utf8");
 const repeatStarterCost = Math.max(10, firstSeed?.costLeaves ?? 0);
 const requiredMissionIds = [
   "tutorial_plant_first_seed",
@@ -55,6 +60,18 @@ if (!firstCreature) {
     if (!firstCreature[field] || firstCreature[field].trim().length === 0) {
       failures.push(`first creature must have ${field} for the attachment reveal`);
     }
+  }
+}
+
+if (!nextDeterministicSeed || !nextCreatureGoal) {
+  failures.push("next collection goal must point to an unlocked deterministic seed creature");
+} else if (nextCreatureGoal.id === firstCreature?.id) {
+  failures.push("next collection goal must not repeat the first creature");
+}
+
+for (const phrase of ["getNextCreatureGoal", "다음에 만날 아이", "다음 생명체 수집 목표", "도감 {nextCreatureGoal.discoveredCount}/{nextCreatureGoal.totalCount}"]) {
+  if (!appSource.includes(phrase)) {
+    failures.push(`App.tsx missing next collection goal UI phrase: ${phrase}`);
   }
 }
 
@@ -129,6 +146,11 @@ console.log(
         personality: firstCreature.personality,
         favoriteThing: firstCreature.favoriteThing,
         greeting: firstCreature.greeting
+      },
+      nextCollectionGoal: {
+        seedId: nextDeterministicSeed.id,
+        creatureId: nextCreatureGoal.id,
+        creatureName: nextCreatureGoal.name
       },
       firstLoopMissions: requiredMissionIds
     },

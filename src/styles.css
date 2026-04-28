@@ -450,6 +450,60 @@ h1 {
   margin: 0;
 }
 
+.next-creature-card,
+.album-next-goal {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: 8px;
+  border: 1px dashed rgba(39, 86, 64, 0.38);
+  border-radius: var(--radius-control);
+  background: linear-gradient(135deg, rgba(232, 244, 212, 0.94), rgba(255, 250, 220, 0.88));
+}
+
+.next-creature-card strong,
+.next-creature-card span,
+.next-creature-card small,
+.album-next-goal strong,
+.album-next-goal span,
+.album-next-goal small {
+  display: block;
+}
+
+.next-creature-card strong,
+.album-next-goal strong {
+  color: var(--action-primary-strong);
+}
+
+.next-creature-card span,
+.album-next-goal span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.next-creature-card small,
+.album-next-goal small {
+  color: #765b32;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.next-creature-portrait img,
+.next-creature-portrait .asset-fallback {
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  filter: saturate(0.72) brightness(0.9);
+}
+
+.album-next-goal {
+  margin-top: var(--space-3);
+}
+
 .harvest-reveal {
   position: fixed;
   z-index: 10;
@@ -857,9 +911,9 @@ h1 {
   }
 
   .starter-panel {
-    max-height: 268px;
+    max-height: 308px;
     padding: 10px;
-    overflow: hidden;
+    overflow-y: auto;
   }
 
   .starter-panel h2 {
