@@ -44,6 +44,20 @@
 
 브랜치 보호는 설정되었지만, 자동 머지 활성화는 여전히 `docs/AUTOMERGE_GOVERNANCE.md`의 중단 조건과 저장소 변수 운영 기준을 따른다.
 
+
+## CI repair loop
+
+PR check가 red이면 완료가 아니라 복구 루프로 들어간다. Ralph-session 운영사 v0의 기본 절차는 다음과 같다.
+
+1. `gh pr checks <pr-number>`로 실패한 check 이름과 run URL을 확인한다.
+2. `gh run view <run-id> --log-failed` 또는 GitHub Actions URL로 red check 로그를 읽는다.
+3. 실패가 로컬에서 재현 가능한지 `npm run check:all` 또는 더 좁은 command로 확인한다.
+4. 원인이 코드/문서/테스트 문제이면 fix commit을 만들고 다시 push한다.
+5. GitHub checks가 다시 실행되면 pass/fail을 report나 PR comment에 남긴다.
+6. 같은 failure class가 3회 이상 반복되거나 credential, 외부 권한, GitHub 장애가 필요하면 `reports/operations/stuck-*.md` 또는 blocker report로 전환한다.
+
+red check를 skip하거나 branch protection을 우회해서 병합하지 않는다. `ENABLE_AGENT_AUTOMERGE`가 꺼져 있더라도 이 repair loop는 PR 검증과 evidence 기록에는 적용된다.
+
 ## 로컬 검증
 
 일반 검증:

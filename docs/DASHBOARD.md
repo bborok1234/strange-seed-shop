@@ -21,6 +21,7 @@ Updated: 2026-04-28
 | Branch protection audit | done | `reports/audits/branch_protection_20260427.md` |
 | PR audit 생성기 | review | `npm run update:pr-audit` |
 | Browser Use QA gate | review | `npm run check:browser-qa` |
+| 운영사 v0 | review | `npm run check:operator` |
 | Sprite batch QA gate | review | `npm run check:sprite-batch` |
 
 ## 로드맵 요약
@@ -28,8 +29,8 @@ Updated: 2026-04-28
 | 상태 | 개수 |
 | --- | ---: |
 | done | 27 |
-| review | 21 |
-| todo | 17 |
+| review | 25 |
+| todo | 12 |
 | blocked | 0 |
 
 ## 다음 작업
@@ -50,6 +51,7 @@ Updated: 2026-04-28
 | `npm run check:dashboard` | tracked |
 | `npm run check:browser-qa` | tracked |
 | `npm run check:sprite-batch` | tracked |
+| `npm run check:operator` | tracked |
 | `npm run check:governance` | tracked |
 | `npm run check:audit` | tracked |
 | `npm run build` | tracked |
