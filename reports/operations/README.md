@@ -11,6 +11,7 @@
 | `operator-completion-gate-YYYYMMDD.md` | 작업 완료 gate report. issue, draft PR, verification, audit/follow-up 링크가 완료 선언 전에 모두 존재하는지 기록한다. |
 | `stuck-*.md` / `stuck-drill-*.md` | stuck report. `collab: Wait`, stale tmux, red CI, timeout, orphan process가 완료로 오인되지 않게 한다. |
 | `operator-trial-*.md` | Milestone 7 이후 다시간 trial report. heartbeat coverage, completed work, recovery attempts를 기록한다. |
+| `operator-trial-20260428T025400Z.md` | Issue #33의 실제 2h supervised trial report. 24회 heartbeat, PR #35-#49 completed work, CI status, Stop rules observed, Next queue를 고정한다. |
 
 ## 최소 증거 기준
 
