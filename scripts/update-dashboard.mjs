@@ -40,6 +40,7 @@ const rows = [
   ["Branch protection audit", stepStatus("Audit Branch protection status", "review"), "`reports/audits/branch_protection_20260427.md`"],
   ["PR audit 생성기", stepStatus("Generate PR automation audit", "review"), "`npm run update:pr-audit`"],
   ["Browser Use QA gate", stepStatus("Browser Use QA gate", "review"), "`npm run check:browser-qa`"],
+  ["운영사 v0", stepStatus("Create operator work item schema", "todo"), "`npm run check:operator`"],
   [
     "Sprite batch QA gate",
     stepStatus("Starter seed sprite-pipeline first batch", "review"),
@@ -56,6 +57,7 @@ const commands = [
   "npm run check:dashboard",
   "npm run check:browser-qa",
   "npm run check:sprite-batch",
+  "npm run check:operator",
   "npm run check:governance",
   "npm run check:audit",
   "npm run build"

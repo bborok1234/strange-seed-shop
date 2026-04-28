@@ -106,6 +106,42 @@ Conditions that must remain true before mutation.
 What proves completion.
 ```
 
+
+## 4.1 Operator Work Item Taxonomy
+
+Ralph-session 운영사 v0부터 work item은 제품 작업과 운영사 작업을 분리해 기록한다. `Work type:` 필드는 다음 값 중 하나를 사용한다.
+
+| Work type | 의미 | 예시 |
+| --- | --- | --- |
+| `game_feature` | 플레이어가 직접 경험하는 게임 기능 | 씨앗/수확/도감/원정 개선 |
+| `game_content` | 데이터/에셋/밸런스/문구 | seed config, sprite batch, creature flavor |
+| `agent_ops` | 에이전트 운영사 능력 | heartbeat ledger, stuck report, CI repair loop |
+| `feedback` | 플레이테스트/고객 신호 intake | playtest report, confusion score |
+| `gtm_mock` | 승인 전 GTM 초안 | devlog draft, release note draft |
+| `safety_gate` | 금지/승인/권한 경계 | payment gate, credential policy |
+
+운영사 작업은 게임을 직접 더 재미있게 만들지 않더라도, 에이전트가 안전하게 더 오래 일하게 만들면 북극성에 기여한다. 단, 실제 고객 데이터, credential, 실채널 GTM, 결제/로그인/광고 SDK는 work type과 무관하게 명시 승인 전 적용 lane에 들어갈 수 없다.
+
+## 4.2 Ralph-session 운영사 v0 evidence loop
+
+Milestone 6의 최소 루프는 아래 순서를 따른다.
+
+```text
+issue -> branch -> work item -> heartbeat ledger -> implementation -> local verification -> PR -> GitHub checks -> follow-up evidence
+```
+
+### heartbeat ledger
+
+Ralph 세션은 iteration마다 `.omx/state/operator-heartbeat.json`를 최신 상태로 쓰고, 공유 가능한 증거는 `reports/operations/operator-heartbeat-YYYYMMDD.jsonl`에 누적한다. heartbeat에는 timestamp, phase, branch, issue, PR, current command, next action이 포함되어야 한다.
+
+### stuck report
+
+`collab: Wait`, stale tmux, orphan process, timeout, red CI가 감지되면 완료 선언 대신 stuck report를 남긴다. stuck report는 `reports/operations/stuck-*.md`에 reason, phase, current command, last heartbeat, recovery next action을 적는다.
+
+### CI repair loop
+
+PR이 red check 상태면 verify lane은 실패 job을 읽고, 로컬 재현을 시도하고, fix commit을 만들고, checks를 다시 확인한다. 3회 이상 반복되거나 credential/권한/외부 서비스가 필요하면 blocker report로 전환한다.
+
 ## 5. Lanes
 
 ### Intake Lane
