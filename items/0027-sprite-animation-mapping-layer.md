@@ -7,7 +7,7 @@ Updated: 2026-04-28
 Scope-risk: moderate
 Work type: game_feature
 Issue: #21
-PR: TBD
+PR: #40
 
 ## Intent
 
@@ -25,6 +25,7 @@ PR #20의 starter sprite batch는 `GardenScene` 내부 `SPRITE_KEYS` 상수로 s
 ## Evidence
 
 - Issue #21: https://github.com/bborok1234/strange-seed-shop/issues/21
+- PR #40: https://github.com/bborok1234/strange-seed-shop/pull/40
 - `npm run check:sprite-batch` PASS — manifest binding, GardenScene hard-code 제거, visual evidence 검증
 - `npm run build` PASS — Phaser lazy chunk build 통과
 - `npm run check:all` PASS — 전체 제품/운영사 gate 통과
