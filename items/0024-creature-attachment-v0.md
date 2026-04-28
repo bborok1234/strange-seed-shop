@@ -7,7 +7,7 @@ Updated: 2026-04-28
 Scope-risk: narrow
 Work type: game_content
 Issue: #34
-PR: TBD
+PR: #35
 
 ## Intent
 
@@ -25,6 +25,7 @@ PR: TBD
 ## Evidence
 
 - Issue #34: https://github.com/bborok1234/strange-seed-shop/issues/34
+- PR #35: https://github.com/bborok1234/strange-seed-shop/pull/35
 - `npm run check:content` PASS — 첫 생명체 `personality`, `favoriteThing`, `greeting` 포함
 - `npm run check:loop` PASS — firstLoopSequence 유지, firstCreatureAttachment 출력 확인
 - `npm run check:all` PASS — content, loop, economy, docs, apply, dashboard, browser-qa, sprite-batch, operator, governance, audit, build
