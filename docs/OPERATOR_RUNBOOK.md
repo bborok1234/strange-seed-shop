@@ -41,15 +41,19 @@ Before any supervised 4h or 24h run:
    - `npm run check:all`
 5. Write initial heartbeat:
    - `node scripts/write-operator-heartbeat.mjs --issue '#<n>' --item items/<id>.md --phase executing --iteration 1 --command '<current command>' --next '<next action>' --context <snapshot>`
-6. Announce/record start only after the heartbeat and readiness checks exist.
+6. For 4h+ or 24h dry-run windows, start an independent heartbeat daemon before long PR/CI waits:
+   - `npm run operator:heartbeat:daemon -- --issue '#<n>' --item items/<id>.md --interval-seconds 300 --heartbeat .omx/state/operator-heartbeat.json --report .omx/logs/operator-<run>.jsonl --summary .omx/state/operator-heartbeat-daemon-summary.json`
+7. Announce/record start only after the heartbeat, daemon summary, and readiness checks exist.
 
 ## Monitor procedure
 
 During a supervised run:
 
 - Write heartbeat at least once per iteration and at least every 5 minutes during multi-hour trials.
+- During long PR/CI waits, the independent heartbeat daemon owns the 5-minute liveness signal; the foreground agent still records meaningful phase transitions.
 - Run watchdog against the current heartbeat source:
   - `npm run operator:watchdog -- --heartbeat <path> --max-age-seconds 600 --report <report-path>`
+  - add `--stuck-output <stuck-report-path>` when the watchdog should write the stale report automatically.
 - Keep every issue-to-PR loop evidence-backed:
   - issue/work item
   - branch
@@ -69,7 +73,7 @@ When something goes wrong, do not continue silently.
 | State | Required action |
 | --- | --- |
 | Red CI | Inspect `gh run view --log`, write cause/fix attempt, rerun checks, or file blocker report. |
-| Stale heartbeat | Run watchdog, write stuck report, restart only after recording the stale state. |
+| Stale heartbeat | Run watchdog with `--stuck-output`, write stuck report, restart only after recording the stale state. |
 | Merge conflict | Stop the merge, inspect conflict, rebase/resolve on a branch, rerun local checks. |
 | Browser Use blocked | Read `browser-use:browser` skill, record direct blocker, use accepted fallback only with evidence. |
 | External credential needed | Stop and mark blocked; do not ask the human to paste secrets into reports. |
@@ -138,6 +142,7 @@ The future 24h dry run additionally requires:
 
 - 4h supervised trial report merged.
 - Daily report produced from a real multi-hour run.
+- Heartbeat daemon hardening report exists and `npm run operator:trial:gap-guard` plus `npm run operator:watchdog:stuck-guard` pass.
 - Red-CI recovery drill or blocker drill evidence still current.
 - Browser Use fallback status current.
 - No real credentials or external channel actions required.

@@ -42,19 +42,27 @@ const requiredPaths = [
   "items/0023-supervised-2h-operator-trial.md",
   "items/0034-operator-runbook-daily-report.md",
   "items/0040-operator-live-status-report.md",
+  "items/0051-heartbeat-daemon-hardening.md",
   "items/0029-operator-completion-gate.md",
   "docs/OPERATOR_RUNBOOK.md",
   "reports/operations/operator-trial-readiness-20260428.md",
   "reports/operations/operator-trial-20260428T025400Z.md",
+  "reports/operations/operator-trial-20260428T053230Z.md",
   "reports/operations/daily-template-20260428.md",
   "reports/operations/operator-live-status-20260428.md",
+  "reports/operations/heartbeat-daemon-hardening-20260428.md",
   "reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json",
+  "reports/operations/fixtures/operator-trial-stale-gap-scenario-20260428.json",
   "reports/operations/operator-trial-dry-run-20260428.md",
+  "reports/operations/operator-trial-stale-gap-guard-20260428.md",
   "scripts/write-operator-heartbeat.mjs",
+  "scripts/operator-heartbeat-daemon.mjs",
   "scripts/update-operator-live-status.mjs",
   "scripts/operator-trial-dry-run.mjs",
+  "scripts/check-operator-trial-gap-guard.mjs",
   "scripts/check-operator-trial-readiness.mjs",
   "scripts/operator-watchdog.mjs",
+  "scripts/check-operator-watchdog-stuck-report.mjs",
   "scripts/report-operator-stuck.mjs",
   "scripts/check-operator.mjs",
   "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
@@ -120,6 +128,8 @@ requirePhrases("reports/operations/operator-trial-dry-run-20260428.md", [
   "Status: dry-run-pass",
   "Heartbeat coverage",
   "Coverage: 100%",
+  "Max allowed gap seconds: 600",
+  "Stale gap windows: 0",
   "Failures and recovery attempts",
   "simulated stale heartbeat",
   "Stop rules observed",
@@ -129,7 +139,47 @@ requirePhrases("reports/operations/operator-trial-dry-run-20260428.md", [
 requirePhrases("reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json", [
   "deterministic-dry-run",
   "heartbeat_windows",
+  "max_gap_seconds",
   "stop_rules_observed"
+]);
+
+requirePhrases("items/0051-heartbeat-daemon-hardening.md", [
+  "Status: review",
+  "Work type: agent_ops",
+  "Issue: #84",
+  "heartbeat daemon",
+  "702.5초",
+  "npm run operator:trial:gap-guard",
+  "npm run operator:watchdog:stuck-guard",
+  "npm run check:all"
+]);
+
+requirePhrases("reports/operations/heartbeat-daemon-hardening-20260428.md", [
+  "Status: review",
+  "Issue: #84",
+  "Heartbeat Daemon Hardening",
+  "702.5초",
+  "operator-heartbeat-daemon.mjs",
+  "Stale gap windows: 1",
+  "npm run operator:trial:gap-guard",
+  "npm run operator:watchdog:stuck-guard"
+]);
+
+requirePhrases("reports/operations/operator-trial-stale-gap-guard-20260428.md", [
+  "Status: dry-run-review",
+  "Max allowed gap seconds: 600",
+  "Stale gap windows: 1",
+  "702.5",
+  "stale-gap",
+  "Issue #84"
+]);
+
+requirePhrases("reports/operations/fixtures/operator-trial-stale-gap-scenario-20260428.json", [
+  "deterministic-stale-gap-guard",
+  "max_gap_seconds",
+  "702.5",
+  "reported-stale-gap",
+  "Issue #84"
 ]);
 
 
@@ -219,6 +269,10 @@ requirePhrases("docs/OPERATOR_RUNBOOK.md", [
   "Summarize procedure",
   "4h supervised trial readiness checklist",
   "24h dry-run readiness checklist",
+  "operator:heartbeat:daemon",
+  "operator:trial:gap-guard",
+  "operator:watchdog:stuck-guard",
+  "--stuck-output",
   "No credential access",
   "Do not call red CI"
 ]);
@@ -271,7 +325,9 @@ requirePhrases("scripts/update-operator-live-status.mjs", [
 
 requirePhrases("reports/operations/README.md", [
   "heartbeat",
+  "heartbeat daemon",
   "stuck report",
+  "--stuck-output",
   "CI repair",
   "issue-to-PR",
   "operator-completion-gate-YYYYMMDD.md",
@@ -322,9 +378,15 @@ requirePhrases("docs/PR_AUTOMATION.md", [
 requirePhrases("package.json", [
   "check:operator",
   "operator:watchdog",
+  "operator:heartbeat:daemon",
   "operator:trial:dry-run",
+  "operator:trial:gap-guard",
+  "operator:watchdog:stuck-guard",
   "operator:trial:readiness",
   "operator:live-status",
+  "scripts/operator-heartbeat-daemon.mjs",
+  "scripts/check-operator-trial-gap-guard.mjs",
+  "scripts/check-operator-watchdog-stuck-report.mjs",
   "scripts/check-operator.mjs",
   "scripts/update-operator-live-status.mjs"
 ]);

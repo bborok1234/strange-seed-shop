@@ -180,6 +180,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Run 2-hour supervised trial | done | Issue #33, PR #50, `reports/operations/operator-trial-20260428T025400Z.md`, `items/0023-supervised-2h-operator-trial.md` | 24회 heartbeat, watchdog fresh, PR #35-#49 completed work, green CI, failures/recovery, stop rules가 기록됨 |
 | Add live operator status report | review | `scripts/update-operator-live-status.mjs`, `reports/operations/operator-live-status-20260428.md`, `items/0040-operator-live-status-report.md` | Running trial의 heartbeat freshness, deadline, completed PRs, recovery, next action을 한 파일로 생성하고 `check:operator`가 검증함 |
 | Run 4-hour supervised trial | review | `reports/operations/operator-trial-20260428T053230Z.md`, `items/0035-supervised-4h-operator-trial.md` | heartbeat 47건, merge된 PR 15개, green main CI, initial stuck report, final watchdog freshness, heartbeat gap warning이 기록됨 |
+| Harden heartbeat daemon before 24h run | review | Issue #84, `scripts/operator-heartbeat-daemon.mjs`, `reports/operations/heartbeat-daemon-hardening-20260428.md`, `items/0051-heartbeat-daemon-hardening.md` | 독립 heartbeat daemon, stale-gap dry-run guard, watchdog stuck-output guard로 600초 초과 gap을 완료로 오인하지 않게 한다 |
 
 ## Milestone 8: Feedback + GTM Mock Intake
 
@@ -205,7 +206,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial은 deadline 이후 final watchdog까지 도달했고, Issue #53의 report PR 준비 단계다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. Issue #53의 4h supervised trial report는 PR #85로 merge되어 닫혔고, 현재 안전한 다음 작업은 Issue #84의 heartbeat daemon hardening을 PR로 검증·merge하는 것이다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
@@ -223,7 +224,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 14. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
 15. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
 16. Issue #51은 4h/24h 운영 전에 필요한 operator runbook과 daily operating report 템플릿을 만드는 작업이며, 실제 4h/24h 실행은 이 문서/checker PR이 merge되기 전 시작하지 않는다.
-17. Issue #53은 4h supervised trial로 실행 중이며, runtime heartbeat log는 `.omx/logs/operator-4h-trial-20260428T051755Z.jsonl`이다. Issue #54는 trial 안에서 수행하는 첫 게임 feature loop로 도감 미발견 슬롯을 추가한다.
+17. Issue #53의 4h supervised trial은 PR #85로 보고서가 merge되어 닫혔고, Issue #84가 24h run 전 heartbeat gap 보강 follow-up으로 열렸다.
 18. Issue #56은 도감 다음 목표 카드에서 씨앗 탭으로 이어지는 CTA를 추가해 Issue #54의 미발견 슬롯 단서를 실제 다음 행동으로 연결한다.
 19. Issue #58은 모바일 도감 첫 화면에서도 다음 발견 생명체와 씨앗 행동이 보이도록 상단 compact CTA chip을 추가한다.
 20. Issue #60은 도감 CTA 이후 씨앗 탭에서 다음 도감 목표 씨앗과 해당 row를 강조해 구매/심기 행동 전환을 돕는다.
@@ -238,4 +239,5 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 29. Issue #78 / PR #79는 merge 완료되어 원정 시작 전 필요한 생명체 수와 시작 가능 상태를 보여 첫 수확 후 원정 전환 마찰을 줄인다.
 30. Issue #80 / PR #81은 merge 완료되어 진행 중인 원정의 남은 시간과 완료 보상 상태를 보여 idle comeback 루프를 명확히 한다.
 31. Issue #82 / PR #83은 merge 완료되어 하단 원정 탭에 진행/완료 배지를 붙여 다른 탭에서도 복귀·수령 신호를 놓치지 않게 한다.
-32. Issue #53의 4h supervised trial report는 `reports/operations/operator-trial-20260428T053230Z.md`로 작성되었고, final report PR에서 닫는다.
+32. Issue #53의 4h supervised trial report는 `reports/operations/operator-trial-20260428T053230Z.md`로 작성되었고, PR #85로 merge되어 닫혔다.
+33. Issue #84는 24h run 전 heartbeat daemon hardening 작업으로, 4h trial에서 드러난 702.5초 gap을 dry-run failure와 watchdog stuck report로 고정한다.

@@ -1,0 +1,61 @@
+{
+  "trial_id": "operator-trial-stale-gap-guard-20260428",
+  "mode": "deterministic-stale-gap-guard",
+  "started_at": "2026-04-28T08:30:00.000Z",
+  "ended_at": "2026-04-28T08:45:00.000Z",
+  "operator_branch": "codex/heartbeat-daemon-hardening",
+  "related_issues": [
+    "#84"
+  ],
+  "related_prs": [],
+  "human_approved_budget": "dry-run fixture only; no real 24h execution",
+  "heartbeat_windows": [
+    {
+      "window": "PR/CI wait 0-15m",
+      "expected": 3,
+      "observed": 3,
+      "max_gap_seconds": 702.5,
+      "freshness": "stale-gap",
+      "evidence": "fixture reproduces Issue #53 max gap 702.5s over 600s threshold"
+    }
+  ],
+  "completed_work": [
+    {
+      "item": "items/0051-heartbeat-daemon-hardening.md",
+      "status": "gap-guard-fixture",
+      "evidence": "reports/operations/operator-trial-stale-gap-guard-20260428.md"
+    }
+  ],
+  "failures": [
+    {
+      "failure": "heartbeat gap exceeded threshold during PR/CI wait",
+      "detection_source": "operator-trial-dry-run max_gap_seconds guard",
+      "recovery_attempt": "classify as dry-run-review and require heartbeat daemon hardening",
+      "result": "reported-stale-gap",
+      "follow_up": "Issue #84"
+    }
+  ],
+  "ci_status": [
+    {
+      "pr": "pending",
+      "check": "Verify game baseline",
+      "result": "expected-pass-after-pr",
+      "url": "pending"
+    },
+    {
+      "pr": "pending",
+      "check": "Check automerge eligibility",
+      "result": "expected-pass-after-pr",
+      "url": "pending"
+    }
+  ],
+  "stop_rules_observed": [
+    "No real 24h execution in stale-gap guard",
+    "No credentials, customer data, external deployment, real GTM, payment/login/ads SDK",
+    "A gap above 600 seconds becomes dry-run-review, not completion"
+  ],
+  "next_queue": [
+    "harden heartbeat daemon",
+    "rerun operator:trial:gap-guard"
+  ]
+}

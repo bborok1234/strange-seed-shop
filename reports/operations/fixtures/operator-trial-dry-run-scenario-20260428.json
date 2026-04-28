@@ -4,7 +4,9 @@
   "started_at": "2026-04-28T02:40:00.000Z",
   "ended_at": "2026-04-28T02:50:00.000Z",
   "operator_branch": "codex/operator-trial-dry-run",
-  "related_issues": ["#29"],
+  "related_issues": [
+    "#29"
+  ],
   "related_prs": [],
   "human_approved_budget": "dry-run only; no real 2h/4h/24h execution",
   "heartbeat_windows": [
@@ -13,14 +15,16 @@
       "expected": 1,
       "observed": 1,
       "freshness": "fresh",
-      "evidence": "fixture heartbeat at 2026-04-28T02:42:00.000Z"
+      "evidence": "fixture heartbeat at 2026-04-28T02:42:00.000Z",
+      "max_gap_seconds": 300
     },
     {
       "window": "5-10m",
       "expected": 1,
       "observed": 1,
       "freshness": "fresh",
-      "evidence": "fixture heartbeat at 2026-04-28T02:47:00.000Z"
+      "evidence": "fixture heartbeat at 2026-04-28T02:47:00.000Z",
+      "max_gap_seconds": 300
     }
   ],
   "completed_work": [
@@ -59,5 +63,8 @@
     "Stale heartbeat becomes reportable state, not completion",
     "Repeated failure would become blocker report after 3 attempts"
   ],
-  "next_queue": ["#29 PR checks", "future real supervised 2h trial after explicit report readiness"]
+  "next_queue": [
+    "#29 PR checks",
+    "future real supervised 2h trial after explicit report readiness"
+  ]
 }
