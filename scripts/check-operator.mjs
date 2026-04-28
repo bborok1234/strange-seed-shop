@@ -40,9 +40,12 @@ const requiredPaths = [
   "items/0021-supervised-operator-trial-dry-run.md",
   "items/0022-supervised-2h-trial-readiness-gate.md",
   "items/0023-supervised-2h-operator-trial.md",
+  "items/0034-operator-runbook-daily-report.md",
   "items/0029-operator-completion-gate.md",
+  "docs/OPERATOR_RUNBOOK.md",
   "reports/operations/operator-trial-readiness-20260428.md",
   "reports/operations/operator-trial-20260428T025400Z.md",
+  "reports/operations/daily-template-20260428.md",
   "reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json",
   "reports/operations/operator-trial-dry-run-20260428.md",
   "scripts/write-operator-heartbeat.mjs",
@@ -194,13 +197,49 @@ requirePhrases("reports/operations/operator-trial-20260428T025400Z.md", [
   "Next queue"
 ]);
 
+requirePhrases("items/0034-operator-runbook-daily-report.md", [
+  "Status: in_progress",
+  "Work type: agent_ops",
+  "Issue: #51",
+  "docs/OPERATOR_RUNBOOK.md",
+  "reports/operations/daily-template-20260428.md",
+  "실제 4h/24h 실행을 시작하지 않는다",
+  "npm run check:operator",
+  "npm run check:all"
+]);
+
+requirePhrases("docs/OPERATOR_RUNBOOK.md", [
+  "Start procedure",
+  "Monitor procedure",
+  "Recover procedure",
+  "Stop procedure",
+  "Summarize procedure",
+  "4h supervised trial readiness checklist",
+  "24h dry-run readiness checklist",
+  "No credential access",
+  "Do not call red CI"
+]);
+
+requirePhrases("reports/operations/daily-template-20260428.md", [
+  "Daily Operating Report Template",
+  "Completed work",
+  "Failed or blocked work",
+  "Open PRs",
+  "Red checks",
+  "Decisions made",
+  "Stop rules observed",
+  "Verification evidence",
+  "Next queue"
+]);
+
 requirePhrases("reports/operations/README.md", [
   "heartbeat",
   "stuck report",
   "CI repair",
   "issue-to-PR",
   "operator-completion-gate-YYYYMMDD.md",
-  "작업 완료 gate"
+  "작업 완료 gate",
+  "daily operating report"
 ]);
 
 requirePhrases("reports/operations/operator-loop-20260428.md", [

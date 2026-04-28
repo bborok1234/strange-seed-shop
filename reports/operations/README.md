@@ -12,6 +12,7 @@
 | `stuck-*.md` / `stuck-drill-*.md` | stuck report. `collab: Wait`, stale tmux, red CI, timeout, orphan process가 완료로 오인되지 않게 한다. |
 | `operator-trial-*.md` | Milestone 7 이후 다시간 trial report. heartbeat coverage, completed work, recovery attempts를 기록한다. |
 | `operator-trial-20260428T025400Z.md` | Issue #33의 실제 2h supervised trial report. 24회 heartbeat, PR #35-#49 completed work, CI status, Stop rules observed, Next queue를 고정한다. |
+| `daily-*.md` / `daily-template-*.md` | 장시간 operator 세션의 daily operating report. completed work, failed work, open PRs, red checks, decisions, next queue를 사람이 아침에 바로 읽을 수 있게 고정한다. |
 
 ## 최소 증거 기준
 
