@@ -3,7 +3,7 @@
 Status: active
 Updated: 2026-04-28
 Scope: `이상한 씨앗상회` P0 Game Studio Operating Mode
-Issue: #89, #95
+Issue: #89, #95, #104
 
 ## 왜 이 문서가 생겼나
 
@@ -56,7 +56,22 @@ Source: https://playwright.dev/docs/test-snapshots
 - Browser Use가 현재 세션에서 차단될 경우 `Computer Use` 또는 CDP fallback을 사용하되, fallback 사유와 screenshot 경로를 반드시 남긴다.
 - PR 본문에는 mobile/desktop before-after screenshot 또는 `N/A — UI 변화 없음`을 필수로 적는다.
 
-### 4. 터치 대상은 최소 크기와 안전 영역을 보장해야 한다
+### 4. 모바일 탭은 “오른쪽 패널”이 아니라 독립 game screen이어야 한다
+
+Apple HIG Layout은 게임에서 safe area를 수용하는 full-bleed interface를 선호하라고 설명한다. Material bottom navigation은 mobile bottom navigation을 3~5개 top-level destination 전환으로 보고, 각 destination은 고정된 view로 직접 이동해야 한다고 설명한다. 같은 Material 문서는 desktop에서는 bottom navigation과 같은 효과를 side navigation으로 대체할 수 있다고 정리한다.
+
+Sources:
+- https://developer.apple.com/design/human-interface-guidelines/layout
+- https://m1.material.io/components/bottom-navigation.html
+
+프로젝트 결정:
+
+- 모바일 non-garden 탭은 밭 위 카드/half sheet가 아니라 `top: 0`부터 bottom nav 위까지 차지하는 full game screen이다.
+- 정원 화면과 도감/씨앗/원정/상점 화면은 같은 viewport 안에서 상호 배타적이다. 탭 화면이 열리면 정원 HUD/playfield는 보이지도, 터치되지도 않아야 한다.
+- body/document scroll은 실패다. 긴 도감/씨앗 목록은 tab screen 내부 scroller에서만 움직인다.
+- 데스크톱은 같은 정보를 stage 내부 split surface로 보여주되, 모바일에서 쓰는 full-screen tab 규칙을 그대로 끌고 오지 않는다.
+
+### 5. 터치 대상은 최소 크기와 안전 영역을 보장해야 한다
 
 Google Android Accessibility Help는 클릭/터치 가능한 요소가 신뢰성 있게 조작되도록 최소 48dp 정도의 크기를 권장한다.
 
@@ -68,7 +83,7 @@ Source: https://support.google.com/accessibility/android/answer/7101858
 - 텍스트가 줄바꿈되어도 버튼 밖으로 밀리지 않아야 한다.
 - 조작 가능한 밭/수확 오브젝트는 DOM panel보다 우선적인 touch target이어야 한다.
 
-### 5. 캐릭터/아이콘 에셋은 alpha channel이 있는 PNG여야 한다
+### 6. 캐릭터/아이콘 에셋은 alpha channel이 있는 PNG여야 한다
 
 Adobe Stock의 투명 PNG 가이드라인은 투명 배경 PNG를 utility asset으로 다루며, 체커보드나 색 배경을 투명도 표시처럼 넣지 말라고 경고한다. PNG 스펙도 alpha channel을 per-pixel transparency 정보로 다룬다.
 
@@ -87,9 +102,9 @@ Sources:
 
 1. **Playfield first**: 정원 화면에서 가장 넓고 높은 대비를 가진 영역은 Phaser playfield여야 한다.
 2. **One immediate action**: 정원 기본 화면에는 지금 할 수 있는 행동 하나가 가장 명확해야 한다.
-3. **Secondary lists live in tabs**: seed shop, album list, mission list, shop mock은 정원 위 half overlay가 아니라 각 탭 screen으로 이동한다. 모바일에서 탭 화면은 body scroll 없이 한 viewport 안에 고정되고 긴 목록만 내부 스크롤한다.
+3. **Secondary lists live in tabs**: seed shop, album list, mission list, shop mock은 정원 위 half overlay가 아니라 각 탭 screen으로 이동한다. 모바일에서 탭 화면은 body scroll 없이 viewport 상단부터 bottom nav 위까지 고정되고, 긴 목록만 내부 스크롤한다.
 4. **Debug is not player UI**: asset count, save state, event count, runtime-generation 상태는 debug mode에서만 보인다.
-5. **Mobile and desktop are separate display modes**: 모바일은 세로 game frame, 데스크톱은 중앙 game frame 또는 별도 canvas 비율로 설계한다.
+5. **Mobile and desktop are separate display modes**: 모바일은 세로 game frame에서 정원/탭 화면을 상호 배타적으로 전환하고, 데스크톱은 중앙 game frame 또는 stage 내부 split surface로 설계한다.
 6. **Evidence or it did not happen**: UI/게임 변경은 mobile + desktop screenshot, layout checker, asset checker 중 필요한 증거를 남긴다.
 7. **No runtime image generation**: 미려한 에셋이 필요해도 런타임 생성은 금지하고, Codex native image generation은 사전 제작 pipeline에서만 사용한다.
 

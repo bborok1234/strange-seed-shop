@@ -52,10 +52,25 @@ const requiredPaths = [
   "reports/visual/p0-playfield-noise-cleanup-mobile-393-20260428.png",
   "reports/visual/p0-playfield-noise-cleanup-mobile-375-20260428.png",
   "reports/visual/p0-playfield-noise-cleanup-mobile-360-20260428.png",
-  "reports/visual/p0-playfield-noise-cleanup-desktop-20260428.png"
+  "reports/visual/p0-playfield-noise-cleanup-desktop-20260428.png",
+  "items/0060-mobile-game-frame-tab-rework.md",
+  "reports/visual/p0-mobile-game-frame-tab-rework-20260428.md",
+  "reports/visual/p0-mobile-game-frame-garden-360-20260428.png",
+  "reports/visual/p0-mobile-game-frame-album-393-20260428.png",
+  "reports/visual/p0-mobile-game-frame-seeds-393-20260428.png",
+  "reports/visual/p0-mobile-game-frame-desktop-album-20260428.png"
 ];
 for (const path of requiredPaths) requirePath(path);
 
+
+for (const phrase of [
+  "P0 Mobile Game Frame Tab Rework Evidence",
+  "fixed full-screen surface",
+  "top hit-test",
+  "npm run check:visual"
+]) {
+  requirePhrase("reports/visual/p0-mobile-game-frame-tab-rework-20260428.md", phrase);
+}
 
 for (const phrase of [
   "P0 UI/UX Rescue Visual Evidence",
@@ -94,6 +109,8 @@ for (const phrase of [
   "Phaser playfield를 가장 큰 시각 영역",
   "개발 정보는 보이지 않아야 한다",
   "full tab screen",
+  "viewport 상단부터 bottom nav 위까지",
+  "48dp",
   "npm run check:visual"
 ]) {
   requirePhrase("docs/DESIGN_SYSTEM.md", phrase);
@@ -113,14 +130,26 @@ for (const phrase of [
   ".app-shell.playable-focus",
   "grid-template-rows: minmax(360px, 1fr) auto",
   ".garden-stage.has-player-tab",
-  "height: calc(100% - 72px",
+  "height: calc(100% - var(--mobile-nav-height))",
   "display: none;",
   ".garden-action-dock",
-  "max-height: none"
+  "max-height: none",
+  "--mobile-nav-height: calc(64px + env(safe-area-inset-bottom))",
+  ".garden-stage.has-player-tab .player-panel",
+  "height: calc(100dvh - var(--mobile-nav-height))"
 ]) {
   requirePhrase("src/styles.css", phrase);
 }
 
+
+for (const phrase of [
+  "mobile-${tab}-full-screen-tab",
+  "topIsPlayerPanel",
+  "topBarVisibility",
+  ".dev-panel.player-panel"
+]) {
+  requirePhrase("tests/visual/p0-mobile-game-shell.spec.ts", phrase);
+}
 
 for (const phrase of [
   "drawHarvestAura",
