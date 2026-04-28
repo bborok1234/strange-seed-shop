@@ -24,6 +24,8 @@ Branch: `codex/operator-watchdog-runner`
 ## Evidence
 
 - Follow-up issue: #27
+- PR: #28
+- Next follow-up issue: #29
 - Fresh watchdog drill: `reports/operations/watchdog-fresh-drill-20260428.md`
 - Stale watchdog drill: `reports/operations/watchdog-stale-drill-20260428.md`
 - Trial template: `reports/operations/operator-trial-template-20260428.md`
