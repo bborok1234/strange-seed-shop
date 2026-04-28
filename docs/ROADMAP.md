@@ -95,6 +95,7 @@ Goal: improve the first 5 minutes without adding new game systems, while preserv
 | Creature attachment copy v0 | review | `items/0024-creature-attachment-v0.md`, `src/data/creatures.json`, `src/App.tsx` | 첫 수확 reveal, 첫 생명체 카드, 도감 카드가 성격/취향/인사말을 노출하고 `npm run check:content`, `npm run check:loop`가 첫 생명체 애착 문구를 검증함 |
 | Next creature goal card v0 | review | `src/App.tsx`, `src/styles.css`, `items/0031-next-creature-goal-card.md`, `reports/visual/next-creature-goal-mobile-20260428.png` | 첫 발견 이후 다음 미발견 deterministic creature 목표와 도감 진행도를 보여줘 collection desire를 강화함 |
 | Seed creature preview v0 | review | `src/App.tsx`, `src/styles.css`, `items/0032-seed-creature-preview.md`, `reports/visual/seed-creature-preview-mobile-20260428.png` | 씨앗 구매/주머니 row가 `seed.creaturePool[0]`의 만날 아이와 발견 상태를 보여줘 선택 전 수집 기대를 강화함 |
+| Harvest reveal next-goal teaser v0 | review | `src/App.tsx`, `src/styles.css`, `items/0033-harvest-reveal-next-goal.md`, `reports/visual/harvest-reveal-next-goal-mobile-20260428.png` | 첫 수확 reveal modal이 다음 목표 creature/seed hint를 보여줘 “하나만 더” 루프를 강화함 |
 
 ## Milestone 3.6: Phaser Playfield Runtime + Sprite Pipeline Spike
 
@@ -193,15 +194,16 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
-3. Issue #46 / `items/0032-seed-creature-preview.md`는 씨앗 구매/주머니 row에 `seed.creaturePool[0]`의 만날 아이 preview를 붙여 선택 전 수집 기대를 강화한다.
-4. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
-5. Issue #25/PR #26, Issue #27/PR #28, Issue #29/PR #30, Issue #31/PR #32로 운영사 루프, watchdog, trial dry-run, readiness gate가 닫혔고, 현재 후속 작업은 Issue #33의 실제 2h trial 증거를 완성하는 것이다.
-6. Issue #34 / PR #35는 merge 완료되어 생명체의 성격/취향/인사말을 수확 reveal·소유 카드·도감에 노출한다.
-7. Issue #36 / PR #37은 merge 완료되어 실제 고객 데이터나 외부 채널 없이 플레이테스트 신호를 severity/product axis/evidence/duplicate/fun rubric/next item으로 정규화한다.
-8. Issue #38 / PR #39는 merge 완료되어 devlog/release note/community post를 mock proposal로만 남기고, SNS/email/ads/store/community 실채널 action은 명시 승인 전 금지한다.
-9. Issue #21 / PR #40은 merge 완료되어 다음 sprite family/rarity batch를 위해 GardenScene hard-code를 manifest animation binding으로 이동했다.
-10. Issue #22 / PR #41은 merge 완료되어 실제 생성 없이 Codex output -> workspace raw -> normalized strip -> manifest -> checker 경로를 고정했다.
-11. Issue #17 / PR #42는 작업 완료 선언 전 draft PR, 검증 증거, 남은 위험, follow-up issue/audit 링크를 필수 gate로 고정했다.
-12. Issue #18 / PR #43은 Browser Use `iab` 직접 검증의 현재 환경 차단 원인과 CDP fallback evidence를 검증 가능한 상태로 고정했다.
-13. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
-14. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
+3. Issue #46 / PR #47은 씨앗 구매/주머니 row에 `seed.creaturePool[0]`의 만날 아이 preview를 붙여 선택 전 수집 기대를 강화했다.
+4. Issue #48 / `items/0033-harvest-reveal-next-goal.md`는 첫 수확 reveal에서 다음 목표 creature/seed hint를 보여줘 “하나만 더” 루프를 강화한다.
+5. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
+6. Issue #25/PR #26, Issue #27/PR #28, Issue #29/PR #30, Issue #31/PR #32로 운영사 루프, watchdog, trial dry-run, readiness gate가 닫혔고, 현재 후속 작업은 Issue #33의 실제 2h trial 증거를 완성하는 것이다.
+7. Issue #34 / PR #35는 merge 완료되어 생명체의 성격/취향/인사말을 수확 reveal·소유 카드·도감에 노출한다.
+8. Issue #36 / PR #37은 merge 완료되어 실제 고객 데이터나 외부 채널 없이 플레이테스트 신호를 severity/product axis/evidence/duplicate/fun rubric/next item으로 정규화한다.
+9. Issue #38 / PR #39는 merge 완료되어 devlog/release note/community post를 mock proposal로만 남기고, SNS/email/ads/store/community 실채널 action은 명시 승인 전 금지한다.
+10. Issue #21 / PR #40은 merge 완료되어 다음 sprite family/rarity batch를 위해 GardenScene hard-code를 manifest animation binding으로 이동했다.
+11. Issue #22 / PR #41은 merge 완료되어 실제 생성 없이 Codex output -> workspace raw -> normalized strip -> manifest -> checker 경로를 고정했다.
+12. Issue #17 / PR #42는 작업 완료 선언 전 draft PR, 검증 증거, 남은 위험, follow-up issue/audit 링크를 필수 gate로 고정했다.
+13. Issue #18 / PR #43은 Browser Use `iab` 직접 검증의 현재 환경 차단 원인과 CDP fallback evidence를 검증 가능한 상태로 고정했다.
+14. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
+15. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.

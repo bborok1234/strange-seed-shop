@@ -557,6 +557,30 @@ h1 {
   font-weight: 900;
 }
 
+.reveal-next-goal {
+  margin: 0 0 var(--space-3);
+  padding: 9px;
+  border: 1px dashed rgba(39, 86, 64, 0.35);
+  border-radius: var(--radius-control);
+  background: rgba(232, 244, 212, 0.72);
+  text-align: center;
+}
+
+.reveal-next-goal strong,
+.reveal-next-goal span {
+  display: block;
+}
+
+.reveal-next-goal strong {
+  color: var(--action-primary-strong);
+}
+
+.reveal-next-goal span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .bottom-tabs {
   position: absolute;
   z-index: 5;
