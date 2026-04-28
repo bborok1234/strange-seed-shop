@@ -113,6 +113,11 @@ export default function App() {
     ? isExpeditionReady(save.activeExpedition, now) && !save.activeExpedition.claimed
     : false;
   const firstExpedition = content.expeditions.find((item) => item.id === FIRST_EXPEDITION_ID);
+  const expeditionCreatureShortfall =
+    save && firstExpedition
+      ? Math.max(firstExpedition.requiredCreatures - save.discoveredCreatureIds.length, 0)
+      : undefined;
+  const expeditionNeedsMoreCreatures = (expeditionCreatureShortfall ?? 0) > 0;
   const visibleMissions = save ? content.missions : [];
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
@@ -700,6 +705,21 @@ export default function App() {
                 </div>
                 <span className="expedition-reward-chip">원정 보상 예고</span>
               </article>
+            )}
+            {!save?.activeExpedition && firstExpedition && (
+              <p
+                className={
+                  expeditionNeedsMoreCreatures
+                    ? "expedition-unlock-note"
+                    : "expedition-unlock-note expedition-unlock-note-ready"
+                }
+              >
+                {!save
+                  ? "정원 기록을 불러오고 있어요."
+                  : expeditionNeedsMoreCreatures
+                    ? `${expeditionCreatureShortfall}마리 더 발견하면 ${firstExpedition.name}을 시작할 수 있어요.`
+                    : "생명체가 원정을 기다리고 있어요."}
+              </p>
             )}
             {!save?.activeExpedition && (
               <button
