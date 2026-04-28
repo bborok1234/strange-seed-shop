@@ -33,7 +33,7 @@ Branch: `codex/album-goal-cta`
 - Local build: `npm run build` PASS
 - Local check: `npm run check:all` PASS
 - Visual verdict: PASS score 93 (`.omx/state/album-goal-cta/ralph-progress.json`)
-- PR: pending
+- PR: #57 https://github.com/bborok1234/strange-seed-shop/pull/57
 
 ## Proposed Plan
 
