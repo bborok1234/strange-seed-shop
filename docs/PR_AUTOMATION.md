@@ -9,7 +9,7 @@
 ## 현재 구성
 
 - `.github/workflows/ci.yml`: PR과 `main` push에서 전체 프로젝트 검증을 실행한다.
-- `.github/workflows/agent-automerge.yml`: PR이 자동 머지 후보인지 확인하고, 저장소 변수가 켜진 경우에만 GitHub native auto-merge를 요청한다. 후보 판정 직전에 `gh pr view`로 현재 PR label을 다시 읽어, PR 생성 직후 label 이벤트 순서 차이로 후보 판정이 실패하지 않게 한다.
+- `.github/workflows/agent-automerge.yml`: PR이 자동 머지 후보인지 확인하고, 저장소 변수가 켜진 경우에만 GitHub native auto-merge를 요청한다. 후보 판정 직전에 `gh pr view`로 현재 PR label을 다시 읽어, PR 생성 직후 label 이벤트 순서 차이로 후보 판정이 실패하지 않게 한다. Draft PR 또는 `agent-automerge` label이 없는 PR은 자동 머지만 의도적으로 skip하고 전체 검증은 계속 실행한다.
 - `scripts/check-automerge-readiness.mjs`: 자동 머지 후보 조건을 로컬에서도 검증할 수 있게 만든다.
 - `docs/AUTOMERGE_GOVERNANCE.md`: Branch protection, required checks, 저장소 변수 운영 조건을 정의한다.
 - `scripts/check-governance.mjs`: 자동 머지 운영 정책과 workflow 핵심 문구가 유지되는지 확인한다.
@@ -29,7 +29,7 @@
 
 ## 안전 장치
 
-`ENABLE_AGENT_AUTOMERGE`가 설정되지 않으면 자동 병합 단계는 실행되지 않는다. 따라서 이 워크플로는 기본 상태에서 후보 판정과 검증만 수행한다.
+`ENABLE_AGENT_AUTOMERGE`가 설정되지 않으면 자동 병합 단계는 실행되지 않는다. `agent-automerge` label이 없거나 draft인 PR은 자동 머지 후보가 아니므로 eligibility 실패가 아니라 skip으로 기록한다. 따라서 이 워크플로는 기본 상태에서 후보 분류와 검증만 수행한다.
 
 자동 머지는 GitHub native auto-merge 요청으로 제한한다. 즉시 강제 병합하지 않고, 브랜치 보호 규칙과 필수 체크가 있다면 그 규칙을 따른다.
 
