@@ -463,18 +463,28 @@ export default function App() {
         </section>
 
         <nav className="bottom-tabs" aria-label="주요 화면">
-          {MAIN_TABS.map((tab) => (
-            <button
-              aria-pressed={activeTab === tab.id}
-              className={activeTab === tab.id ? "tab-active" : undefined}
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              type="button"
-            >
-              {tab.label}
-            </button>
-          ))}
-          </nav>
+          {MAIN_TABS.map((tab) => {
+            const albumProgressBadge =
+              tab.id === "album" && save ? `${albumDiscoveredCount}/${content.creatures.length}` : null;
+
+            return (
+              <button
+                aria-pressed={activeTab === tab.id}
+                className={activeTab === tab.id ? "tab-active" : undefined}
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                type="button"
+              >
+                <span className="tab-label">{tab.label}</span>
+                {albumProgressBadge && (
+                  <span aria-label={`도감 진행 ${albumProgressBadge}`} className="tab-progress-badge">
+                    {albumProgressBadge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
       </section>
 
       {harvestReveal && (
