@@ -6,7 +6,10 @@
     "rarity": "common",
     "role": "gatherer",
     "assetId": "creature_herb_common_001",
-    "albumHint": "첫 온실에서 가장 자주 만나는 잎사귀 수집가"
+    "albumHint": "첫 온실에서 가장 자주 만나는 잎사귀 수집가",
+    "personality": "손을 톡톡 치면 잎 주머니를 흔들며 먼저 따라오는 붙임성 많은 아이",
+    "favoriteThing": "아침 이슬 한 방울과 새싹 간식",
+    "greeting": "오늘도 잎을 같이 주우러 갈래요?"
   },
   {
     "id": "creature_herb_common_002",
@@ -15,7 +18,10 @@
     "rarity": "common",
     "role": "guardian",
     "assetId": "creature_herb_common_002",
-    "albumHint": "넓은 잎으로 잠든 씨앗을 지켜준다"
+    "albumHint": "넓은 잎으로 잠든 씨앗을 지켜준다",
+    "personality": "작은 소리에도 넓은 잎 방패를 펼치는 든든한 잠꾸러기",
+    "favoriteThing": "포근한 흙 베개와 낮잠 햇살",
+    "greeting": "씨앗들은 제가 꼭 지켜볼게요."
   },
   {
     "id": "creature_herb_uncommon_001",
@@ -24,7 +30,10 @@
     "rarity": "uncommon",
     "role": "alchemist",
     "assetId": "creature_herb_uncommon_001",
-    "albumHint": "새벽 이슬을 꽃가루로 바꾸는 작은 연금술사"
+    "albumHint": "새벽 이슬을 꽃가루로 바꾸는 작은 연금술사",
+    "personality": "유리병마다 새벽 이슬 이름을 붙이는 꼼꼼한 실험가",
+    "favoriteThing": "반짝이는 이슬병 라벨",
+    "greeting": "이 이슬은 반짝임이 아주 좋아요."
   },
   {
     "id": "creature_candy_common_001",
@@ -33,7 +42,10 @@
     "rarity": "common",
     "role": "gatherer",
     "assetId": "creature_candy_common_001",
-    "albumHint": "달콤한 향을 따라 잎을 모은다"
+    "albumHint": "달콤한 향을 따라 잎을 모은다",
+    "personality": "기분이 좋으면 통통 튀어 다니다가 발자국에 설탕가루를 남긴다",
+    "favoriteThing": "딸기빛 젤리콩 조각",
+    "greeting": "통! 한 번만 더 튀어볼까요?"
   },
   {
     "id": "creature_candy_common_002",
@@ -42,7 +54,10 @@
     "rarity": "common",
     "role": "merchant",
     "assetId": "creature_candy_common_002",
-    "albumHint": "씨앗 주머니를 늘 챙겨 다닌다"
+    "albumHint": "씨앗 주머니를 늘 챙겨 다닌다",
+    "personality": "씨앗 주머니를 색깔별로 정리하고 작은 리본으로 묶어두는 상인",
+    "favoriteThing": "바스락거리는 포장지와 금색 끈",
+    "greeting": "오늘의 추천 씨앗은 아주 향긋해요."
   },
   {
     "id": "creature_candy_rare_001",
@@ -51,7 +66,10 @@
     "rarity": "rare",
     "role": "alchemist",
     "assetId": "creature_candy_rare_001",
-    "albumHint": "끈적한 설탕빛 꽃가루를 만든다"
+    "albumHint": "끈적한 설탕빛 꽃가루를 만든다",
+    "personality": "느릿하지만 한 번 약속한 레시피는 절대 잊지 않는 달콤한 장인",
+    "favoriteThing": "따뜻하게 녹은 카라멜 냄새",
+    "greeting": "조금만 기다리면 반짝한 가루가 나와요."
   },
   {
     "id": "creature_lunar_common_001",
@@ -60,7 +78,10 @@
     "rarity": "common",
     "role": "guardian",
     "assetId": "creature_lunar_common_001",
-    "albumHint": "달빛 아래에서 오프라인 보상을 지켜준다"
+    "albumHint": "달빛 아래에서 오프라인 보상을 지켜준다",
+    "personality": "해가 지면 작은 방울등을 켜고 정원 가장자리를 조용히 돈다",
+    "favoriteThing": "차가운 달빛 웅덩이",
+    "greeting": "밤 사이 모은 보상을 숨겨두었어요."
   },
   {
     "id": "creature_lunar_uncommon_001",
@@ -69,7 +90,10 @@
     "rarity": "uncommon",
     "role": "alchemist",
     "assetId": "creature_lunar_uncommon_001",
-    "albumHint": "은빛 이끼 사이에서 희미한 꽃가루를 모은다"
+    "albumHint": "은빛 이끼 사이에서 희미한 꽃가루를 모은다",
+    "personality": "은빛 이끼 위에 앉아 별가루 개수를 세는 조용한 수집가",
+    "favoriteThing": "초승달 모양 유리병",
+    "greeting": "쉿, 방금 반짝이는 소리를 들었어요."
   },
   {
     "id": "creature_lunar_rare_001",
@@ -78,6 +102,9 @@
     "rarity": "rare",
     "role": "mascot",
     "assetId": "creature_lunar_rare_001",
-    "albumHint": "온실의 밤을 대표하는 희귀 마스코트"
+    "albumHint": "온실의 밤을 대표하는 희귀 마스코트",
+    "personality": "온실 불이 꺼지면 유리처럼 반짝이며 친구들의 길잡이가 된다",
+    "favoriteThing": "별빛이 비친 물방울",
+    "greeting": "오늘 밤 온실은 제가 예쁘게 밝혀둘게요."
   }
 ]

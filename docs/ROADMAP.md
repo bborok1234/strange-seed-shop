@@ -92,6 +92,7 @@ Goal: improve the first 5 minutes without adding new game systems, while preserv
 | Devil's advocate UX review | review | `docs/UX_REVIEW_20260427.md` | Current UI risks are recorded by severity with allowed/forbidden change boundaries |
 | Design system foundation | review | `docs/DESIGN_SYSTEM.md`, `items/0015-design-system-foundation.md` | Usage rules precede tokens; first-session loop, bottom tabs, mock shop safety, and Browser Use evidence requirements are explicit |
 | Mobile HUD rescue implementation | review | `src/App.tsx`, `src/styles.css` | 360x800 garden viewport, 1280x900 desktop, 하단 5개 탭, 상점 CTA 안전성이 `reports/visual/design-system-*-20260427.*`로 검증됨 |
+| Creature attachment copy v0 | review | `items/0024-creature-attachment-v0.md`, `src/data/creatures.json`, `src/App.tsx` | 첫 수확 reveal, 첫 생명체 카드, 도감 카드가 성격/취향/인사말을 노출하고 `npm run check:content`, `npm run check:loop`가 첫 생명체 애착 문구를 검증함 |
 
 ## Milestone 3.6: Phaser Playfield Runtime + Sprite Pipeline Spike
 
@@ -182,10 +183,11 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 다음 안전한 운영사 작업은 **Milestone 6: Ralph-Session Operating Company v0**의 첫 항목부터 시작해, 장시간 실행을 주장하기 전에 heartbeat, stuck report, CI repair loop, issue-to-PR evidence를 먼저 만드는 것이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 현재 운영사 쪽은 Issue #33의 supervised 2h trial을 heartbeat/watchdog 증거와 함께 실행 중이며, 게임 쪽은 Issue #34로 첫 5분 수집 애착을 강화하는 안전한 content/UI 개선을 진행한다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
-3. Issue #25/PR #26, Issue #27/PR #28, Issue #29/PR #30으로 운영사 루프, watchdog, trial dry-run이 닫혔고, 현재 안전한 후속 작업은 Issue #31 / `items/0022-supervised-2h-trial-readiness-gate.md`로 실제 2h run 전 readiness gate를 고정하는 것이다.
-4. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
-5. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
+3. Issue #25/PR #26, Issue #27/PR #28, Issue #29/PR #30, Issue #31/PR #32로 운영사 루프, watchdog, trial dry-run, readiness gate가 닫혔고, 현재 후속 작업은 Issue #33의 실제 2h trial 증거를 완성하는 것이다.
+4. Issue #34 / `items/0024-creature-attachment-v0.md`는 trial 감시와 병렬로 진행 가능한 narrow game_content 작업이며, 생명체의 성격/취향/인사말을 수확 reveal·소유 카드·도감에 노출한다.
+5. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
+6. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
