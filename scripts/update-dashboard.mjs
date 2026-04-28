@@ -48,7 +48,8 @@ const rows = [
     "Sprite batch QA gate",
     stepStatus("Starter seed sprite-pipeline first batch", "review"),
     "`npm run check:sprite-batch`"
-  ]
+  ],
+  ["플레이테스트 intake", stepStatus("Create feedback intake format", "todo"), "`npm run check:playtest-intake`"]
 ];
 
 const commands = [
@@ -60,6 +61,7 @@ const commands = [
   "npm run check:dashboard",
   "npm run check:browser-qa",
   "npm run check:sprite-batch",
+  "npm run check:playtest-intake",
   "npm run check:operator",
   "npm run check:governance",
   "npm run check:audit",
