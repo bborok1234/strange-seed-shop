@@ -36,7 +36,8 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | CLI visual QA gate | active | Playwright CLI, `tests/visual/p0-mobile-game-shell.spec.ts`, `docs/BROWSER_QA.md` | `npm run check:visual`이 mobile/desktop layout regression과 screenshot artifact를 CI에서 검증함 |
 | Asset alpha/background quality gate | active | asset checker, asset review follow-up | creature/seed/icon/fx는 alpha 필요 조건 또는 명시 예외를 검증하고, checkerboard/배경 오염 asset은 후속 cutout/remaster 대상으로 기록됨 |
 | P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
-| First harvest reveal reward polish | active | Issue #103, `items/0062-harvest-reveal-polish.md`, visual evidence | 첫 수확 reveal이 일반 모달이 아니라 수집형 게임 보상 화면처럼 읽히고 CTA가 393/360에서 잘리지 않음 |
+| First harvest reveal reward polish | done | Issue #103, PR #108, `items/0062-harvest-reveal-polish.md`, visual evidence, main CI `25063830331` | 첫 수확 reveal이 일반 모달이 아니라 수집형 게임 보상 화면처럼 읽히고 CTA가 393/360에서 잘리지 않음 |
+| Playfield tap/harvest feedback | active | Issue #109, `items/0063-playfield-tap-harvest-feedback.md`, `reports/visual/p0-playfield-tap-harvest-feedback-20260429.md` | 성장 탭과 ready 수확 탭이 `qaFxTelemetry=1` Playwright gate와 mobile screenshot으로 즉시 피드백을 검증함 |
 
 Exit criteria: 위 항목이 모두 검증되고, `npm run check:all` 및 mobile/desktop visual evidence가 최신 main에서 통과할 때 P0 UI/UX Rescue를 닫는다.
 
@@ -234,7 +235,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 다음 작업:
 
-1. Issue #103 첫 수확 생명체 reveal polish를 `items/0062-harvest-reveal-polish.md` plan 기준으로 구현·검증·PR화한다.
+1. Issue #109 밭 탭/수확 즉시 피드백 강화를 `items/0063-playfield-tap-harvest-feedback.md` plan 기준으로 구현·검증·PR화한다.
 2. 각 issue는 작은 승리, 수용 기준, 검증 명령, visual evidence를 남기고 PR/CI/main merge까지 반복한다.
 3. P0 UI/UX Rescue가 닫힌 뒤에도 다음 north-star issue를 만들고 같은 루프를 지속한다.
 4. 다음 후보는 reward FX, tap/harvest feedback, 탭별 game UI skinning, 운영 상황판 가독성 개선이다.
