@@ -167,8 +167,8 @@ Goal: make the operating company ingest player/customer/GTM signals safely befor
 | --- | --- | --- | --- |
 | Create feedback intake format | review | `reports/playtests/README.md`, `reports/playtests/playtest-intake-sample-20260428.md`, `items/0025-feedback-intake-and-fun-rubric-v0.md` | Playtest/customer notes become normalized items with severity, product axis, evidence, duplicate links, and recommended next item |
 | Add game fun rubric | review | `docs/NORTH_STAR.md`, `scripts/check-playtest-intake.mjs` | First 5 minutes, cuteness, collection desire, comeback hook, and confusion are scored consistently by `npm run check:playtest-intake` |
-| Add GTM mock lane | todo | `reports/gtm/` | Bot can draft devlog/release note/community post proposals without publishing or using credentials |
-| Add approval gates for real channels | todo | `docs/APPLY_CONDITIONS.md` | Email/SNS/ads/store listing/payment/customer data actions require explicit human approval |
+| Add GTM mock lane | review | `reports/gtm/README.md`, `reports/gtm/gtm-mock-sample-20260428.md`, `items/0026-gtm-mock-lane-v0.md` | Bot can draft devlog/release note/community post proposals without publishing or using credentials |
+| Add approval gates for real channels | review | `docs/APPLY_CONDITIONS.md`, `scripts/check-gtm-mock.mjs` | Email/SNS/ads/store/community/payment/customer data actions require explicit human approval before real channel action |
 
 ## Milestone 9: 24-Hour Agent-Native Studio Prototype
 
@@ -183,12 +183,13 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 현재 운영사 쪽은 Issue #33의 supervised 2h trial을 heartbeat/watchdog 증거와 함께 실행 중이며, feedback lane은 Issue #36으로 플레이테스트 intake와 첫 5분 fun rubric을 고정한다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 현재 운영사 쪽은 Issue #33의 supervised 2h trial을 heartbeat/watchdog 증거와 함께 실행 중이며, GTM lane은 Issue #38로 실게시 없는 mock proposal과 approval gate를 고정한다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
 3. Issue #25/PR #26, Issue #27/PR #28, Issue #29/PR #30, Issue #31/PR #32로 운영사 루프, watchdog, trial dry-run, readiness gate가 닫혔고, 현재 후속 작업은 Issue #33의 실제 2h trial 증거를 완성하는 것이다.
 4. Issue #34 / PR #35는 merge 완료되어 생명체의 성격/취향/인사말을 수확 reveal·소유 카드·도감에 노출한다.
-5. Issue #36 / `items/0025-feedback-intake-and-fun-rubric-v0.md`는 실제 고객 데이터나 외부 채널 없이 플레이테스트 신호를 severity/product axis/evidence/duplicate/fun rubric/next item으로 정규화하는 안전한 feedback 작업이다.
-6. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
-7. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
+5. Issue #36 / PR #37은 merge 완료되어 실제 고객 데이터나 외부 채널 없이 플레이테스트 신호를 severity/product axis/evidence/duplicate/fun rubric/next item으로 정규화한다.
+6. Issue #38 / `items/0026-gtm-mock-lane-v0.md`는 devlog/release note/community post를 mock proposal로만 남기고, SNS/email/ads/store/community 실채널 action은 명시 승인 전 금지한다.
+7. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
+8. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
