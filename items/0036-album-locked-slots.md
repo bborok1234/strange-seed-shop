@@ -35,7 +35,7 @@ Branch: `codex/album-locked-slots`
 - Local check: `npm run check:all` PASS
 - Visual verdict: PASS score 92 (`.omx/state/album-locked-slots/ralph-progress.json`)
 - Architect verification: APPROVED
-- PR: pending
+- PR: #55 https://github.com/bborok1234/strange-seed-shop/pull/55
 
 ## Proposed Plan
 
