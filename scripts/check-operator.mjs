@@ -32,7 +32,12 @@ const requiredPaths = [
   "reports/operations/operator-loop-20260428.md",
   "reports/operations/operator-heartbeat-20260428.jsonl",
   "reports/operations/stuck-drill-20260428.md",
+  "reports/operations/watchdog-fresh-drill-20260428.md",
+  "reports/operations/watchdog-stale-drill-20260428.md",
+  "reports/operations/operator-trial-template-20260428.md",
+  "items/0020-operator-watchdog-runner-trial-scaffold.md",
   "scripts/write-operator-heartbeat.mjs",
+  "scripts/operator-watchdog.mjs",
   "scripts/report-operator-stuck.mjs",
   "scripts/check-operator.mjs",
   "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
@@ -51,6 +56,37 @@ requirePhrases("items/0019-ralph-session-operating-company-v0.md", [
   "CI repair loop",
   "npm run check:operator",
   "npm run check:all"
+]);
+
+requirePhrases("items/0020-operator-watchdog-runner-trial-scaffold.md", [
+  "Status: in_progress",
+  "Work type: agent_ops",
+  "Issue: #27",
+  "watchdog runner",
+  "operator trial report",
+  "npm run check:operator",
+  "npm run check:all"
+]);
+
+requirePhrases("reports/operations/watchdog-fresh-drill-20260428.md", [
+  "Status: fresh",
+  "Heartbeat is fresh",
+  "Issue: #27",
+  "continue operator iteration"
+]);
+
+requirePhrases("reports/operations/watchdog-stale-drill-20260428.md", [
+  "Status: stale",
+  "Heartbeat is not fresh",
+  "Issue: #27",
+  "write stuck report before completion"
+]);
+
+requirePhrases("reports/operations/operator-trial-template-20260428.md", [
+  "Heartbeat coverage",
+  "Failures and recovery attempts",
+  "CI status",
+  "Stop rules observed"
 ]);
 
 requirePhrases("reports/operations/README.md", [
@@ -93,7 +129,7 @@ requirePhrases("docs/PR_AUTOMATION.md", [
   "gh run view"
 ]);
 
-requirePhrases("package.json", ["check:operator", "scripts/check-operator.mjs"]);
+requirePhrases("package.json", ["check:operator", "operator:watchdog", "scripts/check-operator.mjs"]);
 
 const heartbeat = readJsonLine("reports/operations/operator-heartbeat-20260428.jsonl");
 if (!heartbeat) {
@@ -106,8 +142,8 @@ if (!heartbeat) {
   }
 
   if (Number.isNaN(Date.parse(heartbeat.timestamp))) failures.push("operator heartbeat timestamp is invalid");
-  if (heartbeat.issue !== "#25") failures.push(`operator heartbeat issue should be #25, got ${heartbeat.issue}`);
-  if (heartbeat.item !== "items/0019-ralph-session-operating-company-v0.md") failures.push(`operator heartbeat item mismatch: ${heartbeat.item}`);
+  if (!/^#\d+$/.test(heartbeat.issue)) failures.push(`operator heartbeat issue should look like #<number>, got ${heartbeat.issue}`);
+  if (!heartbeat.item.startsWith("items/") || !heartbeat.item.endsWith(".md")) failures.push(`operator heartbeat item should point at items/*.md, got ${heartbeat.item}`);
 }
 
 console.log(JSON.stringify({ ok: failures.length === 0, requiredPaths: requiredPaths.length, failures }, null, 2));

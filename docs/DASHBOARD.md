@@ -22,15 +22,16 @@ Updated: 2026-04-28
 | PR audit 생성기 | review | `npm run update:pr-audit` |
 | Browser Use QA gate | review | `npm run check:browser-qa` |
 | 운영사 v0 | review | `npm run check:operator` |
+| 운영사 watchdog | review | `npm run operator:watchdog` |
 | Sprite batch QA gate | review | `npm run check:sprite-batch` |
 
 ## 로드맵 요약
 
 | 상태 | 개수 |
 | --- | ---: |
-| done | 27 |
-| review | 25 |
-| todo | 12 |
+| done | 28 |
+| review | 27 |
+| todo | 10 |
 | blocked | 0 |
 
 ## 다음 작업

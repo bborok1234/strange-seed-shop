@@ -41,6 +41,7 @@ const rows = [
   ["PR audit 생성기", stepStatus("Generate PR automation audit", "review"), "`npm run update:pr-audit`"],
   ["Browser Use QA gate", stepStatus("Browser Use QA gate", "review"), "`npm run check:browser-qa`"],
   ["운영사 v0", stepStatus("Create operator work item schema", "todo"), "`npm run check:operator`"],
+  ["운영사 watchdog", stepStatus("Build watchdog runner", "todo"), "`npm run operator:watchdog`"],
   [
     "Sprite batch QA gate",
     stepStatus("Starter seed sprite-pipeline first batch", "review"),
