@@ -23,6 +23,8 @@ Branch: `codex/operator-trial-readiness`
 ## Evidence
 
 - Follow-up issue: #31
+- PR: #32
+- Next follow-up issue: #33
 - Readiness report: `reports/operations/operator-trial-readiness-20260428.md`
 - Readiness check: `scripts/check-operator-trial-readiness.mjs`
 
