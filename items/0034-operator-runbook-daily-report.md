@@ -33,7 +33,7 @@ Branch: `codex/operator-runbook-daily-report`
 - Local check: `npm run check:docs` PASS
 - Local check: `npm run check:all` PASS
 - Architect verification: APPROVED
-- PR: pending
+- PR: #52 https://github.com/bborok1234/strange-seed-shop/pull/52
 
 ## Proposed Plan
 
