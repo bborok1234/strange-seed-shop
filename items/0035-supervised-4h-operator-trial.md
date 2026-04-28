@@ -1,6 +1,6 @@
 # Supervised 4h operator trial
 
-Status: in_progress
+Status: review
 Owner: agent
 Created: 2026-04-28
 Updated: 2026-04-28
@@ -31,7 +31,11 @@ Branch: runtime `.omx` + active feature branches
 - Restart context snapshot: `.omx/context/operator-4h-trial-restart-20260428T053230Z.md`
 - Restart heartbeat log: `.omx/logs/operator-4h-trial-restart-20260428T053230Z.jsonl`
 - Restart watchdog log: `.omx/logs/operator-4h-trial-watchdog-restart-20260428T053230Z.log`
-- Current product loop: Issue #54 / `items/0036-album-locked-slots.md`
+- Completed restarted-loop PRs: #55, #57, #59, #61, #63, #65, #67, #69, #71, #73, #75, #77, #79, #81, #83
+- Final report: `reports/operations/operator-trial-20260428T053230Z.md`
+- Final live status: `reports/operations/operator-live-status-20260428.md`
+- Final heartbeat count: 47; max heartbeat gap warning: 702.5s
+- Follow-up issue: #84 heartbeat daemon hardening before 24h run
 
 ## Apply Conditions
 
@@ -45,5 +49,6 @@ Branch: runtime `.omx` + active feature branches
 - `npm run operator:trial:readiness`
 - `npm run check:operator`
 - `npm run check:all`
+- Final report branch verification: `npm run operator:trial:readiness` PASS, `npm run check:operator` PASS, `npm run check:all` PASS
 - GitHub PR checks for any PR created during trial
 - Main CI after any merge
