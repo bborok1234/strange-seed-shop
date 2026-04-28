@@ -11,6 +11,7 @@ const requiredDocs = [
   "docs/GAME_STUDIO_REVIEW_20260427.md",
   "docs/SESSION_HANDOFF_20260427.md",
   "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
+  "docs/OPERATOR_RUNBOOK.md",
   "docs/BROWSER_QA.md",
   "docs/PR_AUTOMATION.md",
   "docs/AUTOMERGE_GOVERNANCE.md",
