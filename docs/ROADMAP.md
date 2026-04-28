@@ -105,6 +105,7 @@ Goal: prove whether the garden must become a real 2D playfield, instead of conti
 | Phaser risk closure and PR readiness | review | `reports/audits/phaser_risk_resolution_20260427.md`, `reports/visual/phaser-browser-use-fallback-20260427.md` | Bundle warning, Browser Use fallback reason, and team shutdown risk are recorded before draft PR publication |
 | Starter seed sprite-pipeline first batch | review | `items/0017-starter-seed-sprite-pipeline-first-batch.md`, `public/assets/game/sprites/starter/**`, `public/assets/game/fx/**`, `scripts/check-sprite-batch.mjs` | 6개 starter strip, manifest animation metadata, GardenScene spritesheet loader, sprite batch QA evidence가 `npm run check:all`에 포함됨 |
 | Sprite state-to-animation mapping layer | review | `items/0027-sprite-animation-mapping-layer.md`, `public/assets/manifest/assetManifest.json`, `src/game/playfield/GardenScene.ts`, `scripts/check-sprite-batch.mjs` | `seedId + plot state + action` mapping이 manifest animation binding으로 이동하고 GardenScene hard-coded sprite key 회귀를 checker가 실패로 잡음 |
+| Asset export and strip normalization path | review | `items/0028-asset-export-normalization-path.md`, `reports/assets/asset_export_normalization_20260428.md`, `assets/source/sprite_normalization_provenance.example.json`, `scripts/check-asset-normalization.mjs` | Codex native output -> workspace raw -> 96x96 normalized strip -> manifest -> checker 경로가 재현 가능하게 문서/검증됨 |
 
 ## Milestone 4: Economy and Verification
 
@@ -184,7 +185,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 현재 운영사 쪽은 Issue #33의 supervised 2h trial을 heartbeat/watchdog 증거와 함께 실행 중이며, 게임 runtime 쪽은 Issue #21로 sprite state-to-animation mapping을 manifest binding으로 이동한다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 현재 운영사 쪽은 Issue #33의 supervised 2h trial을 heartbeat/watchdog 증거와 함께 실행 중이며, asset pipeline 쪽은 Issue #22로 Codex output export와 96x96 strip normalization 경로를 문서/검증 gate로 고정한다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
@@ -192,6 +193,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 4. Issue #34 / PR #35는 merge 완료되어 생명체의 성격/취향/인사말을 수확 reveal·소유 카드·도감에 노출한다.
 5. Issue #36 / PR #37은 merge 완료되어 실제 고객 데이터나 외부 채널 없이 플레이테스트 신호를 severity/product axis/evidence/duplicate/fun rubric/next item으로 정규화한다.
 6. Issue #38 / PR #39는 merge 완료되어 devlog/release note/community post를 mock proposal로만 남기고, SNS/email/ads/store/community 실채널 action은 명시 승인 전 금지한다.
-7. Issue #21 / `items/0027-sprite-animation-mapping-layer.md`는 다음 sprite family/rarity batch를 위해 GardenScene hard-code를 manifest animation binding으로 이동하는 안전한 runtime 작업이다.
-8. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
-9. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
+7. Issue #21 / PR #40은 merge 완료되어 다음 sprite family/rarity batch를 위해 GardenScene hard-code를 manifest animation binding으로 이동했다.
+8. Issue #22 / `items/0028-asset-export-normalization-path.md`는 실제 생성 없이 Codex output -> workspace raw -> normalized strip -> manifest -> checker 경로를 고정한다.
+9. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
+10. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.

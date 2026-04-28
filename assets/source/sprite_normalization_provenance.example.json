@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "batchId": "sprite_batch_next_example",
+  "generation_mode": "codex_native_image_generation",
+  "runtime_generation_allowed": false,
+  "source_prompt_path": "assets/source/asset_prompts.json",
+  "records": [
+    {
+      "asset_id": "example_seed_idle_strip",
+      "prompt_id": "example_seed_idle_strip",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "raw_outputs": [
+        "assets/source/generated/sprite_batch_next_example/example_seed_idle_strip/raw_001.png"
+      ],
+      "selected_raw_output": "assets/source/generated/sprite_batch_next_example/example_seed_idle_strip/raw_001.png",
+      "frame_sources": [
+        "assets/source/generated/sprite_batch_next_example/example_seed_idle_strip/frames/frame_000.png",
+        "assets/source/generated/sprite_batch_next_example/example_seed_idle_strip/frames/frame_001.png",
+        "assets/source/generated/sprite_batch_next_example/example_seed_idle_strip/frames/frame_002.png",
+        "assets/source/generated/sprite_batch_next_example/example_seed_idle_strip/frames/frame_003.png"
+      ],
+      "normalized_output_path": "public/assets/game/sprites/example/example_seed_idle_strip.png",
+      "manifest_asset_id": "example_seed_idle_strip",
+      "normalization": {
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frames": 4,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 384,
+        "expectedHeight": 96,
+        "anchor": "center-bottom stable across frames",
+        "scalePolicy": "fit subject within 88x88 safe area with transparent padding"
+      },
+      "checker": "npm run check:asset-normalization && npm run check:sprite-batch",
+      "reviewer": "agent",
+      "rejected_outputs": [
+        {
+          "path": "assets/source/generated/sprite_batch_next_example/example_seed_idle_strip/raw_rejected_001.png",
+          "reason": "frame boundaries were inconsistent"
+        }
+      ]
+    }
+  ]
+}
