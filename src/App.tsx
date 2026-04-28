@@ -112,6 +112,7 @@ export default function App() {
   const expeditionReady = save?.activeExpedition
     ? isExpeditionReady(save.activeExpedition, now) && !save.activeExpedition.claimed
     : false;
+  const firstExpedition = content.expeditions.find((item) => item.id === FIRST_EXPEDITION_ID);
   const visibleMissions = save ? content.missions : [];
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
@@ -686,6 +687,20 @@ export default function App() {
         {activeTab === "expedition" && (
           <section className="tab-panel expedition-card" aria-label="원정">
             <h3>원정</h3>
+            {firstExpedition && (
+              <article className="expedition-preview" aria-label="첫 원정 보상 미리보기">
+                <div>
+                  <p className="panel-label">첫 원정</p>
+                  <strong>{firstExpedition.name}</strong>
+                  <span>
+                    {getExpeditionDurationLabel(firstExpedition.durationSeconds)} · 생명체 {firstExpedition.requiredCreatures}마리 필요 · +
+                    {firstExpedition.rewardLeaves} 잎
+                    {firstExpedition.rewardMaterials > 0 ? ` · +${firstExpedition.rewardMaterials} 재료` : ""}
+                  </span>
+                </div>
+                <span className="expedition-reward-chip">원정 보상 예고</span>
+              </article>
+            )}
             {!save?.activeExpedition && (
               <button
                 className="primary-action"
@@ -990,6 +1005,14 @@ function calculateOfflineLeaves(save: PlayerSave, now: number): number {
 
   const baseRate = Math.max(0.03, save.discoveredCreatureIds.length * 0.02 + save.plotCount * 0.01);
   return Math.floor(awaySeconds * baseRate * 0.35);
+}
+
+function getExpeditionDurationLabel(durationSeconds: number): string {
+  if (durationSeconds < 60) {
+    return `${durationSeconds}초`;
+  }
+
+  return `${Math.round(durationSeconds / 60)}분`;
 }
 
 function isExpeditionReady(expedition: ExpeditionState, now: number): boolean {
