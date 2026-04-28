@@ -66,15 +66,19 @@ export default function App() {
     const qaOfflineMinutes = getLocalQaOfflineMinutes();
     const qaSpriteState = getLocalQaSpriteState();
     const qaHarvestReveal = getLocalQaHarvestReveal();
+    const qaExpeditionActive = getLocalQaExpeditionActive();
+    const qaExpeditionReady = getLocalQaExpeditionReady();
     const existingSave = qaSpriteState
       ? createSpriteQaSave(qaSpriteState)
       : qaHarvestReveal
         ? createHarvestRevealQaSave()
-        : getLocalQaExpeditionReady()
-          ? createExpeditionReadyQaSave()
-          : qaOfflineMinutes
-            ? createOfflineQaSave(qaOfflineMinutes)
-            : localSaveStore.load();
+        : qaExpeditionActive
+          ? createExpeditionActiveQaSave()
+          : qaExpeditionReady
+            ? createExpeditionReadyQaSave()
+            : qaOfflineMinutes
+              ? createOfflineQaSave(qaOfflineMinutes)
+              : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -113,6 +117,12 @@ export default function App() {
     ? isExpeditionReady(save.activeExpedition, now) && !save.activeExpedition.claimed
     : false;
   const firstExpedition = content.expeditions.find((item) => item.id === FIRST_EXPEDITION_ID);
+  const activeExpeditionDefinition = save?.activeExpedition
+    ? content.expeditions.find((item) => item.id === save.activeExpedition?.expeditionId)
+    : undefined;
+  const expeditionRemainingSeconds = save?.activeExpedition
+    ? getExpeditionRemainingSeconds(save.activeExpedition, now)
+    : 0;
   const expeditionCreatureShortfall =
     save && firstExpedition
       ? Math.max(firstExpedition.requiredCreatures - save.discoveredCreatureIds.length, 0)
@@ -698,9 +708,8 @@ export default function App() {
                   <p className="panel-label">첫 원정</p>
                   <strong>{firstExpedition.name}</strong>
                   <span>
-                    {getExpeditionDurationLabel(firstExpedition.durationSeconds)} · 생명체 {firstExpedition.requiredCreatures}마리 필요 · +
-                    {firstExpedition.rewardLeaves} 잎
-                    {firstExpedition.rewardMaterials > 0 ? ` · +${firstExpedition.rewardMaterials} 재료` : ""}
+                    {getExpeditionDurationLabel(firstExpedition.durationSeconds)} · 생명체 {firstExpedition.requiredCreatures}마리 필요 ·{" "}
+                    {getExpeditionRewardSummary(firstExpedition)}
                   </span>
                 </div>
                 <span className="expedition-reward-chip">원정 보상 예고</span>
@@ -733,7 +742,12 @@ export default function App() {
             )}
             {save?.activeExpedition && (
               <>
-                <p>{expeditionReady ? "원정 완료" : "원정 진행 중"}</p>
+                <p className="expedition-progress-status">{expeditionReady ? "원정 완료" : "원정 진행 중"}</p>
+                <small className="expedition-progress-note">
+                  {expeditionReady
+                    ? `${activeExpeditionDefinition ? getExpeditionRewardSummary(activeExpeditionDefinition) : "보상"} 수령 가능`
+                    : `${getExpeditionDurationLabel(expeditionRemainingSeconds)} 남음 · 돌아오면 보상 수령`}
+                </small>
                 <button className="primary-action" disabled={!expeditionReady} onClick={claimExpedition} type="button">
                   원정 보상 받기
                 </button>
@@ -1035,6 +1049,16 @@ function getExpeditionDurationLabel(durationSeconds: number): string {
   return `${Math.round(durationSeconds / 60)}분`;
 }
 
+function getExpeditionRewardSummary(expedition: { rewardLeaves: number; rewardMaterials: number }): string {
+  const materialReward = expedition.rewardMaterials > 0 ? ` · +${expedition.rewardMaterials} 재료` : "";
+  return `+${expedition.rewardLeaves} 잎${materialReward}`;
+}
+
+function getExpeditionRemainingSeconds(expedition: ExpeditionState, now: number): number {
+  const finishAt = new Date(expedition.startedAt).getTime() + expedition.durationSeconds * 1000;
+  return Math.max(0, Math.ceil((finishAt - now) / 1000));
+}
+
 function isExpeditionReady(expedition: ExpeditionState, now: number): boolean {
   const elapsedSeconds = (now - new Date(expedition.startedAt).getTime()) / 1000;
   return elapsedSeconds >= expedition.durationSeconds;
@@ -1064,6 +1088,14 @@ function getLocalQaReset(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaReset") === "1";
+}
+
+function getLocalQaExpeditionActive(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaExpeditionActive") === "1";
 }
 
 function getLocalQaExpeditionReady(): boolean {
@@ -1157,11 +1189,21 @@ function createHarvestRevealQaSave(): PlayerSave {
   };
 }
 
+function createExpeditionActiveQaSave(): PlayerSave {
+  return createExpeditionQaSave(false);
+}
+
 function createExpeditionReadyQaSave(): PlayerSave {
+  return createExpeditionQaSave(true);
+}
+
+function createExpeditionQaSave(ready: boolean): PlayerSave {
   const now = new Date();
   const save = createNewSave(now);
   const expedition = content.expeditions.find((item) => item.id === FIRST_EXPEDITION_ID);
-  const startedAt = new Date(now.getTime() - ((expedition?.durationSeconds ?? 300) + 5) * 1000);
+  const durationSeconds = expedition?.durationSeconds ?? 300;
+  const elapsedSeconds = ready ? durationSeconds + 5 : Math.min(90, Math.max(5, durationSeconds - 60));
+  const startedAt = new Date(now.getTime() - elapsedSeconds * 1000);
 
   return {
     ...save,
@@ -1174,7 +1216,7 @@ function createExpeditionReadyQaSave(): PlayerSave {
       expeditionId: FIRST_EXPEDITION_ID,
       creatureIds: ["creature_herb_common_001"],
       startedAt: startedAt.toISOString(),
-      durationSeconds: expedition?.durationSeconds ?? 300,
+      durationSeconds,
       claimed: false
     },
     lastSeenAt: now.toISOString(),
