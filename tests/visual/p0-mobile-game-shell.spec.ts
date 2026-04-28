@@ -12,36 +12,51 @@ async function openPlayerTabState(page: Page, tab: PlayerTab) {
   await expect(page.locator(`.dev-panel.tab-${tab}`)).toBeVisible();
 }
 
-test("모바일 정원 기본 화면은 body scroll 없이 playfield와 하단 탭을 보존한다", async ({ page }, testInfo) => {
-  await page.setViewportSize({ width: 393, height: 852 });
-  await page.goto("/?qaSpriteState=ready");
-  await expect(page.locator(".garden-playfield-host")).toBeVisible();
-  await expect(page.locator(".garden-playfield-host canvas")).toBeVisible();
-  await expect(page.locator(".dev-panel")).toHaveCount(0);
+for (const viewport of [
+  { name: "393", width: 393, height: 852 },
+  { name: "375", width: 375, height: 812 },
+  { name: "360", width: 360, height: 800 }
+]) {
+  test(`모바일 정원 ${viewport.name}px 화면은 body scroll 없이 playfield와 하단 탭을 보존한다`, async ({ page }, testInfo) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.goto("/?qaSpriteState=ready");
+    await expect(page.locator(".garden-playfield-host")).toBeVisible();
+    await expect(page.locator(".garden-playfield-host canvas")).toBeVisible();
+    await expect(page.locator(".dev-panel")).toHaveCount(0);
+    await expect(page.getByText("MOBILE GARDEN HUD")).toHaveCount(0);
 
-  const metrics = await page.evaluate(() => {
-    const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
-    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
-    const actionPanel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
-    const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-    return {
-      innerHeight: window.innerHeight,
-      bodyScrollHeight,
-      playfield: playfield ? { top: playfield.top, bottom: playfield.bottom, height: playfield.height } : null,
-      tabs: tabs ? { top: tabs.top, bottom: tabs.bottom } : null,
-      actionPanel: actionPanel ? { top: actionPanel.top, bottom: actionPanel.bottom } : null
-    };
+    const metrics = await page.evaluate(() => {
+      const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
+      const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+      const actionPanel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
+      const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      return {
+        innerHeight: window.innerHeight,
+        bodyScrollHeight,
+        playfield: playfield ? { top: playfield.top, bottom: playfield.bottom, height: playfield.height } : null,
+        tabs: tabs ? { top: tabs.top, bottom: tabs.bottom } : null,
+        actionPanel: actionPanel
+          ? {
+              top: actionPanel.top,
+              bottom: actionPanel.bottom,
+              clientHeight: document.querySelector<HTMLElement>(".starter-panel")?.clientHeight ?? 0,
+              scrollHeight: document.querySelector<HTMLElement>(".starter-panel")?.scrollHeight ?? 0
+            }
+          : null
+      };
+    });
+
+    expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+    expect(metrics.playfield).not.toBeNull();
+    expect(metrics.tabs).not.toBeNull();
+    expect(metrics.actionPanel).not.toBeNull();
+    expect(metrics.playfield!.height).toBeGreaterThan(220);
+    expect(metrics.actionPanel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+    expect(metrics.actionPanel!.scrollHeight).toBeLessThanOrEqual(metrics.actionPanel!.clientHeight + 1);
+
+    await page.screenshot({ path: testInfo.outputPath(`mobile-garden-${viewport.name}-no-scroll.png`), fullPage: false });
   });
-
-  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
-  expect(metrics.playfield).not.toBeNull();
-  expect(metrics.tabs).not.toBeNull();
-  expect(metrics.actionPanel).not.toBeNull();
-  expect(metrics.playfield!.height).toBeGreaterThan(240);
-  expect(metrics.actionPanel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
-
-  await page.screenshot({ path: testInfo.outputPath("mobile-garden-no-scroll.png"), fullPage: false });
-});
+}
 
 for (const tab of PLAYER_TABS) {
   test(`모바일 ${tab} 탭은 밭 위 half-overlay가 아니라 한 화면 tab screen이다`, async ({ page }, testInfo) => {

@@ -1420,9 +1420,11 @@ h1 {
   }
 
   .starter-panel {
-    max-height: min(28dvh, 210px);
+    max-height: none;
+    display: grid;
+    gap: 6px;
     padding: 10px;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   .starter-panel h2 {
@@ -1432,6 +1434,47 @@ h1 {
   .action-copy {
     margin-bottom: 6px;
     font-size: 11px;
+  }
+
+  .starter-panel > .hint {
+    display: none;
+  }
+
+  .next-creature-card,
+  .album-next-goal,
+  .ownership-card {
+    margin-top: 0;
+    padding: 7px;
+  }
+
+  .next-creature-card,
+  .album-next-goal {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .ownership-card {
+    grid-template-columns: 46px minmax(0, 1fr);
+  }
+
+  .next-creature-portrait img,
+  .next-creature-portrait .asset-fallback,
+  .ownership-portrait img,
+  .ownership-portrait .asset-fallback {
+    width: 42px;
+    height: 42px;
+  }
+
+  .next-creature-card small,
+  .ownership-card small,
+  .creature-personality,
+  .garden-action-dock span {
+    display: none;
+  }
+
+  .next-creature-card span,
+  .ownership-card span {
+    font-size: 11px;
+    line-height: 1.25;
   }
 
   .seed-row,
@@ -1648,7 +1691,7 @@ h1 {
   }
 
   .starter-panel {
-    max-height: min(26dvh, 188px);
+    max-height: none;
   }
 
   .bottom-tabs button {
@@ -1740,7 +1783,11 @@ h1 {
   }
 
   .garden-action-dock {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(92px, auto);
     padding: 8px;
+  }
+
+  .garden-action-dock strong {
+    font-size: 12px;
   }
 }

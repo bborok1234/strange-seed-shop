@@ -35,7 +35,12 @@ const requiredPaths = [
   "reports/visual/p0-mobile-ui-visual-regression-20260428.md",
   "reports/visual/p0-mobile-garden-playfield-playwright-20260428.png",
   "reports/visual/p0-mobile-tab-screen-playwright-20260428.png",
-  "reports/visual/p0-desktop-in-stage-album-playwright-20260428.png"
+  "reports/visual/p0-desktop-in-stage-album-playwright-20260428.png",
+  "items/0057-mobile-garden-hud-polish.md",
+  "reports/visual/p0-mobile-garden-hud-polish-20260428.md",
+  "reports/visual/p0-mobile-garden-hud-polish-mobile-20260428.png",
+  "reports/visual/p0-mobile-garden-hud-polish-mobile-360-20260428.png",
+  "reports/visual/p0-mobile-garden-hud-polish-desktop-20260428.png"
 ];
 for (const path of requiredPaths) requirePath(path);
 
@@ -97,8 +102,9 @@ for (const phrase of [
   "grid-template-rows: minmax(360px, 1fr) auto",
   ".garden-stage.has-player-tab",
   "height: calc(100% - 72px",
+  "display: none;",
   ".garden-action-dock",
-  "max-height: min(28dvh, 210px)"
+  "max-height: none"
 ]) {
   requirePhrase("src/styles.css", phrase);
 }
