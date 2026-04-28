@@ -179,7 +179,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Add 2h supervised trial readiness gate | review | `reports/operations/operator-trial-readiness-20260428.md`, `scripts/check-operator-trial-readiness.mjs` | Time, token/context, branch, network, credential, heartbeat, CI, and automerge stop rules are checked before any real 2h run |
 | Run 2-hour supervised trial | done | Issue #33, PR #50, `reports/operations/operator-trial-20260428T025400Z.md`, `items/0023-supervised-2h-operator-trial.md` | 24회 heartbeat, watchdog fresh, PR #35-#49 completed work, green CI, failures/recovery, stop rules가 기록됨 |
 | Add live operator status report | review | `scripts/update-operator-live-status.mjs`, `reports/operations/operator-live-status-20260428.md`, `items/0040-operator-live-status-report.md` | Running trial의 heartbeat freshness, deadline, completed PRs, recovery, next action을 한 파일로 생성하고 `check:operator`가 검증함 |
-| Run 4-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | At least one complete issue-to-PR loop or an honest blocker report exists; no red PR is called complete |
+| Run 4-hour supervised trial | review | `reports/operations/operator-trial-20260428T053230Z.md`, `items/0035-supervised-4h-operator-trial.md` | heartbeat 47건, merge된 PR 15개, green main CI, initial stuck report, final watchdog freshness, heartbeat gap warning이 기록됨 |
 
 ## Milestone 8: Feedback + GTM Mock Intake
 
@@ -205,7 +205,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #82 / PR #83의 원정 tab status badge이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial은 deadline 이후 final watchdog까지 도달했고, Issue #53의 report PR 준비 단계다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
@@ -237,4 +237,5 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 28. Issue #76 / PR #77은 merge 완료되어 원정 탭에서 첫 원정의 시간·필요 생명체·보상 요약을 보여 원정 루프 동기를 명확히 한다.
 29. Issue #78 / PR #79는 merge 완료되어 원정 시작 전 필요한 생명체 수와 시작 가능 상태를 보여 첫 수확 후 원정 전환 마찰을 줄인다.
 30. Issue #80 / PR #81은 merge 완료되어 진행 중인 원정의 남은 시간과 완료 보상 상태를 보여 idle comeback 루프를 명확히 한다.
-31. Issue #82 / PR #83은 하단 원정 탭에 진행/완료 배지를 붙여 다른 탭에서도 복귀·수령 신호를 놓치지 않게 한다.
+31. Issue #82 / PR #83은 merge 완료되어 하단 원정 탭에 진행/완료 배지를 붙여 다른 탭에서도 복귀·수령 신호를 놓치지 않게 한다.
+32. Issue #53의 4h supervised trial report는 `reports/operations/operator-trial-20260428T053230Z.md`로 작성되었고, final report PR에서 닫는다.
