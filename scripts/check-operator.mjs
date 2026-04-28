@@ -37,10 +37,13 @@ const requiredPaths = [
   "reports/operations/operator-trial-template-20260428.md",
   "items/0020-operator-watchdog-runner-trial-scaffold.md",
   "items/0021-supervised-operator-trial-dry-run.md",
+  "items/0022-supervised-2h-trial-readiness-gate.md",
+  "reports/operations/operator-trial-readiness-20260428.md",
   "reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json",
   "reports/operations/operator-trial-dry-run-20260428.md",
   "scripts/write-operator-heartbeat.mjs",
   "scripts/operator-trial-dry-run.mjs",
+  "scripts/check-operator-trial-readiness.mjs",
   "scripts/operator-watchdog.mjs",
   "scripts/report-operator-stuck.mjs",
   "scripts/check-operator.mjs",
@@ -119,6 +122,26 @@ requirePhrases("reports/operations/fixtures/operator-trial-dry-run-scenario-2026
   "stop_rules_observed"
 ]);
 
+
+requirePhrases("items/0022-supervised-2h-trial-readiness-gate.md", [
+  "Status: in_progress",
+  "Work type: agent_ops",
+  "Issue: #31",
+  "readiness gate",
+  "실제 2h run을 시작하지 않는다",
+  "npm run operator:trial:readiness"
+]);
+
+requirePhrases("reports/operations/operator-trial-readiness-20260428.md", [
+  "Status: ready-gated",
+  "ready-for-supervised-start",
+  "no-go-in-this-slice",
+  "Time budget",
+  "Token/context budget",
+  "Credential boundary",
+  "ENABLE_AGENT_AUTOMERGE"
+]);
+
 requirePhrases("reports/operations/README.md", [
   "heartbeat",
   "stuck report",
@@ -159,7 +182,7 @@ requirePhrases("docs/PR_AUTOMATION.md", [
   "gh run view"
 ]);
 
-requirePhrases("package.json", ["check:operator", "operator:watchdog", "operator:trial:dry-run", "scripts/check-operator.mjs"]);
+requirePhrases("package.json", ["check:operator", "operator:watchdog", "operator:trial:dry-run", "operator:trial:readiness", "scripts/check-operator.mjs"]);
 
 const heartbeat = readJsonLine("reports/operations/operator-heartbeat-20260428.jsonl");
 if (!heartbeat) {
