@@ -1,11 +1,12 @@
 # Project Docs Index
 
-This folder is the durable memory for `이상한 씨앗상회` and the autonomous project-management experiment around it.
+This folder is the durable memory for `이상한 씨앗상회` and the agent-native game studio/operator experiment around it. The two projects currently share one repository but may split later.
 
 ## Current Source of Truth
 
 | Document | Purpose | Read When |
 | --- | --- | --- |
+| `NORTH_STAR.md` | Dual north star for the game and the agent-native studio/operator | Before choosing strategy or roadmap work |
 | `ROADMAP.md` | Milestone tracking, next tasks, current status | Before deciding what to do next |
 | `PRD_PHASE0.md` | Phase 0 product requirements and UX contract | Before product or UI work |
 | `ECONOMY_PHASE0.md` | Phase 0 economy tables, formulas, tuning levers | Before economy/config work |
@@ -58,7 +59,7 @@ Current Game Studio direction:
 
 ## Current Operating Summary
 
-The project should move toward a ClawSweeper-style autonomous model:
+The operating project should move toward a ClawSweeper-style autonomous model:
 
 - intake lane normalizes work
 - review lane writes evidence-backed proposals
@@ -66,6 +67,6 @@ The project should move toward a ClawSweeper-style autonomous model:
 - verify lane proves acceptance criteria
 - audit lane detects drift
 
-Until the richer item system exists, `ROADMAP.md` is the tracking surface.
+The shared charter is `NORTH_STAR.md`. Until the richer item system exists, `ROADMAP.md` is the tracking surface.
 
 Current PR automation audit evidence is stored in `reports/audits/pr_automation_20260427.md`.

@@ -3,7 +3,7 @@
 Status: verified
 Owner: agent
 Created: 2026-04-27
-Updated: 2026-04-27
+Updated: 2026-04-28
 Scope-risk: narrow
 
 ## Intent
@@ -23,6 +23,8 @@ Scope-risk: narrow
 - 2026-04-27: `main.protected=false` 확인
 - 2026-04-27: protection endpoint가 `HTTP 403` 반환
 - 2026-04-27: `npm run check:audit` 통과
+- 2026-04-28: repository public 전환 후 `main.protected=true` 설정
+- 2026-04-28: required checks `Verify game baseline`, `Check automerge eligibility` 강제 확인
 
 ## Proposed Plan
 
@@ -33,8 +35,8 @@ Scope-risk: narrow
 
 ## Apply Conditions
 
-- 이 작업에서는 GitHub 설정을 변경하지 않는다.
-- Branch protection 또는 저장소 변수 변경은 별도 승인과 별도 audit이 필요하다.
+- 2026-04-28 사용자 승인으로 repository visibility public 전환과 Branch protection 설정을 수행했다.
+- 저장소 변수 `ENABLE_AGENT_AUTOMERGE` 변경은 별도 승인과 별도 audit이 필요하다.
 
 ## Verification
 

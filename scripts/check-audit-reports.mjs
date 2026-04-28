@@ -35,7 +35,7 @@ const requiredPhrases = new Map([
   ],
   [
     "reports/audits/branch_protection_20260427.md",
-    ["protected: false", "HTTP 403", "ENABLE_AGENT_AUTOMERGE", "required checks", "warn"]
+    ["protected: true", "HTTP 403", "ENABLE_AGENT_AUTOMERGE", "required checks", "pass"]
   ],
   ["items/0005-pr-automation-audit.md", ["Status: verified", "PR 자동화 결과", "npm run check:audit"]],
   ["items/0007-generated-pr-audit.md", ["Status: verified", "PR 결과 audit 자동 생성", "npm run update:pr-audit"]],

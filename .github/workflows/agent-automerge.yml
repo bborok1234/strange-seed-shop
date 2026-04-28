@@ -41,7 +41,28 @@ jobs:
           labels="$(gh pr view "$PR_NUMBER" --json labels --jq '.labels[].name' | paste -sd, -)"
           echo "labels=$labels" >> "$GITHUB_OUTPUT"
 
+      - name: Classify automerge candidate
+        id: candidate
+        env:
+          PR_LABELS: ${{ steps.live-pr.outputs.labels }}
+          PR_IS_DRAFT: ${{ github.event.pull_request.draft }}
+          REQUIRED_AUTOMERGE_LABEL: agent-automerge
+        run: |
+          if [[ "$PR_IS_DRAFT" == "true" ]]; then
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            echo "reason=draft PR" >> "$GITHUB_OUTPUT"
+          elif [[ ",$PR_LABELS," != *",$REQUIRED_AUTOMERGE_LABEL,"* ]]; then
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            echo "reason=missing label: $REQUIRED_AUTOMERGE_LABEL" >> "$GITHUB_OUTPUT"
+          else
+            echo "eligible=true" >> "$GITHUB_OUTPUT"
+            echo "reason=label present and PR is ready for review" >> "$GITHUB_OUTPUT"
+          fi
+
+          echo "Automerge candidate: $(cat "$GITHUB_OUTPUT" | tr '\n' ' ')"
+
       - name: Check eligibility
+        if: ${{ steps.candidate.outputs.eligible == 'true' }}
         env:
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
@@ -51,11 +72,16 @@ jobs:
           PR_LABELS: ${{ steps.live-pr.outputs.labels }}
         run: npm run check:automerge
 
+      - name: Report automerge skip
+        if: ${{ steps.candidate.outputs.eligible != 'true' }}
+        run: |
+          echo "Automerge is intentionally skipped: ${{ steps.candidate.outputs.reason }}"
+
       - name: Run full project checks
         run: npm run check:all
 
       - name: Enable native GitHub automerge
-        if: ${{ vars.ENABLE_AGENT_AUTOMERGE == 'true' && github.event.pull_request.draft == false }}
+        if: ${{ steps.candidate.outputs.eligible == 'true' && vars.ENABLE_AGENT_AUTOMERGE == 'true' && github.event.pull_request.draft == false }}
         env:
           GH_TOKEN: ${{ github.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}
