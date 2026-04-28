@@ -23,7 +23,8 @@
     "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run check:dashboard && npm run check:browser-qa && npm run check:sprite-batch && npm run check:operator && npm run check:governance && npm run check:audit && npm run build",
     "check:sprite-batch": "node scripts/check-sprite-batch.mjs",
     "check:operator": "node scripts/check-operator.mjs",
-    "operator:watchdog": "node scripts/operator-watchdog.mjs"
+    "operator:watchdog": "node scripts/operator-watchdog.mjs",
+    "operator:trial:dry-run": "node scripts/operator-trial-dry-run.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
