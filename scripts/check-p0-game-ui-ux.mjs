@@ -58,10 +58,23 @@ const requiredPaths = [
   "reports/visual/p0-mobile-game-frame-garden-360-20260428.png",
   "reports/visual/p0-mobile-game-frame-album-393-20260428.png",
   "reports/visual/p0-mobile-game-frame-seeds-393-20260428.png",
-  "reports/visual/p0-mobile-game-frame-desktop-album-20260428.png"
+  "reports/visual/p0-mobile-game-frame-desktop-album-20260428.png",
+  "items/0062-harvest-reveal-polish.md",
+  "reports/visual/p0-harvest-reveal-polish-20260429.md",
+  "reports/visual/p0-harvest-reveal-polish-mobile-393-20260429.png",
+  "reports/visual/p0-harvest-reveal-polish-mobile-360-20260429.png"
 ];
 for (const path of requiredPaths) requirePath(path);
 
+
+for (const phrase of [
+  "P0 Harvest Reveal Polish Evidence",
+  "Plan-first evidence",
+  "도감 첫 발견",
+  "npm run check:visual"
+]) {
+  requirePhrase("reports/visual/p0-harvest-reveal-polish-20260429.md", phrase);
+}
 
 for (const phrase of [
   "P0 Mobile Game Frame Tab Rework Evidence",
@@ -136,13 +149,19 @@ for (const phrase of [
   "max-height: none",
   "--mobile-nav-height: calc(64px + env(safe-area-inset-bottom))",
   ".garden-stage.has-player-tab .player-panel",
-  "height: calc(100dvh - var(--mobile-nav-height))"
+  "height: calc(100dvh - var(--mobile-nav-height))",
+  ".harvest-portrait-frame",
+  ".reveal-trait-row",
+  ".reveal-cta"
 ]) {
   requirePhrase("src/styles.css", phrase);
 }
 
 
 for (const phrase of [
+  "mobile-harvest-reveal-${viewport.name}",
+  "harvest-portrait-frame",
+  "reveal-cta",
   "mobile-${tab}-full-screen-tab",
   "topIsPlayerPanel",
   "topBarVisibility",

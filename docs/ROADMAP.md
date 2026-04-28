@@ -31,12 +31,12 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | Player/debug surface split | active | app shell/debug mode policy | `asset count`, `save ready`, `events`, `runtime image generation disabled`는 playable 기본 화면에서 숨겨지고 debug mode에서만 노출됨 |
 | Mobile/desktop viewport policy | active | `docs/DESIGN_SYSTEM.md`, visual evidence | 모바일 세로 game frame과 데스크톱 중앙 game frame 기준으로 capture evidence가 남음 |
 | Mobile tab screen architecture | done | Issue #95, PR #96, `items/0056-mobile-tab-screen-visual-regression.md`, `src/App.tsx`, `src/styles.css` | 모바일 non-garden 탭은 half overlay가 아니라 body scroll 없는 full tab screen으로 전환되고 main CI가 통과함 |
-| Mobile game frame tab rework | active | Issue #104, `items/0060-mobile-game-frame-tab-rework.md`, Playwright evidence | 모바일 탭 화면은 viewport 상단부터 bottom nav 위까지 고정되고 정원 HUD/playfield가 뒤에 비치거나 터치되지 않음 |
+| Mobile game frame tab rework | done | Issue #104, PR #105, `items/0060-mobile-game-frame-tab-rework.md`, Playwright evidence | 모바일 탭 화면은 viewport 상단부터 bottom nav 위까지 고정되고 정원 HUD/playfield가 뒤에 비치거나 터치되지 않으며 main CI가 통과함 |
 | Mobile garden HUD/action card polish | done | Issue #97, PR #98, `items/0057-mobile-garden-hud-polish.md`, visual evidence | 모바일 정원 기본 화면의 개발 라벨과 잘리는 설명을 제거하고 action card가 하단 nav에 가리지 않으며 main CI가 통과함 |
 | CLI visual QA gate | active | Playwright CLI, `tests/visual/p0-mobile-game-shell.spec.ts`, `docs/BROWSER_QA.md` | `npm run check:visual`이 mobile/desktop layout regression과 screenshot artifact를 CI에서 검증함 |
 | Asset alpha/background quality gate | active | asset checker, asset review follow-up | creature/seed/icon/fx는 alpha 필요 조건 또는 명시 예외를 검증하고, checkerboard/배경 오염 asset은 후속 cutout/remaster 대상으로 기록됨 |
 | P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
-| First harvest reveal reward polish | todo | Issue #103 | 첫 수확 reveal이 일반 모달이 아니라 수집형 게임 보상 화면처럼 읽히고 CTA가 393/360에서 잘리지 않음 |
+| First harvest reveal reward polish | active | Issue #103, `items/0062-harvest-reveal-polish.md`, visual evidence | 첫 수확 reveal이 일반 모달이 아니라 수집형 게임 보상 화면처럼 읽히고 CTA가 393/360에서 잘리지 않음 |
 
 Exit criteria: 위 항목이 모두 검증되고, `npm run check:all` 및 mobile/desktop visual evidence가 최신 main에서 통과할 때 P0 UI/UX Rescue를 닫는다.
 
@@ -204,7 +204,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Run 4-hour supervised trial | review | `reports/operations/operator-trial-20260428T053230Z.md`, `items/0035-supervised-4h-operator-trial.md` | heartbeat 47건, merge된 PR 15개, green main CI, initial stuck report, final watchdog freshness, heartbeat gap warning이 기록됨 |
 | Harden heartbeat daemon before 24h run | review | Issue #84, `scripts/operator-heartbeat-daemon.mjs`, `reports/operations/heartbeat-daemon-hardening-20260428.md`, `items/0051-heartbeat-daemon-hardening.md` | 독립 heartbeat daemon, stale-gap dry-run guard, watchdog stuck-output guard로 600초 초과 gap을 완료로 오인하지 않게 한다 |
 | Add operator control room and playable mode | review | Issue #87, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/PLAYABLE_MODE.md`, `.github/ISSUE_TEMPLATE/agent-work-item.md`, `.github/pull_request_template.md`, `scripts/prepare-playable-main.mjs`, `items/0052-operator-control-room-playable-mode.md` | 사람이 active mission, small win, visual evidence, PR/issue, playable main command를 한 화면에서 파악하고 agent 작업 중에도 게임을 실행할 수 있음 |
-| Issue-level plan-first gate | active | Issue #106, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 함 |
+| Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 
 ## Milestone 8: Feedback + GTM Mock Intake
 
@@ -234,10 +234,10 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 다음 작업:
 
-1. Issue #106으로 이슈 단위 plan-first 운영 규칙을 문서/검증 게이트에 고정한다.
-2. 이후 Issue #103 첫 수확 생명체 reveal polish는 `items/` plan artifact를 먼저 작성한 뒤 구현한다.
-3. 각 issue는 작은 승리, 수용 기준, 검증 명령, visual evidence를 남기고 PR/CI/main merge까지 반복한다.
-4. P0 UI/UX Rescue가 닫힌 뒤에도 다음 north-star issue를 만들고 같은 루프를 지속한다.
+1. Issue #103 첫 수확 생명체 reveal polish를 `items/0062-harvest-reveal-polish.md` plan 기준으로 구현·검증·PR화한다.
+2. 각 issue는 작은 승리, 수용 기준, 검증 명령, visual evidence를 남기고 PR/CI/main merge까지 반복한다.
+3. P0 UI/UX Rescue가 닫힌 뒤에도 다음 north-star issue를 만들고 같은 루프를 지속한다.
+4. 다음 후보는 reward FX, tap/harvest feedback, 탭별 game UI skinning, 운영 상황판 가독성 개선이다.
 
 ## Previous Next Action History
 
