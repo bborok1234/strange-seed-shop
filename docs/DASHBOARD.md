@@ -26,14 +26,15 @@ Updated: 2026-04-28
 | 운영사 trial dry-run | review | `npm run operator:trial:dry-run` |
 | 운영사 2h readiness | review | `npm run operator:trial:readiness` |
 | Sprite batch QA gate | review | `npm run check:sprite-batch` |
+| 플레이테스트 intake | review | `npm run check:playtest-intake` |
 
 ## 로드맵 요약
 
 | 상태 | 개수 |
 | --- | ---: |
 | done | 28 |
-| review | 30 |
-| todo | 10 |
+| review | 32 |
+| todo | 8 |
 | blocked | 0 |
 
 ## 다음 작업
@@ -54,6 +55,7 @@ Updated: 2026-04-28
 | `npm run check:dashboard` | tracked |
 | `npm run check:browser-qa` | tracked |
 | `npm run check:sprite-batch` | tracked |
+| `npm run check:playtest-intake` | tracked |
 | `npm run check:operator` | tracked |
 | `npm run check:governance` | tracked |
 | `npm run check:audit` | tracked |
