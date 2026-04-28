@@ -1553,16 +1553,18 @@ h1 {
   border: 1px solid rgba(39, 86, 64, 0.18);
   border-radius: calc(var(--radius-panel) + 8px);
   background:
-    radial-gradient(circle at 50% 20%, rgba(255, 249, 201, 0.3), transparent 42%),
-    linear-gradient(180deg, rgba(255, 247, 204, 0.18), rgba(44, 96, 67, 0.18));
-  box-shadow: inset 0 0 24px rgba(23, 60, 45, 0.12);
+    radial-gradient(circle at 50% 20%, rgba(255, 252, 218, 0.72), transparent 46%),
+    linear-gradient(180deg, rgba(255, 247, 204, 0.54), rgba(205, 234, 181, 0.46));
+  box-shadow:
+    inset 0 0 18px rgba(255, 255, 230, 0.28),
+    0 10px 22px rgba(37, 78, 53, 0.1);
 }
 
 .garden-playfield-host canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
-  opacity: 0.82;
+  opacity: 0.92;
 }
 
 .playfield-loading,
