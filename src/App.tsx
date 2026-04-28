@@ -687,7 +687,21 @@ export default function App() {
 
           {activeTab === "expedition" && (
             <section className="tab-panel expedition-card" aria-label="원정">
-              <h3>원정</h3>
+              <header className="tab-section-heading">
+                <div>
+                  <p className="panel-label">원정 준비소</p>
+                  <h3>원정</h3>
+                </div>
+                <span className="tab-section-chip">
+                  {save?.activeExpedition
+                    ? expeditionReady
+                      ? "완료"
+                      : "진행 중"
+                    : expeditionNeedsMoreCreatures
+                      ? `${expeditionCreatureShortfall}마리 필요`
+                      : "시작 가능"}
+                </span>
+              </header>
               {firstExpedition && (
                 <article className="expedition-preview" aria-label="첫 원정 보상 미리보기">
                   <div>
@@ -744,7 +758,13 @@ export default function App() {
 
           {activeTab === "shop" && (
             <section className="tab-panel shop-panel" aria-label="상점">
-              <h3>상점</h3>
+              <header className="tab-section-heading">
+                <div>
+                  <p className="panel-label">모의 상점</p>
+                  <h3>상점</h3>
+                </div>
+                <span className="tab-section-chip">결제 없음</span>
+              </header>
               <div className="shop-list">
                 {content.shopSurfaces.map((surface) => (
                   <article className="shop-card" key={surface.id}>
@@ -752,7 +772,7 @@ export default function App() {
                     <div>
                       <strong>{surface.name}</strong>
                       <span>{getShopSurfaceDescription(surface.id)}</span>
-                      <small>{surface.realPayment ? "결제 준비 중" : "실제 결제 없음"}</small>
+                      <small className="mock-shop-chip">{surface.realPayment ? "결제 준비 중" : "실제 결제 없음"}</small>
                     </div>
                     <button
                       onClick={() => trackEvent("shop_surface_clicked", { surfaceId: surface.id, realPayment: surface.realPayment })}

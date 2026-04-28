@@ -38,7 +38,8 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
 | First harvest reveal reward polish | done | Issue #103, PR #108, `items/0062-harvest-reveal-polish.md`, visual evidence, main CI `25063830331` | 첫 수확 reveal이 일반 모달이 아니라 수집형 게임 보상 화면처럼 읽히고 CTA가 393/360에서 잘리지 않음 |
 | Playfield tap/harvest feedback | done | Issue #109, PR #110, `items/0063-playfield-tap-harvest-feedback.md`, `reports/visual/p0-playfield-tap-harvest-feedback-20260429.md`, main CI `25066468406` | 성장 탭과 ready 수확 탭이 `qaFxTelemetry=1` Playwright gate와 mobile screenshot으로 즉시 피드백을 검증함 |
-| Mobile tab card polish | active | Issue #111, `items/0064-mobile-tab-card-polish.md`, `reports/visual/p0-mobile-tab-card-polish-20260429.md` | seeds/album 탭이 수집 게임 메뉴처럼 읽히고 full-screen tab regression이 유지됨 |
+| Mobile tab card polish | done | Issue #111, PR #112, `items/0064-mobile-tab-card-polish.md`, `reports/visual/p0-mobile-tab-card-polish-20260429.md`, main CI `25067574458` | seeds/album 탭이 수집 게임 메뉴처럼 읽히고 full-screen tab regression이 유지됨 |
+| Expedition/shop card polish | active | Issue #113, `items/0065-expedition-shop-card-polish.md`, `reports/visual/p0-expedition-shop-card-polish-20260429.md` | expedition/shop 탭이 같은 게임 메뉴 카드 언어를 공유하고 mock shop safety를 유지함 |
 
 Exit criteria: 위 항목이 모두 검증되고, `npm run check:all` 및 mobile/desktop visual evidence가 최신 main에서 통과할 때 P0 UI/UX Rescue를 닫는다.
 
@@ -236,7 +237,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 다음 작업:
 
-1. Issue #111 모바일 탭 화면 수집 게임 카드 UI polish를 `items/0064-mobile-tab-card-polish.md` plan 기준으로 구현·검증·PR화한다.
+1. Issue #113 원정/상점 탭 게임 메뉴 카드 UI polish를 `items/0065-expedition-shop-card-polish.md` plan 기준으로 구현·검증·PR화한다.
 2. 각 issue는 작은 승리, 수용 기준, 검증 명령, visual evidence를 남기고 PR/CI/main merge까지 반복한다.
 3. P0 UI/UX Rescue가 닫힌 뒤에도 다음 north-star issue를 만들고 같은 루프를 지속한다.
 4. 다음 후보는 reward FX, tap/harvest feedback, 탭별 game UI skinning, 운영 상황판 가독성 개선이다.
