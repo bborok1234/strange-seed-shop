@@ -66,7 +66,9 @@ requirePhrases("reports/operations/operator-loop-20260428.md", [
   "items/0019-ralph-session-operating-company-v0.md",
   "npm run check:operator",
   "npm run check:all",
-  "PR evidence"
+  "PR evidence",
+  "PR #26",
+  "Follow-up Issue #27"
 ]);
 
 requirePhrases("reports/operations/stuck-drill-20260428.md", [

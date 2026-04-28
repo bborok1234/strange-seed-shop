@@ -21,7 +21,7 @@ Milestone 6: Ralph-Session Operating Company v0의 첫 닫힌 루프를 증명�
 | Stuck drill | done | `reports/operations/stuck-drill-20260428.md` |
 | Local operator check | done | `npm run check:operator` 통과 |
 | Local full check | done | `npm run check:all` 통과 |
-| PR evidence | in_progress | PR #26: https://github.com/bborok1234/strange-seed-shop/pull/26 |
+| PR evidence | done | PR #26: https://github.com/bborok1234/strange-seed-shop/pull/26; latest GitHub check evidence는 PR comment에 기록 |
 | Follow-up evidence | done | Follow-up Issue #27: https://github.com/bborok1234/strange-seed-shop/issues/27 |
 
 ## Local verification commands
@@ -49,5 +49,5 @@ red check가 발생하면 `docs/PR_AUTOMATION.md`의 CI repair loop를 따른다
 ## PR evidence
 
 - PR #26: https://github.com/bborok1234/strange-seed-shop/pull/26
-- GitHub checks: pending after latest push
+- GitHub checks: PR comment에 최신 pass evidence를 기록한다
 - Follow-up Issue #27: https://github.com/bborok1234/strange-seed-shop/issues/27
