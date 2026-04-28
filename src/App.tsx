@@ -400,18 +400,20 @@ export default function App() {
               ))}
             {save && showSeedShop && (
               <div className="seed-shop-list">
-                {availableSeeds.map((seed) => {
+                {seedInventorySeeds.map((seed) => {
                   const owned = save.seedInventory[seed.id] ?? 0;
                   const costLeaves = getSeedPurchaseCost(seed);
                   const previewCreature = getDeterministicCreatureForSeed(seed);
                   const previewDiscovered = previewCreature ? save.discoveredCreatureIds.includes(previewCreature.id) : false;
+                  const targetSeed = seed.id === nextCreatureGoal?.seed.id;
 
                   return (
-                    <article className="seed-shop-row" key={seed.id}>
+                    <article className={targetSeed ? "seed-shop-row seed-shop-row-target" : "seed-shop-row"} key={seed.id}>
                       {renderAsset(seed.iconAssetId, "씨앗")}
                       <div>
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개</span>
+                        {targetSeed && <span className="seed-target-badge">다음 발견</span>}
                         {previewCreature && (
                           <small className="seed-creature-preview">
                             만날 아이: {previewCreature.name} · {previewDiscovered ? "발견함" : "미발견"}
@@ -542,6 +544,9 @@ export default function App() {
                   <span>
                     {getRarityLabel(nextCreatureGoal.creature.rarity)} · {nextCreatureGoal.creature.name}을 만날 차례예요.
                   </span>
+                  <button className="seed-goal-action-button" onClick={() => setActiveTab("garden")} type="button">
+                    정원에서 심기
+                  </button>
                 </div>
               </article>
             )}
