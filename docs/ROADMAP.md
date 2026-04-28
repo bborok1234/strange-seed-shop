@@ -103,6 +103,7 @@ Goal: improve the first 5 minutes without adding new game systems, while preserv
 | Garden target seed action bridge v0 | review | `src/App.tsx`, `src/styles.css`, `items/0041-garden-target-seed-action.md`, `reports/visual/garden-target-seed-action-mobile-20260428.png` | 정원 seed shop에서도 다음 발견 seed row를 강조하고 씨앗 탭에서 정원 행동으로 돌아가게 함 |
 | Seed purchase shortfall copy v0 | review | `src/App.tsx`, `src/styles.css`, `items/0042-seed-purchase-shortfall-copy.md`, `reports/visual/seed-purchase-shortfall-mobile-20260428.png` | 정원 seed shop에서 목표 씨앗을 살 잎이 부족할 때 부족분을 보여줘 다음 행동을 명확히 함 |
 | Album progress tab badge v0 | review | `src/App.tsx`, `src/styles.css`, `items/0043-album-progress-tab-badge.md`, `reports/visual/album-progress-tab-badge-mobile-20260428.png` | 하단 도감 탭에 발견 수/전체 수 배지를 붙여 수집 진행률을 항상 보이게 함 |
+| Garden next creature rarity cue v0 | review | `src/App.tsx`, `src/styles.css`, `items/0044-garden-next-creature-rarity-cue.md`, `reports/visual/garden-next-creature-rarity-cue-mobile-20260428.png` | 정원 다음 목표 카드에 희귀도·계열 단서를 붙여 수집 카드 감각을 강화함 |
 
 ## Milestone 3.6: Phaser Playfield Runtime + Sprite Pipeline Spike
 
@@ -198,7 +199,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #68의 하단 도감 진행 배지이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #70의 정원 다음 생명체 희귀도 단서이다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
@@ -223,4 +224,5 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 21. Issue #62는 장시간 운영 중 사람이 돌아왔을 때 heartbeat, deadline, 완료 PR, recovery, next action을 한 파일에서 읽을 수 있게 live status report를 생성한다.
 22. Issue #64 / PR #65는 merge 완료되어 실제 구매/심기 버튼이 있는 정원 seed shop에서도 다음 발견 seed row를 강조하고, 씨앗 탭 목표 배너에서 정원 행동으로 돌아가게 한다.
 23. Issue #66 / PR #67은 merge 완료되어 목표 seed row가 보이지만 잎이 부족한 순간 `n 잎 부족`/`n 잎 더 모으면 구매 가능` copy로 다음 행동을 명확히 한다.
-24. Issue #68 / PR #69는 하단 `도감` 탭에 발견 수/전체 수 배지를 붙여 어느 화면에서도 수집 진행률을 의식하게 한다.
+24. Issue #68 / PR #69는 merge 완료되어 하단 `도감` 탭에 발견 수/전체 수 배지를 붙여 어느 화면에서도 수집 진행률을 의식하게 한다.
+25. Issue #70 / PR #71은 정원 `다음에 만날 아이` 카드에 희귀도·계열 단서를 붙여 수집 카드 감각을 강화한다.

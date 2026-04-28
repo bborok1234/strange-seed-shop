@@ -512,6 +512,28 @@ h1 {
   font-weight: 800;
 }
 
+.next-creature-card .next-creature-title-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.next-creature-card .next-creature-title-line strong {
+  display: inline;
+}
+
+.next-creature-card .next-creature-trait-line {
+  display: inline-flex;
+  width: fit-content;
+  margin: 0;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 205, 95, 0.28);
+  color: #6f4d13;
+  font-size: 10px;
+  font-weight: 950;
+}
+
 .next-creature-card small,
 .album-next-goal small {
   color: #765b32;
