@@ -23,6 +23,7 @@ Updated: 2026-04-28
 | Browser Use QA gate | review | `npm run check:browser-qa` |
 | 운영사 v0 | review | `npm run check:operator` |
 | 운영사 watchdog | review | `npm run operator:watchdog` |
+| 운영사 trial dry-run | review | `npm run operator:trial:dry-run` |
 | Sprite batch QA gate | review | `npm run check:sprite-batch` |
 
 ## 로드맵 요약
@@ -30,7 +31,7 @@ Updated: 2026-04-28
 | 상태 | 개수 |
 | --- | ---: |
 | done | 28 |
-| review | 27 |
+| review | 28 |
 | todo | 10 |
 | blocked | 0 |
 

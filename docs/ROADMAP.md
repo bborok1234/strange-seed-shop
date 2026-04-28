@@ -153,6 +153,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | --- | --- | --- | --- |
 | Build watchdog runner | review | `scripts/operator-watchdog.mjs`, `reports/operations/watchdog-fresh-drill-20260428.md`, `reports/operations/watchdog-stale-drill-20260428.md` | Runner detects stale heartbeat and records a reportable state before supervised restart behavior |
 | Add iteration budget and stop rules | review | `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `reports/operations/operator-trial-template-20260428.md` | Time, branch, risk, and network/credential stop conditions are explicit before long-running trials |
+| Create supervised trial dry-run | review | `scripts/operator-trial-dry-run.mjs`, `reports/operations/operator-trial-dry-run-20260428.md` | Trial lifecycle report is generated from fixtures without real 2h/4h/24h execution |
 | Run 2-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | Heartbeat coverage, work completed, failures, CI status, and recovery attempts are recorded |
 | Run 4-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | At least one complete issue-to-PR loop or an honest blocker report exists; no red PR is called complete |
 
@@ -184,6 +185,6 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
-3. Issue #25 / PR #26으로 첫 운영사 루프가 닫혔고, 현재 안전한 후속 작업은 Issue #27 / `items/0020-operator-watchdog-runner-trial-scaffold.md`로 watchdog freshness 판정과 supervised trial report scaffold를 검증하는 것이다.
+3. Issue #25/PR #26과 Issue #27/PR #28로 운영사 루프와 watchdog scaffold가 닫혔고, 현재 안전한 후속 작업은 Issue #29 / `items/0021-supervised-operator-trial-dry-run.md`로 실제 장시간 실행 전 deterministic trial lifecycle를 검증하는 것이다.
 4. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
 5. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.

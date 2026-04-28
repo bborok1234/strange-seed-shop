@@ -36,7 +36,11 @@ const requiredPaths = [
   "reports/operations/watchdog-stale-drill-20260428.md",
   "reports/operations/operator-trial-template-20260428.md",
   "items/0020-operator-watchdog-runner-trial-scaffold.md",
+  "items/0021-supervised-operator-trial-dry-run.md",
+  "reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json",
+  "reports/operations/operator-trial-dry-run-20260428.md",
   "scripts/write-operator-heartbeat.mjs",
+  "scripts/operator-trial-dry-run.mjs",
   "scripts/operator-watchdog.mjs",
   "scripts/report-operator-stuck.mjs",
   "scripts/check-operator.mjs",
@@ -89,6 +93,32 @@ requirePhrases("reports/operations/operator-trial-template-20260428.md", [
   "Stop rules observed"
 ]);
 
+
+requirePhrases("items/0021-supervised-operator-trial-dry-run.md", [
+  "Status: in_progress",
+  "Work type: agent_ops",
+  "Issue: #29",
+  "trial dry-run generator",
+  "실제 장시간 실행을 시작하지 않는다",
+  "npm run operator:trial:dry-run"
+]);
+
+requirePhrases("reports/operations/operator-trial-dry-run-20260428.md", [
+  "Status: dry-run-pass",
+  "Heartbeat coverage",
+  "Coverage: 100%",
+  "Failures and recovery attempts",
+  "simulated stale heartbeat",
+  "Stop rules observed",
+  "No real 2h/4h/24h execution in dry-run"
+]);
+
+requirePhrases("reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json", [
+  "deterministic-dry-run",
+  "heartbeat_windows",
+  "stop_rules_observed"
+]);
+
 requirePhrases("reports/operations/README.md", [
   "heartbeat",
   "stuck report",
@@ -129,7 +159,7 @@ requirePhrases("docs/PR_AUTOMATION.md", [
   "gh run view"
 ]);
 
-requirePhrases("package.json", ["check:operator", "operator:watchdog", "scripts/check-operator.mjs"]);
+requirePhrases("package.json", ["check:operator", "operator:watchdog", "operator:trial:dry-run", "scripts/check-operator.mjs"]);
 
 const heartbeat = readJsonLine("reports/operations/operator-heartbeat-20260428.jsonl");
 if (!heartbeat) {

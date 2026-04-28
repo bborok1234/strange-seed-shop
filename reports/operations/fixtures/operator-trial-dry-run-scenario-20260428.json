@@ -1,0 +1,63 @@
+{
+  "trial_id": "operator-trial-dry-run-20260428",
+  "mode": "deterministic-dry-run",
+  "started_at": "2026-04-28T02:40:00.000Z",
+  "ended_at": "2026-04-28T02:50:00.000Z",
+  "operator_branch": "codex/operator-trial-dry-run",
+  "related_issues": ["#29"],
+  "related_prs": [],
+  "human_approved_budget": "dry-run only; no real 2h/4h/24h execution",
+  "heartbeat_windows": [
+    {
+      "window": "0-5m",
+      "expected": 1,
+      "observed": 1,
+      "freshness": "fresh",
+      "evidence": "fixture heartbeat at 2026-04-28T02:42:00.000Z"
+    },
+    {
+      "window": "5-10m",
+      "expected": 1,
+      "observed": 1,
+      "freshness": "fresh",
+      "evidence": "fixture heartbeat at 2026-04-28T02:47:00.000Z"
+    }
+  ],
+  "completed_work": [
+    {
+      "item": "items/0021-supervised-operator-trial-dry-run.md",
+      "status": "dry-run-generated",
+      "evidence": "reports/operations/operator-trial-dry-run-20260428.md"
+    }
+  ],
+  "failures": [
+    {
+      "failure": "simulated stale heartbeat",
+      "detection_source": "operator-watchdog fixture",
+      "recovery_attempt": "write stuck report before completion",
+      "result": "reported-not-restarted",
+      "follow_up": "real restart remains out of scope"
+    }
+  ],
+  "ci_status": [
+    {
+      "pr": "pending",
+      "check": "Verify game baseline",
+      "result": "expected-pass-after-pr",
+      "url": "pending"
+    },
+    {
+      "pr": "pending",
+      "check": "Check automerge eligibility",
+      "result": "expected-pass-after-pr",
+      "url": "pending"
+    }
+  ],
+  "stop_rules_observed": [
+    "No real 2h/4h/24h execution in dry-run",
+    "No credentials, customer data, external deployment, real GTM, payment/login/ads SDK",
+    "Stale heartbeat becomes reportable state, not completion",
+    "Repeated failure would become blocker report after 3 attempts"
+  ],
+  "next_queue": ["#29 PR checks", "future real supervised 2h trial after explicit report readiness"]
+}
