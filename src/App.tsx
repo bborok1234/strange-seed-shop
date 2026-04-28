@@ -418,7 +418,7 @@ export default function App() {
                       {renderAsset(seed.iconAssetId, "씨앗")}
                       <div>
                         <strong>{seed.name}</strong>
-                        <span>보유 {owned}개</span>
+                        <span>보유 {owned}개 · {getSeedHarvestSummary(seed)}</span>
                         {targetSeed && <span className="seed-target-badge">다음 발견</span>}
                         {leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}
                         {previewCreature && (
@@ -586,7 +586,7 @@ export default function App() {
                         </small>
                       )}
                     </div>
-                    <span>{seed.baseGrowthSeconds}s</span>
+                    <span>{getSeedHarvestSummary(seed)}</span>
                   </article>
                 );
               })}
@@ -917,6 +917,10 @@ function advanceMission(draft: PlayerSave, missionId: string, amount = 1) {
 
   const current = draft.missionProgress[mission.id] ?? 0;
   draft.missionProgress[mission.id] = Math.min(mission.target, current + amount);
+}
+
+function getSeedHarvestSummary(seed: SeedDefinition): string {
+  return `${seed.baseGrowthSeconds}s · +${seed.baseHarvestLeaves} 잎`;
 }
 
 function getSeedPurchaseCost(seed: SeedDefinition): number {
