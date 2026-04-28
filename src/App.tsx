@@ -403,6 +403,7 @@ export default function App() {
                 {seedInventorySeeds.map((seed) => {
                   const owned = save.seedInventory[seed.id] ?? 0;
                   const costLeaves = getSeedPurchaseCost(seed);
+                  const leafShortfall = Math.max(0, costLeaves - save.leaves);
                   const previewCreature = getDeterministicCreatureForSeed(seed);
                   const previewDiscovered = previewCreature ? save.discoveredCreatureIds.includes(previewCreature.id) : false;
                   const targetSeed = seed.id === nextCreatureGoal?.seed.id;
@@ -414,6 +415,7 @@ export default function App() {
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개</span>
                         {targetSeed && <span className="seed-target-badge">다음 발견</span>}
+                        {leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}
                         {previewCreature && (
                           <small className="seed-creature-preview">
                             만날 아이: {previewCreature.name} · {previewDiscovered ? "발견함" : "미발견"}
@@ -421,7 +423,7 @@ export default function App() {
                         )}
                       </div>
                       <button disabled={save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">
-                        구매 {costLeaves}
+                        {leafShortfall > 0 ? `${leafShortfall} 잎 부족` : `구매 ${costLeaves}`}
                       </button>
                       <button disabled={owned <= 0 || !hasOpenPlot} onClick={() => plantOwnedSeed(seed)} type="button">
                         심기
