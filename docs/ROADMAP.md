@@ -107,6 +107,7 @@ Goal: improve the first 5 minutes without adding new game systems, while preserv
 | Seed growth and harvest summary v0 | review | `src/App.tsx`, `items/0045-seed-growth-harvest-summary.md`, `reports/visual/seed-growth-harvest-summary-mobile-20260428.png` | 씨앗 row에 성장 시간과 수확 잎 보상을 같이 보여 구매·심기 판단을 명확히 함 |
 | Album reward milestone preview v0 | review | `src/App.tsx`, `src/styles.css`, `items/0046-album-reward-milestone-preview.md`, `reports/visual/album-reward-milestone-preview-mobile-20260428.png` | 도감 화면에 다음 milestone 보상과 남은 발견 수를 보여 수집 동기를 강화함 |
 | Expedition reward preview v0 | review | `src/App.tsx`, `src/styles.css`, `items/0047-expedition-reward-preview.md`, `reports/visual/expedition-reward-preview-mobile-20260428.png` | 원정 탭에서 첫 원정의 시간·필요 생명체·보상을 보여 원정 루프 동기를 명확히 함 |
+| Expedition unlock hint v0 | review | `src/App.tsx`, `src/styles.css`, `items/0048-expedition-unlock-hint.md`, `reports/visual/expedition-unlock-hint-mobile-20260428.png` | 원정 시작 전 필요한 생명체 수와 시작 가능 상태를 보여 첫 수확 후 원정 전환 마찰을 줄임 |
 
 ## Milestone 3.6: Phaser Playfield Runtime + Sprite Pipeline Spike
 
@@ -202,7 +203,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #76 / PR #77의 원정 보상 preview이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #78 / PR #79의 원정 unlock hint이다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
@@ -231,4 +232,5 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 25. Issue #70 / PR #71은 merge 완료되어 정원 `다음에 만날 아이` 카드에 희귀도·계열 단서를 붙여 수집 카드 감각을 강화한다.
 26. Issue #72 / PR #73은 merge 완료되어 seed shop/씨앗 주머니 row에 성장 시간과 수확 잎 보상 요약을 붙여 구매·심기 판단을 명확히 한다.
 27. Issue #74 / PR #75는 merge 완료되어 도감 화면에 다음 album milestone 보상과 남은 발견 수를 보여 수집 동기를 강화한다.
-28. Issue #76 / PR #77은 원정 탭에서 첫 원정의 시간·필요 생명체·보상 요약을 보여 원정 루프 동기를 명확히 한다.
+28. Issue #76 / PR #77은 merge 완료되어 원정 탭에서 첫 원정의 시간·필요 생명체·보상 요약을 보여 원정 루프 동기를 명확히 한다.
+29. Issue #78 / PR #79는 원정 시작 전 필요한 생명체 수와 시작 가능 상태를 보여 첫 수확 후 원정 전환 마찰을 줄인다.

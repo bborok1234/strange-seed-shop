@@ -878,6 +878,21 @@ h1 {
   font-weight: 950;
 }
 
+.expedition-unlock-note {
+  margin: calc(var(--space-2) * -1) 0 var(--space-2);
+  padding: 8px 10px;
+  border-radius: var(--radius-control);
+  background: rgba(176, 91, 58, 0.1);
+  color: #8a3f24;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.expedition-unlock-note-ready {
+  background: rgba(39, 86, 64, 0.1);
+  color: var(--action-primary-strong);
+}
+
 .mission-list,
 .seed-inventory-list,
 .shop-list {
