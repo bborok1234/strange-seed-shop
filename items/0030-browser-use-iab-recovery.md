@@ -29,7 +29,7 @@ Phaser playfield Browser QA에서 Browser Use `iab` backend 직접 검증을 복
 - Context snapshot: `.omx/context/browser-use-iab-recovery-20260428T040100Z.md`
 - Local check: `npm run check:browser-qa` PASS
 - Local check: `npm run check:all` PASS
-- PR: 생성 예정
+- PR: #43 https://github.com/bborok1234/strange-seed-shop/pull/43
 
 ## Proposed Plan
 
