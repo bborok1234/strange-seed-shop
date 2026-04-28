@@ -89,6 +89,8 @@ Issue #18에서 Browser Use `iab` backend 직접 검증을 다시 시도했다. 
 
 - 2026-04-28: Playwright CLI visual/layout regression을 추가했다. `npm run check:visual`은 393x852 모바일 도감 tab screen과 1280x900 데스크톱 in-stage split을 검증하고 screenshot artifact를 남긴다: `reports/visual/p0-mobile-ui-visual-regression-20260428.md`, `reports/visual/p0-mobile-tab-screen-playwright-20260428.png`, `reports/visual/p0-desktop-in-stage-album-playwright-20260428.png`.
 
+- 2026-04-28: 모바일 정원 HUD/action card polish 후 개발 라벨 미노출과 393/375/360px action card 내부 스크롤 없음이 Playwright gate에 추가되었다: `reports/visual/p0-mobile-garden-hud-polish-20260428.md`, `reports/visual/p0-mobile-garden-hud-polish-mobile-20260428.png`, `reports/visual/p0-mobile-garden-hud-polish-mobile-360-20260428.png`, `reports/visual/p0-mobile-garden-hud-polish-desktop-20260428.png`.
+
 ## 남은 QA
 
 - Browser Use 직접 검증은 Node REPL `js` execution tool이 세션에 노출되면 재시도한다.

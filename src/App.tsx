@@ -389,7 +389,7 @@ export default function App() {
       >
         <div className="top-bar">
           <div>
-            <p className="eyebrow">mobile garden HUD</p>
+            <p className="eyebrow">햇살 온실 정원</p>
             <h1>이상한 씨앗상회</h1>
             <p className="objective-chip">{nextAction.title}</p>
           </div>
