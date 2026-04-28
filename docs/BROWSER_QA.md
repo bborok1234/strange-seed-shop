@@ -93,6 +93,8 @@ Issue #18에서 Browser Use `iab` backend 직접 검증을 다시 시도했다. 
 
 - 2026-04-28: Phaser playfield presentation polish 후 ready/locked/empty plot 상태를 더 선명하게 구분한 screenshot evidence를 저장했다: `reports/visual/p0-playfield-presentation-polish-20260428.md`, `reports/visual/p0-playfield-presentation-polish-mobile-393-20260428.png`, `reports/visual/p0-playfield-presentation-polish-mobile-375-20260428.png`, `reports/visual/p0-playfield-presentation-polish-mobile-360-20260428.png`, `reports/visual/p0-playfield-presentation-polish-desktop-20260428.png`.
 
+- 2026-04-28: Phaser playfield visual-noise cleanup 후 locked plot 반복 텍스트/강한 선을 낮춘 screenshot evidence를 저장했다: `reports/visual/p0-playfield-noise-cleanup-20260428.md`, `reports/visual/p0-playfield-noise-cleanup-mobile-393-20260428.png`, `reports/visual/p0-playfield-noise-cleanup-mobile-375-20260428.png`, `reports/visual/p0-playfield-noise-cleanup-mobile-360-20260428.png`, `reports/visual/p0-playfield-noise-cleanup-desktop-20260428.png`.
+
 ## 남은 QA
 
 - Browser Use 직접 검증은 Node REPL `js` execution tool이 세션에 노출되면 재시도한다.

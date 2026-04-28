@@ -174,7 +174,9 @@ export class GardenScene extends Phaser.Scene {
     const familyColor = plot.family ? FAMILY_COLORS[plot.family] : undefined;
     const fill = familyColor?.fill ?? stateColor.fill;
     const stroke = plot.state === "ready" ? STATE_COLORS.ready.stroke : familyColor?.accent ?? stateColor.stroke;
-    const alpha = plot.state === "locked" ? 0.13 : plot.state === "ready" ? 0.98 : 0.82;
+    const alpha = plot.state === "locked" ? 0.08 : plot.state === "ready" ? 0.98 : 0.82;
+    const strokeAlpha =
+      plot.state === "locked" ? 0.1 : plot.state === "empty" ? 0.44 : plot.state === "ready" ? 0.9 : 0.68;
     const group = this.add.container(x, y);
     this.root?.add(group);
 
@@ -185,12 +187,12 @@ export class GardenScene extends Phaser.Scene {
 
     tile.fillStyle(fill, alpha);
     tile.fillRoundedRect(0, 0, width, height, 16);
-    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, plot.state === "locked" ? 0.2 : 0.86);
+    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, strokeAlpha);
     tile.strokeRoundedRect(1, 1, width - 2, height - 2, 16);
     group.add(tile);
 
     const mound = this.add.graphics();
-    mound.fillStyle(0x795435, plot.state === "locked" ? 0.1 : 0.36);
+    mound.fillStyle(0x795435, plot.state === "locked" ? 0.06 : 0.36);
     mound.fillEllipse(width / 2, height * 0.7, width * 0.58, Math.max(12, height * 0.14));
     group.add(mound);
 
@@ -207,7 +209,9 @@ export class GardenScene extends Phaser.Scene {
       group.add(glow);
     }
 
-    this.drawPlotBadge(group, plot, width);
+    if (plot.state !== "locked") {
+      this.drawPlotBadge(group, plot, width);
+    }
 
     if (plot.state !== "locked") {
       const label = this.addText(width / 2, 10, plot.label, {
@@ -215,7 +219,6 @@ export class GardenScene extends Phaser.Scene {
         fontSize: width < 100 ? "10px" : "11px",
         fontStyle: "900"
       }).setOrigin(0.5, 0);
-      label.setWordWrapWidth(width - 18);
       group.add(label);
     }
 
@@ -278,12 +281,13 @@ export class GardenScene extends Phaser.Scene {
   }
 
   private drawLockGlyph(group: Phaser.GameObjects.Container, width: number, height: number) {
-    const lock = this.addText(width / 2, height * 0.46, "잠금", {
-      color: "#5e684f",
-      fontSize: "11px",
-      fontStyle: "900"
-    }).setOrigin(0.5, 0.5);
-    lock.setAlpha(0.34);
+    const lock = this.add.graphics();
+    const centerX = width / 2;
+    const centerY = height * 0.46;
+    lock.lineStyle(3, 0x5e684f, 0.14);
+    lock.strokeRoundedRect(centerX - 9, centerY - 17, 18, 17, 8);
+    lock.fillStyle(0x5e684f, 0.14);
+    lock.fillRoundedRect(centerX - 15, centerY - 6, 30, 22, 7);
     group.add(lock);
   }
 

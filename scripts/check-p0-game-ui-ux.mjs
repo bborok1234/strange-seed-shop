@@ -46,7 +46,13 @@ const requiredPaths = [
   "reports/visual/p0-playfield-presentation-polish-mobile-393-20260428.png",
   "reports/visual/p0-playfield-presentation-polish-mobile-375-20260428.png",
   "reports/visual/p0-playfield-presentation-polish-mobile-360-20260428.png",
-  "reports/visual/p0-playfield-presentation-polish-desktop-20260428.png"
+  "reports/visual/p0-playfield-presentation-polish-desktop-20260428.png",
+  "items/0059-playfield-visual-noise-cleanup.md",
+  "reports/visual/p0-playfield-noise-cleanup-20260428.md",
+  "reports/visual/p0-playfield-noise-cleanup-mobile-393-20260428.png",
+  "reports/visual/p0-playfield-noise-cleanup-mobile-375-20260428.png",
+  "reports/visual/p0-playfield-noise-cleanup-mobile-360-20260428.png",
+  "reports/visual/p0-playfield-noise-cleanup-desktop-20260428.png"
 ];
 for (const path of requiredPaths) requirePath(path);
 
@@ -125,6 +131,15 @@ for (const phrase of [
   requirePhrase("src/game/playfield/GardenScene.ts", phrase);
 }
 
+for (const phrase of [
+  "strokeAlpha",
+  "plot.state !== \"locked\"",
+  "0.08"
+]) {
+  requirePhrase("src/game/playfield/GardenScene.ts", phrase);
+}
+
+forbidPhrase("src/game/playfield/GardenScene.ts", "setWordWrapWidth");
 forbidPhrase("src/game/playfield/GardenScene.ts", "this.viewModel?.headline ?? \"정원 준비 중\"");
 forbidPhrase("src/game/playfield/GardenScene.ts", "this.viewModel?.hint ?? \"밭을 눌러 성장과 수확을 진행하세요\"");
 
