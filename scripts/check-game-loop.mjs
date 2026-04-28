@@ -29,6 +29,28 @@ const requiredMissions = requiredMissionIds.map((missionId) => missions.find((mi
 
 const failures = [];
 
+const normalizedAppSource = appSource.replace(/\s+/g, " ").trim();
+const normalizeFragment = (fragment) => fragment.replace(/\s+/g, " ").trim();
+const requiredAppFragments = [
+  {
+    label: "seed shop computes a non-negative leaf shortfall from cost and current leaves",
+    fragment: "const leafShortfall = Math.max(0, costLeaves - save.leaves);"
+  },
+  {
+    label: "shortfall helper copy is gated by positive shortfall",
+    fragment: `{leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}`
+  },
+  {
+    label: "purchase button preserves buy-cost fallback when no shortfall exists",
+    fragment: "{leafShortfall > 0 ? `${leafShortfall} 잎 부족` : `구매 ${costLeaves}`}"
+  },
+  {
+    label: "purchase button remains disabled by leaf affordability",
+    fragment: `<button disabled={save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">`
+  }
+];
+
+
 if (starterSeeds.length !== 3) {
   failures.push(`starter seed count expected 3, got ${starterSeeds.length}`);
 }
@@ -69,6 +91,13 @@ if (!nextDeterministicSeed || !nextCreatureGoal) {
   failures.push("next collection goal must not repeat the first creature");
 }
 
+
+for (const { label, fragment } of requiredAppFragments) {
+  if (!normalizedAppSource.includes(normalizeFragment(fragment))) {
+    failures.push(`App.tsx missing shortfall behavior fragment: ${label}`);
+  }
+}
+
 for (const phrase of [
   "getNextCreatureGoal",
   "다음에 만날 아이",
@@ -107,7 +136,11 @@ for (const phrase of [
   "seed-shop-row-target",
   "seed-goal-action-button",
   "정원에서 심기",
-  "setActiveTab(\"garden\")"
+  "setActiveTab(\"garden\")",
+  "leafShortfall",
+  "seed-shortfall-note",
+  "잎 더 모으면 구매 가능",
+  "잎 부족"
 ]) {
   if (!appSource.includes(phrase)) {
     failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);

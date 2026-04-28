@@ -378,6 +378,17 @@ h1 {
   line-height: 1.25;
 }
 
+.seed-shop-row .seed-shortfall-note {
+  width: fit-content;
+  margin: 3px 0 1px;
+  padding: 3px 7px;
+  border-radius: var(--radius-pill);
+  background: rgba(163, 89, 35, 0.12);
+  color: #8a4a1d;
+  font-size: 11px;
+  font-weight: 900;
+}
+
 .seed-shop-row button,
 .primary-action,
 .mission-row button,
