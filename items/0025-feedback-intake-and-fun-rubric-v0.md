@@ -7,7 +7,7 @@ Updated: 2026-04-28
 Scope-risk: narrow
 Work type: feedback
 Issue: #36
-PR: TBD
+PR: #37
 
 ## Intent
 
@@ -24,6 +24,7 @@ PR: TBD
 ## Evidence
 
 - Issue #36: https://github.com/bborok1234/strange-seed-shop/issues/36
+- PR #37: https://github.com/bborok1234/strange-seed-shop/pull/37
 - `npm run check:playtest-intake` PASS — intake 필수 필드와 5개 rubric 점수 범위 검증
 - `npm run check:all` PASS — 기존 제품/운영사 gate에 playtest intake 검증 포함
 
