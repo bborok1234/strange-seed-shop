@@ -163,7 +163,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Add iteration budget and stop rules | review | `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `reports/operations/operator-trial-template-20260428.md` | Time, branch, risk, and network/credential stop conditions are explicit before long-running trials |
 | Create supervised trial dry-run | review | `scripts/operator-trial-dry-run.mjs`, `reports/operations/operator-trial-dry-run-20260428.md` | Trial lifecycle report is generated from fixtures without real 2h/4h/24h execution |
 | Add 2h supervised trial readiness gate | review | `reports/operations/operator-trial-readiness-20260428.md`, `scripts/check-operator-trial-readiness.mjs` | Time, token/context, branch, network, credential, heartbeat, CI, and automerge stop rules are checked before any real 2h run |
-| Run 2-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | Heartbeat coverage, work completed, failures, CI status, and recovery attempts are recorded |
+| Run 2-hour supervised trial | review | `reports/operations/operator-trial-20260428T025400Z.md`, `items/0023-supervised-2h-operator-trial.md` | Heartbeat coverage, work completed, failures, CI status, and recovery attempts are recorded |
 | Run 4-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | At least one complete issue-to-PR loop or an honest blocker report exists; no red PR is called complete |
 
 ## Milestone 8: Feedback + GTM Mock Intake
@@ -190,14 +190,14 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 현재 운영사 쪽은 Issue #33의 supervised 2h trial을 heartbeat/watchdog 증거와 함께 실행 중이며, asset pipeline 쪽은 Issue #22로 Codex output export와 96x96 strip normalization 경로를 문서/검증 gate로 고정한다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 현재 운영사 쪽은 Issue #33의 supervised 2h trial을 완료했고, `reports/operations/operator-trial-20260428T025400Z.md`로 heartbeat/watchdog/PR/CI 증거를 durable report화하는 중이다. 이 report PR이 merge되면 다음 안전한 운영사 작업은 4h supervised trial 준비와 `docs/OPERATOR_RUNBOOK.md`/daily operating report 템플릿이다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
 3. Issue #46 / PR #47은 씨앗 구매/주머니 row에 `seed.creaturePool[0]`의 만날 아이 preview를 붙여 선택 전 수집 기대를 강화했다.
-4. Issue #48 / `items/0033-harvest-reveal-next-goal.md`는 첫 수확 reveal에서 다음 목표 creature/seed hint를 보여줘 “하나만 더” 루프를 강화한다.
+4. Issue #48 / PR #49는 merge 완료되어 첫 수확 reveal에서 다음 목표 creature/seed hint를 보여줘 “하나만 더” 루프를 강화한다.
 5. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
-6. Issue #25/PR #26, Issue #27/PR #28, Issue #29/PR #30, Issue #31/PR #32로 운영사 루프, watchdog, trial dry-run, readiness gate가 닫혔고, 현재 후속 작업은 Issue #33의 실제 2h trial 증거를 완성하는 것이다.
+6. Issue #25/PR #26, Issue #27/PR #28, Issue #29/PR #30, Issue #31/PR #32로 운영사 루프, watchdog, trial dry-run, readiness gate가 닫혔고, Issue #33의 실제 2h trial은 24회 heartbeat와 PR #35-#49 completed work로 완료되었다.
 7. Issue #34 / PR #35는 merge 완료되어 생명체의 성격/취향/인사말을 수확 reveal·소유 카드·도감에 노출한다.
 8. Issue #36 / PR #37은 merge 완료되어 실제 고객 데이터나 외부 채널 없이 플레이테스트 신호를 severity/product axis/evidence/duplicate/fun rubric/next item으로 정규화한다.
 9. Issue #38 / PR #39는 merge 완료되어 devlog/release note/community post를 mock proposal로만 남기고, SNS/email/ads/store/community 실채널 action은 명시 승인 전 금지한다.
