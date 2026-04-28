@@ -9,21 +9,24 @@
 
 ## Project Intent
 
-This repository is an experimental autonomous-agent-managed game project.
+This repository currently contains two related projects that may later split: the game **이상한 씨앗상회** and the agent-native game studio/operator that builds and runs it.
 
 The product goal is to build **이상한 씨앗상회**, a browser-first idle collection game where players grow strange seeds into collectible plant-creatures, claim offline rewards, upgrade a greenhouse, and eventually expand into light expedition and liveops systems.
 
-The operating goal is to evolve this repository toward a ClawSweeper-style autonomous project system: agents should be able to inspect the current state, choose the next scoped item, propose changes, apply safe changes, verify results, and leave durable evidence without the human restating context every time.
+The operating goal is to evolve this repository toward a ClawSweeper-style autonomous project system: agents should be able to inspect the current state, choose the next scoped item, propose changes, apply safe changes, verify results, recover failures, create draft PRs, and leave durable evidence without the human restating context every time.
+
+The shared north star for both projects is documented in `docs/NORTH_STAR.md`. Treat it as the top-level product/operating charter before choosing roadmap work.
 
 ## Required Reading Order
 
 Before substantial work, read these files in order:
 
 1. `docs/README.md` - document index and current source of truth
-2. `docs/ROADMAP.md` - milestone status and next work
-3. `docs/PRD_PHASE0.md` - Phase 0 product contract
-4. `docs/ECONOMY_PHASE0.md` - Phase 0 economy contract
-5. `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` - agent-management model
+2. `docs/NORTH_STAR.md` - dual north star for the game and agent-native studio/operator
+3. `docs/ROADMAP.md` - milestone status and next work
+4. `docs/PRD_PHASE0.md` - Phase 0 product contract
+5. `docs/ECONOMY_PHASE0.md` - Phase 0 economy contract
+6. `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` - agent-management model
 
 For image asset work, also read the relevant project-local skill:
 
@@ -37,6 +40,13 @@ For browser visual QA, use the Codex Browser Use plugin first:
 - `browser-use:browser` with the in-app browser `iab` backend is the default path for local browser inspection, DOM snapshots, clicks, and screenshots.
 - Do not fall back to separate Playwright scripts, Computer Use, or macOS screenshots until Browser Use has been tried and the blocker is recorded.
 - Persist important visual QA evidence under `reports/visual/`.
+
+## North Star Direction
+
+- This repo currently hosts both the game project and the agent-native studio/operator project. Preserve the boundary so they can split later.
+- Game north star: make players feel “얘 귀엽다. 하나만 더 키워볼까?” within the first 5 minutes.
+- Operator north star: make agents safely progress from issue intake to implementation, verification, draft PR, CI recovery, and follow-up evidence without the human restating context.
+- Before attempting long-running autonomy again, prefer building Ralph-session reliability: heartbeat, watchdog, stuck recovery, CI repair, and daily evidence reports.
 
 ## Product Direction
 
@@ -82,6 +92,7 @@ When executing roadmap work:
 ## Documentation Discipline
 
 - `docs/README.md` owns the document index.
+- `docs/NORTH_STAR.md` owns the shared game/operator north star and split-ready strategy.
 - `docs/ROADMAP.md` owns milestone tracking.
 - `docs/PRD_PHASE0.md` owns product scope.
 - `docs/ECONOMY_PHASE0.md` owns economy values and formulas.

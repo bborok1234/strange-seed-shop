@@ -2,6 +2,7 @@ import fs from "node:fs";
 
 const requiredDocs = [
   "docs/README.md",
+  "docs/NORTH_STAR.md",
   "docs/ROADMAP.md",
   "docs/PRD_PHASE0.md",
   "docs/ECONOMY_PHASE0.md",
@@ -42,7 +43,19 @@ for (const dir of requiredDirs) {
   }
 }
 
-for (const phrase of ["Milestone 5", "review report", "audit report", "dashboard", "PR automation audit"]) {
+for (const phrase of [
+  "Milestone 5",
+  "Milestone 6",
+  "Milestone 7",
+  "Milestone 8",
+  "Milestone 9",
+  "북극성",
+  "24-Hour Agent-Native Studio Prototype",
+  "review report",
+  "audit report",
+  "dashboard",
+  "PR automation audit"
+]) {
   if (!roadmap.includes(phrase)) {
     failures.push(`docs/ROADMAP.md missing phrase: ${phrase}`);
   }

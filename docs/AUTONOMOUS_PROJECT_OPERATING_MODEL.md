@@ -2,7 +2,7 @@
 
 ## 1. Intent
 
-This project is both a game and an agent-management experiment. The long-term goal is a repository that can move toward a defined destination with minimal human intervention, while keeping evidence, safety, and reversible decisions visible.
+This project is both a game and an agent-management experiment. The long-term goal is a repository that can move toward a defined destination with minimal human intervention, while keeping evidence, safety, and reversible decisions visible. The shared destination is defined in `docs/NORTH_STAR.md`.
 
 The model is inspired by ClawSweeper's structure: a conservative automation system that reviews items, writes durable reports, applies only high-confidence actions, maintains dashboards, and audits drift.
 
@@ -14,6 +14,17 @@ Reference observed from `openclaw/clawsweeper`:
 - Maintainer-authored/protected items are guarded.
 - Dashboard and audit health make the system inspectable.
 - Scheduled lanes run at different cadences for hot, daily, and weekly work.
+
+## 1.1 Two-Project Boundary
+
+현재 한 레포에는 두 프로젝트가 함께 있다.
+
+1. `이상한 씨앗상회`: 귀엽고 중독성 있는 생명체 수집 idle game
+2. 에이전트 네이티브 게임 스튜디오/운영사: 게임을 스스로 개발, 검증, 운영, GTM 보조까지 수행하는 agent operating layer
+
+운영사 프로젝트는 게임 프로젝트의 도구이자 장기적으로 별도 제품/레포가 될 수 있다. 따라서 자동화 작업은 단순히 현재 게임 코드를 고치는 것을 넘어, issue intake, queue, watchdog, CI repair, evidence ledger, feedback/GTM intake 같은 운영 능력을 축적해야 한다.
+
+분리 전까지 `docs/NORTH_STAR.md`가 두 프로젝트의 공통 헌장이고, 이 문서는 운영사 쪽 실행 모델을 구체화한다.
 
 ## 2. Core Principle
 
@@ -258,6 +269,8 @@ No monetization surface ships unless:
 7. Add verification dashboard.
 8. Add work item intake/review/apply scaffolding.
 9. Move toward ClawSweeper-style scheduled agent maintenance.
+10. Build Ralph-session reliability before claiming overnight or 24-hour autonomy.
+11. Add feedback/GTM intake only behind explicit privacy, credential, and brand-safety gates.
 
 ## 11. Definition of Autonomous Enough
 

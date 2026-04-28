@@ -1,6 +1,6 @@
 # 프로젝트 대시보드
 
-Updated: 2026-04-27
+Updated: 2026-04-28
 
 > 이 파일은 `npm run update:dashboard`로 갱신한다. 수동 편집 후에는 `npm run check:dashboard`가 실패할 수 있다.
 
@@ -8,6 +8,7 @@ Updated: 2026-04-27
 
 | 영역 | 상태 | 증거 |
 | --- | --- | --- |
+| 공통 북극성 | verified | `docs/NORTH_STAR.md` |
 | Phase 0 제품 루프 | verified | `npm run check:loop` |
 | 정적 에셋 파이프라인 | verified | `public/assets/manifest/assetManifest.json` |
 | 경제 검증 | verified | `npm run simulate:economy` |
@@ -26,8 +27,8 @@ Updated: 2026-04-27
 | 상태 | 개수 |
 | --- | ---: |
 | done | 26 |
-| review | 18 |
-| todo | 0 |
+| review | 21 |
+| todo | 17 |
 | blocked | 0 |
 
 ## 다음 작업

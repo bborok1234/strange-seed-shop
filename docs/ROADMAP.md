@@ -8,6 +8,16 @@ Status values:
 - `review`: work exists and needs verification
 - `done`: completed with evidence
 
+
+## Strategic North Star / 전략적 북극성
+
+이 저장소는 현재 하나의 레포 안에 두 프로젝트를 함께 담고 있다.
+
+1. **게임 프로젝트**: `이상한 씨앗상회` — 첫 5분 안에 “얘 귀엽다. 하나만 더 키워볼까?”를 만들고, 이름 있는 생명체 수집과 오프라인 복귀 욕구를 검증한다.
+2. **운영사 프로젝트**: 에이전트 네이티브 게임 스튜디오/운영사 — 에이전트가 issue intake, 우선순위 선정, 구현, 검증, draft PR, CI 복구, follow-up issue까지 안전하게 반복하는 운영 계층을 만든다.
+
+공통 헌장은 `docs/NORTH_STAR.md`가 소유한다. 게임 작업은 재미와 수집 욕구를, 운영사 작업은 장시간 자율성과 증거 기반 복구 능력을 개선해야 한다.
+
 ## Current Milestone
 
 **Milestone 0: Planning and Autonomous Project Backbone**
@@ -21,6 +31,16 @@ Goal: make the project understandable to future agents, then produce enough asse
 | Define autonomous operating model | done | `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` | Intake/review/apply/verify/audit lanes documented |
 | Create project-local asset skills | done | `.codex/skills/gpt-game-asset-*` | Four skill surfaces created |
 | Create docs index and agent guide | done | `AGENTS.md`, `docs/README.md`, `docs/ROADMAP.md` | Current file |
+
+## Milestone 0.1: Dual North Star + Split-Ready Strategy
+
+Goal: make the game project and the agent-native studio/operator project explicit, while they still share one repository.
+
+| Step | Status | Output | Acceptance Criteria |
+| --- | --- | --- | --- |
+| Define dual north star | review | `docs/NORTH_STAR.md`, `items/0018-dual-north-star-agent-studio.md` | Game north star and operator north star are written as separate but connected charters |
+| Index north star for agents | review | `AGENTS.md`, `docs/README.md`, `scripts/check-docs-index.mjs` | Required reading order and docs index point to `docs/NORTH_STAR.md`; `npm run check:docs` validates it |
+| Add split-ready milestone ladder | review | `docs/ROADMAP.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` | Roadmap distinguishes Ralph-session operator, watchdog, queue, feedback/GTM, 24h operator, and future split |
 
 ## Next Milestone
 
@@ -112,11 +132,56 @@ Goal: make the project increasingly self-managing.
 | Generate PR automation audit | review | `scripts/update-pr-automation-audit.mjs`, `reports/audits/pr_automation_20260427.md` | PR automation audit can be regenerated from `gh pr list`; `check:audit` validates snapshot consistency instead of forcing endless self-refresh |
 | Browser Use QA gate | review | `scripts/check-browser-qa.mjs`, `reports/visual/browser-use-main-20260427.png` | Browser Use first policy and visual evidence are checked by `npm run check:browser-qa` |
 
+## Milestone 6: Ralph-Session Operating Company v0
+
+Goal: before claiming overnight autonomy again, make a single `$ralph`/Codex session behave like a small operating company that can keep working, prove liveness, and recover from obvious stalls.
+
+| Step | Status | Output | Acceptance Criteria |
+| --- | --- | --- | --- |
+| Create operator work item schema | todo | `items/`, `reports/operations/` | Work items can distinguish game feature, agent ops, feedback, GTM, and safety-gated tasks |
+| Add heartbeat ledger | todo | `.omx/state/operator-heartbeat.json`, `reports/operations/` | A running session writes timestamp, phase, branch, PR, current command, and next action at least once per iteration |
+| Add Ralph stuck report procedure | todo | `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `reports/operations/` | `collab: Wait`, stale tmux, orphan process, red CI, and timeout states produce explicit reports instead of false completion |
+| Add CI repair loop contract | todo | `docs/PR_AUTOMATION.md`, `reports/audits/` | PR checks are polled; red checks trigger log inspection, fix attempt, re-run, or blocker report |
+| Prove one closed loop | todo | Draft PR + report | One issue/work item reaches branch -> commit -> draft PR -> local checks -> GitHub checks -> follow-up issue/comment without main auto-merge |
+
+## Milestone 7: Supervised Multi-Hour Operator
+
+Goal: run for multiple hours under supervision with budget, safety gates, and restart behavior before attempting 24-hour operation.
+
+| Step | Status | Output | Acceptance Criteria |
+| --- | --- | --- | --- |
+| Build watchdog runner | todo | `scripts/operator-runner.*` or equivalent | Runner detects stale heartbeat, stuck child process, and command timeout; it restarts or records blocker |
+| Add iteration budget and stop rules | todo | `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` | Time, token, branch, risk, and network/credential stop conditions are explicit |
+| Run 2-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | Heartbeat coverage, work completed, failures, CI status, and recovery attempts are recorded |
+| Run 4-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | At least one complete issue-to-PR loop or an honest blocker report exists; no red PR is called complete |
+
+## Milestone 8: Feedback + GTM Mock Intake
+
+Goal: make the operating company ingest player/customer/GTM signals safely before touching real external accounts.
+
+| Step | Status | Output | Acceptance Criteria |
+| --- | --- | --- | --- |
+| Create feedback intake format | todo | `feedback/` or `reports/playtests/` | Playtest/customer notes become normalized items with severity, product axis, evidence, and duplicate links |
+| Add game fun rubric | todo | `docs/NORTH_STAR.md`, `reports/playtests/` | First 5 minutes, cuteness, collection desire, comeback hook, and confusion are scored consistently |
+| Add GTM mock lane | todo | `reports/gtm/` | Bot can draft devlog/release note/community post proposals without publishing or using credentials |
+| Add approval gates for real channels | todo | `docs/APPLY_CONDITIONS.md` | Email/SNS/ads/store listing/payment/customer data actions require explicit human approval |
+
+## Milestone 9: 24-Hour Agent-Native Studio Prototype
+
+Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves like a cautious junior game studio operator.
+
+| Step | Status | Output | Acceptance Criteria |
+| --- | --- | --- | --- |
+| Create 24h runbook | todo | `docs/OPERATOR_RUNBOOK.md` | Start, monitor, recover, stop, and summarize procedures are explicit |
+| Add daily operating report | todo | `reports/operations/daily-*.md` | Human can wake up and see completed work, failed work, open PRs, red checks, decisions, and next queue |
+| Run 24h dry run without external credentials | todo | `reports/operations/operator-24h-*.md` | No production side effects; heartbeat, CI repair, issue/PR loop, and escalation behavior are evidenced |
+| Prepare split-ready operator package | todo | docs/scripts package plan | Operator surfaces that should move to a future separate repo are inventoried |
+
 ## Current Next Action
 
-Deep interview 결과가 `.omx/specs/deep-interview-game-studio-realignment.md`에 정리되었고, Phase 0 핵심 재미 축은 **이름 있는 생명체 수집**으로 고정되었다. `items/0016-phaser-playfield-runtime-spike.md`는 Phaser 중앙 playfield 전환과 남은 리스크 정리까지 완료되었다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 다음 안전한 운영사 작업은 **Milestone 6: Ralph-Session Operating Company v0**의 첫 항목부터 시작해, 장시간 실행을 주장하기 전에 heartbeat, stuck report, CI repair loop, issue-to-PR evidence를 먼저 만드는 것이다.
 
-1. Draft PR #19의 CI와 Agent Automerge Trial은 통과했다. Draft 상태를 유지하며 review/merge 정책을 따른다.
-2. 다음 제품 작업은 sprite-pipeline 첫 batch다: starter seed의 idle/tap/grow/ready/harvest/reward 피크에 집중한다.
-3. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 계속 보존한다.
+1. 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다. Draft PR #20의 starter sprite batch는 별도 review/merge 흐름을 따른다.
+2. 운영사 작업은 `items/`와 `reports/operations/`를 확장해 Ralph-session 안에서 issue -> branch -> commit -> draft PR -> local check -> GitHub check -> follow-up까지 한 번의 닫힌 루프를 증명한다.
+3. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
 4. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
