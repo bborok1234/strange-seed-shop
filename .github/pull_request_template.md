@@ -5,6 +5,11 @@
 
 - 이번 PR이 만든 가장 작은 승리:
 
+## Plan-first evidence
+
+- Plan artifact:
+- Plan에서 벗어난 변경이 있다면 이유:
+
 ## 사용자/운영자 가치
 
 - 게임 가치:

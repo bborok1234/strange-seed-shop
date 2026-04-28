@@ -204,6 +204,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Run 4-hour supervised trial | review | `reports/operations/operator-trial-20260428T053230Z.md`, `items/0035-supervised-4h-operator-trial.md` | heartbeat 47건, merge된 PR 15개, green main CI, initial stuck report, final watchdog freshness, heartbeat gap warning이 기록됨 |
 | Harden heartbeat daemon before 24h run | review | Issue #84, `scripts/operator-heartbeat-daemon.mjs`, `reports/operations/heartbeat-daemon-hardening-20260428.md`, `items/0051-heartbeat-daemon-hardening.md` | 독립 heartbeat daemon, stale-gap dry-run guard, watchdog stuck-output guard로 600초 초과 gap을 완료로 오인하지 않게 한다 |
 | Add operator control room and playable mode | review | Issue #87, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/PLAYABLE_MODE.md`, `.github/ISSUE_TEMPLATE/agent-work-item.md`, `.github/pull_request_template.md`, `scripts/prepare-playable-main.mjs`, `items/0052-operator-control-room-playable-mode.md` | 사람이 active mission, small win, visual evidence, PR/issue, playable main command를 한 화면에서 파악하고 agent 작업 중에도 게임을 실행할 수 있음 |
+| Issue-level plan-first gate | active | Issue #106, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 함 |
 
 ## Milestone 8: Feedback + GTM Mock Intake
 
@@ -229,14 +230,14 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 운영모드는 **P0 Game Studio Operating Mode — UI/UX Rescue**다. Issue #101이 현재 active mission이며, 목표는 Phaser playfield 내부 locked/empty slot이 grid noise처럼 보이는 문제를 줄여 ready plot이 먼저 읽히게 만드는 것이다.
+현재 운영모드는 **북극성 지속 운영 루프**다. P0가 끝나도 멈추지 않고 게임 북극성(첫 5분 귀여움/수집 욕구)과 운영사 북극성(issue intake -> plan -> 구현 -> 검증 -> PR -> CI 복구 -> follow-up evidence)을 향해 계속 진행한다.
 
 즉시 다음 작업:
 
-1. `items/0059-playfield-visual-noise-cleanup.md` 기준으로 PR #101 구현 branch를 진행한다.
-2. locked plot 반복 텍스트/번호/강한 선을 줄인다.
-3. 393/375/360 mobile Playwright gate와 screenshot evidence를 갱신한다.
-4. 통과 후 다음 P0 루프는 tap/harvest fx, creature reveal, 탭별 game UI skinning을 이어간다.
+1. Issue #106으로 이슈 단위 plan-first 운영 규칙을 문서/검증 게이트에 고정한다.
+2. 이후 Issue #103 첫 수확 생명체 reveal polish는 `items/` plan artifact를 먼저 작성한 뒤 구현한다.
+3. 각 issue는 작은 승리, 수용 기준, 검증 명령, visual evidence를 남기고 PR/CI/main merge까지 반복한다.
+4. P0 UI/UX Rescue가 닫힌 뒤에도 다음 north-star issue를 만들고 같은 루프를 지속한다.
 
 ## Previous Next Action History
 
