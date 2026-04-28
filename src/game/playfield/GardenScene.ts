@@ -33,7 +33,6 @@ export class GardenScene extends Phaser.Scene {
   private playfieldAssets: ManifestAsset[] = [];
   private root?: Phaser.GameObjects.Container;
   private fxRoot?: Phaser.GameObjects.Container;
-  private lastTapAt = 0;
 
   constructor(onActionRef: { current: GardenPlayfieldActionHandler }, playfieldAssets: ManifestAsset[] = []) {
     super("GardenScene");
@@ -42,7 +41,7 @@ export class GardenScene extends Phaser.Scene {
   }
 
   create() {
-    this.fxRoot = this.add.container(0, 0).setDepth(20);
+    this.fxRoot = this.add.container(0, 0).setDepth(40);
     this.scale.on("resize", () => this.renderPlayfield());
     this.loadPlayfieldAssets(this.playfieldAssets);
     this.renderPlayfield();
@@ -137,19 +136,23 @@ export class GardenScene extends Phaser.Scene {
 
   private renderPlayfield() {
     this.root?.destroy(true);
-    this.root = this.add.container(0, 0);
+    this.root = this.add.container(0, 0).setDepth(0);
+    if (this.fxRoot) {
+      this.fxRoot.setDepth(40);
+      this.children.bringToTop(this.fxRoot);
+    }
 
     const width = Math.max(320, Number(this.scale.width) || 640);
     const height = Math.max(220, Number(this.scale.height) || 360);
     const graphics = this.add.graphics();
     this.root.add(graphics);
 
-    graphics.fillStyle(0xfff3c9, 0.82);
+    graphics.fillStyle(0xfff3c9, 0.94);
     graphics.fillRoundedRect(8, 8, width - 16, height - 16, 28);
     graphics.lineStyle(2, 0x31563e, 0.2);
     graphics.strokeRoundedRect(10, 10, width - 20, height - 20, 26);
 
-    graphics.fillStyle(0xd8efb5, 0.3);
+    graphics.fillStyle(0xd8efb5, 0.24);
     graphics.fillEllipse(width * 0.5, height * 0.62, width * 0.92, height * 0.54);
 
     const plots = this.viewModel?.plots ?? [];
@@ -173,22 +176,15 @@ export class GardenScene extends Phaser.Scene {
     const stateColor = STATE_COLORS[plot.state];
     const familyColor = plot.family ? FAMILY_COLORS[plot.family] : undefined;
     const fill = familyColor?.fill ?? stateColor.fill;
-    const stroke = plot.state === "ready" ? STATE_COLORS.ready.stroke : familyColor?.accent ?? stateColor.stroke;
     const alpha = plot.state === "locked" ? 0.08 : plot.state === "ready" ? 0.98 : 0.82;
-    const strokeAlpha =
-      plot.state === "locked" ? 0.1 : plot.state === "empty" ? 0.44 : plot.state === "ready" ? 0.9 : 0.68;
     const group = this.add.container(x, y);
     this.root?.add(group);
 
-    const tile = this.add.graphics();
     if (plot.state === "ready") {
       this.drawHarvestAura(group, width, height);
     }
 
-    tile.fillStyle(fill, alpha);
-    tile.fillRoundedRect(0, 0, width, height, 16);
-    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, strokeAlpha);
-    tile.strokeRoundedRect(1, 1, width - 2, height - 2, 16);
+    const tile = this.add.rectangle(width / 2, height / 2, width, height, fill, alpha);
     group.add(tile);
 
     const mound = this.add.graphics();
@@ -197,7 +193,7 @@ export class GardenScene extends Phaser.Scene {
     group.add(mound);
 
     if (plot.state === "growing" || plot.state === "ready") {
-      this.drawPlant(group, plot, width, height, familyColor?.accent ?? 0x3c7041);
+      this.drawPlant(group, plot, width, height);
     } else if (plot.state === "empty") {
       this.drawEmptyCue(group, width, height);
     }
@@ -301,13 +297,7 @@ export class GardenScene extends Phaser.Scene {
     group.add(text);
   }
 
-  private drawPlant(
-    group: Phaser.GameObjects.Container,
-    plot: GardenPlotView,
-    width: number,
-    height: number,
-    accent: number
-  ) {
+  private drawPlant(group: Phaser.GameObjects.Container, plot: GardenPlotView, width: number, height: number) {
     const animationAsset = this.findBoundAnimationAsset("plot", this.getPlotAnimationSlot(plot), plot);
     const spriteKey = animationAsset?.animation?.key;
     if (spriteKey) {
@@ -319,29 +309,13 @@ export class GardenScene extends Phaser.Scene {
       }
     }
 
-    const progress = Math.max(0.16, plot.progressPercent / 100);
-    const stemHeight = Math.max(22, height * 0.38 * progress);
-    const centerX = width / 2;
-    const baseY = height * 0.7;
-    const plant = this.add.graphics();
-
-    plant.lineStyle(plot.state === "ready" ? 6 : 5, accent, 0.92);
-    plant.lineBetween(centerX, baseY, centerX, baseY - stemHeight);
-    plant.fillStyle(accent, 0.88);
-    plant.fillEllipse(centerX - 14, baseY - stemHeight * 0.55, 28, 14);
-    plant.fillEllipse(centerX + 14, baseY - stemHeight * 0.72, 28, 14);
-
-    if (plot.state === "ready") {
-      plant.fillStyle(0xfff0a3, 0.95);
-      plant.fillCircle(centerX, baseY - stemHeight - 10, 16);
-      plant.lineStyle(2, 0xffffff, 0.75);
-      plant.strokeCircle(centerX, baseY - stemHeight - 10, 20);
-    } else {
-      plant.fillStyle(0xf5e49b, 0.95);
-      plant.fillCircle(centerX, baseY - stemHeight - 6, 10);
-    }
-
-    group.add(plant);
+    const plantGlyph = this.addText(width / 2, height * 0.46, plot.state === "ready" ? "🌿" : "🌱", {
+      color: "#2f6f45",
+      fontSize: plot.state === "ready" ? "30px" : "26px",
+      fontStyle: "900"
+    }).setOrigin(0.5, 0.5);
+    plantGlyph.setShadow(0, 2, "#fff4a7", 4, true, true);
+    group.add(plantGlyph);
   }
 
   private drawProgress(group: Phaser.GameObjects.Container, progressPercent: number, width: number, height: number) {
@@ -366,7 +340,6 @@ export class GardenScene extends Phaser.Scene {
   }
 
   private emitPlotAction(plot: GardenPlotView, x: number, y: number) {
-    const now = this.time.now;
     const action =
       plot.state === "ready"
         ? ({ type: "harvest_plot", plotIndex: plot.index } as const)
@@ -380,11 +353,7 @@ export class GardenScene extends Phaser.Scene {
       plot.state === "ready" ? "harvest_plot" : plot.state === "growing" ? "tap_growth" : null;
     if (animationAction) {
       this.playBoundEffects(plot, animationAction, x, y);
-    }
-
-    if (plot.state !== "locked" && now - this.lastTapAt > 80) {
-      this.lastTapAt = now;
-      this.cameras.main.shake(90, plot.state === "ready" ? 0.004 : 0.0025);
+      this.playProceduralFeedback(plot, animationAction, x, y);
     }
   }
 
@@ -403,11 +372,12 @@ export class GardenScene extends Phaser.Scene {
   private playOneShot(textureKey: string, x: number, y: number, displaySize: number) {
     const sprite = this.addAnimatedSprite(textureKey, x, y, displaySize);
     if (!sprite) {
-      return;
+      return false;
     }
 
     this.fxRoot?.add(sprite);
     sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => sprite.destroy());
+    return true;
   }
 
   private getPlotAnimationSlot(plot: GardenPlotView): PlayfieldAnimationSlot {
@@ -419,7 +389,13 @@ export class GardenScene extends Phaser.Scene {
   }
 
   private playBoundEffects(plot: GardenPlotView, action: PlayfieldAnimationAction, x: number, y: number) {
+    if (action === "tap_growth") {
+      return 0;
+    }
+
     const effects = this.findBoundAnimationAssets("effect", null, plot, action);
+    let playedCount = 0;
+
     for (const asset of effects) {
       const animation = asset.animation;
       if (!animation?.key) {
@@ -427,8 +403,142 @@ export class GardenScene extends Phaser.Scene {
       }
 
       const layout = EFFECT_LAYOUT[animation.binding?.slot ?? "tap_feedback"] ?? { displaySize: 78, offsetX: 0, offsetY: 0 };
-      this.playOneShot(animation.key, x + layout.offsetX, y + layout.offsetY, layout.displaySize);
+      const played = this.playOneShot(animation.key, x + layout.offsetX, y + layout.offsetY, layout.displaySize);
+      if (played) {
+        playedCount += 1;
+        this.emitFxTelemetry(plot, action, "spritesheet");
+      }
     }
+
+    return playedCount;
+  }
+
+  private playProceduralFeedback(plot: GardenPlotView, action: PlayfieldAnimationAction, x: number, y: number) {
+    if (action === "tap_growth") {
+      this.playTapPulse(x, y);
+      this.emitFloatingText("+성장", x, y - 34, "#fff4a7");
+    } else {
+      this.playHarvestBurst(x, y - 8);
+      this.emitFloatingText("수확!", x, y - 42, "#fff4a7");
+      this.emitFloatingText("+잎", x + 28, y - 18, "#dff5b8");
+    }
+
+    this.emitFxTelemetry(plot, action, "procedural");
+  }
+
+  private playTapPulse(x: number, y: number) {
+    const pulse = this.add.container(x, y);
+    pulse.setDepth(10);
+
+    for (const [leafX, leafY] of [
+      [-38, -20],
+      [40, -18],
+      [-28, 28],
+      [34, 26]
+    ]) {
+      const leaf = this.addText(leafX, leafY, "✦", {
+        color: "#fff4a7",
+        fontSize: "16px",
+        fontStyle: "900"
+      }).setOrigin(0.5, 0.5);
+      pulse.add(leaf);
+    }
+
+    const badgeText = this.addText(0, -60, "+성장", {
+      color: "#fff8bd",
+      fontSize: "22px",
+      fontStyle: "900"
+    }).setOrigin(0.5, 0);
+    badgeText.setShadow(0, 3, "#1f5a3c", 6, true, true);
+    pulse.add(badgeText);
+
+    this.fxRoot?.add(pulse);
+
+    this.tweens.add({
+      targets: pulse,
+      y: y - 5,
+      scale: 1.06,
+      duration: 180,
+      yoyo: true,
+      ease: "Sine.easeOut"
+    });
+    this.time.delayedCall(1_000, () => pulse.destroy(true));
+  }
+
+  private playHarvestBurst(x: number, y: number) {
+    const burst = this.add.container(x, y);
+    const ring = this.add.graphics();
+    ring.lineStyle(4, 0xfff0a3, 0.88);
+    ring.strokeCircle(0, 0, 24);
+    ring.fillStyle(0xfff4a7, 0.2);
+    ring.fillCircle(0, 0, 34);
+    burst.add(ring);
+    this.fxRoot?.add(burst);
+
+    for (let index = 0; index < 8; index += 1) {
+      const angle = (Math.PI * 2 * index) / 8;
+      const sparkle = this.addText(0, 0, index % 2 === 0 ? "✦" : "✧", {
+        color: index % 2 === 0 ? "#fff4a7" : "#dff5b8",
+        fontSize: "17px",
+        fontStyle: "900"
+      }).setOrigin(0.5, 0.5);
+      burst.add(sparkle);
+      this.tweens.add({
+        targets: sparkle,
+        x: Math.cos(angle) * 52,
+        y: Math.sin(angle) * 38,
+        alpha: 0,
+        scale: 1.25,
+        duration: 520,
+        ease: "Sine.easeOut"
+      });
+    }
+
+    this.tweens.add({
+      targets: burst,
+      alpha: 0,
+      scale: 1.35,
+      duration: 720,
+      ease: "Sine.easeOut",
+      onComplete: () => burst.destroy(true)
+    });
+  }
+
+  private emitFloatingText(label: string, x: number, y: number, color: string) {
+    const text = this.addText(x, y, label, {
+      color,
+      fontSize: "17px",
+      fontStyle: "900"
+    }).setOrigin(0.5, 0.5);
+    text.setShadow(0, 2, "#24412f", 4, true, true);
+    this.fxRoot?.add(text);
+
+    this.tweens.add({
+      targets: text,
+      y: y - 28,
+      alpha: 0,
+      duration: 720,
+      ease: "Sine.easeOut",
+      onComplete: () => text.destroy()
+    });
+  }
+
+  private emitFxTelemetry(plot: GardenPlotView, action: PlayfieldAnimationAction, source: "spritesheet" | "procedural") {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const event = { action, plotIndex: plot.index, source, timestamp: Date.now() };
+    window.dispatchEvent(new CustomEvent("garden-playfield-fx", { detail: event }));
+
+    if (!window.location.search.includes("qaFxTelemetry=1")) {
+      return;
+    }
+
+    const qaWindow = window as unknown as {
+      __gardenPlayfieldFxEvents?: Array<typeof event>;
+    };
+    qaWindow.__gardenPlayfieldFxEvents = [...(qaWindow.__gardenPlayfieldFxEvents ?? []), event];
   }
 
   private findBoundAnimationAsset(

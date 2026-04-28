@@ -104,3 +104,5 @@ Issue #18에서 Browser Use `iab` backend 직접 검증을 다시 시도했다. 
 - 2026-04-28: 모바일 game frame tab rework에서 Playwright CLI가 393px non-garden 탭의 fixed full-screen surface, body scroll 없음, top hit-test, top-bar hidden, desktop in-stage split을 검증했다: `reports/visual/p0-mobile-game-frame-tab-rework-20260428.md`, `reports/visual/p0-mobile-game-frame-album-393-20260428.png`, `reports/visual/p0-mobile-game-frame-garden-360-20260428.png`.
 
 - 2026-04-29: 첫 수확 reveal polish에서 Playwright CLI가 393/360px reveal card bounds, CTA visibility, portrait focal size, body scroll 없음를 검증했다: `reports/visual/p0-harvest-reveal-polish-20260429.md`, `reports/visual/p0-harvest-reveal-polish-mobile-393-20260429.png`, `reports/visual/p0-harvest-reveal-polish-mobile-360-20260429.png`.
+
+- 2026-04-29: Playfield tap/harvest feedback에서 Playwright CLI가 `qaFxTelemetry=1` 성장 탭 procedural feedback, ready 수확 feedback, reveal 연결을 검증했다: `reports/visual/p0-playfield-tap-harvest-feedback-20260429.md`, `reports/visual/p0-playfield-feedback-tap-mobile-393-20260429.png`, `reports/visual/p0-playfield-feedback-harvest-mobile-393-20260429.png`.

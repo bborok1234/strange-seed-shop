@@ -62,9 +62,22 @@ const requiredPaths = [
   "items/0062-harvest-reveal-polish.md",
   "reports/visual/p0-harvest-reveal-polish-20260429.md",
   "reports/visual/p0-harvest-reveal-polish-mobile-393-20260429.png",
-  "reports/visual/p0-harvest-reveal-polish-mobile-360-20260429.png"
+  "reports/visual/p0-harvest-reveal-polish-mobile-360-20260429.png",
+  "items/0063-playfield-tap-harvest-feedback.md",
+  "reports/visual/p0-playfield-tap-harvest-feedback-20260429.md",
+  "reports/visual/p0-playfield-feedback-tap-mobile-393-20260429.png",
+  "reports/visual/p0-playfield-feedback-harvest-mobile-393-20260429.png"
 ];
 for (const path of requiredPaths) requirePath(path);
+
+for (const phrase of [
+  "P0 Playfield Tap/Harvest Feedback Evidence",
+  "Plan-first evidence",
+  "qaFxTelemetry=1",
+  "npm run check:visual"
+]) {
+  requirePhrase("reports/visual/p0-playfield-tap-harvest-feedback-20260429.md", phrase);
+}
 
 
 for (const phrase of [
@@ -152,7 +165,8 @@ for (const phrase of [
   "height: calc(100dvh - var(--mobile-nav-height))",
   ".harvest-portrait-frame",
   ".reveal-trait-row",
-  ".reveal-cta"
+  ".reveal-cta",
+  ".playfield-action-feedback"
 ]) {
   requirePhrase("src/styles.css", phrase);
 }
@@ -165,7 +179,10 @@ for (const phrase of [
   "mobile-${tab}-full-screen-tab",
   "topIsPlayerPanel",
   "topBarVisibility",
-  ".dev-panel.player-panel"
+  ".dev-panel.player-panel",
+  "qaFxTelemetry=1",
+  "mobile-playfield-tap-feedback-393",
+  "mobile-playfield-harvest-feedback-393"
 ]) {
   requirePhrase("tests/visual/p0-mobile-game-shell.spec.ts", phrase);
 }
@@ -174,17 +191,28 @@ for (const phrase of [
   "drawHarvestAura",
   "drawLockGlyph",
   "drawEmptyCue",
-  "drawStatusPill"
+  "drawStatusPill",
+  "playProceduralFeedback",
+  "playTapPulse",
+  "playHarvestBurst",
+  "emitFxTelemetry"
 ]) {
   requirePhrase("src/game/playfield/GardenScene.ts", phrase);
 }
 
 for (const phrase of [
-  "strokeAlpha",
   "plot.state !== \"locked\"",
   "0.08"
 ]) {
   requirePhrase("src/game/playfield/GardenScene.ts", phrase);
+}
+
+for (const phrase of [
+  "playfield-action-feedback",
+  "garden-playfield-fx",
+  "showPlayfieldFeedback"
+]) {
+  requirePhrase("src/game/playfield/GardenPlayfieldHost.tsx", phrase);
 }
 
 forbidPhrase("src/game/playfield/GardenScene.ts", "setWordWrapWidth");

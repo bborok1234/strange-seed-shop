@@ -12,6 +12,17 @@ async function openPlayerTabState(page: Page, tab: PlayerTab) {
   await expect(page.locator(`.dev-panel.player-panel.tab-${tab}`)).toBeVisible();
 }
 
+async function clickFirstPlot(page: Page) {
+  const canvas = page.locator(".garden-playfield-host canvas");
+  await expect(canvas).toBeVisible();
+  const box = await canvas.boundingBox();
+  if (!box) {
+    throw new Error("garden playfield canvas bounds not found");
+  }
+
+  await page.mouse.click(box.x + box.width * 0.2, box.y + box.height * 0.27);
+}
+
 for (const viewport of [
   { name: "393", width: 393, height: 852 },
   { name: "375", width: 375, height: 812 },
@@ -98,6 +109,34 @@ for (const viewport of [
     await page.screenshot({ path: testInfo.outputPath(`mobile-harvest-reveal-${viewport.name}.png`), fullPage: false });
   });
 }
+
+test("모바일 성장 밭 탭은 procedural feedback telemetry와 visual artifact를 남긴다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaSpriteState=growing&qaFxTelemetry=1");
+  await clickFirstPlot(page);
+
+  await page.waitForFunction(() => {
+    const events = (window as unknown as { __gardenPlayfieldFxEvents?: Array<{ action: string; source: string }> }).__gardenPlayfieldFxEvents ?? [];
+    return events.some((event) => event.action === "tap_growth" && event.source === "procedural");
+  });
+
+  await page.waitForTimeout(320);
+  await page.screenshot({ path: testInfo.outputPath("mobile-playfield-tap-feedback-393.png"), fullPage: false });
+});
+
+test("모바일 ready 밭 수확은 procedural feedback telemetry 후 reveal로 이어진다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaSpriteState=ready&qaFxTelemetry=1");
+  await clickFirstPlot(page);
+
+  await page.waitForFunction(() => {
+    const events = (window as unknown as { __gardenPlayfieldFxEvents?: Array<{ action: string; source: string }> }).__gardenPlayfieldFxEvents ?? [];
+    return events.some((event) => event.action === "harvest_plot" && event.source === "procedural");
+  });
+  await expect(page.getByRole("button", { name: "도감에 기록하기" })).toBeVisible();
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-playfield-harvest-feedback-393.png"), fullPage: false });
+});
 
 for (const tab of PLAYER_TABS) {
   test(`모바일 ${tab} 탭은 밭 위 half-overlay가 아니라 한 화면 tab screen이다`, async ({ page }, testInfo) => {
