@@ -88,7 +88,10 @@ for (const phrase of [
   "getRarityLabel",
   "getCreatureFamilyLabel",
   "qaTab",
-  "getLocalQaTab"
+  "getLocalQaTab",
+  "goal-link-button",
+  "보러가기",
+  "setActiveTab(\"seeds\")"
 ]) {
   if (!appSource.includes(phrase)) {
     failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);

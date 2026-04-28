@@ -589,6 +589,9 @@ export default function App() {
                   <strong>{nextCreatureGoal.creature.name}</strong>
                   <span>{nextCreatureGoal.creature.albumHint}</span>
                   <small>{nextCreatureGoal.seed.name}을 심어 만나보세요.</small>
+                  <button className="goal-link-button" onClick={() => setActiveTab("seeds")} type="button">
+                    {nextCreatureGoal.seed.name} 보러가기
+                  </button>
                 </div>
               </article>
             )}
