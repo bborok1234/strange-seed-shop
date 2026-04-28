@@ -690,6 +690,53 @@ h1 {
   font-weight: 800;
 }
 
+.album-next-action-chip {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: 2px var(--space-2);
+  margin: 0 0 var(--space-3);
+  padding: 9px 11px;
+  border: 1px solid rgba(39, 86, 64, 0.2);
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(circle at 12% 24%, rgba(255, 255, 255, 0.74), transparent 34%),
+    linear-gradient(135deg, rgba(255, 238, 128, 0.86), rgba(184, 232, 186, 0.92));
+  color: var(--text-main);
+  text-align: left;
+  box-shadow: 0 10px 24px rgba(39, 86, 64, 0.14);
+}
+
+.album-next-action-chip span {
+  grid-row: span 2;
+  justify-self: start;
+  padding: 5px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(39, 86, 64, 0.88);
+  color: #fff8d9;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.album-next-action-chip strong {
+  color: var(--action-primary-strong);
+  font-size: 15px;
+}
+
+.album-next-action-chip small {
+  color: #6a5432;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.album-next-action-chip:hover,
+.album-next-action-chip:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(39, 86, 64, 0.18);
+}
+
 .mission-list,
 .seed-inventory-list,
 .shop-list {
@@ -1091,6 +1138,20 @@ h1 {
     margin-top: var(--space-3);
   }
 
+  .album-progress-copy {
+    margin-bottom: var(--space-2);
+    font-size: 12px;
+  }
+
+  .album-next-action-chip {
+    margin-bottom: var(--space-2);
+    padding: 7px 9px;
+  }
+
+  .album-next-action-chip strong {
+    font-size: 14px;
+  }
+
   .seed-inventory-row,
   .shop-card,
   .mission-row {
@@ -1119,6 +1180,14 @@ h1 {
 
   .bottom-tabs button {
     font-size: 12px;
+  }
+
+  .album-next-action-chip {
+    grid-template-columns: 1fr;
+  }
+
+  .album-next-action-chip span {
+    grid-row: auto;
   }
 }
 
