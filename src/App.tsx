@@ -42,7 +42,7 @@ export default function App() {
   const [manifestError, setManifestError] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const [offlineMessage, setOfflineMessage] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<MainTab>("garden");
+  const [activeTab, setActiveTab] = useState<MainTab>(() => getLocalQaTab() ?? "garden");
   const [rewardPulse, setRewardPulse] = useState<number | null>(null);
   const [harvestReveal, setHarvestReveal] = useState<CreatureDefinition | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
@@ -96,6 +96,8 @@ export default function App() {
   const discoveredCreatures = save
     ? content.creatures.filter((creature) => save.discoveredCreatureIds.includes(creature.id))
     : [];
+  const discoveredCreatureIds = new Set(save?.discoveredCreatureIds ?? []);
+  const albumDiscoveredCount = discoveredCreatures.length;
   const firstOwnedCreature = discoveredCreatures[0];
   const activePlot = save?.plots.find((plot) => plot.seedId && !plot.harvestedCreatureId);
   const firstAlbumRewardReady =
@@ -549,32 +551,46 @@ export default function App() {
 
         {activeTab === "album" && (
           <section className="tab-panel album-strip" aria-label="도감">
-            <h3>발견한 생명체</h3>
-            {discoveredCreatures.length === 0 ? (
-              <p>아직 없습니다. 씨앗을 키워 첫 생명체를 수확하세요.</p>
-            ) : (
-              <>
-                <div className="creature-list">
-                  {discoveredCreatures.map((creature) => (
-                    <figure key={creature.id}>
-                      {renderAsset(creature.assetId, "생명체")}
-                      <figcaption>{creature.name}</figcaption>
-                      <small>{getCreatureRoleLabel(creature.role)} · {creature.personality}</small>
-                    </figure>
-                  ))}
+            <h3>
+              발견한 생명체 {albumDiscoveredCount}/{content.creatures.length}
+            </h3>
+            <p className="album-progress-copy">미발견 슬롯의 단서를 따라 씨앗을 심고 도감 칸을 채워보세요.</p>
+            {albumDiscoveredCount === 0 && <p>아직 없습니다. 씨앗을 키워 첫 생명체를 수확하세요.</p>}
+            <div className="creature-list album-grid">
+              {content.creatures.map((creature) => {
+                const discovered = discoveredCreatureIds.has(creature.id);
+                const seedHint = getSeedHintForCreature(creature);
+
+                return (
+                  <figure className={discovered ? "album-slot" : "album-slot album-slot-locked"} key={creature.id}>
+                    {discovered ? (
+                      renderAsset(creature.assetId, "생명체")
+                    ) : (
+                      <span className="album-silhouette" aria-hidden="true">
+                        ?
+                      </span>
+                    )}
+                    <figcaption>{discovered ? creature.name : "???"}</figcaption>
+                    <small>
+                      {discovered
+                        ? `${getCreatureRoleLabel(creature.role)} · ${creature.personality}`
+                        : `${getRarityLabel(creature.rarity)} · ${getCreatureFamilyLabel(creature.family)} · ${seedHint}`}
+                    </small>
+                    {!discovered && <span className="album-lock-note">미발견 슬롯</span>}
+                  </figure>
+                );
+              })}
+            </div>
+            {nextCreatureGoal && (
+              <article className="album-next-goal" aria-label="도감 다음 수집 목표">
+                <div className="next-creature-portrait">{renderAsset(nextCreatureGoal.creature.assetId, "?")}</div>
+                <div>
+                  <p className="panel-label">다음 도감 칸</p>
+                  <strong>{nextCreatureGoal.creature.name}</strong>
+                  <span>{nextCreatureGoal.creature.albumHint}</span>
+                  <small>{nextCreatureGoal.seed.name}을 심어 만나보세요.</small>
                 </div>
-                {nextCreatureGoal && (
-                  <article className="album-next-goal" aria-label="도감 다음 수집 목표">
-                    <div className="next-creature-portrait">{renderAsset(nextCreatureGoal.creature.assetId, "?")}</div>
-                    <div>
-                      <p className="panel-label">다음 도감 칸</p>
-                      <strong>{nextCreatureGoal.creature.name}</strong>
-                      <span>{nextCreatureGoal.creature.albumHint}</span>
-                      <small>{nextCreatureGoal.seed.name}을 심어 만나보세요.</small>
-                    </div>
-                  </article>
-                )}
-              </>
+              </article>
             )}
           </section>
         )}
@@ -805,6 +821,32 @@ function getCreatureRoleLabel(role: CreatureDefinition["role"]): string {
   return labels[role];
 }
 
+function getCreatureFamilyLabel(family: CreatureDefinition["family"]): string {
+  const labels: Record<CreatureDefinition["family"], string> = {
+    herb: "허브 계열",
+    candy: "사탕 계열",
+    lunar: "달빛 계열"
+  };
+
+  return labels[family];
+}
+
+function getRarityLabel(rarity: CreatureDefinition["rarity"]): string {
+  const labels: Record<CreatureDefinition["rarity"], string> = {
+    common: "흔함",
+    uncommon: "희귀",
+    rare: "레어",
+    epic: "에픽"
+  };
+
+  return labels[rarity];
+}
+
+function getSeedHintForCreature(creature: CreatureDefinition): string {
+  const sourceSeed = content.seeds.find((seed) => seed.creaturePool.includes(creature.id));
+  return sourceSeed ? `${sourceSeed.name} 단서` : `${getCreatureFamilyLabel(creature.family)} 씨앗 단서`;
+}
+
 function advanceMission(draft: PlayerSave, missionId: string, amount = 1) {
   const mission = content.missions.find((item) => item.id === missionId);
   if (!mission || draft.claimedMissionIds.includes(mission.id)) {
@@ -898,6 +940,15 @@ function getLocalQaHarvestReveal(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaHarvestReveal") === "1";
+}
+
+function getLocalQaTab(): MainTab | null {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return null;
+  }
+
+  const value = new URLSearchParams(window.location.search).get("qaTab");
+  return MAIN_TABS.some((tab) => tab.id === value) ? (value as MainTab) : null;
 }
 
 function getLocalQaSpriteState(): "growing" | "ready" | null {
