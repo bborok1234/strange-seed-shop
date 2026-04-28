@@ -70,9 +70,23 @@ const requiredPaths = [
   "items/0064-mobile-tab-card-polish.md",
   "reports/visual/p0-mobile-tab-card-polish-20260429.md",
   "reports/visual/p0-mobile-tab-card-polish-seeds-393-20260429.png",
-  "reports/visual/p0-mobile-tab-card-polish-album-393-20260429.png"
+  "reports/visual/p0-mobile-tab-card-polish-album-393-20260429.png",
+  "items/0065-expedition-shop-card-polish.md",
+  "reports/visual/p0-expedition-shop-card-polish-20260429.md",
+  "reports/visual/p0-expedition-shop-card-polish-expedition-393-20260429.png",
+  "reports/visual/p0-expedition-shop-card-polish-shop-393-20260429.png"
 ];
 for (const path of requiredPaths) requirePath(path);
+
+for (const phrase of [
+  "P0 Expedition/Shop Card Polish Evidence",
+  "Plan-first evidence",
+  "원정 준비소",
+  "모의 상점",
+  "npm run check:visual"
+]) {
+  requirePhrase("reports/visual/p0-expedition-shop-card-polish-20260429.md", phrase);
+}
 
 for (const phrase of [
   "P0 Mobile Tab Card Polish Evidence",
@@ -164,7 +178,10 @@ for (const phrase of [
   "showDebugPanel && activeTab === \"garden\"",
   "tab-section-heading",
   "totalOwnedSeeds",
-  "album-target-badge"
+  "album-target-badge",
+  "원정 준비소",
+  "모의 상점",
+  "mock-shop-chip"
 ]) {
   requirePhrase("src/App.tsx", phrase);
 }
@@ -186,7 +203,8 @@ for (const phrase of [
   ".playfield-action-feedback",
   ".tab-section-heading",
   ".album-slot-next-goal",
-  ".album-target-badge"
+  ".album-target-badge",
+  ".mock-shop-chip"
 ]) {
   requirePhrase("src/styles.css", phrase);
 }
