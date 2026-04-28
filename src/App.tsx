@@ -782,19 +782,30 @@ export default function App() {
       {harvestReveal && (
         <section className="harvest-reveal" aria-live="polite" aria-label="첫 생명체 획득">
           <div className="harvest-reveal-card">
-            {renderAsset(harvestReveal.assetId, "생명체")}
-            <p className="panel-label">새 생명체 소유</p>
+            <div className="reveal-sparkles" aria-hidden="true">
+              <span>✦</span>
+              <span>✧</span>
+              <span>✦</span>
+            </div>
+            <p className="reveal-kicker">도감 첫 발견</p>
+            <div className="harvest-portrait-frame">{renderAsset(harvestReveal.assetId, "생명체")}</div>
+            <p className="panel-label reveal-label">새 생명체가 찾아왔어요</p>
             <h2>{harvestReveal.name}</h2>
-            <p>{getCreatureRoleLabel(harvestReveal.role)} · {harvestReveal.albumHint}</p>
+            <div className="reveal-trait-row" aria-label="생명체 특징">
+              <span>{getCreatureRoleLabel(harvestReveal.role)}</span>
+              <span>{getRarityLabel(harvestReveal.rarity)}</span>
+              <span>{getCreatureFamilyLabel(harvestReveal.family)}</span>
+            </div>
+            <p className="reveal-flavor">{harvestReveal.albumHint}</p>
             <blockquote>“{harvestReveal.greeting}”</blockquote>
             {nextCreatureGoal && (
               <article className="reveal-next-goal" aria-label="수확 후 다음 목표">
-                <p className="panel-label">다음에 만날 아이</p>
+                <p className="panel-label">다음 발견 예고</p>
                 <strong>{nextCreatureGoal.creature.name}</strong>
                 <span>{nextCreatureGoal.seed.name}을 심으면 만날 수 있어요.</span>
               </article>
             )}
-            <button className="primary-action" onClick={() => setHarvestReveal(null)} type="button">
+            <button className="primary-action reveal-cta" onClick={() => setHarvestReveal(null)} type="button">
               도감에 기록하기
             </button>
           </div>

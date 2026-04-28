@@ -58,6 +58,47 @@ for (const viewport of [
   });
 }
 
+for (const viewport of [
+  { name: "393", width: 393, height: 852 },
+  { name: "360", width: 360, height: 800 }
+]) {
+  test(`모바일 ${viewport.name}px 첫 수확 reveal은 CTA와 portrait가 viewport 안에 들어온다`, async ({ page }, testInfo) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.goto("/?qaHarvestReveal=1");
+    await expect(page.locator(".harvest-reveal-card")).toBeVisible();
+    await expect(page.getByText("도감 첫 발견")).toBeVisible();
+    await expect(page.getByText("새 생명체가 찾아왔어요")).toBeVisible();
+    await expect(page.getByRole("button", { name: "도감에 기록하기" })).toBeVisible();
+
+    const metrics = await page.evaluate(() => {
+      const card = document.querySelector<HTMLElement>(".harvest-reveal-card")?.getBoundingClientRect();
+      const portrait = document.querySelector<HTMLElement>(".harvest-portrait-frame")?.getBoundingClientRect();
+      const cta = document.querySelector<HTMLElement>(".reveal-cta")?.getBoundingClientRect();
+      const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      return {
+        innerHeight: window.innerHeight,
+        bodyScrollHeight,
+        card: card ? { top: card.top, bottom: card.bottom, height: card.height } : null,
+        portrait: portrait ? { width: portrait.width, height: portrait.height } : null,
+        cta: cta ? { top: cta.top, bottom: cta.bottom, height: cta.height } : null
+      };
+    });
+
+    expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+    expect(metrics.card).not.toBeNull();
+    expect(metrics.portrait).not.toBeNull();
+    expect(metrics.cta).not.toBeNull();
+    expect(metrics.card!.top).toBeGreaterThanOrEqual(8);
+    expect(metrics.card!.bottom).toBeLessThanOrEqual(metrics.innerHeight - 8);
+    expect(metrics.cta!.bottom).toBeLessThanOrEqual(metrics.innerHeight - 16);
+    expect(metrics.cta!.height).toBeGreaterThanOrEqual(44);
+    expect(metrics.portrait!.width).toBeGreaterThanOrEqual(viewport.width === 360 ? 128 : 144);
+    expect(metrics.portrait!.height).toBeGreaterThanOrEqual(viewport.width === 360 ? 128 : 144);
+
+    await page.screenshot({ path: testInfo.outputPath(`mobile-harvest-reveal-${viewport.name}.png`), fullPage: false });
+  });
+}
+
 for (const tab of PLAYER_TABS) {
   test(`모바일 ${tab} 탭은 밭 위 half-overlay가 아니라 한 화면 tab screen이다`, async ({ page }, testInfo) => {
     await openPlayerTabState(page, tab);
