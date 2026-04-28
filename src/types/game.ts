@@ -11,6 +11,29 @@ export type SeedFamily = "herb" | "candy" | "lunar" | "greenhouse" | "shop" | "a
 
 export type Rarity = "common" | "uncommon" | "rare" | "epic";
 
+export type PlayfieldAnimationTarget = "plot" | "effect";
+
+export type PlayfieldAnimationSlot =
+  | "seed_idle"
+  | "growth"
+  | "ready"
+  | "tap_feedback"
+  | "harvest_fx"
+  | "reward_fx";
+
+export type PlayfieldAnimationAction = "tap_growth" | "harvest_plot";
+
+export type PlayfieldAnimationPlotState = "growing" | "ready";
+
+export interface PlayfieldAnimationBinding {
+  target: PlayfieldAnimationTarget;
+  slot: PlayfieldAnimationSlot;
+  seedIds?: string[];
+  creatureIds?: string[];
+  plotStates?: PlayfieldAnimationPlotState[];
+  actions?: PlayfieldAnimationAction[];
+}
+
 export interface ManifestAnimation {
   kind: "spritesheet";
   key: string;
@@ -23,6 +46,7 @@ export interface ManifestAnimation {
   repeat: number;
   yoyo?: boolean;
   sourceAssetIds?: string[];
+  binding?: PlayfieldAnimationBinding;
 }
 
 export interface ManifestAsset {
