@@ -12,6 +12,8 @@ const requiredDocs = [
   "docs/SESSION_HANDOFF_20260427.md",
   "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
   "docs/OPERATOR_RUNBOOK.md",
+  "docs/OPERATOR_CONTROL_ROOM.md",
+  "docs/PLAYABLE_MODE.md",
   "docs/BROWSER_QA.md",
   "docs/PR_AUTOMATION.md",
   "docs/AUTOMERGE_GOVERNANCE.md",

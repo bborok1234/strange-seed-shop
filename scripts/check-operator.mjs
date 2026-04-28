@@ -43,20 +43,28 @@ const requiredPaths = [
   "items/0034-operator-runbook-daily-report.md",
   "items/0040-operator-live-status-report.md",
   "items/0051-heartbeat-daemon-hardening.md",
+  "items/0052-operator-control-room-playable-mode.md",
   "items/0029-operator-completion-gate.md",
   "docs/OPERATOR_RUNBOOK.md",
+  "docs/OPERATOR_CONTROL_ROOM.md",
+  "docs/PLAYABLE_MODE.md",
   "reports/operations/operator-trial-readiness-20260428.md",
   "reports/operations/operator-trial-20260428T025400Z.md",
   "reports/operations/operator-trial-20260428T053230Z.md",
   "reports/operations/daily-template-20260428.md",
   "reports/operations/operator-live-status-20260428.md",
   "reports/operations/heartbeat-daemon-hardening-20260428.md",
+  "reports/operations/operator-control-room-20260428.md",
+  "reports/research/agent_operator_control_room_research_20260428.md",
   "reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json",
   "reports/operations/fixtures/operator-trial-stale-gap-scenario-20260428.json",
   "reports/operations/operator-trial-dry-run-20260428.md",
   "reports/operations/operator-trial-stale-gap-guard-20260428.md",
   "scripts/write-operator-heartbeat.mjs",
   "scripts/operator-heartbeat-daemon.mjs",
+  "scripts/operator-control-room.mjs",
+  "scripts/prepare-playable-main.mjs",
+  "scripts/check-operator-control-room.mjs",
   "scripts/update-operator-live-status.mjs",
   "scripts/operator-trial-dry-run.mjs",
   "scripts/check-operator-trial-gap-guard.mjs",
@@ -66,7 +74,9 @@ const requiredPaths = [
   "scripts/report-operator-stuck.mjs",
   "scripts/check-operator.mjs",
   "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
-  "docs/PR_AUTOMATION.md"
+  "docs/PR_AUTOMATION.md",
+  ".github/ISSUE_TEMPLATE/agent-work-item.md",
+  ".github/pull_request_template.md"
 ];
 
 for (const filePath of requiredPaths) requirePath(filePath);
@@ -182,6 +192,67 @@ requirePhrases("reports/operations/fixtures/operator-trial-stale-gap-scenario-20
   "Issue #84"
 ]);
 
+
+
+requirePhrases("items/0052-operator-control-room-playable-mode.md", [
+  "Status: review",
+  "Work type: agent_ops",
+  "Issue: #87",
+  "small win",
+  "playable mode",
+  "npm run check:control-room",
+  "npm run check:all"
+]);
+
+requirePhrases("docs/OPERATOR_CONTROL_ROOM.md", [
+  "Operator Control Room",
+  "Small win",
+  "Visual evidence",
+  "Playable Mode",
+  "npm run play:main",
+  "5174",
+  "24h dry run gate"
+]);
+
+requirePhrases("docs/PLAYABLE_MODE.md", [
+  "사람 플레이 모드",
+  "../strange-seed-shop-play",
+  "detached HEAD",
+  "5174",
+  "--serve",
+  "--force"
+]);
+
+requirePhrases("reports/operations/operator-control-room-20260428.md", [
+  "Operator Control Room Snapshot",
+  "Current mission",
+  "Open issues",
+  "Playable mode",
+  "Visual evidence rule",
+  "Next safe stop"
+]);
+
+requirePhrases("reports/research/agent_operator_control_room_research_20260428.md", [
+  "ClawSweeper",
+  "GitHub Mission Control",
+  "Ralph",
+  "Playable mode",
+  "small win"
+]);
+
+requirePhrases(".github/ISSUE_TEMPLATE/agent-work-item.md", [
+  "Small win",
+  "Visual evidence 계획",
+  "Playable mode 영향",
+  "npm run play:main"
+]);
+
+requirePhrases(".github/pull_request_template.md", [
+  "Small win",
+  "Before / After 또는 Visual evidence",
+  "Playable mode",
+  "npm run play:main"
+]);
 
 requirePhrases("items/0022-supervised-2h-trial-readiness-gate.md", [
   "Status: in_progress",
@@ -382,11 +453,17 @@ requirePhrases("package.json", [
   "operator:trial:dry-run",
   "operator:trial:gap-guard",
   "operator:watchdog:stuck-guard",
+  "operator:control-room",
+  "play:main",
+  "check:control-room",
   "operator:trial:readiness",
   "operator:live-status",
   "scripts/operator-heartbeat-daemon.mjs",
   "scripts/check-operator-trial-gap-guard.mjs",
   "scripts/check-operator-watchdog-stuck-report.mjs",
+  "scripts/operator-control-room.mjs",
+  "scripts/prepare-playable-main.mjs",
+  "scripts/check-operator-control-room.mjs",
   "scripts/check-operator.mjs",
   "scripts/update-operator-live-status.mjs"
 ]);
