@@ -29,7 +29,7 @@ Branch: `codex/harvest-reveal-next-goal`
 - Desktop evidence: `reports/visual/harvest-reveal-next-goal-desktop-20260428.png`
 - Local check: `npm run check:loop` PASS
 - Local check: `npm run check:all` PASS
-- PR: 생성 예정
+- PR: #49 https://github.com/bborok1234/strange-seed-shop/pull/49
 
 ## Proposed Plan
 
