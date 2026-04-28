@@ -146,6 +146,7 @@ Goal: before claiming overnight autonomy again, make a single `$ralph`/Codex ses
 | Add heartbeat ledger | review | `.omx/state/operator-heartbeat.json`, `reports/operations/operator-heartbeat-20260428.jsonl`, `scripts/write-operator-heartbeat.mjs` | A running session writes timestamp, phase, branch, PR, current command, and next action at least once per iteration |
 | Add Ralph stuck report procedure | review | `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `reports/operations/stuck-drill-20260428.md`, `scripts/report-operator-stuck.mjs` | `collab: Wait`, stale tmux, orphan process, red CI, and timeout states produce explicit reports instead of false completion |
 | Add CI repair loop contract | review | `docs/PR_AUTOMATION.md`, `reports/operations/operator-loop-20260428.md` | PR checks are polled; red checks trigger log inspection, fix attempt, re-run, or blocker report |
+| Add operator completion gate | review | `docs/PR_AUTOMATION.md`, `reports/operations/operator-completion-gate-20260428.md`, `items/0029-operator-completion-gate.md` | 작업 완료 선언 전 draft PR, 검증 명령, 남은 위험, follow-up issue/audit 링크가 필수 gate로 고정됨 |
 | Prove one closed loop | done | Issue #25, PR #26, Issue #27, `reports/operations/operator-loop-20260428.md` | One issue/work item reached branch -> commit -> PR -> local checks -> GitHub checks -> follow-up issue/comment without main auto-merge |
 
 ## Milestone 7: Supervised Multi-Hour Operator
@@ -194,6 +195,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 5. Issue #36 / PR #37은 merge 완료되어 실제 고객 데이터나 외부 채널 없이 플레이테스트 신호를 severity/product axis/evidence/duplicate/fun rubric/next item으로 정규화한다.
 6. Issue #38 / PR #39는 merge 완료되어 devlog/release note/community post를 mock proposal로만 남기고, SNS/email/ads/store/community 실채널 action은 명시 승인 전 금지한다.
 7. Issue #21 / PR #40은 merge 완료되어 다음 sprite family/rarity batch를 위해 GardenScene hard-code를 manifest animation binding으로 이동했다.
-8. Issue #22 / `items/0028-asset-export-normalization-path.md`는 실제 생성 없이 Codex output -> workspace raw -> normalized strip -> manifest -> checker 경로를 고정한다.
-9. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
-10. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
+8. Issue #22 / PR #41은 merge 완료되어 실제 생성 없이 Codex output -> workspace raw -> normalized strip -> manifest -> checker 경로를 고정했다.
+9. Issue #17 / `items/0029-operator-completion-gate.md`는 작업 완료 선언 전 draft PR, 검증 증거, 남은 위험, follow-up issue/audit 링크를 필수 gate로 고정한다.
+10. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
+11. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.

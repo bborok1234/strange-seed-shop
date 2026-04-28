@@ -45,6 +45,56 @@
 브랜치 보호는 설정되었지만, 자동 머지 활성화는 여전히 `docs/AUTOMERGE_GOVERNANCE.md`의 중단 조건과 저장소 변수 운영 기준을 따른다.
 
 
+## 작업 완료 gate: 완료 → draft PR → follow-up issue/audit
+
+Ralph/session 작업은 로컬 구현이 끝났다는 이유만으로 완료가 아니다. 아래 체크리스트가 채워지기 전에는 사용자에게 “완료”라고 보고하지 않는다.
+
+1. GitHub issue 또는 `items/` work record가 있고, PRD/acceptance criteria 또는 적용 조건이 명시되어 있다.
+2. 작업 브랜치는 `codex/` 또는 `agent/` prefix를 사용하고, `main`에서 직접 작업하지 않는다.
+3. heartbeat ledger에 현재 issue, branch, item, current command, next action이 기록되어 있다.
+4. 로컬 검증 명령이 실제로 실행되고, 성공/실패 결과를 읽었다. 기본값은 `npm run check:all`이며, 좁은 검증만 수행한 경우 이유를 PR 본문에 남긴다.
+5. 변경 범위가 5파일 이상이거나 운영/검증 정책을 건드리면 architect/reviewer sign-off 또는 동등한 리뷰 evidence를 남긴다.
+6. GitHub draft PR을 생성한다. 초기 PR은 draft로 두고, 로컬 검증과 리뷰 증거가 준비되면 ready로 전환한다.
+7. PR 본문에는 최소한 연결 issue/item, 검증 명령과 결과, visual evidence 또는 `N/A` 사유, 남은 위험, follow-up issue/audit 링크가 포함되어야 한다.
+8. 남은 위험이 있으면 GitHub follow-up issue 또는 `items/` work record를 만들고 PR 본문과 운영 보고서에 링크한다. 위험이 없으면 `Follow-up: none + reason`을 명시한다.
+9. GitHub checks를 확인한다. red check는 이 문서의 `CI repair loop`로 들어가며, red PR을 완료로 부르지 않는다.
+10. merge가 수행되면 `main`의 required checks가 green인지 확인하고, 운영 보고서 또는 audit에 merge commit과 CI run을 남긴다.
+
+### PR 본문 최소 템플릿
+
+```markdown
+## 요약
+- <변경 목적>
+
+## 연결
+- Issue: #<number>
+- Item: `items/<id>.md`
+- Audit/operation report: `reports/<path>.md`
+
+## 검증
+- [x] `<command>` — PASS/FAIL 요약
+- [x] GitHub checks — PASS/FAIL 또는 pending/blocker
+
+## Visual evidence
+- `<path>` 또는 `N/A — UI/시각 변화 없음`
+
+## 남은 위험
+- <risk> 또는 `없음 — 이유`
+
+## Follow-up
+- #<number> 또는 `none — 이유`
+```
+
+### Audit/operation link policy
+
+작업 완료 gate의 링크는 한 곳에만 흩어져 있으면 안 된다. 최소 한 개의 durable artifact가 issue, PR, verification, follow-up 상태를 함께 소유해야 한다.
+
+- 운영사/자동화 작업은 `reports/operations/operator-*.md`에 issue, branch, PR, local checks, GitHub checks, follow-up을 기록한다.
+- PR 자동화 전반의 누적 결과는 `reports/audits/pr_automation_YYYYMMDD.md`와 `npm run update:pr-audit`가 소유한다.
+- 작업별 세부 기록은 해당 `items/*.md`의 `Evidence` 섹션에 PR/issue/check 명령을 추가한다.
+- visual 작업은 `reports/visual/` 경로를 PR 본문과 work item 양쪽에 연결한다.
+- follow-up이 불필요한 경우에도 `none — 이유`를 기록해 누락과 의도적 생략을 구분한다.
+
 ## CI repair loop
 
 PR check가 red이면 완료가 아니라 복구 루프로 들어간다. Ralph-session 운영사 v0의 기본 절차는 다음과 같다.

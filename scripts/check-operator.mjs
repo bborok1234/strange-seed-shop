@@ -30,6 +30,7 @@ const requiredPaths = [
   "items/0019-ralph-session-operating-company-v0.md",
   "reports/operations/README.md",
   "reports/operations/operator-loop-20260428.md",
+  "reports/operations/operator-completion-gate-20260428.md",
   "reports/operations/operator-heartbeat-20260428.jsonl",
   "reports/operations/stuck-drill-20260428.md",
   "reports/operations/watchdog-fresh-drill-20260428.md",
@@ -38,6 +39,7 @@ const requiredPaths = [
   "items/0020-operator-watchdog-runner-trial-scaffold.md",
   "items/0021-supervised-operator-trial-dry-run.md",
   "items/0022-supervised-2h-trial-readiness-gate.md",
+  "items/0029-operator-completion-gate.md",
   "reports/operations/operator-trial-readiness-20260428.md",
   "reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json",
   "reports/operations/operator-trial-dry-run-20260428.md",
@@ -132,6 +134,29 @@ requirePhrases("items/0022-supervised-2h-trial-readiness-gate.md", [
   "npm run operator:trial:readiness"
 ]);
 
+requirePhrases("items/0029-operator-completion-gate.md", [
+  "Status: in_progress",
+  "Work type: agent_ops",
+  "Issue: #17",
+  "draft PR",
+  "follow-up issue/audit",
+  "reports/operations/operator-completion-gate-20260428.md",
+  "npm run check:operator",
+  "npm run check:all"
+]);
+
+requirePhrases("reports/operations/operator-completion-gate-20260428.md", [
+  "Status: implementing",
+  "Issue: #17",
+  "Completion checklist",
+  "Draft PR",
+  "PR body requirements",
+  "Audit/operation link rule",
+  "Follow-up",
+  "GitHub checks",
+  "N/A — 운영 문서/checker 변경이며 UI 변화 없음"
+]);
+
 requirePhrases("reports/operations/operator-trial-readiness-20260428.md", [
   "Status: ready-gated",
   "ready-for-supervised-start",
@@ -146,7 +171,9 @@ requirePhrases("reports/operations/README.md", [
   "heartbeat",
   "stuck report",
   "CI repair",
-  "issue-to-PR"
+  "issue-to-PR",
+  "operator-completion-gate-YYYYMMDD.md",
+  "작업 완료 gate"
 ]);
 
 requirePhrases("reports/operations/operator-loop-20260428.md", [
@@ -172,14 +199,21 @@ requirePhrases("docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md", [
   "Operator Work Item Taxonomy",
   "heartbeat ledger",
   "stuck report",
-  "CI repair loop"
+  "CI repair loop",
+  "completion gate",
+  "draft PR + 검증 증거 + follow-up/audit 링크"
 ]);
 
 requirePhrases("docs/PR_AUTOMATION.md", [
   "CI repair loop",
   "red check",
   "blocker report",
-  "gh run view"
+  "gh run view",
+  "작업 완료 gate: 완료 → draft PR → follow-up issue/audit",
+  "PR 본문 최소 템플릿",
+  "Audit/operation link policy",
+  "Follow-up: none + reason",
+  "red PR을 완료로 부르지 않는다"
 ]);
 
 requirePhrases("package.json", ["check:operator", "operator:watchdog", "operator:trial:dry-run", "operator:trial:readiness", "scripts/check-operator.mjs"]);
