@@ -28,7 +28,8 @@
     "operator:trial:readiness": "node scripts/check-operator-trial-readiness.mjs",
     "check:playtest-intake": "node scripts/check-playtest-intake.mjs",
     "check:gtm-mock": "node scripts/check-gtm-mock.mjs",
-    "check:asset-normalization": "node scripts/check-asset-normalization.mjs"
+    "check:asset-normalization": "node scripts/check-asset-normalization.mjs",
+    "operator:live-status": "node scripts/update-operator-live-status.mjs --output reports/operations/operator-live-status-20260428.md"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
