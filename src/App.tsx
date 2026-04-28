@@ -147,6 +147,7 @@ export default function App() {
         (first, second) => Number(second.id === nextCreatureGoal.seed.id) - Number(first.id === nextCreatureGoal.seed.id)
       )
     : visibleSeedInventorySeeds;
+  const totalOwnedSeeds = save ? Object.values(save.seedInventory).reduce((total, count) => total + count, 0) : 0;
   const gardenViewModel = useMemo(() => buildGardenPlayfieldViewModel(save, now), [save, now]);
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
   const showDebugPanel = getLocalDebugMode();
@@ -531,7 +532,13 @@ export default function App() {
 
           {activeTab === "seeds" && (
             <section className="tab-panel seed-inventory-panel" aria-label="씨앗 주머니">
-              <h3>씨앗 주머니</h3>
+              <header className="tab-section-heading">
+                <div>
+                  <p className="panel-label">씨앗 보관함</p>
+                  <h3>씨앗 주머니</h3>
+                </div>
+                <span className="tab-section-chip">보유 {totalOwnedSeeds}개</span>
+              </header>
               {nextCreatureGoal && (
                 <article className="seed-goal-banner" aria-label="다음 도감 목표 씨앗">
                   {renderAsset(nextCreatureGoal.seed.iconAssetId, "씨앗")}
@@ -588,9 +595,13 @@ export default function App() {
 
           {activeTab === "album" && (
             <section className="tab-panel album-strip" aria-label="도감">
-              <h3>
-                발견한 생명체 {albumDiscoveredCount}/{content.creatures.length}
-              </h3>
+              <header className="tab-section-heading">
+                <div>
+                  <p className="panel-label">수집 도감</p>
+                  <h3>발견한 생명체</h3>
+                </div>
+                <span className="tab-section-chip">{albumDiscoveredCount}/{content.creatures.length}</span>
+              </header>
               <p className="album-progress-copy">미발견 슬롯의 단서를 따라 씨앗을 심고 도감 칸을 채워보세요.</p>
               {nextAlbumMilestone && (
                 <article className="album-reward-preview" aria-label="다음 도감 보상">
@@ -626,9 +637,19 @@ export default function App() {
                 {content.creatures.map((creature) => {
                   const discovered = discoveredCreatureIds.has(creature.id);
                   const seedHint = getSeedHintForCreature(creature);
+                  const isNextGoal = creature.id === nextCreatureGoal?.creature.id;
 
                   return (
-                    <figure className={discovered ? "album-slot" : "album-slot album-slot-locked"} key={creature.id}>
+                    <figure
+                      className={[
+                        discovered ? "album-slot" : "album-slot album-slot-locked",
+                        isNextGoal ? "album-slot-next-goal" : ""
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      key={creature.id}
+                    >
+                      {isNextGoal && !discovered ? <span className="album-target-badge">다음 후보</span> : null}
                       {discovered ? (
                         renderAsset(creature.assetId, "생명체")
                       ) : (

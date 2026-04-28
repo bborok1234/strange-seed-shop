@@ -66,9 +66,23 @@ const requiredPaths = [
   "items/0063-playfield-tap-harvest-feedback.md",
   "reports/visual/p0-playfield-tap-harvest-feedback-20260429.md",
   "reports/visual/p0-playfield-feedback-tap-mobile-393-20260429.png",
-  "reports/visual/p0-playfield-feedback-harvest-mobile-393-20260429.png"
+  "reports/visual/p0-playfield-feedback-harvest-mobile-393-20260429.png",
+  "items/0064-mobile-tab-card-polish.md",
+  "reports/visual/p0-mobile-tab-card-polish-20260429.md",
+  "reports/visual/p0-mobile-tab-card-polish-seeds-393-20260429.png",
+  "reports/visual/p0-mobile-tab-card-polish-album-393-20260429.png"
 ];
 for (const path of requiredPaths) requirePath(path);
+
+for (const phrase of [
+  "P0 Mobile Tab Card Polish Evidence",
+  "Plan-first evidence",
+  "씨앗 보관함",
+  "수집 도감",
+  "npm run check:visual"
+]) {
+  requirePhrase("reports/visual/p0-mobile-tab-card-polish-20260429.md", phrase);
+}
 
 for (const phrase of [
   "P0 Playfield Tap/Harvest Feedback Evidence",
@@ -147,7 +161,10 @@ for (const phrase of [
   "isPlayerTabScreen",
   "showSidePanel",
   "garden-action-dock",
-  "showDebugPanel && activeTab === \"garden\""
+  "showDebugPanel && activeTab === \"garden\"",
+  "tab-section-heading",
+  "totalOwnedSeeds",
+  "album-target-badge"
 ]) {
   requirePhrase("src/App.tsx", phrase);
 }
@@ -166,7 +183,10 @@ for (const phrase of [
   ".harvest-portrait-frame",
   ".reveal-trait-row",
   ".reveal-cta",
-  ".playfield-action-feedback"
+  ".playfield-action-feedback",
+  ".tab-section-heading",
+  ".album-slot-next-goal",
+  ".album-target-badge"
 ]) {
   requirePhrase("src/styles.css", phrase);
 }
