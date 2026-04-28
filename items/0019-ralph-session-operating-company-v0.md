@@ -26,6 +26,8 @@ Branch: `codex/ralph-operator-v0`
 - Local check: `npm run check:operator` 통과
 - Local check: `npm run check:all` 통과
 - GitHub issue: #25
+- PR: #26
+- Follow-up issue: #27
 - Context snapshot: `.omx/context/ralph-operator-v0-20260428T021315Z.md`
 - Heartbeat report: `reports/operations/operator-heartbeat-20260428.jsonl`
 - Stuck drill: `reports/operations/stuck-drill-20260428.md`
