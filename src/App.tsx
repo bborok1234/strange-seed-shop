@@ -111,6 +111,15 @@ export default function App() {
   const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
   const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
   const nextCreatureGoal = useMemo(() => getNextCreatureGoal(save), [save]);
+  const visibleSeedInventorySeeds =
+    nextCreatureGoal && !availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)
+      ? [nextCreatureGoal.seed, ...availableSeeds]
+      : availableSeeds;
+  const seedInventorySeeds = nextCreatureGoal
+    ? [...visibleSeedInventorySeeds].sort(
+        (first, second) => Number(second.id === nextCreatureGoal.seed.id) - Number(first.id === nextCreatureGoal.seed.id)
+      )
+    : visibleSeedInventorySeeds;
   const gardenViewModel = useMemo(() => buildGardenPlayfieldViewModel(save, now), [save, now]);
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
 
@@ -524,17 +533,31 @@ export default function App() {
         {activeTab === "seeds" && (
           <section className="tab-panel seed-inventory-panel" aria-label="씨앗 주머니">
             <h3>씨앗 주머니</h3>
+            {nextCreatureGoal && (
+              <article className="seed-goal-banner" aria-label="다음 도감 목표 씨앗">
+                {renderAsset(nextCreatureGoal.seed.iconAssetId, "씨앗")}
+                <div>
+                  <p className="panel-label">도감 목표 씨앗</p>
+                  <strong>{nextCreatureGoal.seed.name}</strong>
+                  <span>
+                    {getRarityLabel(nextCreatureGoal.creature.rarity)} · {nextCreatureGoal.creature.name}을 만날 차례예요.
+                  </span>
+                </div>
+              </article>
+            )}
             <div className="seed-inventory-list">
-              {availableSeeds.map((seed) => {
+              {seedInventorySeeds.map((seed) => {
                 const previewCreature = getDeterministicCreatureForSeed(seed);
                 const previewDiscovered = previewCreature ? (save?.discoveredCreatureIds.includes(previewCreature.id) ?? false) : false;
+                const targetSeed = seed.id === nextCreatureGoal?.seed.id;
 
                 return (
-                  <article className="seed-inventory-row" key={seed.id}>
+                  <article className={targetSeed ? "seed-inventory-row seed-inventory-row-target" : "seed-inventory-row"} key={seed.id}>
                     {renderAsset(seed.iconAssetId, "씨앗")}
                     <div>
                       <strong>{seed.name}</strong>
                       <span>보유 {save?.seedInventory[seed.id] ?? 0}개</span>
+                      {targetSeed && <span className="seed-target-badge">다음 발견</span>}
                       {previewCreature && (
                         <small className="seed-creature-preview">
                           만날 아이: {previewCreature.name} · {previewDiscovered ? "발견함" : "미발견"}

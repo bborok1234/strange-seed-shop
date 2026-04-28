@@ -95,7 +95,15 @@ for (const phrase of [
   "album-next-action-chip",
   "다음 발견",
   "getRarityLabel(nextCreatureGoal.creature.rarity)",
-  "씨앗 보러가기"
+  "씨앗 보러가기",
+  "seed-goal-banner",
+  "도감 목표 씨앗",
+  "seed-inventory-row-target",
+  "seed-target-badge",
+  "targetSeed",
+  "seedInventorySeeds",
+  "visibleSeedInventorySeeds",
+  "!availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)"
 ]) {
   if (!appSource.includes(phrase)) {
     failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);

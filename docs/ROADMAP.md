@@ -99,6 +99,7 @@ Goal: improve the first 5 minutes without adding new game systems, while preserv
 | Album locked slots and collection clues v0 | review | `src/App.tsx`, `src/styles.css`, `items/0036-album-locked-slots.md`, `reports/visual/album-locked-slots-mobile-20260428.png` | 도감이 발견 수/전체 수와 미발견 silhouette, rarity/family, source seed hint를 보여줘 남은 수집 목표를 강화함 |
 | Album next-goal CTA v0 | review | `src/App.tsx`, `src/styles.css`, `items/0037-album-goal-cta.md`, `reports/visual/album-goal-cta-desktop-20260428.png` | 도감 다음 목표 카드가 관련 씨앗 행동 탭으로 이어져 수집 루프 마찰을 줄임 |
 | Album mobile next-action chip v0 | review | `src/App.tsx`, `src/styles.css`, `items/0038-album-mobile-action-chip.md`, `reports/visual/album-mobile-action-chip-mobile-20260428.png` | 모바일 도감 상단에서 다음 발견 생명체/희귀도/씨앗 단서를 즉시 보여줘 수집 행동으로 이어지게 함 |
+| Seed tab album target highlight v0 | review | `src/App.tsx`, `src/styles.css`, `items/0039-seed-tab-target-highlight.md`, `reports/visual/seed-tab-target-highlight-mobile-20260428.png` | 씨앗 탭에서 다음 도감 목표 씨앗과 해당 row를 강조해 CTA 이후 행동 마찰을 줄임 |
 
 ## Milestone 3.6: Phaser Playfield Runtime + Sprite Pipeline Spike
 
@@ -193,7 +194,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #58의 도감 모바일 next-action chip v0이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #60의 씨앗 탭 도감 목표 강조 v0이다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
@@ -214,3 +215,4 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 17. Issue #53은 4h supervised trial로 실행 중이며, runtime heartbeat log는 `.omx/logs/operator-4h-trial-20260428T051755Z.jsonl`이다. Issue #54는 trial 안에서 수행하는 첫 게임 feature loop로 도감 미발견 슬롯을 추가한다.
 18. Issue #56은 도감 다음 목표 카드에서 씨앗 탭으로 이어지는 CTA를 추가해 Issue #54의 미발견 슬롯 단서를 실제 다음 행동으로 연결한다.
 19. Issue #58은 모바일 도감 첫 화면에서도 다음 발견 생명체와 씨앗 행동이 보이도록 상단 compact CTA chip을 추가한다.
+20. Issue #60은 도감 CTA 이후 씨앗 탭에서 다음 도감 목표 씨앗과 해당 row를 강조해 구매/심기 행동 전환을 돕는다.
