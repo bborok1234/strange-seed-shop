@@ -17,6 +17,13 @@ import type {
 
 type MainTab = "garden" | "seeds" | "album" | "expedition" | "shop";
 
+interface NextCreatureGoal {
+  seed: SeedDefinition;
+  creature: CreatureDefinition;
+  discoveredCount: number;
+  totalCount: number;
+}
+
 const FIRST_UPGRADE_COST = 25;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
@@ -95,6 +102,7 @@ export default function App() {
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
   const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
   const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
+  const nextCreatureGoal = useMemo(() => getNextCreatureGoal(save), [save]);
   const gardenViewModel = useMemo(() => buildGardenPlayfieldViewModel(save, now), [save, now]);
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
 
@@ -352,6 +360,19 @@ export default function App() {
             <p className="panel-label">다음 행동</p>
             <h2>{nextAction.title}</h2>
             <p className="action-copy">{nextAction.body}</p>
+            {nextCreatureGoal && (
+              <article className="next-creature-card" aria-label="다음 생명체 수집 목표">
+                <div className="next-creature-portrait">{renderAsset(nextCreatureGoal.creature.assetId, "?")}</div>
+                <div>
+                  <p className="panel-label">다음에 만날 아이</p>
+                  <strong>{nextCreatureGoal.creature.name}</strong>
+                  <span>힌트: {nextCreatureGoal.creature.albumHint}</span>
+                  <small>
+                    {nextCreatureGoal.seed.name}에서 만날 수 있어요 · 도감 {nextCreatureGoal.discoveredCount}/{nextCreatureGoal.totalCount}
+                  </small>
+                </div>
+              </article>
+            )}
             {!save?.selectedStarterSeedId &&
               starterSeeds.map((seed) => (
                 <button className="seed-row" key={seed.id} onClick={() => selectStarter(seed)} type="button">
@@ -502,15 +523,28 @@ export default function App() {
             {discoveredCreatures.length === 0 ? (
               <p>아직 없습니다. 씨앗을 키워 첫 생명체를 수확하세요.</p>
             ) : (
-              <div className="creature-list">
-                {discoveredCreatures.map((creature) => (
-                  <figure key={creature.id}>
-                    {renderAsset(creature.assetId, "생명체")}
-                    <figcaption>{creature.name}</figcaption>
-                    <small>{getCreatureRoleLabel(creature.role)} · {creature.personality}</small>
-                  </figure>
-                ))}
-              </div>
+              <>
+                <div className="creature-list">
+                  {discoveredCreatures.map((creature) => (
+                    <figure key={creature.id}>
+                      {renderAsset(creature.assetId, "생명체")}
+                      <figcaption>{creature.name}</figcaption>
+                      <small>{getCreatureRoleLabel(creature.role)} · {creature.personality}</small>
+                    </figure>
+                  ))}
+                </div>
+                {nextCreatureGoal && (
+                  <article className="album-next-goal" aria-label="도감 다음 수집 목표">
+                    <div className="next-creature-portrait">{renderAsset(nextCreatureGoal.creature.assetId, "?")}</div>
+                    <div>
+                      <p className="panel-label">다음 도감 칸</p>
+                      <strong>{nextCreatureGoal.creature.name}</strong>
+                      <span>{nextCreatureGoal.creature.albumHint}</span>
+                      <small>{nextCreatureGoal.seed.name}을 심어 만나보세요.</small>
+                    </div>
+                  </article>
+                )}
+              </>
             )}
           </section>
         )}
@@ -566,6 +600,30 @@ export default function App() {
       </section>
     </main>
   );
+}
+
+function getNextCreatureGoal(save: PlayerSave | null): NextCreatureGoal | null {
+  if (!save || save.discoveredCreatureIds.length === 0) {
+    return null;
+  }
+
+  const discovered = new Set(save.discoveredCreatureIds);
+  const seed = content.seeds.find((candidate) => {
+    const deterministicCreatureId = candidate.creaturePool[0];
+    return save.unlockedSeedIds.includes(candidate.id) && deterministicCreatureId && !discovered.has(deterministicCreatureId);
+  });
+  const creature = getCreature(seed?.creaturePool[0]);
+
+  if (!seed || !creature) {
+    return null;
+  }
+
+  return {
+    seed,
+    creature,
+    discoveredCount: save.discoveredCreatureIds.length,
+    totalCount: content.creatures.length
+  };
 }
 
 function getNextAction(save: PlayerSave | null, activePlot: PlotState | undefined, firstAlbumRewardReady: boolean | null) {
