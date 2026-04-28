@@ -144,12 +144,12 @@ export class GardenScene extends Phaser.Scene {
     const graphics = this.add.graphics();
     this.root.add(graphics);
 
-    graphics.fillStyle(0xf7edc7, 0.16);
+    graphics.fillStyle(0xf8efc9, 0.78);
     graphics.fillRoundedRect(8, 8, width - 16, height - 16, 28);
-    graphics.lineStyle(2, 0xf9efc7, 0.48);
+    graphics.lineStyle(2, 0x31563e, 0.18);
     graphics.strokeRoundedRect(10, 10, width - 20, height - 20, 26);
 
-    graphics.fillStyle(0xffefb0, 0.22);
+    graphics.fillStyle(0xd8efb5, 0.38);
     graphics.fillEllipse(width * 0.5, height * 0.62, width * 0.92, height * 0.54);
 
     const plots = this.viewModel?.plots ?? [];
@@ -174,14 +174,14 @@ export class GardenScene extends Phaser.Scene {
     const familyColor = plot.family ? FAMILY_COLORS[plot.family] : undefined;
     const fill = familyColor?.fill ?? stateColor.fill;
     const stroke = plot.state === "ready" ? STATE_COLORS.ready.stroke : familyColor?.accent ?? stateColor.stroke;
-    const alpha = plot.state === "locked" ? 0.18 : plot.state === "ready" ? 0.86 : 0.66;
+    const alpha = plot.state === "locked" ? 0.2 : plot.state === "ready" ? 0.92 : 0.78;
     const group = this.add.container(x, y);
     this.root?.add(group);
 
     const tile = this.add.graphics();
     tile.fillStyle(fill, alpha);
     tile.fillRoundedRect(0, 0, width, height, 16);
-    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, plot.state === "locked" ? 0.2 : 0.78);
+    tile.lineStyle(plot.state === "ready" ? 4 : 2, stroke, plot.state === "locked" ? 0.24 : 0.82);
     tile.strokeRoundedRect(1, 1, width - 2, height - 2, 16);
     group.add(tile);
 
