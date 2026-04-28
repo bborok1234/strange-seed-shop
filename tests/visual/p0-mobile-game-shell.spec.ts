@@ -9,7 +9,7 @@ async function openPlayerTabState(page: Page, tab: PlayerTab) {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto(`/?qaHarvestReveal=1&qaTab=${tab}`);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
-  await expect(page.locator(`.dev-panel.tab-${tab}`)).toBeVisible();
+  await expect(page.locator(`.dev-panel.player-panel.tab-${tab}`)).toBeVisible();
 }
 
 for (const viewport of [
@@ -63,19 +63,25 @@ for (const tab of PLAYER_TABS) {
     await openPlayerTabState(page, tab);
 
     const metrics = await page.evaluate((activeTab) => {
-      const panel = document.querySelector<HTMLElement>(`.dev-panel.tab-${activeTab}`)?.getBoundingClientRect();
+      const panelElement = document.querySelector<HTMLElement>(`.dev-panel.player-panel.tab-${activeTab}`);
+      const panel = panelElement?.getBoundingClientRect();
       const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
       const garden = document.querySelector<HTMLElement>(".garden-panel");
+      const topBar = document.querySelector<HTMLElement>(".top-bar");
       const stage = document.querySelector<HTMLElement>(".garden-stage")?.getBoundingClientRect();
       const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      const elementAtTop = document.elementFromPoint(window.innerWidth / 2, 16);
+      const topIsPlayerPanel = Boolean(elementAtTop?.closest(".player-panel"));
       return {
         innerHeight: window.innerHeight,
         bodyScrollHeight,
         panel: panel ? { top: panel.top, bottom: panel.bottom, height: panel.height, left: panel.left, right: panel.right } : null,
-        tabs: tabs ? { top: tabs.top, bottom: tabs.bottom } : null,
-        stage: stage ? { top: stage.top, bottom: stage.bottom, height: stage.height } : null,
+        tabs: tabs ? { top: tabs.top, bottom: tabs.bottom, height: tabs.height } : null,
+        stage: stage ? { top: stage.top, bottom: stage.bottom, height: stage.height, left: stage.left, right: stage.right } : null,
         gardenOpacity: garden ? Number.parseFloat(window.getComputedStyle(garden).opacity) : null,
-        gardenPointerEvents: garden ? window.getComputedStyle(garden).pointerEvents : null
+        gardenPointerEvents: garden ? window.getComputedStyle(garden).pointerEvents : null,
+        topBarVisibility: topBar ? window.getComputedStyle(topBar).visibility : null,
+        topIsPlayerPanel
       };
     }, tab);
 
@@ -83,13 +89,17 @@ for (const tab of PLAYER_TABS) {
     expect(metrics.tabs).not.toBeNull();
     expect(metrics.stage).not.toBeNull();
     expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
-    expect(metrics.panel!.top).toBeGreaterThanOrEqual(metrics.stage!.top);
+    expect(metrics.panel!.top).toBeLessThanOrEqual(metrics.stage!.top + 1);
+    expect(metrics.panel!.left).toBeLessThanOrEqual(metrics.stage!.left + 1);
+    expect(metrics.panel!.right).toBeGreaterThanOrEqual(metrics.stage!.right - 1);
     expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top + 1);
-    expect(metrics.panel!.height).toBeGreaterThan(760);
+    expect(metrics.panel!.height).toBeGreaterThanOrEqual(metrics.innerHeight - metrics.tabs!.height - 2);
     expect(metrics.gardenOpacity).toBeLessThan(0.05);
     expect(metrics.gardenPointerEvents).toBe("none");
+    expect(metrics.topBarVisibility).toBe("hidden");
+    expect(metrics.topIsPlayerPanel).toBe(true);
 
-    await page.screenshot({ path: testInfo.outputPath(`mobile-${tab}-tab-screen.png`), fullPage: false });
+    await page.screenshot({ path: testInfo.outputPath(`mobile-${tab}-full-screen-tab.png`), fullPage: false });
   });
 }
 
@@ -97,11 +107,11 @@ test("데스크톱 탭 화면은 외부 대시보드가 아니라 게임 stage �
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/?qaHarvestReveal=1&qaTab=album");
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
-  await expect(page.locator(".garden-stage > .dev-panel.tab-album")).toBeVisible();
+  await expect(page.locator(".garden-stage > .dev-panel.player-panel.tab-album")).toBeVisible();
 
   const metrics = await page.evaluate(() => {
     const stage = document.querySelector<HTMLElement>(".garden-stage")?.getBoundingClientRect();
-    const panel = document.querySelector<HTMLElement>(".dev-panel.tab-album")?.getBoundingClientRect();
+    const panel = document.querySelector<HTMLElement>(".dev-panel.player-panel.tab-album")?.getBoundingClientRect();
     const garden = document.querySelector<HTMLElement>(".garden-panel")?.getBoundingClientRect();
     return {
       stage: stage ? { left: stage.left, right: stage.right, top: stage.top, bottom: stage.bottom } : null,

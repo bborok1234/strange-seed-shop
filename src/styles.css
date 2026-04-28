@@ -21,6 +21,7 @@
   --radius-control: 8px;
   --radius-panel: 8px;
   --radius-pill: 999px;
+  --mobile-nav-height: calc(64px + env(safe-area-inset-bottom));
   color: var(--text-primary);
   background: var(--surface-base);
   font-family:
@@ -747,6 +748,32 @@ h1 {
   letter-spacing: -0.03em;
 }
 
+.tab-screen-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.tab-screen-header .panel-label {
+  margin-bottom: 3px;
+}
+
+.tab-screen-return {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--action-primary);
+  color: #fff9de;
+  font-size: 12px;
+  font-weight: 950;
+  box-shadow: 0 8px 18px rgba(28, 88, 60, 0.16);
+}
+
 .status-list {
   display: flex;
   flex-wrap: wrap;
@@ -1377,12 +1404,18 @@ h1 {
     gap: var(--space-2);
   }
 
+  .garden-stage.has-player-tab .top-bar,
+  .garden-stage.has-player-tab .garden-panel,
+  .garden-stage.has-player-tab::before {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   .garden-stage.has-player-tab .garden-panel {
     right: var(--space-3);
-    opacity: 0;
-    transform: scale(0.985);
-    filter: blur(2px);
-    pointer-events: none;
+    transform: none;
+    filter: none;
   }
 
   .toast {
@@ -1529,28 +1562,60 @@ h1 {
     z-index: 4;
     top: 0;
     right: 0;
-    bottom: calc(72px + env(safe-area-inset-bottom));
+    bottom: var(--mobile-nav-height);
     left: 0;
     display: flex;
     width: auto;
-    height: calc(100% - 72px - env(safe-area-inset-bottom));
+    height: calc(100% - var(--mobile-nav-height));
     min-width: 0;
     max-width: none;
     max-height: none;
     flex-direction: column;
-    padding: 18px 14px 12px;
+    padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
     overflow: hidden;
     border-radius: 0;
     background:
-      radial-gradient(circle at 16% 0%, rgba(255, 255, 255, 0.85), transparent 34%),
-      linear-gradient(180deg, rgba(255, 252, 226, 0.97), rgba(243, 238, 199, 0.94));
+      radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.88), transparent 30%),
+      linear-gradient(180deg, #fffbe6 0%, #f7f1c9 100%);
     box-shadow:
-      0 -10px 40px rgba(21, 40, 30, 0.2),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+      0 -10px 40px rgba(21, 40, 30, 0.16),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.36);
+  }
+
+  .garden-stage.has-player-tab .player-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: calc(100dvh - var(--mobile-nav-height));
+    max-height: calc(100dvh - var(--mobile-nav-height));
+    min-height: 0;
+    backdrop-filter: none;
+    overscroll-behavior: contain;
+  }
+
+  .tab-screen-header {
+    min-height: 46px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(39, 86, 64, 0.14);
+  }
+
+  .tab-screen-header .panel-label {
+    color: #6a7548;
+    font-size: 10px;
+    letter-spacing: 0.08em;
   }
 
   .dev-panel h2 {
-    font-size: 24px;
+    font-size: 22px;
+    line-height: 1.05;
+  }
+
+  .tab-screen-return {
+    min-width: 76px;
+    min-height: 40px;
+    padding: 0 10px;
   }
 
   .dev-panel > .tab-panel,
@@ -1562,6 +1627,14 @@ h1 {
     margin-top: 10px;
     overflow: auto;
     padding: 0 2px 12px 0;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .player-panel > .tab-panel,
+  .player-panel > .album-strip,
+  .player-panel > .expedition-card {
+    scrollbar-width: thin;
   }
 
   .dev-panel > .tab-panel::after,
@@ -1672,6 +1745,35 @@ h1 {
     width: 54px;
     height: 54px;
     margin-bottom: 6px;
+  }
+
+  .player-panel .album-reward-preview,
+  .player-panel .expedition-preview,
+  .player-panel .album-next-action-chip,
+  .player-panel .seed-goal-banner {
+    border-radius: calc(var(--radius-control) + 4px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  }
+
+  .player-panel .album-reward-preview,
+  .player-panel .expedition-preview {
+    margin-bottom: 8px;
+    padding: 9px;
+  }
+
+  .player-panel .album-next-action-chip {
+    min-height: 58px;
+    border-color: rgba(39, 86, 64, 0.22);
+    background: linear-gradient(135deg, rgba(225, 247, 198, 0.96), rgba(255, 248, 197, 0.95));
+  }
+
+  .player-panel .creature-list {
+    padding-bottom: 10px;
+  }
+
+  .player-panel .creature-list figure {
+    min-height: 142px;
+    border-radius: calc(var(--radius-control) + 3px);
   }
 }
 

@@ -477,8 +477,23 @@ export default function App() {
         </section>
 
         {showSidePanel && (
-          <section className={`dev-panel tab-${activeTab}`} aria-label={showDebugPanel ? "디버그 및 탭 정보" : "탭 상세 정보"}>
-            <h2>{MAIN_TABS.find((tab) => tab.id === activeTab)?.label}</h2>
+          <section
+            className={["dev-panel", showDebugPanel ? "debug-panel" : "player-panel", `tab-${activeTab}`]
+              .filter(Boolean)
+              .join(" ")}
+            aria-label={showDebugPanel ? "디버그 및 탭 정보" : "모바일 게임 탭 화면"}
+          >
+            <header className="tab-screen-header">
+              <div>
+                <p className="panel-label">{showDebugPanel ? "Debug surface" : "게임 화면"}</p>
+                <h2>{MAIN_TABS.find((tab) => tab.id === activeTab)?.label}</h2>
+              </div>
+              {!showDebugPanel && activeTab !== "garden" && (
+                <button className="tab-screen-return" onClick={() => setActiveTab("garden")} type="button">
+                  정원 보기
+                </button>
+              )}
+            </header>
             {showDebugPanel && (
               <ul className="status-list">
                 <li>asset {manifest ? Object.keys(manifest.assets).length : "loading"}</li>
