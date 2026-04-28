@@ -20,7 +20,7 @@
     "check:governance": "node scripts/check-governance.mjs",
     "update:pr-audit": "node scripts/update-pr-automation-audit.mjs",
     "check:audit": "node scripts/check-audit-reports.mjs",
-    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run check:dashboard && npm run check:browser-qa && npm run check:sprite-batch && npm run check:asset-normalization && npm run check:playtest-intake && npm run check:gtm-mock && npm run check:operator && npm run check:governance && npm run check:audit && npm run build",
+    "check:all": "npm run check:content && npm run check:loop && npm run simulate:economy && npm run check:docs && npm run check:apply && npm run check:dashboard && npm run check:browser-qa && npm run check:sprite-batch && npm run check:asset-normalization && npm run check:playtest-intake && npm run check:gtm-mock && npm run operator:trial:gap-guard && npm run operator:watchdog:stuck-guard && npm run check:operator && npm run check:governance && npm run check:audit && npm run build",
     "check:sprite-batch": "node scripts/check-sprite-batch.mjs",
     "check:operator": "node scripts/check-operator.mjs",
     "operator:watchdog": "node scripts/operator-watchdog.mjs",
@@ -29,7 +29,10 @@
     "check:playtest-intake": "node scripts/check-playtest-intake.mjs",
     "check:gtm-mock": "node scripts/check-gtm-mock.mjs",
     "check:asset-normalization": "node scripts/check-asset-normalization.mjs",
-    "operator:live-status": "node scripts/update-operator-live-status.mjs --output reports/operations/operator-live-status-20260428.md"
+    "operator:live-status": "node scripts/update-operator-live-status.mjs --output reports/operations/operator-live-status-20260428.md",
+    "operator:heartbeat:daemon": "node scripts/operator-heartbeat-daemon.mjs",
+    "operator:trial:gap-guard": "node scripts/check-operator-trial-gap-guard.mjs",
+    "operator:watchdog:stuck-guard": "node scripts/check-operator-watchdog-stuck-report.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",

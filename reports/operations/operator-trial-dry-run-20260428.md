@@ -18,11 +18,13 @@ Scope-risk: moderate
 - Expected heartbeat count: 2
 - Observed heartbeat count: 2
 - Coverage: 100%
+- Max allowed gap seconds: 600
+- Stale gap windows: 0
 
-| Window | Expected | Observed | Freshness | Evidence |
-| --- | --- | --- | --- | --- |
-| 0-5m | 1 | 1 | fresh | fixture heartbeat at 2026-04-28T02:42:00.000Z |
-| 5-10m | 1 | 1 | fresh | fixture heartbeat at 2026-04-28T02:47:00.000Z |
+| Window | Expected | Observed | Max gap seconds | Freshness | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| 0-5m | 1 | 1 | 300 | fresh | fixture heartbeat at 2026-04-28T02:42:00.000Z |
+| 5-10m | 1 | 1 | 300 | fresh | fixture heartbeat at 2026-04-28T02:47:00.000Z |
 
 ## Completed work
 

@@ -19,13 +19,18 @@ function table(headers, rows) {
 
 const scenarioPath = readArg("scenario", "reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json");
 const outputPath = readArg("output", "reports/operations/operator-trial-dry-run-20260428.md");
+const maxGapSeconds = Number(readArg("max-gap-seconds", "600"));
 const scenario = JSON.parse(fs.readFileSync(scenarioPath, "utf8"));
 const heartbeatExpected = scenario.heartbeat_windows.reduce((sum, window) => sum + Number(window.expected ?? 0), 0);
 const heartbeatObserved = scenario.heartbeat_windows.reduce((sum, window) => sum + Number(window.observed ?? 0), 0);
 const heartbeatCoverage = heartbeatExpected === 0 ? 100 : Math.round((heartbeatObserved / heartbeatExpected) * 100);
+const staleGapWindows = scenario.heartbeat_windows.filter((window) => {
+  const maxGap = Number(window.max_gap_seconds ?? 0);
+  return maxGap > maxGapSeconds || String(window.freshness ?? "").includes("stale");
+});
 const unresolvedFailures = scenario.failures.filter((failure) => !String(failure.result ?? "").includes("reported"));
 const ciReady = scenario.ci_status.every((check) => ["expected-pass-after-pr", "pass", "success"].includes(check.result));
-const status = heartbeatObserved >= heartbeatExpected && unresolvedFailures.length === 0 && ciReady ? "dry-run-pass" : "dry-run-review";
+const status = heartbeatObserved >= heartbeatExpected && staleGapWindows.length === 0 && unresolvedFailures.length === 0 && ciReady ? "dry-run-pass" : "dry-run-review";
 
 const report = `# Operator Trial Dry Run - ${scenario.trial_id}
 
@@ -47,8 +52,10 @@ Scope-risk: moderate
 - Expected heartbeat count: ${heartbeatExpected}
 - Observed heartbeat count: ${heartbeatObserved}
 - Coverage: ${heartbeatCoverage}%
+- Max allowed gap seconds: ${maxGapSeconds}
+- Stale gap windows: ${staleGapWindows.length}
 
-${table(["Window", "Expected", "Observed", "Freshness", "Evidence"], scenario.heartbeat_windows.map((window) => [window.window, window.expected, window.observed, window.freshness, window.evidence]))}
+${table(["Window", "Expected", "Observed", "Max gap seconds", "Freshness", "Evidence"], scenario.heartbeat_windows.map((window) => [window.window, window.expected, window.observed, window.max_gap_seconds ?? "unknown", window.freshness, window.evidence]))}
 
 ## Completed work
 
@@ -74,6 +81,6 @@ ${scenario.next_queue.map((item) => `- ${item}`).join("\n")}
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 fs.writeFileSync(outputPath, report);
 
-console.log(JSON.stringify({ ok: status === "dry-run-pass", status, output: outputPath, heartbeatExpected, heartbeatObserved, heartbeatCoverage, unresolvedFailures: unresolvedFailures.length }, null, 2));
+console.log(JSON.stringify({ ok: status === "dry-run-pass", status, output: outputPath, heartbeatExpected, heartbeatObserved, heartbeatCoverage, maxGapSeconds, staleGapWindows: staleGapWindows.length, unresolvedFailures: unresolvedFailures.length }, null, 2));
 
 if (status !== "dry-run-pass") process.exit(1);

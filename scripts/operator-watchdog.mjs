@@ -66,10 +66,46 @@ ${result.recovery_next_action}
   fs.writeFileSync(filePath, report);
 }
 
+function writeStuckReport(filePath, result) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  const report = `# Operator Watchdog Stuck Report - ${result.checked_at}
+
+Status: reported
+Reason: ${result.reason}
+Scope-risk: narrow
+
+## 감지 신호
+
+- Heartbeat path: \`${result.heartbeat_path}\`
+- Last heartbeat: ${result.heartbeat?.timestamp ?? "unknown"}
+- Branch: ${result.heartbeat?.branch ?? "unknown"}
+- Issue: ${result.heartbeat?.issue ?? "unknown"}
+- PR: ${result.heartbeat?.pr ?? "unknown"}
+- Current command: ${result.heartbeat?.current_command ?? "unknown"}
+- Next action: ${result.heartbeat?.next_action ?? "unknown"}
+- Age seconds: ${result.age_seconds ?? "unknown"}
+- Max age seconds: ${result.max_age_seconds}
+
+## 표준 복구 절차
+
+1. 현재 명령이나 CI 대기가 실제로 살아 있는지 확인한다.
+2. 마지막 heartbeat 이후의 PR/CI 상태를 확인한다.
+3. red/pending CI를 완료로 부르지 않고 repair 또는 blocker report로 분류한다.
+4. 같은 stale class가 3회 이상 반복되면 장시간 run을 중단하고 follow-up issue로 분리한다.
+5. credential, 결제, 외부 배포, 고객 데이터가 필요하면 즉시 escalation한다.
+
+## Recovery next action
+
+${result.recovery_next_action}
+`;
+  fs.writeFileSync(filePath, report);
+}
+
 const heartbeatPath = readArg("heartbeat", ".omx/state/operator-heartbeat.json");
 const maxAgeSeconds = Number(readArg("max-age-seconds", "600"));
 const checkedAt = readArg("now", new Date().toISOString());
-const output = readArg("output", "");
+const output = readArg("output", readArg("report", ""));
+const stuckOutput = readArg("stuck-output", "");
 const { heartbeat, error } = readHeartbeat(heartbeatPath);
 const checkedTime = Date.parse(checkedAt);
 const heartbeatTime = heartbeat?.timestamp ? Date.parse(heartbeat.timestamp) : Number.NaN;
@@ -101,6 +137,7 @@ const result = {
 };
 
 if (output) writeReport(output, result);
+if (stuckOutput && status !== "fresh") writeStuckReport(stuckOutput, result);
 
 console.log(JSON.stringify(result, null, 2));
 
