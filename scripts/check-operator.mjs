@@ -41,14 +41,17 @@ const requiredPaths = [
   "items/0022-supervised-2h-trial-readiness-gate.md",
   "items/0023-supervised-2h-operator-trial.md",
   "items/0034-operator-runbook-daily-report.md",
+  "items/0040-operator-live-status-report.md",
   "items/0029-operator-completion-gate.md",
   "docs/OPERATOR_RUNBOOK.md",
   "reports/operations/operator-trial-readiness-20260428.md",
   "reports/operations/operator-trial-20260428T025400Z.md",
   "reports/operations/daily-template-20260428.md",
+  "reports/operations/operator-live-status-20260428.md",
   "reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json",
   "reports/operations/operator-trial-dry-run-20260428.md",
   "scripts/write-operator-heartbeat.mjs",
+  "scripts/update-operator-live-status.mjs",
   "scripts/operator-trial-dry-run.mjs",
   "scripts/check-operator-trial-readiness.mjs",
   "scripts/operator-watchdog.mjs",
@@ -232,6 +235,40 @@ requirePhrases("reports/operations/daily-template-20260428.md", [
   "Next queue"
 ]);
 
+requirePhrases("items/0040-operator-live-status-report.md", [
+  "Status: in_progress",
+  "Work type: agent_ops",
+  "Issue: #62",
+  "operator:live-status",
+  "Heartbeat freshness",
+  "Completed issue-to-PR loops",
+  "npm run check:operator",
+  "npm run check:all"
+]);
+
+requirePhrases("reports/operations/operator-live-status-20260428.md", [
+  "Operator Live Status",
+  "Issue: #53",
+  "Heartbeat freshness",
+  "Heartbeat count",
+  "Deadline",
+  "Last heartbeat",
+  "Completed issue-to-PR loops",
+  "PR #55",
+  "PR #61",
+  "Known recovery",
+  "Next action"
+]);
+
+requirePhrases("scripts/update-operator-live-status.mjs", [
+  "operator-live-status",
+  "Heartbeat freshness",
+  "Completed issue-to-PR loops",
+  "Known recovery",
+  "Next action",
+  "not-running"
+]);
+
 requirePhrases("reports/operations/README.md", [
   "heartbeat",
   "stuck report",
@@ -282,7 +319,15 @@ requirePhrases("docs/PR_AUTOMATION.md", [
   "red PR을 완료로 부르지 않는다"
 ]);
 
-requirePhrases("package.json", ["check:operator", "operator:watchdog", "operator:trial:dry-run", "operator:trial:readiness", "scripts/check-operator.mjs"]);
+requirePhrases("package.json", [
+  "check:operator",
+  "operator:watchdog",
+  "operator:trial:dry-run",
+  "operator:trial:readiness",
+  "operator:live-status",
+  "scripts/check-operator.mjs",
+  "scripts/update-operator-live-status.mjs"
+]);
 
 const heartbeat = readJsonLine("reports/operations/operator-heartbeat-20260428.jsonl");
 if (!heartbeat) {

@@ -168,6 +168,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Create supervised trial dry-run | review | `scripts/operator-trial-dry-run.mjs`, `reports/operations/operator-trial-dry-run-20260428.md` | Trial lifecycle report is generated from fixtures without real 2h/4h/24h execution |
 | Add 2h supervised trial readiness gate | review | `reports/operations/operator-trial-readiness-20260428.md`, `scripts/check-operator-trial-readiness.mjs` | Time, token/context, branch, network, credential, heartbeat, CI, and automerge stop rules are checked before any real 2h run |
 | Run 2-hour supervised trial | done | Issue #33, PR #50, `reports/operations/operator-trial-20260428T025400Z.md`, `items/0023-supervised-2h-operator-trial.md` | 24회 heartbeat, watchdog fresh, PR #35-#49 completed work, green CI, failures/recovery, stop rules가 기록됨 |
+| Add live operator status report | review | `scripts/update-operator-live-status.mjs`, `reports/operations/operator-live-status-20260428.md`, `items/0040-operator-live-status-report.md` | Running trial의 heartbeat freshness, deadline, completed PRs, recovery, next action을 한 파일로 생성하고 `check:operator`가 검증함 |
 | Run 4-hour supervised trial | todo | `reports/operations/operator-trial-*.md` | At least one complete issue-to-PR loop or an honest blocker report exists; no red PR is called complete |
 
 ## Milestone 8: Feedback + GTM Mock Intake
@@ -194,7 +195,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #60의 씨앗 탭 도감 목표 강조 v0이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 운영사 작업은 Issue #62의 live operator status report이다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
@@ -216,3 +217,4 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 18. Issue #56은 도감 다음 목표 카드에서 씨앗 탭으로 이어지는 CTA를 추가해 Issue #54의 미발견 슬롯 단서를 실제 다음 행동으로 연결한다.
 19. Issue #58은 모바일 도감 첫 화면에서도 다음 발견 생명체와 씨앗 행동이 보이도록 상단 compact CTA chip을 추가한다.
 20. Issue #60은 도감 CTA 이후 씨앗 탭에서 다음 도감 목표 씨앗과 해당 row를 강조해 구매/심기 행동 전환을 돕는다.
+21. Issue #62는 장시간 운영 중 사람이 돌아왔을 때 heartbeat, deadline, 완료 PR, recovery, next action을 한 파일에서 읽을 수 있게 live status report를 생성한다.
