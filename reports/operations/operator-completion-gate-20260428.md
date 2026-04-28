@@ -1,6 +1,6 @@
 # Operator Completion Gate — 2026-04-28
 
-Status: implementing
+Status: pr-open
 Issue: #17
 Item: `items/0029-operator-completion-gate.md`
 Branch: `codex/operator-completion-gate`
@@ -19,8 +19,8 @@ Ralph/session 운영사가 작업을 “완료”라고 부르기 전에 PR과 f
 | Heartbeat | issue, branch, item, current command, next action이 ledger에 남는다 | `reports/operations/operator-heartbeat-20260428.jsonl` |
 | Local verification | `npm run check:all` 또는 좁은 검증 + 사유가 기록된다 | `npm run check:operator` PASS, `npm run check:all` PASS |
 | Review evidence | 정책/운영 문서 변경은 reviewer/architect evidence를 남긴다 | Architect verification APPROVED |
-| Draft PR | GitHub draft PR을 만들고 ready 전환 조건을 기록한다 | 생성 예정 |
-| PR body | issue/item, checks, visual evidence 또는 N/A, risks, follow-up을 포함한다 | 생성 예정 |
+| Draft PR | GitHub draft PR을 만들고 ready 전환 조건을 기록한다 | PR #42 |
+| PR body | issue/item, checks, visual evidence 또는 N/A, risks, follow-up을 포함한다 | PR #42 body에 포함 |
 | Follow-up/audit | 남은 위험은 issue/item/audit에 링크한다 | 이 report와 PR 자동화 audit policy |
 | GitHub checks | red check는 CI repair loop로 전환한다 | PR 생성 후 확인 |
 | Main verification | merge 시 main required checks와 merge commit을 확인한다 | merge 후 확인 |
@@ -36,6 +36,7 @@ Ralph/session 운영사가 작업을 “완료”라고 부르기 전에 PR과 f
 ## PR body requirements
 
 - Issue: #17
+- PR: #42 https://github.com/bborok1234/strange-seed-shop/pull/42
 - Item: `items/0029-operator-completion-gate.md`
 - Operation report: `reports/operations/operator-completion-gate-20260428.md`
 - Verification: `npm run check:operator`, `npm run check:all`, GitHub checks

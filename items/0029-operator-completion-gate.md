@@ -29,7 +29,7 @@ Branch: `codex/operator-completion-gate`
 - Local check: `npm run check:operator` PASS
 - Local check: `npm run check:all` PASS
 - Architect verification: APPROVED
-- PR: 생성 예정
+- PR: #42 https://github.com/bborok1234/strange-seed-shop/pull/42
 
 ## Proposed Plan
 

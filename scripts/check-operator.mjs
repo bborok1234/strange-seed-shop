@@ -146,7 +146,7 @@ requirePhrases("items/0029-operator-completion-gate.md", [
 ]);
 
 requirePhrases("reports/operations/operator-completion-gate-20260428.md", [
-  "Status: implementing",
+  "Status: pr-open",
   "Issue: #17",
   "Completion checklist",
   "Draft PR",
