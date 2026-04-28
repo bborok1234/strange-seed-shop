@@ -91,7 +91,11 @@ for (const phrase of [
   "getLocalQaTab",
   "goal-link-button",
   "보러가기",
-  "setActiveTab(\"seeds\")"
+  "setActiveTab(\"seeds\")",
+  "album-next-action-chip",
+  "다음 발견",
+  "getRarityLabel(nextCreatureGoal.creature.rarity)",
+  "씨앗 보러가기"
 ]) {
   if (!appSource.includes(phrase)) {
     failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);

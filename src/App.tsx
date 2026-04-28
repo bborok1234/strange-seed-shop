@@ -555,6 +555,20 @@ export default function App() {
               발견한 생명체 {albumDiscoveredCount}/{content.creatures.length}
             </h3>
             <p className="album-progress-copy">미발견 슬롯의 단서를 따라 씨앗을 심고 도감 칸을 채워보세요.</p>
+            {nextCreatureGoal && (
+              <button
+                aria-label={`다음 발견 목표 ${nextCreatureGoal.creature.name}, ${nextCreatureGoal.seed.name} 씨앗 보러가기`}
+                className="album-next-action-chip"
+                onClick={() => setActiveTab("seeds")}
+                type="button"
+              >
+                <span>다음 발견</span>
+                <strong>{nextCreatureGoal.creature.name}</strong>
+                <small>
+                  {getRarityLabel(nextCreatureGoal.creature.rarity)} · {nextCreatureGoal.seed.name} 단서 · 씨앗 보러가기
+                </small>
+              </button>
+            )}
             {albumDiscoveredCount === 0 && <p>아직 없습니다. 씨앗을 키워 첫 생명체를 수확하세요.</p>}
             <div className="creature-list album-grid">
               {content.creatures.map((creature) => {
