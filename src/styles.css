@@ -1081,6 +1081,41 @@ h1 {
   font-weight: 850;
 }
 
+.tab-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  padding: 10px 12px;
+  border: 1px solid rgba(39, 86, 64, 0.16);
+  border-radius: calc(var(--radius-control) + 4px);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.76), transparent 34%),
+    linear-gradient(135deg, rgba(255, 249, 218, 0.96), rgba(225, 244, 202, 0.9));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 10px 22px rgba(39, 86, 64, 0.1);
+}
+
+.tab-section-heading h3 {
+  margin: 2px 0 0;
+  color: var(--text-main);
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.tab-section-chip {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(39, 86, 64, 0.88);
+  color: #fff8d9;
+  font-size: 12px;
+  font-weight: 950;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08);
+}
+
 .mission-list,
 .seed-inventory-list,
 .shop-list {
@@ -1100,7 +1135,9 @@ h1 {
   background:
     radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.78), transparent 32%),
     linear-gradient(135deg, rgba(255, 247, 184, 0.92), rgba(211, 239, 190, 0.88));
-  box-shadow: 0 10px 22px rgba(39, 86, 64, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    0 10px 22px rgba(39, 86, 64, 0.12);
 }
 
 .seed-goal-banner img,
@@ -1185,9 +1222,14 @@ h1 {
   align-items: center;
   gap: var(--space-2);
   padding: 10px;
-  border: 1px solid rgba(45, 73, 58, 0.16);
-  border-radius: var(--radius-control);
-  background: var(--surface-raised);
+  border: 1px solid rgba(45, 73, 58, 0.14);
+  border-radius: calc(var(--radius-control) + 4px);
+  background:
+    radial-gradient(circle at 9% 12%, rgba(255, 255, 255, 0.68), transparent 30%),
+    linear-gradient(135deg, rgba(255, 250, 219, 0.96), rgba(247, 238, 190, 0.88));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.52),
+    0 9px 18px rgba(39, 86, 64, 0.08);
 }
 
 .seed-inventory-row img,
@@ -1220,9 +1262,12 @@ h1 {
 .seed-inventory-row-target {
   border-color: rgba(39, 86, 64, 0.32);
   background:
-    linear-gradient(135deg, rgba(255, 252, 209, 0.94), rgba(221, 243, 199, 0.9)),
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.72), transparent 34%),
+    linear-gradient(135deg, rgba(255, 252, 209, 0.98), rgba(216, 245, 192, 0.94)),
     var(--surface-raised);
-  box-shadow: inset 0 0 0 1px rgba(255, 244, 149, 0.8);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 244, 149, 0.78),
+    0 12px 24px rgba(39, 86, 64, 0.14);
 }
 
 .seed-inventory-row .seed-target-badge,
@@ -1259,6 +1304,11 @@ h1 {
   font-weight: 900;
 }
 
+.seed-row-actions button + button {
+  background: rgba(39, 86, 64, 0.15);
+  color: var(--action-primary-strong);
+}
+
 .seed-row-actions button:disabled {
   background: var(--state-disabled);
   color: rgba(255, 249, 222, 0.82);
@@ -1286,9 +1336,14 @@ h1 {
   position: relative;
   margin: 0;
   padding: var(--space-2);
-  border: 1px solid rgba(45, 73, 58, 0.16);
-  border-radius: var(--radius-control);
-  background: var(--surface-raised);
+  border: 1px solid rgba(45, 73, 58, 0.14);
+  border-radius: calc(var(--radius-control) + 4px);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.66), transparent 36%),
+    linear-gradient(180deg, rgba(255, 250, 220, 0.96), rgba(244, 236, 190, 0.9));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.52),
+    0 9px 18px rgba(39, 86, 64, 0.08);
   text-align: center;
 }
 
@@ -1317,8 +1372,29 @@ h1 {
 .album-slot-locked {
   border-style: dashed;
   background:
-    linear-gradient(135deg, rgba(255, 247, 198, 0.58), rgba(216, 229, 202, 0.7)),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.58), transparent 38%),
+    linear-gradient(135deg, rgba(255, 247, 198, 0.72), rgba(216, 229, 202, 0.78)),
     var(--surface-raised);
+}
+
+.album-slot-next-goal {
+  border-color: rgba(39, 86, 64, 0.34);
+  border-style: solid;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 224, 101, 0.6),
+    0 13px 26px rgba(39, 86, 64, 0.14);
+}
+
+.album-target-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 7px;
+  border-radius: var(--radius-pill);
+  background: rgba(39, 86, 64, 0.88);
+  color: #fff8d9;
+  font-size: 10px;
+  font-weight: 950;
 }
 
 .album-silhouette {
@@ -1769,6 +1845,20 @@ h1 {
   .mission-board,
   .expedition-card {
     margin-top: var(--space-3);
+  }
+
+  .tab-section-heading {
+    margin-bottom: 8px;
+    padding: 9px 10px;
+  }
+
+  .tab-section-heading h3 {
+    font-size: 17px;
+  }
+
+  .tab-section-chip {
+    padding: 6px 9px;
+    font-size: 11px;
   }
 
   .album-progress-copy {
