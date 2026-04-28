@@ -7,7 +7,7 @@ Updated: 2026-04-28
 Scope-risk: narrow
 Work type: game_content
 Issue: #22
-PR: TBD
+PR: #41
 
 ## Intent
 
@@ -24,6 +24,7 @@ PR: TBD
 ## Evidence
 
 - Issue #22: https://github.com/bborok1234/strange-seed-shop/issues/22
+- PR #41: https://github.com/bborok1234/strange-seed-shop/pull/41
 - `npm run check:asset-normalization` PASS — runbook/template/current 6 sprite strips verified
 - `npm run check:all` PASS — asset normalization gate included in full baseline
 
