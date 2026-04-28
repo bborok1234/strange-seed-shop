@@ -3,7 +3,7 @@
 Status: active
 Updated: 2026-04-28
 Scope: `이상한 씨앗상회` P0 Game Studio Operating Mode
-Issue: #89
+Issue: #89, #95
 
 ## 왜 이 문서가 생겼나
 
@@ -42,14 +42,17 @@ Source: https://docs.phaser.io/phaser/concepts/scale-manager
 
 ### 3. 반복 가능한 실기 QA는 CLI visual regression이 기본이어야 한다
 
+키워드: Playwright CLI visual regression은 P0의 승인된 회귀 게이트다.
+
 Playwright 공식 문서는 `expect(page).toHaveScreenshot()` 기반 visual comparison을 제공한다. 같은 문서는 OS, headless mode, hardware 등에 따라 rendering 차이가 생길 수 있으므로 baseline을 같은 환경에서 관리해야 한다고 경고한다.
 
 Source: https://playwright.dev/docs/test-snapshots
 
 프로젝트 결정:
 
-- 장기적으로는 Playwright CLI visual regression을 PR gate로 사용한다.
-- 단, 새 dependency 설치는 action-time 승인 대상이므로 이번 P0 iteration은 기존 `npm run capture:local` CDP CLI와 정적 layout checker를 우선 사용한다.
+- 2026-04-28 사용자 승인에 따라 `@playwright/test`와 Playwright Chromium CLI를 PR/CI gate로 도입한다.
+- P0의 첫 visual regression은 pixel baseline보다 먼저 layout regression + screenshot artifact를 고정한다. OS/font 차이로 스냅샷 baseline이 불안정해지기 전까지는 “겹침/스크롤/외부 패널” 같은 실패 조건을 자동 assertion으로 잡는다.
+- `npm run check:visual`은 393x852 mobile full tab screen과 1280x900 desktop in-stage split을 검증한다.
 - Browser Use가 현재 세션에서 차단될 경우 `Computer Use` 또는 CDP fallback을 사용하되, fallback 사유와 screenshot 경로를 반드시 남긴다.
 - PR 본문에는 mobile/desktop before-after screenshot 또는 `N/A — UI 변화 없음`을 필수로 적는다.
 
@@ -84,7 +87,7 @@ Sources:
 
 1. **Playfield first**: 정원 화면에서 가장 넓고 높은 대비를 가진 영역은 Phaser playfield여야 한다.
 2. **One immediate action**: 정원 기본 화면에는 지금 할 수 있는 행동 하나가 가장 명확해야 한다.
-3. **Secondary lists live in tabs**: seed shop, album list, mission list, shop mock은 정원 위를 덮지 않고 각 탭이나 sheet로 이동한다.
+3. **Secondary lists live in tabs**: seed shop, album list, mission list, shop mock은 정원 위 half overlay가 아니라 각 탭 screen으로 이동한다. 모바일에서 탭 화면은 body scroll 없이 한 viewport 안에 고정되고 긴 목록만 내부 스크롤한다.
 4. **Debug is not player UI**: asset count, save state, event count, runtime-generation 상태는 debug mode에서만 보인다.
 5. **Mobile and desktop are separate display modes**: 모바일은 세로 game frame, 데스크톱은 중앙 game frame 또는 별도 canvas 비율로 설계한다.
 6. **Evidence or it did not happen**: UI/게임 변경은 mobile + desktop screenshot, layout checker, asset checker 중 필요한 증거를 남긴다.
@@ -95,12 +98,12 @@ Sources:
 - 정원 첫 화면에서 안내 문구/하이라이트/패널이 밭을 가리지 않는다.
 - 오른쪽 debug panel은 기본 playable 화면에서 보이지 않는다.
 - 360x800, 390x844, 1280x900 중 최소 2개 viewport에서 screenshot evidence가 남는다.
-- `npm run check:all`에 P0 layout/asset quality gate가 포함된다.
+- `npm run check:all`에 P0 layout/asset quality gate와 `npm run check:visual` Playwright gate가 포함된다.
 - alpha가 필요한 asset의 현재 실패/예외 목록이 명시되고, 새 에셋은 checker를 통과해야 한다.
 - PR마다 사용자가 바로 이해할 수 있는 small win, screenshot, verification output이 연결된다.
 
 ## 후속 리서치/제작 후보
 
 - Codex native image generation으로 transparent cutout 재생성 batch를 만들되, `gpt-game-asset-plan/prompt/generate/review` 순서를 지킨다.
-- 실제 Playwright CLI visual regression은 dependency 추가 승인 후 `tests/visual/*.spec.ts`로 도입한다.
+- Playwright CLI visual/layout regression은 Issue #95부터 `tests/visual/*.spec.ts`로 운영한다. Pixel snapshot baseline은 CI 환경 안정화 후 추가한다.
 - 데스크톱 전용 canvas layout은 P0 안정화 후 별도 milestone로 진행한다.

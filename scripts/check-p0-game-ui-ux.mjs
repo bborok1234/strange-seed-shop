@@ -28,7 +28,14 @@ const requiredPaths = [
   "reports/visual/p0-ui-ux-before-main-desktop-20260428.png",
   "reports/visual/p0-ui-ux-after-mobile-20260428.png",
   "reports/visual/p0-ui-ux-after-desktop-20260428.png",
-  "reports/visual/p0-ui-ux-debug-mode-desktop-20260428.png"
+  "reports/visual/p0-ui-ux-debug-mode-desktop-20260428.png",
+  "items/0056-mobile-tab-screen-visual-regression.md",
+  "playwright.config.ts",
+  "tests/visual/p0-mobile-game-shell.spec.ts",
+  "reports/visual/p0-mobile-ui-visual-regression-20260428.md",
+  "reports/visual/p0-mobile-garden-playfield-playwright-20260428.png",
+  "reports/visual/p0-mobile-tab-screen-playwright-20260428.png",
+  "reports/visual/p0-desktop-in-stage-album-playwright-20260428.png"
 ];
 for (const path of requiredPaths) requirePath(path);
 
@@ -48,6 +55,7 @@ for (const phrase of [
   "Debug is not player UI",
   "Mobile and desktop are separate display modes",
   "Playwright CLI visual regression",
+  "full tab screen",
   "alpha channel"
 ]) {
   requirePhrase("docs/GAME_UI_UX_RESEARCH_20260428.md", phrase);
@@ -56,9 +64,10 @@ for (const phrase of [
 for (const phrase of [
   "P0 Game Studio Operating Mode — UI/UX Rescue",
   "Playfield-first garden screen",
+  "Mobile tab screen architecture",
   "Player/debug surface split",
   "Asset alpha/background quality gate",
-  "Issue #89"
+  "Issue #95"
 ]) {
   requirePhrase("docs/ROADMAP.md", phrase);
 }
@@ -66,13 +75,16 @@ for (const phrase of [
 for (const phrase of [
   "P0 Game Screen Policy — 2026-04-28",
   "Phaser playfield를 가장 큰 시각 영역",
-  "개발 정보는 보이지 않아야 한다"
+  "개발 정보는 보이지 않아야 한다",
+  "full tab screen",
+  "npm run check:visual"
 ]) {
   requirePhrase("docs/DESIGN_SYSTEM.md", phrase);
 }
 
 for (const phrase of [
   "showDebugPanel",
+  "isPlayerTabScreen",
   "showSidePanel",
   "garden-action-dock",
   "showDebugPanel && activeTab === \"garden\""
@@ -83,6 +95,8 @@ for (const phrase of [
 for (const phrase of [
   ".app-shell.playable-focus",
   "grid-template-rows: minmax(360px, 1fr) auto",
+  ".garden-stage.has-player-tab",
+  "height: calc(100% - 72px",
   ".garden-action-dock",
   "max-height: min(28dvh, 210px)"
 ]) {
