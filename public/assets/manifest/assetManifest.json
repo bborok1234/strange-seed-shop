@@ -385,7 +385,17 @@
         "repeat": -1,
         "sourceAssetIds": [
           "seed_herb_001_icon"
-        ]
+        ],
+        "binding": {
+          "target": "plot",
+          "slot": "seed_idle",
+          "seedIds": [
+            "seed_herb_001"
+          ],
+          "plotStates": [
+            "growing"
+          ]
+        }
       }
     },
     "seed_herb_001_tap_strip": {
@@ -415,7 +425,20 @@
         "repeat": 0,
         "sourceAssetIds": [
           "seed_herb_001_icon"
-        ]
+        ],
+        "binding": {
+          "target": "effect",
+          "slot": "tap_feedback",
+          "seedIds": [
+            "seed_herb_001"
+          ],
+          "plotStates": [
+            "growing"
+          ],
+          "actions": [
+            "tap_growth"
+          ]
+        }
       }
     },
     "sprout_herb_001_grow_strip": {
@@ -445,7 +468,17 @@
         "repeat": -1,
         "sourceAssetIds": [
           "seed_herb_001_icon"
-        ]
+        ],
+        "binding": {
+          "target": "plot",
+          "slot": "growth",
+          "seedIds": [
+            "seed_herb_001"
+          ],
+          "plotStates": [
+            "growing"
+          ]
+        }
       }
     },
     "creature_herb_common_ready_strip": {
@@ -475,7 +508,20 @@
         "repeat": -1,
         "sourceAssetIds": [
           "creature_herb_common_001"
-        ]
+        ],
+        "binding": {
+          "target": "plot",
+          "slot": "ready",
+          "seedIds": [
+            "seed_herb_001"
+          ],
+          "creatureIds": [
+            "creature_herb_common_001"
+          ],
+          "plotStates": [
+            "ready"
+          ]
+        }
       }
     },
     "fx_harvest_sparkle_strip": {
@@ -504,7 +550,23 @@
         "repeat": 0,
         "sourceAssetIds": [
           "creature_herb_common_001"
-        ]
+        ],
+        "binding": {
+          "target": "effect",
+          "slot": "harvest_fx",
+          "seedIds": [
+            "seed_herb_001"
+          ],
+          "creatureIds": [
+            "creature_herb_common_001"
+          ],
+          "plotStates": [
+            "ready"
+          ],
+          "actions": [
+            "harvest_plot"
+          ]
+        }
       }
     },
     "fx_leaf_reward_pop_strip": {
@@ -533,7 +595,23 @@
         "repeat": 0,
         "sourceAssetIds": [
           "seed_herb_001_icon"
-        ]
+        ],
+        "binding": {
+          "target": "effect",
+          "slot": "reward_fx",
+          "seedIds": [
+            "seed_herb_001"
+          ],
+          "creatureIds": [
+            "creature_herb_common_001"
+          ],
+          "plotStates": [
+            "ready"
+          ],
+          "actions": [
+            "harvest_plot"
+          ]
+        }
       }
     }
   }

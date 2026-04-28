@@ -1,5 +1,11 @@
 import * as Phaser from "phaser";
-import type { ManifestAsset } from "../../types/game";
+import type {
+  ManifestAsset,
+  PlayfieldAnimationAction,
+  PlayfieldAnimationPlotState,
+  PlayfieldAnimationSlot,
+  PlayfieldAnimationTarget
+} from "../../types/game";
 import type { GardenPlayfieldActionHandler, GardenPlayfieldViewModel, GardenPlotView } from "./types";
 
 const FAMILY_COLORS: Record<NonNullable<GardenPlotView["family"]>, { fill: number; accent: number; text: string }> = {
@@ -15,14 +21,11 @@ const STATE_COLORS: Record<GardenPlotView["state"], { fill: number; stroke: numb
   ready: { fill: 0xf7d65f, stroke: 0xb37724, label: "수확" }
 };
 
-const SPRITE_KEYS = {
-  idle: "seed_herb_001_idle_strip",
-  tap: "seed_herb_001_tap_strip",
-  grow: "sprout_herb_001_grow_strip",
-  ready: "creature_herb_common_ready_strip",
-  harvestFx: "fx_harvest_sparkle_strip",
-  rewardFx: "fx_leaf_reward_pop_strip"
-} as const;
+const EFFECT_LAYOUT: Partial<Record<PlayfieldAnimationSlot, { displaySize: number; offsetX: number; offsetY: number }>> = {
+  tap_feedback: { displaySize: 78, offsetX: 0, offsetY: 0 },
+  harvest_fx: { displaySize: 96, offsetX: 0, offsetY: -4 },
+  reward_fx: { displaySize: 78, offsetX: 16, offsetY: -18 }
+};
 
 export class GardenScene extends Phaser.Scene {
   private readonly onActionRef: { current: GardenPlayfieldActionHandler };
@@ -240,8 +243,9 @@ export class GardenScene extends Phaser.Scene {
     height: number,
     accent: number
   ) {
-    if (plot.seedId === "seed_herb_001") {
-      const spriteKey = plot.state === "ready" ? SPRITE_KEYS.ready : plot.progressPercent < 18 ? SPRITE_KEYS.idle : SPRITE_KEYS.grow;
+    const animationAsset = this.findBoundAnimationAsset("plot", this.getPlotAnimationSlot(plot), plot);
+    const spriteKey = animationAsset?.animation?.key;
+    if (spriteKey) {
       const sprite = this.addAnimatedSprite(spriteKey, width / 2, height * 0.54, Math.min(width * 0.54, height * 0.58));
 
       if (sprite) {
@@ -307,13 +311,10 @@ export class GardenScene extends Phaser.Scene {
 
     this.onActionRef.current(action);
 
-    if (plot.seedId === "seed_herb_001" && plot.state === "growing") {
-      this.playOneShot(SPRITE_KEYS.tap, x, y, 78);
-    }
-
-    if (plot.seedId === "seed_herb_001" && plot.state === "ready") {
-      this.playOneShot(SPRITE_KEYS.harvestFx, x, y - 4, 96);
-      this.playOneShot(SPRITE_KEYS.rewardFx, x + 16, y - 18, 78);
+    const animationAction: PlayfieldAnimationAction | null =
+      plot.state === "ready" ? "harvest_plot" : plot.state === "growing" ? "tap_growth" : null;
+    if (animationAction) {
+      this.playBoundEffects(plot, animationAction, x, y);
     }
 
     if (plot.state !== "locked" && now - this.lastTapAt > 80) {
@@ -342,6 +343,70 @@ export class GardenScene extends Phaser.Scene {
 
     this.fxRoot?.add(sprite);
     sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => sprite.destroy());
+  }
+
+  private getPlotAnimationSlot(plot: GardenPlotView): PlayfieldAnimationSlot {
+    if (plot.state === "ready") {
+      return "ready";
+    }
+
+    return plot.progressPercent < 18 ? "seed_idle" : "growth";
+  }
+
+  private playBoundEffects(plot: GardenPlotView, action: PlayfieldAnimationAction, x: number, y: number) {
+    const effects = this.findBoundAnimationAssets("effect", null, plot, action);
+    for (const asset of effects) {
+      const animation = asset.animation;
+      if (!animation?.key) {
+        continue;
+      }
+
+      const layout = EFFECT_LAYOUT[animation.binding?.slot ?? "tap_feedback"] ?? { displaySize: 78, offsetX: 0, offsetY: 0 };
+      this.playOneShot(animation.key, x + layout.offsetX, y + layout.offsetY, layout.displaySize);
+    }
+  }
+
+  private findBoundAnimationAsset(
+    target: PlayfieldAnimationTarget,
+    slot: PlayfieldAnimationSlot,
+    plot: GardenPlotView,
+    action?: PlayfieldAnimationAction
+  ): ManifestAsset | undefined {
+    return this.findBoundAnimationAssets(target, slot, plot, action)[0];
+  }
+
+  private findBoundAnimationAssets(
+    target: PlayfieldAnimationTarget,
+    slot: PlayfieldAnimationSlot | null,
+    plot: GardenPlotView,
+    action?: PlayfieldAnimationAction
+  ): ManifestAsset[] {
+    return this.playfieldAssets.filter((asset) => {
+      const animation = asset.animation;
+      const binding = animation?.binding;
+      if (asset.status !== "accepted" || animation?.kind !== "spritesheet" || !binding || binding.target !== target) {
+        return false;
+      }
+
+      if (slot && binding.slot !== slot) {
+        return false;
+      }
+
+      const plotState = this.getBindablePlotState(plot);
+      return (
+        this.bindingIncludes(binding.seedIds, plot.seedId) &&
+        this.bindingIncludes(binding.plotStates, plotState) &&
+        this.bindingIncludes(binding.actions, action)
+      );
+    });
+  }
+
+  private getBindablePlotState(plot: GardenPlotView): PlayfieldAnimationPlotState | null {
+    return plot.state === "growing" || plot.state === "ready" ? plot.state : null;
+  }
+
+  private bindingIncludes<T extends string>(acceptedValues: T[] | undefined, currentValue: T | null | undefined) {
+    return !acceptedValues || acceptedValues.length === 0 || Boolean(currentValue && acceptedValues.includes(currentValue));
   }
 
   private getAnimationKey(textureKey: string) {
