@@ -22,7 +22,7 @@ Ralph/session 운영사가 작업을 “완료”라고 부르기 전에 PR과 f
 | Draft PR | GitHub draft PR을 만들고 ready 전환 조건을 기록한다 | PR #42 |
 | PR body | issue/item, checks, visual evidence 또는 N/A, risks, follow-up을 포함한다 | PR #42 body에 포함 |
 | Follow-up/audit | 남은 위험은 issue/item/audit에 링크한다 | 이 report와 PR 자동화 audit policy |
-| GitHub checks | red check는 CI repair loop로 전환한다 | PR 생성 후 확인 |
+| GitHub checks | red check는 CI repair loop로 전환한다 | PR #42 thread에서 head commit별 required checks를 확인한다 |
 | Main verification | merge 시 main required checks와 merge commit을 확인한다 | merge 후 확인 |
 
 ## Audit/operation link rule
@@ -48,7 +48,7 @@ Ralph/session 운영사가 작업을 “완료”라고 부르기 전에 PR과 f
 
 1. `npm run check:operator`로 completion gate 문서/report/checker 연결을 검증한다.
 2. `npm run check:all`로 전체 baseline을 검증한다.
-3. Draft PR 생성 후 GitHub required checks를 확인한다.
+3. Draft PR 생성 후 GitHub required checks를 확인하고, 최종 head commit의 결과는 PR #42 본문/댓글에 남긴다.
 4. PR이 ready/merge 가능해지면 merge 후 `main` check run을 확인한다.
 
 ## Stop rules

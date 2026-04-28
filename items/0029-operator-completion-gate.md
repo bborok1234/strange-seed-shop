@@ -30,6 +30,7 @@ Branch: `codex/operator-completion-gate`
 - Local check: `npm run check:all` PASS
 - Architect verification: APPROVED
 - PR: #42 https://github.com/bborok1234/strange-seed-shop/pull/42
+- GitHub PR checks: PR #42 thread에서 최종 head commit 확인 예정
 
 ## Proposed Plan
 
