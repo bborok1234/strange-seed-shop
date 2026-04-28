@@ -30,7 +30,7 @@ Branch: `codex/seed-creature-preview`
 - Desktop evidence: `reports/visual/seed-creature-preview-desktop-20260428.png`
 - Local check: `npm run check:loop` PASS
 - Local check: `npm run check:all` PASS
-- PR: 생성 예정
+- PR: #47 https://github.com/bborok1234/strange-seed-shop/pull/47
 
 ## Proposed Plan
 
