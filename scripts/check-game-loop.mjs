@@ -69,9 +69,29 @@ if (!nextDeterministicSeed || !nextCreatureGoal) {
   failures.push("next collection goal must not repeat the first creature");
 }
 
-for (const phrase of ["getNextCreatureGoal", "다음에 만날 아이", "다음 생명체 수집 목표", "도감 {nextCreatureGoal.discoveredCount}/{nextCreatureGoal.totalCount}"]) {
+for (const phrase of [
+  "getNextCreatureGoal",
+  "다음에 만날 아이",
+  "다음 생명체 수집 목표",
+  "도감 {nextCreatureGoal.discoveredCount}/{nextCreatureGoal.totalCount}",
+  "getDeterministicCreatureForSeed",
+  "만날 아이: {previewCreature.name}",
+  "seed-creature-preview"
+]) {
   if (!appSource.includes(phrase)) {
-    failures.push(`App.tsx missing next collection goal UI phrase: ${phrase}`);
+    failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);
+  }
+}
+
+const seedCreaturePreview = starterSeeds.map((seed) => ({
+  seedId: seed.id,
+  creatureId: seed.creaturePool?.[0],
+  creatureName: creatures.find((creature) => creature.id === seed.creaturePool?.[0])?.name
+}));
+
+for (const preview of seedCreaturePreview) {
+  if (!preview.creatureId || !preview.creatureName) {
+    failures.push(`seed creature preview missing deterministic creature for ${preview.seedId}`);
   }
 }
 
@@ -152,6 +172,7 @@ console.log(
         creatureId: nextCreatureGoal.id,
         creatureName: nextCreatureGoal.name
       },
+      seedCreaturePreview,
       firstLoopMissions: requiredMissionIds
     },
     null,

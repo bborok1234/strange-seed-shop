@@ -386,6 +386,8 @@ export default function App() {
                 {availableSeeds.map((seed) => {
                   const owned = save.seedInventory[seed.id] ?? 0;
                   const costLeaves = getSeedPurchaseCost(seed);
+                  const previewCreature = getDeterministicCreatureForSeed(seed);
+                  const previewDiscovered = previewCreature ? save.discoveredCreatureIds.includes(previewCreature.id) : false;
 
                   return (
                     <article className="seed-shop-row" key={seed.id}>
@@ -393,6 +395,11 @@ export default function App() {
                       <div>
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개</span>
+                        {previewCreature && (
+                          <small className="seed-creature-preview">
+                            만날 아이: {previewCreature.name} · {previewDiscovered ? "발견함" : "미발견"}
+                          </small>
+                        )}
                       </div>
                       <button disabled={save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">
                         구매 {costLeaves}
@@ -503,16 +510,26 @@ export default function App() {
           <section className="tab-panel seed-inventory-panel" aria-label="씨앗 주머니">
             <h3>씨앗 주머니</h3>
             <div className="seed-inventory-list">
-              {availableSeeds.map((seed) => (
-                <article className="seed-inventory-row" key={seed.id}>
-                  {renderAsset(seed.iconAssetId, "씨앗")}
-                  <div>
-                    <strong>{seed.name}</strong>
-                    <span>보유 {save?.seedInventory[seed.id] ?? 0}개</span>
-                  </div>
-                  <span>{seed.baseGrowthSeconds}s</span>
-                </article>
-              ))}
+              {availableSeeds.map((seed) => {
+                const previewCreature = getDeterministicCreatureForSeed(seed);
+                const previewDiscovered = previewCreature ? (save?.discoveredCreatureIds.includes(previewCreature.id) ?? false) : false;
+
+                return (
+                  <article className="seed-inventory-row" key={seed.id}>
+                    {renderAsset(seed.iconAssetId, "씨앗")}
+                    <div>
+                      <strong>{seed.name}</strong>
+                      <span>보유 {save?.seedInventory[seed.id] ?? 0}개</span>
+                      {previewCreature && (
+                        <small className="seed-creature-preview">
+                          만날 아이: {previewCreature.name} · {previewDiscovered ? "발견함" : "미발견"}
+                        </small>
+                      )}
+                    </div>
+                    <span>{seed.baseGrowthSeconds}s</span>
+                  </article>
+                );
+              })}
             </div>
           </section>
         )}
@@ -609,10 +626,10 @@ function getNextCreatureGoal(save: PlayerSave | null): NextCreatureGoal | null {
 
   const discovered = new Set(save.discoveredCreatureIds);
   const seed = content.seeds.find((candidate) => {
-    const deterministicCreatureId = candidate.creaturePool[0];
-    return save.unlockedSeedIds.includes(candidate.id) && deterministicCreatureId && !discovered.has(deterministicCreatureId);
+    const deterministicCreature = getDeterministicCreatureForSeed(candidate);
+    return save.unlockedSeedIds.includes(candidate.id) && deterministicCreature && !discovered.has(deterministicCreature.id);
   });
-  const creature = getCreature(seed?.creaturePool[0]);
+  const creature = seed ? getDeterministicCreatureForSeed(seed) : undefined;
 
   if (!seed || !creature) {
     return null;
@@ -753,6 +770,10 @@ function getShopSurfaceDescription(surfaceId: string): string {
 
 function getSeed(seedId: string | undefined): SeedDefinition | undefined {
   return seedId ? content.seeds.find((seed) => seed.id === seedId) : undefined;
+}
+
+function getDeterministicCreatureForSeed(seed: SeedDefinition): CreatureDefinition | undefined {
+  return getCreature(seed.creaturePool[0]);
 }
 
 function getCreature(creatureId: string | undefined): CreatureDefinition | undefined {
