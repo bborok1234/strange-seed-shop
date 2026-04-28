@@ -1,22 +1,26 @@
 import { useEffect, useRef, useState } from "react";
+import type { ManifestAsset } from "../../types/game";
 import type { GardenPlayfieldActionHandler, GardenPlayfieldViewModel } from "./types";
 
 interface GardenPlayfieldHostProps {
   viewModel: GardenPlayfieldViewModel;
+  playfieldAssets: ManifestAsset[];
   onAction: GardenPlayfieldActionHandler;
 }
 
-export function GardenPlayfieldHost({ viewModel, onAction }: GardenPlayfieldHostProps) {
+export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: GardenPlayfieldHostProps) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const gameRef = useRef<import("phaser").Game | null>(null);
   const sceneRef = useRef<import("./GardenScene").GardenScene | null>(null);
   const actionRef = useRef<GardenPlayfieldActionHandler>(onAction);
   const viewModelRef = useRef<GardenPlayfieldViewModel>(viewModel);
+  const playfieldAssetsRef = useRef<ManifestAsset[]>(playfieldAssets);
   const [isRuntimeReady, setRuntimeReady] = useState(false);
   const [runtimeError, setRuntimeError] = useState<string | null>(null);
 
   actionRef.current = onAction;
   viewModelRef.current = viewModel;
+  playfieldAssetsRef.current = playfieldAssets;
 
   useEffect(() => {
     let cancelled = false;
@@ -34,7 +38,7 @@ export function GardenPlayfieldHost({ viewModel, onAction }: GardenPlayfieldHost
         return;
       }
 
-      const scene = new GardenScene(actionRef);
+      const scene = new GardenScene(actionRef, playfieldAssetsRef.current);
       sceneRef.current = scene;
       scene.setViewModel(viewModelRef.current);
 
@@ -78,6 +82,10 @@ export function GardenPlayfieldHost({ viewModel, onAction }: GardenPlayfieldHost
   useEffect(() => {
     sceneRef.current?.setViewModel(viewModel);
   }, [viewModel]);
+
+  useEffect(() => {
+    sceneRef.current?.setPlayfieldAssets(playfieldAssets);
+  }, [playfieldAssets]);
 
   return (
     <div

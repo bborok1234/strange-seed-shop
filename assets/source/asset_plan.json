@@ -3,8 +3,8 @@
   "project": "이상한 씨앗상회",
   "batch": {
     "id": "milestone1_style_validation_001",
-    "purpose": "Validate Codex native image generation for the first static game asset batch before Phase 0 implementation.",
-    "target_asset_count": 20,
+    "purpose": "Validate Codex native image generation for the first static game asset batch before Phase 0 implementation. Sprite batch 001 extends the proof with six starter spritesheet/fx strips.",
+    "target_asset_count": 26,
     "generation_mode": "codex_native_image_generation",
     "runtime_generation_allowed": false
   },
@@ -47,7 +47,13 @@
       "growth_stage": "complete",
       "intended_use": "album_card",
       "output_path": "public/assets/game/creatures/creature_herb_common_001.png",
-      "manifest_tags": ["phase0", "creature", "herb", "common", "gatherer"],
+      "manifest_tags": [
+        "phase0",
+        "creature",
+        "herb",
+        "common",
+        "gatherer"
+      ],
       "notes": "Gameplay entity herb_common_001. Starter-friendly leafy round gatherer."
     },
     {
@@ -58,7 +64,13 @@
       "growth_stage": "complete",
       "intended_use": "album_card",
       "output_path": "public/assets/game/creatures/creature_herb_common_002.png",
-      "manifest_tags": ["phase0", "creature", "herb", "common", "guardian"],
+      "manifest_tags": [
+        "phase0",
+        "creature",
+        "herb",
+        "common",
+        "guardian"
+      ],
       "notes": "Gameplay entity herb_common_002. Friendly sprout guardian with broad leaf shield motif."
     },
     {
@@ -69,7 +81,13 @@
       "growth_stage": "complete",
       "intended_use": "album_card",
       "output_path": "public/assets/game/creatures/creature_herb_uncommon_001.png",
-      "manifest_tags": ["phase0", "creature", "herb", "uncommon", "alchemist"],
+      "manifest_tags": [
+        "phase0",
+        "creature",
+        "herb",
+        "uncommon",
+        "alchemist"
+      ],
       "notes": "Gameplay entity herb_uncommon_001. Small herbal alchemist carrying dew/pollen details."
     },
     {
@@ -80,7 +98,13 @@
       "growth_stage": "complete",
       "intended_use": "album_card",
       "output_path": "public/assets/game/creatures/creature_candy_common_001.png",
-      "manifest_tags": ["phase0", "creature", "candy", "common", "gatherer"],
+      "manifest_tags": [
+        "phase0",
+        "creature",
+        "candy",
+        "common",
+        "gatherer"
+      ],
       "notes": "Gameplay entity candy_common_001. Jelly-bean plant creature, glossy but simple."
     },
     {
@@ -91,7 +115,13 @@
       "growth_stage": "complete",
       "intended_use": "album_card",
       "output_path": "public/assets/game/creatures/creature_candy_common_002.png",
-      "manifest_tags": ["phase0", "creature", "candy", "common", "merchant"],
+      "manifest_tags": [
+        "phase0",
+        "creature",
+        "candy",
+        "common",
+        "merchant"
+      ],
       "notes": "Gameplay entity candy_common_002. Candy sprout merchant with wrapper-like leaves."
     },
     {
@@ -102,7 +132,13 @@
       "growth_stage": "complete",
       "intended_use": "album_card",
       "output_path": "public/assets/game/creatures/creature_candy_rare_001.png",
-      "manifest_tags": ["phase0", "creature", "candy", "rare", "alchemist"],
+      "manifest_tags": [
+        "phase0",
+        "creature",
+        "candy",
+        "rare",
+        "alchemist"
+      ],
       "notes": "Gameplay entity candy_rare_001. Caramel-root alchemist, more ornate than common but still readable."
     },
     {
@@ -113,7 +149,13 @@
       "growth_stage": "complete",
       "intended_use": "album_card",
       "output_path": "public/assets/game/creatures/creature_lunar_common_001.png",
-      "manifest_tags": ["phase0", "creature", "lunar", "common", "guardian"],
+      "manifest_tags": [
+        "phase0",
+        "creature",
+        "lunar",
+        "common",
+        "guardian"
+      ],
       "notes": "Gameplay entity lunar_common_001. Moon-drop creature with soft crescent motif."
     },
     {
@@ -124,7 +166,13 @@
       "growth_stage": "complete",
       "intended_use": "album_card",
       "output_path": "public/assets/game/creatures/creature_lunar_uncommon_001.png",
-      "manifest_tags": ["phase0", "creature", "lunar", "uncommon", "alchemist"],
+      "manifest_tags": [
+        "phase0",
+        "creature",
+        "lunar",
+        "uncommon",
+        "alchemist"
+      ],
       "notes": "Gameplay entity lunar_uncommon_001. Silver moss alchemist with glowing pollen vial."
     },
     {
@@ -135,7 +183,13 @@
       "growth_stage": "complete",
       "intended_use": "album_card",
       "output_path": "public/assets/game/creatures/creature_lunar_rare_001.png",
-      "manifest_tags": ["phase0", "creature", "lunar", "rare", "mascot"],
+      "manifest_tags": [
+        "phase0",
+        "creature",
+        "lunar",
+        "rare",
+        "mascot"
+      ],
       "notes": "Gameplay entity lunar_rare_001. Distinct rare mascot with crescent halo and glassy night bloom."
     },
     {
@@ -146,7 +200,13 @@
       "growth_stage": "seed",
       "intended_use": "seed_shop_icon",
       "output_path": "public/assets/game/seeds/seed_herb_001_icon.png",
-      "manifest_tags": ["phase0", "seed", "herb", "common", "starter"],
+      "manifest_tags": [
+        "phase0",
+        "seed",
+        "herb",
+        "common",
+        "starter"
+      ],
       "notes": "Icon for 말랑잎 씨앗. Must read clearly as a starter herb seed."
     },
     {
@@ -157,7 +217,12 @@
       "growth_stage": "seed",
       "intended_use": "seed_shop_icon",
       "output_path": "public/assets/game/seeds/seed_herb_002_icon.png",
-      "manifest_tags": ["phase0", "seed", "herb", "common"],
+      "manifest_tags": [
+        "phase0",
+        "seed",
+        "herb",
+        "common"
+      ],
       "notes": "Icon for 방울새싹 씨앗. Round seed with tiny dew/bell sprout clue."
     },
     {
@@ -168,7 +233,12 @@
       "growth_stage": "seed",
       "intended_use": "seed_shop_icon",
       "output_path": "public/assets/game/seeds/seed_candy_001_icon.png",
-      "manifest_tags": ["phase0", "seed", "candy", "common"],
+      "manifest_tags": [
+        "phase0",
+        "seed",
+        "candy",
+        "common"
+      ],
       "notes": "Icon for 젤리콩 씨앗. Glossy candy-bean seed, no wrapper logo."
     },
     {
@@ -179,7 +249,12 @@
       "growth_stage": "seed",
       "intended_use": "seed_shop_icon",
       "output_path": "public/assets/game/seeds/seed_candy_002_icon.png",
-      "manifest_tags": ["phase0", "seed", "candy", "uncommon"],
+      "manifest_tags": [
+        "phase0",
+        "seed",
+        "candy",
+        "uncommon"
+      ],
       "notes": "Icon for 솜사탕순 씨앗. Soft cotton-candy sprout silhouette."
     },
     {
@@ -190,7 +265,12 @@
       "growth_stage": "seed",
       "intended_use": "seed_shop_icon",
       "output_path": "public/assets/game/seeds/seed_lunar_001_icon.png",
-      "manifest_tags": ["phase0", "seed", "lunar", "common"],
+      "manifest_tags": [
+        "phase0",
+        "seed",
+        "lunar",
+        "common"
+      ],
       "notes": "Icon for 달방울 씨앗. Pale seed with crescent highlight."
     },
     {
@@ -201,7 +281,12 @@
       "growth_stage": "seed",
       "intended_use": "seed_shop_icon",
       "output_path": "public/assets/game/seeds/seed_lunar_002_icon.png",
-      "manifest_tags": ["phase0", "seed", "lunar", "uncommon"],
+      "manifest_tags": [
+        "phase0",
+        "seed",
+        "lunar",
+        "uncommon"
+      ],
       "notes": "Icon for 은빛이끼 씨앗. Silver moss texture, readable at small size."
     },
     {
@@ -212,7 +297,12 @@
       "growth_stage": "none",
       "intended_use": "garden_screen_background",
       "output_path": "public/assets/game/backgrounds/background_greenhouse_day_001.png",
-      "manifest_tags": ["phase0", "background", "greenhouse", "day"],
+      "manifest_tags": [
+        "phase0",
+        "background",
+        "greenhouse",
+        "day"
+      ],
       "notes": "Primary garden background. Must leave open space for plot grid and UI overlay."
     },
     {
@@ -223,7 +313,13 @@
       "growth_stage": "none",
       "intended_use": "comeback_or_lunar_background",
       "output_path": "public/assets/game/backgrounds/background_greenhouse_night_001.png",
-      "manifest_tags": ["phase0", "background", "greenhouse", "night", "lunar"],
+      "manifest_tags": [
+        "phase0",
+        "background",
+        "greenhouse",
+        "night",
+        "lunar"
+      ],
       "notes": "Moonlit greenhouse variant for Lunar unlock/comeback mood."
     },
     {
@@ -234,7 +330,12 @@
       "growth_stage": "none",
       "intended_use": "starter_pack_mock",
       "output_path": "public/assets/game/shop/shop_starter_pack_001.png",
-      "manifest_tags": ["phase0", "shop", "mock_monetization", "starter_pack"],
+      "manifest_tags": [
+        "phase0",
+        "shop",
+        "mock_monetization",
+        "starter_pack"
+      ],
       "notes": "Mock starter pack image: rare seed, small crate, greenhouse ticket. No price text."
     },
     {
@@ -245,7 +346,12 @@
       "growth_stage": "none",
       "intended_use": "monthly_greenhouse_license_mock",
       "output_path": "public/assets/game/shop/shop_monthly_license_001.png",
-      "manifest_tags": ["phase0", "shop", "mock_monetization", "monthly_license"],
+      "manifest_tags": [
+        "phase0",
+        "shop",
+        "mock_monetization",
+        "monthly_license"
+      ],
       "notes": "Mock monthly greenhouse license image: polished pass card, watering token, offline clock. No price text."
     },
     {
@@ -256,8 +362,113 @@
       "growth_stage": "none",
       "intended_use": "album_card_frame",
       "output_path": "public/assets/game/ui/ui_album_card_frame_001.png",
-      "manifest_tags": ["phase0", "ui", "album", "card_frame"],
+      "manifest_tags": [
+        "phase0",
+        "ui",
+        "album",
+        "card_frame"
+      ],
       "notes": "Reusable album card frame with no embedded text. Should support creature portrait and rarity badge overlay."
+    },
+    {
+      "id": "seed_herb_001_idle_strip",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "growth_stage": "seed",
+      "intended_use": "playfield_idle_animation",
+      "output_path": "public/assets/game/sprites/starter/seed_herb_001_idle_strip.png",
+      "manifest_tags": [
+        "phase0",
+        "sprite_batch_001",
+        "sprite_strip",
+        "herb",
+        "starter"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=4; frame_width=96; frame_height=96; intended_frame_rate=6; loop=true; source_reference_asset_id=seed_herb_001_icon"
+    },
+    {
+      "id": "seed_herb_001_tap_strip",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "growth_stage": "seed",
+      "intended_use": "playfield_tap_response",
+      "output_path": "public/assets/game/sprites/starter/seed_herb_001_tap_strip.png",
+      "manifest_tags": [
+        "phase0",
+        "sprite_batch_001",
+        "sprite_strip",
+        "herb",
+        "starter"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=4; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; source_reference_asset_id=seed_herb_001_icon"
+    },
+    {
+      "id": "sprout_herb_001_grow_strip",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "growth_stage": "sprout",
+      "intended_use": "playfield_growth_loop",
+      "output_path": "public/assets/game/sprites/starter/sprout_herb_001_grow_strip.png",
+      "manifest_tags": [
+        "phase0",
+        "sprite_batch_001",
+        "sprite_strip",
+        "herb",
+        "starter"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=6; frame_width=96; frame_height=96; intended_frame_rate=8; loop=true; source_reference_asset_id=seed_herb_001_icon"
+    },
+    {
+      "id": "creature_herb_common_ready_strip",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "growth_stage": "ready_creature",
+      "intended_use": "playfield_ready_pulse",
+      "output_path": "public/assets/game/sprites/starter/creature_herb_common_ready_strip.png",
+      "manifest_tags": [
+        "phase0",
+        "sprite_batch_001",
+        "sprite_strip",
+        "herb",
+        "starter"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=4; frame_width=96; frame_height=96; intended_frame_rate=6; loop=true; source_reference_asset_id=creature_herb_common_001"
+    },
+    {
+      "id": "fx_harvest_sparkle_strip",
+      "category": "fx_strip",
+      "family": "greenhouse",
+      "rarity": "common",
+      "growth_stage": "fx",
+      "intended_use": "playfield_harvest_fx",
+      "output_path": "public/assets/game/fx/fx_harvest_sparkle_strip.png",
+      "manifest_tags": [
+        "phase0",
+        "sprite_batch_001",
+        "fx_strip",
+        "greenhouse"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=6; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; source_reference_asset_id=creature_herb_common_001"
+    },
+    {
+      "id": "fx_leaf_reward_pop_strip",
+      "category": "fx_strip",
+      "family": "greenhouse",
+      "rarity": "common",
+      "growth_stage": "fx",
+      "intended_use": "playfield_reward_fx",
+      "output_path": "public/assets/game/fx/fx_leaf_reward_pop_strip.png",
+      "manifest_tags": [
+        "phase0",
+        "sprite_batch_001",
+        "fx_strip",
+        "greenhouse"
+      ],
+      "notes": "sprite_batch_001; strict_strip=true; frames=5; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; source_reference_asset_id=seed_herb_001_icon"
     }
   ]
 }

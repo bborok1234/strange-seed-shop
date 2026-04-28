@@ -3,11 +3,27 @@ export type AssetCategory =
   | "creature"
   | "seed_icon"
   | "shop_image"
-  | "ui_frame";
+  | "ui_frame"
+  | "sprite_strip"
+  | "fx_strip";
 
 export type SeedFamily = "herb" | "candy" | "lunar" | "greenhouse" | "shop" | "album";
 
 export type Rarity = "common" | "uncommon" | "rare" | "epic";
+
+export interface ManifestAnimation {
+  kind: "spritesheet";
+  key: string;
+  frames: number;
+  frameWidth: number;
+  frameHeight: number;
+  margin?: number;
+  spacing?: number;
+  frameRate: number;
+  repeat: number;
+  yoyo?: boolean;
+  sourceAssetIds?: string[];
+}
 
 export interface ManifestAsset {
   path: string;
@@ -20,6 +36,7 @@ export interface ManifestAsset {
   status: "accepted" | "rejected" | "needs_review";
   tags?: string[];
   notes?: string;
+  animation?: ManifestAnimation;
 }
 
 export interface AssetManifest {

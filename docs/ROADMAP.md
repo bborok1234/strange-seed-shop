@@ -102,6 +102,7 @@ Goal: prove whether the garden must become a real 2D playfield, instead of conti
 | Game Studio structure review | done | `docs/GAME_STUDIO_REVIEW_20260427.md`, `.omx/specs/deep-interview-game-studio-realignment.md` | CSS-only polish limits, Phaser playfield boundary, and sprite state needs are recorded |
 | Phaser central garden playfield transition | done | `items/0016-phaser-playfield-runtime-spike.md`, `src/game/playfield/GardenPlayfieldHost.tsx`, `src/game/playfield/GardenScene.ts`, `vite.config.ts`, `reports/visual/phaser-playfield-*-20260427.png` | React owns save/HUD/panels; Phaser owns central garden playfield; first loop preserves named creature ownership -> album reward -> second plot/next collection goal; Phaser runtime is lazy-loaded into a separate chunk |
 | Phaser risk closure and PR readiness | review | `reports/audits/phaser_risk_resolution_20260427.md`, `reports/visual/phaser-browser-use-fallback-20260427.md` | Bundle warning, Browser Use fallback reason, and team shutdown risk are recorded before draft PR publication |
+| Starter seed sprite-pipeline first batch | review | `items/0017-starter-seed-sprite-pipeline-first-batch.md`, `public/assets/game/sprites/starter/**`, `public/assets/game/fx/**`, `scripts/check-sprite-batch.mjs` | 6개 starter strip, manifest animation metadata, GardenScene spritesheet loader, sprite batch QA evidence가 `npm run check:all`에 포함됨 |
 
 ## Milestone 4: Economy and Verification
 
@@ -181,7 +182,8 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 `docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 다음 안전한 운영사 작업은 **Milestone 6: Ralph-Session Operating Company v0**의 첫 항목부터 시작해, 장시간 실행을 주장하기 전에 heartbeat, stuck report, CI repair loop, issue-to-PR evidence를 먼저 만드는 것이다.
 
-1. 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다. Draft PR #20의 starter sprite batch는 별도 review/merge 흐름을 따른다.
-2. 운영사 작업은 `items/`와 `reports/operations/`를 확장해 Ralph-session 안에서 issue -> branch -> commit -> draft PR -> local check -> GitHub check -> follow-up까지 한 번의 닫힌 루프를 증명한다.
-3. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
-4. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
+1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
+2. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
+3. 다음 안전한 운영사 작업은 `items/`와 `reports/operations/`를 확장해 Ralph-session 안에서 issue -> branch -> commit -> draft PR -> local check -> GitHub check -> follow-up까지 한 번의 닫힌 루프를 증명하는 것이다.
+4. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
+5. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
