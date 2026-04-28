@@ -67,6 +67,9 @@ export interface CreatureDefinition {
   role: "gatherer" | "alchemist" | "guardian" | "merchant" | "mascot";
   assetId: string;
   albumHint: string;
+  personality: string;
+  favoriteThing: string;
+  greeting: string;
 }
 
 export interface MissionDefinition {

@@ -412,7 +412,8 @@ h1 {
 }
 
 .ownership-card strong,
-.ownership-card span {
+.ownership-card span,
+.ownership-card small {
   display: block;
 }
 
@@ -424,6 +425,22 @@ h1 {
   color: var(--text-muted);
   font-size: 12px;
   font-weight: 800;
+}
+
+.ownership-card small,
+.creature-list small {
+  color: #765b32;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.creature-personality {
+  margin: 4px 0 2px;
+  color: #365f42;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .ownership-portrait img,
@@ -465,6 +482,16 @@ h1 {
   margin: var(--space-2) 0 0;
   color: var(--text-muted);
   font-weight: 800;
+}
+
+.harvest-reveal-card blockquote {
+  margin: var(--space-3) 0;
+  padding: 10px;
+  border-radius: var(--radius-control);
+  background: rgba(255, 247, 198, 0.74);
+  color: var(--action-primary-strong);
+  font-size: 15px;
+  font-weight: 900;
 }
 
 .bottom-tabs {
@@ -667,6 +694,11 @@ h1 {
 .creature-list figcaption {
   font-size: 13px;
   font-weight: 800;
+}
+
+.creature-list small {
+  display: block;
+  margin-top: 4px;
 }
 
 .error-text {

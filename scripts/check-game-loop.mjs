@@ -50,6 +50,12 @@ if (!firstCreature) {
   if (!firstCreature.albumHint || firstCreature.albumHint.trim().length === 0) {
     failures.push("first creature must have an album hint for the ownership reveal");
   }
+
+  for (const field of ["personality", "favoriteThing", "greeting"]) {
+    if (!firstCreature[field] || firstCreature[field].trim().length === 0) {
+      failures.push(`first creature must have ${field} for the attachment reveal`);
+    }
+  }
 }
 
 if (!firstAlbumReward) {
@@ -119,6 +125,11 @@ console.log(
       repeatStarterCost,
       firstExpeditionSeconds: firstExpedition.durationSeconds,
       firstExpeditionRewardLeaves: firstExpedition.rewardLeaves,
+      firstCreatureAttachment: {
+        personality: firstCreature.personality,
+        favoriteThing: firstCreature.favoriteThing,
+        greeting: firstCreature.greeting
+      },
       firstLoopMissions: requiredMissionIds
     },
     null,

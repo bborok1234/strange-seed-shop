@@ -32,7 +32,7 @@ Updated: 2026-04-28
 | 상태 | 개수 |
 | --- | ---: |
 | done | 28 |
-| review | 29 |
+| review | 30 |
 | todo | 10 |
 | blocked | 0 |
 

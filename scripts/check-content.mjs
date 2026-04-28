@@ -42,6 +42,12 @@ for (const creature of creatures) {
   if (!assetIds.has(creature.assetId)) {
     missingAssetRefs.push(`${creature.id}.assetId -> ${creature.assetId}`);
   }
+
+  for (const field of ["albumHint", "personality", "favoriteThing", "greeting"]) {
+    if (typeof creature[field] !== "string" || creature[field].trim().length === 0) {
+      missingAssetRefs.push(`${creature.id}.${field} -> missing creature attachment copy`);
+    }
+  }
 }
 
 for (const surface of shopSurfaces) {

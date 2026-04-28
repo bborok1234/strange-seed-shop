@@ -392,6 +392,8 @@ export default function App() {
                   <p className="panel-label">내 첫 생명체</p>
                   <strong>{firstOwnedCreature.name}</strong>
                   <span>{getCreatureRoleLabel(firstOwnedCreature.role)} · {firstOwnedCreature.albumHint}</span>
+                  <p className="creature-personality">{firstOwnedCreature.personality}</p>
+                  <small>좋아하는 것: {firstOwnedCreature.favoriteThing}</small>
                 </div>
               </article>
             )}
@@ -433,6 +435,7 @@ export default function App() {
             <p className="panel-label">새 생명체 소유</p>
             <h2>{harvestReveal.name}</h2>
             <p>{getCreatureRoleLabel(harvestReveal.role)} · {harvestReveal.albumHint}</p>
+            <blockquote>“{harvestReveal.greeting}”</blockquote>
             <button className="primary-action" onClick={() => setHarvestReveal(null)} type="button">
               도감에 기록하기
             </button>
@@ -504,6 +507,7 @@ export default function App() {
                   <figure key={creature.id}>
                     {renderAsset(creature.assetId, "생명체")}
                     <figcaption>{creature.name}</figcaption>
+                    <small>{getCreatureRoleLabel(creature.role)} · {creature.personality}</small>
                   </figure>
                 ))}
               </div>
