@@ -30,7 +30,7 @@ Branch: `codex/next-creature-goal-card`
 - Desktop evidence: `reports/visual/next-creature-goal-desktop-20260428.png`
 - Local check: `npm run check:loop` PASS
 - Local check: `npm run check:all` PASS
-- PR: 생성 예정
+- PR: #45 https://github.com/bborok1234/strange-seed-shop/pull/45
 
 ## Proposed Plan
 
