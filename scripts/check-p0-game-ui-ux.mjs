@@ -1,0 +1,97 @@
+import fs from "node:fs";
+
+const failures = [];
+
+function requirePath(path) {
+  if (!fs.existsSync(path)) failures.push(`missing required path: ${path}`);
+}
+
+function requirePhrase(path, phrase) {
+  if (!fs.existsSync(path)) return;
+  const content = fs.readFileSync(path, "utf8");
+  if (!content.includes(phrase)) failures.push(`${path} missing phrase: ${phrase}`);
+}
+
+function forbidPhrase(path, phrase) {
+  if (!fs.existsSync(path)) return;
+  const content = fs.readFileSync(path, "utf8");
+  if (content.includes(phrase)) failures.push(`${path} must not include phrase: ${phrase}`);
+}
+
+const requiredPaths = [
+  "docs/GAME_UI_UX_RESEARCH_20260428.md",
+  "items/0053-game-ui-ux-p0-rescue.md",
+  "assets/source/asset_alpha_exceptions.json",
+  "scripts/check-asset-alpha-quality.mjs",
+  "reports/visual/p0-ui-ux-rescue-20260428.md",
+  "reports/visual/p0-ui-ux-before-main-mobile-20260428.png",
+  "reports/visual/p0-ui-ux-before-main-desktop-20260428.png",
+  "reports/visual/p0-ui-ux-after-mobile-20260428.png",
+  "reports/visual/p0-ui-ux-after-desktop-20260428.png",
+  "reports/visual/p0-ui-ux-debug-mode-desktop-20260428.png"
+];
+for (const path of requiredPaths) requirePath(path);
+
+
+for (const phrase of [
+  "P0 UI/UX Rescue Visual Evidence",
+  "Before — current main",
+  "After — branch",
+  "Explicit debug desktop",
+  "Remaining visual risk"
+]) {
+  requirePhrase("reports/visual/p0-ui-ux-rescue-20260428.md", phrase);
+}
+
+for (const phrase of [
+  "Playfield first",
+  "Debug is not player UI",
+  "Mobile and desktop are separate display modes",
+  "Playwright CLI visual regression",
+  "alpha channel"
+]) {
+  requirePhrase("docs/GAME_UI_UX_RESEARCH_20260428.md", phrase);
+}
+
+for (const phrase of [
+  "P0 Game Studio Operating Mode — UI/UX Rescue",
+  "Playfield-first garden screen",
+  "Player/debug surface split",
+  "Asset alpha/background quality gate",
+  "Issue #89"
+]) {
+  requirePhrase("docs/ROADMAP.md", phrase);
+}
+
+for (const phrase of [
+  "P0 Game Screen Policy — 2026-04-28",
+  "Phaser playfield를 가장 큰 시각 영역",
+  "개발 정보는 보이지 않아야 한다"
+]) {
+  requirePhrase("docs/DESIGN_SYSTEM.md", phrase);
+}
+
+for (const phrase of [
+  "showDebugPanel",
+  "showSidePanel",
+  "garden-action-dock",
+  "showDebugPanel && activeTab === \"garden\""
+]) {
+  requirePhrase("src/App.tsx", phrase);
+}
+
+for (const phrase of [
+  ".app-shell.playable-focus",
+  "grid-template-rows: minmax(360px, 1fr) auto",
+  ".garden-action-dock",
+  "max-height: min(28dvh, 210px)"
+]) {
+  requirePhrase("src/styles.css", phrase);
+}
+
+forbidPhrase("src/game/playfield/GardenScene.ts", "this.viewModel?.headline ?? \"정원 준비 중\"");
+forbidPhrase("src/game/playfield/GardenScene.ts", "this.viewModel?.hint ?? \"밭을 눌러 성장과 수확을 진행하세요\"");
+
+console.log(JSON.stringify({ ok: failures.length === 0, checked: requiredPaths.length, failures }, null, 2));
+
+if (failures.length > 0) process.exit(1);
