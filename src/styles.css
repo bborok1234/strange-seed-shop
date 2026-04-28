@@ -44,8 +44,7 @@ button {
 .app-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(320px, 430px) minmax(280px, 1fr);
-  gap: var(--space-6);
+  place-items: start center;
   min-width: 0;
   padding: var(--space-6);
   background:
@@ -55,8 +54,10 @@ button {
 
 .garden-stage {
   position: relative;
+  width: min(1180px, calc(100vw - 48px));
   min-width: 0;
   min-height: min(860px, calc(100vh - 48px));
+  height: min(860px, calc(100vh - 48px));
   overflow: hidden;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel);
@@ -156,6 +157,14 @@ h1 {
   grid-template-rows: minmax(360px, 1fr) auto;
   gap: var(--space-3);
   min-height: 0;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+.garden-stage.has-player-tab .garden-panel {
+  right: calc(min(42%, 500px) + var(--space-5));
 }
 
 .toast {
@@ -710,13 +719,32 @@ h1 {
 }
 
 .dev-panel {
+  position: absolute;
+  z-index: 4;
+  top: 122px;
+  right: var(--space-4);
+  bottom: 78px;
+  left: auto;
+  display: flex;
+  width: min(42%, 500px);
+  height: calc(100% - 200px);
+  min-width: 360px;
+  max-width: none;
+  min-height: 0;
+  flex-direction: column;
   align-self: start;
-  max-width: 720px;
   padding: var(--space-4);
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  background:
+    radial-gradient(circle at 16% 0%, rgba(255, 255, 255, 0.82), transparent 36%),
+    linear-gradient(180deg, rgba(255, 252, 226, 0.96), rgba(242, 237, 200, 0.92));
 }
 
 .dev-panel h2 {
-  font-size: 20px;
+  flex: 0 0 auto;
+  font-size: 22px;
+  letter-spacing: -0.03em;
 }
 
 .status-list {
@@ -741,7 +769,11 @@ h1 {
 .album-strip,
 .mission-board,
 .expedition-card {
-  margin-top: var(--space-4);
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: var(--space-3);
+  overflow: auto;
+  padding-right: 2px;
 }
 
 .album-strip h3,
@@ -1183,12 +1215,11 @@ h1 {
 }
 
 .app-shell.playable-focus {
-  grid-template-columns: minmax(320px, min(430px, calc(100vw - 48px)));
-  place-content: start center;
+  place-items: start center;
 }
 
 .app-shell.playable-focus .garden-stage {
-  width: min(430px, calc(100vw - 48px));
+  width: min(1180px, calc(100vw - 48px));
 }
 
 .garden-action-dock {
@@ -1346,6 +1377,14 @@ h1 {
     gap: var(--space-2);
   }
 
+  .garden-stage.has-player-tab .garden-panel {
+    right: var(--space-3);
+    opacity: 0;
+    transform: scale(0.985);
+    filter: blur(2px);
+    pointer-events: none;
+  }
+
   .toast {
     top: 92px;
     right: var(--space-3);
@@ -1443,16 +1482,52 @@ h1 {
   }
 
   .dev-panel {
-    position: fixed;
+    position: absolute;
     z-index: 4;
-    right: var(--space-3);
+    top: 0;
+    right: 0;
     bottom: calc(72px + env(safe-area-inset-bottom));
-    left: var(--space-3);
+    left: 0;
+    display: flex;
+    width: auto;
+    height: calc(100% - 72px - env(safe-area-inset-bottom));
+    min-width: 0;
     max-width: none;
-    max-height: 42dvh;
-    padding: var(--space-3);
+    max-height: none;
+    flex-direction: column;
+    padding: 18px 14px 12px;
+    overflow: hidden;
+    border-radius: 0;
+    background:
+      radial-gradient(circle at 16% 0%, rgba(255, 255, 255, 0.85), transparent 34%),
+      linear-gradient(180deg, rgba(255, 252, 226, 0.97), rgba(243, 238, 199, 0.94));
+    box-shadow:
+      0 -10px 40px rgba(21, 40, 30, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  }
+
+  .dev-panel h2 {
+    font-size: 24px;
+  }
+
+  .dev-panel > .tab-panel,
+  .dev-panel > .album-strip,
+  .dev-panel > .mission-board,
+  .dev-panel > .expedition-card {
+    flex: 1 1 auto;
+    min-height: 0;
+    margin-top: 10px;
     overflow: auto;
-    box-shadow: 0 20px 48px rgba(21, 40, 30, 0.28);
+    padding: 0 2px 12px 0;
+  }
+
+  .dev-panel > .tab-panel::after,
+  .dev-panel > .album-strip::after,
+  .dev-panel > .mission-board::after,
+  .dev-panel > .expedition-card::after {
+    display: block;
+    height: 10px;
+    content: "";
   }
 
   .dev-panel.tab-garden {
@@ -1473,6 +1548,16 @@ h1 {
   .album-progress-copy {
     margin-bottom: var(--space-2);
     font-size: 12px;
+  }
+
+  .album-reward-preview,
+  .expedition-preview {
+    align-items: flex-start;
+  }
+
+  .album-reward-preview .album-reward-chip,
+  .expedition-preview .expedition-reward-chip {
+    white-space: nowrap;
   }
 
   .album-next-action-chip {
@@ -1498,7 +1583,52 @@ h1 {
   .seed-inventory-row,
   .shop-card,
   .mission-row {
-    grid-template-columns: 48px minmax(0, 1fr) minmax(76px, auto);
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .seed-inventory-row,
+  .shop-card {
+    align-items: start;
+  }
+
+  .seed-row-actions,
+  .shop-card button {
+    grid-column: 2;
+  }
+
+  .seed-row-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .creature-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .creature-list figure {
+    padding: 8px 7px;
+  }
+
+  .creature-list img,
+  .creature-list .asset-fallback {
+    width: 62px;
+    height: 62px;
+  }
+
+  .creature-list figcaption {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .creature-list small {
+    font-size: 10px;
+    line-height: 1.28;
+  }
+
+  .album-silhouette {
+    width: 54px;
+    height: 54px;
+    margin-bottom: 6px;
   }
 }
 

@@ -28,7 +28,8 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | Playfield-first garden screen | active | `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenScene.ts` | 정원 기본 화면에서 안내/하이라이트/패널이 밭을 가리지 않고 Phaser playfield가 주 시각 영역으로 보임 |
 | Player/debug surface split | active | app shell/debug mode policy | `asset count`, `save ready`, `events`, `runtime image generation disabled`는 playable 기본 화면에서 숨겨지고 debug mode에서만 노출됨 |
 | Mobile/desktop viewport policy | active | `docs/DESIGN_SYSTEM.md`, visual evidence | 모바일 세로 game frame과 데스크톱 중앙 game frame 기준으로 capture evidence가 남음 |
-| CLI visual QA gate | active | CDP/Playwright-ready scripts, `docs/BROWSER_QA.md` | Browser Use 차단 시 fallback이 기록되고, 반복 QA는 CLI screenshot/layout checker로 토큰 효율 있게 수행됨 |
+| Mobile tab screen architecture | active | Issue #95, `items/0056-mobile-tab-screen-visual-regression.md`, `src/App.tsx`, `src/styles.css` | 모바일 non-garden 탭은 half overlay가 아니라 body scroll 없는 full tab screen으로 전환됨 |
+| CLI visual QA gate | active | Playwright CLI, `tests/visual/p0-mobile-game-shell.spec.ts`, `docs/BROWSER_QA.md` | `npm run check:visual`이 mobile/desktop layout regression과 screenshot artifact를 CI에서 검증함 |
 | Asset alpha/background quality gate | active | asset checker, asset review follow-up | creature/seed/icon/fx는 alpha 필요 조건 또는 명시 예외를 검증하고, checkerboard/배경 오염 asset은 후속 cutout/remaster 대상으로 기록됨 |
 | P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
 
@@ -223,16 +224,16 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 운영모드는 **P0 Game Studio Operating Mode — UI/UX Rescue**다. Issue #89가 현재 active mission이며, 목표는 단순 겹침 버그 수정이 아니라 게임 첫 화면의 미려함, Phaser playfield 보호, playable/debug 분리, CLI visual QA, asset alpha/background quality gate를 P0 완료 조건으로 고정하는 것이다.
+현재 운영모드는 **P0 Game Studio Operating Mode — UI/UX Rescue**다. Issue #95가 현재 active mission이며, 목표는 사용자가 지적한 모바일 half overlay/스크롤/가독성 실패를 P0 blocker로 고정하고 Playwright CLI가 같은 회귀를 CI에서 잡게 하는 것이다.
 
 즉시 다음 작업:
 
-1. `docs/GAME_UI_UX_RESEARCH_20260428.md`와 `items/0053-game-ui-ux-p0-rescue.md`를 기준으로 PR #89 구현 branch를 진행한다.
-2. 정원 기본 화면에서 seed shop/다음 행동 패널이 밭을 덮지 않게 축소·분리한다.
-3. 플레이어 기본 화면에서 debug panel을 숨기고, 필요한 경우 debug mode에서만 보이게 한다.
-4. CDP CLI screenshot과 layout/asset checker를 추가해 이번 회귀를 자동으로 잡는다.
-5. mobile/desktop before-after evidence를 PR에 연결한다.
-6. Playwright CLI dependency 도입은 새 dependency 설치 승인 대상이므로, 이번 iteration에서는 기존 CDP CLI를 사용하고 별도 승인 필요 follow-up으로 남긴다.
+1. `items/0056-mobile-tab-screen-visual-regression.md` 기준으로 PR #95 구현 branch를 진행한다.
+2. 모바일 non-garden 탭을 full tab screen으로 전환해 body scroll과 밭/패널 혼합을 제거한다.
+3. 데스크톱 탭 상세는 외부 dashboard column이 아니라 `.garden-stage` 내부 split surface로만 표시한다.
+4. `@playwright/test`, `npm run check:visual`, CI Chromium install/artifact upload를 추가한다.
+5. mobile/desktop Playwright screenshot evidence를 PR에 연결한다.
+6. 통과 후 다음 P0 루프는 탭별 game UI skinning, playfield presentation, 수집 카드 polish를 이어간다.
 
 ## Previous Next Action History
 

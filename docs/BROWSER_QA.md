@@ -20,15 +20,15 @@
 1. Browser Use가 세션에 노출되면 우선 사용한다.
 2. Browser Use가 차단되면 blocker report를 남기고 Computer Use 또는 Chrome DevTools Protocol 캡처를 fallback으로 사용한다.
 3. PR/CI의 반복 게이트는 토큰 효율을 위해 CLI 기반 screenshot/layout checker를 기본으로 한다.
-4. 장기 목표는 Playwright CLI visual comparison이지만, `@playwright/test` 설치는 새 dependency action-time 승인 대상이므로 승인 전에는 기존 `npm run capture:local` CDP CLI와 정적 checker를 사용한다.
+4. 2026-04-28 사용자 승인 후 `@playwright/test`를 도입했고, `npm run check:visual`을 CI의 반복 gate로 사용한다. 현재 gate는 pixel baseline보다 먼저 mobile/desktop layout regression과 screenshot artifact를 고정한다.
 5. UI 변경 PR은 최소 mobile/desktop screenshot path, 확인 viewport, 남은 시각 리스크를 PR 본문에 적는다.
 
-Current P0 issue: #89
+Current P0 issue: #95
 Research: `docs/GAME_UI_UX_RESEARCH_20260428.md`
 
 ## 폴백 기준
 
-Browser Use를 시도하기 전에 별도 Playwright 설치, Computer Use, macOS `screencapture`를 기본 선택지로 쓰지 않는다.
+Browser Use를 시도하기 전에 별도 Computer Use, macOS `screencapture`를 기본 선택지로 쓰지 않는다. 단, CI/반복 회귀 목적의 Playwright CLI는 사용자 승인된 기본 gate다.
 
 폴백은 아래 중 하나가 명확할 때만 허용한다.
 
@@ -86,6 +86,8 @@ Issue #18에서 Browser Use `iab` backend 직접 검증을 다시 시도했다. 
 
 
 - 2026-04-28: P0 asset alpha cutout 후 harvest reveal과 album context에서 체커보드 배경이 사라진 것을 CDP CLI로 확인했다: `reports/visual/p0-alpha-cutout-harvest-reveal-20260428.png`, `reports/visual/p0-alpha-cutout-album-20260428.png`.
+
+- 2026-04-28: Playwright CLI visual/layout regression을 추가했다. `npm run check:visual`은 393x852 모바일 도감 tab screen과 1280x900 데스크톱 in-stage split을 검증하고 screenshot artifact를 남긴다: `reports/visual/p0-mobile-ui-visual-regression-20260428.md`, `reports/visual/p0-mobile-tab-screen-playwright-20260428.png`, `reports/visual/p0-desktop-in-stage-album-playwright-20260428.png`.
 
 ## 남은 QA
 
