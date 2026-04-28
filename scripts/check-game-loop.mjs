@@ -103,7 +103,11 @@ for (const phrase of [
   "targetSeed",
   "seedInventorySeeds",
   "visibleSeedInventorySeeds",
-  "!availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)"
+  "!availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)",
+  "seed-shop-row-target",
+  "seed-goal-action-button",
+  "정원에서 심기",
+  "setActiveTab(\"garden\")"
 ]) {
   if (!appSource.includes(phrase)) {
     failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);
