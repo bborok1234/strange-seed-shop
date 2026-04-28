@@ -23,6 +23,8 @@ Branch: `codex/operator-trial-dry-run`
 ## Evidence
 
 - Follow-up issue: #29
+- PR: #30
+- Next follow-up issue: #31
 - Scenario fixture: `reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json`
 - Dry-run report: `reports/operations/operator-trial-dry-run-20260428.md`
 
