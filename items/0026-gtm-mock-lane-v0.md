@@ -7,7 +7,7 @@ Updated: 2026-04-28
 Scope-risk: narrow
 Work type: gtm_mock
 Issue: #38
-PR: TBD
+PR: #39
 
 ## Intent
 
@@ -24,6 +24,7 @@ PR: TBD
 ## Evidence
 
 - Issue #38: https://github.com/bborok1234/strange-seed-shop/issues/38
+- PR #39: https://github.com/bborok1234/strange-seed-shop/pull/39
 - `npm run check:gtm-mock` PASS — GTM mock lane, sample proposal, approval gate 필수 문구 검증
 - `npm run check:all` PASS — 기존 제품/운영사 gate에 GTM mock 검증 포함
 
