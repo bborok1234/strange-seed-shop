@@ -24,6 +24,7 @@ Scope-risk: narrow
 - `docs/ROADMAP.md` Milestone 6-9
 - `.omx/logs/north-star-post-architect-check-all-20260428T012734Z.log`
 - Architect verification: APPROVE, blocking issue 없음
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/23
 
 ## Verification
 
