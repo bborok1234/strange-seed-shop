@@ -670,6 +670,13 @@ h1 {
   margin: 0 0 var(--space-2);
 }
 
+.album-progress-copy {
+  margin: 0 0 var(--space-3);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .mission-list,
 .seed-inventory-list,
 .shop-list {
@@ -758,11 +765,12 @@ h1 {
 
 .creature-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
   gap: var(--space-2);
 }
 
 .creature-list figure {
+  position: relative;
   margin: 0;
   padding: var(--space-2);
   border: 1px solid rgba(45, 73, 58, 0.16);
@@ -787,6 +795,42 @@ h1 {
 .creature-list small {
   display: block;
   margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.album-slot-locked {
+  border-style: dashed;
+  background:
+    linear-gradient(135deg, rgba(255, 247, 198, 0.58), rgba(216, 229, 202, 0.7)),
+    var(--surface-raised);
+}
+
+.album-silhouette {
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  margin: 0 auto var(--space-2);
+  border: 2px dashed rgba(39, 86, 64, 0.26);
+  border-radius: 24px 24px 18px 18px;
+  background: rgba(39, 86, 64, 0.12);
+  color: rgba(39, 86, 64, 0.54);
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.album-lock-note {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 4px 7px;
+  border-radius: var(--radius-pill);
+  background: rgba(246, 212, 94, 0.3);
+  color: var(--action-primary-strong);
+  font-size: 11px;
+  font-weight: 900;
 }
 
 .error-text {

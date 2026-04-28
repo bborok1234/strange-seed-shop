@@ -96,6 +96,7 @@ Goal: improve the first 5 minutes without adding new game systems, while preserv
 | Next creature goal card v0 | review | `src/App.tsx`, `src/styles.css`, `items/0031-next-creature-goal-card.md`, `reports/visual/next-creature-goal-mobile-20260428.png` | 첫 발견 이후 다음 미발견 deterministic creature 목표와 도감 진행도를 보여줘 collection desire를 강화함 |
 | Seed creature preview v0 | review | `src/App.tsx`, `src/styles.css`, `items/0032-seed-creature-preview.md`, `reports/visual/seed-creature-preview-mobile-20260428.png` | 씨앗 구매/주머니 row가 `seed.creaturePool[0]`의 만날 아이와 발견 상태를 보여줘 선택 전 수집 기대를 강화함 |
 | Harvest reveal next-goal teaser v0 | review | `src/App.tsx`, `src/styles.css`, `items/0033-harvest-reveal-next-goal.md`, `reports/visual/harvest-reveal-next-goal-mobile-20260428.png` | 첫 수확 reveal modal이 다음 목표 creature/seed hint를 보여줘 “하나만 더” 루프를 강화함 |
+| Album locked slots and collection clues v0 | review | `src/App.tsx`, `src/styles.css`, `items/0036-album-locked-slots.md`, `reports/visual/album-locked-slots-mobile-20260428.png` | 도감이 발견 수/전체 수와 미발견 silhouette, rarity/family, source seed hint를 보여줘 남은 수집 목표를 강화함 |
 
 ## Milestone 3.6: Phaser Playfield Runtime + Sprite Pipeline Spike
 
@@ -190,7 +191,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #33 / PR #50으로 2h supervised trial을 완료했고, 현재 후속 작업은 Issue #51에서 4h/24h로 넘어가기 전 `docs/OPERATOR_RUNBOOK.md`와 `reports/operations/daily-template-20260428.md`를 checkable하게 고정하는 것이다. 이 PR이 merge되면 다음 안전한 작업은 4h supervised trial issue를 열고 readiness/start evidence를 남기는 것이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. 운영사 쪽은 Issue #53의 4h supervised trial을 runtime `.omx` heartbeat/watchdog으로 실행 중이며, trial 안의 현재 제품 작업은 Issue #54의 도감 미발견 슬롯과 수집 단서 v0이다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
@@ -208,3 +209,4 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 14. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
 15. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
 16. Issue #51은 4h/24h 운영 전에 필요한 operator runbook과 daily operating report 템플릿을 만드는 작업이며, 실제 4h/24h 실행은 이 문서/checker PR이 merge되기 전 시작하지 않는다.
+17. Issue #53은 4h supervised trial로 실행 중이며, runtime heartbeat log는 `.omx/logs/operator-4h-trial-20260428T051755Z.jsonl`이다. Issue #54는 trial 안에서 수행하는 첫 게임 feature loop로 도감 미발견 슬롯을 추가한다.

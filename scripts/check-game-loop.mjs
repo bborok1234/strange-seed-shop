@@ -80,7 +80,15 @@ for (const phrase of [
   "reveal-next-goal",
   "qaHarvestReveal",
   "createHarvestRevealQaSave",
-  "수확 후 다음 목표"
+  "수확 후 다음 목표",
+  "albumDiscoveredCount",
+  "미발견 슬롯",
+  "album-silhouette",
+  "getSeedHintForCreature",
+  "getRarityLabel",
+  "getCreatureFamilyLabel",
+  "qaTab",
+  "getLocalQaTab"
 ]) {
   if (!appSource.includes(phrase)) {
     failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);
@@ -96,6 +104,18 @@ const seedCreaturePreview = starterSeeds.map((seed) => ({
 for (const preview of seedCreaturePreview) {
   if (!preview.creatureId || !preview.creatureName) {
     failures.push(`seed creature preview missing deterministic creature for ${preview.seedId}`);
+  }
+}
+
+const albumLockedSlotCountAfterFirstHarvest = creatures.filter((creature) => creature.id !== firstCreature?.id).length;
+if (albumLockedSlotCountAfterFirstHarvest <= 0) {
+  failures.push("album locked slots need at least one undiscovered creature after first harvest");
+}
+
+for (const creature of creatures) {
+  const sourceSeed = seeds.find((seed) => seed.creaturePool?.includes(creature.id));
+  if (!sourceSeed) {
+    failures.push(`album locked slot seed hint missing source seed for ${creature.id}`);
   }
 }
 
@@ -178,6 +198,11 @@ console.log(
       },
       seedCreaturePreview,
       harvestRevealNextGoalQa: "qaHarvestReveal",
+      albumLockedSlots: {
+        totalCreatures: creatures.length,
+        discoveredAfterFirstHarvest: firstCreature ? 1 : 0,
+        lockedAfterFirstHarvest: albumLockedSlotCountAfterFirstHarvest
+      },
       firstLoopMissions: requiredMissionIds
     },
     null,
