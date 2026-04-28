@@ -44,6 +44,7 @@ const requiredPaths = [
   "items/0040-operator-live-status-report.md",
   "items/0051-heartbeat-daemon-hardening.md",
   "items/0052-operator-control-room-playable-mode.md",
+  "items/0061-issue-plan-first-operating-rule.md",
   "items/0029-operator-completion-gate.md",
   "docs/OPERATOR_RUNBOOK.md",
   "docs/OPERATOR_CONTROL_ROOM.md",
@@ -214,6 +215,36 @@ requirePhrases("docs/OPERATOR_CONTROL_ROOM.md", [
   "24h dry run gate"
 ]);
 
+requirePhrases("items/0061-issue-plan-first-operating-rule.md", [
+  "Status: active",
+  "Work type: agent_ops",
+  "Issue: #106",
+  "## Plan",
+  "plan-first",
+  "npm run check:operator",
+  "npm run check:all"
+]);
+
+requirePhrases("AGENTS.md", [
+  "Issue/work-item 단위 작업은 반드시 plan-first로 시작한다",
+  "## Plan",
+  "수용 기준",
+  "검증 명령"
+]);
+
+requirePhrases("docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md", [
+  "issue -> plan artifact -> branch",
+  "plan-first gate",
+  "Plan은 거창한 PRD가 아니라도 된다",
+  "plan artifact exists and includes `## Plan`"
+]);
+
+requirePhrases("docs/OPERATOR_RUNBOOK.md", [
+  "Create or update the issue plan artifact before implementation",
+  "Plan artifact가 없으면 branch 구현",
+  "plan artifact with `## Plan`"
+]);
+
 requirePhrases("docs/PLAYABLE_MODE.md", [
   "사람 플레이 모드",
   "../strange-seed-shop-play",
@@ -242,6 +273,8 @@ requirePhrases("reports/research/agent_operator_control_room_research_20260428.m
 
 requirePhrases(".github/ISSUE_TEMPLATE/agent-work-item.md", [
   "Small win",
+  "## Plan",
+  "검증 계획",
   "Visual evidence 계획",
   "Playable mode 영향",
   "npm run play:main"
@@ -249,6 +282,8 @@ requirePhrases(".github/ISSUE_TEMPLATE/agent-work-item.md", [
 
 requirePhrases(".github/pull_request_template.md", [
   "Small win",
+  "Plan-first evidence",
+  "Plan artifact",
   "Before / After 또는 Visual evidence",
   "Playable mode",
   "npm run play:main"

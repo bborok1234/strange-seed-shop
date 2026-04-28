@@ -60,6 +60,7 @@ For browser visual QA, use the Codex Browser Use plugin first:
 ## Autonomous Operating Rules
 
 - Track meaningful work in `docs/ROADMAP.md` until a richer `items/` system exists.
+- Issue/work-item 단위 작업은 반드시 plan-first로 시작한다. 새 issue를 선택하면 코드/문서 구현 전에 `items/<id>.md` 또는 동등한 plan artifact에 `## Plan`, 수용 기준, 검증 명령, 리스크를 적고 그 plan에 맞춰 branch 작업을 시작한다.
 - Use evidence-backed docs and reports rather than implicit memory.
 - Separate proposal from mutation for risky work.
 - Keep changes scoped, reversible, and tied to acceptance criteria.

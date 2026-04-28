@@ -28,22 +28,26 @@ Before any supervised 4h or 24h run:
    - `gh issue list --state open`
    - `gh pr list --state open`
 2. Choose a single active operator issue and work item.
-3. Create or reuse a context snapshot under `.omx/context/` with:
+3. Create or update the issue plan artifact before implementation:
+   - `items/<id>.md` 또는 `.omx/plans/*`에 `## Plan`을 작성한다.
+   - Plan에는 small win, 구현 단계, 수용 기준, 검증 명령, 금지 범위를 포함한다.
+   - Plan artifact가 없으면 branch 구현, 제품 코드 수정, 운영 문서 수정으로 넘어가지 않는다.
+4. Create or reuse a context snapshot under `.omx/context/` with:
    - task statement
    - desired outcome
    - known facts/evidence
    - constraints
    - unknowns/open questions
    - likely touchpoints
-4. Run readiness checks:
+5. Run readiness checks:
    - `npm run operator:trial:readiness`
    - `npm run check:operator`
    - `npm run check:all`
-5. Write initial heartbeat:
+6. Write initial heartbeat:
    - `node scripts/write-operator-heartbeat.mjs --issue '#<n>' --item items/<id>.md --phase executing --iteration 1 --command '<current command>' --next '<next action>' --context <snapshot>`
-6. For 4h+ or 24h dry-run windows, start an independent heartbeat daemon before long PR/CI waits:
+7. For 4h+ or 24h dry-run windows, start an independent heartbeat daemon before long PR/CI waits:
    - `npm run operator:heartbeat:daemon -- --issue '#<n>' --item items/<id>.md --interval-seconds 300 --heartbeat .omx/state/operator-heartbeat.json --report .omx/logs/operator-<run>.jsonl --summary .omx/state/operator-heartbeat-daemon-summary.json`
-7. Announce/record start only after the heartbeat, daemon summary, and readiness checks exist.
+8. Announce/record start only after the plan artifact, heartbeat, daemon summary, and readiness checks exist.
 
 ## Monitor procedure
 
@@ -56,6 +60,7 @@ During a supervised run:
   - add `--stuck-output <stuck-report-path>` when the watchdog should write the stale report automatically.
 - Keep every issue-to-PR loop evidence-backed:
   - issue/work item
+  - plan artifact with `## Plan`
   - branch
   - commits
   - local checks
