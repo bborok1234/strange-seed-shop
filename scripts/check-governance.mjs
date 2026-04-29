@@ -33,14 +33,14 @@ const requiredPhrases = new Map([
     [
       "ENABLE_AGENT_AUTOMERGE",
       "npm run check:automerge",
-      "npm run check:all",
+      "npm run check:ci",
       "gh pr merge"
     ]
   ],
   [
     ".github/workflows/ci.yml",
     [
-      "npm run check:all"
+      "npm run check:ci"
     ]
   ]
 ]);

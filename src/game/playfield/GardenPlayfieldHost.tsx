@@ -75,6 +75,10 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
         height: Math.max(260, hostRef.current.clientHeight || 360),
         backgroundColor: "#f1edc8",
         transparent: false,
+        render: {
+          antialias: false,
+          roundPixels: true
+        },
         scene,
         scale: {
           mode: Phaser.Scale.RESIZE,

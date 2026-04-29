@@ -388,7 +388,6 @@ export default function App() {
   }
 
   function claimProductionLeaves() {
-    const shouldShowFx = (productionStatus?.pendingLeaves ?? 0) > 0;
     commit((draft) => {
       const pendingLeaves = getPendingProductionLeaves(draft, now);
       if (pendingLeaves <= 0) {
@@ -404,14 +403,11 @@ export default function App() {
       );
       trackEvent("idle_production_claimed", { leaves: pendingLeaves, ratePerMinute: getProductionRatePerSecond(draft) * 60 });
     });
-    if (shouldShowFx) {
-      triggerProductionFx("production");
-    }
+    triggerProductionFx("production");
     triggerRewardPulse();
   }
 
   function deliverFirstOrder() {
-    const shouldShowFx = Boolean(productionStatus?.orderReady && !productionStatus.orderCompleted);
     commit((draft) => {
       const progress = draft.idleProduction.orderProgress[FIRST_ORDER.id] ?? 0;
       if (draft.idleProduction.completedOrderIds.includes(FIRST_ORDER.id) || progress < FIRST_ORDER.requiredLeaves) {
@@ -427,9 +423,7 @@ export default function App() {
         rewardPollen: FIRST_ORDER.rewardPollen
       });
     });
-    if (shouldShowFx) {
-      triggerProductionFx("order");
-    }
+    triggerProductionFx("order");
     triggerRewardPulse();
   }
 
@@ -452,9 +446,16 @@ export default function App() {
   function triggerProductionFx(kind: ProductionFxKind) {
     const id = Date.now();
     setProductionFx({ assetId: PRODUCTION_FX_ASSETS[kind], id, kind });
+    const qaWindow = window as unknown as {
+      __productionFxEvents?: Array<{ kind: ProductionFxKind; assetId: string; timestamp: number }>;
+    };
+    qaWindow.__productionFxEvents = [
+      ...(qaWindow.__productionFxEvents ?? []),
+      { kind, assetId: PRODUCTION_FX_ASSETS[kind], timestamp: Date.now() }
+    ];
     window.setTimeout(() => {
       setProductionFx((current) => (current?.id === id ? null : current));
-    }, 760);
+    }, 1_600);
   }
 
   function markAssetBroken(assetId: string) {

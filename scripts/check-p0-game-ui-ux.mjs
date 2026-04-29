@@ -240,7 +240,7 @@ for (const phrase of [
 
 for (const phrase of [
   "plot.state !== \"locked\"",
-  "0.04"
+  "0.08"
 ]) {
   requirePhrase("src/game/playfield/GardenScene.ts", phrase);
 }

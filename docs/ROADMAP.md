@@ -31,6 +31,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Core asset batch v0 | active | Issue #125 closed, PR #126, Issue #127, Issue #131, `items/0071-core-asset-batch-plan.md`, `items/0072-core-asset-generation-first-pass.md`, `items/0074-core-asset-manifest-normalization.md`, P0.5 generated candidates and manifest entries | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
 | Production/order asset runtime v0 | done | Issue #133, PR #134, `items/0075-production-order-asset-runtime-v0.md`, Browser Use QA, visual gate, main CI `25094604445` | 첫 생산/주문 UI에서 work creature, order crate, celebrate state가 보이고 모바일 첫 화면 밀도가 유지됨 |
 | Production/order FX runtime v0 | active | Issue #135, `items/0076-production-order-fx-runtime-v0.md`, Browser Use QA, visual gate | 생산 수령/주문 납품 순간에 static FX strip feedback이 보이고 Phaser board 세로줄 artifact가 줄어듦 |
+| Playfield board readability v0 | active | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, visual gate | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
 
@@ -47,7 +48,7 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | Mobile tab screen architecture | done | Issue #95, PR #96, `items/0056-mobile-tab-screen-visual-regression.md`, `src/App.tsx`, `src/styles.css` | 모바일 non-garden 탭은 half overlay가 아니라 body scroll 없는 full tab screen으로 전환되고 main CI가 통과함 |
 | Mobile game frame tab rework | done | Issue #104, PR #105, `items/0060-mobile-game-frame-tab-rework.md`, Playwright evidence | 모바일 탭 화면은 viewport 상단부터 bottom nav 위까지 고정되고 정원 HUD/playfield가 뒤에 비치거나 터치되지 않으며 main CI가 통과함 |
 | Mobile garden HUD/action card polish | done | Issue #97, PR #98, `items/0057-mobile-garden-hud-polish.md`, visual evidence | 모바일 정원 기본 화면의 개발 라벨과 잘리는 설명을 제거하고 action card가 하단 nav에 가리지 않으며 main CI가 통과함 |
-| CLI visual QA gate | active | Playwright CLI, `tests/visual/p0-mobile-game-shell.spec.ts`, `docs/BROWSER_QA.md` | `npm run check:visual`이 mobile/desktop layout regression과 screenshot artifact를 CI에서 검증함 |
+| CLI visual QA gate | active | Playwright CLI, `tests/visual/p0-mobile-game-shell.spec.ts`, `docs/BROWSER_QA.md` | `npm run check:visual`이 mobile/desktop layout regression과 screenshot artifact를 운영 QA evidence로 검증함. CI required checks는 `npm run check:ci`로 분리됨 |
 | Asset alpha/background quality gate | active | asset checker, asset review follow-up | creature/seed/icon/fx는 alpha 필요 조건 또는 명시 예외를 검증하고, checkerboard/배경 오염 asset은 후속 cutout/remaster 대상으로 기록됨 |
 | P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
 | First harvest reveal reward polish | done | Issue #103, PR #108, `items/0062-harvest-reveal-polish.md`, visual evidence, main CI `25063830331` | 첫 수확 reveal이 일반 모달이 아니라 수집형 게임 보상 화면처럼 읽히고 CTA가 393/360에서 잘리지 않음 |
@@ -55,7 +56,7 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | Mobile tab card polish | done | Issue #111, PR #112, `items/0064-mobile-tab-card-polish.md`, `reports/visual/p0-mobile-tab-card-polish-20260429.md`, main CI `25067574458` | seeds/album 탭이 수집 게임 메뉴처럼 읽히고 full-screen tab regression이 유지됨 |
 | Expedition/shop card polish | done | Issue #113, PR #114, `items/0065-expedition-shop-card-polish.md`, `reports/visual/p0-expedition-shop-card-polish-20260429.md`, main CI `25068421504` | expedition/shop 탭이 같은 게임 메뉴 카드 언어를 공유하고 mock shop safety를 유지함 |
 
-Exit criteria: 위 항목이 모두 검증되고, `npm run check:all` 및 mobile/desktop visual evidence가 최신 main에서 통과할 때 P0 UI/UX Rescue를 닫는다.
+Exit criteria: 위 항목이 모두 검증되고, CI required checks(`npm run check:ci`)와 운영 QA용 mobile/desktop visual evidence(`npm run check:visual`)가 최신 main에서 통과할 때 P0 UI/UX Rescue를 닫는다.
 
 ## Current Milestone
 

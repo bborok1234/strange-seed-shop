@@ -514,7 +514,7 @@ h1 {
   pointer-events: none;
   overflow: hidden;
   filter: drop-shadow(0 6px 12px rgba(53, 112, 63, 0.22));
-  animation: production-fx-lift 760ms ease-out forwards;
+  animation: production-fx-lift 1.4s ease-out forwards;
 }
 
 .production-fx img {
@@ -523,7 +523,7 @@ h1 {
   max-width: none;
   height: 100%;
   object-fit: fill;
-  animation: production-fx-strip 560ms steps(3) forwards;
+  animation: production-fx-strip 900ms steps(3) forwards;
 }
 
 .production-fx-production {
@@ -2355,15 +2355,6 @@ h1 {
     0 10px 22px rgba(37, 78, 53, 0.1);
 }
 
-.garden-playfield-host::after {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-  background: rgba(255, 247, 210, 0.72);
-}
-
 .garden-playfield-host canvas {
   display: block;
   position: absolute;
@@ -2371,7 +2362,18 @@ h1 {
   inset: 0;
   width: 100% !important;
   height: 100% !important;
+  background: #fff3c9;
+  filter: brightness(1.08) contrast(0.74);
   opacity: 1;
+}
+
+.garden-playfield-host::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: rgba(255, 247, 210, 0.35);
 }
 
 .playfield-action-feedback {
