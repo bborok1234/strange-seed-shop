@@ -147,12 +147,15 @@ export class GardenScene extends Phaser.Scene {
     const graphics = this.add.graphics();
     this.root.add(graphics);
 
-    graphics.fillStyle(0xfff3c9, 0.94);
-    graphics.fillRoundedRect(8, 8, width - 16, height - 16, 28);
-    graphics.lineStyle(2, 0x31563e, 0.2);
+    graphics.fillStyle(0xf8efd0, 1);
+    graphics.fillRect(0, 0, width, height);
+
+    graphics.fillStyle(0xfff3c9, 1);
+    graphics.fillRect(8, 8, width - 16, height - 16);
+    graphics.lineStyle(2, 0x31563e, 0.16);
     graphics.strokeRoundedRect(10, 10, width - 20, height - 20, 26);
 
-    graphics.fillStyle(0xd8efb5, 0.24);
+    graphics.fillStyle(0xd8efb5, 0.18);
     graphics.fillEllipse(width * 0.5, height * 0.62, width * 0.92, height * 0.54);
 
     if (this.viewModel?.productionLine) {
@@ -180,7 +183,7 @@ export class GardenScene extends Phaser.Scene {
     const stateColor = STATE_COLORS[plot.state];
     const familyColor = plot.family ? FAMILY_COLORS[plot.family] : undefined;
     const fill = familyColor?.fill ?? stateColor.fill;
-    const alpha = plot.state === "locked" ? 0.08 : plot.state === "ready" ? 0.98 : 0.82;
+    const alpha = plot.state === "locked" ? 0.04 : plot.state === "ready" ? 0.74 : plot.state === "empty" ? 0.34 : 0.58;
     const group = this.add.container(x, y);
     this.root?.add(group);
 
@@ -188,8 +191,11 @@ export class GardenScene extends Phaser.Scene {
       this.drawHarvestAura(group, width, height);
     }
 
-    const tile = this.add.rectangle(width / 2, height / 2, width, height, fill, alpha);
-    group.add(tile);
+    const tilePad = this.add.graphics();
+    const padInset = plot.state === "locked" ? 12 : 8;
+    tilePad.fillStyle(fill, alpha);
+    tilePad.fillRoundedRect(padInset, padInset, width - padInset * 2, height - padInset * 2, 18);
+    group.add(tilePad);
 
     const mound = this.add.graphics();
     mound.fillStyle(0x795435, plot.state === "locked" ? 0.06 : 0.36);
