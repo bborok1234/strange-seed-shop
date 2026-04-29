@@ -134,7 +134,7 @@ test("모바일 ready 밭 수확은 procedural feedback telemetry 후 reveal로 
   await page.screenshot({ path: testInfo.outputPath("mobile-playfield-harvest-feedback-393.png"), fullPage: false });
 });
 
-test("모바일 자동 생산과 첫 주문은 업그레이드 선택까지 한 화면에서 검증한다", async ({ page }, testInfo) => {
+test("모바일 자동 생산과 첫 주문은 생산 속도 업그레이드까지 한 화면에서 검증한다", async ({ page }, testInfo) => {
   test.setTimeout(120_000);
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaProductionReady=1");
@@ -149,6 +149,7 @@ test("모바일 자동 생산과 첫 주문은 업그레이드 선택까지 한 
   await expect(page.getByText("밭 확장", { exact: true })).toBeVisible();
   await expect(page.getByText("생산 속도", { exact: true })).toBeVisible();
   await expect(page.getByText("주문 준비", { exact: true })).toBeVisible();
+  await expect(page.getByText("첫 납품 후 열림", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "생산 잎 수령" })).toBeEnabled();
   const initialSurfaceMetrics = await page.evaluate(() => {
     const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
@@ -191,6 +192,18 @@ test("모바일 자동 생산과 첫 주문은 업그레이드 선택까지 한 
   await expect(page.getByLabel("첫 주문 납품 완료")).toBeVisible();
   await expect(page.locator(".production-asset-celebrate img")).toBeVisible();
   await expect(page.getByText("다음에 만날 아이")).toBeVisible();
+  await expect(page.getByRole("button", { name: /작업 간식 강화/ })).toBeEnabled();
+  await page.getByRole("button", { name: /작업 간식 강화/ }).click();
+  await expect(page.getByText("강화 완료", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("자동 생산과 첫 주문").getByText("분당 9.0 잎", { exact: true })).toBeVisible();
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        return raw ? (JSON.parse(raw) as { productionBoostLevel?: number }).productionBoostLevel : 0;
+      })
+    )
+    .toBe(1);
 
   const metrics = await page.evaluate(() => {
     const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();

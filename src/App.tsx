@@ -67,6 +67,10 @@ interface UpgradeChoice {
 }
 
 const FIRST_UPGRADE_COST = 25;
+const PRODUCTION_BOOST_COST_LEAVES = 40;
+const PRODUCTION_BOOST_COST_POLLEN = 1;
+const PRODUCTION_BOOST_MAX_LEVEL = 1;
+const PRODUCTION_BOOST_RATE_BONUS = 0.25;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
@@ -190,7 +194,10 @@ export default function App() {
     ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
     : 0;
   const productionStatus = useMemo(() => (save ? getProductionStatus(save, now) : null), [save, now]);
-  const upgradeChoices = save && productionStatus?.ratePerMinute ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade) : [];
+  const upgradeChoices =
+    save && productionStatus?.ratePerMinute
+      ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade, buyProductionBoost)
+      : [];
   const visibleSeedInventorySeeds =
     nextCreatureGoal && !availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)
       ? [nextCreatureGoal.seed, ...availableSeeds]
@@ -335,6 +342,30 @@ export default function App() {
       draft.plotCount = 2;
       trackEvent("upgrade_purchased", { upgradeId: "plot_2", costLeaves: FIRST_UPGRADE_COST });
     });
+  }
+
+  function buyProductionBoost() {
+    commit((draft) => {
+      if (
+        draft.productionBoostLevel >= PRODUCTION_BOOST_MAX_LEVEL ||
+        draft.leaves < PRODUCTION_BOOST_COST_LEAVES ||
+        draft.pollen < PRODUCTION_BOOST_COST_POLLEN ||
+        !draft.idleProduction.completedOrderIds.includes(FIRST_ORDER.id)
+      ) {
+        return;
+      }
+
+      draft.leaves -= PRODUCTION_BOOST_COST_LEAVES;
+      draft.pollen -= PRODUCTION_BOOST_COST_POLLEN;
+      draft.productionBoostLevel += 1;
+      trackEvent("upgrade_purchased", {
+        upgradeId: "production_boost_1",
+        costLeaves: PRODUCTION_BOOST_COST_LEAVES,
+        costPollen: PRODUCTION_BOOST_COST_POLLEN,
+        productionBoostLevel: draft.productionBoostLevel
+      });
+    });
+    triggerRewardPulse();
   }
 
   function startExpedition() {
@@ -1253,10 +1284,16 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
 function buildUpgradeChoices(
   save: PlayerSave,
   productionStatus: ProductionStatus,
-  buyFirstUpgrade: () => void
+  buyFirstUpgrade: () => void,
+  buyProductionBoost: () => void
 ): UpgradeChoice[] {
   const plotComplete = save.plotCount >= 2;
   const plotShortfall = Math.max(FIRST_UPGRADE_COST - save.leaves, 0);
+  const speedComplete = save.productionBoostLevel >= PRODUCTION_BOOST_MAX_LEVEL;
+  const speedUnlocked = productionStatus.orderCompleted;
+  const speedAffordable = save.leaves >= PRODUCTION_BOOST_COST_LEAVES && save.pollen >= PRODUCTION_BOOST_COST_POLLEN;
+  const speedShortfallLeaves = Math.max(PRODUCTION_BOOST_COST_LEAVES - save.leaves, 0);
+  const speedShortfallPollen = Math.max(PRODUCTION_BOOST_COST_POLLEN - save.pollen, 0);
 
   return [
     {
@@ -1274,9 +1311,18 @@ function buildUpgradeChoices(
     {
       id: "production_rate",
       title: "생산 속도",
-      detail: `분당 ${productionStatus.ratePerMinute.toFixed(1)} 잎`,
-      status: "가동",
-      tone: "done"
+      detail: speedComplete
+        ? `분당 ${productionStatus.ratePerMinute.toFixed(1)} 잎 가동`
+        : !speedUnlocked
+          ? "첫 납품 후 열림"
+          : speedAffordable
+            ? `${PRODUCTION_BOOST_COST_LEAVES} 잎 · ${PRODUCTION_BOOST_COST_POLLEN} 꽃가루로 +25%`
+            : `${speedShortfallLeaves ? `${speedShortfallLeaves} 잎` : ""}${
+                speedShortfallLeaves && speedShortfallPollen ? " · " : ""
+              }${speedShortfallPollen ? `${speedShortfallPollen} 꽃가루` : ""} 부족`,
+      status: speedComplete ? "강화 완료" : speedAffordable && speedUnlocked ? "작업 간식 강화" : speedUnlocked ? "재화 부족" : "첫 납품 후",
+      tone: speedComplete ? "done" : speedAffordable && speedUnlocked ? "ready" : "waiting",
+      onSelect: !speedComplete && speedUnlocked && speedAffordable ? buyProductionBoost : undefined
     },
     {
       id: "first_order",
@@ -1301,7 +1347,7 @@ function getPendingProductionLeaves(save: PlayerSave, now: number): number {
 }
 
 function getProductionRatePerSecond(save: PlayerSave): number {
-  return save.discoveredCreatureIds.reduce((total, creatureId) => {
+  const baseRate = save.discoveredCreatureIds.reduce((total, creatureId) => {
     const creature = getCreature(creatureId);
     if (!creature) {
       return total;
@@ -1309,6 +1355,7 @@ function getProductionRatePerSecond(save: PlayerSave): number {
 
     return total + getCreatureProductionRate(creature);
   }, 0);
+  return baseRate * (1 + Math.min(save.productionBoostLevel, PRODUCTION_BOOST_MAX_LEVEL) * PRODUCTION_BOOST_RATE_BONUS);
 }
 
 function getCreatureProductionRate(creature: CreatureDefinition): number {
