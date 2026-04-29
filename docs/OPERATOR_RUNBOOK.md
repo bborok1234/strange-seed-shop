@@ -108,6 +108,25 @@ Before stopping, record:
 6. Main branch CI status if anything merged.
 7. Daily operating report.
 
+## Work completion documentation checklist
+
+Every issue-level loop, including planning-only work, must update durable source of truth before PR publication or completion.
+
+Always update:
+
+1. `items/<id>.md` — status, small win, plan progress, verification, PR/CI evidence.
+2. `docs/ROADMAP.md` — milestone row status and `Current Next Action`.
+3. `docs/DASHBOARD.md` — generated with `npm run update:dashboard`, then checked with `npm run check:dashboard`.
+4. GitHub issue/PR — acceptance criteria, verification, evidence, risk, and visual evidence or `N/A`.
+
+Update conditionally:
+
+- `docs/README.md` and `scripts/check-docs-index.mjs` when a new source-of-truth document is added.
+- `docs/PROJECT_COMMANDS.md`, this runbook, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, and minimal `AGENTS.md` when operating rules change.
+- `docs/NORTH_STAR.md`, `docs/PRD_PHASE0.md`, `docs/IDLE_CORE_CREATIVE_GUIDE.md`, and `docs/DESIGN_SYSTEM.md` when game direction, design, or asset standards change.
+- `reports/visual/` and `npm run check:visual` when UI/visual behavior changes.
+- `reports/operations/` when an operator run, stuck recovery, or completion checkpoint occurs.
+
 ## Summarize procedure
 
 Every multi-hour or overnight run must produce a daily operating report under `reports/operations/daily-*.md` with these sections:

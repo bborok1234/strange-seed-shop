@@ -68,6 +68,7 @@ For browser visual QA, use the Codex Browser Use plugin first:
 - Keep changes scoped, reversible, and tied to acceptance criteria.
 - When adding new implementation work, update the roadmap with status and verification evidence.
 - 장시간 `$ralph`/운영모드에서 완료 보고는 중단 조건이 아니라 체크포인트다. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 다음 issue를 plan-first로 선택하고 계속 진행한다.
+- Issue 종료 전 `items/<id>.md`, `docs/ROADMAP.md`, `docs/DASHBOARD.md`(`npm run update:dashboard`), GitHub issue/PR evidence를 갱신한다. 세부 규칙은 `docs/PROJECT_COMMANDS.md`와 `docs/OPERATOR_RUNBOOK.md`를 따른다.
 - Do not stop at a milestone boundary when `docs/ROADMAP.md` names a clear next action and the next action is safe, local, and non-destructive.
 - A progress report is not a handoff. Continue through the current roadmap chain until the next step is blocked, destructive, requires credentials/network approval, or needs a product decision.
 - If a task touches payments, external deployment, credentials, policy-sensitive monetization, destructive migration, or production user data, stop for explicit approval.
