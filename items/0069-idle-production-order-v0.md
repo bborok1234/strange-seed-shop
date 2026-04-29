@@ -1,6 +1,6 @@
 # Idle production + order v0
 
-Status: review
+Status: done
 Work type: game_feature
 Issue: #121
 Owner: agent
@@ -70,6 +70,9 @@ P0.5 idle core creative rescue의 첫 구현 slice로, 첫 생명체가 도감 �
 ## Evidence
 
 - Issue: #121
+- PR: #122
+- Merge commit: `4160a4424e39175132098946169313a7c94c6373`
+- Main CI: `25090571222` — pass
 - Branch: `codex/0069-idle-production-order-v0`
 - Visual evidence: `reports/visual/p0-idle-production-order-v0-20260429.md`
 - Verification:

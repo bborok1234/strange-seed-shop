@@ -495,27 +495,26 @@ export default function App() {
                     생산 잎 수령
                   </button>
                 </div>
-                <div className="order-progress-card">
-                  <div>
-                    <p className="panel-label">{productionStatus.order.customer}</p>
-                    <strong>{productionStatus.order.title}</strong>
-                    <span>
-                      {productionStatus.orderCompleted
-                        ? "납품 완료"
-                        : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎 납품 준비`}
-                    </span>
+                {productionStatus.orderCompleted ? (
+                  <div className="production-complete-row" aria-label="첫 주문 납품 완료">
+                    <span>첫 주문 납품 완료</span>
+                    <strong>
+                      +{productionStatus.order.rewardLeaves} 잎 · +{productionStatus.order.rewardPollen} 꽃가루
+                    </strong>
                   </div>
-                  <progress max={productionStatus.order.requiredLeaves} value={productionStatus.orderProgress} />
-                  <button
-                    disabled={!productionStatus.orderReady || productionStatus.orderCompleted}
-                    onClick={deliverFirstOrder}
-                    type="button"
-                  >
-                    {productionStatus.orderCompleted
-                      ? "납품 완료"
-                      : `첫 잎 주문 납품 +${productionStatus.order.rewardLeaves} 잎`}
-                  </button>
-                </div>
+                ) : (
+                  <div className="order-progress-card">
+                    <div>
+                      <p className="panel-label">{productionStatus.order.customer}</p>
+                      <strong>{productionStatus.order.title}</strong>
+                      <span>{productionStatus.orderProgress}/{productionStatus.order.requiredLeaves} 잎 납품 준비</span>
+                    </div>
+                    <progress max={productionStatus.order.requiredLeaves} value={productionStatus.orderProgress} />
+                    <button disabled={!productionStatus.orderReady} onClick={deliverFirstOrder} type="button">
+                      첫 잎 주문 납품 +{productionStatus.order.rewardLeaves} 잎
+                    </button>
+                  </div>
+                )}
               </article>
             )}
             {nextCreatureGoal && (

@@ -525,6 +525,32 @@ h1 {
   accent-color: var(--action-primary);
 }
 
+.production-complete-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 7px 8px;
+  border: 1px solid rgba(39, 86, 64, 0.18);
+  border-radius: var(--radius-control);
+  background: rgba(255, 251, 226, 0.74);
+}
+
+.production-complete-row span,
+.production-complete-row strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.production-complete-row span {
+  color: var(--action-primary-strong);
+}
+
+.production-complete-row strong {
+  color: #765b32;
+}
+
 .ownership-card strong,
 .ownership-card span,
 .ownership-card small {
@@ -1815,6 +1841,10 @@ h1 {
 
   .order-progress-card {
     padding: 6px;
+  }
+
+  .production-complete-row {
+    padding: 6px 7px;
   }
 
   .next-creature-card span,
