@@ -30,14 +30,14 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Production garden UI v0 | done | Issue #123, PR #124, `items/0070-production-garden-ui-v0.md`, compact production/order UI, visual evidence, main CI `25090930573` | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
 | Core asset batch v0 | active | Issue #125 closed, PR #126, Issue #127, Issue #131, `items/0071-core-asset-batch-plan.md`, `items/0072-core-asset-generation-first-pass.md`, `items/0074-core-asset-manifest-normalization.md`, P0.5 generated candidates and manifest entries | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
 | Production/order asset runtime v0 | done | Issue #133, PR #134, `items/0075-production-order-asset-runtime-v0.md`, Browser Use QA, visual gate, main CI `25094604445` | 첫 생산/주문 UI에서 work creature, order crate, celebrate state가 보이고 모바일 첫 화면 밀도가 유지됨 |
-| Production/order FX runtime v0 | active | Issue #135, `items/0076-production-order-fx-runtime-v0.md`, Browser Use QA, visual gate | 생산 수령/주문 납품 순간에 static FX strip feedback이 보이고 Phaser board 세로줄 artifact가 줄어듦 |
+| Production/order FX runtime v0 | done | Issue #135, `items/0076-production-order-fx-runtime-v0.md`, Browser Use QA, `reports/visual/p0-production-order-fx-runtime-20260429.md` | 생산 수령/주문 납품 순간에 static FX strip feedback이 보이고 Phaser board 세로줄 artifact가 줄어듦 |
 | Playfield production actors v0 | done | Issue #144, `items/0082-playfield-production-actors-v0.md`, Browser Use QA, `reports/visual/p0-playfield-production-actors-v0-20260429.md` | 정원 playfield 안에 work creature, order crate, order progress가 보여 production engine이 board scene으로 읽힘 |
 | Upgrade choice surface v0 | done | Issue #146, `items/0083-upgrade-choice-surface-v0.md`, Browser Use QA, `reports/visual/p0-upgrade-choice-surface-v0-20260429.md` | 생산/주문 보상 아래에 밭 확장, 생산 속도, 주문 준비 선택이 보여 idle tycoon 성장 방향이 읽힘 |
 | Production speed upgrade loop v0 | done | Issue #148, `items/0084-production-speed-upgrade-loop-v0.md`, Browser Use QA, `reports/visual/p0-production-speed-upgrade-loop-v0-20260429.md` | 첫 주문 납품 보상이 작업 간식 강화로 이어지고 production rate가 7.2 -> 9.0으로 상승함 |
 | Repeat order v0 | done | Issue #150, `items/0085-repeat-order-v0.md`, Browser Use QA, `reports/visual/p0-repeat-order-v0-20260429.md` | 첫 주문 후 `연구 준비 잎 묶음`이 다음 주문으로 등장하고 생산 수령이 새 주문 진행률을 채움 |
 | Research unlock v0 | done | Issue #152, `items/0086-research-unlock-v0.md`, Browser Use QA, `reports/visual/p0-research-unlock-v0-20260429.md` | 두 번째 주문 보상이 `새싹 기록법 연구` purchase와 `researchLevel` 저장으로 이어짐 |
 | Research clue reward v0 | done | Issue #154, `items/0087-research-clue-reward-v0.md`, Browser Use QA, `reports/visual/p0-research-clue-reward-v0-20260429.md` | 연구 완료가 다음 생명체/씨앗 단서로 이어져 수집 목표가 더 명확해짐 |
-| Playfield board readability v0 | active | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, visual gate | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
+| Playfield board readability v0 | done | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, `reports/visual/p0-playfield-board-readability-20260429.md` | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
 
@@ -45,9 +45,9 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 
 | Step | Status | Output | Acceptance Criteria |
 | --- | --- | --- | --- |
-| P0 UI/UX research baseline | active | `docs/GAME_UI_UX_RESEARCH_20260428.md`, `items/0053-game-ui-ux-p0-rescue.md`, Issue #89 | HUD/playfield, Phaser viewport, CLI visual QA, alpha asset 기준과 프로젝트 결정이 문서화됨 |
+| P0 UI/UX research baseline | done | `docs/GAME_UI_UX_RESEARCH_20260428.md`, `items/0053-game-ui-ux-p0-rescue.md`, Issue #89 | HUD/playfield, Phaser viewport, CLI visual QA, alpha asset 기준과 프로젝트 결정이 문서화됨 |
 | Playfield-first garden screen | active | `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenScene.ts` | 정원 기본 화면에서 안내/하이라이트/패널이 밭을 가리지 않고 Phaser playfield가 주 시각 영역으로 보임 |
-| Garden action surface v0 | active | Issue #140, `items/0080-garden-action-surface-v0.md`, `src/App.tsx`, `src/styles.css`, visual evidence | 정원 기본 화면의 하단 UI가 작은 스크롤 패널이 아니라 primary CTA와 compact goal strip 중심의 game action surface로 읽힘 |
+| Garden action surface v0 | done | Issue #140, `items/0080-garden-action-surface-v0.md`, `src/App.tsx`, `src/styles.css`, `reports/visual/p0-garden-action-surface-v0-20260429.md` | 정원 기본 화면의 하단 UI가 작은 스크롤 패널이 아니라 primary CTA와 compact goal strip 중심의 game action surface로 읽힘 |
 | Phaser playfield presentation polish | done | Issue #99, PR #100, `items/0058-playfield-presentation-polish.md`, `src/game/playfield/GardenScene.ts` | ready/locked/empty plot 상태가 모바일 수집 게임 화면처럼 더 선명하게 구분되고 main CI가 통과함 |
 | Phaser playfield visual-noise cleanup | done | Issue #101, PR #102, `items/0059-playfield-visual-noise-cleanup.md`, `src/game/playfield/GardenScene.ts` | locked plot 반복 텍스트/강한 선을 줄이고 main CI가 통과함 |
 | Player/debug surface split | active | app shell/debug mode policy | `asset count`, `save ready`, `events`, `runtime image generation disabled`는 playable 기본 화면에서 숨겨지고 debug mode에서만 노출됨 |
@@ -234,7 +234,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Add operator control room and playable mode | review | Issue #87, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/PLAYABLE_MODE.md`, `.github/ISSUE_TEMPLATE/agent-work-item.md`, `.github/pull_request_template.md`, `scripts/prepare-playable-main.mjs`, `items/0052-operator-control-room-playable-mode.md` | 사람이 active mission, small win, visual evidence, PR/issue, playable main command를 한 화면에서 파악하고 agent 작업 중에도 게임을 실행할 수 있음 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
-| Project command surface | active | Issue #117, `items/0067-project-command-surface.md`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-*` | `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`로 운영 루프와 대화/보고/QA/playable 세션을 구분함 |
+| Project command surface | done | Issue #117, `items/0067-project-command-surface.md`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-*` | `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`로 운영 루프와 대화/보고/QA/playable 세션을 구분함 |
 
 ## Milestone 8: Feedback + GTM Mock Intake
 

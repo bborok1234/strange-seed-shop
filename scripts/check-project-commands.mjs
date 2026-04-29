@@ -57,7 +57,7 @@ requirePhrases("docs/PROJECT_COMMANDS.md", [
 ]);
 
 requirePhrases("items/0067-project-command-surface.md", [
-  "Status: active",
+  "Status: completed",
   "Work type: agent_ops",
   "Issue: #117",
   "## Plan",

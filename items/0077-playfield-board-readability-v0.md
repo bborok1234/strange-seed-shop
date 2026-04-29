@@ -1,6 +1,6 @@
 # Playfield board readability v0
 
-Status: active
+Status: completed
 Issue: #137
 Branch: `codex/0077-playfield-board-readability-v0`
 Date: 2026-04-29
@@ -22,10 +22,16 @@ Date: 2026-04-29
 
 ## Acceptance Criteria
 
-- Browser Use 화면에서 playfield 세로줄이 다시 두드러지지 않는다.
-- plot state text와 생산 status text가 모바일 첫 화면에서 읽힌다.
-- bottom tab과 next goal overlap이 없다.
-- 저장/content/economy/runtime asset 계약 변경이 없다.
+- [x] Browser Use 화면에서 playfield 세로줄이 다시 두드러지지 않는다.
+- [x] plot state text와 생산 status text가 모바일 첫 화면에서 읽힌다.
+- [x] bottom tab과 next goal overlap이 없다.
+- [x] 저장/content/economy/runtime asset 계약 변경이 없다.
+
+## Evidence
+
+- Issue #137: CLOSED
+- Visual report: `reports/visual/p0-playfield-board-readability-20260429.md`
+- Browser Use: `reports/visual/p0-playfield-board-readability-browser-use-20260429.png`
 
 ## Verification Commands
 

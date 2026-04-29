@@ -1,6 +1,6 @@
 # Project command surface
 
-Status: active
+Status: completed
 Work type: agent_ops
 Issue: #117
 Owner: agent
@@ -34,6 +34,7 @@ Scope-risk: narrow
 ## Evidence
 
 - Issue: #117
+- GitHub state: CLOSED
 - Verification:
   - `npm run check:project-commands` — pass
   - `npm run check:docs` — pass
