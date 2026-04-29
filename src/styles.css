@@ -1380,6 +1380,26 @@ h1 {
   background: rgba(57, 75, 137, 0.9);
 }
 
+.lunar-expedition-reward {
+  border-color: rgba(77, 73, 143, 0.24);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.82), transparent 34%),
+    linear-gradient(135deg, rgba(235, 232, 255, 0.96), rgba(247, 249, 210, 0.94));
+}
+
+.lunar-expedition-reward small {
+  display: block;
+  margin-top: 4px;
+  color: #43516f;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.lunar-expedition-reward .expedition-reward-chip {
+  background: rgba(68, 63, 132, 0.92);
+}
+
 .research-expedition-action {
   min-height: 38px;
   margin-top: 8px;

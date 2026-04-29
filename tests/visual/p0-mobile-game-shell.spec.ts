@@ -385,6 +385,56 @@ test("모바일 연구 원정 시작은 moon hint 원정을 진행 상태로 만
   await page.screenshot({ path: testInfo.outputPath("mobile-research-expedition-start-v0-393.png"), fullPage: false });
 });
 
+test("모바일 달빛 원정 보상은 다음 달빛 수집 목표로 이어진다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchExpeditionClaimReady=1&qaTab=expedition");
+
+  await expect(page.locator(".dev-panel.player-panel.tab-expedition")).toBeVisible();
+  await expect(page.getByText("원정 완료", { exact: true })).toBeVisible();
+  await expect(page.getByText("+420 잎 · +2 재료 수령 가능", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "원정 보상 받기" })).toBeEnabled();
+  await page.getByRole("button", { name: "원정 보상 받기" }).click();
+
+  await expect(page.getByLabel("달빛 원정 보상 다음 목표")).toBeVisible();
+  await expect(page.getByLabel("달빛 원정 보상 다음 목표")).toContainText("달방울 씨앗");
+  await expect(page.getByLabel("달빛 원정 보상 다음 목표")).toContainText("달방울 누누");
+  await expect(page.getByRole("button", { name: "달방울 씨앗 보러가기" })).toBeEnabled();
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as {
+              activeExpedition?: unknown;
+              leaves?: number;
+              materials?: number;
+              unlockedSeedIds?: string[];
+            })
+          : {};
+        return {
+          activeExpeditionCleared: parsed.activeExpedition === undefined,
+          leaves: parsed.leaves,
+          materials: parsed.materials,
+          lunarUnlocked: parsed.unlockedSeedIds?.includes("seed_lunar_001") ?? false
+        };
+      })
+    )
+    .toEqual({ activeExpeditionCleared: true, leaves: 492, materials: 3, lunarUnlocked: true });
+
+  await page.getByRole("button", { name: "달방울 씨앗 보러가기" }).click();
+  await expect(page.locator(".dev-panel.player-panel.tab-seeds")).toBeVisible();
+  await expect(page.getByLabel("다음 도감 목표 씨앗")).toContainText("달방울 씨앗");
+  await expect(page.getByLabel("다음 도감 목표 씨앗")).toContainText("달방울 누누");
+
+  await page.getByRole("button", { name: "도감" }).click();
+  await expect(page.locator(".dev-panel.player-panel.tab-album")).toBeVisible();
+  await expect(page.getByLabel("도감 다음 수집 목표")).toContainText("달방울 누누");
+  await expect(page.getByLabel("도감 다음 수집 목표")).toContainText("달방울 씨앗");
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-moon-expedition-reward-bridge-v0-393.png"), fullPage: false });
+});
+
 test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 깨지 않는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 399, height: 666 });
   await page.goto("/?qaResearchComplete=1");

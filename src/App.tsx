@@ -76,6 +76,8 @@ const FIRST_RESEARCH_COST_POLLEN = 2;
 const FIRST_RESEARCH_MAX_LEVEL = 1;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const RESEARCH_EXPEDITION_ID = "moon_hint";
+const LUNAR_REWARD_SEED_ID = "seed_lunar_001";
+const LUNAR_REWARD_CREATURE_ID = "creature_lunar_common_001";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
 const PRODUCTION_FX_ASSETS: Record<ProductionFxKind, string> = {
@@ -137,10 +139,13 @@ export default function App() {
     const qaResearchReady = getLocalQaResearchReady();
     const qaResearchComplete = getLocalQaResearchComplete();
     const qaResearchExpeditionReady = getLocalQaResearchExpeditionReady();
+    const qaResearchExpeditionClaimReady = getLocalQaResearchExpeditionClaimReady();
     const existingSave = qaSpriteState
       ? createSpriteQaSave(qaSpriteState)
       : qaHarvestReveal
         ? createHarvestRevealQaSave()
+        : qaResearchExpeditionClaimReady
+          ? createResearchExpeditionClaimReadyQaSave()
         : qaResearchExpeditionReady
           ? createResearchExpeditionReadyQaSave()
           : qaResearchComplete
@@ -210,7 +215,9 @@ export default function App() {
   const expeditionNeedsMoreCreatures = (expeditionCreatureShortfall ?? 0) > 0;
   const researchExpeditionShortfall =
     save && researchExpedition ? Math.max(researchExpedition.requiredCreatures - save.discoveredCreatureIds.length, 0) : 0;
-  const showResearchExpeditionClue = Boolean(save && researchExpedition && !save.activeExpedition);
+  const researchExpeditionRewardClaimed = Boolean(save?.unlockedSeedIds.includes(LUNAR_REWARD_SEED_ID));
+  const showResearchExpeditionClue = Boolean(save && researchExpedition && !save.activeExpedition && !researchExpeditionRewardClaimed);
+  const lunarExpeditionGoal = useMemo(() => getLunarExpeditionGoal(save), [save]);
   const visibleMissions = save ? content.missions : [];
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
@@ -470,12 +477,17 @@ export default function App() {
       }
 
       const expedition = content.expeditions.find((item) => item.id === draft.activeExpedition?.expeditionId);
+      const activeExpeditionId = draft.activeExpedition.expeditionId;
       draft.leaves += expedition?.rewardLeaves ?? 0;
       draft.materials += expedition?.rewardMaterials ?? 0;
+      if (activeExpeditionId === RESEARCH_EXPEDITION_ID && !draft.unlockedSeedIds.includes(LUNAR_REWARD_SEED_ID)) {
+        draft.unlockedSeedIds.push(LUNAR_REWARD_SEED_ID);
+      }
       trackEvent("expedition_claimed", {
-        expeditionId: draft.activeExpedition.expeditionId,
+        expeditionId: activeExpeditionId,
         leaves: expedition?.rewardLeaves ?? 0,
-        materials: expedition?.rewardMaterials ?? 0
+        materials: expedition?.rewardMaterials ?? 0,
+        unlockedSeedId: activeExpeditionId === RESEARCH_EXPEDITION_ID ? LUNAR_REWARD_SEED_ID : null
       });
       draft.activeExpedition = undefined;
     });
@@ -1075,6 +1087,23 @@ export default function App() {
                   </button>
                 </>
               )}
+              {!save?.activeExpedition && researchExpeditionRewardClaimed && lunarExpeditionGoal && (
+                <article className="expedition-preview lunar-expedition-reward" aria-label="달빛 원정 보상 다음 목표">
+                  <div>
+                    <p className="panel-label">달빛 원정 보상</p>
+                    <strong>{lunarExpeditionGoal.seed.name}</strong>
+                    <span>
+                      {lunarExpeditionGoal.creature.name} 단서 해금 · {getRarityLabel(lunarExpeditionGoal.creature.rarity)} ·{" "}
+                      {getCreatureFamilyLabel(lunarExpeditionGoal.creature.family)}
+                    </span>
+                    <small>{lunarExpeditionGoal.creature.albumHint}</small>
+                    <button className="research-expedition-action" onClick={() => setActiveTab("seeds")} type="button">
+                      {lunarExpeditionGoal.seed.name} 보러가기
+                    </button>
+                  </div>
+                  <span className="expedition-reward-chip">다음 수집</span>
+                </article>
+              )}
             </section>
           )}
 
@@ -1198,6 +1227,11 @@ function getNextCreatureGoal(save: PlayerSave | null): NextCreatureGoal | null {
   }
 
   const discovered = new Set(save.discoveredCreatureIds);
+  const lunarGoal = getLunarExpeditionGoal(save);
+  if (lunarGoal && !discovered.has(lunarGoal.creature.id)) {
+    return lunarGoal;
+  }
+
   const seed = content.seeds.find((candidate) => {
     const deterministicCreature = getDeterministicCreatureForSeed(candidate);
     return save.unlockedSeedIds.includes(candidate.id) && deterministicCreature && !discovered.has(deterministicCreature.id);
@@ -1205,6 +1239,25 @@ function getNextCreatureGoal(save: PlayerSave | null): NextCreatureGoal | null {
   const creature = seed ? getDeterministicCreatureForSeed(seed) : undefined;
 
   if (!seed || !creature) {
+    return null;
+  }
+
+  return {
+    seed,
+    creature,
+    discoveredCount: save.discoveredCreatureIds.length,
+    totalCount: content.creatures.length
+  };
+}
+
+function getLunarExpeditionGoal(save: PlayerSave | null): NextCreatureGoal | null {
+  if (!save || !save.unlockedSeedIds.includes(LUNAR_REWARD_SEED_ID)) {
+    return null;
+  }
+
+  const seed = getSeed(LUNAR_REWARD_SEED_ID);
+  const creature = getCreature(LUNAR_REWARD_CREATURE_ID);
+  if (!seed || !creature || save.discoveredCreatureIds.includes(creature.id)) {
     return null;
   }
 
@@ -1733,6 +1786,14 @@ function getLocalQaResearchExpeditionReady(): boolean {
   return new URLSearchParams(window.location.search).get("qaResearchExpeditionReady") === "1";
 }
 
+function getLocalQaResearchExpeditionClaimReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaResearchExpeditionClaimReady") === "1";
+}
+
 function getLocalDebugMode() {
   if (typeof window === "undefined") {
     return false;
@@ -1909,6 +1970,29 @@ function createResearchExpeditionReadyQaSave(): PlayerSave {
     },
     lastSeenAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
+  };
+}
+
+function createResearchExpeditionClaimReadyQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createResearchExpeditionReadyQaSave();
+  const expedition = content.expeditions.find((item) => item.id === RESEARCH_EXPEDITION_ID);
+  const durationSeconds = expedition?.durationSeconds ?? 3600;
+  const startedAt = new Date(now.getTime() - (durationSeconds + 15) * 1000);
+
+  return {
+    ...save,
+    leaves: 72,
+    materials: 1,
+    activeExpedition: {
+      expeditionId: RESEARCH_EXPEDITION_ID,
+      creatureIds: ["creature_herb_common_001", "creature_herb_common_002"],
+      startedAt: startedAt.toISOString(),
+      durationSeconds,
+      claimed: false
+    },
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
   };
 }
 
