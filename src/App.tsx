@@ -519,12 +519,12 @@ export default function App() {
         <section aria-hidden={isPlayerTabScreen ? true : undefined} className="garden-panel" aria-label="정원">
           <GardenPlayfieldHost onAction={handlePlayfieldAction} playfieldAssets={playfieldAssets} viewModel={gardenViewModel} />
 
-          <aside className="starter-panel">
+          <aside className={productionStatus ? "starter-panel garden-action-surface has-production" : "starter-panel garden-action-surface"}>
             <p className="panel-label">다음 행동</p>
             <h2>{nextAction.title}</h2>
             <p className="action-copy">{nextAction.body}</p>
             {productionStatus && productionStatus.ratePerMinute > 0 && (
-              <article className="production-card" aria-label="자동 생산과 첫 주문">
+              <article className="production-card production-action-card" aria-label="자동 생산과 첫 주문">
                 {productionFx ? renderProductionFx(productionFx) : null}
                 <div className="production-card-heading">
                   <div className="production-scene">
@@ -577,7 +577,7 @@ export default function App() {
               </article>
             )}
             {nextCreatureGoal && (
-              <article className="next-creature-card" aria-label="다음 생명체 수집 목표">
+              <article className="next-creature-card next-creature-compact" aria-label="다음 생명체 수집 목표">
                 <div className="next-creature-portrait">{renderAsset(nextCreatureGoal.creature.assetId, "?")}</div>
                 <div>
                   <p className="panel-label">다음에 만날 아이</p>
@@ -594,52 +594,54 @@ export default function App() {
                 </div>
               </article>
             )}
-            {!save?.selectedStarterSeedId &&
-              starterSeeds.map((seed) => (
-                <button className="seed-row" key={seed.id} onClick={() => selectStarter(seed)} type="button">
-                  {renderAsset(seed.iconAssetId, "씨앗")}
-                  <span>{seed.name}</span>
-                  <strong>{seed.baseGrowthSeconds}s</strong>
+            <div className="garden-support-stack">
+              {!save?.selectedStarterSeedId &&
+                starterSeeds.map((seed) => (
+                  <button className="seed-row" key={seed.id} onClick={() => selectStarter(seed)} type="button">
+                    {renderAsset(seed.iconAssetId, "씨앗")}
+                    <span>{seed.name}</span>
+                    <strong>{seed.baseGrowthSeconds}s</strong>
+                  </button>
+                ))}
+              {save && showSeedShop && (
+                <article className="garden-action-dock" aria-label="정원 빠른 행동">
+                  <div>
+                    <p className="panel-label">씨앗 행동</p>
+                    <strong>{hasOpenPlot ? "열린 밭에 다음 씨앗을 심어보세요" : "밭이 가득 찼어요"}</strong>
+                    <span>씨앗 구매와 보유 목록은 씨앗 탭에서 정리해 볼 수 있어요.</span>
+                  </div>
+                  <button onClick={() => setActiveTab("seeds")} type="button">
+                    씨앗 탭 열기
+                  </button>
+                </article>
+              )}
+              {activePlot && <p className="hint">밭을 누르면 성장이 빨라지고, 100%가 되면 수확합니다.</p>}
+              {firstOwnedCreature && (
+                <article className="ownership-card" aria-label="첫 생명체 소유 증거">
+                  <div className="ownership-portrait">{renderAsset(firstOwnedCreature.assetId, "생명체")}</div>
+                  <div>
+                    <p className="panel-label">내 첫 생명체</p>
+                    <strong>{firstOwnedCreature.name}</strong>
+                    <span>{getCreatureRoleLabel(firstOwnedCreature.role)} · {firstOwnedCreature.albumHint}</span>
+                    <p className="creature-personality">{firstOwnedCreature.personality}</p>
+                    <small>좋아하는 것: {firstOwnedCreature.favoriteThing}</small>
+                  </div>
+                </article>
+              )}
+              {firstAlbumRewardReady && (
+                <button className="primary-action" onClick={claimAlbumReward} type="button">
+                  첫 도감 보상 받기 +25 잎
                 </button>
-              ))}
-            {save && showSeedShop && (
-              <article className="garden-action-dock" aria-label="정원 빠른 행동">
-                <div>
-                  <p className="panel-label">씨앗 행동</p>
-                  <strong>{hasOpenPlot ? "열린 밭에 다음 씨앗을 심어보세요" : "밭이 가득 찼어요"}</strong>
-                  <span>씨앗 구매와 보유 목록은 씨앗 탭에서 정리해 볼 수 있어요.</span>
-                </div>
-                <button onClick={() => setActiveTab("seeds")} type="button">
-                  씨앗 탭 열기
-                </button>
-              </article>
-            )}
-            {activePlot && <p className="hint">밭을 누르면 성장이 빨라지고, 100%가 되면 수확합니다.</p>}
-            {firstOwnedCreature && (
-              <article className="ownership-card" aria-label="첫 생명체 소유 증거">
-                <div className="ownership-portrait">{renderAsset(firstOwnedCreature.assetId, "생명체")}</div>
-                <div>
-                  <p className="panel-label">내 첫 생명체</p>
-                  <strong>{firstOwnedCreature.name}</strong>
-                  <span>{getCreatureRoleLabel(firstOwnedCreature.role)} · {firstOwnedCreature.albumHint}</span>
-                  <p className="creature-personality">{firstOwnedCreature.personality}</p>
-                  <small>좋아하는 것: {firstOwnedCreature.favoriteThing}</small>
-                </div>
-              </article>
-            )}
-            {firstAlbumRewardReady && (
-              <button className="primary-action" onClick={claimAlbumReward} type="button">
-                첫 도감 보상 받기 +25 잎
+              )}
+              <button
+                className="primary-action"
+                disabled={!save || save.plotCount >= 2 || save.leaves < FIRST_UPGRADE_COST}
+                onClick={buyFirstUpgrade}
+                type="button"
+              >
+                두 번째 밭 열기 {FIRST_UPGRADE_COST} 잎
               </button>
-            )}
-            <button
-              className="primary-action"
-              disabled={!save || save.plotCount >= 2 || save.leaves < FIRST_UPGRADE_COST}
-              onClick={buyFirstUpgrade}
-              type="button"
-            >
-              두 번째 밭 열기 {FIRST_UPGRADE_COST} 잎
-            </button>
+            </div>
           </aside>
         </section>
 

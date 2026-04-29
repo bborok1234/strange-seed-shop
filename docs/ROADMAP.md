@@ -41,6 +41,7 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | --- | --- | --- | --- |
 | P0 UI/UX research baseline | active | `docs/GAME_UI_UX_RESEARCH_20260428.md`, `items/0053-game-ui-ux-p0-rescue.md`, Issue #89 | HUD/playfield, Phaser viewport, CLI visual QA, alpha asset 기준과 프로젝트 결정이 문서화됨 |
 | Playfield-first garden screen | active | `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenScene.ts` | 정원 기본 화면에서 안내/하이라이트/패널이 밭을 가리지 않고 Phaser playfield가 주 시각 영역으로 보임 |
+| Garden action surface v0 | active | Issue #140, `items/0080-garden-action-surface-v0.md`, `src/App.tsx`, `src/styles.css`, visual evidence | 정원 기본 화면의 하단 UI가 작은 스크롤 패널이 아니라 primary CTA와 compact goal strip 중심의 game action surface로 읽힘 |
 | Phaser playfield presentation polish | done | Issue #99, PR #100, `items/0058-playfield-presentation-polish.md`, `src/game/playfield/GardenScene.ts` | ready/locked/empty plot 상태가 모바일 수집 게임 화면처럼 더 선명하게 구분되고 main CI가 통과함 |
 | Phaser playfield visual-noise cleanup | done | Issue #101, PR #102, `items/0059-playfield-visual-noise-cleanup.md`, `src/game/playfield/GardenScene.ts` | locked plot 반복 텍스트/강한 선을 줄이고 main CI가 통과함 |
 | Player/debug surface split | active | app shell/debug mode policy | `asset count`, `save ready`, `events`, `runtime image generation disabled`는 playable 기본 화면에서 숨겨지고 debug mode에서만 노출됨 |
