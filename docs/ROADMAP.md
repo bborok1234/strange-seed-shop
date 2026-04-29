@@ -29,6 +29,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Order/commission v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, first order UI, reward loop, visual evidence, main CI `25090571222` | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
 | Production garden UI v0 | done | Issue #123, PR #124, `items/0070-production-garden-ui-v0.md`, compact production/order UI, visual evidence, main CI `25090930573` | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
 | Core asset batch v0 | active | Issue #125 closed, PR #126, Issue #127, Issue #131, `items/0071-core-asset-batch-plan.md`, `items/0072-core-asset-generation-first-pass.md`, `items/0074-core-asset-manifest-normalization.md`, P0.5 generated candidates and manifest entries | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
+| Production/order asset runtime v0 | active | Issue #133, `items/0075-production-order-asset-runtime-v0.md`, Browser Use QA, visual gate | 첫 생산/주문 UI에서 work creature, order crate, celebrate state가 보이고 모바일 첫 화면 밀도가 유지됨 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
 

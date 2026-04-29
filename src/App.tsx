@@ -483,9 +483,14 @@ export default function App() {
             {productionStatus && productionStatus.ratePerMinute > 0 && (
               <article className="production-card" aria-label="자동 생산과 첫 주문">
                 <div className="production-card-heading">
-                  <div>
-                    <p className="panel-label">자동 생산</p>
-                    <strong>{firstOwnedCreature ? `${firstOwnedCreature.name} 작업 중` : "생명체 작업 중"}</strong>
+                  <div className="production-scene">
+                    <div className="production-asset production-asset-work" aria-hidden="true">
+                      {renderAsset("creature_herb_common_001_work", "작업")}
+                    </div>
+                    <div>
+                      <p className="panel-label">자동 생산</p>
+                      <strong>{firstOwnedCreature ? `${firstOwnedCreature.name} 작업 중` : "생명체 작업 중"}</strong>
+                    </div>
                   </div>
                   <span>분당 {productionStatus.ratePerMinute.toFixed(1)} 잎</span>
                 </div>
@@ -497,17 +502,27 @@ export default function App() {
                 </div>
                 {productionStatus.orderCompleted ? (
                   <div className="production-complete-row" aria-label="첫 주문 납품 완료">
-                    <span>첫 주문 납품 완료</span>
-                    <strong>
-                      +{productionStatus.order.rewardLeaves} 잎 · +{productionStatus.order.rewardPollen} 꽃가루
-                    </strong>
+                    <div className="production-asset production-asset-celebrate" aria-hidden="true">
+                      {renderAsset("creature_herb_common_001_celebrate", "완료")}
+                    </div>
+                    <div>
+                      <span>첫 주문 납품 완료</span>
+                      <strong>
+                        +{productionStatus.order.rewardLeaves} 잎 · +{productionStatus.order.rewardPollen} 꽃가루
+                      </strong>
+                    </div>
                   </div>
                 ) : (
                   <div className="order-progress-card">
-                    <div>
-                      <p className="panel-label">{productionStatus.order.customer}</p>
-                      <strong>{productionStatus.order.title}</strong>
-                      <span>{productionStatus.orderProgress}/{productionStatus.order.requiredLeaves} 잎 납품 준비</span>
+                    <div className="order-progress-main">
+                      <div className="production-asset production-asset-crate" aria-hidden="true">
+                        {renderAsset("ui_order_crate_leaf_001", "주문")}
+                      </div>
+                      <div>
+                        <p className="panel-label">{productionStatus.order.customer}</p>
+                        <strong>{productionStatus.order.title}</strong>
+                        <span>{productionStatus.orderProgress}/{productionStatus.order.requiredLeaves} 잎 납품 준비</span>
+                      </div>
                     </div>
                     <progress max={productionStatus.order.requiredLeaves} value={productionStatus.orderProgress} />
                     <button disabled={!productionStatus.orderReady} onClick={deliverFirstOrder} type="button">
