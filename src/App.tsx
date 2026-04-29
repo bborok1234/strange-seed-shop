@@ -75,6 +75,7 @@ const FIRST_RESEARCH_COST_LEAVES = 40;
 const FIRST_RESEARCH_COST_POLLEN = 2;
 const FIRST_RESEARCH_MAX_LEVEL = 1;
 const FIRST_EXPEDITION_ID = "quick_scout";
+const RESEARCH_EXPEDITION_ID = "moon_hint";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
 const PRODUCTION_FX_ASSETS: Record<ProductionFxKind, string> = {
@@ -190,6 +191,9 @@ export default function App() {
     ? isExpeditionReady(save.activeExpedition, now) && !save.activeExpedition.claimed
     : false;
   const firstExpedition = content.expeditions.find((item) => item.id === FIRST_EXPEDITION_ID);
+  const researchExpedition = save?.researchLevel && save.researchLevel >= FIRST_RESEARCH_MAX_LEVEL
+    ? content.expeditions.find((item) => item.id === RESEARCH_EXPEDITION_ID)
+    : undefined;
   const activeExpeditionDefinition = save?.activeExpedition
     ? content.expeditions.find((item) => item.id === save.activeExpedition?.expeditionId)
     : undefined;
@@ -201,6 +205,9 @@ export default function App() {
       ? Math.max(firstExpedition.requiredCreatures - save.discoveredCreatureIds.length, 0)
       : undefined;
   const expeditionNeedsMoreCreatures = (expeditionCreatureShortfall ?? 0) > 0;
+  const researchExpeditionShortfall =
+    save && researchExpedition ? Math.max(researchExpedition.requiredCreatures - save.discoveredCreatureIds.length, 0) : 0;
+  const showResearchExpeditionClue = Boolean(save && researchExpedition && !save.activeExpedition);
   const visibleMissions = save ? content.missions : [];
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
@@ -1003,6 +1010,24 @@ export default function App() {
                   <span className="expedition-reward-chip">원정 보상 예고</span>
                 </article>
               )}
+              {showResearchExpeditionClue && researchExpedition && (
+                <article className="expedition-preview research-expedition-preview" aria-label="연구 완료 후 원정 단서">
+                  <div>
+                    <p className="panel-label">연구 원정 단서</p>
+                    <strong>{researchExpedition.name}</strong>
+                    <span>
+                      {getExpeditionDurationLabel(researchExpedition.durationSeconds)} · 생명체 {researchExpedition.requiredCreatures}마리 필요 ·{" "}
+                      {getExpeditionRewardSummary(researchExpedition)}
+                    </span>
+                    <small>
+                      {researchExpeditionShortfall > 0
+                        ? `${researchExpeditionShortfall}마리 더 발견하면 달빛 계열 단서를 추적할 수 있어요.`
+                        : "연구 기록으로 새 원정 준비가 끝났어요."}
+                    </small>
+                  </div>
+                  <span className="expedition-reward-chip">연구 단서</span>
+                </article>
+              )}
               {!save?.activeExpedition && firstExpedition && (
                 <p
                   className={
@@ -1081,7 +1106,13 @@ export default function App() {
             const albumProgressBadge =
               tab.id === "album" && save ? `${albumDiscoveredCount}/${content.creatures.length}` : null;
             const expeditionStatusBadge =
-              tab.id === "expedition" && save?.activeExpedition ? (expeditionReady ? "완료" : "진행") : null;
+              tab.id === "expedition" && save?.activeExpedition
+                ? expeditionReady
+                  ? "완료"
+                  : "진행"
+                : tab.id === "expedition" && showResearchExpeditionClue
+                  ? "단서"
+                  : null;
 
             return (
               <button

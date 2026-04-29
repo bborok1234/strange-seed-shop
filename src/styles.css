@@ -1360,6 +1360,26 @@ h1 {
   font-weight: 950;
 }
 
+.research-expedition-preview {
+  border-color: rgba(73, 87, 143, 0.2);
+  background:
+    radial-gradient(circle at 15% 16%, rgba(255, 255, 255, 0.78), transparent 34%),
+    linear-gradient(135deg, rgba(224, 237, 255, 0.95), rgba(244, 249, 207, 0.94));
+}
+
+.research-expedition-preview small {
+  display: block;
+  margin-top: 4px;
+  color: #43516f;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.research-expedition-preview .expedition-reward-chip {
+  background: rgba(57, 75, 137, 0.9);
+}
+
 .expedition-unlock-note {
   margin: calc(var(--space-2) * -1) 0 var(--space-2);
   padding: 10px 12px;

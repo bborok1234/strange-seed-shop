@@ -320,6 +320,42 @@ test("모바일 연구 단서는 정원과 씨앗 탭에서 다음 수집 목표
   await page.screenshot({ path: testInfo.outputPath("mobile-research-clue-reward-v0-seeds-tab-393.png"), fullPage: false });
 });
 
+test("모바일 연구 완료 후 원정 탭은 장기 메타 단서를 보여준다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1");
+
+  await expect(page.getByRole("button", { name: /원정/ })).toContainText("단서");
+  await page.getByRole("button", { name: /원정/ }).click();
+  await expect(page.locator(".dev-panel.player-panel.tab-expedition")).toBeVisible();
+  await expect(page.getByLabel("연구 완료 후 원정 단서")).toBeVisible();
+  await expect(page.getByLabel("연구 완료 후 원정 단서").getByText("달빛 흔적 찾기", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("연구 완료 후 원정 단서")).toContainText("생명체 2마리 필요");
+  await expect(page.getByLabel("연구 완료 후 원정 단서")).toContainText("+420 잎 · +2 재료");
+  await expect(page.getByLabel("연구 완료 후 원정 단서")).toContainText("1마리 더 발견하면");
+
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".dev-panel.player-panel.tab-expedition")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const clue = document.querySelector<HTMLElement>(".research-expedition-preview")?.getBoundingClientRect();
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel ? { top: panel.top, bottom: panel.bottom, height: panel.height } : null,
+      tabs: tabs ? { top: tabs.top, bottom: tabs.bottom } : null,
+      clue: clue ? { top: clue.top, bottom: clue.bottom, height: clue.height } : null
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.clue).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top + 1);
+  expect(metrics.clue!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-research-expedition-bridge-v0-393.png"), fullPage: false });
+});
+
 test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 깨지 않는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 399, height: 666 });
   await page.goto("/?qaResearchComplete=1");
