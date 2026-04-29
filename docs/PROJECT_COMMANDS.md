@@ -34,6 +34,23 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 7. merge 후 main CI를 확인한다.
 8. 완료 보고는 중단 조건이 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
 
+### 작업 종료 문서 갱신 규칙
+
+issue 단위 작업이 끝나기 전에는 사람이 요청하지 않아도 아래를 갱신한다.
+
+1. `items/<id>.md`: 상태, small win, plan 이행 여부, 검증 결과, PR/CI evidence.
+2. `docs/ROADMAP.md`: 해당 milestone/step 상태와 `Current Next Action`.
+3. `docs/DASHBOARD.md`: 직접 편집하지 않고 `npm run update:dashboard`로 갱신한 뒤 `npm run check:dashboard`.
+4. GitHub issue/PR: small win, acceptance criteria, verification, evidence, 남은 risk.
+
+조건부 갱신:
+
+- 새 source-of-truth 문서가 생기면 `docs/README.md`와 필요 시 `scripts/check-docs-index.mjs`.
+- 운영 방식/명령/자동화 규칙이 바뀌면 `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_RUNBOOK.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, 필요 최소한의 `AGENTS.md`.
+- 게임 방향/재미/디자인/에셋 기준이 바뀌면 `docs/NORTH_STAR.md`, `docs/PRD_PHASE0.md`, `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/DESIGN_SYSTEM.md`.
+- UI/visual 작업이면 `reports/visual/` evidence와 `npm run check:visual`.
+- 운영 실행 결과이면 `reports/operations/`에 해당 실행 보고서.
+
 Stop rules:
 
 - 사용자가 stop/cancel/abort를 명시한다.

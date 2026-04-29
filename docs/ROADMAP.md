@@ -18,6 +18,18 @@ Status values:
 
 공통 헌장은 `docs/NORTH_STAR.md`가 소유한다. 게임 작업은 재미와 수집 욕구를, 운영사 작업은 장시간 자율성과 증거 기반 복구 능력을 개선해야 한다.
 
+## P0.5 Idle Core + Creative Rescue
+
+Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon vertical slice로 전환한다. 게임 기획, UI, 에셋, 연출을 분리하지 않고 core loop 재미를 먼저 만든다.
+
+| Step | Status | Output | Acceptance Criteria |
+| --- | --- | --- | --- |
+| Idle core creative guide | active | `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/SESSION_HANDOFF_20260429.md` | Egg, Inc./Idle Miner/Cell to Singularity에서 배운 생산 엔진, 장기 메타, asset bible, Codex vertical-slice workflow가 문서화됨 |
+| Creature role + auto production v0 | todo | game vertical slice item, production tick UI, visual evidence | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
+| Order/commission v0 | todo | order data/UI, reward loop, visual evidence | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
+| Production garden UI v0 | todo | Phaser/React garden UI update, screenshots | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
+| Core asset batch v0 | todo | creature work/celebrate, order crate, reward FX, manifest | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
+
 ## P0 Game Studio Operating Mode — UI/UX Rescue
 
 Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 게임처럼 보이고 자동화가 실제 화면 회귀를 잡는 상태가 될 때까지 운영모드로 반복한다.
@@ -239,10 +251,10 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 다음 작업:
 
-1. Issue #117 Project command surface를 `items/0067-project-command-surface.md` plan 기준으로 구현·검증·PR화한다.
-2. `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`를 project-local skill과 문서로 고정한다.
-3. PR/CI/main merge 후 완료 리포트로 멈추지 않고 다음 issue를 plan-first로 선택한다.
-4. 다음 게임 후보는 reward FX, harvest reveal micro-motion, tap/harvest feedback 심화, 탭별 game UI skinning, 운영 상황판 가독성 개선이다.
+1. `$seed-ops`로 `게임: P0.5 idle core creative rescue vertical slice 설계` issue를 만들고 plan-first item을 작성한다.
+2. `docs/IDLE_CORE_CREATIVE_GUIDE.md` 기준으로 첫 vertical slice를 `creature role + auto production + order v0`로 좁힌다.
+3. 다음 구현 PR은 게임 core, UI, 에셋, visual QA를 분리하지 않는 작은 vertical slice로 만든다.
+4. 운영사 인프라는 CI/QA/상태 이해가 게임 개발을 막을 때만 우선한다.
 
 ## Previous Next Action History
 

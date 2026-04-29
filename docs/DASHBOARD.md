@@ -40,7 +40,7 @@ Updated: 2026-04-29
 | --- | ---: |
 | done | 40 |
 | review | 61 |
-| todo | 2 |
+| todo | 6 |
 | blocked | 0 |
 
 ## 다음 작업

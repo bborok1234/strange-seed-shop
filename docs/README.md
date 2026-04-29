@@ -15,7 +15,9 @@ This folder is the durable memory for `이상한 씨앗상회` and the agent-nat
 | `UX_REVIEW_20260427.md` | Devil's advocate UX review and Milestone 3.5 guardrails | Before design-system implementation |
 | `GAME_STUDIO_REVIEW_20260427.md` | Game Studio 기준 playfield/runtime/sprite 구조 재검토 | Before changing the game runtime or sprite pipeline |
 | `GAME_UI_UX_RESEARCH_20260428.md` | P0 게임 UI/UX 리서치, 화면 비율, HUD, CLI visual QA, alpha asset 결정 | Before major UI/visual QA work |
+| `IDLE_CORE_CREATIVE_GUIDE.md` | P0.5 idle core, production UI, asset bible, Codex vertical-slice workflow | Before game/content/UI/asset feature work |
 | `SESSION_HANDOFF_20260427.md` | 이번 세션의 작업 맥락과 다음 deep interview 시작점 | Before starting a new session |
+| `SESSION_HANDOFF_20260429.md` | 최신 운영/게임 방향 전환과 재개 지점 | Before restarting Codex/OMX after this session |
 | `AUTONOMOUS_PROJECT_OPERATING_MODEL.md` | ClawSweeper-inspired agent operating model | Before automation/project-management work |
 | `OPERATOR_RUNBOOK.md` | 장시간 `$ralph` 운영사의 start, monitor, recover, stop, summarize 절차 | Before supervised 4h/24h operator runs |
 | `OPERATOR_CONTROL_ROOM.md` | 사람이 현재 mission, small win, evidence, playable mode를 한눈에 보는 운영 상황판 | Before/while running autonomous sessions |
