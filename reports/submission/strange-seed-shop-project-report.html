@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>이상한 씨앗상회 프로젝트 PRD</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #e7e0d1;
+      color: #203126;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Pretendard", "Segoe UI", sans-serif;
+      line-height: 1.55;
+      letter-spacing: 0;
+    }
+
+    .page {
+      position: relative;
+      width: 210mm;
+      height: 297mm;
+      padding: 21mm;
+      page-break-after: always;
+      overflow: hidden;
+      background: #fffaf0;
+    }
+
+    .page.dark {
+      background: #173024;
+      color: #f8f3e8;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8mm;
+      margin-bottom: 10mm;
+      color: #75806e;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .dark .topline {
+      color: #c9d6bf;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: inherit;
+      font-weight: 850;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .seed-mark {
+      width: 21px;
+      height: 21px;
+      border-radius: 50% 50% 42% 42%;
+      background: #e1c55f;
+      border: 3px solid #7d9a54;
+      transform: rotate(-18deg);
+      flex: 0 0 auto;
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 27mm;
+      max-width: 164mm;
+      color: #fff8e8;
+      font-size: 43px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      color: #203126;
+      font-size: 31px;
+      line-height: 1.2;
+      letter-spacing: 0;
+      margin-bottom: 7mm;
+    }
+
+    h3 {
+      margin-bottom: 3mm;
+      color: #244131;
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    p,
+    li,
+    td,
+    th {
+      color: #38483c;
+      font-size: 12px;
+    }
+
+    .dark p,
+    .dark li {
+      color: #dfe8d4;
+    }
+
+    ul {
+      margin: 3mm 0 0;
+      padding-left: 5mm;
+    }
+
+    li + li {
+      margin-top: 2mm;
+    }
+
+    .lead {
+      margin-top: 8mm;
+      max-width: 150mm;
+      color: #dfe8d4;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .quote {
+      margin-top: 10mm;
+      max-width: 154mm;
+      padding: 7mm 8mm;
+      border-left: 5px solid #f0c657;
+      border-radius: 0 8px 8px 0;
+      background: #263c2e;
+      color: #fff8e8;
+      font-size: 20px;
+      font-weight: 850;
+      line-height: 1.42;
+    }
+
+    .cover-art {
+      position: absolute;
+      right: 20mm;
+      bottom: 23mm;
+      width: 68mm;
+    }
+
+    .chips {
+      position: absolute;
+      left: 21mm;
+      bottom: 25mm;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      width: 100mm;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      padding: 3px 10px;
+      border: 1px solid #6f8758;
+      border-radius: 999px;
+      background: #31513a;
+      color: #f7f1df;
+      font-size: 10.5px;
+      font-weight: 800;
+    }
+
+    .kicker {
+      margin-bottom: 4mm;
+      color: #6f964f;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .body {
+      color: #38483c;
+      font-size: 12.2px;
+      line-height: 1.68;
+    }
+
+    .body p + p {
+      margin-top: 4mm;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8mm;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5mm;
+    }
+
+    .card {
+      border: 1px solid #d3ddcc;
+      border-radius: 9px;
+      padding: 6mm;
+      background: #fffdf8;
+    }
+
+    .metric {
+      padding: 5.5mm;
+      border-radius: 10px;
+      background: #1d3628;
+      min-height: 28mm;
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 2mm;
+      color: #f0c657;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .metric span {
+      color: #dfe8d4;
+      font-size: 11px;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 6mm;
+      border: 1px solid #d3ddcc;
+      border-collapse: collapse;
+      background: #fffdf8;
+    }
+
+    th,
+    td {
+      padding: 3mm 3.5mm;
+      border-bottom: 1px solid #e2e8de;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #e8f0dc;
+      color: #23392b;
+      font-weight: 900;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    code {
+      padding: 1px 5px;
+      border-radius: 5px;
+      background: #edf2e4;
+      color: #24382b;
+      font-family: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    .note {
+      margin-top: 6mm;
+      padding: 5mm 6mm;
+      border-left: 4px solid #78a84e;
+      border-radius: 0 8px 8px 0;
+      background: #eff6e8;
+      color: #263b2e;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .diagram {
+      margin-top: 7mm;
+      padding: 5mm;
+      border: 1px solid #d3ddcc;
+      border-radius: 9px;
+      background: #fffdf8;
+    }
+
+    .phone-frame {
+      width: 69mm;
+      margin: 0 auto;
+      padding: 3.5mm;
+      border-radius: 22px;
+      background: #203126;
+    }
+
+    .phone-frame img {
+      display: block;
+      width: 100%;
+      border-radius: 16px;
+    }
+
+    .caption {
+      margin-top: 2.5mm;
+      color: #687466;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5mm;
+      margin-top: 7mm;
+    }
+
+    .shot {
+      overflow: hidden;
+      border: 1px solid #d3ddcc;
+      border-radius: 9px;
+      background: #fffdf8;
+    }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: 80mm;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .shot div {
+      padding: 3mm;
+      color: #37483c;
+      font-size: 10.5px;
+      font-weight: 800;
+    }
+
+    .asset-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 4mm;
+      margin-top: 7mm;
+      padding: 5mm;
+      border: 1px dashed #b8c89c;
+      border-radius: 9px;
+      background: #fffdf8;
+    }
+
+    .asset-strip img {
+      max-width: 27mm;
+      max-height: 24mm;
+      object-fit: contain;
+    }
+
+    .footer {
+      position: absolute;
+      left: 21mm;
+      right: 21mm;
+      bottom: 10mm;
+      display: flex;
+      justify-content: space-between;
+      color: #7b8576;
+      font-size: 9px;
+    }
+
+    .dark .footer {
+      color: #b9c8af;
+    }
+
+    @media print {
+      body {
+        background: #e7e0d1 !important;
+      }
+
+      .page {
+        background: #fffaf0 !important;
+      }
+
+      .page.dark {
+        background: #173024 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="page dark">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>이상한 씨앗상회</div>
+      <div>Project PRD · 2026.04.30</div>
+    </div>
+    <h1>AI Agent가 직접 빌드하고 운영하는 브라우저 게임 스튜디오</h1>
+    <p class="lead">식물 생명체를 키우고 수집하는 idle game과, 그 게임을 계속 개선하는 AI Agent 운영 시스템을 하나의 제품 실험으로 묶은 프로젝트입니다.</p>
+    <div class="quote">“이 아이가 정원을 실제로 움직이네. 다음 주문/업그레이드/생명체까지 보고 싶다.”</div>
+    <img class="cover-art" src="../../public/assets/game/creatures/creature_herb_common_001.png" alt="첫 번째 식물 생명체" />
+    <div class="chips">
+      <span class="chip">React + TypeScript</span>
+      <span class="chip">Phaser 2D</span>
+      <span class="chip">Agent Ops</span>
+      <span class="chip">Visual QA</span>
+      <span class="chip">AI-made report</span>
+    </div>
+    <div class="footer"><span>Generated from repository docs, screenshots, assets, and operator evidence</span><span>01</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>Executive Summary</div>
+      <div>두 목표, 하나의 레포</div>
+    </div>
+    <div class="kicker">요약</div>
+    <h2>이 프로젝트는 게임과 게임사를 동시에 만든다</h2>
+    <div class="body">
+      <p>이 저장소는 하나의 게임만 만드는 곳이 아닙니다. 첫 번째 목표는 플레이어가 직접 즐기는 브라우저 idle collection tycoon `이상한 씨앗상회`입니다. 두 번째 목표는 그 게임을 계속 개선하기 위한 AI Agent 기반 개발/운영 시스템입니다.</p>
+    </div>
+    <div class="grid-2" style="margin-top:7mm;">
+      <div class="card">
+        <h3>목표 A. 이상한 씨앗상회</h3>
+        <p>모바일 브라우저에서 바로 플레이하는 idle collection tycoon. 플레이어는 씨앗을 심고, 생명체를 수확하고, 그 생명체가 정원 생산과 주문 처리에 참여하는 모습을 봅니다.</p>
+      </div>
+      <div class="card">
+        <h3>목표 B. 에이전트 네이티브 게임 스튜디오</h3>
+        <p>AI Agent가 roadmap과 work item을 읽고, 계획을 쓰고, 구현하고, 검증하고, PR evidence를 남기는 개발 운영 레이어입니다.</p>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:8mm;">
+      <div class="metric"><strong>72 Issues</strong><span>생성 후 닫힌 작업 단위 evidence</span></div>
+      <div class="metric"><strong>91 PR</strong><span>머지된 PR 기준으로 축적된 구현 evidence</span></div>
+      <div class="metric"><strong>P0.5</strong><span>수집 UI에서 생산 idle tycoon으로 확장</span></div>
+    </div>
+    <div class="note">핵심은 “AI로 코드를 조금 더 빨리 짜는 것”이 아니라, AI Agent가 계속 좋은 결정을 하도록 제품 문서, 검증, 운영 표면을 함께 설계하는 것입니다.</div>
+    <div class="footer"><span>Executive Summary</span><span>02</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>Problem / Opportunity</div>
+      <div>AI 개발 병목</div>
+    </div>
+    <div class="kicker">문제 정의</div>
+    <h2>AI 코딩 도구 이후에도 제품 개발 병목은 남아 있다</h2>
+    <div class="body">
+      <p>AI 코딩 도구를 쓰면 개별 함수나 화면은 빠르게 만들 수 있습니다. 하지만 실제 제품 개발 속도는 코드 작성 시간만으로 결정되지 않습니다. 무엇을 만들지 계속 다시 설명해야 하고, 작은 변경이 전체 제품 목표와 분리되며, QA evidence 없이 “된 것 같다”로 넘어가면 프로젝트는 빨라지지 않습니다.</p>
+      <p>이 프로젝트는 이 병목을 제품 설계 문제로 봅니다. AI Agent가 잘 일하려면 코드보다 먼저 agent가 읽을 수 있는 북극성, roadmap, plan-first artifact, verification gate, visual evidence, stop rule이 필요합니다.</p>
+    </div>
+    <table>
+      <thead><tr><th>일반적인 병목</th><th>이 프로젝트의 해결 방식</th></tr></thead>
+      <tbody>
+        <tr><td>요구사항을 매번 다시 설명해야 한다.</td><td>북극성, roadmap, work item, project command 문서를 agent의 기본 operating surface로 둔다.</td></tr>
+        <tr><td>작은 변경이 제품 목표와 연결되지 않는다.</td><td>게임 작업은 player verb, core loop role, screen moment, asset/FX need, playtest evidence를 함께 정의한다.</td></tr>
+        <tr><td>완료 기준이 모호하다.</td><td>local check, visual screenshot, report, PR metadata, CI evidence를 완료 조건으로 삼는다.</td></tr>
+        <tr><td>장시간 agent 작업이 불투명하다.</td><td>heartbeat, watchdog, operator report, dashboard로 liveness와 blocker를 기록한다.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Problem / Opportunity</span><span>03</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>Game PRD</div>
+      <div>P0.5 idle core</div>
+    </div>
+    <div class="kicker">게임 제품 요구사항</div>
+    <h2>귀여운 수집 UI에서 생산 idle tycoon으로 확장한다</h2>
+    <div class="body">
+      <p>초기 감정 목표는 첫 5분 안에 “얘 귀엽다. 하나만 더 키워볼까?”를 만드는 것이었습니다. P0.5부터는 이 감정 목표가 한 단계 확장됩니다. 생명체가 도감 카드로 끝나는 것이 아니라, 실제 정원 생산과 주문 진행을 움직이는 actor로 읽혀야 합니다.</p>
+    </div>
+    <div class="note">P0.5 북극성: “이 아이가 정원을 실제로 움직이네. 다음 주문/업그레이드/생명체까지 보고 싶다.”</div>
+    <div class="diagram">
+      <svg viewBox="0 0 820 130" width="100%" height="130" role="img" aria-label="game loop">
+        <defs><marker id="arrow1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#416232"></path></marker></defs>
+        <g font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+          <g fill="#e9f0dc" stroke="#b6c795">
+            <rect x="55" y="40" width="96" height="52" rx="9"></rect><rect x="177" y="40" width="96" height="52" rx="9"></rect><rect x="299" y="40" width="96" height="52" rx="9"></rect><rect x="421" y="40" width="96" height="52" rx="9"></rect><rect x="543" y="40" width="96" height="52" rx="9"></rect><rect x="665" y="40" width="96" height="52" rx="9"></rect>
+          </g>
+          <g fill="#23392b" font-size="14" font-weight="800">
+            <text x="103" y="72" text-anchor="middle">씨앗</text><text x="225" y="72" text-anchor="middle">성장</text><text x="347" y="72" text-anchor="middle">생명체</text><text x="469" y="72" text-anchor="middle">생산</text><text x="591" y="72" text-anchor="middle">주문</text><text x="713" y="72" text-anchor="middle">해금</text>
+          </g>
+          <g stroke="#416232" stroke-width="3" marker-end="url(#arrow1)">
+            <path d="M151 66 H174"></path><path d="M273 66 H296"></path><path d="M395 66 H418"></path><path d="M517 66 H540"></path><path d="M639 66 H662"></path>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <table>
+      <thead><tr><th>성공 기준</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td>첫 생명체 획득</td><td>첫 90초 안에 씨앗 선택, 성장, 수확, 이름 있는 생명체 획득이 가능해야 한다.</td></tr>
+        <tr><td>생산 actor</td><td>첫 생명체가 단순 카드가 아니라 playfield 안에서 생산 actor로 읽혀야 한다.</td></tr>
+        <tr><td>다음 목표</td><td>주문, 업그레이드, 연구, 원정, 다음 생명체 중 하나가 다음 행동으로 보여야 한다.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Game Product Requirements</span><span>04</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>Functional Requirements</div>
+      <div>Phase 0 / P0.5</div>
+    </div>
+    <div class="kicker">기능 요구사항</div>
+    <h2>첫 루프에서 생산과 주문이 보이는 구조</h2>
+    <table>
+      <thead><tr><th>영역</th><th>요구사항</th><th>현재 구현/증거</th></tr></thead>
+      <tbody>
+        <tr><td>Garden</td><td>plot, 성장 상태, harvestable state, 다음 행동을 한 화면에서 보여준다.</td><td>Phaser garden playfield + DOM action surface</td></tr>
+        <tr><td>Collection</td><td>첫 수확은 currency가 아니라 이름 있는 생명체여야 한다.</td><td>도감, reveal, next creature 목표</td></tr>
+        <tr><td>Production</td><td>생명체가 정원 경제에 참여하고 production tick이 보인다.</td><td>work creature asset, production tick, leaf reward FX</td></tr>
+        <tr><td>Order</td><td>짧은 주문 목표와 납품 보상이 다음 목표로 이어진다.</td><td>order crate, repeat order, reward bridge</td></tr>
+        <tr><td>Upgrade</td><td>첫 주문 보상이 생산 속도 등 의미 있는 선택으로 이어진다.</td><td>production speed upgrade loop</td></tr>
+        <tr><td>Meta</td><td>연구와 원정은 장기 목표의 실루엣을 제공한다.</td><td>research unlock, clue reward, expedition start</td></tr>
+      </tbody>
+    </table>
+    <div class="body" style="margin-top:7mm;">
+      <h3>Non-goals / Safety Boundary</h3>
+      <p>Phase 0에서는 실제 결제, 광고 SDK, 로그인/account, 외부 배포 자동화, 고객 데이터 수집, 실채널 GTM 자동 발행, 런타임 이미지 생성을 하지 않습니다. 이 제한은 기능 부족이 아니라 AI Agent 자율성을 다룰 때 필요한 안전 경계입니다.</p>
+    </div>
+    <div class="footer"><span>Functional Requirements</span><span>05</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>UX Evidence</div>
+      <div>실제 화면 증거</div>
+    </div>
+    <div class="kicker">첫 화면</div>
+    <h2>첫 화면은 대시보드가 아니라 게임 장면이어야 한다</h2>
+    <div class="grid-2">
+      <div class="body">
+        <p>React는 app shell, save state, HUD, secondary panel을 맡고, Phaser는 중앙 garden playfield를 맡습니다. 현재 화면은 plot state, 수확 상태, 생산 actor, 주문 crate, action surface를 분리해 보여줍니다.</p>
+        <ul>
+          <li>씨앗 심기, 탭 성장, 수확, 도감 보상</li>
+          <li>생명체 기반 생산 tick과 주문 progress</li>
+          <li>업그레이드, 연구, 원정 teaser로 이어지는 다음 목표</li>
+          <li>모바일 game frame 안에서 playfield와 action surface 보호</li>
+        </ul>
+      </div>
+      <div>
+        <div class="phone-frame">
+          <img src="../visual/p0-garden-action-surface-v0-garden-393-20260429.png" alt="정원 액션 화면" />
+        </div>
+        <div class="caption">Garden action surface · 모바일 game frame</div>
+      </div>
+    </div>
+    <div class="footer"><span>UX / Visual Evidence</span><span>06</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>P0.5 Evidence</div>
+      <div>생산 · 주문 · 연구</div>
+    </div>
+    <div class="kicker">진행 증거</div>
+    <h2>생명체가 생산과 다음 목표를 움직인다</h2>
+    <div class="shot-grid">
+      <div class="shot"><img src="../visual/p0-playfield-production-actors-v0-browser-use-20260429.png" alt="생산 actor가 보이는 playfield" /><div>생명체와 주문 상자</div></div>
+      <div class="shot"><img src="../visual/p0-production-speed-upgrade-loop-v0-browser-use-20260429.png" alt="생산 속도 업그레이드" /><div>주문 보상과 업그레이드</div></div>
+      <div class="shot"><img src="../visual/p0-research-expedition-start-v0-browser-use-20260429.png" alt="연구와 원정 시작" /><div>연구와 원정 teaser</div></div>
+    </div>
+    <div class="note">P0.5의 판단 기준은 단순히 화면이 겹치지 않는 것이 아니라, 생산 actor, 주문 progress, 업그레이드/연구/원정 목표가 한 게임 루프로 읽히는가입니다.</div>
+    <div class="footer"><span>P0.5 Visual Evidence</span><span>07</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>Asset Pipeline</div>
+      <div>AI 생성은 제작 파이프라인</div>
+    </div>
+    <div class="kicker">정적 에셋</div>
+    <h2>런타임에서는 검수된 정적 에셋만 사용한다</h2>
+    <div class="body">
+      <p>AI 이미지 생성은 게임 플레이 중 호출되는 기능이 아니라 제작 파이프라인입니다. 에셋은 사전에 생성하고, 투명 배경, 작은 크기 판독성, 스타일 일관성, gameplay role을 검수한 뒤 manifest로 등록합니다.</p>
+    </div>
+    <div class="asset-strip">
+      <img src="../../public/assets/game/creatures/creature_herb_common_001.png" alt="creature portrait" />
+      <img src="../../public/assets/game/creatures/states/creature_herb_common_001_work.png" alt="creature work state" />
+      <img src="../../public/assets/game/ui/ui_order_crate_leaf_001.png" alt="order crate" />
+      <img src="../../public/assets/game/fx/fx_production_tick_leaf_001_strip.png" alt="production tick fx" />
+      <img src="../../public/assets/game/backgrounds/background_greenhouse_day_001.png" alt="greenhouse background" />
+    </div>
+    <table>
+      <thead><tr><th>단계</th><th>내용</th><th>완료 기준</th></tr></thead>
+      <tbody>
+        <tr><td>Plan</td><td>게임 내 역할, 사용 화면, 크기, 투명 배경 필요 여부 정의</td><td>asset id와 manifest path가 안정적으로 정해짐</td></tr>
+        <tr><td>Generate</td><td>AI image generation으로 정적 후보 생성</td><td>workspace에 원본 저장</td></tr>
+        <tr><td>Review</td><td>투명도, 작은 크기 판독성, 스타일 일관성 확인</td><td>asset review report 통과</td></tr>
+        <tr><td>Runtime</td><td>게임은 manifest를 통해 정적 asset만 로딩</td><td>런타임 이미지 생성 API 호출 없음</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Static Asset Pipeline</span><span>08</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>Agent Operating Model</div>
+      <div>운영사 PRD</div>
+    </div>
+    <div class="kicker">에이전트 네이티브 스튜디오</div>
+    <h2>AI Agent는 코드를 쓰는 도구가 아니라 작업을 소유하는 운영자다</h2>
+    <div class="body">
+      <p>운영사 레이어는 agent가 다음 작업을 고르고, 계획하고, 구현하고, 검증하고, PR evidence를 남기는 과정을 제품처럼 설계합니다. 목표는 빠른 생성이 아니라, 계속 움직이면서도 사람이 이해하고 멈출 수 있는 개발 시스템입니다.</p>
+    </div>
+    <div class="diagram">
+      <svg viewBox="0 0 820 245" width="100%" height="245" role="img" aria-label="agent operating loop">
+        <defs><marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f2c15b"></path></marker></defs>
+        <rect x="0" y="0" width="820" height="245" rx="12" fill="#173024"></rect>
+        <text x="410" y="33" text-anchor="middle" font-size="18" font-weight="800" fill="#fbf7ed">AI Agent Operating Loop</text>
+        <text x="410" y="55" text-anchor="middle" font-size="11" fill="#d9e8ce">roadmap을 읽고, 계획하고, 구현하고, 검증하고, PR evidence를 남긴 뒤 다음 queue로 돌아간다</text>
+        <g fill="#f7f0df" stroke="#6c8b51" stroke-width="2">
+          <rect x="48" y="82" width="132" height="50" rx="9"></rect>
+          <rect x="250" y="82" width="132" height="50" rx="9"></rect>
+          <rect x="452" y="82" width="132" height="50" rx="9"></rect>
+          <rect x="654" y="82" width="132" height="50" rx="9"></rect>
+          <rect x="250" y="166" width="132" height="50" rx="9"></rect>
+          <rect x="452" y="166" width="132" height="50" rx="9"></rect>
+        </g>
+        <g fill="#1d2f25" font-size="13" font-weight="800">
+          <text x="114" y="112" text-anchor="middle">Docs/Roadmap</text>
+          <text x="316" y="112" text-anchor="middle">Issue + Plan</text>
+          <text x="518" y="112" text-anchor="middle">Implementation</text>
+          <text x="720" y="112" text-anchor="middle">Verification</text>
+          <text x="518" y="196" text-anchor="middle">PR + CI</text>
+          <text x="316" y="196" text-anchor="middle">Next queue</text>
+        </g>
+        <g stroke="#f2c15b" stroke-width="3.5" fill="none" marker-end="url(#arrow2)">
+          <path d="M180 107 H247"></path>
+          <path d="M382 107 H449"></path>
+          <path d="M584 107 H651"></path>
+          <path d="M720 132 V158 C720 182 690 191 587 191"></path>
+          <path d="M452 191 H385"></path>
+          <path d="M250 191 H114 V136"></path>
+        </g>
+      </svg>
+    </div>
+    <div class="footer"><span>Agent Operating Model</span><span>09</span></div>
+  </section>
+
+  <section class="page">
+    <div class="topline">
+      <div class="brand"><span class="seed-mark"></span>Verification Plan</div>
+      <div>완료 기준</div>
+    </div>
+    <div class="kicker">검증</div>
+    <h2>완료의 기준은 “바뀐 코드”가 아니라 “검증 가능한 증거”다</h2>
+    <table>
+      <thead><tr><th>검증 항목</th><th>증명 방식</th></tr></thead>
+      <tbody>
+        <tr><td>게임 루프</td><td><code>npm run check:loop</code>, content config 검증, economy simulation</td></tr>
+        <tr><td>문서/운영 규칙</td><td><code>npm run check:docs</code>, apply condition, project command, metadata checker</td></tr>
+        <tr><td>화면 품질</td><td>Browser Use 우선 QA, Playwright screenshot fallback, <code>reports/visual/</code> evidence</td></tr>
+        <tr><td>장시간 운영</td><td>heartbeat ledger, watchdog, supervised trial report</td></tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top:8mm;">현재 운영 evidence 요약</h3>
+    <table>
+      <tbody>
+        <tr><td>Closed issues</td><td>현재까지 72개의 issue가 생성되고 닫히며 작업 단위 evidence가 축적되었다.</td></tr>
+        <tr><td>Merged PRs</td><td>현재까지 91개의 PR이 merge되어 게임 기능, UI, QA, 운영사 레이어가 반복적으로 개선되었다.</td></tr>
+        <tr><td>Operator trial</td><td>초기 4시간 supervised trial은 issue-to-PR/CI discipline을 검증한 출발점이며, 현재는 그 이후 누적된 issue/PR 운영 evidence가 더 큰 증거다.</td></tr>
+        <tr><td>Safety</td><td>credential, payment, customer data, external deployment, real GTM action을 사용하지 않는 안전 경계를 유지한다.</td></tr>
+      </tbody>
+    </table>
+    <div class="note">게임이 좋아지지 않으면 AI 자동화 데모에 그치고, 자동화가 좋아지지 않으면 평범한 게임 프로젝트에 머문다. 이 프로젝트는 둘을 함께 밀어 올리는 실험이다.</div>
+    <div class="footer"><span>Verification Plan</span><span>10</span></div>
+  </section>
+</body>
+</html>
