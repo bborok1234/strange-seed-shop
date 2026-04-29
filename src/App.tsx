@@ -134,21 +134,24 @@ export default function App() {
     const qaExpeditionReady = getLocalQaExpeditionReady();
     const qaProductionReady = getLocalQaProductionReady();
     const qaResearchReady = getLocalQaResearchReady();
+    const qaResearchComplete = getLocalQaResearchComplete();
     const existingSave = qaSpriteState
       ? createSpriteQaSave(qaSpriteState)
       : qaHarvestReveal
         ? createHarvestRevealQaSave()
-        : qaResearchReady
-          ? createResearchReadyQaSave()
-          : qaProductionReady
-            ? createProductionReadyQaSave()
-            : qaExpeditionActive
-              ? createExpeditionActiveQaSave()
-              : qaExpeditionReady
-                ? createExpeditionReadyQaSave()
-                : qaOfflineMinutes
-                  ? createOfflineQaSave(qaOfflineMinutes)
-                  : localSaveStore.load();
+        : qaResearchComplete
+          ? createResearchCompleteQaSave()
+          : qaResearchReady
+            ? createResearchReadyQaSave()
+            : qaProductionReady
+              ? createProductionReadyQaSave()
+              : qaExpeditionActive
+                ? createExpeditionActiveQaSave()
+                : qaExpeditionReady
+                  ? createExpeditionReadyQaSave()
+                  : qaOfflineMinutes
+                    ? createOfflineQaSave(qaOfflineMinutes)
+                    : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -213,6 +216,7 @@ export default function App() {
     save && productionStatus?.ratePerMinute
       ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade, buyProductionBoost, buyFirstResearch)
       : [];
+  const researchClue = getResearchClue(save, nextCreatureGoal);
   const visibleSeedInventorySeeds =
     nextCreatureGoal && !availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)
       ? [nextCreatureGoal.seed, ...availableSeeds]
@@ -698,6 +702,7 @@ export default function App() {
                     </span>
                   </div>
                   <span>힌트: {nextCreatureGoal.creature.albumHint}</span>
+                  {researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
                   <small>
                     {nextCreatureGoal.seed.name}에서 만날 수 있어요 · 도감 {nextCreatureGoal.discoveredCount}/{nextCreatureGoal.totalCount}
                   </small>
@@ -826,8 +831,10 @@ export default function App() {
                     <p className="panel-label">도감 목표 씨앗</p>
                     <strong>{nextCreatureGoal.seed.name}</strong>
                     <span>
-                      {getRarityLabel(nextCreatureGoal.creature.rarity)} · {nextCreatureGoal.creature.name}을 만날 차례예요.
+                      {getRarityLabel(nextCreatureGoal.creature.rarity)} · {nextCreatureGoal.creature.name}
+                      {getObjectParticle(nextCreatureGoal.creature.name)} 만날 차례예요.
                     </span>
+                    {researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
                     <button className="seed-goal-action-button" onClick={() => setActiveTab("garden")} type="button">
                       정원에서 심기
                     </button>
@@ -851,6 +858,7 @@ export default function App() {
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개 · {getSeedHarvestSummary(seed)}</span>
                         {targetSeed && <span className="seed-target-badge">다음 발견</span>}
+                        {targetSeed && researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
                         {leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}
                         {previewCreature && (
                           <small className="seed-creature-preview">
@@ -1164,6 +1172,21 @@ function getNextCreatureGoal(save: PlayerSave | null): NextCreatureGoal | null {
     discoveredCount: save.discoveredCreatureIds.length,
     totalCount: content.creatures.length
   };
+}
+
+function getResearchClue(save: PlayerSave | null, nextCreatureGoal: NextCreatureGoal | null): string | null {
+  if (!save || !nextCreatureGoal || save.researchLevel < FIRST_RESEARCH_MAX_LEVEL) {
+    return null;
+  }
+
+  return `${nextCreatureGoal.seed.name}에서 ${nextCreatureGoal.creature.albumHint}`;
+}
+
+function getObjectParticle(label: string): "을" | "를" {
+  const lastCode = label.charCodeAt(label.length - 1);
+  const hasFinalConsonant = lastCode >= 0xac00 && lastCode <= 0xd7a3 && (lastCode - 0xac00) % 28 !== 0;
+
+  return hasFinalConsonant ? "을" : "를";
 }
 
 function getNextAction(save: PlayerSave | null, activePlot: PlotState | undefined, firstAlbumRewardReady: boolean | null) {
@@ -1652,6 +1675,14 @@ function getLocalQaResearchReady(): boolean {
   return new URLSearchParams(window.location.search).get("qaResearchReady") === "1";
 }
 
+function getLocalQaResearchComplete(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaResearchComplete") === "1";
+}
+
 function getLocalDebugMode() {
   if (typeof window === "undefined") {
     return false;
@@ -1781,6 +1812,34 @@ function createResearchReadyQaSave(): PlayerSave {
         [SECOND_ORDER.id]: SECOND_ORDER.requiredLeaves
       },
       completedOrderIds: [FIRST_ORDER.id]
+    },
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
+  };
+}
+
+function createResearchCompleteQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createNewSave(now);
+
+  return {
+    ...save,
+    leaves: 28,
+    pollen: 0,
+    selectedStarterSeedId: "seed_herb_001",
+    discoveredCreatureIds: ["creature_herb_common_001"],
+    claimedAlbumMilestoneIds: ["album_1"],
+    plotCount: 2,
+    productionBoostLevel: 1,
+    researchLevel: 1,
+    idleProduction: {
+      pendingLeaves: 0,
+      lastTickAt: now.toISOString(),
+      orderProgress: {
+        [FIRST_ORDER.id]: FIRST_ORDER.requiredLeaves,
+        [SECOND_ORDER.id]: SECOND_ORDER.requiredLeaves
+      },
+      completedOrderIds: [FIRST_ORDER.id, SECOND_ORDER.id]
     },
     lastSeenAt: now.toISOString(),
     updatedAt: now.toISOString()

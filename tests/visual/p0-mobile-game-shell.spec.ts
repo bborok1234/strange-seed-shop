@@ -304,6 +304,59 @@ test("모바일 연구 unlock은 두 번째 주문 보상에서 연구 완료로
   await page.screenshot({ path: testInfo.outputPath("mobile-research-unlock-v0-393.png"), fullPage: false });
 });
 
+test("모바일 연구 단서는 정원과 씨앗 탭에서 다음 수집 목표를 설명한다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1");
+
+  await expect(page.getByText("연구 완료", { exact: true })).toBeVisible();
+  await expect(page.locator(".next-creature-card .research-clue-line")).toContainText("연구 단서:");
+  await expect(page.locator(".next-creature-card .research-clue-line")).toContainText("넓은 잎으로 잠든 씨앗을 지켜준다");
+  await page.screenshot({ path: testInfo.outputPath("mobile-research-clue-reward-v0-393.png"), fullPage: false });
+
+  await page.getByRole("button", { name: "씨앗" }).click();
+  await expect(page.locator(".dev-panel.player-panel.tab-seeds")).toBeVisible();
+  await expect(page.getByText("도감 목표 씨앗", { exact: true })).toBeVisible();
+  await expect(page.locator(".seed-goal-banner .research-clue-line")).toContainText("연구 단서:");
+  await page.screenshot({ path: testInfo.outputPath("mobile-research-clue-reward-v0-seeds-tab-393.png"), fullPage: false });
+});
+
+test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 깨지 않는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 399, height: 666 });
+  await page.goto("/?qaResearchComplete=1");
+
+  await expect(page.getByText("연구 완료", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("다음 생명체 수집 목표")).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
+    const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const nextGoal = document.querySelector<HTMLElement>(".next-creature-card")?.getBoundingClientRect();
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      playfield: playfield ? { height: playfield.height } : null,
+      panel: panel ? { bottom: panel.bottom } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      nextGoal: nextGoal ? { bottom: nextGoal.bottom } : null,
+      panelClientHeight: document.querySelector<HTMLElement>(".starter-panel")?.clientHeight ?? 0,
+      panelScrollHeight: document.querySelector<HTMLElement>(".starter-panel")?.scrollHeight ?? 0
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.playfield).not.toBeNull();
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.nextGoal).not.toBeNull();
+  expect(metrics.playfield!.height).toBeGreaterThan(220);
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.nextGoal!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-research-clue-reward-v0-short-399x666.png"), fullPage: false });
+});
+
 test("짧은 모바일 브라우저에서도 생산 actor와 action surface는 잘리지 않는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 399, height: 666 });
   await page.goto("/?qaProductionReady=1");
