@@ -122,6 +122,7 @@ export interface PlayerSave {
   plotCount: number;
   tapPowerLevel: number;
   productionBoostLevel: number;
+  researchLevel: number;
   plots: PlotState[];
   activeExpedition?: ExpeditionState;
   idleProduction: IdleProductionState;

@@ -71,6 +71,9 @@ const PRODUCTION_BOOST_COST_LEAVES = 40;
 const PRODUCTION_BOOST_COST_POLLEN = 1;
 const PRODUCTION_BOOST_MAX_LEVEL = 1;
 const PRODUCTION_BOOST_RATE_BONUS = 0.25;
+const FIRST_RESEARCH_COST_LEAVES = 40;
+const FIRST_RESEARCH_COST_POLLEN = 2;
+const FIRST_RESEARCH_MAX_LEVEL = 1;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
@@ -130,19 +133,22 @@ export default function App() {
     const qaExpeditionActive = getLocalQaExpeditionActive();
     const qaExpeditionReady = getLocalQaExpeditionReady();
     const qaProductionReady = getLocalQaProductionReady();
+    const qaResearchReady = getLocalQaResearchReady();
     const existingSave = qaSpriteState
       ? createSpriteQaSave(qaSpriteState)
       : qaHarvestReveal
         ? createHarvestRevealQaSave()
-        : qaProductionReady
-          ? createProductionReadyQaSave()
-          : qaExpeditionActive
-            ? createExpeditionActiveQaSave()
-            : qaExpeditionReady
-              ? createExpeditionReadyQaSave()
-              : qaOfflineMinutes
-                ? createOfflineQaSave(qaOfflineMinutes)
-                : localSaveStore.load();
+        : qaResearchReady
+          ? createResearchReadyQaSave()
+          : qaProductionReady
+            ? createProductionReadyQaSave()
+            : qaExpeditionActive
+              ? createExpeditionActiveQaSave()
+              : qaExpeditionReady
+                ? createExpeditionReadyQaSave()
+                : qaOfflineMinutes
+                  ? createOfflineQaSave(qaOfflineMinutes)
+                  : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -205,7 +211,7 @@ export default function App() {
   const productionStatus = useMemo(() => (save ? getProductionStatus(save, now) : null), [save, now]);
   const upgradeChoices =
     save && productionStatus?.ratePerMinute
-      ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade, buyProductionBoost)
+      ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade, buyProductionBoost, buyFirstResearch)
       : [];
   const visibleSeedInventorySeeds =
     nextCreatureGoal && !availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)
@@ -372,6 +378,30 @@ export default function App() {
         costLeaves: PRODUCTION_BOOST_COST_LEAVES,
         costPollen: PRODUCTION_BOOST_COST_POLLEN,
         productionBoostLevel: draft.productionBoostLevel
+      });
+    });
+    triggerRewardPulse();
+  }
+
+  function buyFirstResearch() {
+    commit((draft) => {
+      if (
+        draft.researchLevel >= FIRST_RESEARCH_MAX_LEVEL ||
+        draft.leaves < FIRST_RESEARCH_COST_LEAVES ||
+        draft.pollen < FIRST_RESEARCH_COST_POLLEN ||
+        !draft.idleProduction.completedOrderIds.includes(SECOND_ORDER.id)
+      ) {
+        return;
+      }
+
+      draft.leaves -= FIRST_RESEARCH_COST_LEAVES;
+      draft.pollen -= FIRST_RESEARCH_COST_POLLEN;
+      draft.researchLevel += 1;
+      trackEvent("research_purchased", {
+        researchId: "seed_log_1",
+        costLeaves: FIRST_RESEARCH_COST_LEAVES,
+        costPollen: FIRST_RESEARCH_COST_POLLEN,
+        researchLevel: draft.researchLevel
       });
     });
     triggerRewardPulse();
@@ -1311,7 +1341,8 @@ function buildUpgradeChoices(
   save: PlayerSave,
   productionStatus: ProductionStatus,
   buyFirstUpgrade: () => void,
-  buyProductionBoost: () => void
+  buyProductionBoost: () => void,
+  buyFirstResearch: () => void
 ): UpgradeChoice[] {
   const plotComplete = save.plotCount >= 2;
   const plotShortfall = Math.max(FIRST_UPGRADE_COST - save.leaves, 0);
@@ -1320,6 +1351,11 @@ function buildUpgradeChoices(
   const speedAffordable = save.leaves >= PRODUCTION_BOOST_COST_LEAVES && save.pollen >= PRODUCTION_BOOST_COST_POLLEN;
   const speedShortfallLeaves = Math.max(PRODUCTION_BOOST_COST_LEAVES - save.leaves, 0);
   const speedShortfallPollen = Math.max(PRODUCTION_BOOST_COST_POLLEN - save.pollen, 0);
+  const researchComplete = save.researchLevel >= FIRST_RESEARCH_MAX_LEVEL;
+  const researchUnlocked = save.idleProduction.completedOrderIds.includes(SECOND_ORDER.id);
+  const researchAffordable = save.leaves >= FIRST_RESEARCH_COST_LEAVES && save.pollen >= FIRST_RESEARCH_COST_POLLEN;
+  const researchShortfallLeaves = Math.max(FIRST_RESEARCH_COST_LEAVES - save.leaves, 0);
+  const researchShortfallPollen = Math.max(FIRST_RESEARCH_COST_POLLEN - save.pollen, 0);
 
   return [
     {
@@ -1358,6 +1394,28 @@ function buildUpgradeChoices(
         : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎 준비`,
       status: productionStatus.orderCompleted ? "완료" : productionStatus.orderReady ? "납품 가능" : "진행",
       tone: productionStatus.orderCompleted ? "done" : productionStatus.orderReady ? "ready" : "waiting"
+    },
+    {
+      id: "seed_research_1",
+      title: "연구",
+      detail: researchComplete
+        ? "새싹 기록법 완료"
+        : !researchUnlocked
+          ? "두 번째 주문 후 열림"
+          : researchAffordable
+            ? `${FIRST_RESEARCH_COST_LEAVES} 잎 · ${FIRST_RESEARCH_COST_POLLEN} 꽃가루`
+            : `${researchShortfallLeaves ? `${researchShortfallLeaves} 잎` : ""}${
+                researchShortfallLeaves && researchShortfallPollen ? " · " : ""
+              }${researchShortfallPollen ? `${researchShortfallPollen} 꽃가루` : ""} 부족`,
+      status: researchComplete
+        ? "연구 완료"
+        : researchAffordable && researchUnlocked
+          ? "새싹 기록법 연구"
+          : researchUnlocked
+            ? "재료 부족"
+            : "두 번째 주문 후",
+      tone: researchComplete ? "done" : researchAffordable && researchUnlocked ? "ready" : "waiting",
+      onSelect: !researchComplete && researchUnlocked && researchAffordable ? buyFirstResearch : undefined
     }
   ];
 }
@@ -1586,6 +1644,14 @@ function getLocalQaProductionReady(): boolean {
   return new URLSearchParams(window.location.search).get("qaProductionReady") === "1";
 }
 
+function getLocalQaResearchReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaResearchReady") === "1";
+}
+
 function getLocalDebugMode() {
   if (typeof window === "undefined") {
     return false;
@@ -1687,6 +1753,34 @@ function createProductionReadyQaSave(): PlayerSave {
       lastTickAt: now.toISOString(),
       orderProgress: {},
       completedOrderIds: []
+    },
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
+  };
+}
+
+function createResearchReadyQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createNewSave(now);
+
+  return {
+    ...save,
+    leaves: 40,
+    pollen: 0,
+    selectedStarterSeedId: "seed_herb_001",
+    discoveredCreatureIds: ["creature_herb_common_001"],
+    claimedAlbumMilestoneIds: ["album_1"],
+    plotCount: 2,
+    productionBoostLevel: 1,
+    researchLevel: 0,
+    idleProduction: {
+      pendingLeaves: 0,
+      lastTickAt: now.toISOString(),
+      orderProgress: {
+        [FIRST_ORDER.id]: FIRST_ORDER.requiredLeaves,
+        [SECOND_ORDER.id]: SECOND_ORDER.requiredLeaves
+      },
+      completedOrderIds: [FIRST_ORDER.id]
     },
     lastSeenAt: now.toISOString(),
     updatedAt: now.toISOString()
