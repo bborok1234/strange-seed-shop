@@ -28,7 +28,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Creature role + auto production v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, production tick UI, visual evidence, main CI `25090571222` | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
 | Order/commission v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, first order UI, reward loop, visual evidence, main CI `25090571222` | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
 | Production garden UI v0 | done | Issue #123, PR #124, `items/0070-production-garden-ui-v0.md`, compact production/order UI, visual evidence, main CI `25090930573` | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
-| Core asset batch v0 | active | Issue #125 closed, PR #126, Issue #127, `items/0071-core-asset-batch-plan.md`, `items/0072-core-asset-generation-first-pass.md`, P0.5 asset plan/prompts | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
+| Core asset batch v0 | active | Issue #125 closed, PR #126, Issue #127, `items/0071-core-asset-batch-plan.md`, `items/0072-core-asset-generation-first-pass.md`, `reports/assets/p0-core-asset-generation-first-pass-20260429.md`, P0.5 generated candidates | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
 

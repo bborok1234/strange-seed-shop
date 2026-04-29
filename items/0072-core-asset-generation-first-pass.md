@@ -1,6 +1,6 @@
 # Core asset generation first pass
 
-Status: active
+Status: review
 Work type: game_content
 Issue: #127
 Owner: agent
@@ -57,5 +57,19 @@ Scope-risk: moderate
 
 - Issue: #127
 - Branch: `codex/0072-core-asset-generation-first-pass`
-- 현재 상태: 사용자 지적으로 GitHub metadata 품질 복구가 우선되어 asset generation은 paused 상태다.
-- 생성 후보 1개가 Codex cache에 남아 있지만 아직 workspace asset으로 채택/복사하지 않았다.
+- Generated workspace assets:
+  - `public/assets/game/creatures/states/creature_herb_common_001_work.png`
+  - `public/assets/game/creatures/states/creature_herb_common_001_celebrate.png`
+  - `public/assets/game/ui/ui_order_crate_leaf_001.png`
+  - `public/assets/game/fx/fx_production_tick_leaf_001_strip.png`
+  - `public/assets/game/fx/fx_order_delivery_burst_001_strip.png`
+- Generation ledger: `assets/source/asset_generation_status.json`
+- Review report: `reports/assets/p0-core-asset-generation-first-pass-20260429.md`
+- Contact sheet: `reports/assets/p0-core-asset-generation-first-pass-20260429.png`
+- Plan note: FX strips are candidate assets and need normalization before manifest/runtime integration.
+- Verification:
+  - P0.5 asset existence/status/alpha check PASS
+  - `npm run check:content` PASS
+  - `npm run check:asset-alpha` PASS
+  - `npm run check:dashboard` PASS
+  - `npm run check:all` PASS
