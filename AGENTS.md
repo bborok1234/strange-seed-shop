@@ -24,9 +24,10 @@ Before substantial work, read these files in order:
 1. `docs/README.md` - document index and current source of truth
 2. `docs/NORTH_STAR.md` - dual north star for the game and agent-native studio/operator
 3. `docs/ROADMAP.md` - milestone status and next work
-4. `docs/PRD_PHASE0.md` - Phase 0 product contract
-5. `docs/ECONOMY_PHASE0.md` - Phase 0 economy contract
-6. `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` - agent-management model
+4. `docs/PROJECT_COMMANDS.md` - project-specific mode commands (`$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`)
+5. `docs/PRD_PHASE0.md` - Phase 0 product contract
+6. `docs/ECONOMY_PHASE0.md` - Phase 0 economy contract
+7. `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` - agent-management model
 
 For image asset work, also read the relevant project-local skill:
 
@@ -60,6 +61,7 @@ For browser visual QA, use the Codex Browser Use plugin first:
 ## Autonomous Operating Rules
 
 - Track meaningful work in `docs/ROADMAP.md` until a richer `items/` system exists.
+- 프로젝트 전용 명령어는 `docs/PROJECT_COMMANDS.md`를 따른다. `$seed-ops`는 무한 운영모드, `$seed-brief`는 보고/상황판, `$seed-design`은 설계 대화, `$seed-qa`는 실기 QA, `$seed-play`는 사람 플레이 준비다.
 - Issue/work-item 단위 작업은 반드시 plan-first로 시작한다. 새 issue를 선택하면 코드/문서 구현 전에 `items/<id>.md` 또는 동등한 plan artifact에 `## Plan`, 수용 기준, 검증 명령, 리스크를 적고 그 plan에 맞춰 branch 작업을 시작한다.
 - Use evidence-backed docs and reports rather than implicit memory.
 - Separate proposal from mutation for risky work.
