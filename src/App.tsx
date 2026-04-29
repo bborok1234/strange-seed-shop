@@ -57,6 +57,15 @@ interface ProductionFxState {
   kind: ProductionFxKind;
 }
 
+interface UpgradeChoice {
+  id: string;
+  title: string;
+  detail: string;
+  status: string;
+  tone: "ready" | "waiting" | "done";
+  onSelect?: () => void;
+}
+
 const FIRST_UPGRADE_COST = 25;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
@@ -181,6 +190,7 @@ export default function App() {
     ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
     : 0;
   const productionStatus = useMemo(() => (save ? getProductionStatus(save, now) : null), [save, now]);
+  const upgradeChoices = save && productionStatus?.ratePerMinute ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade) : [];
   const visibleSeedInventorySeeds =
     nextCreatureGoal && !availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)
       ? [nextCreatureGoal.seed, ...availableSeeds]
@@ -576,6 +586,29 @@ export default function App() {
                 )}
               </article>
             )}
+            {upgradeChoices.length > 0 && (
+              <article className="upgrade-choice-card" aria-label="다음 성장 선택">
+                <div className="upgrade-choice-heading">
+                  <p className="panel-label">다음 성장 선택</p>
+                  <strong>생산 보상을 어디에 쓸까요?</strong>
+                </div>
+                <div className="upgrade-choice-list">
+                  {upgradeChoices.map((choice) => (
+                    <button
+                      className={`upgrade-choice upgrade-choice-${choice.tone}`}
+                      disabled={!choice.onSelect}
+                      key={choice.id}
+                      onClick={choice.onSelect}
+                      type="button"
+                    >
+                      <span>{choice.status}</span>
+                      <strong>{choice.title}</strong>
+                      <small>{choice.detail}</small>
+                    </button>
+                  ))}
+                </div>
+              </article>
+            )}
             {nextCreatureGoal && (
               <article className="next-creature-card next-creature-compact" aria-label="다음 생명체 수집 목표">
                 <div className="next-creature-portrait">{renderAsset(nextCreatureGoal.creature.assetId, "?")}</div>
@@ -633,14 +666,16 @@ export default function App() {
                   첫 도감 보상 받기 +25 잎
                 </button>
               )}
-              <button
-                className="primary-action"
-                disabled={!save || save.plotCount >= 2 || save.leaves < FIRST_UPGRADE_COST}
-                onClick={buyFirstUpgrade}
-                type="button"
-              >
-                두 번째 밭 열기 {FIRST_UPGRADE_COST} 잎
-              </button>
+              {(!productionStatus || productionStatus.ratePerMinute <= 0) && (
+                <button
+                  className="primary-action"
+                  disabled={!save || save.plotCount >= 2 || save.leaves < FIRST_UPGRADE_COST}
+                  onClick={buyFirstUpgrade}
+                  type="button"
+                >
+                  두 번째 밭 열기 {FIRST_UPGRADE_COST} 잎
+                </button>
+              )}
             </div>
           </aside>
         </section>
@@ -1213,6 +1248,46 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
     orderReady: orderProgress >= FIRST_ORDER.requiredLeaves,
     orderCompleted
   };
+}
+
+function buildUpgradeChoices(
+  save: PlayerSave,
+  productionStatus: ProductionStatus,
+  buyFirstUpgrade: () => void
+): UpgradeChoice[] {
+  const plotComplete = save.plotCount >= 2;
+  const plotShortfall = Math.max(FIRST_UPGRADE_COST - save.leaves, 0);
+
+  return [
+    {
+      id: "plot_2",
+      title: "밭 확장",
+      detail: plotComplete
+        ? "2번째 밭 가동 중"
+        : plotShortfall === 0
+          ? `${FIRST_UPGRADE_COST} 잎으로 반복 속도 상승`
+          : `${plotShortfall} 잎 더 모으면 열림`,
+      status: plotComplete ? "완료" : plotShortfall === 0 ? "가능" : "부족",
+      tone: plotComplete ? "done" : plotShortfall === 0 ? "ready" : "waiting",
+      onSelect: !plotComplete && plotShortfall === 0 ? buyFirstUpgrade : undefined
+    },
+    {
+      id: "production_rate",
+      title: "생산 속도",
+      detail: `분당 ${productionStatus.ratePerMinute.toFixed(1)} 잎`,
+      status: "가동",
+      tone: "done"
+    },
+    {
+      id: "first_order",
+      title: "주문 준비",
+      detail: productionStatus.orderCompleted
+        ? "첫 납품 완료"
+        : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎 준비`,
+      status: productionStatus.orderCompleted ? "완료" : productionStatus.orderReady ? "납품 가능" : "진행",
+      tone: productionStatus.orderCompleted ? "done" : productionStatus.orderReady ? "ready" : "waiting"
+    }
+  ];
 }
 
 function getPendingProductionLeaves(save: PlayerSave, now: number): number {
