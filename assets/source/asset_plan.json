@@ -3,8 +3,8 @@
   "project": "이상한 씨앗상회",
   "batch": {
     "id": "milestone1_style_validation_001",
-    "purpose": "Validate Codex native image generation for the first static game asset batch before Phase 0 implementation. Sprite batch 001 extends the proof with six starter spritesheet/fx strips.",
-    "target_asset_count": 26,
+    "purpose": "Validate Codex native image generation for static Phase 0 assets, starter sprite strips, and P0.5 production/order gameplay assets.",
+    "target_asset_count": 31,
     "generation_mode": "codex_native_image_generation",
     "runtime_generation_allowed": false
   },
@@ -469,6 +469,93 @@
         "greenhouse"
       ],
       "notes": "sprite_batch_001; strict_strip=true; frames=5; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; source_reference_asset_id=seed_herb_001_icon"
+    },
+    {
+      "id": "creature_herb_common_001_work",
+      "category": "creature",
+      "family": "herb",
+      "rarity": "common",
+      "growth_stage": "work",
+      "intended_use": "garden_work_state",
+      "output_path": "public/assets/game/creatures/states/creature_herb_common_001_work.png",
+      "manifest_tags": [
+        "phase0_5",
+        "creature",
+        "herb",
+        "common",
+        "work",
+        "production"
+      ],
+      "notes": "P0.5 state asset for 말랑잎 포리 producing leaves in the garden."
+    },
+    {
+      "id": "creature_herb_common_001_celebrate",
+      "category": "creature",
+      "family": "herb",
+      "rarity": "common",
+      "growth_stage": "celebrate",
+      "intended_use": "order_delivery_reward",
+      "output_path": "public/assets/game/creatures/states/creature_herb_common_001_celebrate.png",
+      "manifest_tags": [
+        "phase0_5",
+        "creature",
+        "herb",
+        "common",
+        "celebrate",
+        "order"
+      ],
+      "notes": "P0.5 state asset for 말랑잎 포리 celebrating first order delivery."
+    },
+    {
+      "id": "ui_order_crate_leaf_001",
+      "category": "ui_frame",
+      "family": "greenhouse",
+      "rarity": "common",
+      "growth_stage": "system",
+      "intended_use": "first_order_crate",
+      "output_path": "public/assets/game/ui/ui_order_crate_leaf_001.png",
+      "manifest_tags": [
+        "phase0_5",
+        "ui",
+        "order",
+        "crate",
+        "leaf"
+      ],
+      "notes": "Small order crate for the first leaf delivery commission."
+    },
+    {
+      "id": "fx_production_tick_leaf_001",
+      "category": "fx_strip",
+      "family": "greenhouse",
+      "rarity": "common",
+      "growth_stage": "system",
+      "intended_use": "production_tick_fx",
+      "output_path": "public/assets/game/fx/fx_production_tick_leaf_001_strip.png",
+      "manifest_tags": [
+        "phase0_5",
+        "fx",
+        "production",
+        "leaf",
+        "tick"
+      ],
+      "notes": "Small leaf pop effect for automatic production tick."
+    },
+    {
+      "id": "fx_order_delivery_burst_001",
+      "category": "fx_strip",
+      "family": "greenhouse",
+      "rarity": "common",
+      "growth_stage": "system",
+      "intended_use": "order_delivery_reward_fx",
+      "output_path": "public/assets/game/fx/fx_order_delivery_burst_001_strip.png",
+      "manifest_tags": [
+        "phase0_5",
+        "fx",
+        "order",
+        "delivery",
+        "reward"
+      ],
+      "notes": "Reward burst effect for first order delivery."
     }
   ]
 }

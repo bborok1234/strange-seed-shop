@@ -316,6 +316,66 @@
         "readable at 96px with no text, watermark, logo, or background clutter",
         "runtime generation remains disabled and output is saved in the workspace"
       ]
+    },
+    {
+      "asset_id": "creature_herb_common_001_work",
+      "output_path": "public/assets/game/creatures/states/creature_herb_common_001_work.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature work-state asset\nPrimary request: Create a work-state version of 말랑잎 포리 for 이상한 씨앗상회.\nSubject: The same small round leafy gatherer creature, gently working in the garden with a leaf satchel open, tiny leaves floating upward, focused but cute expression.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Centered full-body character, transparent or clean removable background, generous padding, readable at 64px and 96px.\nColor palette: Fresh herb greens, warm leaf yellow, cream face accents, deep greenhouse teal details.\nConstraints: Match the existing 말랑잎 포리 identity, no text, no watermark, no logo, no busy background, no runtime generation reference.\nAvoid: New unrelated character design, copyrighted resemblance, photorealism, horror, excessive tiny props.",
+      "acceptance": [
+        "transparent or clean removable background",
+        "readable at 64px and 96px",
+        "matches existing Herb/말랑잎 포리 identity",
+        "no text, watermark, logo, or copyrighted resemblance",
+        "suitable for garden UI state use"
+      ]
+    },
+    {
+      "asset_id": "creature_herb_common_001_celebrate",
+      "output_path": "public/assets/game/creatures/states/creature_herb_common_001_celebrate.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game creature celebrate-state asset\nPrimary request: Create a celebrate-state version of 말랑잎 포리 for first order delivery.\nSubject: The same leafy gatherer creature happily jumping with a tiny leaf satchel and soft reward sparkle, celebrating a delivery without holding readable signs.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Centered full-body character, transparent or clean removable background, generous padding, readable at 64px and 96px.\nColor palette: Fresh herb greens, warm leaf yellow, cream highlights, small golden reward sparkle accents.\nConstraints: Must feel like the same creature as creature_herb_common_001, no text, no watermark, no logo, no busy background.\nAvoid: Confetti text, brand-like symbols, unrelated costume, copyrighted resemblance, overcomplex particle clutter.",
+      "acceptance": [
+        "transparent or clean removable background",
+        "readable at 64px and 96px",
+        "matches existing Herb/말랑잎 포리 identity",
+        "no text, watermark, logo, or copyrighted resemblance",
+        "suitable for garden UI state use"
+      ]
+    },
+    {
+      "asset_id": "ui_order_crate_leaf_001",
+      "output_path": "public/assets/game/ui/ui_order_crate_leaf_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game order crate UI image\nPrimary request: Create a small leaf delivery order crate for the first commission.\nSubject: A cute wooden greenhouse crate with leafy produce tucked inside, a simple leaf emblem shape without text, soft cloth lining, and a friendly game UI silhouette.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Centered object icon, transparent or clean removable background, generous padding, readable at 48px and 96px.\nColor palette: Warm wood brown, fresh leaf green, cream cloth, soft yellow highlights.\nConstraints: No readable text, no logo, no watermark, no real brand mark, no payment or loot-box cue.\nAvoid: Shipping company symbols, text labels, photorealistic crate, cluttered produce pile, dark low-contrast shape.",
+      "acceptance": [
+        "transparent or clean removable background",
+        "readable at 48px and 96px",
+        "no readable text, watermark, logo, or brand mark",
+        "clearly communicates first leaf order",
+        "does not resemble payment or loot-box UI"
+      ]
+    },
+    {
+      "asset_id": "fx_production_tick_leaf_001",
+      "output_path": "public/assets/game/fx/fx_production_tick_leaf_001_strip.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game production tick FX strip\nPrimary request: Create a simple leaf production tick effect as a horizontal sprite strip concept.\nSubject: Four small frames of a leaf pop: tiny leaf appears, rises, sparkles softly, fades.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Horizontal strip layout with four evenly spaced frames on transparent or clean removable background, generous padding around each frame.\nColor palette: Fresh leaf green, warm yellow highlight, cream sparkle.\nConstraints: No text, no watermark, no logo, no character, readable at small HUD size, each frame separated visually.\nAvoid: Busy particles, realistic falling leaves, brand symbols, dark glow, complex background.",
+      "acceptance": [
+        "transparent or clean removable background",
+        "four-frame horizontal strip concept is clear",
+        "readable at small HUD/playfield size",
+        "no text, watermark, logo, or money/casino cue",
+        "matches warm greenhouse reward style"
+      ]
+    },
+    {
+      "asset_id": "fx_order_delivery_burst_001",
+      "output_path": "public/assets/game/fx/fx_order_delivery_burst_001_strip.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game order delivery reward FX strip\nPrimary request: Create a reward burst effect for first order delivery as a horizontal sprite strip concept.\nSubject: Four small frames of a soft golden-green burst: closed bud spark, expanding ring, leaf sparkle pop, gentle fade.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Horizontal strip layout with four evenly spaced frames on transparent or clean removable background, readable at 64px.\nColor palette: Warm reward gold, fresh green, cream sparkle, tiny teal accent.\nConstraints: No text, no watermark, no logo, no coin/cash symbol, no casino-like cue.\nAvoid: Fireworks clutter, real money symbols, brand-like icon, harsh neon, dark low contrast.",
+      "acceptance": [
+        "transparent or clean removable background",
+        "four-frame horizontal strip concept is clear",
+        "readable at small HUD/playfield size",
+        "no text, watermark, logo, or money/casino cue",
+        "matches warm greenhouse reward style"
+      ]
     }
   ]
 }
