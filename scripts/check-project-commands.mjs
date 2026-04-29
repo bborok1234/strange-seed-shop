@@ -37,6 +37,11 @@ requirePhrases("docs/PROJECT_COMMANDS.md", [
   "사람 플레이 준비",
   "완료 보고는 중단 조건이 아니라 checkpoint",
   "issue -> `## Plan` -> 구현 -> 검증 -> PR -> CI -> merge -> 다음 issue",
+  "GitHub metadata 품질 규칙",
+  "--body-file",
+  "literal `\\n`",
+  "작업 checklist",
+  "Browser Use 우선 QA",
   "Browser Use",
   "Playwright CLI",
   "Computer Use",
@@ -58,7 +63,8 @@ requirePhrases("AGENTS.md", [
   "docs/PROJECT_COMMANDS.md",
   ...commands,
   "프로젝트 전용 명령어",
-  "완료 보고는 중단 조건이 아니라 체크포인트"
+  "완료 보고는 중단 조건이 아니라 체크포인트",
+  "--body-file"
 ]);
 
 requirePhrases("docs/README.md", [
