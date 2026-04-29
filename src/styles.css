@@ -840,6 +840,18 @@ h1 {
   font-weight: 950;
 }
 
+.research-clue-line {
+  width: fit-content;
+  margin-top: 4px;
+  padding: 3px 7px;
+  border: 1px solid rgba(87, 113, 50, 0.2);
+  border-radius: var(--radius-pill);
+  background: rgba(221, 242, 177, 0.72);
+  color: #355738;
+  font-size: 10px;
+  font-weight: 950;
+}
+
 .next-creature-card small,
 .album-next-goal small {
   color: #765b32;
@@ -2028,6 +2040,13 @@ h1 {
     display: none;
   }
 
+  .starter-panel.has-production .research-clue-line {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .production-card {
     gap: 5px;
   }
@@ -2562,6 +2581,10 @@ h1 {
   }
 
   .starter-panel.has-production .upgrade-choice small {
+    display: none;
+  }
+
+  .starter-panel.has-production .research-clue-line {
     display: none;
   }
 
