@@ -49,10 +49,22 @@ interface ProductionStatus {
   orderCompleted: boolean;
 }
 
+type ProductionFxKind = "production" | "order";
+
+interface ProductionFxState {
+  assetId: string;
+  id: number;
+  kind: ProductionFxKind;
+}
+
 const FIRST_UPGRADE_COST = 25;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
+const PRODUCTION_FX_ASSETS: Record<ProductionFxKind, string> = {
+  production: "fx_production_tick_leaf_001",
+  order: "fx_order_delivery_burst_001"
+};
 const FIRST_ORDER: FirstOrderDefinition = {
   id: "order_pori_leaf_001",
   title: "말랑잎 첫 납품",
@@ -78,6 +90,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<MainTab>(() => getLocalQaTab() ?? "garden");
   const [rewardPulse, setRewardPulse] = useState<number | null>(null);
   const [harvestReveal, setHarvestReveal] = useState<CreatureDefinition | null>(null);
+  const [productionFx, setProductionFx] = useState<ProductionFxState | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
 
   useEffect(() => {
@@ -375,6 +388,7 @@ export default function App() {
   }
 
   function claimProductionLeaves() {
+    const shouldShowFx = (productionStatus?.pendingLeaves ?? 0) > 0;
     commit((draft) => {
       const pendingLeaves = getPendingProductionLeaves(draft, now);
       if (pendingLeaves <= 0) {
@@ -390,10 +404,14 @@ export default function App() {
       );
       trackEvent("idle_production_claimed", { leaves: pendingLeaves, ratePerMinute: getProductionRatePerSecond(draft) * 60 });
     });
+    if (shouldShowFx) {
+      triggerProductionFx("production");
+    }
     triggerRewardPulse();
   }
 
   function deliverFirstOrder() {
+    const shouldShowFx = Boolean(productionStatus?.orderReady && !productionStatus.orderCompleted);
     commit((draft) => {
       const progress = draft.idleProduction.orderProgress[FIRST_ORDER.id] ?? 0;
       if (draft.idleProduction.completedOrderIds.includes(FIRST_ORDER.id) || progress < FIRST_ORDER.requiredLeaves) {
@@ -409,6 +427,9 @@ export default function App() {
         rewardPollen: FIRST_ORDER.rewardPollen
       });
     });
+    if (shouldShowFx) {
+      triggerProductionFx("order");
+    }
     triggerRewardPulse();
   }
 
@@ -426,6 +447,14 @@ export default function App() {
   function triggerRewardPulse() {
     setRewardPulse(Date.now());
     window.setTimeout(() => setRewardPulse(null), 420);
+  }
+
+  function triggerProductionFx(kind: ProductionFxKind) {
+    const id = Date.now();
+    setProductionFx({ assetId: PRODUCTION_FX_ASSETS[kind], id, kind });
+    window.setTimeout(() => {
+      setProductionFx((current) => (current?.id === id ? null : current));
+    }, 760);
   }
 
   function markAssetBroken(assetId: string) {
@@ -448,6 +477,19 @@ export default function App() {
     }
 
     return <img alt="" onError={() => markAssetBroken(assetId)} src={path} />;
+  }
+
+  function renderProductionFx(effect: ProductionFxState) {
+    const path = brokenAssetIds.has(effect.assetId) ? "" : getAssetPath(manifest, effect.assetId);
+    if (!path) {
+      return null;
+    }
+
+    return (
+      <span aria-hidden="true" className={`production-fx production-fx-${effect.kind}`} key={effect.id}>
+        <img alt="" onError={() => markAssetBroken(effect.assetId)} src={path} />
+      </span>
+    );
   }
 
   return (
@@ -482,6 +524,7 @@ export default function App() {
             <p className="action-copy">{nextAction.body}</p>
             {productionStatus && productionStatus.ratePerMinute > 0 && (
               <article className="production-card" aria-label="자동 생산과 첫 주문">
+                {productionFx ? renderProductionFx(productionFx) : null}
                 <div className="production-card-heading">
                   <div className="production-scene">
                     <div className="production-asset production-asset-work" aria-hidden="true">

@@ -452,6 +452,7 @@ h1 {
 }
 
 .production-card {
+  position: relative;
   display: grid;
   gap: var(--space-2);
   margin-top: var(--space-2);
@@ -503,6 +504,62 @@ h1 {
 .production-asset-celebrate {
   width: 38px;
   height: 38px;
+}
+
+.production-fx {
+  position: absolute;
+  z-index: 2;
+  width: 58px;
+  height: 58px;
+  pointer-events: none;
+  overflow: hidden;
+  filter: drop-shadow(0 6px 12px rgba(53, 112, 63, 0.22));
+  animation: production-fx-lift 760ms ease-out forwards;
+}
+
+.production-fx img {
+  display: block;
+  width: 400%;
+  max-width: none;
+  height: 100%;
+  object-fit: fill;
+  animation: production-fx-strip 560ms steps(3) forwards;
+}
+
+.production-fx-production {
+  top: 12px;
+  left: 22px;
+}
+
+.production-fx-order {
+  right: 14px;
+  bottom: 18px;
+}
+
+@keyframes production-fx-strip {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-75%);
+  }
+}
+
+@keyframes production-fx-lift {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.72);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-7px) scale(1);
+  }
 }
 
 .production-card-heading strong,
@@ -1875,6 +1932,21 @@ h1 {
     height: 32px;
   }
 
+  .production-fx {
+    width: 46px;
+    height: 46px;
+  }
+
+  .production-fx-production {
+    top: 8px;
+    left: 16px;
+  }
+
+  .production-fx-order {
+    right: 10px;
+    bottom: 14px;
+  }
+
   .production-card-heading strong,
   .order-progress-card strong {
     font-size: 12px;
@@ -2276,11 +2348,20 @@ h1 {
   border: 1px solid rgba(39, 86, 64, 0.18);
   border-radius: calc(var(--radius-panel) + 8px);
   background:
-    radial-gradient(circle at 50% 20%, rgba(255, 252, 218, 0.72), transparent 46%),
-    linear-gradient(180deg, rgba(255, 247, 204, 0.54), rgba(205, 234, 181, 0.46));
+    radial-gradient(circle at 50% 20%, #fff7d7, #f8efcf 46%),
+    linear-gradient(180deg, #fff3cc, #e7efc5);
   box-shadow:
     inset 0 0 18px rgba(255, 255, 230, 0.28),
     0 10px 22px rgba(37, 78, 53, 0.1);
+}
+
+.garden-playfield-host::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: rgba(255, 247, 210, 0.72);
 }
 
 .garden-playfield-host canvas {
