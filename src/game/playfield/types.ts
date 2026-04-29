@@ -21,6 +21,18 @@ export interface GardenPlayfieldViewModel {
   hint: string;
   productionLine?: string;
   orderLine?: string;
+  productionScene?: {
+    actorName: string;
+    actorLine: string;
+    rateLabel: string;
+    pendingLabel: string;
+    orderTitle: string;
+    orderProgressLabel: string;
+    orderReady: boolean;
+    orderCompleted: boolean;
+    workAssetPath?: string;
+    crateAssetPath?: string;
+  };
   updatedAt: number;
 }
 
