@@ -1,6 +1,6 @@
 # North Star production bar 정렬
 
-Status: active
+Status: completed
 Work type: product_direction
 Branch: `codex/0081-north-star-production-bar`
 Date: 2026-04-29
@@ -33,9 +33,15 @@ Issue: #142
 
 ## 수용 기준
 
-- `NORTH_STAR.md`가 Egg, Inc. / Idle Miner / Cell to Singularity에서 차용한 production bar를 최상위 문서로 소유한다.
-- 다음 issue는 단순 UI polish보다 production engine visibility, player verb, asset/FX, upgrade/order/progression slice를 우선하게 된다.
-- 작은 기능 개선은 vertical slice를 강화할 때만 우선순위가 높아진다는 규칙이 문서화된다.
+- [x] `NORTH_STAR.md`가 Egg, Inc. / Idle Miner / Cell to Singularity에서 차용한 production bar를 최상위 문서로 소유한다.
+- [x] 다음 issue는 단순 UI polish보다 production engine visibility, player verb, asset/FX, upgrade/order/progression slice를 우선하게 된다.
+- [x] 작은 기능 개선은 vertical slice를 강화할 때만 우선순위가 높아진다는 규칙이 문서화된다.
+
+## Evidence
+
+- Issue #142: CLOSED
+- `docs/NORTH_STAR.md`: `경쟁작 기준 Production Bar`, `Phase 0 핵심 루프`, `게임 북극성 지표`, `우선순위 판단법`, `작은 작업 선택 금지선`
+- Checker: `scripts/check-p0-game-ui-ux.mjs`
 
 ## 검증 명령
 
