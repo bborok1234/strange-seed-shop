@@ -45,6 +45,7 @@ const rows = [
   ["운영사 trial dry-run", stepStatus("Create supervised trial dry-run", "todo"), "`npm run operator:trial:dry-run`"],
   ["운영사 2h readiness", stepStatus("Add 2h supervised trial readiness gate", "todo"), "`npm run operator:trial:readiness`"],
   ["운영 상황판", stepStatus("Add operator control room and playable mode", "todo"), "`docs/OPERATOR_CONTROL_ROOM.md`, `npm run check:control-room`"],
+  ["운영 루프 지속성", stepStatus("Operator continuation watchdog", "todo"), "Issue #115, `npm run check:operator`"],
   ["사람 플레이 모드", fileStatus(["docs/PLAYABLE_MODE.md", "scripts/prepare-playable-main.mjs"]), "`npm run play:main`, port 5174"],
   [
     "Sprite batch QA gate",
@@ -99,9 +100,10 @@ ${rows.map((row) => `| ${row[0]} | ${row[1]} | ${row[2]} |`).join("\n")}
 
 ## 다음 작업
 
-1. \`docs/OPERATOR_CONTROL_ROOM.md\`에서 active mission/small win/evidence/playable mode를 먼저 확인한다.
-2. 사람이 게임을 확인해야 하면 \`npm run play:main\` 후 \`../strange-seed-shop-play\`에서 port 5174로 실행한다.
-3. 24h dry run은 control room/playable mode PR이 merge되고 main CI가 green이 된 뒤 시작한다.
+1. \`docs/ROADMAP.md\`의 Current Next Action과 \`docs/OPERATOR_CONTROL_ROOM.md\`의 active mission/small win/evidence/playable mode를 먼저 확인한다.
+2. 장시간 운영모드에서는 완료 보고를 세션 종료가 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
+3. 사람이 게임을 확인해야 하면 \`npm run play:main\` 후 \`../strange-seed-shop-play\`에서 port 5174로 실행한다.
+4. 24h dry run은 heartbeat/watchdog/continuation gate가 green이고 main CI가 green인 뒤 시작한다.
 
 ## 검증 상태
 

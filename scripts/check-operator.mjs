@@ -45,6 +45,7 @@ const requiredPaths = [
   "items/0051-heartbeat-daemon-hardening.md",
   "items/0052-operator-control-room-playable-mode.md",
   "items/0061-issue-plan-first-operating-rule.md",
+  "items/0066-operator-continuation-watchdog.md",
   "items/0029-operator-completion-gate.md",
   "docs/OPERATOR_RUNBOOK.md",
   "docs/OPERATOR_CONTROL_ROOM.md",
@@ -56,6 +57,7 @@ const requiredPaths = [
   "reports/operations/operator-live-status-20260428.md",
   "reports/operations/heartbeat-daemon-hardening-20260428.md",
   "reports/operations/operator-control-room-20260428.md",
+  "reports/operations/operator-continuation-watchdog-20260429.md",
   "reports/research/agent_operator_control_room_research_20260428.md",
   "reports/operations/fixtures/operator-trial-dry-run-scenario-20260428.json",
   "reports/operations/fixtures/operator-trial-stale-gap-scenario-20260428.json",
@@ -225,24 +227,59 @@ requirePhrases("items/0061-issue-plan-first-operating-rule.md", [
   "npm run check:all"
 ]);
 
+requirePhrases("items/0066-operator-continuation-watchdog.md", [
+  "Status: active",
+  "Work type: agent_ops",
+  "Issue: #115",
+  "## Plan",
+  "완료 보고는 중단 조건이 아니라 checkpoint",
+  "다음 issue를 plan-first로 선택",
+  "명시 중단",
+  "시간 상한",
+  "외부 승인",
+  "치명적 blocker",
+  "npm run check:operator",
+  "npm run check:all"
+]);
+
 requirePhrases("AGENTS.md", [
   "Issue/work-item 단위 작업은 반드시 plan-first로 시작한다",
   "## Plan",
   "수용 기준",
-  "검증 명령"
+  "검증 명령",
+  "완료 보고는 중단 조건이 아니라 체크포인트",
+  "다음 issue를 plan-first로 선택"
 ]);
 
 requirePhrases("docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md", [
   "issue -> plan artifact -> branch",
   "plan-first gate",
   "Plan은 거창한 PRD가 아니라도 된다",
-  "plan artifact exists and includes `## Plan`"
+  "plan artifact exists and includes `## Plan`",
+  "completion checkpoint / continuation watchdog",
+  "완료 보고는 중단 조건이 아니라 체크포인트",
+  "다음 issue를 plan-first로 선택",
+  "명시 중단, 시간 상한, 외부 승인, 치명적 blocker"
 ]);
 
 requirePhrases("docs/OPERATOR_RUNBOOK.md", [
   "Create or update the issue plan artifact before implementation",
   "Plan artifact가 없으면 branch 구현",
-  "plan artifact with `## Plan`"
+  "plan artifact with `## Plan`",
+  "완료 보고는 중단 조건이 아니라 체크포인트",
+  "다음 issue를 plan-first로 선택",
+  "명시 중단, 시간 상한, 외부 승인, 치명적 blocker"
+]);
+
+requirePhrases("reports/operations/operator-continuation-watchdog-20260429.md", [
+  "Status: active",
+  "Issue: #115",
+  "items/0066-operator-continuation-watchdog.md",
+  "완료 보고는 중단 조건이 아니라 체크포인트",
+  "명시 중단, 시간 상한, 외부 승인, 치명적 blocker",
+  "다음 issue를 plan-first로 선택",
+  "npm run check:operator",
+  "npm run check:all"
 ]);
 
 requirePhrases("docs/PLAYABLE_MODE.md", [

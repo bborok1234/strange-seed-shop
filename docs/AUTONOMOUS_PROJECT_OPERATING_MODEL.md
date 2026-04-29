@@ -152,6 +152,16 @@ PR이 red check 상태면 verify lane은 실패 job을 읽고, 로컬 재현을 
 
 작업 완료는 구현 종료가 아니라 `draft PR + 검증 증거 + follow-up/audit 링크`가 모두 남은 상태를 뜻한다. 구현 lane은 `docs/PR_AUTOMATION.md`의 작업 완료 gate를 통과해야 하며, 남은 위험이 있으면 GitHub issue 또는 `items/` work record를 만들고 PR 본문·운영 보고서·work item evidence에 교차 링크한다. follow-up이 없을 때도 `none — 이유`를 기록해 에이전트가 누락을 완료로 오인하지 않게 한다.
 
+### completion checkpoint / continuation watchdog
+
+장시간 `$ralph` 운영모드에서 **완료 보고는 중단 조건이 아니라 체크포인트**다. issue 하나가 `implementation -> local verification -> PR -> GitHub checks -> main merge`까지 닫히면 운영자는 최종 답변으로 세션을 닫지 않고 다음 중 하나를 즉시 기록해야 한다.
+
+1. 다음 issue를 plan-first로 선택하고 `items/<id>.md` 또는 동등 plan artifact에 `## Plan`을 쓴다.
+2. 이미 정해진 시간 상한에 도달했다는 final heartbeat/watchdog/daily report를 남긴다.
+3. 명시 중단, 외부 승인, 치명적 blocker, credential/destructive/production boundary 중 하나를 blocker report로 남긴다.
+
+즉, 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 완료 보고 다음 행동은 “요약 후 종료”가 아니라 **다음 issue를 plan-first로 선택**하는 것이다. 이 규칙은 사용자가 기대한 6~8시간 또는 향후 24시간 운영을 위해 completion gate 위에 얹히는 continuation watchdog으로 취급한다.
+
 ### watchdog runner
 
 Milestone 7부터 watchdog runner는 heartbeat ledger를 읽어 `fresh`, `stale`, `missing`, `invalid` 상태를 판정한다. v0 runner는 deterministic `--now` 입력을 지원해 CI에서 장시간 대기 없이 freshness 판정을 검증한다. 실제 재시작은 별도 승인된 supervised trial에서만 수행하고, 기본 동작은 report 생성과 안전한 중단이다.

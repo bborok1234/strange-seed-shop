@@ -65,6 +65,7 @@ For browser visual QA, use the Codex Browser Use plugin first:
 - Separate proposal from mutation for risky work.
 - Keep changes scoped, reversible, and tied to acceptance criteria.
 - When adding new implementation work, update the roadmap with status and verification evidence.
+- 장시간 `$ralph`/운영모드에서 완료 보고는 중단 조건이 아니라 체크포인트다. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 다음 issue를 plan-first로 선택하고 계속 진행한다.
 - Do not stop at a milestone boundary when `docs/ROADMAP.md` names a clear next action and the next action is safe, local, and non-destructive.
 - A progress report is not a handoff. Continue through the current roadmap chain until the next step is blocked, destructive, requires credentials/network approval, or needs a product decision.
 - If a task touches payments, external deployment, credentials, policy-sensitive monetization, destructive migration, or production user data, stop for explicit approval.
@@ -88,7 +89,8 @@ When executing roadmap work:
 2. Verify its acceptance criteria.
 3. Update `docs/ROADMAP.md`.
 4. If the updated `Current Next Action` is clear and safe, continue automatically.
-5. Stop only when the next action is ambiguous, risky, destructive, externally gated, or explicitly paused by the user.
+5. In long-running operator mode, treat summaries as checkpoints and immediately choose the next issue with a `## Plan`.
+6. Stop only when the next action is ambiguous, risky, destructive, externally gated, timeboxed, blocked, or explicitly paused by the user.
 
 ## Documentation Discipline
 
