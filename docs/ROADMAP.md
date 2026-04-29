@@ -27,8 +27,8 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Idle core creative guide | active | `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/SESSION_HANDOFF_20260429.md` | Egg, Inc./Idle Miner/Cell to Singularity에서 배운 생산 엔진, 장기 메타, asset bible, Codex vertical-slice workflow가 문서화됨 |
 | Creature role + auto production v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, production tick UI, visual evidence, main CI `25090571222` | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
 | Order/commission v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, first order UI, reward loop, visual evidence, main CI `25090571222` | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
-| Production garden UI v0 | review | Issue #123, `items/0070-production-garden-ui-v0.md`, compact production/order UI, visual evidence | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
-| Core asset batch v0 | todo | creature work/celebrate, order crate, reward FX, manifest | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
+| Production garden UI v0 | done | Issue #123, PR #124, `items/0070-production-garden-ui-v0.md`, compact production/order UI, visual evidence, main CI `25090930573` | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
+| Core asset batch v0 | active | Issue #125, `items/0071-core-asset-batch-plan.md`, P0.5 asset plan/prompts | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
 
@@ -251,8 +251,8 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 다음 작업:
 
-1. Issue #123 / `items/0070-production-garden-ui-v0.md`를 PR/CI/main merge까지 닫는다.
-2. 다음 `$seed-ops` issue는 `Core asset batch v0`로 plan-first 작성한다.
+1. Issue #125 / `items/0071-core-asset-batch-plan.md`를 PR/CI/main merge까지 닫는다.
+2. 다음 `$seed-ops` issue는 P0.5 core asset generation/review/manifest integration으로 plan-first 작성한다.
 3. 다음 구현 PR도 게임 core, UI, 에셋, visual QA를 분리하지 않는 작은 vertical slice로 만든다.
 4. 운영사 인프라는 CI/QA/상태 이해가 게임 개발을 막을 때만 우선한다.
 

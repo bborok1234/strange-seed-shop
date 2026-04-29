@@ -1,6 +1,6 @@
 # Production garden UI v0
 
-Status: review
+Status: done
 Work type: game_feature
 Issue: #123
 Owner: agent
@@ -59,6 +59,9 @@ P0.5 idle core creative rescue의 두 번째 구현 slice다. #121에서 자동 
 ## Evidence
 
 - Issue: #123
+- PR: #124
+- Merge commit: `f0a0ac730d17d10178d605d614f041e686c7b507`
+- Main CI: `25090930573` — pass
 - Branch: `codex/0070-production-garden-ui-v0`
 - Visual evidence: `reports/visual/p0-production-garden-ui-v0-20260429.md`
 - Verification:
