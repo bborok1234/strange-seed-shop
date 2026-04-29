@@ -36,8 +36,8 @@
 
 ## 검증
 
-- [ ] `npm run check:all` PASS
-- [ ] UI/visual 변경이면 Browser Use QA 또는 명시 blocker + Playwright/CDP fallback PASS
+- [ ] `npm run check:ci` PASS
+- [ ] UI/visual 변경이면 Browser Use QA와 `npm run check:visual` 또는 명시 blocker + fallback PASS
 
 ## 안전 범위
 

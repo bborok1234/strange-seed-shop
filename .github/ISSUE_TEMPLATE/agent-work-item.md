@@ -51,7 +51,8 @@ assignees: ""
 
 ## 검증 명령
 
-- `npm run check:all`
+- 기본 CI gate: `npm run check:ci`
+- UI/visual 변경: Browser Use QA + `npm run check:visual`
 
 ---
 

@@ -8,7 +8,7 @@
 
 현재 기본 모드는 `검증 자동화 + 수동/명시 승인 기반 병합`이다.
 
-`Agent Automerge Trial` workflow는 PR이 자동 머지 후보인지 판정하고 전체 검증을 실행한다. Draft PR 또는 `agent-automerge` label이 없는 PR은 자동 머지 후보가 아니므로 후보 판정 실패로 PR을 빨갛게 만들지 않고, `Automerge is intentionally skipped`를 기록한 뒤 전체 검증만 수행한다. 실제 GitHub native auto-merge 요청은 저장소 변수 `ENABLE_AGENT_AUTOMERGE`가 `true`일 때만 실행된다.
+`Agent Automerge Trial` workflow는 PR이 자동 머지 후보인지 판정하고 CI용 기본 검증을 실행한다. Draft PR 또는 `agent-automerge` label이 없는 PR은 자동 머지 후보가 아니므로 후보 판정 실패로 PR을 빨갛게 만들지 않고, `Automerge is intentionally skipped`를 기록한 뒤 `npm run check:ci`만 수행한다. 실제 GitHub native auto-merge 요청은 저장소 변수 `ENABLE_AGENT_AUTOMERGE`가 `true`일 때만 실행된다.
 
 후보 판정은 pull request 이벤트 페이로드의 label 목록에만 의존하지 않는다. workflow는 체크 직전에 `gh pr view`로 현재 PR label을 다시 읽어, PR 생성 직후 label 적용 순서 차이 때문에 `agent-automerge`가 누락되어 보이는 실패를 줄인다.
 
@@ -35,7 +35,8 @@
 - PR label에 `agent-automerge`가 있다. label이 없으면 자동 머지만 skip하고 전체 검증은 계속 통과/실패를 보고한다.
 - head branch가 `codex/` 또는 `agent/`로 시작한다.
 - `npm run check:automerge`가 통과한다.
-- `npm run check:all`이 통과한다.
+- `npm run check:ci`가 통과한다.
+- UI/visual 변경은 Browser Use QA와 `npm run check:visual` evidence 또는 명시 blocker를 PR 본문에 남긴다.
 - 저장소 변수 `ENABLE_AGENT_AUTOMERGE`가 `true`다.
 
 ## 중단 조건
@@ -87,7 +88,13 @@ npm run check:automerge
 npm run check:governance
 ```
 
-전체 점검:
+CI 기본 점검:
+
+```bash
+npm run check:ci
+```
+
+로컬 full gate:
 
 ```bash
 npm run check:all

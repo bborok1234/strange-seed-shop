@@ -55,14 +55,22 @@ GitHub issue/PR/comment 본문은 코드와 같은 운영사 산출물이다. `$
 6. PR 본문에는 `작업 checklist`를 유지한다. Plan 수용 기준, Browser Use 우선 QA 또는 blocker, 문서/roadmap/dashboard/report 갱신, GitHub evidence 갱신 여부를 체크한다.
 7. UI/visual 변경은 Browser Use 우선 QA를 PR/issue 본문에 evidence 또는 blocker로 남긴다. Playwright/CDP는 fallback evidence이며 Browser Use 시도 기록을 대체하지 않는다.
 8. 완료 댓글도 축약하지 않는다. PR, merge commit, PR checks, main CI, local verification, visual/report evidence, 남은 risk 또는 후속 issue를 포함한다.
-9. `npm run check:github-metadata`와 `npm run check:all`은 이 규칙이 repo-local template에서 빠지지 않았는지 검증한다.
+9. `npm run check:github-metadata`, `npm run check:ci`, `npm run check:all`은 이 규칙이 repo-local template에서 빠지지 않았는지 검증한다.
+
+### CI / QA gate 분리 규칙
+
+GitHub required checks는 빠르고 재현성 높은 `npm run check:ci`를 실행한다. Browser Use와 Playwright screenshot 기반 visual QA는 `$seed-ops` 작업 과정의 evidence gate로 남기며, UI/visual 변경 PR 본문과 `reports/visual/`에 결과 또는 blocker를 기록한다.
+
+- `npm run check:ci`: PR/main required checks용 기본 gate다. content, docs, governance, metadata, build처럼 결정적이고 빠른 검증만 포함한다.
+- `npm run check:visual`: Browser Use QA를 보강하는 screenshot/playfield 회귀 검증이다. UI/visual issue에서는 로컬 운영 evidence로 실행한다.
+- `npm run check:all`: 운영자가 로컬에서 전체 evidence를 묶어 확인할 때 쓰는 full gate이며, CI required check로 사용하지 않는다.
 
 조건부 갱신:
 
 - 새 source-of-truth 문서가 생기면 `docs/README.md`와 필요 시 `scripts/check-docs-index.mjs`.
 - 운영 방식/명령/자동화 규칙이 바뀌면 `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_RUNBOOK.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, 필요 최소한의 `AGENTS.md`.
 - 게임 방향/재미/디자인/에셋 기준이 바뀌면 `docs/NORTH_STAR.md`, `docs/PRD_PHASE0.md`, `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/DESIGN_SYSTEM.md`.
-- UI/visual 작업이면 `reports/visual/` evidence와 `npm run check:visual`.
+- UI/visual 작업이면 Browser Use 우선 QA, `reports/visual/` evidence, `npm run check:visual`.
 - 운영 실행 결과이면 `reports/operations/`에 해당 실행 보고서.
 
 Stop rules:

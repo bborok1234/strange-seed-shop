@@ -8,8 +8,8 @@
 
 ## 현재 구성
 
-- `.github/workflows/ci.yml`: PR과 `main` push에서 전체 프로젝트 검증을 실행한다.
-- `.github/workflows/agent-automerge.yml`: PR이 자동 머지 후보인지 확인하고, 저장소 변수가 켜진 경우에만 GitHub native auto-merge를 요청한다. 후보 판정 직전에 `gh pr view`로 현재 PR label을 다시 읽어, PR 생성 직후 label 이벤트 순서 차이로 후보 판정이 실패하지 않게 한다. Draft PR 또는 `agent-automerge` label이 없는 PR은 자동 머지만 의도적으로 skip하고 전체 검증은 계속 실행한다.
+- `.github/workflows/ci.yml`: PR과 `main` push에서 CI용 기본 검증인 `npm run check:ci`를 실행한다.
+- `.github/workflows/agent-automerge.yml`: PR이 자동 머지 후보인지 확인하고, 저장소 변수가 켜진 경우에만 GitHub native auto-merge를 요청한다. 후보 판정 직전에 `gh pr view`로 현재 PR label을 다시 읽어, PR 생성 직후 label 이벤트 순서 차이로 후보 판정이 실패하지 않게 한다. Draft PR 또는 `agent-automerge` label이 없는 PR은 자동 머지만 의도적으로 skip하고 CI용 기본 검증은 계속 실행한다.
 - `scripts/check-automerge-readiness.mjs`: 자동 머지 후보 조건을 로컬에서도 검증할 수 있게 만든다.
 - `docs/AUTOMERGE_GOVERNANCE.md`: Branch protection, required checks, 저장소 변수 운영 조건을 정의한다.
 - `scripts/check-governance.mjs`: 자동 머지 운영 정책과 workflow 핵심 문구가 유지되는지 확인한다.
@@ -24,7 +24,8 @@
 - PR label에 `agent-automerge`가 있다.
 - head branch가 `codex/` 또는 `agent/`로 시작한다.
 - PR이 draft가 아니다.
-- `npm run check:all`이 통과한다.
+- `npm run check:ci`가 통과한다.
+- UI/visual 변경이면 PR 본문과 report에 Browser Use QA 및 `npm run check:visual` evidence 또는 명시 blocker가 있다.
 - 저장소 변수 `ENABLE_AGENT_AUTOMERGE`가 `true`다.
 
 ## 안전 장치
@@ -44,6 +45,14 @@
 
 브랜치 보호는 설정되었지만, 자동 머지 활성화는 여전히 `docs/AUTOMERGE_GOVERNANCE.md`의 중단 조건과 저장소 변수 운영 기준을 따른다.
 
+## CI / visual QA 분리
+
+Browser Use와 Playwright screenshot suite는 `$seed-ops` 작업 과정에 포함되는 visual evidence gate다. GitHub required checks는 queue time과 runner font/screenshot 지연에 덜 흔들리는 `npm run check:ci`만 실행한다.
+
+- `npm run check:ci`: required checks용 deterministic gate다.
+- `npm run check:visual`: UI/visual 변경 PR에서 로컬 운영 evidence로 실행한다.
+- `npm run check:all`: `check:ci`와 `check:visual`을 모두 묶은 로컬 full gate다. PR CI에서 기본 실행하지 않는다.
+
 
 ## 작업 완료 gate: 완료 → draft PR → follow-up issue/audit
 
@@ -52,7 +61,7 @@ Ralph/session 작업은 로컬 구현이 끝났다는 이유만으로 완료가 
 1. GitHub issue 또는 `items/` work record가 있고, PRD/acceptance criteria 또는 적용 조건이 명시되어 있다.
 2. 작업 브랜치는 `codex/` 또는 `agent/` prefix를 사용하고, `main`에서 직접 작업하지 않는다.
 3. heartbeat ledger에 현재 issue, branch, item, current command, next action이 기록되어 있다.
-4. 로컬 검증 명령이 실제로 실행되고, 성공/실패 결과를 읽었다. 기본값은 `npm run check:all`이며, 좁은 검증만 수행한 경우 이유를 PR 본문에 남긴다.
+4. 로컬 검증 명령이 실제로 실행되고, 성공/실패 결과를 읽었다. 기본값은 `npm run check:ci`이며, UI/visual 변경은 Browser Use QA와 `npm run check:visual` 결과를 PR 본문에 남긴다. `npm run check:all`은 전체 evidence를 한 번에 묶어 확인할 때 사용한다.
 5. 변경 범위가 5파일 이상이거나 운영/검증 정책을 건드리면 architect/reviewer sign-off 또는 동등한 리뷰 evidence를 남긴다.
 6. GitHub draft PR을 생성한다. 초기 PR은 draft로 두고, 로컬 검증과 리뷰 증거가 준비되면 ready로 전환한다.
 7. PR 본문에는 최소한 연결 issue/item, 검증 명령과 결과, visual evidence 또는 `N/A` 사유, 남은 위험, follow-up issue/audit 링크가 포함되어야 한다.
@@ -101,7 +110,7 @@ PR check가 red이면 완료가 아니라 복구 루프로 들어간다. Ralph-s
 
 1. `gh pr checks <pr-number>`로 실패한 check 이름과 run URL을 확인한다.
 2. `gh run view <run-id> --log-failed` 또는 GitHub Actions URL로 red check 로그를 읽는다.
-3. 실패가 로컬에서 재현 가능한지 `npm run check:all` 또는 더 좁은 command로 확인한다.
+3. 실패가 로컬에서 재현 가능한지 `npm run check:ci` 또는 더 좁은 command로 확인한다. UI/visual evidence failure는 `npm run check:visual`과 Browser Use로 별도 재현한다.
 4. 원인이 코드/문서/테스트 문제이면 fix commit을 만들고 다시 push한다.
 5. GitHub checks가 다시 실행되면 pass/fail을 report나 PR comment에 남긴다.
 6. 같은 failure class가 3회 이상 반복되거나 credential, 외부 권한, GitHub 장애가 필요하면 `reports/operations/stuck-*.md` 또는 blocker report로 전환한다.
@@ -110,7 +119,13 @@ red check를 skip하거나 branch protection을 우회해서 병합하지 않는
 
 ## 로컬 검증
 
-일반 검증:
+CI 기본 검증:
+
+```bash
+npm run check:ci
+```
+
+로컬 full gate:
 
 ```bash
 npm run check:all
