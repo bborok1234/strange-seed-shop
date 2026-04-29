@@ -26,13 +26,26 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 반드시 지키는 루프:
 
 1. `docs/ROADMAP.md`, `docs/NORTH_STAR.md`, `docs/OPERATOR_CONTROL_ROOM.md`에서 현재 목표를 확인한다.
-2. 다음 issue를 선택하거나 만든다.
-3. 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`, 수용 기준, 검증 명령, 금지 범위를 적는다.
-4. branch에서 작업한다.
-5. 로컬 검증과 필요한 visual evidence를 남긴다.
-6. PR을 만들고 GitHub checks를 확인한다.
-7. merge 후 main CI를 확인한다.
-8. 완료 보고는 중단 조건이 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
+2. 게임 기능/UI/에셋/QA issue이면 `game-studio:game-studio`로 먼저 분류하고, 즉시 specialist route를 고정한다.
+3. 다음 issue를 선택하거나 만든다.
+4. 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`, Game Studio route, 수용 기준, 검증 명령, 금지 범위를 적는다.
+5. branch에서 작업한다.
+6. 로컬 검증과 필요한 visual evidence를 남긴다.
+7. PR을 만들고 GitHub checks를 확인한다.
+8. merge 후 main CI를 확인한다.
+9. 완료 보고는 중단 조건이 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
+
+### Game Studio routing gate
+
+이 프로젝트는 일반 웹앱이 아니라 브라우저 게임이다. `$seed-ops`가 게임 기능, UI/HUD, playfield, asset, QA, playtest issue를 처리할 때는 Game Studio plugin route가 필수다.
+
+- Umbrella: `game-studio:game-studio`로 fantasy, player verbs, core loop, UI surface, asset workflow, playtest approach를 먼저 정렬한다.
+- UI/HUD/layout: `game-studio:game-ui-frontend` 기준을 적용한다. playfield 보호, 낮은 persistent HUD 밀도, secondary panel collapse, generic dashboard 금지가 blocking rule이다.
+- Browser-game QA: `game-studio:game-playtest` 기준을 적용한다. 첫 actionable screen, main verbs, HUD readability, playfield obstruction, screenshot review, severity findings를 기록한다.
+- Phaser/runtime: `game-studio:phaser-2d-game` 또는 `game-studio:web-game-foundations` 기준으로 simulation/render/UI/input boundary를 점검한다.
+- 2D sprite/FX: `game-studio:sprite-pipeline` 또는 프로젝트 로컬 GPT asset skills를 사용한다.
+
+Game Studio route가 필요한 issue/PR에서 route가 비어 있으면 plan 미완성이다. UI/visual 변경에서 “DOM이 보임”, “viewport 안에 있음”, “겹치지 않음”만으로는 통과가 아니다. 첫 화면이 게임 장면으로 읽히고, player verb와 즉시 행동이 명확하며, playfield가 보호되어야 한다.
 
 ### 작업 종료 문서 갱신 규칙
 
@@ -51,8 +64,8 @@ GitHub issue/PR/comment 본문은 코드와 같은 운영사 산출물이다. `$
 2. `gh issue create/edit`, `gh pr create/edit`, `gh issue comment`는 `--body-file`을 사용한다.
 3. 셸 인자 안에 `\n`을 넣어 multi-line 본문을 만들지 않는다. GitHub 화면에 literal `\n`이 보이면 실패다.
 4. PR 본문은 `.github/pull_request_template.md`의 섹션을 유지한다: `요약`, `Small win`, `Plan-first evidence`, `사용자/운영자 가치`, `Before / After 또는 Visual evidence`, `Playable mode`, `검증`, `안전 범위`, `남은 위험`, `연결된 issue`.
-5. Issue 본문은 `.github/ISSUE_TEMPLATE/agent-work-item.md`의 섹션을 유지한다: `문제 / 배경`, `목표`, `Small win`, `Plan`, `플레이어 가치 또는 운영사 가치`, `수용 기준`, `Visual evidence 계획`, `Playable mode 영향`, `안전 범위`, `검증 명령`.
-6. PR 본문에는 `작업 checklist`를 유지한다. Plan 수용 기준, Browser Use 우선 QA 또는 blocker, 문서/roadmap/dashboard/report 갱신, GitHub evidence 갱신 여부를 체크한다.
+5. Issue 본문은 `.github/ISSUE_TEMPLATE/agent-work-item.md`의 섹션을 유지한다: `문제 / 배경`, `목표`, `Small win`, `Game Studio route`, `Plan`, `플레이어 가치 또는 운영사 가치`, `수용 기준`, `Visual evidence 계획`, `Playable mode 영향`, `안전 범위`, `검증 명령`.
+6. PR 본문에는 `작업 checklist`를 유지한다. Plan 수용 기준, Game Studio route, Browser Use 우선 QA 또는 blocker, 문서/roadmap/dashboard/report 갱신, GitHub evidence 갱신 여부를 체크한다.
 7. UI/visual 변경은 Browser Use 우선 QA를 PR/issue 본문에 evidence 또는 blocker로 남긴다. Playwright/CDP는 fallback evidence이며 Browser Use 시도 기록을 대체하지 않는다.
 8. 완료 댓글도 축약하지 않는다. PR, merge commit, PR checks, main CI, local verification, visual/report evidence, 남은 risk 또는 후속 issue를 포함한다.
 9. `npm run check:github-metadata`, `npm run check:ci`, `npm run check:all`은 이 규칙이 repo-local template에서 빠지지 않았는지 검증한다.
@@ -105,10 +118,12 @@ Stop rules:
 권장 절차:
 
 1. 관련 문서와 현재 화면/운영 상태를 확인한다.
-2. 선택지를 2~4개로 좁힌다.
-3. tradeoff와 추천안을 제시한다.
-4. 결정된 내용은 필요하면 docs/roadmap/items에 남긴다.
-5. 구현이 명확해지면 `$seed-ops`용 issue와 plan-first artifact로 넘긴다.
+2. `game-studio:game-studio`로 fantasy, player verbs, core loop, UI surface, asset workflow, playtest approach를 정렬한다.
+3. 필요하면 `game-studio:game-ui-frontend`, `game-studio:web-game-foundations`, `game-studio:game-playtest`, `game-studio:sprite-pipeline` 중 specialist 관점으로 좁힌다.
+4. 선택지를 2~4개로 좁힌다.
+5. tradeoff와 추천안을 제시한다.
+6. 결정된 내용은 필요하면 docs/roadmap/items에 남긴다.
+7. 구현이 명확해지면 `$seed-ops`용 issue와 plan-first artifact로 넘긴다.
 
 ## `$seed-qa` — 실기 QA / visual QA 모드
 
@@ -126,6 +141,7 @@ Stop rules:
 - 데스크톱 1280x900 또는 명시 game frame screenshot
 - `reports/visual/` markdown 또는 image artifact
 - UI 변경이면 `npm run check:visual`
+- 게임 화면 QA이면 `game-studio:game-playtest` 기준으로 첫 actionable screen, main verbs, HUD readability, playfield obstruction, screenshot review findings를 남긴다.
 
 ## `$seed-play` — 사람 플레이 준비 모드
 

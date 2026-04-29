@@ -45,6 +45,13 @@ requirePhrases("docs/PROJECT_COMMANDS.md", [
   "Browser Use",
   "Playwright CLI",
   "Computer Use",
+  "Game Studio routing gate",
+  "game-studio:game-studio",
+  "game-studio:game-ui-frontend",
+  "game-studio:game-playtest",
+  "game-studio:phaser-2d-game",
+  "game-studio:web-game-foundations",
+  "game-studio:sprite-pipeline",
   "npm run play:main",
   ...commands
 ]);
@@ -64,7 +71,11 @@ requirePhrases("AGENTS.md", [
   ...commands,
   "프로젝트 전용 명령어",
   "완료 보고는 중단 조건이 아니라 체크포인트",
-  "--body-file"
+  "--body-file",
+  "For game work, use the Game Studio plugin",
+  "game-studio:game-studio",
+  "game-studio:game-ui-frontend",
+  "game-studio:game-playtest"
 ]);
 
 requirePhrases("docs/README.md", [
@@ -85,6 +96,11 @@ requirePhrases(".codex/skills/seed-ops/SKILL.md", [
   "무한 운영모드",
   "issue 선택/생성 -> `## Plan` artifact",
   "완료 보고는 중단 조건이 아니라 checkpoint",
+  "Game Studio route",
+  "game-studio:game-studio",
+  "game-studio:game-ui-frontend",
+  "game-studio:game-playtest",
+  "Product-quality gates",
   "Stop rules"
 ]);
 
@@ -96,6 +112,10 @@ requirePhrases(".codex/skills/seed-brief/SKILL.md", [
 
 requirePhrases(".codex/skills/seed-design/SKILL.md", [
   "설계/기획 대화 모드",
+  "game-studio:game-studio",
+  "game-studio:game-ui-frontend",
+  "game-studio:game-playtest",
+  "Output requirements",
   "tradeoff",
   "별도 issue"
 ]);
@@ -104,7 +124,9 @@ requirePhrases(".codex/skills/seed-qa/SKILL.md", [
   "실기 QA/visual QA 모드",
   "Browser Use",
   "Playwright CLI",
-  "Computer Use"
+  "Computer Use",
+  "game-studio:game-playtest",
+  "DOM assertion"
 ]);
 
 requirePhrases(".codex/skills/seed-play/SKILL.md", [

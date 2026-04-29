@@ -10,9 +10,19 @@
 - Plan artifact:
 - Plan에서 벗어난 변경이 있다면 이유:
 
+## Game Studio route
+
+- Umbrella: `game-studio:game-studio` 또는 N/A 사유:
+- Specialist route:
+- 적용한 playfield/HUD/playtest 기준:
+- Game Studio route에서 벗어난 변경이 있다면 이유:
+
 ## 작업 checklist
 
 - [ ] Plan artifact의 수용 기준을 모두 확인했다.
+- [ ] 게임 기능/UI/에셋/QA 변경이면 Game Studio route를 기록했다.
+- [ ] UI/HUD 변경이면 `game-studio:game-ui-frontend` 기준으로 playfield 보호와 persistent HUD 밀도를 확인했다.
+- [ ] 게임 화면 QA이면 `game-studio:game-playtest` 기준으로 첫 actionable screen, main verbs, HUD readability, playfield obstruction을 확인했다.
 - [ ] UI/visual 변경이면 Browser Use 우선 QA를 시도하고 evidence 또는 blocker를 남겼다.
 - [ ] 필요한 문서/roadmap/dashboard/report를 갱신했다.
 - [ ] GitHub issue/PR/comment evidence를 축약 없이 남겼다.

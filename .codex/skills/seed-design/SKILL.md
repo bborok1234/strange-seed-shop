@@ -12,10 +12,17 @@ description: 이상한 씨앗상회 프로젝트 전용 설계/기획 대화 모
 ## Workflow
 
 1. 현재 북극성과 관련 문서를 확인한다.
-2. 선택지를 2~4개로 좁히고 tradeoff를 설명한다.
-3. 추천안을 명확히 제시한다.
-4. 결정된 내용은 필요하면 docs/roadmap/items에 남긴다.
-5. 구현이 명확해지면 별도 issue를 만들고 plan-first로 `$seed-ops`에 넘긴다.
+2. `game-studio:game-studio` umbrella로 fantasy, player verbs, core loop, UI surface, asset workflow, playtest approach를 먼저 정렬한다.
+3. UI/HUD/layout은 `game-studio:game-ui-frontend`, browser QA는 `game-studio:game-playtest`, runtime boundary는 `game-studio:web-game-foundations` 또는 `game-studio:phaser-2d-game`, sprite/FX는 `game-studio:sprite-pipeline`로 route한다.
+4. 선택지를 2~4개로 좁히고 tradeoff를 설명한다.
+5. 추천안을 명확히 제시한다.
+6. 결정된 내용은 필요하면 docs/roadmap/items에 남긴다.
+7. 구현이 명확해지면 별도 issue를 만들고 plan-first로 `$seed-ops`에 넘긴다.
+
+## Output requirements
+
+- 설계 결과에는 `Game Studio route`, player verb, UI surface, playfield protection rule, asset need, playtest evidence plan을 포함한다.
+- 정원/게임 화면 설계는 “일반 앱 대시보드”가 아니라 browser game HUD로 판단한다.
 
 ## Guardrails
 
