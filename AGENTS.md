@@ -69,6 +69,9 @@ For browser visual QA, use the Codex Browser Use plugin first:
 - When adding new implementation work, update the roadmap with status and verification evidence.
 - 장시간 `$ralph`/운영모드에서 완료 보고는 중단 조건이 아니라 체크포인트다. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 다음 issue를 plan-first로 선택하고 계속 진행한다.
 - Issue 종료 전 `items/<id>.md`, `docs/ROADMAP.md`, `docs/DASHBOARD.md`(`npm run update:dashboard`), GitHub issue/PR evidence를 갱신한다. 세부 규칙은 `docs/PROJECT_COMMANDS.md`와 `docs/OPERATOR_RUNBOOK.md`를 따른다.
+- GitHub issue/PR/comment 본문은 운영사 evidence surface다. `gh issue create/edit`, `gh pr create/edit`, `gh issue comment`, `gh api .../comments`를 사용할 때 본문은 반드시 markdown 파일로 작성하고 `--body-file` 또는 API file payload로 제출한다. 셸 인자 안에 `\n`을 넣어 본문을 만들지 않는다.
+- PR/issue/comment는 기존 `.github` 템플릿의 `요약`, `Small win`, `사용자/운영자 가치`, `Before / After 또는 Visual evidence`, `Playable mode`, `검증`, `안전 범위`, `남은 위험`, `연결된 issue` 수준을 유지한다. 짧은 PR도 해당 없음 사유를 적고 섹션을 삭제하지 않는다.
+- PR 본문의 `작업 checklist`는 삭제하지 않는다. UI/visual 변경이면 Browser Use 우선 QA evidence 또는 blocker를 남기고, Playwright/CDP는 fallback으로만 기록한다.
 - Do not stop at a milestone boundary when `docs/ROADMAP.md` names a clear next action and the next action is safe, local, and non-destructive.
 - A progress report is not a handoff. Continue through the current roadmap chain until the next step is blocked, destructive, requires credentials/network approval, or needs a product decision.
 - If a task touches payments, external deployment, credentials, policy-sensitive monetization, destructive migration, or production user data, stop for explicit approval.

@@ -28,7 +28,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Creature role + auto production v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, production tick UI, visual evidence, main CI `25090571222` | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
 | Order/commission v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, first order UI, reward loop, visual evidence, main CI `25090571222` | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
 | Production garden UI v0 | done | Issue #123, PR #124, `items/0070-production-garden-ui-v0.md`, compact production/order UI, visual evidence, main CI `25090930573` | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
-| Core asset batch v0 | active | Issue #125, `items/0071-core-asset-batch-plan.md`, P0.5 asset plan/prompts | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
+| Core asset batch v0 | active | Issue #125 closed, PR #126, Issue #127, `items/0071-core-asset-batch-plan.md`, `items/0072-core-asset-generation-first-pass.md`, P0.5 asset plan/prompts | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
 
@@ -190,6 +190,7 @@ Goal: make the project increasingly self-managing.
 | Generate PR automation audit | review | `scripts/update-pr-automation-audit.mjs`, `reports/audits/pr_automation_20260427.md` | PR automation audit can be regenerated from `gh pr list`; `check:audit` validates snapshot consistency instead of forcing endless self-refresh |
 | Browser Use QA gate | review | `scripts/check-browser-qa.mjs`, `reports/visual/browser-use-main-20260427.png` | Browser Use first policy and visual evidence are checked by `npm run check:browser-qa` |
 | Browser Use iab recovery diagnostic | review | `reports/visual/browser-use-iab-runtime-diagnostic-20260428.md`, `reports/visual/browser-use-iab-fallback-phaser-mobile-20260428.png`, `reports/visual/browser-use-iab-fallback-phaser-desktop-20260428.png` | Browser Use 직접 실행 차단 조건과 CDP fallback evidence가 Issue #18 기준으로 고정됨 |
+| GitHub metadata quality guard | review | Issue #128, `items/0073-github-metadata-quality-guard.md`, `scripts/check-github-metadata-quality.mjs`, `.github` templates | PR/issue/comment가 rich evidence, 작업 checklist, Browser Use QA evidence 또는 blocker, `--body-file` 제출 규칙을 유지하고 literal `\n` 회귀를 막음 |
 
 ## Milestone 6: Ralph-Session Operating Company v0
 

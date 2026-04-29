@@ -36,6 +36,7 @@ assignees: ""
 
 - Before screenshot:
 - After screenshot:
+- Browser Use 우선 QA 계획 또는 N/A 사유:
 - N/A 사유:
 
 ## Playable mode 영향
@@ -51,3 +52,12 @@ assignees: ""
 ## 검증 명령
 
 - `npm run check:all`
+
+---
+
+작성 규칙:
+
+- 이 본문은 markdown 파일로 작성한 뒤 `gh issue create/edit --body-file <file>`로 제출한다.
+- 셸 인자에 `\n`을 넣어 multi-line 본문을 만들지 않는다. GitHub 화면에 literal `\n`이 보이면 실패다.
+- 섹션을 삭제하지 않는다. 해당 없음이면 `N/A 사유:`를 적는다.
+- UI/visual issue는 Browser Use 우선 QA 계획을 비워두지 않는다. 막히면 blocker와 fallback을 적는다.
