@@ -123,7 +123,15 @@ export interface PlayerSave {
   tapPowerLevel: number;
   plots: PlotState[];
   activeExpedition?: ExpeditionState;
+  idleProduction: IdleProductionState;
   lastSeenAt: string;
+}
+
+export interface IdleProductionState {
+  pendingLeaves: number;
+  lastTickAt: string;
+  orderProgress: Record<string, number>;
+  completedOrderIds: string[];
 }
 
 export interface PlotState {

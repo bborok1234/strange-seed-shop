@@ -138,6 +138,38 @@ test("모바일 ready 밭 수확은 procedural feedback telemetry 후 reveal로 
   await page.screenshot({ path: testInfo.outputPath("mobile-playfield-harvest-feedback-393.png"), fullPage: false });
 });
 
+test("모바일 자동 생산과 첫 주문은 수령과 납품 CTA를 한 화면에서 검증한다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaProductionReady=1");
+
+  await expect(page.getByText("자동 생산")).toBeVisible();
+  await expect(page.getByRole("button", { name: "생산 잎 수령" })).toBeEnabled();
+  await page.getByRole("button", { name: "생산 잎 수령" }).click();
+  await expect(page.getByText("12/12 잎 납품 준비")).toBeVisible();
+  await expect(page.getByRole("button", { name: /첫 잎 주문 납품/ })).toBeEnabled();
+  await page.getByRole("button", { name: /첫 잎 주문 납품/ }).click();
+  await expect(page.getByRole("button", { name: "납품 완료" })).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const card = document.querySelector<HTMLElement>(".production-card")?.getBoundingClientRect();
+    return {
+      playfield: playfield ? { top: playfield.top, bottom: playfield.bottom, height: playfield.height } : null,
+      tabs: tabs ? { top: tabs.top, bottom: tabs.bottom } : null,
+      card: card ? { top: card.top, bottom: card.bottom } : null
+    };
+  });
+
+  expect(metrics.playfield).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.card).not.toBeNull();
+  expect(metrics.playfield!.height).toBeGreaterThan(220);
+  expect(metrics.card!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-production-order-v0-393.png"), fullPage: false });
+});
+
 for (const tab of PLAYER_TABS) {
   test(`모바일 ${tab} 탭은 밭 위 half-overlay가 아니라 한 화면 tab screen이다`, async ({ page }, testInfo) => {
     await openPlayerTabState(page, tab);

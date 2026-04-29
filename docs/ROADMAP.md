@@ -25,9 +25,9 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Step | Status | Output | Acceptance Criteria |
 | --- | --- | --- | --- |
 | Idle core creative guide | active | `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/SESSION_HANDOFF_20260429.md` | Egg, Inc./Idle Miner/Cell to Singularity에서 배운 생산 엔진, 장기 메타, asset bible, Codex vertical-slice workflow가 문서화됨 |
-| Creature role + auto production v0 | todo | game vertical slice item, production tick UI, visual evidence | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
-| Order/commission v0 | todo | order data/UI, reward loop, visual evidence | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
-| Production garden UI v0 | todo | Phaser/React garden UI update, screenshots | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
+| Creature role + auto production v0 | review | Issue #121, `items/0069-idle-production-order-v0.md`, production tick UI, visual evidence | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
+| Order/commission v0 | review | Issue #121, `items/0069-idle-production-order-v0.md`, first order UI, reward loop, visual evidence | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
+| Production garden UI v0 | active | Phaser/React garden UI update, screenshots | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
 | Core asset batch v0 | todo | creature work/celebrate, order crate, reward FX, manifest | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
@@ -251,9 +251,9 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 다음 작업:
 
-1. `$seed-ops`로 `게임: P0.5 idle core creative rescue vertical slice 설계` issue를 만들고 plan-first item을 작성한다.
-2. `docs/IDLE_CORE_CREATIVE_GUIDE.md` 기준으로 첫 vertical slice를 `creature role + auto production + order v0`로 좁힌다.
-3. 다음 구현 PR은 게임 core, UI, 에셋, visual QA를 분리하지 않는 작은 vertical slice로 만든다.
+1. Issue #121 / `items/0069-idle-production-order-v0.md`를 PR/CI/main merge까지 닫는다.
+2. 다음 `$seed-ops` issue는 `Production garden UI v0` 또는 `Core asset batch v0` 중 하나로 plan-first 작성한다.
+3. 다음 구현 PR도 게임 core, UI, 에셋, visual QA를 분리하지 않는 작은 vertical slice로 만든다.
 4. 운영사 인프라는 CI/QA/상태 이해가 게임 개발을 막을 때만 우선한다.
 
 ## Previous Next Action History

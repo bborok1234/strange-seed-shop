@@ -176,7 +176,19 @@ for (const phrase of [
   "leafShortfall",
   "seed-shortfall-note",
   "잎 더 모으면 구매 가능",
-  "잎 부족"
+  "잎 부족",
+  "idleProduction",
+  "getProductionStatus",
+  "getPendingProductionLeaves",
+  "getProductionRatePerSecond",
+  "자동 생산",
+  "생산 잎 수령",
+  "FIRST_ORDER",
+  "orderProgress",
+  "첫 잎 주문 납품",
+  "order_delivered",
+  "qaProductionReady",
+  "createProductionReadyQaSave"
 ]) {
   if (!appSource.includes(phrase)) {
     failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);
