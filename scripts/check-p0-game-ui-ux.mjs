@@ -227,7 +227,6 @@ for (const phrase of [
 
 for (const phrase of [
   "drawHarvestAura",
-  "drawLockGlyph",
   "drawEmptyCue",
   "drawStatusPill",
   "playProceduralFeedback",
@@ -239,10 +238,11 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  "plot.state !== \"locked\"",
-  "0.08"
+  "filter((plot) => plot.state !== \"locked\")",
+  "playfield-board-overlay",
+  "GardenBoardOverlay"
 ]) {
-  requirePhrase("src/game/playfield/GardenScene.ts", phrase);
+  requirePhrase("src/game/playfield/GardenPlayfieldHost.tsx", phrase);
 }
 
 for (const phrase of [

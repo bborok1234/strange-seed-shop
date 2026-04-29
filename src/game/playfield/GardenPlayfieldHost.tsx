@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { ManifestAsset } from "../../types/game";
-import type { GardenPlayfieldAction, GardenPlayfieldActionHandler, GardenPlayfieldViewModel } from "./types";
+import type { GardenPlayfieldAction, GardenPlayfieldActionHandler, GardenPlayfieldViewModel, GardenPlotView } from "./types";
 
 interface GardenPlayfieldHostProps {
   viewModel: GardenPlayfieldViewModel;
@@ -73,7 +73,7 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
         parent: hostRef.current,
         width: Math.max(320, hostRef.current.clientWidth || 640),
         height: Math.max(260, hostRef.current.clientHeight || 360),
-        backgroundColor: "#f1edc8",
+        backgroundColor: "#fff1c4",
         transparent: false,
         render: {
           antialias: false,
@@ -145,6 +145,7 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
       ref={hostRef}
       role="application"
     >
+      <GardenBoardOverlay viewModel={viewModel} />
       {actionFeedback ? (
         <div className={`playfield-action-feedback ${actionFeedback.kind}`} key={actionFeedback.id} aria-live="polite">
           <strong>{actionFeedback.label}</strong>
@@ -153,6 +154,36 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
       ) : null}
       {!isRuntimeReady && !runtimeError ? <p className="playfield-loading">정원 렌더러를 불러오는 중...</p> : null}
       {runtimeError ? <p className="playfield-error">{runtimeError}</p> : null}
+    </div>
+  );
+}
+
+function GardenBoardOverlay({ viewModel }: { viewModel: GardenPlayfieldViewModel }) {
+  const visiblePlots = viewModel.plots.filter((plot) => plot.state !== "locked");
+  const engineStatus = [viewModel.productionLine, viewModel.orderLine].filter(Boolean).join(" · ");
+
+  return (
+    <div className="playfield-board-overlay" aria-hidden="true">
+      {engineStatus ? <p className="playfield-engine-status">{engineStatus}</p> : null}
+      <div className="playfield-plot-row">
+        {visiblePlots.map((plot) => (
+          <GardenPlotCard key={plot.index} plot={plot} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function GardenPlotCard({ plot }: { plot: GardenPlotView }) {
+  return (
+    <div className={`playfield-plot-card plot-state-${plot.state}`}>
+      <span className="playfield-plot-index">{plot.index + 1}</span>
+      <strong>{plot.label}</strong>
+      {plot.state === "empty" ? <span className="playfield-empty-plus">+</span> : null}
+      <span className="playfield-plot-state">
+        {plot.state === "ready" ? "수확!" : plot.state === "growing" ? `${Math.round(plot.progressPercent)}%` : "빈 자리"}
+      </span>
+      <span className="playfield-plot-mound" />
     </div>
   );
 }
