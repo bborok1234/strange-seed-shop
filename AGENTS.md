@@ -42,6 +42,13 @@ For browser visual QA, use the Codex Browser Use plugin first:
 - Do not fall back to separate Playwright scripts, Computer Use, or macOS screenshots until Browser Use has been tried and the blocker is recorded.
 - Persist important visual QA evidence under `reports/visual/`.
 
+For game work, use the Game Studio plugin as the product-quality routing layer before treating the task like ordinary web UI:
+
+- Start mixed game work with `game-studio:game-studio`, then route immediately to the relevant specialist: `game-studio:game-ui-frontend` for HUD/menu/layout, `game-studio:game-playtest` for browser-game QA and screenshot review, `game-studio:phaser-2d-game` for Phaser runtime work, `game-studio:web-game-foundations` for simulation/render/UI boundaries, and `game-studio:sprite-pipeline` for 2D sprite animation workflow.
+- Game/UI issues must state their Game Studio route in the issue/plan and PR body. If a task touches visible gameplay, HUD, playfield, assets, or QA and no Game Studio route is recorded, the plan is incomplete.
+- For UI/HUD changes, `game-studio:game-ui-frontend` rules are blocking: protect the playfield, keep persistent HUD low-density, collapse secondary panels, and avoid generic dashboard layouts.
+- For production-ready claims, `game-studio:game-playtest` style evidence is required: first actionable screen, main verbs, HUD readability, playfield obstruction, screenshot evidence, and findings in severity order. DOM/layout assertions alone are not enough.
+
 ## North Star Direction
 
 - This repo currently hosts both the game project and the agent-native studio/operator project. Preserve the boundary so they can split later.
@@ -63,6 +70,8 @@ For browser visual QA, use the Codex Browser Use plugin first:
 - Track meaningful work in `docs/ROADMAP.md` until a richer `items/` system exists.
 - 프로젝트 전용 명령어는 `docs/PROJECT_COMMANDS.md`를 따른다. `$seed-ops`는 무한 운영모드, `$seed-brief`는 보고/상황판, `$seed-design`은 설계 대화, `$seed-qa`는 실기 QA, `$seed-play`는 사람 플레이 준비다.
 - Issue/work-item 단위 작업은 반드시 plan-first로 시작한다. 새 issue를 선택하면 코드/문서 구현 전에 `items/<id>.md` 또는 동등한 plan artifact에 `## Plan`, 수용 기준, 검증 명령, 리스크를 적고 그 plan에 맞춰 branch 작업을 시작한다.
+- 게임 기능/UI/에셋/QA issue는 plan-first 전에 Game Studio route를 고정한다. 최소 `game-studio:game-studio` umbrella 판단과 specialist route(`game-ui-frontend`, `game-playtest`, `phaser-2d-game`, `web-game-foundations`, `sprite-pipeline` 등)를 기록한다.
+- UI/visual acceptance는 `docs/GAME_UI_UX_RESEARCH_20260428.md`, `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/DESIGN_SYSTEM.md`의 북극성과 Game Studio rules를 기준으로 삼는다. “겹치지 않음”만으로는 통과가 아니며, 첫 화면이 게임 장면으로 읽히고 즉시 행동이 명확해야 한다.
 - Use evidence-backed docs and reports rather than implicit memory.
 - Separate proposal from mutation for risky work.
 - Keep changes scoped, reversible, and tied to acceptance criteria.

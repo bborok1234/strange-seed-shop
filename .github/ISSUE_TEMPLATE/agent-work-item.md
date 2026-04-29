@@ -16,6 +16,14 @@ assignees: ""
 
 - 이번 issue가 만들 가장 작은 승리:
 
+## Game Studio route
+
+- Umbrella: `game-studio:game-studio` 또는 N/A 사유:
+- Specialist route: `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `game-studio:phaser-2d-game` / `game-studio:web-game-foundations` / `game-studio:sprite-pipeline` / N/A 사유:
+- 북극성/플레이어 동사:
+- Playfield 보호 또는 UI surface 원칙:
+- Playtest evidence 계획:
+
 ## Plan
 
 - 구현 전 작성/검토할 plan artifact:
@@ -62,3 +70,4 @@ assignees: ""
 - 셸 인자에 `\n`을 넣어 multi-line 본문을 만들지 않는다. GitHub 화면에 literal `\n`이 보이면 실패다.
 - 섹션을 삭제하지 않는다. 해당 없음이면 `N/A 사유:`를 적는다.
 - UI/visual issue는 Browser Use 우선 QA 계획을 비워두지 않는다. 막히면 blocker와 fallback을 적는다.
+- 게임 기능/UI/에셋/QA issue는 `Game Studio route`를 비워두지 않는다. 해당 없으면 N/A 사유를 적는다.

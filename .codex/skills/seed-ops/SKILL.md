@@ -17,8 +17,17 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 ## Before implementation
 
 1. `docs/README.md`, `docs/ROADMAP.md`, `docs/PROJECT_COMMANDS.md`, `docs/NORTH_STAR.md`를 확인한다.
-2. 새 issue/work item은 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`을 만든다.
-3. stop rule이 없는 한 완료 후 다음 issue를 plan-first로 선택한다.
+2. 게임 기능/UI/HUD/playfield/asset/QA issue는 `game-studio:game-studio`로 먼저 분류하고 specialist route를 고정한다.
+3. UI/HUD/layout은 `game-studio:game-ui-frontend`, browser-game QA는 `game-studio:game-playtest`, Phaser runtime은 `game-studio:phaser-2d-game`, simulation/render/UI boundary는 `game-studio:web-game-foundations`, 2D sprite/FX는 `game-studio:sprite-pipeline` 기준을 적용한다.
+4. 새 issue/work item은 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`과 `## Game Studio route`를 만든다.
+5. stop rule이 없는 한 완료 후 다음 issue를 plan-first로 선택한다.
+
+## Product-quality gates
+
+- UI/visual 작업은 `docs/GAME_UI_UX_RESEARCH_20260428.md`, `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/DESIGN_SYSTEM.md`, Game Studio route를 acceptance criteria에 연결한다.
+- “viewport 안에 있음”, “겹치지 않음”, “DOM text visible”만으로 UI 작업을 통과시키지 않는다.
+- 정원 첫 화면은 game-playtest 관점에서 첫 actionable screen, player verb, playfield obstruction, HUD weight를 확인한다.
+- 디자인/북극성 gate가 실패하면 CI가 green이어도 PR을 완료로 부르지 않는다.
 
 ## Stop rules
 

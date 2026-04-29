@@ -33,6 +33,7 @@ const prSections = [
   "## 요약",
   "## Small win",
   "## Plan-first evidence",
+  "## Game Studio route",
   "## 작업 checklist",
   "## 사용자/운영자 가치",
   "## Before / After 또는 Visual evidence",
@@ -47,6 +48,7 @@ const issueSections = [
   "## 문제 / 배경",
   "## 목표",
   "## Small win",
+  "## Game Studio route",
   "## Plan",
   "## 플레이어 가치 또는 운영사 가치",
   "## 수용 기준",
@@ -63,7 +65,12 @@ requirePhrases(".github/pull_request_template.md", [
   "섹션을 삭제하지 않는다",
   "N/A 사유",
   "Browser Use 우선 QA",
-  "작업 checklist"
+  "작업 checklist",
+  "game-studio:game-studio",
+  "game-studio:game-ui-frontend",
+  "game-studio:game-playtest",
+  "playfield",
+  "HUD"
 ]);
 
 requirePhrases(".github/ISSUE_TEMPLATE/agent-work-item.md", [
@@ -72,7 +79,11 @@ requirePhrases(".github/ISSUE_TEMPLATE/agent-work-item.md", [
   "literal `\\n`",
   "섹션을 삭제하지 않는다",
   "N/A 사유",
-  "Browser Use 우선 QA"
+  "Browser Use 우선 QA",
+  "game-studio:game-studio",
+  "game-studio:game-ui-frontend",
+  "game-studio:game-playtest",
+  "Playtest evidence"
 ]);
 
 requirePhrases("docs/PROJECT_COMMANDS.md", [
@@ -82,6 +93,9 @@ requirePhrases("docs/PROJECT_COMMANDS.md", [
   "literal `\\n`",
   "작업 checklist",
   "Browser Use 우선 QA",
+  "Game Studio routing gate",
+  "game-studio:game-studio",
+  "game-studio:game-playtest",
   "완료 댓글도 축약하지 않는다",
   "npm run check:github-metadata"
 ]);
