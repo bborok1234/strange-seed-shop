@@ -188,14 +188,38 @@ function GardenBoardOverlay({
   const engineStatus = [viewModel.productionLine, viewModel.orderLine].filter(Boolean).join(" · ");
 
   return (
-    <div className="playfield-board-overlay" aria-hidden="true">
+    <div className={viewModel.productionScene ? "playfield-board-overlay has-production-scene" : "playfield-board-overlay"}>
       {engineStatus ? <p className="playfield-engine-status">{engineStatus}</p> : null}
+      {viewModel.productionScene ? <ProductionScene scene={viewModel.productionScene} /> : null}
       <div className="playfield-plot-row">
         {visiblePlots.map((plot) => (
           <GardenPlotCard key={plot.index} onPlotAction={onPlotAction} plot={plot} />
         ))}
       </div>
     </div>
+  );
+}
+
+function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewModel["productionScene"]> }) {
+  return (
+    <section className="playfield-production-lane" aria-label="정원 자동 생산 장면">
+      <div className="playfield-production-actor">
+        {scene.workAssetPath ? <img alt="" src={scene.workAssetPath} /> : <span className="playfield-scene-fallback">작업</span>}
+        <div>
+          <p>자동 생산</p>
+          <strong>{scene.actorName}</strong>
+          <span>{scene.actorLine}</span>
+        </div>
+      </div>
+      <div className={scene.orderReady || scene.orderCompleted ? "playfield-order-crate order-ready" : "playfield-order-crate"}>
+        {scene.crateAssetPath ? <img alt="" src={scene.crateAssetPath} /> : <span className="playfield-scene-fallback">주문</span>}
+        <div>
+          <p>{scene.orderTitle}</p>
+          <strong>{scene.orderProgressLabel}</strong>
+          <span>{scene.orderCompleted ? "보상 수령 완료" : scene.orderReady ? "납품 가능" : scene.pendingLabel}</span>
+        </div>
+      </div>
+    </section>
   );
 }
 

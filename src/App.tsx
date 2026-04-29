@@ -191,7 +191,7 @@ export default function App() {
       )
     : visibleSeedInventorySeeds;
   const totalOwnedSeeds = save ? Object.values(save.seedInventory).reduce((total, count) => total + count, 0) : 0;
-  const gardenViewModel = useMemo(() => buildGardenPlayfieldViewModel(save, now), [save, now]);
+  const gardenViewModel = useMemo(() => buildGardenPlayfieldViewModel(save, now, manifest), [save, now, manifest]);
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
   const showDebugPanel = getLocalDebugMode();
   const isPlayerTabScreen = activeTab !== "garden";
@@ -1097,7 +1097,7 @@ function getNextAction(save: PlayerSave | null, activePlot: PlotState | undefine
   };
 }
 
-function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number): GardenPlayfieldViewModel {
+function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, manifest: AssetManifest | null): GardenPlayfieldViewModel {
   if (!save) {
     return {
       headline: "정원 준비 중",
@@ -1152,6 +1152,21 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number): Ga
   const growingPlot = plots.find((plot) => plot.state === "growing");
   const openCount = plots.filter((plot) => plot.state === "empty").length;
   const productionStatus = getProductionStatus(save, now);
+  const productionScene =
+    productionStatus.ratePerMinute > 0
+      ? {
+          actorName: "말랑잎 포리",
+          actorLine: productionStatus.orderCompleted ? "첫 납품을 마치고 쉬는 중" : "잎을 모아 주문 상자로 보내는 중",
+          rateLabel: `분당 ${productionStatus.ratePerMinute.toFixed(1)} 잎`,
+          pendingLabel: `대기 ${productionStatus.pendingLeaves} 잎`,
+          orderTitle: productionStatus.orderCompleted ? "첫 주문 납품 완료" : productionStatus.order.title,
+          orderProgressLabel: `${productionStatus.orderProgress}/${FIRST_ORDER.requiredLeaves} 잎`,
+          orderReady: productionStatus.orderReady,
+          orderCompleted: productionStatus.orderCompleted,
+          workAssetPath: getAssetPath(manifest, "creature_herb_common_001_work"),
+          crateAssetPath: getAssetPath(manifest, "ui_order_crate_leaf_001")
+        }
+      : undefined;
 
   return {
     plots,
@@ -1168,6 +1183,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number): Ga
       productionStatus.ratePerMinute > 0 ? `자동 생산 +${productionStatus.ratePerMinute.toFixed(1)}/분` : undefined,
     orderLine:
       productionStatus.ratePerMinute > 0 ? `주문 ${productionStatus.orderProgress}/${FIRST_ORDER.requiredLeaves}` : undefined,
+    productionScene,
     updatedAt: now
   };
 }

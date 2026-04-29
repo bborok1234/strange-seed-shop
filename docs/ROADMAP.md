@@ -31,6 +31,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Core asset batch v0 | active | Issue #125 closed, PR #126, Issue #127, Issue #131, `items/0071-core-asset-batch-plan.md`, `items/0072-core-asset-generation-first-pass.md`, `items/0074-core-asset-manifest-normalization.md`, P0.5 generated candidates and manifest entries | gameplay role이 있는 asset batch가 투명 배경/작은 크기 판독성/manifest 검증을 통과함 |
 | Production/order asset runtime v0 | done | Issue #133, PR #134, `items/0075-production-order-asset-runtime-v0.md`, Browser Use QA, visual gate, main CI `25094604445` | 첫 생산/주문 UI에서 work creature, order crate, celebrate state가 보이고 모바일 첫 화면 밀도가 유지됨 |
 | Production/order FX runtime v0 | active | Issue #135, `items/0076-production-order-fx-runtime-v0.md`, Browser Use QA, visual gate | 생산 수령/주문 납품 순간에 static FX strip feedback이 보이고 Phaser board 세로줄 artifact가 줄어듦 |
+| Playfield production actors v0 | done | Issue #144, `items/0082-playfield-production-actors-v0.md`, Browser Use QA, `reports/visual/p0-playfield-production-actors-v0-20260429.md` | 정원 playfield 안에 work creature, order crate, order progress가 보여 production engine이 board scene으로 읽힘 |
 | Playfield board readability v0 | active | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, visual gate | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
