@@ -1,6 +1,6 @@
 # Garden action surface v0
 
-Status: active
+Status: completed
 Work type: game_ui
 Branch: `codex/0080-garden-action-surface-v0`
 Date: 2026-04-29
@@ -35,12 +35,18 @@ Issue: #140
 
 ## 수용 기준
 
-- 모바일 정원 기본 화면에서 `starter-panel` 내부 스크롤이 생기지 않는다.
-- `?qaProductionReady=1`에서 자동 생산/첫 주문 상태가 흐린 작은 카드가 아니라 action surface의 주 동사로 읽힌다.
-- 정원 첫 화면에서 primary CTA가 하나 이상 44px 이상 터치 영역으로 보인다.
-- 다음 생명체 목표는 보조 compact strip으로 보이며 playfield와 CTA를 밀어내지 않는다.
-- Phaser playfield의 input/runtime 계약과 save/economy/content 계약을 바꾸지 않는다.
-- Browser Use evidence와 `npm run check:visual`, `npm run check:ci`가 통과한다.
+- [x] 모바일 정원 기본 화면에서 `starter-panel` 내부 스크롤이 생기지 않는다.
+- [x] `?qaProductionReady=1`에서 자동 생산/첫 주문 상태가 흐린 작은 카드가 아니라 action surface의 주 동사로 읽힌다.
+- [x] 정원 첫 화면에서 primary CTA가 하나 이상 44px 이상 터치 영역으로 보인다.
+- [x] 다음 생명체 목표는 보조 compact strip으로 보이며 playfield와 CTA를 밀어내지 않는다.
+- [x] Phaser playfield의 input/runtime 계약과 save/economy/content 계약을 바꾸지 않는다.
+- [x] Browser Use evidence와 `npm run check:visual`, `npm run check:ci`가 통과한다.
+
+## Evidence
+
+- Issue #140: CLOSED
+- Visual report: `reports/visual/p0-garden-action-surface-v0-20260429.md`
+- Browser Use target: `http://127.0.0.1:5175/?qaProductionReady=1`
 
 ## 검증 명령
 

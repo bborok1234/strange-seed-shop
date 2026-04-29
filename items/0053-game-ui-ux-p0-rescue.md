@@ -1,6 +1,6 @@
 # P0 Game UI/UX rescue와 CLI 실기 QA 게이트
 
-Status: in_progress
+Status: completed
 Owner: agent
 Created: 2026-04-28
 Updated: 2026-04-28
@@ -25,6 +25,7 @@ Branch: codex/p0-game-ui-ux-rescue
 
 ## Evidence
 
+- Issue #89: CLOSED
 - Visual report: `reports/visual/p0-ui-ux-rescue-20260428.md`
 - Before mobile: `reports/visual/p0-ui-ux-before-main-mobile-20260428.png`
 - After mobile: `reports/visual/p0-ui-ux-after-mobile-20260428.png`

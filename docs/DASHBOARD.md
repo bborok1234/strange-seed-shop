@@ -27,7 +27,7 @@ Updated: 2026-04-29
 | 운영사 2h readiness | review | `npm run operator:trial:readiness` |
 | 운영 상황판 | review | `docs/OPERATOR_CONTROL_ROOM.md`, `npm run check:control-room` |
 | 운영 루프 지속성 | done | Issue #115, `npm run check:operator` |
-| 프로젝트 명령어 | active | `docs/PROJECT_COMMANDS.md`, `npm run check:project-commands` |
+| 프로젝트 명령어 | done | `docs/PROJECT_COMMANDS.md`, `npm run check:project-commands` |
 | 사람 플레이 모드 | verified | `npm run play:main`, port 5174 |
 | Sprite batch QA gate | review | `npm run check:sprite-batch` |
 | 플레이테스트 intake | review | `npm run check:playtest-intake` |
@@ -38,7 +38,7 @@ Updated: 2026-04-29
 
 | 상태 | 개수 |
 | --- | ---: |
-| done | 50 |
+| done | 55 |
 | review | 62 |
 | todo | 2 |
 | blocked | 0 |

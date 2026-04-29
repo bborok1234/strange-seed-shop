@@ -1,6 +1,6 @@
 # Production order FX runtime v0
 
-Status: active
+Status: completed
 Issue: #135
 Branch: `codex/0076-production-order-fx-runtime-v0`
 Date: 2026-04-29
@@ -24,10 +24,16 @@ Date: 2026-04-29
 
 ## Acceptance Criteria
 
-- 생산 수령 클릭 후 `fx_production_tick_leaf_001_strip` 기반 FX가 한 번 보인다.
-- 첫 주문 납품 클릭 후 `fx_order_delivery_burst_001_strip` 기반 FX가 한 번 보인다.
-- 모바일 정원 첫 화면에서 next goal과 bottom tab overlap이 없다.
-- runtime image generation, 새 dependency, 저장/content/economy 계약 변경이 없다.
+- [x] 생산 수령 클릭 후 `fx_production_tick_leaf_001_strip` 기반 FX가 한 번 보인다.
+- [x] 첫 주문 납품 클릭 후 `fx_order_delivery_burst_001_strip` 기반 FX가 한 번 보인다.
+- [x] 모바일 정원 첫 화면에서 next goal과 bottom tab overlap이 없다.
+- [x] runtime image generation, 새 dependency, 저장/content/economy 계약 변경이 없다.
+
+## Evidence
+
+- Issue #135: CLOSED
+- Visual report: `reports/visual/p0-production-order-fx-runtime-20260429.md`
+- Browser Use: `reports/visual/p0-production-order-fx-runtime-browser-use-20260429.png`
 
 ## Verification Commands
 
