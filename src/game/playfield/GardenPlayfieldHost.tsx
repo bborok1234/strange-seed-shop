@@ -38,6 +38,18 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
     feedbackTimerRef.current = window.setTimeout(() => setActionFeedback(null), 1_800);
   }
 
+  function recordOverlayFxTelemetry(actionType: "tap_growth" | "harvest_plot", plotIndex: number) {
+    if (typeof window === "undefined" || !window.location.search.includes("qaFxTelemetry=1")) {
+      return;
+    }
+
+    const event = { action: actionType, plotIndex, source: "procedural" as const, timestamp: Date.now() };
+    const qaWindow = window as unknown as {
+      __gardenPlayfieldFxEvents?: Array<typeof event>;
+    };
+    qaWindow.__gardenPlayfieldFxEvents = [...(qaWindow.__gardenPlayfieldFxEvents ?? []), event];
+  }
+
   actionRef.current = (action: GardenPlayfieldAction) => {
     if (action.type === "tap_growth" || action.type === "harvest_plot") {
       showPlayfieldFeedback(action.type, action.plotIndex);
@@ -145,7 +157,14 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
       ref={hostRef}
       role="application"
     >
-      <GardenBoardOverlay viewModel={viewModel} />
+      <GardenBoardOverlay
+        onPlotAction={(plot) => {
+          const actionType = plot.state === "ready" ? "harvest_plot" : "tap_growth";
+          recordOverlayFxTelemetry(actionType, plot.index);
+          actionRef.current({ type: actionType, plotIndex: plot.index });
+        }}
+        viewModel={viewModel}
+      />
       {actionFeedback ? (
         <div className={`playfield-action-feedback ${actionFeedback.kind}`} key={actionFeedback.id} aria-live="polite">
           <strong>{actionFeedback.label}</strong>
@@ -158,7 +177,13 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
   );
 }
 
-function GardenBoardOverlay({ viewModel }: { viewModel: GardenPlayfieldViewModel }) {
+function GardenBoardOverlay({
+  onPlotAction,
+  viewModel
+}: {
+  onPlotAction: (plot: GardenPlotView) => void;
+  viewModel: GardenPlayfieldViewModel;
+}) {
   const visiblePlots = viewModel.plots.filter((plot) => plot.state !== "locked");
   const engineStatus = [viewModel.productionLine, viewModel.orderLine].filter(Boolean).join(" · ");
 
@@ -167,16 +192,24 @@ function GardenBoardOverlay({ viewModel }: { viewModel: GardenPlayfieldViewModel
       {engineStatus ? <p className="playfield-engine-status">{engineStatus}</p> : null}
       <div className="playfield-plot-row">
         {visiblePlots.map((plot) => (
-          <GardenPlotCard key={plot.index} plot={plot} />
+          <GardenPlotCard key={plot.index} onPlotAction={onPlotAction} plot={plot} />
         ))}
       </div>
     </div>
   );
 }
 
-function GardenPlotCard({ plot }: { plot: GardenPlotView }) {
+function GardenPlotCard({ onPlotAction, plot }: { onPlotAction: (plot: GardenPlotView) => void; plot: GardenPlotView }) {
+  const disabled = plot.state === "empty" || plot.state === "locked";
+
   return (
-    <div className={`playfield-plot-card plot-state-${plot.state}`}>
+    <button
+      aria-label={`${plot.label} ${plot.state === "ready" ? "수확" : plot.state === "growing" ? "성장시키기" : "빈 자리"}`}
+      className={`playfield-plot-card plot-state-${plot.state}`}
+      disabled={disabled}
+      onClick={() => onPlotAction(plot)}
+      type="button"
+    >
       <span className="playfield-plot-index">{plot.index + 1}</span>
       <strong>{plot.label}</strong>
       {plot.state === "empty" ? <span className="playfield-empty-plus">+</span> : null}
@@ -184,6 +217,6 @@ function GardenPlotCard({ plot }: { plot: GardenPlotView }) {
         {plot.state === "ready" ? "수확!" : plot.state === "growing" ? `${Math.round(plot.progressPercent)}%` : "빈 자리"}
       </span>
       <span className="playfield-plot-mound" />
-    </div>
+    </button>
   );
 }

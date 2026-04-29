@@ -292,6 +292,17 @@ h1 {
   backdrop-filter: blur(8px);
 }
 
+.garden-action-surface {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+}
+
+.garden-support-stack {
+  display: grid;
+  gap: var(--space-2);
+}
+
 .starter-panel h2 {
   font-size: 18px;
   line-height: 1.1;
@@ -462,6 +473,10 @@ h1 {
   background:
     radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.72), transparent 34%),
     linear-gradient(135deg, rgba(226, 246, 205, 0.94), rgba(255, 246, 196, 0.9));
+}
+
+.production-action-card {
+  overflow: hidden;
 }
 
 .production-card-heading,
@@ -1802,7 +1817,7 @@ h1 {
     right: var(--space-3);
     bottom: 76px;
     left: var(--space-3);
-    grid-template-rows: minmax(360px, 1fr) auto;
+    grid-template-rows: minmax(286px, 1fr) auto;
     gap: var(--space-2);
   }
 
@@ -1862,13 +1877,30 @@ h1 {
     overflow: hidden;
   }
 
+  .starter-panel.has-production {
+    gap: 5px;
+    padding: 9px 10px;
+  }
+
   .starter-panel h2 {
     font-size: 16px;
+  }
+
+  .starter-panel.has-production h2 {
+    font-size: 15px;
   }
 
   .action-copy {
     margin-bottom: 6px;
     font-size: 11px;
+  }
+
+  .starter-panel.has-production .action-copy {
+    display: none;
+  }
+
+  .starter-panel.has-production .garden-support-stack {
+    display: none;
   }
 
   .starter-panel > .hint {
@@ -1910,6 +1942,11 @@ h1 {
 
   .production-card {
     gap: 5px;
+  }
+
+  .starter-panel.has-production .production-action-card {
+    padding: 6px;
+    border-radius: 14px;
   }
 
   .production-scene,
@@ -1960,7 +1997,7 @@ h1 {
 
   .production-meter-row button,
   .order-progress-card button {
-    min-height: 30px;
+    min-height: 44px;
     padding: 0 8px;
     font-size: 11px;
   }
@@ -1969,8 +2006,29 @@ h1 {
     padding: 6px;
   }
 
+  .starter-panel.has-production .order-progress-card {
+    grid-template-columns: minmax(0, 1fr) minmax(112px, auto);
+    align-items: center;
+    gap: 6px;
+  }
+
+  .starter-panel.has-production .order-progress-card progress {
+    grid-column: 1 / -1;
+  }
+
   .production-complete-row {
     padding: 5px 6px;
+  }
+
+  .starter-panel.has-production .next-creature-compact {
+    min-height: 46px;
+    padding: 6px;
+    border-style: solid;
+    background: rgba(255, 252, 224, 0.72);
+  }
+
+  .starter-panel.has-production .next-creature-compact small {
+    display: none;
   }
 
   .next-creature-card span,
@@ -2260,6 +2318,104 @@ h1 {
   }
 }
 
+@media (max-width: 900px) and (max-height: 740px) {
+  .top-bar {
+    min-height: 94px;
+    padding: 10px var(--space-3) 8px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .objective-chip {
+    min-height: 28px;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .currency-cluster span {
+    min-height: 23px;
+    padding: 4px 7px;
+  }
+
+  .garden-panel {
+    top: 94px;
+    bottom: 70px;
+    grid-template-rows: minmax(260px, 1fr) auto;
+    gap: 6px;
+  }
+
+  .bottom-tabs {
+    padding-top: 6px;
+  }
+
+  .bottom-tabs button {
+    min-height: 44px;
+  }
+
+  .playfield-board-overlay {
+    gap: 8px;
+    padding: 12px 16px 14px;
+  }
+
+  .playfield-engine-status {
+    padding: 4px 12px;
+    font-size: 11px;
+  }
+
+  .playfield-plot-row {
+    gap: 10px;
+  }
+
+  .playfield-plot-card {
+    min-height: 84px;
+    padding: 12px 8px 10px;
+    border-radius: 16px;
+  }
+
+  .starter-panel.has-production {
+    padding: 7px 9px;
+  }
+
+  .starter-panel.has-production h2,
+  .starter-panel.has-production > .panel-label {
+    display: none;
+  }
+
+  .starter-panel.has-production .production-card-heading {
+    align-items: flex-start;
+  }
+
+  .starter-panel.has-production .production-asset {
+    width: 30px;
+    height: 30px;
+  }
+
+  .starter-panel.has-production .production-meter-row {
+    align-items: stretch;
+  }
+
+  .starter-panel.has-production .production-meter-row span {
+    align-self: center;
+  }
+
+  .starter-panel.has-production .next-creature-compact {
+    grid-template-columns: 34px minmax(0, 1fr);
+    min-height: 40px;
+  }
+
+  .starter-panel.has-production .next-creature-portrait img,
+  .starter-panel.has-production .next-creature-portrait .asset-fallback {
+    width: 32px;
+    height: 32px;
+  }
+
+  .starter-panel.has-production .next-creature-card span {
+    display: none;
+  }
+}
+
 @media (max-width: 380px) {
   .harvest-reveal {
     padding: 10px;
@@ -2370,7 +2526,7 @@ h1 {
   grid-template-rows: auto 1fr;
   gap: 12px;
   padding: 14px 18px 18px;
-  pointer-events: none;
+  pointer-events: auto;
   background: #fff1c4;
 }
 
@@ -2402,6 +2558,7 @@ h1 {
   display: grid;
   justify-items: center;
   align-content: start;
+  width: 100%;
   min-height: 94px;
   padding: 14px 10px 12px;
   overflow: hidden;
@@ -2409,7 +2566,20 @@ h1 {
   border-radius: 18px;
   background: #efdc94;
   color: #223f2b;
+  appearance: none;
+  cursor: pointer;
+  font: inherit;
   box-shadow: 0 5px 12px rgba(93, 69, 31, 0.12);
+}
+
+.playfield-plot-card:disabled {
+  cursor: default;
+}
+
+.playfield-plot-card:not(:disabled):hover,
+.playfield-plot-card:not(:disabled):focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(93, 69, 31, 0.16);
 }
 
 .playfield-plot-index {

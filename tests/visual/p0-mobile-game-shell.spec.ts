@@ -13,20 +13,16 @@ async function openPlayerTabState(page: Page, tab: PlayerTab) {
 }
 
 async function clickFirstPlot(page: Page) {
-  const canvas = page.locator(".garden-playfield-host canvas");
-  await expect(canvas).toBeVisible();
-  const box = await canvas.boundingBox();
-  if (!box) {
-    throw new Error("garden playfield canvas bounds not found");
-  }
-
-  await page.mouse.click(box.x + box.width * 0.2, box.y + box.height * 0.27);
+  const visiblePlot = page.locator(".playfield-plot-card:not(:disabled)").first();
+  await expect(visiblePlot).toBeVisible();
+  await visiblePlot.click();
 }
 
 for (const viewport of [
   { name: "393", width: 393, height: 852 },
   { name: "375", width: 375, height: 812 },
-  { name: "360", width: 360, height: 800 }
+  { name: "360", width: 360, height: 800 },
+  { name: "399x666", width: 399, height: 666 }
 ]) {
   test(`모바일 정원 ${viewport.name}px 화면은 body scroll 없이 playfield와 하단 탭을 보존한다`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
@@ -147,6 +143,23 @@ test("모바일 자동 생산과 첫 주문은 수령과 납품 CTA를 한 화�
   await expect(page.locator(".production-asset-work img")).toBeVisible();
   await expect(page.locator(".production-asset-crate img")).toBeVisible();
   await expect(page.getByRole("button", { name: "생산 잎 수령" })).toBeEnabled();
+  const initialSurfaceMetrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
+    const enabledButton = document.querySelector<HTMLButtonElement>(
+      ".production-card button:not(:disabled), .garden-action-surface .primary-action:not(:disabled)"
+    )?.getBoundingClientRect();
+    return {
+      panel: panel ? { top: panel.top, bottom: panel.bottom, height: panel.height } : null,
+      clientHeight: document.querySelector<HTMLElement>(".starter-panel")?.clientHeight ?? 0,
+      scrollHeight: document.querySelector<HTMLElement>(".starter-panel")?.scrollHeight ?? 0,
+      enabledButton: enabledButton ? { height: enabledButton.height } : null
+    };
+  });
+
+  expect(initialSurfaceMetrics.panel).not.toBeNull();
+  expect(initialSurfaceMetrics.enabledButton).not.toBeNull();
+  expect(initialSurfaceMetrics.scrollHeight).toBeLessThanOrEqual(initialSurfaceMetrics.clientHeight + 1);
+  expect(initialSurfaceMetrics.enabledButton!.height).toBeGreaterThanOrEqual(44);
   await page.getByRole("button", { name: "생산 잎 수령" }).click();
   await page.waitForFunction(() => {
     const events = (window as unknown as { __productionFxEvents?: Array<{ kind: string }> }).__productionFxEvents ?? [];
@@ -202,6 +215,42 @@ test("모바일 자동 생산과 첫 주문은 수령과 납품 CTA를 한 화�
     fullPage: false,
     animations: "disabled"
   });
+});
+
+test("짧은 모바일 브라우저에서도 생산 action surface는 잘리지 않는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 399, height: 666 });
+  await page.goto("/?qaProductionReady=1");
+  await expect(page.getByText("자동 생산", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "생산 잎 수령" })).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
+    const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const primaryButton = document.querySelector<HTMLButtonElement>(".production-card button:not(:disabled)")?.getBoundingClientRect();
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      playfield: playfield ? { height: playfield.height, bottom: playfield.bottom } : null,
+      panel: panel ? { top: panel.top, bottom: panel.bottom, height: panel.height } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      primaryButton: primaryButton ? { height: primaryButton.height, bottom: primaryButton.bottom } : null,
+      panelClientHeight: document.querySelector<HTMLElement>(".starter-panel")?.clientHeight ?? 0,
+      panelScrollHeight: document.querySelector<HTMLElement>(".starter-panel")?.scrollHeight ?? 0
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.playfield).not.toBeNull();
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.primaryButton).not.toBeNull();
+  expect(metrics.playfield!.height).toBeGreaterThan(220);
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
+  expect(metrics.primaryButton!.height).toBeGreaterThanOrEqual(44);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-production-action-surface-short-399x666.png"), fullPage: false });
 });
 
 for (const tab of PLAYER_TABS) {
