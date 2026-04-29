@@ -451,6 +451,80 @@ h1 {
   background: linear-gradient(135deg, rgba(255, 247, 198, 0.94), rgba(230, 242, 205, 0.88));
 }
 
+.production-card {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: 9px;
+  border: 1px solid rgba(39, 86, 64, 0.22);
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.72), transparent 34%),
+    linear-gradient(135deg, rgba(226, 246, 205, 0.94), rgba(255, 246, 196, 0.9));
+}
+
+.production-card-heading,
+.production-meter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.production-card-heading strong,
+.production-card-heading span,
+.production-meter-row span,
+.order-progress-card strong,
+.order-progress-card span {
+  display: block;
+}
+
+.production-card-heading strong,
+.order-progress-card strong {
+  color: var(--action-primary-strong);
+  font-size: 13px;
+}
+
+.production-card-heading span,
+.production-meter-row span,
+.order-progress-card span {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.production-meter-row button,
+.order-progress-card button {
+  min-height: 34px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--action-primary);
+  color: #fff9de;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.production-meter-row button:disabled,
+.order-progress-card button:disabled {
+  background: var(--state-disabled);
+  color: rgba(255, 249, 222, 0.82);
+}
+
+.order-progress-card {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px dashed rgba(39, 86, 64, 0.28);
+  border-radius: var(--radius-control);
+  background: rgba(255, 251, 226, 0.72);
+}
+
+.order-progress-card progress {
+  width: 100%;
+  height: 8px;
+  accent-color: var(--action-primary);
+}
+
 .ownership-card strong,
 .ownership-card span,
 .ownership-card small {
@@ -1686,7 +1760,8 @@ h1 {
 
   .next-creature-card,
   .album-next-goal,
-  .ownership-card {
+  .ownership-card,
+  .production-card {
     margin-top: 0;
     padding: 7px;
   }
@@ -1711,8 +1786,35 @@ h1 {
   .next-creature-card small,
   .ownership-card small,
   .creature-personality,
-  .garden-action-dock span {
+  .garden-action-dock span,
+  .order-progress-card .panel-label {
     display: none;
+  }
+
+  .production-card {
+    gap: 5px;
+  }
+
+  .production-card-heading strong,
+  .order-progress-card strong {
+    font-size: 12px;
+  }
+
+  .production-card-heading span,
+  .production-meter-row span,
+  .order-progress-card span {
+    font-size: 10px;
+  }
+
+  .production-meter-row button,
+  .order-progress-card button {
+    min-height: 30px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+
+  .order-progress-card {
+    padding: 6px;
   }
 
   .next-creature-card span,

@@ -19,6 +19,8 @@ export interface GardenPlayfieldViewModel {
   plots: GardenPlotView[];
   headline: string;
   hint: string;
+  productionLine?: string;
+  orderLine?: string;
   updatedAt: number;
 }
 

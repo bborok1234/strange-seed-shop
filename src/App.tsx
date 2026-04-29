@@ -31,10 +31,36 @@ interface AlbumMilestone {
   pollen: number;
 }
 
+interface FirstOrderDefinition {
+  id: string;
+  title: string;
+  customer: string;
+  requiredLeaves: number;
+  rewardLeaves: number;
+  rewardPollen: number;
+}
+
+interface ProductionStatus {
+  ratePerMinute: number;
+  pendingLeaves: number;
+  order: FirstOrderDefinition;
+  orderProgress: number;
+  orderReady: boolean;
+  orderCompleted: boolean;
+}
+
 const FIRST_UPGRADE_COST = 25;
 const FIRST_EXPEDITION_ID = "quick_scout";
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
+const FIRST_ORDER: FirstOrderDefinition = {
+  id: "order_pori_leaf_001",
+  title: "말랑잎 첫 납품",
+  customer: "상회 앞 작은 주문 상자",
+  requiredLeaves: 12,
+  rewardLeaves: 18,
+  rewardPollen: 1
+};
 const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "garden", label: "정원" },
   { id: "seeds", label: "씨앗" },
@@ -68,17 +94,20 @@ export default function App() {
     const qaHarvestReveal = getLocalQaHarvestReveal();
     const qaExpeditionActive = getLocalQaExpeditionActive();
     const qaExpeditionReady = getLocalQaExpeditionReady();
+    const qaProductionReady = getLocalQaProductionReady();
     const existingSave = qaSpriteState
       ? createSpriteQaSave(qaSpriteState)
       : qaHarvestReveal
         ? createHarvestRevealQaSave()
-        : qaExpeditionActive
-          ? createExpeditionActiveQaSave()
-          : qaExpeditionReady
-            ? createExpeditionReadyQaSave()
-            : qaOfflineMinutes
-              ? createOfflineQaSave(qaOfflineMinutes)
-              : localSaveStore.load();
+        : qaProductionReady
+          ? createProductionReadyQaSave()
+          : qaExpeditionActive
+            ? createExpeditionActiveQaSave()
+            : qaExpeditionReady
+              ? createExpeditionReadyQaSave()
+              : qaOfflineMinutes
+                ? createOfflineQaSave(qaOfflineMinutes)
+                : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -138,6 +167,7 @@ export default function App() {
   const nextAlbumRewardRemaining = nextAlbumMilestone
     ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
     : 0;
+  const productionStatus = useMemo(() => (save ? getProductionStatus(save, now) : null), [save, now]);
   const visibleSeedInventorySeeds =
     nextCreatureGoal && !availableSeeds.some((seed) => seed.id === nextCreatureGoal.seed.id)
       ? [nextCreatureGoal.seed, ...availableSeeds]
@@ -237,6 +267,8 @@ export default function App() {
       }
 
       const creatureId = seed.creaturePool[0];
+      draft.idleProduction.pendingLeaves = getPendingProductionLeaves(draft, now);
+      draft.idleProduction.lastTickAt = new Date(now).toISOString();
       draft.leaves += seed.baseHarvestLeaves;
       plot.harvestedCreatureId = creatureId;
       plot.seedId = undefined;
@@ -342,6 +374,44 @@ export default function App() {
     triggerRewardPulse();
   }
 
+  function claimProductionLeaves() {
+    commit((draft) => {
+      const pendingLeaves = getPendingProductionLeaves(draft, now);
+      if (pendingLeaves <= 0) {
+        return;
+      }
+
+      draft.leaves += pendingLeaves;
+      draft.idleProduction.pendingLeaves = 0;
+      draft.idleProduction.lastTickAt = new Date(now).toISOString();
+      draft.idleProduction.orderProgress[FIRST_ORDER.id] = Math.min(
+        FIRST_ORDER.requiredLeaves,
+        (draft.idleProduction.orderProgress[FIRST_ORDER.id] ?? 0) + pendingLeaves
+      );
+      trackEvent("idle_production_claimed", { leaves: pendingLeaves, ratePerMinute: getProductionRatePerSecond(draft) * 60 });
+    });
+    triggerRewardPulse();
+  }
+
+  function deliverFirstOrder() {
+    commit((draft) => {
+      const progress = draft.idleProduction.orderProgress[FIRST_ORDER.id] ?? 0;
+      if (draft.idleProduction.completedOrderIds.includes(FIRST_ORDER.id) || progress < FIRST_ORDER.requiredLeaves) {
+        return;
+      }
+
+      draft.idleProduction.completedOrderIds.push(FIRST_ORDER.id);
+      draft.leaves += FIRST_ORDER.rewardLeaves;
+      draft.pollen += FIRST_ORDER.rewardPollen;
+      trackEvent("order_delivered", {
+        orderId: FIRST_ORDER.id,
+        rewardLeaves: FIRST_ORDER.rewardLeaves,
+        rewardPollen: FIRST_ORDER.rewardPollen
+      });
+    });
+    triggerRewardPulse();
+  }
+
   function handlePlayfieldAction(action: GardenPlayfieldAction) {
     if (action.type === "tap_growth") {
       tapGrowth(action.plotIndex);
@@ -410,6 +480,44 @@ export default function App() {
             <p className="panel-label">다음 행동</p>
             <h2>{nextAction.title}</h2>
             <p className="action-copy">{nextAction.body}</p>
+            {productionStatus && productionStatus.ratePerMinute > 0 && (
+              <article className="production-card" aria-label="자동 생산과 첫 주문">
+                <div className="production-card-heading">
+                  <div>
+                    <p className="panel-label">자동 생산</p>
+                    <strong>{firstOwnedCreature ? `${firstOwnedCreature.name} 작업 중` : "생명체 작업 중"}</strong>
+                  </div>
+                  <span>분당 {productionStatus.ratePerMinute.toFixed(1)} 잎</span>
+                </div>
+                <div className="production-meter-row">
+                  <span>생산 대기 {productionStatus.pendingLeaves} 잎</span>
+                  <button disabled={productionStatus.pendingLeaves <= 0} onClick={claimProductionLeaves} type="button">
+                    생산 잎 수령
+                  </button>
+                </div>
+                <div className="order-progress-card">
+                  <div>
+                    <p className="panel-label">{productionStatus.order.customer}</p>
+                    <strong>{productionStatus.order.title}</strong>
+                    <span>
+                      {productionStatus.orderCompleted
+                        ? "납품 완료"
+                        : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎 납품 준비`}
+                    </span>
+                  </div>
+                  <progress max={productionStatus.order.requiredLeaves} value={productionStatus.orderProgress} />
+                  <button
+                    disabled={!productionStatus.orderReady || productionStatus.orderCompleted}
+                    onClick={deliverFirstOrder}
+                    type="button"
+                  >
+                    {productionStatus.orderCompleted
+                      ? "납품 완료"
+                      : `첫 잎 주문 납품 +${productionStatus.order.rewardLeaves} 잎`}
+                  </button>
+                </div>
+              </article>
+            )}
             {nextCreatureGoal && (
               <article className="next-creature-card" aria-label="다음 생명체 수집 목표">
                 <div className="next-creature-portrait">{renderAsset(nextCreatureGoal.creature.assetId, "?")}</div>
@@ -983,6 +1091,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number): Ga
   const readyCount = plots.filter((plot) => plot.state === "ready").length;
   const growingPlot = plots.find((plot) => plot.state === "growing");
   const openCount = plots.filter((plot) => plot.state === "empty").length;
+  const productionStatus = getProductionStatus(save, now);
 
   return {
     plots,
@@ -995,6 +1104,10 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number): Ga
           : openCount > 0
             ? "오른쪽 HUD에서 씨앗을 골라 심으세요"
             : "두 번째 밭을 열어 반복 속도를 올리세요",
+    productionLine:
+      productionStatus.ratePerMinute > 0 ? `자동 생산 +${productionStatus.ratePerMinute.toFixed(1)}/분` : undefined,
+    orderLine:
+      productionStatus.ratePerMinute > 0 ? `주문 ${productionStatus.orderProgress}/${FIRST_ORDER.requiredLeaves}` : undefined,
     updatedAt: now
   };
 }
@@ -1009,6 +1122,61 @@ function getShopSurfaceDescription(surfaceId: string): string {
   }
 
   return "관심 확인용 미리보기";
+}
+
+function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
+  const pendingLeaves = getPendingProductionLeaves(save, now);
+  const orderProgress = Math.min(FIRST_ORDER.requiredLeaves, save.idleProduction.orderProgress[FIRST_ORDER.id] ?? 0);
+  const orderCompleted = save.idleProduction.completedOrderIds.includes(FIRST_ORDER.id);
+
+  return {
+    ratePerMinute: getProductionRatePerSecond(save) * 60,
+    pendingLeaves,
+    order: FIRST_ORDER,
+    orderProgress,
+    orderReady: orderProgress >= FIRST_ORDER.requiredLeaves,
+    orderCompleted
+  };
+}
+
+function getPendingProductionLeaves(save: PlayerSave, now: number): number {
+  const ratePerSecond = getProductionRatePerSecond(save);
+  if (ratePerSecond <= 0) {
+    return save.idleProduction.pendingLeaves;
+  }
+
+  const elapsedSeconds = Math.max(0, (now - new Date(save.idleProduction.lastTickAt).getTime()) / 1000);
+  return save.idleProduction.pendingLeaves + Math.floor(elapsedSeconds * ratePerSecond);
+}
+
+function getProductionRatePerSecond(save: PlayerSave): number {
+  return save.discoveredCreatureIds.reduce((total, creatureId) => {
+    const creature = getCreature(creatureId);
+    if (!creature) {
+      return total;
+    }
+
+    return total + getCreatureProductionRate(creature);
+  }, 0);
+}
+
+function getCreatureProductionRate(creature: CreatureDefinition): number {
+  const roleRates: Record<CreatureDefinition["role"], number> = {
+    gatherer: 0.12,
+    alchemist: 0.07,
+    guardian: 0.05,
+    merchant: 0.08,
+    mascot: 0.04
+  };
+
+  const rarityBonus: Record<CreatureDefinition["rarity"], number> = {
+    common: 1,
+    uncommon: 1.25,
+    rare: 1.65,
+    epic: 2.1
+  };
+
+  return roleRates[creature.role] * rarityBonus[creature.rarity];
 }
 
 function getSeed(seedId: string | undefined): SeedDefinition | undefined {
@@ -1186,6 +1354,14 @@ function getLocalQaHarvestReveal(): boolean {
   return new URLSearchParams(window.location.search).get("qaHarvestReveal") === "1";
 }
 
+function getLocalQaProductionReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaProductionReady") === "1";
+}
+
 function getLocalDebugMode() {
   if (typeof window === "undefined") {
     return false;
@@ -1265,6 +1441,29 @@ function createHarvestRevealQaSave(): PlayerSave {
     discoveredCreatureIds: ["creature_herb_common_001"],
     claimedAlbumMilestoneIds: ["album_1"],
     plotCount: 2,
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
+  };
+}
+
+function createProductionReadyQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createNewSave(now);
+
+  return {
+    ...save,
+    leaves: 20,
+    pollen: 0,
+    selectedStarterSeedId: "seed_herb_001",
+    discoveredCreatureIds: ["creature_herb_common_001"],
+    claimedAlbumMilestoneIds: ["album_1"],
+    plotCount: 2,
+    idleProduction: {
+      pendingLeaves: 14,
+      lastTickAt: now.toISOString(),
+      orderProgress: {},
+      completedOrderIds: []
+    },
     lastSeenAt: now.toISOString(),
     updatedAt: now.toISOString()
   };

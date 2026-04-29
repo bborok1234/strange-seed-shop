@@ -155,6 +155,10 @@ export class GardenScene extends Phaser.Scene {
     graphics.fillStyle(0xd8efb5, 0.24);
     graphics.fillEllipse(width * 0.5, height * 0.62, width * 0.92, height * 0.54);
 
+    if (this.viewModel?.productionLine) {
+      this.drawEngineStatus(width, this.viewModel.productionLine, this.viewModel.orderLine);
+    }
+
     const plots = this.viewModel?.plots ?? [];
     const gap = width < 420 ? 8 : 12;
     const top = height < 300 ? 32 : 42;
@@ -255,6 +259,28 @@ export class GardenScene extends Phaser.Scene {
       }).setOrigin(0.5, 0);
       group.add(sparkle);
     }
+  }
+
+  private drawEngineStatus(width: number, productionLine: string, orderLine?: string) {
+    const group = this.add.container(width / 2, 18);
+    this.root?.add(group);
+
+    const label = orderLine ? `${productionLine} · ${orderLine}` : productionLine;
+    const panelWidth = Math.min(width - 44, Math.max(210, label.length * 7.2));
+    const panel = this.add.graphics();
+    panel.fillStyle(0x214f37, 0.82);
+    panel.fillRoundedRect(-panelWidth / 2, -2, panelWidth, 24, 999);
+    panel.lineStyle(1, 0xfff4a7, 0.38);
+    panel.strokeRoundedRect(-panelWidth / 2, -2, panelWidth, 24, 999);
+    group.add(panel);
+
+    const text = this.addText(0, 3, label, {
+      color: "#fff8bd",
+      fontSize: width < 420 ? "10px" : "11px",
+      fontStyle: "900"
+    }).setOrigin(0.5, 0);
+    text.setShadow(0, 1, "#163322", 3, true, true);
+    group.add(text);
   }
 
   private drawHarvestAura(group: Phaser.GameObjects.Container, width: number, height: number) {

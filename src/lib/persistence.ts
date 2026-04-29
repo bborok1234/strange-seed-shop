@@ -41,6 +41,12 @@ export function createNewSave(now = new Date()): PlayerSave {
     plotCount: 1,
     tapPowerLevel: 0,
     plots: createEmptyPlots(),
+    idleProduction: {
+      pendingLeaves: 0,
+      lastTickAt: timestamp,
+      orderProgress: {},
+      completedOrderIds: []
+    },
     lastSeenAt: timestamp
   };
 }
@@ -65,6 +71,12 @@ export function normalizeSave(raw: Partial<PlayerSave>, now = new Date()): Playe
     plotCount: raw.plotCount ?? fallback.plotCount,
     tapPowerLevel: raw.tapPowerLevel ?? fallback.tapPowerLevel,
     plots: createEmptyPlots().map((plot) => normalizePlot(plots[plot.index], plot.index)),
+    idleProduction: {
+      pendingLeaves: raw.idleProduction?.pendingLeaves ?? 0,
+      lastTickAt: raw.idleProduction?.lastTickAt ?? raw.updatedAt ?? fallback.idleProduction.lastTickAt,
+      orderProgress: raw.idleProduction?.orderProgress ?? {},
+      completedOrderIds: raw.idleProduction?.completedOrderIds ?? []
+    },
     lastSeenAt: raw.lastSeenAt ?? fallback.lastSeenAt
   };
 }
