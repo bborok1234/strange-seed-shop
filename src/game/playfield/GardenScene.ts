@@ -152,11 +152,8 @@ export class GardenScene extends Phaser.Scene {
 
     graphics.fillStyle(0xfff3c9, 1);
     graphics.fillRect(8, 8, width - 16, height - 16);
-    graphics.lineStyle(2, 0x31563e, 0.16);
+    graphics.lineStyle(2, 0x31563e, 0.13);
     graphics.strokeRoundedRect(10, 10, width - 20, height - 20, 26);
-
-    graphics.fillStyle(0xd8efb5, 0.18);
-    graphics.fillEllipse(width * 0.5, height * 0.62, width * 0.92, height * 0.54);
 
     if (this.viewModel?.productionLine) {
       this.drawEngineStatus(width, this.viewModel.productionLine, this.viewModel.orderLine);
@@ -183,7 +180,7 @@ export class GardenScene extends Phaser.Scene {
     const stateColor = STATE_COLORS[plot.state];
     const familyColor = plot.family ? FAMILY_COLORS[plot.family] : undefined;
     const fill = familyColor?.fill ?? stateColor.fill;
-    const alpha = plot.state === "locked" ? 0.04 : plot.state === "ready" ? 0.74 : plot.state === "empty" ? 0.34 : 0.58;
+    const alpha = plot.state === "locked" ? 0.08 : plot.state === "ready" ? 0.84 : plot.state === "empty" ? 0.52 : 0.68;
     const group = this.add.container(x, y);
     this.root?.add(group);
 
@@ -191,16 +188,20 @@ export class GardenScene extends Phaser.Scene {
       this.drawHarvestAura(group, width, height);
     }
 
-    const tilePad = this.add.graphics();
-    const padInset = plot.state === "locked" ? 12 : 8;
-    tilePad.fillStyle(fill, alpha);
-    tilePad.fillRoundedRect(padInset, padInset, width - padInset * 2, height - padInset * 2, 18);
-    group.add(tilePad);
+    if (plot.state !== "locked") {
+      const tilePad = this.add.graphics();
+      const padInset = 8;
+      tilePad.fillStyle(fill, alpha);
+      tilePad.fillRoundedRect(padInset, padInset, width - padInset * 2, height - padInset * 2, 18);
+      group.add(tilePad);
+    }
 
-    const mound = this.add.graphics();
-    mound.fillStyle(0x795435, plot.state === "locked" ? 0.06 : 0.36);
-    mound.fillEllipse(width / 2, height * 0.7, width * 0.58, Math.max(12, height * 0.14));
-    group.add(mound);
+    if (plot.state !== "locked") {
+      const mound = this.add.graphics();
+      mound.fillStyle(0x795435, 0.36);
+      mound.fillEllipse(width / 2, height * 0.7, width * 0.58, Math.max(12, height * 0.14));
+      group.add(mound);
+    }
 
     if (plot.state === "growing" || plot.state === "ready") {
       this.drawPlant(group, plot, width, height);
@@ -274,14 +275,14 @@ export class GardenScene extends Phaser.Scene {
     const label = orderLine ? `${productionLine} · ${orderLine}` : productionLine;
     const panelWidth = Math.min(width - 44, Math.max(210, label.length * 7.2));
     const panel = this.add.graphics();
-    panel.fillStyle(0x214f37, 0.82);
+    panel.fillStyle(0x214f37, 0.9);
     panel.fillRoundedRect(-panelWidth / 2, -2, panelWidth, 24, 999);
     panel.lineStyle(1, 0xfff4a7, 0.38);
     panel.strokeRoundedRect(-panelWidth / 2, -2, panelWidth, 24, 999);
     group.add(panel);
 
     const text = this.addText(0, 3, label, {
-      color: "#fff8bd",
+      color: "#fffbd0",
       fontSize: width < 420 ? "10px" : "11px",
       fontStyle: "900"
     }).setOrigin(0.5, 0);
@@ -312,10 +313,8 @@ export class GardenScene extends Phaser.Scene {
     const lock = this.add.graphics();
     const centerX = width / 2;
     const centerY = height * 0.46;
-    lock.lineStyle(3, 0x5e684f, 0.14);
-    lock.strokeRoundedRect(centerX - 9, centerY - 17, 18, 17, 8);
-    lock.fillStyle(0x5e684f, 0.14);
-    lock.fillRoundedRect(centerX - 15, centerY - 6, 30, 22, 7);
+    lock.fillStyle(0x5e684f, 0.035);
+    lock.fillRoundedRect(centerX - 16, centerY - 4, 32, 16, 999);
     group.add(lock);
   }
 
