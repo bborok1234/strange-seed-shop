@@ -40,6 +40,7 @@ export function createNewSave(now = new Date()): PlayerSave {
     claimedMissionIds: [],
     plotCount: 1,
     tapPowerLevel: 0,
+    productionBoostLevel: 0,
     plots: createEmptyPlots(),
     idleProduction: {
       pendingLeaves: 0,
@@ -70,6 +71,7 @@ export function normalizeSave(raw: Partial<PlayerSave>, now = new Date()): Playe
     claimedMissionIds: raw.claimedMissionIds ?? [],
     plotCount: raw.plotCount ?? fallback.plotCount,
     tapPowerLevel: raw.tapPowerLevel ?? fallback.tapPowerLevel,
+    productionBoostLevel: raw.productionBoostLevel ?? fallback.productionBoostLevel,
     plots: createEmptyPlots().map((plot) => normalizePlot(plots[plot.index], plot.index)),
     idleProduction: {
       pendingLeaves: raw.idleProduction?.pendingLeaves ?? 0,

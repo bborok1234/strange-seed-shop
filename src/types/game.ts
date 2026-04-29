@@ -121,6 +121,7 @@ export interface PlayerSave {
   selectedStarterSeedId?: string;
   plotCount: number;
   tapPowerLevel: number;
+  productionBoostLevel: number;
   plots: PlotState[];
   activeExpedition?: ExpeditionState;
   idleProduction: IdleProductionState;
