@@ -208,7 +208,8 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Harden heartbeat daemon before 24h run | review | Issue #84, `scripts/operator-heartbeat-daemon.mjs`, `reports/operations/heartbeat-daemon-hardening-20260428.md`, `items/0051-heartbeat-daemon-hardening.md` | 독립 heartbeat daemon, stale-gap dry-run guard, watchdog stuck-output guard로 600초 초과 gap을 완료로 오인하지 않게 한다 |
 | Add operator control room and playable mode | review | Issue #87, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/PLAYABLE_MODE.md`, `.github/ISSUE_TEMPLATE/agent-work-item.md`, `.github/pull_request_template.md`, `scripts/prepare-playable-main.mjs`, `items/0052-operator-control-room-playable-mode.md` | 사람이 active mission, small win, visual evidence, PR/issue, playable main command를 한 화면에서 파악하고 agent 작업 중에도 게임을 실행할 수 있음 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
-| Operator continuation watchdog | active | Issue #115, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
+| Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
+| Project command surface | active | Issue #117, `items/0067-project-command-surface.md`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-*` | `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`로 운영 루프와 대화/보고/QA/playable 세션을 구분함 |
 
 ## Milestone 8: Feedback + GTM Mock Intake
 
@@ -238,9 +239,9 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 다음 작업:
 
-1. Issue #115 Operator continuation watchdog을 `items/0066-operator-continuation-watchdog.md` plan 기준으로 구현·검증·PR화한다.
-2. PR/CI/main merge 후 완료 리포트로 멈추지 않고 다음 issue를 plan-first로 선택한다.
-3. 각 issue는 작은 승리, 수용 기준, 검증 명령, visual evidence 또는 `N/A — UI 변화 없음` 사유를 남기고 PR/CI/main merge까지 반복한다.
+1. Issue #117 Project command surface를 `items/0067-project-command-surface.md` plan 기준으로 구현·검증·PR화한다.
+2. `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`를 project-local skill과 문서로 고정한다.
+3. PR/CI/main merge 후 완료 리포트로 멈추지 않고 다음 issue를 plan-first로 선택한다.
 4. 다음 게임 후보는 reward FX, harvest reveal micro-motion, tap/harvest feedback 심화, 탭별 game UI skinning, 운영 상황판 가독성 개선이다.
 
 ## Previous Next Action History

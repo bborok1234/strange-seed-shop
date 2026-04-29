@@ -46,6 +46,7 @@ const rows = [
   ["운영사 2h readiness", stepStatus("Add 2h supervised trial readiness gate", "todo"), "`npm run operator:trial:readiness`"],
   ["운영 상황판", stepStatus("Add operator control room and playable mode", "todo"), "`docs/OPERATOR_CONTROL_ROOM.md`, `npm run check:control-room`"],
   ["운영 루프 지속성", stepStatus("Operator continuation watchdog", "todo"), "Issue #115, `npm run check:operator`"],
+  ["프로젝트 명령어", stepStatus("Project command surface", "todo"), "`docs/PROJECT_COMMANDS.md`, `npm run check:project-commands`"],
   ["사람 플레이 모드", fileStatus(["docs/PLAYABLE_MODE.md", "scripts/prepare-playable-main.mjs"]), "`npm run play:main`, port 5174"],
   [
     "Sprite batch QA gate",
@@ -70,6 +71,7 @@ const commands = [
   "npm run check:playtest-intake",
   "npm run check:gtm-mock",
   "npm run check:control-room",
+  "npm run check:project-commands",
   "npm run check:operator",
   "npm run check:governance",
   "npm run check:audit",

@@ -4,6 +4,7 @@ const requiredDocs = [
   "docs/README.md",
   "docs/NORTH_STAR.md",
   "docs/ROADMAP.md",
+  "docs/PROJECT_COMMANDS.md",
   "docs/PRD_PHASE0.md",
   "docs/ECONOMY_PHASE0.md",
   "docs/DESIGN_SYSTEM.md",

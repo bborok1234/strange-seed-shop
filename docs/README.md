@@ -8,6 +8,7 @@ This folder is the durable memory for `이상한 씨앗상회` and the agent-nat
 | --- | --- | --- |
 | `NORTH_STAR.md` | Dual north star for the game and the agent-native studio/operator | Before choosing strategy or roadmap work |
 | `ROADMAP.md` | Milestone tracking, next tasks, current status | Before deciding what to do next |
+| `PROJECT_COMMANDS.md` | 프로젝트 전용 명령어: `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play` | Before choosing operating/report/design/QA/playable mode |
 | `PRD_PHASE0.md` | Phase 0 product requirements and UX contract | Before product or UI work |
 | `ECONOMY_PHASE0.md` | Phase 0 economy tables, formulas, tuning levers | Before economy/config work |
 | `DESIGN_SYSTEM.md` | Phase 0 UI usage rules, token draft, and visual QA contract | Before UI or visual hierarchy work |
@@ -36,6 +37,11 @@ The first asset-production workflow is stored under `.codex/skills/`.
 | `gpt-game-asset-prompt` | Converts the asset plan into `assets/source/asset_prompts.json` |
 | `gpt-game-asset-generate` | Uses Codex native image generation one asset at a time |
 | `gpt-game-asset-review` | Reviews assets and prepares `assetManifest.json` |
+| `seed-ops` | `$seed-ops`: project-specific long-running operator loop |
+| `seed-brief` | `$seed-brief`: evidence-backed status/reporting mode |
+| `seed-design` | `$seed-design`: design/product/operator conversation mode |
+| `seed-qa` | `$seed-qa`: practical browser/visual QA mode |
+| `seed-play` | `$seed-play`: prepare the playable main worktree/port |
 
 ## Current Product Summary
 
