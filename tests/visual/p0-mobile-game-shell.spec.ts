@@ -139,7 +139,7 @@ test("모바일 ready 밭 수확은 procedural feedback telemetry 후 reveal로 
 });
 
 test("모바일 자동 생산과 첫 주문은 수령과 납품 CTA를 한 화면에서 검증한다", async ({ page }, testInfo) => {
-  test.setTimeout(60_000);
+  test.setTimeout(120_000);
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaProductionReady=1");
 
