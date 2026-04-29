@@ -21,6 +21,8 @@ function forbidPhrase(path, phrase) {
 const requiredPaths = [
   "docs/GAME_UI_UX_RESEARCH_20260428.md",
   "items/0053-game-ui-ux-p0-rescue.md",
+  "items/0081-north-star-production-bar.md",
+  "docs/NORTH_STAR.md",
   "assets/source/asset_alpha_exceptions.json",
   "scripts/check-asset-alpha-quality.mjs",
   "reports/visual/p0-ui-ux-rescue-20260428.md",
@@ -77,6 +79,27 @@ const requiredPaths = [
   "reports/visual/p0-expedition-shop-card-polish-shop-393-20260429.png"
 ];
 for (const path of requiredPaths) requirePath(path);
+
+for (const phrase of [
+  "idle collection tycoon",
+  "경쟁작 기준 Production Bar",
+  "생산 엔진이 화면에 보여야 한다",
+  "업그레이드 선택이 있어야 한다",
+  "장기 메타의 실루엣",
+  "vertical slice 기준",
+  "작은 작업 선택 금지선"
+]) {
+  requirePhrase("docs/NORTH_STAR.md", phrase);
+}
+
+for (const phrase of [
+  "North Star production bar 정렬",
+  "game-studio:game-studio",
+  "vertical slice",
+  "npm run check:ci"
+]) {
+  requirePhrase("items/0081-north-star-production-bar.md", phrase);
+}
 
 for (const phrase of [
   "P0 Expedition/Shop Card Polish Evidence",

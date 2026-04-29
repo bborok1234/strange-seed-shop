@@ -50,6 +50,7 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | Mobile game frame tab rework | done | Issue #104, PR #105, `items/0060-mobile-game-frame-tab-rework.md`, Playwright evidence | 모바일 탭 화면은 viewport 상단부터 bottom nav 위까지 고정되고 정원 HUD/playfield가 뒤에 비치거나 터치되지 않으며 main CI가 통과함 |
 | Mobile garden HUD/action card polish | done | Issue #97, PR #98, `items/0057-mobile-garden-hud-polish.md`, visual evidence | 모바일 정원 기본 화면의 개발 라벨과 잘리는 설명을 제거하고 action card가 하단 nav에 가리지 않으며 main CI가 통과함 |
 | Game Studio routing gate | active | `items/0079-game-studio-routing-gate.md`, `AGENTS.md`, `docs/PROJECT_COMMANDS.md`, seed command skills, GitHub templates, metadata checkers | 게임 기능/UI/에셋/QA issue가 `game-studio:game-studio`와 specialist route 없이 plan/PR로 진행되지 않음 |
+| North Star production bar | active | `items/0081-north-star-production-bar.md`, `docs/NORTH_STAR.md` | 경쟁작 기준 production idle loop가 최상위 헌장에 반영되고, 작은 기능 개선보다 vertical slice 기준으로 다음 issue를 선택함 |
 | CLI visual QA gate | active | Playwright CLI, `tests/visual/p0-mobile-game-shell.spec.ts`, `docs/BROWSER_QA.md` | `npm run check:visual`이 mobile/desktop layout regression과 screenshot artifact를 운영 QA evidence로 검증함. CI required checks는 `npm run check:ci`로 분리됨 |
 | Asset alpha/background quality gate | active | asset checker, asset review follow-up | creature/seed/icon/fx는 alpha 필요 조건 또는 명시 예외를 검증하고, checkerboard/배경 오염 asset은 후속 cutout/remaster 대상으로 기록됨 |
 | P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
