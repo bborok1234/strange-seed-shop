@@ -34,6 +34,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Playfield production actors v0 | done | Issue #144, `items/0082-playfield-production-actors-v0.md`, Browser Use QA, `reports/visual/p0-playfield-production-actors-v0-20260429.md` | 정원 playfield 안에 work creature, order crate, order progress가 보여 production engine이 board scene으로 읽힘 |
 | Upgrade choice surface v0 | done | Issue #146, `items/0083-upgrade-choice-surface-v0.md`, Browser Use QA, `reports/visual/p0-upgrade-choice-surface-v0-20260429.md` | 생산/주문 보상 아래에 밭 확장, 생산 속도, 주문 준비 선택이 보여 idle tycoon 성장 방향이 읽힘 |
 | Production speed upgrade loop v0 | done | Issue #148, `items/0084-production-speed-upgrade-loop-v0.md`, Browser Use QA, `reports/visual/p0-production-speed-upgrade-loop-v0-20260429.md` | 첫 주문 납품 보상이 작업 간식 강화로 이어지고 production rate가 7.2 -> 9.0으로 상승함 |
+| Repeat order v0 | done | Issue #150, `items/0085-repeat-order-v0.md`, Browser Use QA, `reports/visual/p0-repeat-order-v0-20260429.md` | 첫 주문 후 `연구 준비 잎 묶음`이 다음 주문으로 등장하고 생산 수령이 새 주문 진행률을 채움 |
 | Playfield board readability v0 | active | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, visual gate | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue

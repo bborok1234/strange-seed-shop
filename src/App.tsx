@@ -86,6 +86,15 @@ const FIRST_ORDER: FirstOrderDefinition = {
   rewardLeaves: 18,
   rewardPollen: 1
 };
+const SECOND_ORDER: FirstOrderDefinition = {
+  id: "order_research_leaf_bundle_001",
+  title: "연구 준비 잎 묶음",
+  customer: "온실 연구대",
+  requiredLeaves: 24,
+  rewardLeaves: 28,
+  rewardPollen: 2
+};
+const ORDER_DEFINITIONS: FirstOrderDefinition[] = [FIRST_ORDER, SECOND_ORDER];
 const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "garden", label: "정원" },
   { id: "seeds", label: "씨앗" },
@@ -438,11 +447,17 @@ export default function App() {
       draft.leaves += pendingLeaves;
       draft.idleProduction.pendingLeaves = 0;
       draft.idleProduction.lastTickAt = new Date(now).toISOString();
-      draft.idleProduction.orderProgress[FIRST_ORDER.id] = Math.min(
-        FIRST_ORDER.requiredLeaves,
-        (draft.idleProduction.orderProgress[FIRST_ORDER.id] ?? 0) + pendingLeaves
+      const currentOrder = getCurrentOrder(draft);
+      const currentProgress = draft.idleProduction.orderProgress[currentOrder.id] ?? 0;
+      draft.idleProduction.orderProgress[currentOrder.id] = Math.min(
+        currentOrder.requiredLeaves,
+        currentProgress + pendingLeaves
       );
-      trackEvent("idle_production_claimed", { leaves: pendingLeaves, ratePerMinute: getProductionRatePerSecond(draft) * 60 });
+      trackEvent("idle_production_claimed", {
+        leaves: pendingLeaves,
+        orderId: currentOrder.id,
+        ratePerMinute: getProductionRatePerSecond(draft) * 60
+      });
     });
     triggerProductionFx("production");
     triggerRewardPulse();
@@ -450,18 +465,19 @@ export default function App() {
 
   function deliverFirstOrder() {
     commit((draft) => {
-      const progress = draft.idleProduction.orderProgress[FIRST_ORDER.id] ?? 0;
-      if (draft.idleProduction.completedOrderIds.includes(FIRST_ORDER.id) || progress < FIRST_ORDER.requiredLeaves) {
+      const currentOrder = getCurrentOrder(draft);
+      const progress = draft.idleProduction.orderProgress[currentOrder.id] ?? 0;
+      if (draft.idleProduction.completedOrderIds.includes(currentOrder.id) || progress < currentOrder.requiredLeaves) {
         return;
       }
 
-      draft.idleProduction.completedOrderIds.push(FIRST_ORDER.id);
-      draft.leaves += FIRST_ORDER.rewardLeaves;
-      draft.pollen += FIRST_ORDER.rewardPollen;
+      draft.idleProduction.completedOrderIds.push(currentOrder.id);
+      draft.leaves += currentOrder.rewardLeaves;
+      draft.pollen += currentOrder.rewardPollen;
       trackEvent("order_delivered", {
-        orderId: FIRST_ORDER.id,
-        rewardLeaves: FIRST_ORDER.rewardLeaves,
-        rewardPollen: FIRST_ORDER.rewardPollen
+        orderId: currentOrder.id,
+        rewardLeaves: currentOrder.rewardLeaves,
+        rewardPollen: currentOrder.rewardPollen
       });
     });
     triggerProductionFx("order");
@@ -586,12 +602,12 @@ export default function App() {
                   </button>
                 </div>
                 {productionStatus.orderCompleted ? (
-                  <div className="production-complete-row" aria-label="첫 주문 납품 완료">
+                  <div className="production-complete-row" aria-label={`${productionStatus.order.title} 납품 완료`}>
                     <div className="production-asset production-asset-celebrate" aria-hidden="true">
                       {renderAsset("creature_herb_common_001_celebrate", "완료")}
                     </div>
                     <div>
-                      <span>첫 주문 납품 완료</span>
+                      <span>{productionStatus.order.title} 완료</span>
                       <strong>
                         +{productionStatus.order.rewardLeaves} 잎 · +{productionStatus.order.rewardPollen} 꽃가루
                       </strong>
@@ -611,7 +627,7 @@ export default function App() {
                     </div>
                     <progress max={productionStatus.order.requiredLeaves} value={productionStatus.orderProgress} />
                     <button disabled={!productionStatus.orderReady} onClick={deliverFirstOrder} type="button">
-                      첫 잎 주문 납품 +{productionStatus.order.rewardLeaves} 잎
+                      {productionStatus.order.id === FIRST_ORDER.id ? "첫 잎 주문 납품" : "주문 납품"} +{productionStatus.order.rewardLeaves} 잎
                     </button>
                   </div>
                 )}
@@ -1222,11 +1238,11 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
     productionStatus.ratePerMinute > 0
       ? {
           actorName: "말랑잎 포리",
-          actorLine: productionStatus.orderCompleted ? "첫 납품을 마치고 쉬는 중" : "잎을 모아 주문 상자로 보내는 중",
+          actorLine: productionStatus.orderCompleted ? "납품을 마치고 쉬는 중" : "잎을 모아 주문 상자로 보내는 중",
           rateLabel: `분당 ${productionStatus.ratePerMinute.toFixed(1)} 잎`,
           pendingLabel: `대기 ${productionStatus.pendingLeaves} 잎`,
-          orderTitle: productionStatus.orderCompleted ? "첫 주문 납품 완료" : productionStatus.order.title,
-          orderProgressLabel: `${productionStatus.orderProgress}/${FIRST_ORDER.requiredLeaves} 잎`,
+          orderTitle: productionStatus.orderCompleted ? `${productionStatus.order.title} 완료` : productionStatus.order.title,
+          orderProgressLabel: `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
           orderReady: productionStatus.orderReady,
           orderCompleted: productionStatus.orderCompleted,
           workAssetPath: getAssetPath(manifest, "creature_herb_common_001_work"),
@@ -1248,7 +1264,9 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
     productionLine:
       productionStatus.ratePerMinute > 0 ? `자동 생산 +${productionStatus.ratePerMinute.toFixed(1)}/분` : undefined,
     orderLine:
-      productionStatus.ratePerMinute > 0 ? `주문 ${productionStatus.orderProgress}/${FIRST_ORDER.requiredLeaves}` : undefined,
+      productionStatus.ratePerMinute > 0
+        ? `주문 ${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves}`
+        : undefined,
     productionScene,
     updatedAt: now
   };
@@ -1267,18 +1285,26 @@ function getShopSurfaceDescription(surfaceId: string): string {
 }
 
 function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
+  const currentOrder = getCurrentOrder(save);
   const pendingLeaves = getPendingProductionLeaves(save, now);
-  const orderProgress = Math.min(FIRST_ORDER.requiredLeaves, save.idleProduction.orderProgress[FIRST_ORDER.id] ?? 0);
-  const orderCompleted = save.idleProduction.completedOrderIds.includes(FIRST_ORDER.id);
+  const orderProgress = Math.min(
+    currentOrder.requiredLeaves,
+    save.idleProduction.orderProgress[currentOrder.id] ?? 0
+  );
+  const orderCompleted = save.idleProduction.completedOrderIds.includes(currentOrder.id);
 
   return {
     ratePerMinute: getProductionRatePerSecond(save) * 60,
     pendingLeaves,
-    order: FIRST_ORDER,
+    order: currentOrder,
     orderProgress,
-    orderReady: orderProgress >= FIRST_ORDER.requiredLeaves,
+    orderReady: orderProgress >= currentOrder.requiredLeaves,
     orderCompleted
   };
+}
+
+function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
+  return ORDER_DEFINITIONS.find((order) => !save.idleProduction.completedOrderIds.includes(order.id)) ?? SECOND_ORDER;
 }
 
 function buildUpgradeChoices(
@@ -1290,7 +1316,7 @@ function buildUpgradeChoices(
   const plotComplete = save.plotCount >= 2;
   const plotShortfall = Math.max(FIRST_UPGRADE_COST - save.leaves, 0);
   const speedComplete = save.productionBoostLevel >= PRODUCTION_BOOST_MAX_LEVEL;
-  const speedUnlocked = productionStatus.orderCompleted;
+  const speedUnlocked = save.idleProduction.completedOrderIds.includes(FIRST_ORDER.id);
   const speedAffordable = save.leaves >= PRODUCTION_BOOST_COST_LEAVES && save.pollen >= PRODUCTION_BOOST_COST_POLLEN;
   const speedShortfallLeaves = Math.max(PRODUCTION_BOOST_COST_LEAVES - save.leaves, 0);
   const speedShortfallPollen = Math.max(PRODUCTION_BOOST_COST_POLLEN - save.pollen, 0);
