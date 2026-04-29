@@ -10,7 +10,8 @@
     "Initial run incorrectly stopped after 11/20 assets; resumed and completed all remaining assets.",
     "Workflow guardrails added to .codex/skills/gpt-game-asset-generate/SKILL.md.",
     "sprite_batch_001: 6 starter spritesheet/fx strips saved as static workspace PNGs; runtime generation remains disabled. Codex native file export was approximated with deterministic local strip normalization for strict Phaser slicing.",
-    "p0_5_core_asset_generation_first_pass: 5 production/order asset candidates saved as static workspace PNGs after Codex native generation and chroma-key alpha conversion. FX strips need normalization before manifest integration."
+    "p0_5_core_asset_generation_first_pass: 5 production/order asset candidates saved as static workspace PNGs after Codex native generation and chroma-key alpha conversion. FX strips need normalization before manifest integration.",
+    "p0_5_core_asset_manifest_normalization: 5 P0.5 assets registered in manifest; FX strips normalized to 4x160 strict strips."
   ],
   "outputs": [
     "public/assets/game/creatures/creature_herb_common_001.png",
@@ -58,7 +59,7 @@
           "asset_id": "creature_herb_common_001_work",
           "output_path": "public/assets/game/creatures/states/creature_herb_common_001_work.png",
           "source_cache_path": "/Users/mirlim/.codex/generated_images/019dd763-6a75-73e1-bd83-c689bdafe2a1/ig_0a12bcf32c30e3be0169f18d1a8854819186b87c6541194171.png",
-          "status": "accepted_candidate",
+          "status": "accepted_manifest_candidate",
           "width": 1254,
           "height": 1254,
           "notes": "말랑잎 포리 work state로 판독성 좋음. leaf satchel/수집 행동이 분명함."
@@ -67,7 +68,7 @@
           "asset_id": "creature_herb_common_001_celebrate",
           "output_path": "public/assets/game/creatures/states/creature_herb_common_001_celebrate.png",
           "source_cache_path": "/Users/mirlim/.codex/generated_images/019dd763-6a75-73e1-bd83-c689bdafe2a1/ig_05d048bb2bd352ed0169f194db7a748191a091949e3a78ed1e.png",
-          "status": "accepted_candidate",
+          "status": "accepted_manifest_candidate",
           "width": 1254,
           "height": 1254,
           "notes": "같은 생명체로 보이고 celebrate pose/표정이 명확함."
@@ -76,7 +77,7 @@
           "asset_id": "ui_order_crate_leaf_001",
           "output_path": "public/assets/game/ui/ui_order_crate_leaf_001.png",
           "source_cache_path": "/Users/mirlim/.codex/generated_images/019dd763-6a75-73e1-bd83-c689bdafe2a1/ig_05d048bb2bd352ed0169f1955c90d08191b361373cec03e6c6.png",
-          "status": "accepted_candidate",
+          "status": "accepted_manifest_candidate",
           "width": 1254,
           "height": 1254,
           "notes": "leaf order crate로 판독성 좋음. 첫 checkerboard 후보는 거절하고 magenta 후보를 사용함."
@@ -85,19 +86,19 @@
           "asset_id": "fx_production_tick_leaf_001",
           "output_path": "public/assets/game/fx/fx_production_tick_leaf_001_strip.png",
           "source_cache_path": "/Users/mirlim/.codex/generated_images/019dd763-6a75-73e1-bd83-c689bdafe2a1/ig_05d048bb2bd352ed0169f195a251148191b350c04db0e51b1c.png",
-          "status": "needs_normalization_candidate",
-          "width": 1857,
-          "height": 847,
-          "notes": "4-frame production tick strip 후보. glow가 있어 manifest 연결 전 strip frame crop/alpha pass 재검수 필요."
+          "status": "accepted_manifest_candidate",
+          "width": 640,
+          "height": 160,
+          "notes": "4-frame production tick strip 후보. glow가 있어 manifest 연결 전 strip frame crop/alpha pass 재검수 필요. Normalized to strict 4-frame 160x160 strip for manifest registration."
         },
         {
           "asset_id": "fx_order_delivery_burst_001",
           "output_path": "public/assets/game/fx/fx_order_delivery_burst_001_strip.png",
           "source_cache_path": "/Users/mirlim/.codex/generated_images/019dd763-6a75-73e1-bd83-c689bdafe2a1/ig_05d048bb2bd352ed0169f195c87a908191b8072e7ee7848974.png",
-          "status": "needs_normalization_candidate",
-          "width": 1774,
-          "height": 887,
-          "notes": "4-frame delivery burst strip 후보. 효과 판독성은 좋으나 glow/strip spacing normalization 필요."
+          "status": "accepted_manifest_candidate",
+          "width": 640,
+          "height": 160,
+          "notes": "4-frame delivery burst strip 후보. 효과 판독성은 좋으나 glow/strip spacing normalization 필요. Normalized to strict 4-frame 160x160 strip for manifest registration."
         }
       ],
       "notes": [

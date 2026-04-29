@@ -4,7 +4,7 @@
   "source_plan": "assets/source/asset_plan.json",
   "source_prompts": "assets/source/asset_prompts.json",
   "generated_from": "assets/source/asset_generation_status.json",
-  "reviewed_at": "2026-04-27",
+  "reviewed_at": "2026-04-29",
   "runtime_generation_allowed": false,
   "assets": {
     "creature_herb_common_001": {
@@ -610,6 +610,146 @@
           ],
           "actions": [
             "harvest_plot"
+          ]
+        }
+      }
+    },
+    "creature_herb_common_001_work": {
+      "path": "/assets/game/creatures/states/creature_herb_common_001_work.png",
+      "category": "creature",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "playfield_work_state",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "p0_5_core_asset",
+        "production_order",
+        "creature_state",
+        "work"
+      ],
+      "notes": "P0.5 core asset first pass; work-state version of 말랑잎 포리 for idle production UI/runtime integration candidate."
+    },
+    "creature_herb_common_001_celebrate": {
+      "path": "/assets/game/creatures/states/creature_herb_common_001_celebrate.png",
+      "category": "creature",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "playfield_celebrate_state",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "p0_5_core_asset",
+        "production_order",
+        "creature_state",
+        "celebrate"
+      ],
+      "notes": "P0.5 core asset first pass; celebrate-state version of 말랑잎 포리 for first order delivery candidate."
+    },
+    "ui_order_crate_leaf_001": {
+      "path": "/assets/game/ui/ui_order_crate_leaf_001.png",
+      "category": "ui",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "order_crate_icon",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "p0_5_core_asset",
+        "production_order",
+        "ui",
+        "order_crate"
+      ],
+      "notes": "P0.5 core asset first pass; leaf order crate icon for first commission candidate."
+    },
+    "fx_production_tick_leaf_001": {
+      "path": "/assets/game/fx/fx_production_tick_leaf_001_strip.png",
+      "category": "fx_strip",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "production_tick_fx",
+      "width": 640,
+      "height": 160,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "p0_5_core_asset",
+        "production_order",
+        "fx_strip",
+        "production"
+      ],
+      "notes": "P0.5 normalized strict strip; frames=4; frame_width=160; frame_height=160; intended_frame_rate=10; loop=false; source_reference_asset_id=creature_herb_common_001_work.",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "fx_production_tick_leaf_001",
+        "frames": 4,
+        "frameWidth": 160,
+        "frameHeight": 160,
+        "frameRate": 10,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "creature_herb_common_001_work"
+        ],
+        "binding": {
+          "target": "effect",
+          "slot": "production_tick_fx",
+          "seedIds": [
+            "seed_herb_001"
+          ],
+          "creatureIds": [
+            "creature_herb_common_001"
+          ],
+          "actions": [
+            "claim_production"
+          ]
+        }
+      }
+    },
+    "fx_order_delivery_burst_001": {
+      "path": "/assets/game/fx/fx_order_delivery_burst_001_strip.png",
+      "category": "fx_strip",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "order_delivery_fx",
+      "width": 640,
+      "height": 160,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "p0_5_core_asset",
+        "production_order",
+        "fx_strip",
+        "order_delivery"
+      ],
+      "notes": "P0.5 normalized strict strip; frames=4; frame_width=160; frame_height=160; intended_frame_rate=12; loop=false; source_reference_asset_id=ui_order_crate_leaf_001.",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "fx_order_delivery_burst_001",
+        "frames": 4,
+        "frameWidth": 160,
+        "frameHeight": 160,
+        "frameRate": 12,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "ui_order_crate_leaf_001"
+        ],
+        "binding": {
+          "target": "effect",
+          "slot": "order_delivery_fx",
+          "seedIds": [
+            "seed_herb_001"
+          ],
+          "creatureIds": [
+            "creature_herb_common_001"
+          ],
+          "actions": [
+            "deliver_order"
           ]
         }
       }
