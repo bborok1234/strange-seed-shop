@@ -13,6 +13,7 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - 기본 루프: issue 선택/생성 -> `## Plan` artifact -> branch -> 구현 -> 로컬 검증 -> PR -> GitHub checks -> merge -> main CI -> 다음 issue.
 - 완료 보고는 중단 조건이 아니라 checkpoint다.
 - 각 issue는 작은 승리, 수용 기준, 검증 명령, evidence, 남은 리스크를 남긴다.
+- issue 종료 전 GitHub issue 본문의 `## 수용 기준` 체크박스를 실제 검증 결과로 갱신한다. `Closes #id`는 issue를 닫을 뿐 체크박스를 채우지 않으므로 빈 체크박스가 남으면 완료 gate 실패다.
 
 ## Before implementation
 
@@ -21,6 +22,7 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 3. UI/HUD/layout은 `game-studio:game-ui-frontend`, browser-game QA는 `game-studio:game-playtest`, Phaser runtime은 `game-studio:phaser-2d-game`, simulation/render/UI boundary는 `game-studio:web-game-foundations`, 2D sprite/FX는 `game-studio:sprite-pipeline` 기준을 적용한다.
 4. 새 issue/work item은 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`과 `## Game Studio route`를 만든다.
 5. stop rule이 없는 한 완료 후 다음 issue를 plan-first로 선택한다.
+6. 다음 issue로 넘어가기 전 닫힌 issue/PR metadata를 확인해 acceptance checkbox, 작업 checklist, Browser Use/visual evidence, main CI 링크가 비어 있지 않은지 검증한다.
 
 ## Product-quality gates
 

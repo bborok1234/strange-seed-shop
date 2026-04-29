@@ -685,7 +685,7 @@ h1 {
 
 .upgrade-choice-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
 }
 
@@ -2058,7 +2058,7 @@ h1 {
 
   .starter-panel.has-production .upgrade-choice {
     min-height: 44px;
-    padding: 5px;
+    padding: 5px 4px;
     border-radius: 11px;
   }
 
@@ -2067,7 +2067,7 @@ h1 {
   }
 
   .starter-panel.has-production .upgrade-choice strong {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .starter-panel.has-production .upgrade-choice small {
