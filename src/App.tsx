@@ -136,23 +136,26 @@ export default function App() {
     const qaProductionReady = getLocalQaProductionReady();
     const qaResearchReady = getLocalQaResearchReady();
     const qaResearchComplete = getLocalQaResearchComplete();
+    const qaResearchExpeditionReady = getLocalQaResearchExpeditionReady();
     const existingSave = qaSpriteState
       ? createSpriteQaSave(qaSpriteState)
       : qaHarvestReveal
         ? createHarvestRevealQaSave()
-        : qaResearchComplete
-          ? createResearchCompleteQaSave()
-          : qaResearchReady
-            ? createResearchReadyQaSave()
-            : qaProductionReady
-              ? createProductionReadyQaSave()
-              : qaExpeditionActive
-                ? createExpeditionActiveQaSave()
-                : qaExpeditionReady
-                  ? createExpeditionReadyQaSave()
-                  : qaOfflineMinutes
-                    ? createOfflineQaSave(qaOfflineMinutes)
-                    : localSaveStore.load();
+        : qaResearchExpeditionReady
+          ? createResearchExpeditionReadyQaSave()
+          : qaResearchComplete
+            ? createResearchCompleteQaSave()
+            : qaResearchReady
+              ? createResearchReadyQaSave()
+              : qaProductionReady
+                ? createProductionReadyQaSave()
+                : qaExpeditionActive
+                  ? createExpeditionActiveQaSave()
+                  : qaExpeditionReady
+                    ? createExpeditionReadyQaSave()
+                    : qaOfflineMinutes
+                      ? createOfflineQaSave(qaOfflineMinutes)
+                      : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -418,27 +421,28 @@ export default function App() {
     triggerRewardPulse();
   }
 
-  function startExpedition() {
+  function startExpedition(expeditionId = FIRST_EXPEDITION_ID) {
     commit((draft) => {
-      const firstCreatureId = draft.discoveredCreatureIds[0];
-      if (!firstCreatureId || draft.activeExpedition) {
+      const expedition = content.expeditions.find((item) => item.id === expeditionId);
+      if (!expedition || draft.activeExpedition || draft.discoveredCreatureIds.length < expedition.requiredCreatures) {
         return;
       }
 
-      const expedition = content.expeditions.find((item) => item.id === FIRST_EXPEDITION_ID);
-      if (!expedition) {
-        return;
-      }
+      const expeditionCreatureIds = draft.discoveredCreatureIds.slice(0, expedition.requiredCreatures);
 
       draft.activeExpedition = {
         expeditionId: expedition.id,
-        creatureIds: [firstCreatureId],
+        creatureIds: expeditionCreatureIds,
         startedAt: new Date().toISOString(),
         durationSeconds: expedition.durationSeconds,
         claimed: false
       };
       advanceMission(draft, "daily_start_expedition");
-      trackEvent("expedition_started", { expeditionId: expedition.id, creatureId: firstCreatureId });
+      trackEvent("expedition_started", {
+        expeditionId: expedition.id,
+        creatureCount: expeditionCreatureIds.length,
+        primaryCreatureId: expeditionCreatureIds[0] ?? null
+      });
     });
   }
 
@@ -1024,6 +1028,11 @@ export default function App() {
                         ? `${researchExpeditionShortfall}마리 더 발견하면 달빛 계열 단서를 추적할 수 있어요.`
                         : "연구 기록으로 새 원정 준비가 끝났어요."}
                     </small>
+                    {researchExpeditionShortfall === 0 && (
+                      <button className="research-expedition-action" onClick={() => startExpedition(researchExpedition.id)} type="button">
+                        {researchExpedition.name} 시작
+                      </button>
+                    )}
                   </div>
                   <span className="expedition-reward-chip">연구 단서</span>
                 </article>
@@ -1047,7 +1056,7 @@ export default function App() {
                 <button
                   className="primary-action"
                   disabled={!save || save.discoveredCreatureIds.length === 0}
-                  onClick={startExpedition}
+                  onClick={() => startExpedition()}
                   type="button"
                 >
                   틈새길 정찰 시작
@@ -1111,7 +1120,9 @@ export default function App() {
                   ? "완료"
                   : "진행"
                 : tab.id === "expedition" && showResearchExpeditionClue
-                  ? "단서"
+                  ? researchExpeditionShortfall === 0
+                    ? "준비"
+                    : "단서"
                   : null;
 
             return (
@@ -1714,6 +1725,14 @@ function getLocalQaResearchComplete(): boolean {
   return new URLSearchParams(window.location.search).get("qaResearchComplete") === "1";
 }
 
+function getLocalQaResearchExpeditionReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaResearchExpeditionReady") === "1";
+}
+
 function getLocalDebugMode() {
   if (typeof window === "undefined") {
     return false;
@@ -1874,6 +1893,22 @@ function createResearchCompleteQaSave(): PlayerSave {
     },
     lastSeenAt: now.toISOString(),
     updatedAt: now.toISOString()
+  };
+}
+
+function createResearchExpeditionReadyQaSave(): PlayerSave {
+  const save = createResearchCompleteQaSave();
+  return {
+    ...save,
+    leaves: 72,
+    materials: 1,
+    discoveredCreatureIds: ["creature_herb_common_001", "creature_herb_common_002"],
+    seedInventory: {
+      ...save.seedInventory,
+      seed_herb_002: 0
+    },
+    lastSeenAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   };
 }
 
