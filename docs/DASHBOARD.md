@@ -1,6 +1,6 @@
 # 프로젝트 대시보드
 
-Updated: 2026-04-28
+Updated: 2026-04-29
 
 > 이 파일은 `npm run update:dashboard`로 갱신한다. 수동 편집 후에는 `npm run check:dashboard`가 실패할 수 있다.
 
@@ -26,6 +26,7 @@ Updated: 2026-04-28
 | 운영사 trial dry-run | review | `npm run operator:trial:dry-run` |
 | 운영사 2h readiness | review | `npm run operator:trial:readiness` |
 | 운영 상황판 | review | `docs/OPERATOR_CONTROL_ROOM.md`, `npm run check:control-room` |
+| 운영 루프 지속성 | active | Issue #115, `npm run check:operator` |
 | 사람 플레이 모드 | verified | `npm run play:main`, port 5174 |
 | Sprite batch QA gate | review | `npm run check:sprite-batch` |
 | 플레이테스트 intake | review | `npm run check:playtest-intake` |
@@ -36,16 +37,17 @@ Updated: 2026-04-28
 
 | 상태 | 개수 |
 | --- | ---: |
-| done | 38 |
+| done | 39 |
 | review | 61 |
 | todo | 2 |
 | blocked | 0 |
 
 ## 다음 작업
 
-1. `docs/OPERATOR_CONTROL_ROOM.md`에서 active mission/small win/evidence/playable mode를 먼저 확인한다.
-2. 사람이 게임을 확인해야 하면 `npm run play:main` 후 `../strange-seed-shop-play`에서 port 5174로 실행한다.
-3. 24h dry run은 control room/playable mode PR이 merge되고 main CI가 green이 된 뒤 시작한다.
+1. `docs/ROADMAP.md`의 Current Next Action과 `docs/OPERATOR_CONTROL_ROOM.md`의 active mission/small win/evidence/playable mode를 먼저 확인한다.
+2. 장시간 운영모드에서는 완료 보고를 세션 종료가 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
+3. 사람이 게임을 확인해야 하면 `npm run play:main` 후 `../strange-seed-shop-play`에서 port 5174로 실행한다.
+4. 24h dry run은 heartbeat/watchdog/continuation gate가 green이고 main CI가 green인 뒤 시작한다.
 
 ## 검증 상태
 

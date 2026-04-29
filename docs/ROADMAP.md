@@ -39,7 +39,7 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | First harvest reveal reward polish | done | Issue #103, PR #108, `items/0062-harvest-reveal-polish.md`, visual evidence, main CI `25063830331` | 첫 수확 reveal이 일반 모달이 아니라 수집형 게임 보상 화면처럼 읽히고 CTA가 393/360에서 잘리지 않음 |
 | Playfield tap/harvest feedback | done | Issue #109, PR #110, `items/0063-playfield-tap-harvest-feedback.md`, `reports/visual/p0-playfield-tap-harvest-feedback-20260429.md`, main CI `25066468406` | 성장 탭과 ready 수확 탭이 `qaFxTelemetry=1` Playwright gate와 mobile screenshot으로 즉시 피드백을 검증함 |
 | Mobile tab card polish | done | Issue #111, PR #112, `items/0064-mobile-tab-card-polish.md`, `reports/visual/p0-mobile-tab-card-polish-20260429.md`, main CI `25067574458` | seeds/album 탭이 수집 게임 메뉴처럼 읽히고 full-screen tab regression이 유지됨 |
-| Expedition/shop card polish | active | Issue #113, `items/0065-expedition-shop-card-polish.md`, `reports/visual/p0-expedition-shop-card-polish-20260429.md` | expedition/shop 탭이 같은 게임 메뉴 카드 언어를 공유하고 mock shop safety를 유지함 |
+| Expedition/shop card polish | done | Issue #113, PR #114, `items/0065-expedition-shop-card-polish.md`, `reports/visual/p0-expedition-shop-card-polish-20260429.md`, main CI `25068421504` | expedition/shop 탭이 같은 게임 메뉴 카드 언어를 공유하고 mock shop safety를 유지함 |
 
 Exit criteria: 위 항목이 모두 검증되고, `npm run check:all` 및 mobile/desktop visual evidence가 최신 main에서 통과할 때 P0 UI/UX Rescue를 닫는다.
 
@@ -208,6 +208,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Harden heartbeat daemon before 24h run | review | Issue #84, `scripts/operator-heartbeat-daemon.mjs`, `reports/operations/heartbeat-daemon-hardening-20260428.md`, `items/0051-heartbeat-daemon-hardening.md` | 독립 heartbeat daemon, stale-gap dry-run guard, watchdog stuck-output guard로 600초 초과 gap을 완료로 오인하지 않게 한다 |
 | Add operator control room and playable mode | review | Issue #87, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/PLAYABLE_MODE.md`, `.github/ISSUE_TEMPLATE/agent-work-item.md`, `.github/pull_request_template.md`, `scripts/prepare-playable-main.mjs`, `items/0052-operator-control-room-playable-mode.md` | 사람이 active mission, small win, visual evidence, PR/issue, playable main command를 한 화면에서 파악하고 agent 작업 중에도 게임을 실행할 수 있음 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
+| Operator continuation watchdog | active | Issue #115, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
 
 ## Milestone 8: Feedback + GTM Mock Intake
 
@@ -233,14 +234,14 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 운영모드는 **북극성 지속 운영 루프**다. P0가 끝나도 멈추지 않고 게임 북극성(첫 5분 귀여움/수집 욕구)과 운영사 북극성(issue intake -> plan -> 구현 -> 검증 -> PR -> CI 복구 -> follow-up evidence)을 향해 계속 진행한다.
+현재 운영모드는 **북극성 지속 운영 루프**다. P0가 끝나도 멈추지 않고 게임 북극성(첫 5분 귀여움/수집 욕구)과 운영사 북극성(issue intake -> plan -> 구현 -> 검증 -> PR -> CI 복구 -> follow-up evidence)을 향해 계속 진행한다. 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택한다.
 
 즉시 다음 작업:
 
-1. Issue #113 원정/상점 탭 게임 메뉴 카드 UI polish를 `items/0065-expedition-shop-card-polish.md` plan 기준으로 구현·검증·PR화한다.
-2. 각 issue는 작은 승리, 수용 기준, 검증 명령, visual evidence를 남기고 PR/CI/main merge까지 반복한다.
-3. P0 UI/UX Rescue가 닫힌 뒤에도 다음 north-star issue를 만들고 같은 루프를 지속한다.
-4. 다음 후보는 reward FX, tap/harvest feedback, 탭별 game UI skinning, 운영 상황판 가독성 개선이다.
+1. Issue #115 Operator continuation watchdog을 `items/0066-operator-continuation-watchdog.md` plan 기준으로 구현·검증·PR화한다.
+2. PR/CI/main merge 후 완료 리포트로 멈추지 않고 다음 issue를 plan-first로 선택한다.
+3. 각 issue는 작은 승리, 수용 기준, 검증 명령, visual evidence 또는 `N/A — UI 변화 없음` 사유를 남기고 PR/CI/main merge까지 반복한다.
+4. 다음 게임 후보는 reward FX, harvest reveal micro-motion, tap/harvest feedback 심화, 탭별 game UI skinning, 운영 상황판 가독성 개선이다.
 
 ## Previous Next Action History
 

@@ -70,6 +70,8 @@ During a supervised run:
   - merge or blocker state
 - Prefer small, reversible PRs over one large overnight diff.
 - When visual work changes UI, follow Browser Use first policy and save visual evidence under `reports/visual/`.
+- Treat every issue completion as a continuation checkpoint: **완료 보고는 중단 조건이 아니라 체크포인트**다.
+- If the user has asked for an ongoing operator run and no stop rule is active, immediately choose the next issue를 plan-first로 선택하고 `## Plan` artifact를 만든 뒤 다음 loop를 시작한다.
 
 ## Recover procedure
 
@@ -93,6 +95,8 @@ Stop a long-running operator session only when one of these is true:
 - A destructive, credential-gated, external-production, or materially branching decision is required.
 - A hard blocker has a written report and no safe recovery path remains.
 - The user explicitly says stop/cancel/abort.
+
+Do not stop only because a PR was merged, a local report was written, or a “completed work” summary is ready. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 summary는 다음 issue로 이어지는 checkpoint이고, 다음 issue를 plan-first로 선택해야 한다.
 
 Before stopping, record:
 
