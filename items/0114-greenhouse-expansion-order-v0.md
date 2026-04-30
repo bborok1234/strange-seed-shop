@@ -3,6 +3,7 @@
 Status: done
 Branch: `codex/0114-greenhouse-expansion-order-v0`
 Issue: #215
+PR: #216
 
 ## Context
 
@@ -55,6 +56,9 @@ Issue: #215
 - Focused visual: `npm run check:visual -- --grep "온실 확장 준비"` PASS
 - Full visual: `npm run check:visual` PASS, 39 passed
 - CI: `npm run check:ci` PASS
+- PR checks: #216 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Merge: PR #216 squash-merged to `main`
+- Main CI: `25155573462` PASS
 
 ## Risks
 
