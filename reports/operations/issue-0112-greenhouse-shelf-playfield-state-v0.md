@@ -34,6 +34,9 @@
 - `npm run check:visual -- --grep "선반 보관 상태"` PASS
 - `npm run check:visual` PASS, 37 passed
 - `npm run check:ci` PASS
+- PR #210 checks PASS: `Check automerge eligibility`, `Verify game baseline`
+- PR #210 squash-merged to `main`
+- Main CI `25153332087` PASS
 
 ## 안전 범위
 
@@ -43,4 +46,4 @@
 
 ## 남은 위험
 
-- production lane 문구가 길어져 모바일에서 ellipsis가 과해질 수 있다. Browser Use screenshot과 visual overflow gate로 확인한다.
+- Issue #209는 PR #210 merge로 closed 상태다.

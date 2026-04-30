@@ -1,8 +1,9 @@
 # Greenhouse shelf playfield state v0
 
-Status: active
+Status: done
 Branch: `codex/0112-greenhouse-shelf-playfield-state-v0`
 Issue: #209
+PR: #210
 
 ## Context
 
@@ -44,6 +45,9 @@ Issue: #209
 - Focused visual: `npm run check:visual -- --grep "선반 보관 상태"` PASS
 - Full visual: `npm run check:visual` PASS, 37 passed
 - CI: `npm run check:ci` PASS
+- PR checks: #210 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Merge: PR #210 squash-merged to `main`
+- Main CI: `25153332087` PASS
 
 ## Risks
 
