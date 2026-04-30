@@ -278,17 +278,19 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 현재 운영모드는 **북극성 지속 운영 루프**다. P0가 끝나도 멈추지 않고 게임 북극성(첫 5분 귀여움/수집 욕구)과 운영사 북극성(issue intake -> plan -> 구현 -> 검증 -> PR -> CI 복구 -> follow-up evidence)을 향해 계속 진행한다. 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택한다.
 
-즉시 다음 작업:
+즉시 다음 작업 선택 기준:
 
-1. 현재 P0.5 운영은 복귀 보상 -> 소비 -> 재심기 -> 다음 수집으로 이어지는 작은 vertical slice를 계속 닫는다.
-2. 다음 `$seed-ops` issue는 열린 GitHub issue가 없으면 plan-first로 새 small win을 만들고, 게임 core/UI/visual QA를 한 PR에서 닫는다.
-3. 우선순위는 첫 5분 귀여움/수집 욕구와 복귀 후 30초 안의 다음 행동을 직접 강화하는 작업이다.
-4. 운영사 인프라는 CI/QA/상태 이해가 게임 개발을 막을 때만 우선한다.
+1. 다음 `$seed-ops` issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
+2. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다.
+3. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
+4. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
+5. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
+6. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다.
 
 ## Previous Next Action History
 
 
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. Issue #53의 4h supervised trial report와 Issue #84 heartbeat daemon hardening은 merge 완료되었다. 현재 안전한 다음 작업은 Issue #87의 operator control room + playable mode를 PR로 검증·merge해 사람이 자동화 중에도 현재 mission과 게임 실행 상태를 즉시 파악하게 하는 것이다.
+`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. Issue #53의 4h supervised trial report와 Issue #84 heartbeat daemon hardening은 merge 완료되었다. 과거에는 Issue #87 operator control room + playable mode가 다음 운영사 정비 후보였지만, #159 이후 `$seed-ops`의 기본 다음 작업 선택은 경쟁작 기준 production vertical slice로 넘어간다.
 
 1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
 2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.

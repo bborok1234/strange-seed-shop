@@ -15,6 +15,7 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - 각 issue는 작은 승리, 수용 기준, 검증 명령, evidence, 남은 리스크를 남긴다.
 - issue 종료 전 GitHub issue 본문의 `## 수용 기준` 체크박스를 실제 검증 결과로 갱신한다. `Closes #id`는 issue를 닫을 뿐 체크박스를 채우지 않으므로 빈 체크박스가 남으면 완료 gate 실패다.
 - UI/visual 작업은 Browser Use `iab` 실기 QA를 먼저 시도한다. Node REPL `js` tool이 처음 보이지 않으면 fallback 전에 `tool_search`로 노출을 재확인한다.
+- 다음 issue 선택은 "safe small item"이 아니라 `docs/NORTH_STAR.md` 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md` vertical slice workflow를 우선한다. safety는 stop/approval gate이고, 제품 우선순위 기준이 아니다.
 
 ## Before implementation
 
@@ -22,8 +23,20 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 2. 게임 기능/UI/HUD/playfield/asset/QA issue는 `game-studio:game-studio`로 먼저 분류하고 specialist route를 고정한다.
 3. UI/HUD/layout은 `game-studio:game-ui-frontend`, browser-game QA는 `game-studio:game-playtest`, Phaser runtime은 `game-studio:phaser-2d-game`, simulation/render/UI boundary는 `game-studio:web-game-foundations`, 2D sprite/FX는 `game-studio:sprite-pipeline` 기준을 적용한다.
 4. 새 issue/work item은 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`과 `## Game Studio route`를 만든다.
-5. stop rule이 없는 한 완료 후 다음 issue를 plan-first로 선택한다.
+5. stop rule이 없는 한 완료 후 다음 production vertical slice 후보를 plan-first로 선택한다.
 6. 다음 issue로 넘어가기 전 닫힌 issue/PR metadata를 확인해 acceptance checkbox, 작업 checklist, Browser Use/visual evidence, main CI 링크가 비어 있지 않은지 검증한다.
+
+## Issue selection gate
+
+다음 게임 issue 후보는 아래 5개 축 중 최소 3개를 명시해야 한다.
+
+1. `player verb`: 플레이어가 새로 하거나 더 명확히 이해하는 행동.
+2. `production/progression role`: 생산 엔진, 주문/납품, 업그레이드, 오프라인 복귀, 연구/원정, 수집 progression 중 연결되는 위치.
+3. `screen moment`: 첫 5분 또는 복귀 후 30초 안에서 보이는 실제 화면 순간.
+4. `asset/FX`: 필요한 생명체/주문/자원/피드백 asset 또는 기존 asset 활용 계획.
+5. `playtest evidence`: Browser Use/visual QA/수치 검증으로 확인할 사용자 관찰 포인트.
+
+색, 여백, 문구, 테스트-only, 문서-only 작업은 위 vertical slice를 막는 blocker를 제거하거나 명확한 slice 일부일 때만 고른다. `safe`, `local`, `작다`는 선택 이유가 될 수 없고, 오직 승인/파괴/외부 권한 gate를 통과했다는 조건으로만 사용한다.
 
 ## Product-quality gates
 

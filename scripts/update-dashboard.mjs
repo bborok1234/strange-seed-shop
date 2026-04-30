@@ -103,7 +103,7 @@ ${rows.map((row) => `| ${row[0]} | ${row[1]} | ${row[2]} |`).join("\n")}
 ## 다음 작업
 
 1. \`docs/ROADMAP.md\`의 Current Next Action과 \`docs/OPERATOR_CONTROL_ROOM.md\`의 active mission/small win/evidence/playable mode를 먼저 확인한다.
-2. 장시간 운영모드에서는 완료 보고를 세션 종료가 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
+2. 장시간 운영모드에서는 완료 보고를 세션 종료가 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 production vertical slice 후보를 plan-first로 선택한다.
 3. 사람이 게임을 확인해야 하면 \`npm run play:main\` 후 \`../strange-seed-shop-play\`에서 port 5174로 실행한다.
 4. 24h dry run은 heartbeat/watchdog/continuation gate가 green이고 main CI가 green인 뒤 시작한다.
 

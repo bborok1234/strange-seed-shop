@@ -27,7 +27,7 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 
 1. `docs/ROADMAP.md`, `docs/NORTH_STAR.md`, `docs/OPERATOR_CONTROL_ROOM.md`에서 현재 목표를 확인한다.
 2. 게임 기능/UI/에셋/QA issue이면 `game-studio:game-studio`로 먼저 분류하고, 즉시 specialist route를 고정한다.
-3. 다음 issue를 선택하거나 만든다.
+3. 다음 issue를 선택하거나 만든다. 이때 선택 기준은 "안전하고 작은 작업"이 아니라 `docs/NORTH_STAR.md`의 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow다.
 4. 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`, Game Studio route, 수용 기준, 검증 명령, 금지 범위를 적는다.
 5. branch에서 작업한다.
 6. 로컬 검증과 필요한 visual evidence를 남긴다. UI/visual 변경이면 Browser Use `iab` QA를 먼저 시도하고, 처음 도구가 보이지 않으면 `tool_search`로 Node REPL `js`를 lazy-load한 뒤 재시도한다.
@@ -48,6 +48,18 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 Game Studio route가 필요한 issue/PR에서 route가 비어 있으면 plan 미완성이다. UI/visual 변경에서 “DOM이 보임”, “viewport 안에 있음”, “겹치지 않음”만으로는 통과가 아니다. 첫 화면이 게임 장면으로 읽히고, player verb와 즉시 행동이 명확하며, playfield가 보호되어야 한다.
 
 사용자 screenshot으로 제보된 UI bug는 그 screenshot을 source-of-truth 재현 상태로 취급한다. 같은 URL, viewport, QA 파라미터, 클릭/탭 sequence를 재현해 before/after screenshot을 남기고, 같은 실패 mode를 잡는 자동 회귀 gate를 추가한다. 모바일 카드/패널은 DOM text visible만으로 통과시키지 않고 body scroll, 하단 탭 overlap, visible child overflow, `overflow: hidden`으로 가려진 내부 콘텐츠를 확인한다.
+
+### 다음 issue 선택 gate
+
+`$seed-ops`는 작은 기능 개선을 기본값으로 고르지 않는다. 새 게임 issue 후보는 아래 5개 중 최소 3개를 plan에 명시해야 한다.
+
+1. `player verb`: 플레이어가 새로 하거나 더 명확히 이해하는 행동.
+2. `production/progression role`: 생산 엔진, 주문/납품, 업그레이드, 오프라인 복귀, 연구/원정, 수집 progression 중 어느 위치를 강화하는지.
+3. `screen moment`: 첫 5분 또는 복귀 후 30초 안에서 실제로 보이는 장면.
+4. `asset/FX`: 필요한 gameplay asset/FX 또는 기존 asset 활용 계획.
+5. `playtest evidence`: Browser Use, visual QA, 수치 검증으로 볼 사용자 관찰 포인트.
+
+`safe`, `local`, `작다`는 선택 이유가 아니라 승인/파괴/외부 권한 gate를 통과했다는 조건이다. 색/여백/문구/test-only/doc-only 작업은 production vertical slice blocker를 제거하거나 명확한 vertical slice 일부일 때만 선택한다.
 
 ### 작업 종료 문서 갱신 규칙
 

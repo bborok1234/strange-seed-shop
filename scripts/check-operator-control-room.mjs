@@ -82,7 +82,8 @@ requirePhrases("scripts/operator-control-room.mjs", [
   "Open issues",
   "Playable mode",
   "Visual evidence rule",
-  "Next safe stop"
+  "Next stop gate",
+  "production vertical slice"
 ]);
 
 console.log(JSON.stringify({ ok: failures.length === 0, requiredPaths: requiredPaths.length, failures }, null, 2));

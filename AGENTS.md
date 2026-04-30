@@ -75,6 +75,8 @@ For game work, use the Game Studio plugin as the product-quality routing layer b
 - Track meaningful work in `docs/ROADMAP.md` until a richer `items/` system exists.
 - 프로젝트 전용 명령어는 `docs/PROJECT_COMMANDS.md`를 따른다. `$seed-ops`는 무한 운영모드, `$seed-brief`는 보고/상황판, `$seed-design`은 설계 대화, `$seed-qa`는 실기 QA, `$seed-play`는 사람 플레이 준비다.
 - Issue/work-item 단위 작업은 반드시 plan-first로 시작한다. 새 issue를 선택하면 코드/문서 구현 전에 `items/<id>.md` 또는 동등한 plan artifact에 `## Plan`, 수용 기준, 검증 명령, 리스크를 적고 그 plan에 맞춰 branch 작업을 시작한다.
+- 다음 issue 선택은 "안전하고 작은 작업" 우선이 아니라 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow 우선이다. safety는 금지/승인/복구 gate일 뿐 우선순위 기준이 아니다.
+- `$seed-ops`가 새 게임 issue를 고를 때는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개가 있는 후보를 먼저 고른다. 색/여백/문구/테스트-only 작업은 production vertical slice blocker를 제거하거나 명확한 slice 일부일 때만 선택한다.
 - 게임 기능/UI/에셋/QA issue는 plan-first 전에 Game Studio route를 고정한다. 최소 `game-studio:game-studio` umbrella 판단과 specialist route(`game-ui-frontend`, `game-playtest`, `phaser-2d-game`, `web-game-foundations`, `sprite-pipeline` 등)를 기록한다.
 - UI/visual acceptance는 `docs/GAME_UI_UX_RESEARCH_20260428.md`, `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/DESIGN_SYSTEM.md`의 북극성과 Game Studio rules를 기준으로 삼는다. “겹치지 않음”만으로는 통과가 아니며, 첫 화면이 게임 장면으로 읽히고 즉시 행동이 명확해야 한다.
 - UI/visual 회귀는 사용자 화면 기준이다. DOM에 텍스트가 있거나 Playwright assertion이 통과해도, 스크린샷에서 카드 내부가 잘리거나 하단 탭에 가리면 실패로 처리하고 source-of-truth 문서와 테스트를 같이 고친다.
@@ -87,7 +89,7 @@ For game work, use the Game Studio plugin as the product-quality routing layer b
 - GitHub issue/PR/comment 본문은 운영사 evidence surface다. `gh issue create/edit`, `gh pr create/edit`, `gh issue comment`, `gh api .../comments`를 사용할 때 본문은 반드시 markdown 파일로 작성하고 `--body-file` 또는 API file payload로 제출한다. 셸 인자 안에 `\n`을 넣어 본문을 만들지 않는다.
 - PR/issue/comment는 기존 `.github` 템플릿의 `요약`, `Small win`, `사용자/운영자 가치`, `Before / After 또는 Visual evidence`, `Playable mode`, `검증`, `안전 범위`, `남은 위험`, `연결된 issue` 수준을 유지한다. 짧은 PR도 해당 없음 사유를 적고 섹션을 삭제하지 않는다.
 - PR 본문의 `작업 checklist`는 삭제하지 않는다. UI/visual 변경이면 Browser Use 우선 QA evidence 또는 blocker를 남기고, Playwright/CDP는 fallback으로만 기록한다.
-- Do not stop at a milestone boundary when `docs/ROADMAP.md` names a clear next action and the next action is safe, local, and non-destructive.
+- Do not stop at a milestone boundary when `docs/ROADMAP.md` names a clear North Star vertical slice candidate and the next action is non-destructive and not externally gated.
 - A progress report is not a handoff. Continue through the current roadmap chain until the next step is blocked, destructive, requires credentials/network approval, or needs a product decision.
 - If a task touches payments, external deployment, credentials, policy-sensitive monetization, destructive migration, or production user data, stop for explicit approval.
 
@@ -109,7 +111,7 @@ When executing roadmap work:
 1. Complete the requested step.
 2. Verify its acceptance criteria.
 3. Update `docs/ROADMAP.md`.
-4. If the updated `Current Next Action` is clear and safe, continue automatically.
+4. If the updated `Current Next Action` names a clear North Star vertical slice candidate and no stop rule applies, continue automatically.
 5. In long-running operator mode, treat summaries as checkpoints and immediately choose the next issue with a `## Plan`.
 6. Stop only when the next action is ambiguous, risky, destructive, externally gated, timeboxed, blocked, or explicitly paused by the user.
 
