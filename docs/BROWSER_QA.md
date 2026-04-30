@@ -21,6 +21,13 @@ Browser Use evidence는 최소한 아래를 포함한다.
 - 직접 클릭/탭/전환한 사용자 행동
 - 실패 시 현재 세션에서 재시도한 blocker와 fallback 선택 이유
 
+사용자 screenshot으로 제보된 visual bug는 그 screenshot을 QA source of truth로 취급한다.
+
+- 같은 URL, viewport, QA 파라미터, 클릭/탭 sequence를 먼저 재현한다.
+- 수정 전 screenshot과 수정 후 screenshot을 모두 `reports/visual/`에 저장한다.
+- DOM text visible만으로 통과시키지 않는다. 모바일 패널/카드는 body scroll, 하단 탭 overlap, visible child overflow, `scrollHeight > clientHeight`, `overflow: hidden`에 의한 내부 콘텐츠 잘림을 함께 확인한다.
+- Playwright 회귀 gate에는 제보된 failure mode 자체를 넣는다. 예를 들어 “문구가 있다”가 아니라 “해당 카드의 `scrollHeight`가 `clientHeight`를 넘지 않는다”를 검증한다.
+
 
 ## 2026-04-28 P0 실기 QA 운영 결정
 
@@ -34,6 +41,8 @@ Browser Use evidence는 최소한 아래를 포함한다.
 6. UI 변경 PR은 최소 mobile/desktop screenshot path, 확인 viewport, 남은 시각 리스크를 PR 본문에 적는다.
 
 중요: Playwright CLI는 반복 가능한 회귀 gate이지 Browser Use 실기 QA의 대체재가 아니다. UI/visual 변경 PR에서 Browser Use evidence 또는 현재 세션 blocker 없이 `npm run check:visual`만 기록하면 evidence gate 실패다.
+
+2026-04-30 보정: `현재 100% · 수확할 준비가 됐어요...` 상태에서 생산/주문 카드가 내부에서 잘린 사례를 계기로, 모바일 action surface QA는 카드 단위 overflow invariant를 필수로 본다. DOM에는 주문/버튼 텍스트가 있어도 화면에서 보이지 않으면 실패다.
 
 Current P0 issue: #95
 Research: `docs/GAME_UI_UX_RESEARCH_20260428.md`

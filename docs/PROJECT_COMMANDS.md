@@ -47,6 +47,8 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 
 Game Studio route가 필요한 issue/PR에서 route가 비어 있으면 plan 미완성이다. UI/visual 변경에서 “DOM이 보임”, “viewport 안에 있음”, “겹치지 않음”만으로는 통과가 아니다. 첫 화면이 게임 장면으로 읽히고, player verb와 즉시 행동이 명확하며, playfield가 보호되어야 한다.
 
+사용자 screenshot으로 제보된 UI bug는 그 screenshot을 source-of-truth 재현 상태로 취급한다. 같은 URL, viewport, QA 파라미터, 클릭/탭 sequence를 재현해 before/after screenshot을 남기고, 같은 실패 mode를 잡는 자동 회귀 gate를 추가한다. 모바일 카드/패널은 DOM text visible만으로 통과시키지 않고 body scroll, 하단 탭 overlap, visible child overflow, `overflow: hidden`으로 가려진 내부 콘텐츠를 확인한다.
+
 ### 작업 종료 문서 갱신 규칙
 
 issue 단위 작업이 끝나기 전에는 사람이 요청하지 않아도 아래를 갱신한다.
@@ -145,6 +147,7 @@ Stop rules:
 - `reports/visual/` markdown 또는 image artifact
 - UI 변경이면 `npm run check:visual`
 - 게임 화면 QA이면 `game-studio:game-playtest` 기준으로 첫 actionable screen, main verbs, HUD readability, playfield obstruction, screenshot review findings를 남긴다.
+- 사용자 screenshot 제보가 있으면 동일 재현 상태의 before/after screenshot과 layout invariant 결과를 남긴다.
 
 ## `$seed-play` — 사람 플레이 준비 모드
 

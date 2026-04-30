@@ -14,6 +14,7 @@ export interface GardenPlotView {
   progressPercent: number;
   secondsRemaining?: number;
   tapReductionLabel?: string;
+  tapReductionSeconds?: number;
 }
 
 export interface GardenPlayfieldViewModel {

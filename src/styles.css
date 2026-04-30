@@ -2261,6 +2261,20 @@ h1 {
     border-radius: 14px;
   }
 
+  .starter-panel.has-production.has-active-plot .production-action-card {
+    overflow: visible;
+  }
+
+  .starter-panel.has-production.has-active-plot .production-meter-row,
+  .starter-panel.has-production.has-active-plot .order-progress-card,
+  .starter-panel.has-production.has-active-plot .production-complete-row {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-active-plot .production-card-heading {
+    min-height: 42px;
+  }
+
   .starter-panel.has-production .upgrade-choice-card {
     gap: 4px;
     margin-top: 0;

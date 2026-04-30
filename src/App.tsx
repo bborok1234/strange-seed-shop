@@ -214,6 +214,8 @@ export default function App() {
   const albumDiscoveredCount = discoveredCreatures.length;
   const firstOwnedCreature = discoveredCreatures[0];
   const activePlot = save?.plots.find((plot) => plot.seedId && !plot.harvestedCreatureId);
+  const activePlotSeed = getSeed(activePlot?.seedId);
+  const activePlotReady = Boolean(activePlot && activePlotSeed && isPlotReady(activePlot, activePlotSeed, now));
   const firstAlbumRewardReady =
     save && save.discoveredCreatureIds.length > 0 && !save.claimedAlbumMilestoneIds.includes("album_1");
   const expeditionReady = save?.activeExpedition
@@ -256,6 +258,14 @@ export default function App() {
     ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
     : 0;
   const productionStatus = useMemo(() => (save ? getProductionStatus(save, now) : null), [save, now]);
+  const actionSurfaceClassName = [
+    "starter-panel garden-action-surface",
+    productionStatus ? "has-production" : "",
+    activePlot ? "has-active-plot" : "",
+    activePlotReady ? "has-ready-plot" : ""
+  ]
+    .filter(Boolean)
+    .join(" ");
   const upgradeChoices =
     save && productionStatus?.ratePerMinute
       ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade, buyProductionBoost, buyFirstResearch)
@@ -747,7 +757,7 @@ export default function App() {
         <section aria-hidden={isPlayerTabScreen ? true : undefined} className="garden-panel" aria-label="정원">
           <GardenPlayfieldHost onAction={handlePlayfieldAction} playfieldAssets={playfieldAssets} viewModel={gardenViewModel} />
 
-          <aside className={productionStatus ? "starter-panel garden-action-surface has-production" : "starter-panel garden-action-surface"}>
+          <aside className={actionSurfaceClassName}>
             <p className="panel-label">다음 행동</p>
             <h2>{nextAction.title}</h2>
             <p className={activePlot ? "action-copy active-growth-copy" : "action-copy"}>{nextAction.body}</p>
@@ -1516,6 +1526,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
 
     const progressPercent = getGrowthProgress(plot, seed, now);
     const secondsRemaining = Math.max(0, Math.ceil(seed.baseGrowthSeconds * (1 - progressPercent / 100)));
+    const tapReductionSeconds = seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12);
 
     return {
       index: plot.index,
@@ -1525,7 +1536,8 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
       family: seed.family,
       progressPercent,
       secondsRemaining,
-      tapReductionLabel: getTapReductionLabel(seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12))
+      tapReductionLabel: getTapReductionLabel(tapReductionSeconds),
+      tapReductionSeconds
     };
   });
 

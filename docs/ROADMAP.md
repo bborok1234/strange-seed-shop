@@ -51,6 +51,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Comeback tap power nudge v0 | done | Issue #184, `items/0102-comeback-tap-power-nudge-v0.md`, `reports/visual/p0-comeback-tap-power-nudge-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 구매+심기 후 다음 행동 패널이 톡톡 한 번의 성장 시간 단축 효과를 숫자로 안내하고 `npm run check:ci`가 통과함 |
 | Comeback tap feedback payoff v0 | done | Issue #186, `items/0103-comeback-tap-feedback-payoff-v0.md`, `reports/visual/p0-comeback-tap-feedback-payoff-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 구매+심기 후 실제 밭 tap feedback도 톡톡 한 번의 성장 시간 단축 효과를 숫자로 보여주고 `npm run check:ci`가 통과함 |
 | Comeback tap count nudge v0 | done | Issue #188, `items/0104-comeback-tap-count-nudge-v0.md`, `reports/visual/p0-comeback-tap-count-nudge-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 구매+심기 후 다음 행동 패널이 수확 준비까지 남은 톡톡 횟수 추정치를 보여주고 `npm run check:ci`가 통과함 |
+| Comeback tap feedback countdown v0 | done | Issue #190, `items/0105-comeback-tap-feedback-countdown-v0.md`, `reports/visual/p0-comeback-tap-feedback-countdown-v0-20260430.md`, `reports/visual/p0-comeback-ready-action-surface-fix-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 구매+심기 후 실제 밭 tap feedback이 단축 효과/남은 톡톡 횟수를 보여주고, 수확 준비 100% action surface 내부 잘림 회귀 gate까지 추가함 |
 | Playfield board readability v0 | done | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, `reports/visual/p0-playfield-board-readability-20260429.md` | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
