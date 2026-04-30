@@ -8,9 +8,18 @@
 
 1. `browser-use:browser` 스킬을 읽고 따른다.
 2. Node REPL에서 Browser Use 런타임을 `iab` backend로 초기화한다.
-3. 로컬 앱을 `http://127.0.0.1:3000/`에서 연다.
-4. DOM snapshot, 클릭, 스크린샷을 통해 실제 사용자 화면 기준으로 확인한다.
-5. 중요한 증거는 `reports/visual/`에 저장하고 로드맵 또는 수용 기준 문서에 연결한다.
+3. Node REPL `js` 실행 도구가 처음 보이지 않으면 fallback으로 넘어가기 전에 반드시 `tool_search`로 `node_repl js` / `mcp__node_repl__js`를 찾아 노출을 재확인한다.
+4. 로컬 앱을 현재 dev server URL에서 연다. 기본 예시는 `http://127.0.0.1:3000/`이지만 Vite가 다른 포트를 배정하면 실제 포트를 기록한다.
+5. DOM snapshot, 클릭, 스크린샷을 통해 실제 사용자 화면 기준으로 확인한다.
+6. 중요한 증거는 `reports/visual/`에 저장하고 로드맵 또는 수용 기준 문서에 연결한다.
+
+Browser Use evidence는 최소한 아래를 포함한다.
+
+- Browser Use 세션명과 backend: `iab`
+- 확인 URL과 viewport 또는 화면 조건
+- DOM snapshot 또는 screenshot 기반 확인 내용
+- 직접 클릭/탭/전환한 사용자 행동
+- 실패 시 현재 세션에서 재시도한 blocker와 fallback 선택 이유
 
 
 ## 2026-04-28 P0 실기 QA 운영 결정
@@ -18,10 +27,13 @@
 사용자 피드백에 따라 P0의 반복 가능한 실기 QA는 Browser Use 단일 의존이 아니라 다층 구조로 운영한다.
 
 1. Browser Use가 세션에 노출되면 우선 사용한다.
-2. Browser Use가 차단되면 blocker report를 남기고 Computer Use 또는 Chrome DevTools Protocol 캡처를 fallback으로 사용한다.
-3. PR/CI의 반복 게이트는 토큰 효율을 위해 CLI 기반 screenshot/layout checker를 기본으로 한다.
-4. 2026-04-28 사용자 승인 후 `@playwright/test`를 도입했고, `npm run check:visual`을 CI의 반복 gate로 사용한다. 현재 gate는 pixel baseline보다 먼저 mobile/desktop layout regression과 screenshot artifact를 고정한다.
-5. UI 변경 PR은 최소 mobile/desktop screenshot path, 확인 viewport, 남은 시각 리스크를 PR 본문에 적는다.
+2. Browser Use가 처음 보이지 않으면 `tool_search`로 Node REPL `js` tool을 lazy-load할 수 있는지 먼저 확인한다.
+3. Browser Use가 현재 세션에서 실제로 차단되면 blocker report를 남기고 Computer Use 또는 Chrome DevTools Protocol 캡처를 fallback으로 사용한다.
+4. PR/CI의 반복 게이트는 토큰 효율을 위해 CLI 기반 screenshot/layout checker를 사용한다.
+5. 2026-04-28 사용자 승인 후 `@playwright/test`를 도입했고, `npm run check:visual`을 CI의 반복 gate로 사용한다. 현재 gate는 pixel baseline보다 먼저 mobile/desktop layout regression과 screenshot artifact를 고정한다.
+6. UI 변경 PR은 최소 mobile/desktop screenshot path, 확인 viewport, 남은 시각 리스크를 PR 본문에 적는다.
+
+중요: Playwright CLI는 반복 가능한 회귀 gate이지 Browser Use 실기 QA의 대체재가 아니다. UI/visual 변경 PR에서 Browser Use evidence 또는 현재 세션 blocker 없이 `npm run check:visual`만 기록하면 evidence gate 실패다.
 
 Current P0 issue: #95
 Research: `docs/GAME_UI_UX_RESEARCH_20260428.md`
@@ -33,16 +45,20 @@ Browser Use를 시도하기 전에 별도 Computer Use, macOS `screencapture`를
 폴백은 아래 중 하나가 명확할 때만 허용한다.
 
 - Browser Use 플러그인 또는 `scripts/browser-client.mjs`가 없다.
-- Node REPL `js` 실행 도구가 노출되지 않는다.
+- `tool_search`로 재확인해도 Node REPL `js` 실행 도구가 노출되지 않는다.
 - Browser Use 런타임이 로컬 앱에 접근하지 못하며, 에러가 재시도 후에도 재현된다.
 - CI처럼 Codex in-app browser가 없는 환경에서 자동 검증이 필요하다.
 - 정확한 viewport 크기 지정이 필요한 경우에는 `npm run capture:local -- <url> <output> <width> <height>`로 Chrome DevTools Protocol 캡처를 사용한다.
+
+과거 blocker report는 당시 환경의 증거일 뿐이다. 특히 2026-04-28의 Node REPL 미노출 진단은 현재 세션의 fallback 근거로 재사용하면 안 된다. 매 UI/visual 작업마다 현재 세션에서 Browser Use를 다시 시도하거나, 현재 세션 blocker를 새로 남긴다.
 
 ## 2026-04-28 Browser Use `iab` 복구 진단
 
 Issue #18에서 Browser Use `iab` backend 직접 검증을 다시 시도했다. Browser Use plugin의 `scripts/browser-client.mjs` 파일은 존재하지만, 현재 callable tool 표면에는 skill이 요구하는 Node REPL `js` 실행 tool(`mcp__node_repl__js` 또는 동등 tool)이 노출되지 않았다. 대체로 사용 가능한 `functions.js_repl`은 plugin module import 중 static `node:os` import 제한으로 bootstrap에 실패했다.
 
 따라서 이번 검증은 `reports/visual/browser-use-iab-runtime-diagnostic-20260428.md`에 환경 차단으로 기록하고, CDP fallback 캡처를 최신 Phaser playfield evidence로 저장했다. Browser Use 직접 검증은 Node REPL `js` tool이 노출되거나 Browser Use plugin이 현재 JS REPL 제한과 호환될 때 재시도한다.
+
+2026-04-30 보정: Codex App 세션에서는 Node REPL `js` tool이 처음 목록에 없어도 `tool_search`로 노출될 수 있다. 그러므로 위 진단은 역사적 기록으로만 유지하며, 현재 작업의 fallback 승인 조건이 아니다.
 
 - Diagnostic report: `reports/visual/browser-use-iab-runtime-diagnostic-20260428.md`
 - CDP fallback mobile: `reports/visual/browser-use-iab-fallback-phaser-mobile-20260428.png`
