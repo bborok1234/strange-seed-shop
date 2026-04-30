@@ -1,8 +1,10 @@
 # Greenhouse facility unlock v0
 
-Status: active
+Status: done
 Branch: `codex/0109-greenhouse-facility-unlock-v0`
 Issue: #200
+PR: #201
+Main CI: `25150219782`
 
 ## Context
 
@@ -47,6 +49,9 @@ Issue: #200
 - Focused visual: `npm run check:visual -- --grep "온실 설비"` PASS
 - Full visual: `npm run check:visual` PASS, 34 passed
 - CI: `npm run check:ci` PASS
+- PR checks: PR #201 `Verify game baseline` PASS, `Check automerge eligibility` PASS
+- Merge: PR #201 squash merge `b1686b9707bb1fbb4f882eb1da33c0a421c727fc`
+- Main CI: `25150219782` PASS
 
 ## Risks
 

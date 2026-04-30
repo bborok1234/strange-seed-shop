@@ -33,6 +33,8 @@
 - `npm run check:visual -- --grep "온실 설비"` PASS
 - `npm run check:visual` PASS, 34 passed
 - `npm run check:ci` PASS
+- PR #201 checks PASS
+- Main CI `25150219782` PASS
 
 ## 안전 범위
 
@@ -42,4 +44,4 @@
 
 ## 남은 위험
 
-- GitHub PR checks에서 동일 gate를 재확인해야 한다.
+- 없음. PR #201 checks와 main CI `25150219782`가 통과했다.
