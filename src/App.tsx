@@ -47,6 +47,9 @@ interface ProductionStatus {
   orderProgress: number;
   orderReady: boolean;
   orderCompleted: boolean;
+  workerCreatures: CreatureDefinition[];
+  workerLabel: string;
+  workerDetail: string;
 }
 
 type ProductionFxKind = "production" | "order";
@@ -762,7 +765,16 @@ export default function App() {
             <h2>{nextAction.title}</h2>
             <p className={activePlot ? "action-copy active-growth-copy" : "action-copy"}>{nextAction.body}</p>
             {productionStatus && productionStatus.ratePerMinute > 0 && (
-              <article className="production-card production-action-card" aria-label="자동 생산과 첫 주문">
+              <article
+                className={[
+                  "production-card production-action-card",
+                  productionStatus.workerCreatures.length > 1 ? "has-worker-roster" : "",
+                  productionStatus.orderCompleted ? "has-completed-order" : ""
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-label="자동 생산과 첫 주문"
+              >
                 {productionFx ? renderProductionFx(productionFx) : null}
                 <div className="production-card-heading">
                   <div className="production-scene">
@@ -771,11 +783,29 @@ export default function App() {
                     </div>
                     <div>
                       <p className="panel-label">자동 생산</p>
-                      <strong>{firstOwnedCreature ? `${firstOwnedCreature.name} 작업 중` : "생명체 작업 중"}</strong>
+                      <strong>{productionStatus.workerLabel}</strong>
+                      <small className="production-worker-detail">{productionStatus.workerDetail}</small>
                     </div>
                   </div>
-                  <span>분당 {productionStatus.ratePerMinute.toFixed(1)} 잎</span>
+                  <span>분당 {formatRatePerMinute(productionStatus.ratePerMinute)} 잎</span>
                 </div>
+                {productionStatus.workerCreatures.length > 1 && (
+                  <div className="production-roster" aria-label="생산 동료 roster">
+                    {productionStatus.workerCreatures.slice(0, 3).map((creature) => (
+                      <div className="production-roster-chip" key={creature.id}>
+                        <span className="production-roster-portrait" aria-hidden="true">
+                          {renderAsset(creature.assetId, "동료")}
+                        </span>
+                        <span>
+                          <strong>{creature.name}</strong>
+                          <small>
+                            {getCreatureRoleLabel(creature.role)} +{(getCreatureProductionRate(creature) * 60).toFixed(1)}/분
+                          </small>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="production-meter-row">
                   <span>생산 대기 {productionStatus.pendingLeaves} 잎</span>
                   <button disabled={productionStatus.pendingLeaves <= 0} onClick={claimProductionLeaves} type="button">
@@ -1548,9 +1578,9 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
   const productionScene =
     productionStatus.ratePerMinute > 0
       ? {
-          actorName: "말랑잎 포리",
-          actorLine: productionStatus.orderCompleted ? "납품을 마치고 쉬는 중" : "잎을 모아 주문 상자로 보내는 중",
-          rateLabel: `분당 ${productionStatus.ratePerMinute.toFixed(1)} 잎`,
+          actorName: productionStatus.workerLabel,
+          actorLine: productionStatus.orderCompleted ? `${productionStatus.workerDetail} · 납품을 마치고 쉬는 중` : productionStatus.workerDetail,
+          rateLabel: `분당 ${formatRatePerMinute(productionStatus.ratePerMinute)} 잎`,
           pendingLabel: `대기 ${productionStatus.pendingLeaves} 잎`,
           orderTitle: productionStatus.orderCompleted ? `${productionStatus.order.title} 완료` : productionStatus.order.title,
           orderProgressLabel: `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
@@ -1573,7 +1603,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
             ? "오른쪽 HUD에서 씨앗을 골라 심으세요"
             : "두 번째 밭을 열어 반복 속도를 올리세요",
     productionLine:
-      productionStatus.ratePerMinute > 0 ? `자동 생산 +${productionStatus.ratePerMinute.toFixed(1)}/분` : undefined,
+      productionStatus.ratePerMinute > 0 ? `자동 생산 +${formatRatePerMinute(productionStatus.ratePerMinute)}/분` : undefined,
     orderLine:
       productionStatus.ratePerMinute > 0
         ? `주문 ${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves}`
@@ -1598,6 +1628,8 @@ function getShopSurfaceDescription(surfaceId: string): string {
 function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
   const currentOrder = getCurrentOrder(save);
   const pendingLeaves = getPendingProductionLeaves(save, now);
+  const workerCreatures = getProductionWorkers(save);
+  const workerNames = workerCreatures.map((creature) => creature.name);
   const orderProgress = Math.min(
     currentOrder.requiredLeaves,
     save.idleProduction.orderProgress[currentOrder.id] ?? 0
@@ -1610,8 +1642,27 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
     order: currentOrder,
     orderProgress,
     orderReady: orderProgress >= currentOrder.requiredLeaves,
-    orderCompleted
+    orderCompleted,
+    workerCreatures,
+    workerLabel:
+      workerCreatures.length > 1
+        ? `정원 동료 ${workerCreatures.length}명 작업 중`
+        : workerCreatures[0]
+          ? `${workerCreatures[0].name} 작업 중`
+          : "생명체 작업 중",
+    workerDetail:
+      workerCreatures.length > 1
+        ? `${workerNames.slice(0, 2).join(" · ")}${workerNames.length > 2 ? ` 외 ${workerNames.length - 2}명` : ""}`
+        : workerCreatures[0]
+          ? `${getCreatureRoleLabel(workerCreatures[0].role)} 역할`
+          : "첫 생명체를 수확하면 생산을 시작해요"
   };
+}
+
+function getProductionWorkers(save: PlayerSave): CreatureDefinition[] {
+  return save.discoveredCreatureIds
+    .map((creatureId) => getCreature(creatureId))
+    .filter((creature): creature is CreatureDefinition => Boolean(creature));
 }
 
 function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
@@ -1655,7 +1706,7 @@ function buildUpgradeChoices(
       id: "production_rate",
       title: "생산 속도",
       detail: speedComplete
-        ? `분당 ${productionStatus.ratePerMinute.toFixed(1)} 잎 가동`
+        ? `분당 ${formatRatePerMinute(productionStatus.ratePerMinute)} 잎 가동`
         : !speedUnlocked
           ? "첫 납품 후 열림"
           : speedAffordable
@@ -1721,6 +1772,10 @@ function getProductionRatePerSecond(save: PlayerSave): number {
     return total + getCreatureProductionRate(creature);
   }, 0);
   return baseRate * (1 + Math.min(save.productionBoostLevel, PRODUCTION_BOOST_MAX_LEVEL) * PRODUCTION_BOOST_RATE_BONUS);
+}
+
+function formatRatePerMinute(ratePerMinute: number): string {
+  return (Math.round((ratePerMinute + 1e-6) * 10) / 10).toFixed(1);
 }
 
 function getCreatureProductionRate(creature: CreatureDefinition): number {
