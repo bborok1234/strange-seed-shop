@@ -250,6 +250,7 @@ export default function App() {
   const canBuyComebackGoalSeed = Boolean(
     save && comebackGoalSeed && save.unlockedSeedIds.includes(comebackGoalSeed.id) && save.leaves >= comebackGoalSeedCost
   );
+  const canBuyAndPlantComebackGoalSeed = canBuyComebackGoalSeed && hasOpenPlot;
   const nextAlbumMilestone = save ? getNextAlbumMilestone(albumDiscoveredCount, save.claimedAlbumMilestoneIds) : null;
   const nextAlbumRewardRemaining = nextAlbumMilestone
     ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
@@ -318,6 +319,27 @@ export default function App() {
     buySeed(seed);
     setOfflineRewardSummary(null);
     setActiveTab("seeds");
+  }
+
+  function buyAndPlantComebackGoalSeed(seed: SeedDefinition) {
+    commit((draft) => {
+      const costLeaves = getSeedPurchaseCost(seed);
+      const plot = draft.plots.find((candidate) => candidate.index < draft.plotCount && !candidate.seedId);
+      if (!draft.unlockedSeedIds.includes(seed.id) || draft.leaves < costLeaves || !plot) {
+        return;
+      }
+
+      draft.leaves -= costLeaves;
+      draft.seedInventory[seed.id] = (draft.seedInventory[seed.id] ?? 0) + 1;
+      advanceMission(draft, "daily_buy_3_seeds");
+      trackEvent("seed_purchased", { seedId: seed.id, costLeaves, source: "comeback_one_tap" });
+
+      draft.seedInventory[seed.id] -= 1;
+      draft.plots[plot.index] = plantSeedInPlot(plot, seed);
+      trackEvent("seed_planted", { seedId: seed.id, plotIndex: plot.index, source: "comeback_one_tap" });
+    });
+    setOfflineRewardSummary(null);
+    setActiveTab("garden");
   }
 
   function plantOwnedSeed(seed: SeedDefinition) {
@@ -687,8 +709,17 @@ export default function App() {
                 <p className="comeback-next-copy">씨앗을 심고 생명체를 더 모으면 복귀 보상이 커집니다.</p>
               )}
               <div className="comeback-reward-actions">
+                {nextCreatureGoal && canBuyAndPlantComebackGoalSeed && (
+                  <button className="primary-action" onClick={() => buyAndPlantComebackGoalSeed(nextCreatureGoal.seed)} type="button">
+                    {nextCreatureGoal.seed.name} 구매하고 심기
+                  </button>
+                )}
                 {nextCreatureGoal && canBuyComebackGoalSeed && (
-                  <button className="primary-action" onClick={() => buyComebackGoalSeed(nextCreatureGoal.seed)} type="button">
+                  <button
+                    className={canBuyAndPlantComebackGoalSeed ? "comeback-dismiss-button" : "primary-action"}
+                    onClick={() => buyComebackGoalSeed(nextCreatureGoal.seed)}
+                    type="button"
+                  >
                     {nextCreatureGoal.seed.name} 바로 구매
                   </button>
                 )}
