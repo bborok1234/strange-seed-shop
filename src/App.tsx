@@ -140,27 +140,33 @@ export default function App() {
     const qaResearchComplete = getLocalQaResearchComplete();
     const qaResearchExpeditionReady = getLocalQaResearchExpeditionReady();
     const qaResearchExpeditionClaimReady = getLocalQaResearchExpeditionClaimReady();
+    const qaLunarSeedReady = getLocalQaLunarSeedReady();
+    const qaLunarSeedReadyToHarvest = getLocalQaLunarSeedReadyToHarvest();
     const existingSave = qaSpriteState
       ? createSpriteQaSave(qaSpriteState)
       : qaHarvestReveal
         ? createHarvestRevealQaSave()
-        : qaResearchExpeditionClaimReady
-          ? createResearchExpeditionClaimReadyQaSave()
-        : qaResearchExpeditionReady
-          ? createResearchExpeditionReadyQaSave()
-          : qaResearchComplete
-            ? createResearchCompleteQaSave()
-            : qaResearchReady
-              ? createResearchReadyQaSave()
-              : qaProductionReady
-                ? createProductionReadyQaSave()
-                : qaExpeditionActive
-                  ? createExpeditionActiveQaSave()
-                  : qaExpeditionReady
-                    ? createExpeditionReadyQaSave()
-                    : qaOfflineMinutes
-                      ? createOfflineQaSave(qaOfflineMinutes)
-                      : localSaveStore.load();
+        : qaLunarSeedReadyToHarvest
+          ? createLunarSeedReadyToHarvestQaSave()
+          : qaLunarSeedReady
+            ? createLunarSeedReadyQaSave()
+            : qaResearchExpeditionClaimReady
+              ? createResearchExpeditionClaimReadyQaSave()
+              : qaResearchExpeditionReady
+                ? createResearchExpeditionReadyQaSave()
+                : qaResearchComplete
+                  ? createResearchCompleteQaSave()
+                  : qaResearchReady
+                    ? createResearchReadyQaSave()
+                    : qaProductionReady
+                      ? createProductionReadyQaSave()
+                      : qaExpeditionActive
+                        ? createExpeditionActiveQaSave()
+                        : qaExpeditionReady
+                          ? createExpeditionReadyQaSave()
+                          : qaOfflineMinutes
+                            ? createOfflineQaSave(qaOfflineMinutes)
+                            : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
     if (offlineLeaves > 0) {
@@ -873,6 +879,7 @@ export default function App() {
                   const previewCreature = getDeterministicCreatureForSeed(seed);
                   const previewDiscovered = previewCreature ? (save?.discoveredCreatureIds.includes(previewCreature.id) ?? false) : false;
                   const targetSeed = seed.id === nextCreatureGoal?.seed.id;
+                  const targetSeedStatus = targetSeed ? getTargetSeedStatus(seed, owned, hasOpenPlot, leafShortfall) : null;
 
                   return (
                     <article className={targetSeed ? "seed-inventory-row seed-inventory-row-target seed-shop-row-target" : "seed-inventory-row"} key={seed.id}>
@@ -881,6 +888,7 @@ export default function App() {
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개 · {getSeedHarvestSummary(seed)}</span>
                         {targetSeed && <span className="seed-target-badge">다음 발견</span>}
+                        {targetSeedStatus && <span className="seed-target-status-line">{targetSeedStatus}</span>}
                         {targetSeed && researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
                         {leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}
                         {previewCreature && (
@@ -1198,6 +1206,13 @@ export default function App() {
             </div>
             <p className="reveal-flavor">{harvestReveal.albumHint}</p>
             <blockquote>“{harvestReveal.greeting}”</blockquote>
+            {harvestReveal.id === LUNAR_REWARD_CREATURE_ID && (
+              <article className="reveal-next-goal reveal-lunar-complete" aria-label="달빛 수집 완료">
+                <p className="panel-label">달빛 원정 수집 완료</p>
+                <strong>{harvestReveal.name} 도감 기록</strong>
+                <span>원정 보상이 실제 새 생명체 수집으로 이어졌어요.</span>
+              </article>
+            )}
             {nextCreatureGoal && (
               <article className="reveal-next-goal" aria-label="수확 후 다음 목표">
                 <p className="panel-label">다음 발견 예고</p>
@@ -1647,6 +1662,22 @@ function getSeedPurchaseCost(seed: SeedDefinition): number {
   return Math.max(MIN_REPEAT_SEED_COST, seed.costLeaves);
 }
 
+function getTargetSeedStatus(seed: SeedDefinition, owned: number, hasOpenPlot: boolean, leafShortfall: number): string {
+  if (owned > 0 && hasOpenPlot) {
+    return `${seed.name} 보유 중 · 열린 밭에 바로 심을 수 있어요`;
+  }
+
+  if (owned > 0) {
+    return `${seed.name} 보유 중 · 밭을 비우면 심을 수 있어요`;
+  }
+
+  if (leafShortfall > 0) {
+    return `${leafShortfall} 잎을 더 모으면 다음 생명체 단서가 열려요`;
+  }
+
+  return `${seed.name} 구매 가능 · 구매 후 열린 밭에 심어보세요`;
+}
+
 function plantSeedInPlot(plot: PlotState, seed: SeedDefinition): PlotState {
   return {
     ...plot,
@@ -1792,6 +1823,22 @@ function getLocalQaResearchExpeditionClaimReady(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaResearchExpeditionClaimReady") === "1";
+}
+
+function getLocalQaLunarSeedReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaLunarSeedReady") === "1";
+}
+
+function getLocalQaLunarSeedReadyToHarvest(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaLunarSeedReadyToHarvest") === "1";
 }
 
 function getLocalDebugMode() {
@@ -1991,6 +2038,53 @@ function createResearchExpeditionClaimReadyQaSave(): PlayerSave {
       durationSeconds,
       claimed: false
     },
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
+  };
+}
+
+function createLunarSeedReadyQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createResearchExpeditionReadyQaSave();
+
+  return {
+    ...save,
+    leaves: 492,
+    materials: 3,
+    unlockedSeedIds: Array.from(new Set([...save.unlockedSeedIds, LUNAR_REWARD_SEED_ID])),
+    seedInventory: {
+      ...save.seedInventory,
+      [LUNAR_REWARD_SEED_ID]: 0
+    },
+    activeExpedition: undefined,
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
+  };
+}
+
+function createLunarSeedReadyToHarvestQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createLunarSeedReadyQaSave();
+  const plantedAt = new Date(now.getTime() - 11 * 60 * 1000).toISOString();
+
+  return {
+    ...save,
+    leaves: 192,
+    seedInventory: {
+      ...save.seedInventory,
+      [LUNAR_REWARD_SEED_ID]: 0
+    },
+    plots: save.plots.map((plot) =>
+      plot.index === 1
+        ? {
+            ...plot,
+            seedId: LUNAR_REWARD_SEED_ID,
+            plantedAt,
+            tapProgressSeconds: 0,
+            harvestedCreatureId: undefined
+          }
+        : plot
+    ),
     lastSeenAt: now.toISOString(),
     updatedAt: now.toISOString()
   };

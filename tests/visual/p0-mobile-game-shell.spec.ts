@@ -435,6 +435,88 @@ test("모바일 달빛 원정 보상은 다음 달빛 수집 목표로 이어진
   await page.screenshot({ path: testInfo.outputPath("mobile-moon-expedition-reward-bridge-v0-393.png"), fullPage: false });
 });
 
+test("모바일 달빛 씨앗은 구매와 심기로 다음 수집 행동을 닫는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaLunarSeedReady=1&qaTab=seeds");
+
+  await expect(page.locator(".dev-panel.player-panel.tab-seeds")).toBeVisible();
+  await expect(page.getByLabel("다음 도감 목표 씨앗")).toContainText("달방울 씨앗");
+  await expect(page.getByLabel("다음 도감 목표 씨앗")).toContainText("달방울 누누");
+
+  const lunarRow = page.locator(".seed-inventory-row", { hasText: "달방울 씨앗" }).first();
+  await expect(lunarRow).toContainText("다음 발견");
+  await expect(lunarRow).toContainText("구매 가능");
+  await lunarRow.getByRole("button", { name: "구매 300" }).click();
+  await expect(lunarRow).toContainText("보유 1개");
+  await expect(lunarRow).toContainText("열린 밭에 바로 심을 수 있어요");
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw ? (JSON.parse(raw) as { leaves?: number; seedInventory?: Record<string, number> }) : {};
+        return {
+          leaves: parsed.leaves,
+          lunarSeeds: parsed.seedInventory?.seed_lunar_001 ?? 0
+        };
+      })
+    )
+    .toEqual({ leaves: 192, lunarSeeds: 1 });
+
+  await lunarRow.getByRole("button", { name: "심기" }).click();
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as { seedInventory?: Record<string, number>; plots?: Array<{ seedId?: string }> })
+          : {};
+        return {
+          lunarSeeds: parsed.seedInventory?.seed_lunar_001 ?? 0,
+          planted: parsed.plots?.some((plot) => plot.seedId === "seed_lunar_001") ?? false
+        };
+      })
+    )
+    .toEqual({ lunarSeeds: 0, planted: true });
+
+  await page.getByRole("button", { name: "정원 보기" }).click();
+  await expect(page.getByRole("button", { name: /달방울 씨앗 성장시키기/ })).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath("mobile-lunar-seed-purchase-plant-v0-393.png"), fullPage: false });
+});
+
+test("모바일 달빛 씨앗 수확은 달방울 누누 발견과 다음 목표 전환을 보여준다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaLunarSeedReadyToHarvest=1");
+
+  await expect(page.getByRole("button", { name: /달방울 씨앗 수확/ })).toBeVisible();
+  await page.getByRole("button", { name: /달방울 씨앗 수확/ }).click();
+
+  await expect(page.getByLabel("첫 생명체 획득")).toContainText("달방울 누누");
+  await expect(page.getByLabel("달빛 수집 완료")).toContainText("원정 보상이 실제 새 생명체 수집으로 이어졌어요");
+  await expect(page.getByLabel("수확 후 다음 목표")).not.toContainText("달방울 누누");
+  await expect(page.getByLabel("수확 후 다음 목표")).toContainText("젤리콩 통통");
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw ? (JSON.parse(raw) as { leaves?: number; discoveredCreatureIds?: string[] }) : {};
+        return {
+          leaves: parsed.leaves,
+          lunarDiscovered: parsed.discoveredCreatureIds?.includes("creature_lunar_common_001") ?? false
+        };
+      })
+    )
+    .toEqual({ leaves: 452, lunarDiscovered: true });
+
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "도감" }).click();
+  await expect(page.getByLabel("도감 다음 수집 목표")).not.toContainText("달방울 누누");
+  await expect(page.getByLabel("도감 다음 수집 목표")).toContainText("젤리콩 통통");
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-lunar-seed-harvest-bridge-v0-393.png"), fullPage: false });
+});
+
 test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 깨지 않는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 399, height: 666 });
   await page.goto("/?qaResearchComplete=1");

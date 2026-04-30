@@ -40,6 +40,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Research expedition bridge v0 | done | Issue #160, `items/0090-research-expedition-bridge-v0.md`, Browser Use QA, `reports/visual/p0-research-expedition-bridge-v0-20260429.md` | 연구 완료가 하단 원정 탭 `단서` badge와 `달빛 흔적 찾기` 장기 메타 preview로 이어짐 |
 | Research expedition start v0 | done | Issue #162, `items/0091-research-expedition-start-v0.md`, Browser Use QA, `reports/visual/p0-research-expedition-start-v0-20260429.md` | 연구 완료와 두 번째 생명체 발견이 `달빛 흔적 찾기` 원정 시작/진행 상태로 이어짐 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
+| Lunar seed harvest bridge v0 | done | Issue #166, `items/0093-lunar-seed-harvest-bridge-v0.md`, `reports/visual/p0-lunar-seed-harvest-bridge-v0-20260430.md` | `달방울 씨앗` 구매/심기/수확이 `달방울 누누` 발견과 다음 도감 목표 전환으로 이어지고 `npm run check:ci`가 통과함 |
 | Playfield board readability v0 | done | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, `reports/visual/p0-playfield-board-readability-20260429.md` | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
