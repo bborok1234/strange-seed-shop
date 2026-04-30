@@ -42,6 +42,7 @@ export function createNewSave(now = new Date()): PlayerSave {
     tapPowerLevel: 0,
     productionBoostLevel: 0,
     materialWorkbenchLevel: 0,
+    greenhouseFacilityLevel: 0,
     researchLevel: 0,
     plots: createEmptyPlots(),
     idleProduction: {
@@ -75,6 +76,7 @@ export function normalizeSave(raw: Partial<PlayerSave>, now = new Date()): Playe
     tapPowerLevel: raw.tapPowerLevel ?? fallback.tapPowerLevel,
     productionBoostLevel: raw.productionBoostLevel ?? fallback.productionBoostLevel,
     materialWorkbenchLevel: raw.materialWorkbenchLevel ?? fallback.materialWorkbenchLevel,
+    greenhouseFacilityLevel: raw.greenhouseFacilityLevel ?? fallback.greenhouseFacilityLevel,
     researchLevel: raw.researchLevel ?? fallback.researchLevel,
     plots: createEmptyPlots().map((plot) => normalizePlot(plots[plot.index], plot.index)),
     idleProduction: {

@@ -123,6 +123,7 @@ export interface PlayerSave {
   tapPowerLevel: number;
   productionBoostLevel: number;
   materialWorkbenchLevel: number;
+  greenhouseFacilityLevel: number;
   researchLevel: number;
   plots: PlotState[];
   activeExpedition?: ExpeditionState;

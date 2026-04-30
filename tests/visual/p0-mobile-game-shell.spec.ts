@@ -568,6 +568,84 @@ test("모바일 원정 재료는 정원 작업대 강화로 이어진다", async
   await page.screenshot({ path: testInfo.outputPath("mobile-expedition-material-workbench-v0-393.png"), fullPage: false });
 });
 
+test("모바일 작업대 강화는 첫 온실 설비 목표로 이어진다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchExpeditionClaimReady=1&qaTab=expedition");
+
+  await page.getByRole("button", { name: "원정 보상 받기" }).click();
+  await page.getByRole("button", { name: "정원", exact: true }).click();
+
+  const workbenchChoice = page.locator(".upgrade-choice", { hasText: "작업대 강화" });
+  await workbenchChoice.click();
+
+  const facilityChoice = page.locator(".upgrade-choice", { hasText: "온실 설비" });
+  await expect(facilityChoice).toContainText("설비 준비");
+  await expect(facilityChoice).toContainText("80 잎 · 1 재료로 선반 설치");
+  await expect(facilityChoice.locator("small")).toBeVisible();
+  await facilityChoice.click();
+
+  await expect(page.getByText("재료 0", { exact: true })).toBeVisible();
+  await expect(facilityChoice).toContainText("설비 완료");
+  await expect(facilityChoice).toContainText("온실 선반 +10% 가동");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("분당 15.3 잎");
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const upgradeCard = document.querySelector<HTMLElement>(".upgrade-choice-card")?.getBoundingClientRect();
+    const overflowingChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
+    )
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel ? { bottom: panel.bottom, clientHeight: panelElement?.clientHeight ?? 0, scrollHeight: panelElement?.scrollHeight ?? 0 } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      upgradeCard: upgradeCard ? { bottom: upgradeCard.bottom } : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.upgradeCard).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.upgradeCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.overflowingChildren).toEqual([]);
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as {
+              materials?: number;
+              materialWorkbenchLevel?: number;
+              greenhouseFacilityLevel?: number;
+            })
+          : {};
+        return {
+          materials: parsed.materials,
+          materialWorkbenchLevel: parsed.materialWorkbenchLevel,
+          greenhouseFacilityLevel: parsed.greenhouseFacilityLevel
+        };
+      })
+    )
+    .toEqual({ materials: 0, materialWorkbenchLevel: 1, greenhouseFacilityLevel: 1 });
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-facility-unlock-v0-393.png"), fullPage: false });
+});
+
 test("모바일 달빛 씨앗은 구매와 심기로 다음 수집 행동을 닫는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaLunarSeedReady=1&qaTab=seeds");
