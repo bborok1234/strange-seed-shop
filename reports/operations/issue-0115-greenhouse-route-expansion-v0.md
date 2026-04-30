@@ -48,6 +48,9 @@
 - Regression focused visual: `npm run check:visual -- --grep "온실 확장 준비|온실 동선 확장"` PASS
 - Full visual: `npm run check:visual` PASS, 40 passed
 - CI: `npm run check:ci` PASS
+- PR: #219 merged
+- PR checks: #219 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Main CI: `25157053868` PASS
 
 ## 안전 범위
 
@@ -57,4 +60,5 @@
 
 ## 남은 위험
 
-- PR checks에서 같은 visual/CI gate를 재확인해야 한다.
+- Browser Use에서 발견한 3번 밭 부분 가림은 3열 compact layout과 visual regression으로 고정했다.
+- 남은 follow-up blocker 없음.

@@ -3,6 +3,7 @@
 Status: done
 Branch: `codex/0115-greenhouse-route-expansion-v0`
 Issue: #218
+PR: #219
 
 ## Context
 
@@ -56,7 +57,10 @@ Issue: #218
 - Regression focused visual: `npm run check:visual -- --grep "온실 확장 준비|온실 동선 확장"` PASS
 - Full visual: `npm run check:visual` PASS, 40 passed
 - CI: `npm run check:ci` PASS
+- PR checks: #219 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Main CI: `25157053868` PASS
 
 ## Risks
 
 - 3번 밭 개방으로 playfield 밀도와 action surface가 동시에 바뀐다. Browser Use에서 3번 밭 부분 가림을 발견해 3열 compact 배치와 third-plot overlap gate를 추가했고, 완료 카드 overflow는 route choice/complete compact filter로 통과시켰다.
+- 남은 follow-up blocker 없음.
