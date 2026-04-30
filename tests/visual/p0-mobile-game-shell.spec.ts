@@ -665,8 +665,7 @@ test("모바일 복귀 심기 후 성장 탭 feedback은 단축 효과를 보여
   await page.getByRole("button", { name: "방울새싹 씨앗 구매하고 심기" }).click();
   await page.getByRole("button", { name: "방울새싹 씨앗 성장시키기" }).click();
 
-  await expect(page.getByText("쑥! +성장", { exact: true })).toBeVisible();
-  await expect(page.locator(".playfield-action-feedback")).toContainText("4초 단축");
+  await expect(page.locator(".playfield-action-feedback")).toContainText(/4초 단축 · 약 \d+번 남음/);
 
   await page.screenshot({ path: testInfo.outputPath("mobile-comeback-tap-feedback-payoff-v0-393.png"), fullPage: false });
 });

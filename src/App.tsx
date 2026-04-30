@@ -1516,6 +1516,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
 
     const progressPercent = getGrowthProgress(plot, seed, now);
     const secondsRemaining = Math.max(0, Math.ceil(seed.baseGrowthSeconds * (1 - progressPercent / 100)));
+    const tapReductionSeconds = seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12);
 
     return {
       index: plot.index,
@@ -1525,7 +1526,8 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
       family: seed.family,
       progressPercent,
       secondsRemaining,
-      tapReductionLabel: getTapReductionLabel(seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12))
+      tapReductionLabel: getTapReductionLabel(tapReductionSeconds),
+      tapReductionSeconds
     };
   });
 
