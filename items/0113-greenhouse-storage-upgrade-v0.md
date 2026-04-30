@@ -3,6 +3,7 @@
 Status: done
 Branch: `codex/0113-greenhouse-storage-upgrade-v0`
 Issue: #212
+PR: #213
 
 ## Context
 
@@ -47,6 +48,9 @@ Issue: #212
 - Regression fix visual: `npm run check:visual -- --grep "온실 설비는 새 납품 주문"` PASS
 - Full visual: `npm run check:visual` PASS, 38 passed
 - CI: `npm run check:ci` PASS
+- PR checks: #213 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Merge: PR #213 squash-merged to `main`
+- Main CI: `25154623494` PASS
 
 ## Risks
 

@@ -52,7 +52,7 @@
 
 ## 남은 위험
 
-- PR checks에서 동일 gate를 재확인해야 합니다.
+- PR #213 checks와 main CI `25154623494`에서 동일 gate를 재확인했습니다.
 
 ## 연결된 issue
 
