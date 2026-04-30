@@ -69,6 +69,7 @@ During a supervised run:
   - architect/reviewer verdict when Ralph requires it
   - merge or blocker state
 - Prefer small, reversible PRs over one large overnight diff.
+- In `$seed-ops` or ongoing operator mode, remote publication is part of the issue loop: push the branch, open/update a draft PR, verify GitHub checks, merge when gates are green, and verify main CI unless a stop rule applies. Do not pause only because the user did not repeat a remote publishing instruction.
 - When visual work changes UI, follow Browser Use first policy and save visual evidence under `reports/visual/`.
 - Treat every issue completion as a continuation checkpoint: **완료 보고는 중단 조건이 아니라 체크포인트**다.
 - If the user has asked for an ongoing operator run and no stop rule is active, immediately choose the next issue를 plan-first로 선택하고 `## Plan` artifact를 만든 뒤 다음 loop를 시작한다.

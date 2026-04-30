@@ -12,6 +12,7 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - 목표: 게임 북극성과 에이전트 네이티브 운영사 북극성을 향해 계속 진행한다.
 - 기본 루프: issue 선택/생성 -> `## Plan` artifact -> branch -> 구현 -> 로컬 검증 -> PR -> GitHub checks -> merge -> main CI -> 다음 issue.
 - 완료 보고는 중단 조건이 아니라 checkpoint다.
+- 원격 게시 기본값: `$seed-ops`로 시작한 issue loop에서는 사용자가 별도로 "push/PR/merge 해도 돼?"라고 말하지 않아도 branch push, draft PR 생성/갱신, GitHub checks 확인, main merge, main CI 확인까지가 완료 조건이다. 단, credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary는 Stop rules를 우선한다.
 - 각 issue는 작은 승리, 수용 기준, 검증 명령, evidence, 남은 리스크를 남긴다.
 - issue 종료 전 GitHub issue 본문의 `## 수용 기준` 체크박스를 실제 검증 결과로 갱신한다. `Closes #id`는 issue를 닫을 뿐 체크박스를 채우지 않으므로 빈 체크박스가 남으면 완료 gate 실패다.
 - UI/visual 작업은 Browser Use `iab` 실기 QA를 먼저 시도한다. Node REPL `js` tool이 처음 보이지 않으면 fallback 전에 `tool_search`로 노출을 재확인한다.

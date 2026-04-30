@@ -35,6 +35,8 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 8. merge 후 main CI를 확인한다.
 9. 완료 보고는 중단 조건이 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
 
+원격 게시 기본값: `$seed-ops` issue loop에서 branch push, draft PR 생성/갱신, GitHub checks 확인, merge, main CI 확인은 별도 사용자 지시가 없어도 완료 조건에 포함된다. 확인 질문으로 멈추지 않는다. 다만 credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary, 실채널 GTM은 stop rule과 명시 승인 규칙을 우선한다.
+
 ### Game Studio routing gate
 
 이 프로젝트는 일반 웹앱이 아니라 브라우저 게임이다. `$seed-ops`가 게임 기능, UI/HUD, playfield, asset, QA, playtest issue를 처리할 때는 Game Studio plugin route가 필수다.

@@ -670,6 +670,29 @@ h1 {
   display: none;
 }
 
+.starter-panel.has-production
+  .production-action-card.has-worker-roster.has-completed-order.has-material-workbench
+  .production-roster {
+  display: none;
+}
+
+.starter-panel.has-production .production-action-card.has-material-workbench {
+  min-height: 58px;
+}
+
+.starter-panel.has-production.has-ready-plot .next-creature-compact {
+  display: none;
+}
+
+.starter-panel.has-production.has-roster-complete
+  .production-action-card.has-worker-roster.has-completed-order:not(.has-material-workbench) {
+  min-height: 102px;
+}
+
+.starter-panel.has-production.has-roster-complete .next-creature-compact {
+  display: none;
+}
+
 .production-meter-row button,
 .order-progress-card button {
   min-height: 34px;
@@ -756,7 +779,7 @@ h1 {
 
 .upgrade-choice-list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
   gap: 6px;
 }
 
@@ -2363,11 +2386,12 @@ h1 {
   }
 
   .starter-panel.has-production .upgrade-choice-list {
+    grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
     gap: 4px;
   }
 
   .starter-panel.has-production .upgrade-choice {
-    min-height: 44px;
+    min-height: 54px;
     padding: 5px 4px;
     border-radius: 11px;
   }
@@ -2879,12 +2903,18 @@ h1 {
   }
 
   .starter-panel.has-production .upgrade-choice {
-    min-height: 38px;
+    min-height: 50px;
     padding: 4px;
   }
 
   .starter-panel.has-production .upgrade-choice small {
-    display: none;
+    display: block;
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.12;
   }
 
   .starter-panel.has-production .research-clue-line {

@@ -152,6 +152,8 @@ PR이 red check 상태면 verify lane은 실패 job을 읽고, 로컬 재현을 
 
 작업 완료는 구현 종료가 아니라 `draft PR + 검증 증거 + follow-up/audit 링크`가 모두 남은 상태를 뜻한다. 구현 lane은 `docs/PR_AUTOMATION.md`의 작업 완료 gate를 통과해야 하며, 남은 위험이 있으면 GitHub issue 또는 `items/` work record를 만들고 PR 본문·운영 보고서·work item evidence에 교차 링크한다. follow-up이 없을 때도 `none — 이유`를 기록해 에이전트가 누락을 완료로 오인하지 않게 한다.
 
+`$seed-ops` 또는 명시적 장시간 운영모드에서는 branch push, draft PR 생성/갱신, GitHub checks 확인, merge, main CI 확인까지가 issue loop의 원격 게시 완료 조건이다. 사용자가 원격 게시를 한 번 더 말하지 않았다는 이유만으로 완료 전 확인 질문을 하지 않는다. credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary, 실채널 GTM은 별도 stop/approval gate를 우선한다.
+
 ### completion checkpoint / continuation watchdog
 
 장시간 `$ralph` 운영모드에서 **완료 보고는 중단 조건이 아니라 체크포인트**다. issue 하나가 `implementation -> local verification -> PR -> GitHub checks -> main merge`까지 닫히면 운영자는 최종 답변으로 세션을 닫지 않고 다음 중 하나를 즉시 기록해야 한다.

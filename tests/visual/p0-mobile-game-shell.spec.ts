@@ -488,6 +488,86 @@ test("모바일 달빛 원정 보상은 다음 달빛 수집 목표로 이어진
   await page.screenshot({ path: testInfo.outputPath("mobile-moon-expedition-reward-bridge-v0-393.png"), fullPage: false });
 });
 
+test("모바일 원정 재료는 정원 작업대 강화로 이어진다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchExpeditionClaimReady=1&qaTab=expedition");
+
+  await expect(page.getByText("+420 잎 · +2 재료 수령 가능", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "원정 보상 받기" }).click();
+
+  await page.getByRole("button", { name: "정원", exact: true }).click();
+  await expect(page.getByText("재료 3", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("분당 12.8 잎");
+  const workbenchChoice = page.locator(".upgrade-choice", { hasText: "작업대 강화" });
+  await expect(workbenchChoice).toContainText("재료 사용");
+  await expect(workbenchChoice).toContainText("2 재료로 자동 생산 +15%");
+  await expect(workbenchChoice.locator("small")).toBeVisible();
+  await expect(workbenchChoice.locator("small")).toHaveText("2 재료로 자동 생산 +15%");
+  await workbenchChoice.click();
+
+  await expect(page.getByText("재료 1", { exact: true })).toBeVisible();
+  await expect(workbenchChoice).toContainText("강화 완료");
+  await expect(workbenchChoice).toContainText("재료 작업대 +15% 가동");
+  await expect(workbenchChoice.locator("small")).toBeVisible();
+  await expect(workbenchChoice.locator("small")).toHaveText("재료 작업대 +15% 가동");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("분당 14.3 잎");
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("정원 동료 2명 작업 중");
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const upgradeCard = document.querySelector<HTMLElement>(".upgrade-choice-card")?.getBoundingClientRect();
+    const overflowingChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
+    )
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel ? { bottom: panel.bottom, clientHeight: panelElement?.clientHeight ?? 0, scrollHeight: panelElement?.scrollHeight ?? 0 } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      upgradeCard: upgradeCard ? { bottom: upgradeCard.bottom } : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.upgradeCard).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.upgradeCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.overflowingChildren).toEqual([]);
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as {
+              materials?: number;
+              materialWorkbenchLevel?: number;
+            })
+          : {};
+        return {
+          materials: parsed.materials,
+          materialWorkbenchLevel: parsed.materialWorkbenchLevel
+        };
+      })
+    )
+    .toEqual({ materials: 1, materialWorkbenchLevel: 1 });
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-expedition-material-workbench-v0-393.png"), fullPage: false });
+});
+
 test("모바일 달빛 씨앗은 구매와 심기로 다음 수집 행동을 닫는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaLunarSeedReady=1&qaTab=seeds");
