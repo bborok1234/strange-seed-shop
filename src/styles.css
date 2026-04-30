@@ -591,12 +591,83 @@ h1 {
   font-size: 13px;
 }
 
+.production-worker-detail {
+  display: block;
+  max-width: 180px;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .production-card-heading span,
 .production-meter-row span,
 .order-progress-card span {
   color: var(--text-muted);
   font-size: 11px;
   font-weight: 900;
+}
+
+.production-roster {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.production-roster-chip {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: center;
+  gap: 5px;
+  min-height: 38px;
+  padding: 4px 6px;
+  border: 1px solid rgba(39, 86, 64, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 253, 232, 0.74);
+}
+
+.production-roster-portrait {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  overflow: hidden;
+}
+
+.production-roster-portrait img,
+.production-roster-portrait .asset-fallback {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.production-roster-chip strong,
+.production-roster-chip small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.production-roster-chip strong {
+  color: var(--action-primary-strong);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.production-roster-chip small {
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.starter-panel.has-production .production-action-card.has-worker-roster.has-completed-order .production-meter-row,
+.starter-panel.has-production .production-action-card.has-worker-roster.has-completed-order .production-complete-row {
+  display: none;
 }
 
 .production-meter-row button,
@@ -2266,6 +2337,7 @@ h1 {
   }
 
   .starter-panel.has-production.has-active-plot .production-meter-row,
+  .starter-panel.has-production.has-active-plot .production-roster,
   .starter-panel.has-production.has-active-plot .order-progress-card,
   .starter-panel.has-production.has-active-plot .production-complete-row {
     display: none;
