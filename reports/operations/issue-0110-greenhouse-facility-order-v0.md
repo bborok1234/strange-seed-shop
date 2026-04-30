@@ -34,6 +34,9 @@
 - `npm run check:visual -- --grep "온실 설비"` PASS
 - `npm run check:visual` PASS, 35 passed
 - `npm run check:ci` PASS
+- PR #204 checks PASS: `Check automerge eligibility`, `Verify game baseline`
+- PR #204 squash-merged to `main`
+- Main CI `25151660976` PASS
 
 ## 안전 범위
 
@@ -43,4 +46,4 @@
 
 ## 남은 위험
 
-- GitHub PR checks에서 동일 gate를 재확인한다.
+- Issue #203은 PR #204 merge로 closed 상태다.

@@ -1,8 +1,9 @@
 # Greenhouse facility order v0
 
-Status: active
+Status: done
 Branch: `codex/0110-greenhouse-facility-order-v0`
 Issue: #203
+PR: #204
 
 ## Context
 
@@ -47,6 +48,9 @@ Issue: #203
 - Regression visual: `npm run check:visual -- --grep "온실 설비"` PASS
 - Full visual: `npm run check:visual` PASS, 35 passed
 - CI: `npm run check:ci` PASS
+- PR checks: #204 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Merge: PR #204 squash-merged to `main`
+- Main CI: `25151660976` PASS
 
 ## Risks
 
