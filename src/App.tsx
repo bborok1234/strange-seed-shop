@@ -245,6 +245,11 @@ export default function App() {
   const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
   const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
   const nextCreatureGoal = useMemo(() => getNextCreatureGoal(save), [save]);
+  const comebackGoalSeed = nextCreatureGoal?.seed ?? null;
+  const comebackGoalSeedCost = comebackGoalSeed ? getSeedPurchaseCost(comebackGoalSeed) : 0;
+  const canBuyComebackGoalSeed = Boolean(
+    save && comebackGoalSeed && save.unlockedSeedIds.includes(comebackGoalSeed.id) && save.leaves >= comebackGoalSeedCost
+  );
   const nextAlbumMilestone = save ? getNextAlbumMilestone(albumDiscoveredCount, save.claimedAlbumMilestoneIds) : null;
   const nextAlbumRewardRemaining = nextAlbumMilestone
     ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
@@ -307,6 +312,12 @@ export default function App() {
       advanceMission(draft, "daily_buy_3_seeds");
       trackEvent("seed_purchased", { seedId: seed.id, costLeaves });
     });
+  }
+
+  function buyComebackGoalSeed(seed: SeedDefinition) {
+    buySeed(seed);
+    setOfflineRewardSummary(null);
+    setActiveTab("seeds");
   }
 
   function plantOwnedSeed(seed: SeedDefinition) {
@@ -676,9 +687,14 @@ export default function App() {
                 <p className="comeback-next-copy">씨앗을 심고 생명체를 더 모으면 복귀 보상이 커집니다.</p>
               )}
               <div className="comeback-reward-actions">
+                {nextCreatureGoal && canBuyComebackGoalSeed && (
+                  <button className="primary-action" onClick={() => buyComebackGoalSeed(nextCreatureGoal.seed)} type="button">
+                    {nextCreatureGoal.seed.name} 바로 구매
+                  </button>
+                )}
                 {nextCreatureGoal && (
                   <button
-                    className="primary-action"
+                    className={canBuyComebackGoalSeed ? "comeback-dismiss-button" : "primary-action"}
                     onClick={() => {
                       setOfflineRewardSummary(null);
                       setActiveTab("seeds");

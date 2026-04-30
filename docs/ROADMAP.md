@@ -44,6 +44,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Lunar guardian offline bonus v0 | done | Issue #168, `items/0094-lunar-guardian-offline-bonus-v0.md`, `reports/visual/p0-lunar-guardian-offline-bonus-v0-20260430.md` | `달방울 누누` 발견이 오프라인 복귀 보상 bonus와 toast 문구로 이어지고 `npm run check:ci`가 통과함 |
 | Comeback reward breakdown v0 | done | Issue #170, `items/0095-comeback-reward-breakdown-v0.md`, `reports/visual/p0-comeback-reward-breakdown-v0-20260430.md` | 15분 이상 복귀 보상이 시간, 잎, 달빛 수호 bonus, 다음 행동 CTA가 있는 compact modal로 보이고 `npm run check:ci`가 통과함 |
 | Comeback next-action bridge v0 | done | Issue #172, `items/0096-comeback-next-action-bridge-v0.md`, `reports/visual/p0-comeback-next-action-bridge-v0-20260430.md` | 복귀 보상 modal의 다음 씨앗 CTA가 씨앗 탭 목표 row로 이어지고 `npm run check:ci`가 통과함 |
+| Comeback one-tap seed spend v0 | done | Issue #174, `items/0097-comeback-one-tap-seed-spend-v0.md`, `reports/visual/p0-comeback-one-tap-seed-spend-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 modal의 다음 목표 씨앗 바로 구매가 seeds 탭 목표 row로 이어지고 `npm run check:ci`가 통과함 |
 | Playfield board readability v0 | done | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, `reports/visual/p0-playfield-board-readability-20260429.md` | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue
@@ -272,9 +273,9 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 다음 작업:
 
-1. Issue #125 / `items/0071-core-asset-batch-plan.md`를 PR/CI/main merge까지 닫는다.
-2. 다음 `$seed-ops` issue는 P0.5 core asset generation/review/manifest integration으로 plan-first 작성한다.
-3. 다음 구현 PR도 게임 core, UI, 에셋, visual QA를 분리하지 않는 작은 vertical slice로 만든다.
+1. 현재 P0.5 운영은 복귀 보상 -> 소비 -> 재심기 -> 다음 수집으로 이어지는 작은 vertical slice를 계속 닫는다.
+2. 다음 `$seed-ops` issue는 열린 GitHub issue가 없으면 plan-first로 새 small win을 만들고, 게임 core/UI/visual QA를 한 PR에서 닫는다.
+3. 우선순위는 첫 5분 귀여움/수집 욕구와 복귀 후 30초 안의 다음 행동을 직접 강화하는 작업이다.
 4. 운영사 인프라는 CI/QA/상태 이해가 게임 개발을 막을 때만 우선한다.
 
 ## Previous Next Action History
