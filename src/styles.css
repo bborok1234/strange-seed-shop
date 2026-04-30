@@ -2531,6 +2531,22 @@ h1 {
     display: none;
   }
 
+  .starter-panel.has-production.has-greenhouse-route-choice .upgrade-choice-plot_2,
+  .starter-panel.has-production.has-greenhouse-route-choice .upgrade-choice-production_rate,
+  .starter-panel.has-production.has-greenhouse-route-choice .upgrade-choice-material_workbench,
+  .starter-panel.has-production.has-greenhouse-route-choice .upgrade-choice-greenhouse_facility,
+  .starter-panel.has-production.has-greenhouse-route-choice .upgrade-choice-greenhouse_storage {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-greenhouse-route-complete .upgrade-choice-plot_2,
+  .starter-panel.has-production.has-greenhouse-route-complete .upgrade-choice-production_rate,
+  .starter-panel.has-production.has-greenhouse-route-complete .upgrade-choice-material_workbench,
+  .starter-panel.has-production.has-greenhouse-route-complete .upgrade-choice-greenhouse_facility,
+  .starter-panel.has-production.has-greenhouse-route-complete .upgrade-choice-greenhouse_storage {
+    display: none;
+  }
+
   .starter-panel.has-production.has-greenhouse-order .next-creature-compact {
     min-height: 40px;
     padding: 5px 6px;
@@ -2881,6 +2897,10 @@ h1 {
     gap: 10px;
   }
 
+  .playfield-board-overlay.plot-count-3 .playfield-plot-row {
+    gap: 7px;
+  }
+
   .playfield-production-lane {
     grid-template-columns: 1fr;
     gap: 4px;
@@ -2916,6 +2936,19 @@ h1 {
     min-height: 84px;
     padding: 12px 8px 10px;
     border-radius: 16px;
+  }
+
+  .playfield-board-overlay.plot-count-3 .playfield-plot-card {
+    min-height: 82px;
+    padding: 12px 5px 9px;
+  }
+
+  .playfield-board-overlay.plot-count-3 .playfield-plot-card strong {
+    font-size: 12px;
+  }
+
+  .playfield-board-overlay.plot-count-3 .playfield-empty-plus {
+    font-size: 20px;
   }
 
   .starter-panel.has-production {
@@ -3233,6 +3266,10 @@ h1 {
   align-content: start;
   gap: 14px;
   min-height: 0;
+}
+
+.playfield-board-overlay.plot-count-3 .playfield-plot-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .playfield-plot-card {

@@ -197,7 +197,15 @@ function GardenBoardOverlay({
   const engineStatus = [viewModel.productionLine, viewModel.orderLine].filter(Boolean).join(" · ");
 
   return (
-    <div className={viewModel.productionScene ? "playfield-board-overlay has-production-scene" : "playfield-board-overlay"}>
+    <div
+      className={[
+        "playfield-board-overlay",
+        viewModel.productionScene ? "has-production-scene" : "",
+        `plot-count-${visiblePlots.length}`
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       {engineStatus ? <p className="playfield-engine-status">{engineStatus}</p> : null}
       {viewModel.productionScene ? <ProductionScene scene={viewModel.productionScene} /> : null}
       <div className="playfield-plot-row">
