@@ -1,8 +1,10 @@
 # Expedition material workbench v0
 
-Status: review
+Status: done
 Branch: `codex/0108-expedition-material-workbench-v0`
 Issue: #197
+PR: #198
+Main CI: `25149499763`
 
 ## Context
 
@@ -48,6 +50,9 @@ P0.5는 연구/원정/달빛 보상까지 이어졌고, 원정 보상은 이미 
 - Regression visual: `npm run check:visual -- --grep "생산 roster|작업대|복귀 성장 100"` PASS
 - Full visual: `npm run check:visual` PASS, 33 passed
 - CI: `npm run check:ci` PASS
+- PR checks: PR #198 `Verify game baseline` PASS, `Check automerge eligibility` PASS
+- Merge: PR #198 squash merge `3c718a9e63e81700638c9bb9e40efa0c971f5887`
+- Main CI: `25149499763` PASS
 
 ## Risks
 

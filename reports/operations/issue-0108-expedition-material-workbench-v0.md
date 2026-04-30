@@ -34,6 +34,8 @@
 - `npm run check:visual -- --grep "생산 roster|작업대|복귀 성장 100"` PASS
 - `npm run check:visual` PASS, 33 passed
 - `npm run check:ci` PASS
+- PR #198 checks PASS
+- Main CI `25149499763` PASS
 
 ## 안전 범위
 
