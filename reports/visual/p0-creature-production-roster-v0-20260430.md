@@ -36,6 +36,8 @@ Observed checks:
 - `npm run check:visual -- --grep "생산 roster"`: 통과.
 - `npm run check:visual`: 32개 통과.
 - `npm run check:ci`: 통과.
+- PR #195 checks: `Verify game baseline`, `Check automerge eligibility` 통과.
+- Main CI `25148177608`: 통과.
 - 추가된 screenshot artifact: `mobile-creature-production-roster-v0-393.png`
 
 ## Layout invariants
