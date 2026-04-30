@@ -677,6 +677,16 @@ h1 {
 }
 
 .starter-panel.has-production
+  .production-action-card.has-worker-roster.has-greenhouse-order.has-completed-order
+  .production-worker-detail {
+  display: none;
+}
+
+.starter-panel.has-production .production-action-card.has-greenhouse-order.has-completed-order {
+  gap: 4px;
+}
+
+.starter-panel.has-production
   .production-action-card.has-worker-roster.has-completed-order.has-material-workbench
   .production-roster {
   display: none;
