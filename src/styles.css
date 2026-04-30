@@ -2192,6 +2192,18 @@ h1 {
     display: none;
   }
 
+  .starter-panel.has-production .active-growth-copy {
+    display: block;
+    margin: 0;
+    padding: 6px 8px;
+    border: 1px solid rgba(103, 129, 72, 0.24);
+    border-radius: 8px;
+    background: rgba(249, 247, 222, 0.74);
+    color: #31513a;
+    font-size: 11px;
+    line-height: 1.25;
+  }
+
   .starter-panel.has-production .garden-support-stack {
     display: none;
   }
@@ -2753,6 +2765,18 @@ h1 {
   .starter-panel.has-production h2,
   .starter-panel.has-production > .panel-label {
     display: none;
+  }
+
+  .starter-panel.has-production .active-growth-copy {
+    display: block;
+    margin: 0;
+    padding: 6px 8px;
+    border: 1px solid rgba(103, 129, 72, 0.24);
+    border-radius: 8px;
+    background: rgba(249, 247, 222, 0.74);
+    color: #31513a;
+    font-size: 11px;
+    line-height: 1.25;
   }
 
   .starter-panel.has-production .production-card-heading {

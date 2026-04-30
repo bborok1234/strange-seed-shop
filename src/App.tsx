@@ -243,7 +243,7 @@ export default function App() {
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
   const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
-  const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady);
+  const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady, now);
   const nextCreatureGoal = useMemo(() => getNextCreatureGoal(save), [save]);
   const comebackGoalSeed = nextCreatureGoal?.seed ?? null;
   const comebackGoalSeedCost = comebackGoalSeed ? getSeedPurchaseCost(comebackGoalSeed) : 0;
@@ -750,7 +750,7 @@ export default function App() {
           <aside className={productionStatus ? "starter-panel garden-action-surface has-production" : "starter-panel garden-action-surface"}>
             <p className="panel-label">다음 행동</p>
             <h2>{nextAction.title}</h2>
-            <p className="action-copy">{nextAction.body}</p>
+            <p className={activePlot ? "action-copy active-growth-copy" : "action-copy"}>{nextAction.body}</p>
             {productionStatus && productionStatus.ratePerMinute > 0 && (
               <article className="production-card production-action-card" aria-label="자동 생산과 첫 주문">
                 {productionFx ? renderProductionFx(productionFx) : null}
@@ -1407,7 +1407,12 @@ function getObjectParticle(label: string): "을" | "를" {
   return hasFinalConsonant ? "을" : "를";
 }
 
-function getNextAction(save: PlayerSave | null, activePlot: PlotState | undefined, firstAlbumRewardReady: boolean | null) {
+function getNextAction(
+  save: PlayerSave | null,
+  activePlot: PlotState | undefined,
+  firstAlbumRewardReady: boolean | null,
+  now: number
+) {
   if (!save) {
     return {
       title: "정원 준비 중",
@@ -1424,9 +1429,15 @@ function getNextAction(save: PlayerSave | null, activePlot: PlotState | undefine
 
   if (activePlot) {
     const seed = getSeed(activePlot.seedId);
+    const progressPercent = seed ? Math.min(100, Math.round(getGrowthProgress(activePlot, seed, now))) : 0;
+    const secondsRemaining = seed ? Math.max(0, Math.ceil(seed.baseGrowthSeconds * (1 - progressPercent / 100))) : 0;
+    const remainingLabel = getGrowthRemainingLabel(secondsRemaining);
     return {
       title: seed ? `${seed.name} 성장 중` : "성장 중",
-      body: "밭을 눌러 시간을 줄이고, 100%가 되면 수확하세요."
+      body:
+        progressPercent >= 100
+          ? "현재 100% · 수확할 준비가 됐어요. 반짝이는 밭을 눌러 도감 보상으로 이어가세요."
+          : `현재 ${progressPercent}% · 약 ${remainingLabel} 남음. 밭을 톡톡하면 성장 시간이 줄어듭니다.`
     };
   }
 
@@ -1448,6 +1459,14 @@ function getNextAction(save: PlayerSave | null, activePlot: PlotState | undefine
     title: "다음 생명체를 준비하세요",
     body: "씨앗을 구매해 열린 밭에 심고, 다음 도감 칸을 채우세요."
   };
+}
+
+function getGrowthRemainingLabel(secondsRemaining: number): string {
+  if (secondsRemaining >= 90) {
+    return `${Math.ceil(secondsRemaining / 60)}분`;
+  }
+
+  return `${secondsRemaining}초`;
 }
 
 function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, manifest: AssetManifest | null): GardenPlayfieldViewModel {
