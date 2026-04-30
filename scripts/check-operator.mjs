@@ -248,7 +248,9 @@ requirePhrases("AGENTS.md", [
   "수용 기준",
   "검증 명령",
   "완료 보고는 중단 조건이 아니라 체크포인트",
-  "다음 issue를 plan-first로 선택"
+  "다음 issue를 plan-first로 선택",
+  "Production Bar",
+  "vertical slice workflow"
 ]);
 
 requirePhrases("docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md", [
@@ -259,6 +261,7 @@ requirePhrases("docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md", [
   "completion checkpoint / continuation watchdog",
   "완료 보고는 중단 조건이 아니라 체크포인트",
   "다음 issue를 plan-first로 선택",
+  "production vertical slice",
   "명시 중단, 시간 상한, 외부 승인, 치명적 blocker"
 ]);
 
@@ -268,6 +271,7 @@ requirePhrases("docs/OPERATOR_RUNBOOK.md", [
   "plan artifact with `## Plan`",
   "완료 보고는 중단 조건이 아니라 체크포인트",
   "다음 issue를 plan-first로 선택",
+  "Production Bar",
   "명시 중단, 시간 상한, 외부 승인, 치명적 blocker"
 ]);
 

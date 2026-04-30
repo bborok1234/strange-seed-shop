@@ -19,7 +19,8 @@ function read(filePath, fallback = "") {
 }
 
 const roadmap = read("docs/ROADMAP.md");
-const currentNext = roadmap.split("\n").find((line) => line.startsWith("`docs/NORTH_STAR.md`")) ?? "Current Next Action unavailable";
+const currentNextMatch = roadmap.match(/## Current Next Action\n\n([\s\S]*?)(?:\n## |\n# |\n$)/);
+const currentNext = currentNextMatch?.[1]?.trim() || "Current Next Action unavailable";
 const branch = tryRun("git", ["branch", "--show-current"]);
 const status = tryRun("git", ["status", "--short"]);
 const latestCommit = tryRun("git", ["log", "-1", "--oneline"]);
@@ -59,9 +60,9 @@ ${openIssues === "" || openIssues === "unavailable" ? "- unavailable or none" : 
 - UI/game PR: link before/after screenshots under \`reports/visual/\`.
 - Docs/scripts-only PR: write \`N/A — UI 변화 없음\` and link check output/report.
 
-## Next safe stop
+## Next stop gate
 
-Stop only after PR required checks, main CI, and local \`npm run check:all\` are green, or after a written blocker report.
+Stop only after PR required checks, main CI, and local \`npm run check:all\` are green, or after a written blocker report. The next work queue should name a North Star production vertical slice, not a merely safe small task.
 `;
 
 if (outputPath) {

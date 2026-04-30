@@ -156,11 +156,11 @@ PR이 red check 상태면 verify lane은 실패 job을 읽고, 로컬 재현을 
 
 장시간 `$ralph` 운영모드에서 **완료 보고는 중단 조건이 아니라 체크포인트**다. issue 하나가 `implementation -> local verification -> PR -> GitHub checks -> main merge`까지 닫히면 운영자는 최종 답변으로 세션을 닫지 않고 다음 중 하나를 즉시 기록해야 한다.
 
-1. 다음 issue를 plan-first로 선택하고 `items/<id>.md` 또는 동등 plan artifact에 `## Plan`을 쓴다.
+1. 다음 issue를 plan-first로 선택하고 `items/<id>.md` 또는 동등 plan artifact에 `## Plan`을 쓴다. 게임 issue는 `docs/NORTH_STAR.md` Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md` vertical slice workflow를 우선 적용한다.
 2. 이미 정해진 시간 상한에 도달했다는 final heartbeat/watchdog/daily report를 남긴다.
 3. 명시 중단, 외부 승인, 치명적 blocker, credential/destructive/production boundary 중 하나를 blocker report로 남긴다.
 
-즉, 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 완료 보고 다음 행동은 “요약 후 종료”가 아니라 **다음 issue를 plan-first로 선택**하는 것이다. 이 규칙은 사용자가 기대한 6~8시간 또는 향후 24시간 운영을 위해 completion gate 위에 얹히는 continuation watchdog으로 취급한다.
+즉, 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 완료 보고 다음 행동은 “요약 후 종료”가 아니라 **다음 issue를 plan-first로 선택**하는 것이다. 게임 작업에서는 이 선택이 "safe small item"이 아니라 production vertical slice 후보여야 한다. 이 규칙은 사용자가 기대한 6~8시간 또는 향후 24시간 운영을 위해 completion gate 위에 얹히는 continuation watchdog으로 취급한다.
 
 ### watchdog runner
 

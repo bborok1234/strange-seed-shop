@@ -96,7 +96,7 @@ Stop a long-running operator session only when one of these is true:
 - A hard blocker has a written report and no safe recovery path remains.
 - The user explicitly says stop/cancel/abort.
 
-Do not stop only because a PR was merged, a local report was written, or a “completed work” summary is ready. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 summary는 다음 issue로 이어지는 checkpoint이고, 다음 issue를 plan-first로 선택해야 한다.
+Do not stop only because a PR was merged, a local report was written, or a “completed work” summary is ready. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 summary는 다음 issue로 이어지는 checkpoint이고, 다음 issue를 plan-first로 선택해야 한다. 게임 issue라면 `docs/NORTH_STAR.md` Production Bar 기준의 vertical slice 후보를 고르며, "안전하고 작은 작업"은 우선순위 기준이 아니다.
 
 Before stopping, record:
 

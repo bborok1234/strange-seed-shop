@@ -38,8 +38,8 @@ Applies to: 모든 장시간 `$ralph`, issue-to-PR loop, 24h dry run 전 운영
 | Evidence | 테스트, CI, report, screenshot 링크 |
 | Visual delta | before/after screenshot 또는 `N/A — 이유` |
 | Playable status | main 게임 실행 가능 여부와 명령 |
-| Next safe stop | 사람이 멈춰도 되는 다음 지점 |
-| Next queue | 이 작업 이후의 안전한 다음 작업 |
+| Next stop gate | 사람이 멈춰도 되는 다음 지점 또는 승인이 필요한 경계 |
+| Next vertical slice queue | 이 작업 이후의 북극성 vertical slice 후보 |
 
 ## Issue 작성 규칙
 
@@ -114,7 +114,7 @@ npm run dev -- --host 127.0.0.1 --port 5174
 5. Draft PR: control room 형식의 PR 본문.
 6. Ready/merge: required checks 통과 후 branch protection 우회 없이 merge.
 7. Main 확인: main CI + local `npm run check:all`.
-8. Dashboard/roadmap 갱신: 다음 safe queue를 명시.
+8. Dashboard/roadmap 갱신: 다음 vertical slice queue와 stop gate를 분리해 명시.
 
 ## 관련 리서치에서 가져온 원칙
 
