@@ -13,6 +13,7 @@ export interface GardenPlotView {
   family?: "herb" | "candy" | "lunar";
   progressPercent: number;
   secondsRemaining?: number;
+  tapReductionLabel?: string;
 }
 
 export interface GardenPlayfieldViewModel {

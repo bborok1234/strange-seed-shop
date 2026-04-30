@@ -49,6 +49,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Comeback plant success nudge v0 | done | Issue #180, `items/0100-comeback-plant-success-nudge-v0.md`, `reports/visual/p0-comeback-plant-success-nudge-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 구매+심기 후 toast가 심기 성공과 밭 tap 성장 다음 행동을 안내하고 `npm run check:ci`가 통과함 |
 | Comeback growth progress nudge v0 | done | Issue #182, `items/0101-comeback-growth-progress-nudge-v0.md`, `reports/visual/p0-comeback-growth-progress-nudge-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 구매+심기 후 다음 행동 패널이 현재 성장률과 남은 시간을 보여 밭 tap 성장 반복을 안내하고 `npm run check:ci`가 통과함 |
 | Comeback tap power nudge v0 | done | Issue #184, `items/0102-comeback-tap-power-nudge-v0.md`, `reports/visual/p0-comeback-tap-power-nudge-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 구매+심기 후 다음 행동 패널이 톡톡 한 번의 성장 시간 단축 효과를 숫자로 안내하고 `npm run check:ci`가 통과함 |
+| Comeback tap feedback payoff v0 | done | Issue #186, `items/0103-comeback-tap-feedback-payoff-v0.md`, `reports/visual/p0-comeback-tap-feedback-payoff-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 구매+심기 후 실제 밭 tap feedback도 톡톡 한 번의 성장 시간 단축 효과를 숫자로 보여주고 `npm run check:ci`가 통과함 |
 | Playfield board readability v0 | done | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, `reports/visual/p0-playfield-board-readability-20260429.md` | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue

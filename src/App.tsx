@@ -1522,7 +1522,8 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
       seedId: seed.id,
       family: seed.family,
       progressPercent,
-      secondsRemaining
+      secondsRemaining,
+      tapReductionLabel: getTapReductionLabel(seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12))
     };
   });
 
