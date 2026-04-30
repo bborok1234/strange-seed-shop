@@ -897,6 +897,95 @@ h1 {
     rgba(19, 35, 26, 0.58);
 }
 
+.comeback-reward {
+  position: fixed;
+  z-index: 11;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background:
+    radial-gradient(circle at 50% 22%, rgba(169, 188, 255, 0.2), transparent 36%),
+    rgba(19, 35, 26, 0.54);
+}
+
+.comeback-reward-card {
+  display: grid;
+  width: min(356px, calc(100vw - 28px));
+  max-height: calc(100dvh - 28px);
+  gap: 10px;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(121, 130, 198, 0.34);
+  border-radius: calc(var(--radius-panel) + 14px);
+  background:
+    radial-gradient(circle at 50% 14%, rgba(255, 255, 255, 0.82), transparent 36%),
+    linear-gradient(180deg, rgba(247, 248, 255, 0.98), rgba(250, 246, 213, 0.96));
+  box-shadow:
+    0 22px 60px rgba(10, 24, 16, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  text-align: center;
+  animation: creature-reveal 260ms ease-out;
+}
+
+.comeback-reward-card h2 {
+  margin: 0;
+  color: #394b89;
+  font-size: 23px;
+  line-height: 1.12;
+}
+
+.comeback-reward-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.comeback-reward-grid span {
+  display: grid;
+  gap: 3px;
+  padding: 10px;
+  border: 1px solid rgba(57, 75, 137, 0.14);
+  border-radius: var(--radius-control);
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.comeback-reward-grid small,
+.comeback-guardian-bonus small,
+.comeback-next-copy {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.comeback-reward-grid strong {
+  color: var(--action-primary-strong);
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.comeback-guardian-bonus {
+  display: grid;
+  gap: 3px;
+  padding: 11px;
+  border: 1px solid rgba(77, 73, 143, 0.22);
+  border-radius: calc(var(--radius-control) + 4px);
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.76), transparent 34%),
+    linear-gradient(135deg, rgba(232, 234, 255, 0.88), rgba(251, 248, 211, 0.84));
+}
+
+.comeback-guardian-bonus span {
+  color: #5b659f;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.comeback-guardian-bonus strong {
+  color: #394b89;
+  font-size: 16px;
+}
+
 .harvest-reveal-card {
   position: relative;
   display: grid;

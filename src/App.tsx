@@ -68,6 +68,7 @@ interface UpgradeChoice {
 
 interface OfflineRewardResult {
   leaves: number;
+  awayMinutes: number;
   guardianBonusPercent: number;
   guardianName?: string;
 }
@@ -122,6 +123,7 @@ export default function App() {
   const [manifestError, setManifestError] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const [offlineMessage, setOfflineMessage] = useState<string | null>(null);
+  const [offlineRewardSummary, setOfflineRewardSummary] = useState<OfflineRewardResult | null>(null);
   const [activeTab, setActiveTab] = useState<MainTab>(() => getLocalQaTab() ?? "garden");
   const [rewardPulse, setRewardPulse] = useState<number | null>(null);
   const [harvestReveal, setHarvestReveal] = useState<CreatureDefinition | null>(null);
@@ -182,6 +184,7 @@ export default function App() {
       nextSave.lastSeenAt = new Date().toISOString();
       nextSave.updatedAt = nextSave.lastSeenAt;
       setOfflineMessage(getOfflineRewardMessage(offlineReward));
+      setOfflineRewardSummary(offlineReward);
       triggerRewardPulse();
       trackEvent("offline_reward_claimed", {
         leaves: offlineReward.leaves,
@@ -647,6 +650,37 @@ export default function App() {
         </div>
 
         {offlineMessage && <div className="toast">{offlineMessage}</div>}
+        {offlineRewardSummary && (
+          <section className="comeback-reward" aria-label="오프라인 복귀 보상">
+            <div className="comeback-reward-card">
+              <p className="reveal-kicker">정원 복귀</p>
+              <p className="panel-label">오프라인 복귀 보상</p>
+              <h2>다녀온 동안 정원이 자랐어요</h2>
+              <div className="comeback-reward-grid" aria-label="복귀 보상 요약">
+                <span>
+                  <small>비운 시간</small>
+                  <strong>{getAwayTimeLabel(offlineRewardSummary.awayMinutes)}</strong>
+                </span>
+                <span>
+                  <small>모은 잎</small>
+                  <strong>{offlineRewardSummary.leaves} 잎</strong>
+                </span>
+              </div>
+              {offlineRewardSummary.guardianName && offlineRewardSummary.guardianBonusPercent > 0 ? (
+                <article className="comeback-guardian-bonus" aria-label="달빛 수호자 보너스">
+                  <span>{offlineRewardSummary.guardianName}</span>
+                  <strong>달빛 보상 +{Math.round(offlineRewardSummary.guardianBonusPercent * 100)}%</strong>
+                  <small>밤 사이 모은 잎을 더 안전하게 지켜줬어요.</small>
+                </article>
+              ) : (
+                <p className="comeback-next-copy">씨앗을 심고 생명체를 더 모으면 복귀 보상이 커집니다.</p>
+              )}
+              <button className="primary-action" onClick={() => setOfflineRewardSummary(null)} type="button">
+                보상 확인
+              </button>
+            </div>
+          </section>
+        )}
 
         <section aria-hidden={isPlayerTabScreen ? true : undefined} className="garden-panel" aria-label="정원">
           <GardenPlayfieldHost onAction={handlePlayfieldAction} playfieldAssets={playfieldAssets} viewModel={gardenViewModel} />
@@ -1720,6 +1754,7 @@ function calculateOfflineReward(save: PlayerSave, now: number): OfflineRewardRes
   if (awaySeconds < 15 * 60 || save.discoveredCreatureIds.length === 0) {
     return {
       leaves: 0,
+      awayMinutes: Math.floor(awaySeconds / 60),
       guardianBonusPercent: guardianBonus.percent,
       guardianName: guardianBonus.guardianName
     };
@@ -1728,6 +1763,7 @@ function calculateOfflineReward(save: PlayerSave, now: number): OfflineRewardRes
   const baseRate = Math.max(0.03, save.discoveredCreatureIds.length * 0.02 + save.plotCount * 0.01);
   return {
     leaves: Math.floor(awaySeconds * baseRate * 0.35 * guardianBonus.multiplier),
+    awayMinutes: Math.floor(awaySeconds / 60),
     guardianBonusPercent: guardianBonus.percent,
     guardianName: guardianBonus.guardianName
   };
@@ -1753,6 +1789,16 @@ function getOfflineRewardMessage(reward: OfflineRewardResult): string {
   }
 
   return `${base} ${reward.guardianName}가 달빛 보상 +${Math.round(reward.guardianBonusPercent * 100)}%를 지켜줬어요.`;
+}
+
+function getAwayTimeLabel(minutes: number): string {
+  if (minutes < 60) {
+    return `${minutes}분`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return remainingMinutes > 0 ? `${hours}시간 ${remainingMinutes}분` : `${hours}시간`;
 }
 
 function getExpeditionDurationLabel(durationSeconds: number): string {
