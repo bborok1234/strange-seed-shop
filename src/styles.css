@@ -1064,6 +1064,11 @@ h1 {
   line-height: 1.1;
 }
 
+.comeback-bonus-stack {
+  display: grid;
+  gap: 7px;
+}
+
 .comeback-guardian-bonus {
   display: grid;
   gap: 3px;
@@ -1084,6 +1089,18 @@ h1 {
 .comeback-guardian-bonus strong {
   color: #394b89;
   font-size: 16px;
+}
+
+.comeback-shelf-bonus {
+  border-color: rgba(57, 110, 62, 0.22);
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.72), transparent 34%),
+    linear-gradient(135deg, rgba(226, 246, 205, 0.9), rgba(255, 246, 196, 0.84));
+}
+
+.comeback-shelf-bonus span,
+.comeback-shelf-bonus strong {
+  color: var(--action-primary-strong);
 }
 
 .comeback-reward-actions {
