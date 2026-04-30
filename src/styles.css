@@ -986,6 +986,26 @@ h1 {
   font-size: 16px;
 }
 
+.comeback-reward-actions {
+  display: grid;
+  gap: 7px;
+}
+
+.comeback-dismiss-button {
+  min-height: 39px;
+  border: 1px solid rgba(57, 75, 137, 0.16);
+  border-radius: var(--radius-control);
+  background: rgba(255, 255, 255, 0.62);
+  color: #394b89;
+  font-weight: 950;
+}
+
+.comeback-dismiss-button:hover,
+.comeback-dismiss-button:focus-visible {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.86);
+}
+
 .harvest-reveal-card {
   position: relative;
   display: grid;

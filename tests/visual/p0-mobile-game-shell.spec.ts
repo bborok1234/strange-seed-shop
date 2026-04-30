@@ -541,6 +541,7 @@ test("모바일 복귀 보상은 달빛 오프라인 수호 보너스를 breakdo
   await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("90 잎");
   await expect(page.getByLabel("달빛 수호자 보너스")).toContainText("달방울 누누");
   await expect(page.getByLabel("달빛 수호자 보너스")).toContainText("+20%");
+  await expect(page.getByRole("button", { name: "방울새싹 씨앗 보러가기" })).toBeVisible();
   await expect
     .poll(async () =>
       page.evaluate(() => {
@@ -560,6 +561,20 @@ test("모바일 복귀 보상은 달빛 오프라인 수호 보너스를 breakdo
   await page.getByRole("button", { name: "보상 확인" }).click();
   await expect(page.getByLabel("오프라인 복귀 보상")).toHaveCount(0);
   await expect(page.locator(".garden-playfield-host")).toBeVisible();
+});
+
+test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");
+
+  await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("방울새싹 씨앗 보러가기");
+  await page.getByRole("button", { name: "방울새싹 씨앗 보러가기" }).click();
+  await expect(page.getByLabel("오프라인 복귀 보상")).toHaveCount(0);
+  await expect(page.locator(".dev-panel.player-panel.tab-seeds")).toBeVisible();
+  await expect(page.getByLabel("다음 도감 목표 씨앗")).toContainText("방울새싹 씨앗");
+  await expect(page.getByLabel("다음 도감 목표 씨앗")).toContainText("방패새싹 모모");
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-comeback-next-action-bridge-v0-393.png"), fullPage: false });
 });
 
 test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 깨지 않는다", async ({ page }, testInfo) => {

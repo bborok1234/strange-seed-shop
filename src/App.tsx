@@ -675,9 +675,23 @@ export default function App() {
               ) : (
                 <p className="comeback-next-copy">씨앗을 심고 생명체를 더 모으면 복귀 보상이 커집니다.</p>
               )}
-              <button className="primary-action" onClick={() => setOfflineRewardSummary(null)} type="button">
-                보상 확인
-              </button>
+              <div className="comeback-reward-actions">
+                {nextCreatureGoal && (
+                  <button
+                    className="primary-action"
+                    onClick={() => {
+                      setOfflineRewardSummary(null);
+                      setActiveTab("seeds");
+                    }}
+                    type="button"
+                  >
+                    {nextCreatureGoal.seed.name} 보러가기
+                  </button>
+                )}
+                <button className="comeback-dismiss-button" onClick={() => setOfflineRewardSummary(null)} type="button">
+                  보상 확인
+                </button>
+              </div>
             </div>
           </section>
         )}
