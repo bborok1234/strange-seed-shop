@@ -30,7 +30,7 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 3. 다음 issue를 선택하거나 만든다.
 4. 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`, Game Studio route, 수용 기준, 검증 명령, 금지 범위를 적는다.
 5. branch에서 작업한다.
-6. 로컬 검증과 필요한 visual evidence를 남긴다.
+6. 로컬 검증과 필요한 visual evidence를 남긴다. UI/visual 변경이면 Browser Use `iab` QA를 먼저 시도하고, 처음 도구가 보이지 않으면 `tool_search`로 Node REPL `js`를 lazy-load한 뒤 재시도한다.
 7. PR을 만들고 GitHub checks를 확인한다.
 8. merge 후 main CI를 확인한다.
 9. 완료 보고는 중단 조건이 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
@@ -67,7 +67,7 @@ GitHub issue/PR/comment 본문은 코드와 같은 운영사 산출물이다. `$
 4. PR 본문은 `.github/pull_request_template.md`의 섹션을 유지한다: `요약`, `Small win`, `Plan-first evidence`, `사용자/운영자 가치`, `Before / After 또는 Visual evidence`, `Playable mode`, `검증`, `안전 범위`, `남은 위험`, `연결된 issue`.
 5. Issue 본문은 `.github/ISSUE_TEMPLATE/agent-work-item.md`의 섹션을 유지한다: `문제 / 배경`, `목표`, `Small win`, `Game Studio route`, `Plan`, `플레이어 가치 또는 운영사 가치`, `수용 기준`, `Visual evidence 계획`, `Playable mode 영향`, `안전 범위`, `검증 명령`.
 6. PR 본문에는 `작업 checklist`를 유지한다. Plan 수용 기준, Game Studio route, Browser Use 우선 QA 또는 blocker, 문서/roadmap/dashboard/report 갱신, GitHub evidence 갱신 여부를 체크한다.
-7. UI/visual 변경은 Browser Use 우선 QA를 PR/issue 본문에 evidence 또는 blocker로 남긴다. Playwright/CDP는 fallback evidence이며 Browser Use 시도 기록을 대체하지 않는다.
+7. UI/visual 변경은 Browser Use 우선 QA를 PR/issue 본문에 evidence 또는 현재 세션 blocker로 남긴다. Playwright/CDP는 fallback evidence이며 Browser Use 시도 기록을 대체하지 않는다. 오래된 Browser Use blocker report를 현재 작업의 fallback 근거로 재사용하지 않는다.
 8. 완료 댓글도 축약하지 않는다. PR, merge commit, PR checks, main CI, local verification, visual/report evidence, 남은 risk 또는 후속 issue를 포함한다.
 9. `npm run check:github-metadata`, `npm run check:ci`, `npm run check:all`은 이 규칙이 repo-local template에서 빠지지 않았는지 검증한다.
 10. 닫힌 issue에 빈 수용 기준 체크박스가 남아 있으면 운영 evidence 실패로 본다. 다음 issue로 넘어가기 전에 issue 본문 또는 follow-up issue로 미충족 사유를 남긴다.
@@ -77,7 +77,7 @@ GitHub issue/PR/comment 본문은 코드와 같은 운영사 산출물이다. `$
 GitHub required checks는 빠르고 재현성 높은 `npm run check:ci`를 실행한다. Browser Use와 Playwright screenshot 기반 visual QA는 `$seed-ops` 작업 과정의 evidence gate로 남기며, UI/visual 변경 PR 본문과 `reports/visual/`에 결과 또는 blocker를 기록한다.
 
 - `npm run check:ci`: PR/main required checks용 기본 gate다. content, docs, governance, metadata, build처럼 결정적이고 빠른 검증만 포함한다.
-- `npm run check:visual`: Browser Use QA를 보강하는 screenshot/playfield 회귀 검증이다. UI/visual issue에서는 로컬 운영 evidence로 실행한다.
+- `npm run check:visual`: Browser Use QA를 보강하는 screenshot/playfield 회귀 검증이다. UI/visual issue에서는 로컬 운영 evidence로 실행하지만, Browser Use 실기 QA evidence 또는 현재 세션 blocker 없이 단독 통과 근거로 쓰지 않는다.
 - `npm run check:all`: 운영자가 로컬에서 전체 evidence를 묶어 확인할 때 쓰는 full gate이며, CI required check로 사용하지 않는다.
 
 조건부 갱신:
@@ -134,8 +134,9 @@ Stop rules:
 도구 우선순위:
 
 1. Browser Use가 가능한 세션이면 `browser-use:browser`를 먼저 사용한다.
-2. Browser Use가 막히면 blocker report를 남기고 Playwright CLI/CDP fallback을 사용한다.
-3. Computer Use는 in-app browser와 CLI fallback이 모두 부적합할 때 대체 경로로 사용한다.
+2. Browser Use가 처음 보이지 않으면 `tool_search`로 Node REPL `js` 실행 tool을 찾고 `iab` backend bootstrap을 시도한다.
+3. Browser Use가 막히면 현재 세션 blocker report를 남기고 Playwright CLI/CDP fallback을 사용한다.
+4. Computer Use는 in-app browser와 CLI fallback이 모두 부적합할 때 대체 경로로 사용한다.
 
 필수 증거:
 

@@ -39,7 +39,10 @@ For image asset work, also read the relevant project-local skill:
 For browser visual QA, use the Codex Browser Use plugin first:
 
 - `browser-use:browser` with the in-app browser `iab` backend is the default path for local browser inspection, DOM snapshots, clicks, and screenshots.
+- If Browser Use or Node REPL `js` is not initially visible, search for the Node REPL `js` execution tool before declaring Browser Use unavailable.
 - Do not fall back to separate Playwright scripts, Computer Use, or macOS screenshots until Browser Use has been tried and the blocker is recorded.
+- Past Browser Use blocker reports are historical evidence only; they cannot justify fallback for a new UI/visual task.
+- Playwright CLI is a repeatable regression gate, not a replacement for Browser Use hands-on QA evidence.
 - Persist important visual QA evidence under `reports/visual/`.
 
 For game work, use the Game Studio plugin as the product-quality routing layer before treating the task like ordinary web UI:

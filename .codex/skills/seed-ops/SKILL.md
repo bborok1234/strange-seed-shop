@@ -14,6 +14,7 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - 완료 보고는 중단 조건이 아니라 checkpoint다.
 - 각 issue는 작은 승리, 수용 기준, 검증 명령, evidence, 남은 리스크를 남긴다.
 - issue 종료 전 GitHub issue 본문의 `## 수용 기준` 체크박스를 실제 검증 결과로 갱신한다. `Closes #id`는 issue를 닫을 뿐 체크박스를 채우지 않으므로 빈 체크박스가 남으면 완료 gate 실패다.
+- UI/visual 작업은 Browser Use `iab` 실기 QA를 먼저 시도한다. Node REPL `js` tool이 처음 보이지 않으면 fallback 전에 `tool_search`로 노출을 재확인한다.
 
 ## Before implementation
 
@@ -27,6 +28,8 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 ## Product-quality gates
 
 - UI/visual 작업은 `docs/GAME_UI_UX_RESEARCH_20260428.md`, `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/DESIGN_SYSTEM.md`, Game Studio route를 acceptance criteria에 연결한다.
+- `npm run check:visual`은 반복 회귀 gate이지 Browser Use 실기 QA의 대체재가 아니다. Browser Use evidence 또는 현재 세션 blocker 없이 Playwright 결과만으로 UI/visual 작업을 완료 처리하지 않는다.
+- 과거 Browser Use blocker report는 현재 세션의 fallback 근거가 아니다. fallback을 쓰려면 현재 세션에서 Browser Use를 다시 시도하고 blocker를 새로 기록한다.
 - “viewport 안에 있음”, “겹치지 않음”, “DOM text visible”만으로 UI 작업을 통과시키지 않는다.
 - 정원 첫 화면은 game-playtest 관점에서 첫 actionable screen, player verb, playfield obstruction, HUD weight를 확인한다.
 - 디자인/북극성 gate가 실패하면 CI가 green이어도 PR을 완료로 부르지 않는다.
