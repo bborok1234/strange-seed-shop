@@ -1337,6 +1337,113 @@ test("모바일 온실 동선 순환 주문은 3번 밭 생산을 쓴다", async
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-route-supply-order-v0-393.png"), fullPage: false });
 });
 
+test("모바일 온실 물길 강화는 순환 주문 보상을 생산률로 바꾼다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto(
+    "/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseShelf=1&qaGreenhouseStorage=1&qaGreenhouseRoute=1&qaGreenhouseRouteSupply=1&qaReset=1"
+  );
+
+  await page.getByRole("button", { name: "보상 확인" }).click();
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("분당 11.2 잎");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("3번 밭 순환 납품 완료");
+  await expect(page.getByText("재료 1", { exact: true })).toBeVisible();
+  await expect(page.getByText("꽃가루 4", { exact: true })).toBeVisible();
+
+  const irrigationChoice = page.locator(".upgrade-choice", { hasText: "온실 물길" });
+  await expect(irrigationChoice).toContainText("연결 가능");
+  await expect(irrigationChoice).toContainText("1 재료 · 4 꽃가루로 자동 생산 +15%");
+  await irrigationChoice.click();
+
+  await expect(page.getByText("재료 0", { exact: true })).toBeVisible();
+  await expect(page.getByText("꽃가루 0", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("분당 12.8 잎");
+  await expect(irrigationChoice).toContainText("물길 완료");
+  await expect(irrigationChoice).toContainText("자동 생산 +15% 가동");
+  await expect(page.getByRole("button", { name: "3번 밭 빈 자리" })).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const productionCard = document.querySelector<HTMLElement>(".production-action-card");
+    const productionCardRect = productionCard?.getBoundingClientRect();
+    const irrigationCard = document.querySelector<HTMLElement>(".upgrade-choice-greenhouse_irrigation")?.getBoundingClientRect();
+    const thirdPlot = Array.from(document.querySelectorAll<HTMLElement>(".playfield-plot-card")).find((element) =>
+      element.textContent?.includes("3번 밭")
+    );
+    const thirdPlotRect = thirdPlot?.getBoundingClientRect();
+    const overflowingChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
+    )
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel
+        ? {
+            top: panel.top,
+            bottom: panel.bottom,
+            clientHeight: panelElement?.clientHeight ?? 0,
+            scrollHeight: panelElement?.scrollHeight ?? 0
+          }
+        : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      productionCard: productionCardRect
+        ? {
+            bottom: productionCardRect.bottom,
+            clientHeight: productionCard?.clientHeight ?? 0,
+            scrollHeight: productionCard?.scrollHeight ?? 0
+          }
+        : null,
+      irrigationCard: irrigationCard ? { bottom: irrigationCard.bottom } : null,
+      thirdPlot: thirdPlotRect ? { bottom: thirdPlotRect.bottom, height: thirdPlotRect.height } : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.productionCard).not.toBeNull();
+  expect(metrics.irrigationCard).not.toBeNull();
+  expect(metrics.thirdPlot).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.productionCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.productionCard!.scrollHeight).toBeLessThanOrEqual(metrics.productionCard!.clientHeight + 1);
+  expect(metrics.irrigationCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.thirdPlot!.bottom).toBeLessThanOrEqual(metrics.panel!.top - 4);
+  expect(metrics.thirdPlot!.height).toBeGreaterThan(44);
+  expect(metrics.overflowingChildren).toEqual([]);
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as {
+              materials?: number;
+              pollen?: number;
+              greenhouseIrrigationLevel?: number;
+            })
+          : {};
+        return {
+          materials: parsed.materials,
+          pollen: parsed.pollen,
+          greenhouseIrrigationLevel: parsed.greenhouseIrrigationLevel
+        };
+      })
+    )
+    .toEqual({ materials: 0, pollen: 0, greenhouseIrrigationLevel: 1 });
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-irrigation-upgrade-v0-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");

@@ -2563,6 +2563,24 @@ h1 {
     display: none;
   }
 
+  .starter-panel.has-production.has-greenhouse-irrigation-choice .upgrade-choice-plot_2,
+  .starter-panel.has-production.has-greenhouse-irrigation-choice .upgrade-choice-production_rate,
+  .starter-panel.has-production.has-greenhouse-irrigation-choice .upgrade-choice-material_workbench,
+  .starter-panel.has-production.has-greenhouse-irrigation-choice .upgrade-choice-greenhouse_facility,
+  .starter-panel.has-production.has-greenhouse-irrigation-choice .upgrade-choice-greenhouse_storage,
+  .starter-panel.has-production.has-greenhouse-irrigation-choice .upgrade-choice-greenhouse_route {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-greenhouse-irrigation-complete .upgrade-choice-plot_2,
+  .starter-panel.has-production.has-greenhouse-irrigation-complete .upgrade-choice-production_rate,
+  .starter-panel.has-production.has-greenhouse-irrigation-complete .upgrade-choice-material_workbench,
+  .starter-panel.has-production.has-greenhouse-irrigation-complete .upgrade-choice-greenhouse_facility,
+  .starter-panel.has-production.has-greenhouse-irrigation-complete .upgrade-choice-greenhouse_storage,
+  .starter-panel.has-production.has-greenhouse-irrigation-complete .upgrade-choice-greenhouse_route {
+    display: none;
+  }
+
   .starter-panel.has-production.has-greenhouse-route-complete .production-roster,
   .starter-panel.has-production.has-greenhouse-route-complete .production-worker-detail {
     display: none;

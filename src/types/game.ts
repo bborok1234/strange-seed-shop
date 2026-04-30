@@ -126,6 +126,7 @@ export interface PlayerSave {
   greenhouseFacilityLevel: number;
   greenhouseStorageLevel: number;
   greenhouseRouteLevel: number;
+  greenhouseIrrigationLevel: number;
   researchLevel: number;
   plots: PlotState[];
   activeExpedition?: ExpeditionState;
