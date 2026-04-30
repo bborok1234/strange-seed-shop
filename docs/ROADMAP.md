@@ -46,6 +46,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Comeback next-action bridge v0 | done | Issue #172, `items/0096-comeback-next-action-bridge-v0.md`, `reports/visual/p0-comeback-next-action-bridge-v0-20260430.md` | 복귀 보상 modal의 다음 씨앗 CTA가 씨앗 탭 목표 row로 이어지고 `npm run check:ci`가 통과함 |
 | Comeback one-tap seed spend v0 | done | Issue #174, `items/0097-comeback-one-tap-seed-spend-v0.md`, `reports/visual/p0-comeback-one-tap-seed-spend-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 modal의 다음 목표 씨앗 바로 구매가 seeds 탭 목표 row로 이어지고 `npm run check:ci`가 통과함 |
 | Comeback one-tap plant v0 | done | Issue #178, `items/0099-comeback-one-tap-plant-v0.md`, `reports/visual/p0-comeback-one-tap-plant-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 modal의 다음 목표 씨앗 구매+심기가 정원 playfield 성장 상태로 이어지고 `npm run check:ci`가 통과함 |
+| Comeback plant success nudge v0 | done | Issue #180, `items/0100-comeback-plant-success-nudge-v0.md`, `reports/visual/p0-comeback-plant-success-nudge-v0-20260430.md` | Browser Use `iab`와 visual gate에서 복귀 보상 구매+심기 후 toast가 심기 성공과 밭 tap 성장 다음 행동을 안내하고 `npm run check:ci`가 통과함 |
 | Playfield board readability v0 | done | Issue #137, `items/0077-playfield-board-readability-v0.md`, Browser Use QA, `reports/visual/p0-playfield-board-readability-20260429.md` | 세로줄 artifact 완화 후에도 plot/status text가 읽히고 locked plot 반복 노이즈가 줄어듦 |
 
 ## P0 Game Studio Operating Mode — UI/UX Rescue

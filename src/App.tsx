@@ -339,6 +339,7 @@ export default function App() {
       trackEvent("seed_planted", { seedId: seed.id, plotIndex: plot.index, source: "comeback_one_tap" });
     });
     setOfflineRewardSummary(null);
+    setOfflineMessage(`${seed.name}을 바로 심었어요. 밭을 톡톡 두드려 성장시켜요.`);
     setActiveTab("garden");
   }
 
