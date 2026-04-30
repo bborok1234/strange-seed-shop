@@ -517,6 +517,42 @@ test("모바일 달빛 씨앗 수확은 달방울 누누 발견과 다음 목표
   await page.screenshot({ path: testInfo.outputPath("mobile-lunar-seed-harvest-bridge-v0-393.png"), fullPage: false });
 });
 
+test("모바일 달빛 오프라인 보상은 달방울 누누 수호 보너스를 보여준다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaReset=1");
+
+  await expect(page.getByText("자리를 비운 동안 잎 50개를 모았습니다.", { exact: true })).toBeVisible();
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw ? (JSON.parse(raw) as { leaves?: number }) : {};
+        return parsed.leaves;
+      })
+    )
+    .toBe(60);
+
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");
+  await expect(page.getByText(/달방울 누누가 달빛 보상 \+20%를 지켜줬어요/)).toBeVisible();
+  await expect(page.getByText("자리를 비운 동안 잎 90개를 모았습니다.", { exact: false })).toBeVisible();
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as { leaves?: number; discoveredCreatureIds?: string[] })
+          : {};
+        return {
+          leaves: parsed.leaves,
+          lunarGuardian: parsed.discoveredCreatureIds?.includes("creature_lunar_common_001") ?? false
+        };
+      })
+    )
+    .toEqual({ leaves: 100, lunarGuardian: true });
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-lunar-guardian-offline-bonus-v0-393.png"), fullPage: false });
+});
+
 test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 깨지 않는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 399, height: 666 });
   await page.goto("/?qaResearchComplete=1");
