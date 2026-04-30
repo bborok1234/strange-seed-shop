@@ -134,7 +134,21 @@ const GREENHOUSE_ORDER: FirstOrderDefinition = {
   rewardPollen: 2,
   rewardMaterials: 1
 };
-const ORDER_DEFINITIONS: FirstOrderDefinition[] = [FIRST_ORDER, SECOND_ORDER, GREENHOUSE_ORDER];
+const GREENHOUSE_EXPANSION_ORDER: FirstOrderDefinition = {
+  id: "order_greenhouse_expansion_001",
+  title: "온실 확장 준비",
+  customer: "정리된 온실 통로",
+  requiredLeaves: 60,
+  rewardLeaves: 70,
+  rewardPollen: 3,
+  rewardMaterials: 2
+};
+const ORDER_DEFINITIONS: FirstOrderDefinition[] = [
+  FIRST_ORDER,
+  SECOND_ORDER,
+  GREENHOUSE_ORDER,
+  GREENHOUSE_EXPANSION_ORDER
+];
 const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "garden", label: "정원" },
   { id: "seeds", label: "씨앗" },
@@ -1804,6 +1818,17 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
     return GREENHOUSE_ORDER;
   }
 
+  if (
+    save.greenhouseStorageLevel >= GREENHOUSE_STORAGE_MAX_LEVEL &&
+    !save.idleProduction.completedOrderIds.includes(GREENHOUSE_EXPANSION_ORDER.id)
+  ) {
+    return GREENHOUSE_EXPANSION_ORDER;
+  }
+
+  if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_EXPANSION_ORDER.id)) {
+    return GREENHOUSE_EXPANSION_ORDER;
+  }
+
   return save.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL ? GREENHOUSE_ORDER : SECOND_ORDER;
 }
 
@@ -1938,7 +1963,7 @@ function buildUpgradeChoices(
       id: "first_order",
       title: "주문 준비",
       detail: productionStatus.orderCompleted
-        ? "첫 납품 완료"
+        ? `${productionStatus.order.title} 완료`
         : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎 준비`,
       status: productionStatus.orderCompleted ? "완료" : productionStatus.orderReady ? "납품 가능" : "진행",
       tone: productionStatus.orderCompleted ? "done" : productionStatus.orderReady ? "ready" : "waiting"
@@ -2422,6 +2447,7 @@ function createOfflineQaSave(
 ): PlayerSave {
   const lastSeen = new Date(Date.now() - minutesAway * 60 * 1000);
   const save = createNewSave(lastSeen);
+  const hasGreenhouseShelf = includeGreenhouseShelf || includeGreenhouseStorage;
   const discoveredCreatureIds = includeLunarGuardian
     ? ["creature_herb_common_001", LUNAR_REWARD_CREATURE_ID]
     : ["creature_herb_common_001"];
@@ -2436,10 +2462,10 @@ function createOfflineQaSave(
     discoveredCreatureIds,
     claimedAlbumMilestoneIds: ["album_1"],
     plotCount: 2,
-    greenhouseFacilityLevel: includeGreenhouseShelf ? GREENHOUSE_FACILITY_MAX_LEVEL : save.greenhouseFacilityLevel,
+    greenhouseFacilityLevel: hasGreenhouseShelf ? GREENHOUSE_FACILITY_MAX_LEVEL : save.greenhouseFacilityLevel,
     greenhouseStorageLevel: includeGreenhouseStorage ? GREENHOUSE_STORAGE_MAX_LEVEL : save.greenhouseStorageLevel,
-    materials: includeGreenhouseShelf ? 1 : save.materials,
-    idleProduction: includeGreenhouseShelf
+    materials: includeGreenhouseStorage ? 0 : hasGreenhouseShelf ? 1 : save.materials,
+    idleProduction: hasGreenhouseShelf
       ? {
           pendingLeaves: 0,
           lastTickAt: lastSeen.toISOString(),
