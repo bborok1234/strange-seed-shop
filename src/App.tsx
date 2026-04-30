@@ -1432,12 +1432,13 @@ function getNextAction(
     const progressPercent = seed ? Math.min(100, Math.round(getGrowthProgress(activePlot, seed, now))) : 0;
     const secondsRemaining = seed ? Math.max(0, Math.ceil(seed.baseGrowthSeconds * (1 - progressPercent / 100))) : 0;
     const remainingLabel = getGrowthRemainingLabel(secondsRemaining);
+    const tapReductionLabel = seed ? getTapReductionLabel(seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12)) : "0초";
     return {
       title: seed ? `${seed.name} 성장 중` : "성장 중",
       body:
         progressPercent >= 100
           ? "현재 100% · 수확할 준비가 됐어요. 반짝이는 밭을 눌러 도감 보상으로 이어가세요."
-          : `현재 ${progressPercent}% · 약 ${remainingLabel} 남음. 밭을 톡톡하면 성장 시간이 줄어듭니다.`
+          : `현재 ${progressPercent}% · 약 ${remainingLabel} 남음. 한 번 톡톡할 때마다 ${tapReductionLabel} 단축됩니다.`
     };
   }
 
@@ -1467,6 +1468,11 @@ function getGrowthRemainingLabel(secondsRemaining: number): string {
   }
 
   return `${secondsRemaining}초`;
+}
+
+function getTapReductionLabel(secondsRemoved: number): string {
+  const rounded = Math.round(secondsRemoved * 10) / 10;
+  return Number.isInteger(rounded) ? `${rounded}초` : `${rounded.toFixed(1)}초`;
 }
 
 function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, manifest: AssetManifest | null): GardenPlayfieldViewModel {
