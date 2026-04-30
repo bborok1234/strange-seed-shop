@@ -146,11 +146,21 @@ const GREENHOUSE_EXPANSION_ORDER: FirstOrderDefinition = {
   rewardPollen: 3,
   rewardMaterials: 2
 };
+const GREENHOUSE_ROUTE_SUPPLY_ORDER: FirstOrderDefinition = {
+  id: "order_greenhouse_route_supply_001",
+  title: "3번 밭 순환 납품",
+  customer: "넓어진 온실 통로",
+  requiredLeaves: 90,
+  rewardLeaves: 110,
+  rewardPollen: 4,
+  rewardMaterials: 1
+};
 const ORDER_DEFINITIONS: FirstOrderDefinition[] = [
   FIRST_ORDER,
   SECOND_ORDER,
   GREENHOUSE_ORDER,
-  GREENHOUSE_EXPANSION_ORDER
+  GREENHOUSE_EXPANSION_ORDER,
+  GREENHOUSE_ROUTE_SUPPLY_ORDER
 ];
 const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "garden", label: "정원" },
@@ -948,6 +958,7 @@ export default function App() {
                   productionStatus.workerCreatures.length > 1 ? "has-worker-roster" : "",
                   productionStatus.orderCompleted ? "has-completed-order" : "",
                   productionStatus.order.id === GREENHOUSE_ORDER.id ? "has-greenhouse-order" : "",
+                  productionStatus.order.id === GREENHOUSE_ROUTE_SUPPLY_ORDER.id ? "has-route-supply-order" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
                 ]
                   .filter(Boolean)
@@ -1867,6 +1878,18 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
     !save.idleProduction.completedOrderIds.includes(GREENHOUSE_EXPANSION_ORDER.id)
   ) {
     return GREENHOUSE_EXPANSION_ORDER;
+  }
+
+  if (
+    save.greenhouseRouteLevel >= GREENHOUSE_ROUTE_MAX_LEVEL &&
+    save.plotCount >= GREENHOUSE_ROUTE_PLOT_COUNT &&
+    !save.idleProduction.completedOrderIds.includes(GREENHOUSE_ROUTE_SUPPLY_ORDER.id)
+  ) {
+    return GREENHOUSE_ROUTE_SUPPLY_ORDER;
+  }
+
+  if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_ROUTE_SUPPLY_ORDER.id)) {
+    return GREENHOUSE_ROUTE_SUPPLY_ORDER;
   }
 
   if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_EXPANSION_ORDER.id)) {

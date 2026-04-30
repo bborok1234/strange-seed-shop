@@ -677,12 +677,28 @@ h1 {
 }
 
 .starter-panel.has-production
+  .production-action-card.has-worker-roster.has-route-supply-order.has-completed-order
+  .production-complete-row {
+  display: grid;
+}
+
+.starter-panel.has-production
   .production-action-card.has-worker-roster.has-greenhouse-order.has-completed-order
   .production-worker-detail {
   display: none;
 }
 
+.starter-panel.has-production
+  .production-action-card.has-worker-roster.has-route-supply-order.has-completed-order
+  .production-worker-detail {
+  display: none;
+}
+
 .starter-panel.has-production .production-action-card.has-greenhouse-order.has-completed-order {
+  gap: 4px;
+}
+
+.starter-panel.has-production .production-action-card.has-route-supply-order.has-completed-order {
   gap: 4px;
 }
 
@@ -2545,6 +2561,25 @@ h1 {
   .starter-panel.has-production.has-greenhouse-route-complete .upgrade-choice-greenhouse_facility,
   .starter-panel.has-production.has-greenhouse-route-complete .upgrade-choice-greenhouse_storage {
     display: none;
+  }
+
+  .starter-panel.has-production.has-greenhouse-route-complete .production-roster,
+  .starter-panel.has-production.has-greenhouse-route-complete .production-worker-detail {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-greenhouse-route-complete .next-creature-compact {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-greenhouse-route-complete .production-meter-row span,
+  .starter-panel.has-production.has-greenhouse-route-complete .order-progress-card progress {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-greenhouse-route-complete .production-meter-row button {
+    min-height: 34px;
+    width: 100%;
   }
 
   .starter-panel.has-production.has-greenhouse-order .next-creature-compact {
