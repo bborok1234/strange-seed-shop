@@ -66,6 +66,12 @@ interface UpgradeChoice {
   onSelect?: () => void;
 }
 
+interface OfflineRewardResult {
+  leaves: number;
+  guardianBonusPercent: number;
+  guardianName?: string;
+}
+
 const FIRST_UPGRADE_COST = 25;
 const PRODUCTION_BOOST_COST_LEAVES = 40;
 const PRODUCTION_BOOST_COST_POLLEN = 1;
@@ -78,6 +84,7 @@ const FIRST_EXPEDITION_ID = "quick_scout";
 const RESEARCH_EXPEDITION_ID = "moon_hint";
 const LUNAR_REWARD_SEED_ID = "seed_lunar_001";
 const LUNAR_REWARD_CREATURE_ID = "creature_lunar_common_001";
+const GUARDIAN_OFFLINE_BONUS = 0.2;
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
 const PRODUCTION_FX_ASSETS: Record<ProductionFxKind, string> = {
@@ -133,6 +140,7 @@ export default function App() {
     const qaOfflineMinutes = getLocalQaOfflineMinutes();
     const qaSpriteState = getLocalQaSpriteState();
     const qaHarvestReveal = getLocalQaHarvestReveal();
+    const qaLunarGuardian = getLocalQaLunarGuardian();
     const qaExpeditionActive = getLocalQaExpeditionActive();
     const qaExpeditionReady = getLocalQaExpeditionReady();
     const qaProductionReady = getLocalQaProductionReady();
@@ -165,17 +173,21 @@ export default function App() {
                         : qaExpeditionReady
                           ? createExpeditionReadyQaSave()
                           : qaOfflineMinutes
-                            ? createOfflineQaSave(qaOfflineMinutes)
+                            ? createOfflineQaSave(qaOfflineMinutes, qaLunarGuardian)
                             : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
-    const offlineLeaves = calculateOfflineLeaves(nextSave, Date.now());
-    if (offlineLeaves > 0) {
-      nextSave.leaves += offlineLeaves;
+    const offlineReward = calculateOfflineReward(nextSave, Date.now());
+    if (offlineReward.leaves > 0) {
+      nextSave.leaves += offlineReward.leaves;
       nextSave.lastSeenAt = new Date().toISOString();
       nextSave.updatedAt = nextSave.lastSeenAt;
-      setOfflineMessage(`자리를 비운 동안 잎 ${offlineLeaves}개를 모았습니다.`);
+      setOfflineMessage(getOfflineRewardMessage(offlineReward));
       triggerRewardPulse();
-      trackEvent("offline_reward_claimed", { leaves: offlineLeaves });
+      trackEvent("offline_reward_claimed", {
+        leaves: offlineReward.leaves,
+        guardianBonusPercent: offlineReward.guardianBonusPercent,
+        guardianName: offlineReward.guardianName ?? null
+      });
     }
     localSaveStore.save(nextSave);
     setSave(nextSave);
@@ -1701,15 +1713,46 @@ function isPlotReady(plot: PlotState, seed: SeedDefinition, now: number): boolea
   return getGrowthProgress(plot, seed, now) >= 100;
 }
 
-function calculateOfflineLeaves(save: PlayerSave, now: number): number {
+function calculateOfflineReward(save: PlayerSave, now: number): OfflineRewardResult {
   const awaySeconds = Math.min(OFFLINE_CAP_SECONDS, Math.max(0, (now - new Date(save.lastSeenAt).getTime()) / 1000));
+  const guardianBonus = getOfflineGuardianBonus(save);
 
   if (awaySeconds < 15 * 60 || save.discoveredCreatureIds.length === 0) {
-    return 0;
+    return {
+      leaves: 0,
+      guardianBonusPercent: guardianBonus.percent,
+      guardianName: guardianBonus.guardianName
+    };
   }
 
   const baseRate = Math.max(0.03, save.discoveredCreatureIds.length * 0.02 + save.plotCount * 0.01);
-  return Math.floor(awaySeconds * baseRate * 0.35);
+  return {
+    leaves: Math.floor(awaySeconds * baseRate * 0.35 * guardianBonus.multiplier),
+    guardianBonusPercent: guardianBonus.percent,
+    guardianName: guardianBonus.guardianName
+  };
+}
+
+function getOfflineGuardianBonus(save: PlayerSave): { multiplier: number; percent: number; guardianName?: string } {
+  const guardians = save.discoveredCreatureIds
+    .map((creatureId) => getCreature(creatureId))
+    .filter((creature): creature is CreatureDefinition => Boolean(creature && creature.role === "guardian"));
+  const percent = guardians.length * GUARDIAN_OFFLINE_BONUS;
+
+  return {
+    multiplier: 1 + percent,
+    percent,
+    guardianName: guardians[0]?.name
+  };
+}
+
+function getOfflineRewardMessage(reward: OfflineRewardResult): string {
+  const base = `자리를 비운 동안 잎 ${reward.leaves}개를 모았습니다.`;
+  if (reward.guardianBonusPercent <= 0 || !reward.guardianName) {
+    return base;
+  }
+
+  return `${base} ${reward.guardianName}가 달빛 보상 +${Math.round(reward.guardianBonusPercent * 100)}%를 지켜줬어요.`;
 }
 
 function getExpeditionDurationLabel(durationSeconds: number): string {
@@ -1751,6 +1794,14 @@ function getLocalQaOfflineMinutes(): number | null {
   }
 
   return Math.min(minutes, 8 * 60);
+}
+
+function getLocalQaLunarGuardian(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaLunarGuardian") === "1";
 }
 
 function getLocalQaReset(): boolean {
@@ -1893,15 +1944,21 @@ function createSpriteQaSave(spriteState: "growing" | "ready"): PlayerSave {
   };
 }
 
-function createOfflineQaSave(minutesAway: number): PlayerSave {
+function createOfflineQaSave(minutesAway: number, includeLunarGuardian = false): PlayerSave {
   const lastSeen = new Date(Date.now() - minutesAway * 60 * 1000);
   const save = createNewSave(lastSeen);
+  const discoveredCreatureIds = includeLunarGuardian
+    ? ["creature_herb_common_001", LUNAR_REWARD_CREATURE_ID]
+    : ["creature_herb_common_001"];
 
   return {
     ...save,
     leaves: 10,
     selectedStarterSeedId: "seed_herb_001",
-    discoveredCreatureIds: ["creature_herb_common_001"],
+    unlockedSeedIds: includeLunarGuardian
+      ? Array.from(new Set([...save.unlockedSeedIds, LUNAR_REWARD_SEED_ID]))
+      : save.unlockedSeedIds,
+    discoveredCreatureIds,
     claimedAlbumMilestoneIds: ["album_1"],
     plotCount: 2,
     lastSeenAt: lastSeen.toISOString(),
