@@ -225,7 +225,7 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
         <div>
           <p>{scene.orderTitle}</p>
           <strong>{scene.orderProgressLabel}</strong>
-          <span>{scene.orderCompleted ? "보상 수령 완료" : scene.orderReady ? "납품 가능" : scene.pendingLabel}</span>
+          <span>{scene.orderStatusLabel ?? (scene.orderCompleted ? "보상 수령 완료" : scene.orderReady ? "납품 가능" : scene.pendingLabel)}</span>
         </div>
       </div>
     </section>
