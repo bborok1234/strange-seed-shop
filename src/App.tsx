@@ -1432,13 +1432,15 @@ function getNextAction(
     const progressPercent = seed ? Math.min(100, Math.round(getGrowthProgress(activePlot, seed, now))) : 0;
     const secondsRemaining = seed ? Math.max(0, Math.ceil(seed.baseGrowthSeconds * (1 - progressPercent / 100))) : 0;
     const remainingLabel = getGrowthRemainingLabel(secondsRemaining);
-    const tapReductionLabel = seed ? getTapReductionLabel(seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12)) : "0초";
+    const tapReductionSeconds = seed ? seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12) : 0;
+    const tapReductionLabel = getTapReductionLabel(tapReductionSeconds);
+    const tapsRemaining = tapReductionSeconds > 0 ? Math.max(1, Math.ceil(secondsRemaining / tapReductionSeconds)) : 0;
     return {
       title: seed ? `${seed.name} 성장 중` : "성장 중",
       body:
         progressPercent >= 100
           ? "현재 100% · 수확할 준비가 됐어요. 반짝이는 밭을 눌러 도감 보상으로 이어가세요."
-          : `현재 ${progressPercent}% · 약 ${remainingLabel} 남음. 한 번 톡톡할 때마다 ${tapReductionLabel} 단축됩니다.`
+          : `현재 ${progressPercent}% · 약 ${remainingLabel} 남음. 약 ${tapsRemaining}번 더 톡톡하면 수확 준비 · 1회 ${tapReductionLabel} 단축.`
     };
   }
 
