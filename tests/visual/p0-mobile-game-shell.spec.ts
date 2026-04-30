@@ -959,6 +959,76 @@ test("모바일 복귀 후 온실 선반 보관 상태는 정원 playfield에 �
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-shelf-playfield-state-v0-393.png"), fullPage: false });
 });
 
+test("모바일 온실 선반 정리 강화는 보관 보너스를 키운다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseShelf=1&qaReset=1");
+
+  await page.getByRole("button", { name: "보상 확인" }).click();
+  const storageChoice = page.locator(".upgrade-choice", { hasText: "선반 정리" });
+  await expect(storageChoice).toContainText("정리 가능");
+  await expect(storageChoice).toContainText("1 재료로 보관 보너스 +20%");
+  await storageChoice.click();
+
+  await expect(page.getByText("재료 0", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("선반 보관 +20%");
+  await expect(storageChoice).toContainText("정리 완료");
+  await expect(storageChoice).toContainText("보관 보너스 +20% 가동");
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const storageCard = document.querySelector<HTMLElement>(".upgrade-choice-greenhouse_storage")?.getBoundingClientRect();
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel ? { bottom: panel.bottom, clientHeight: panelElement?.clientHeight ?? 0, scrollHeight: panelElement?.scrollHeight ?? 0 } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      storageCard: storageCard ? { bottom: storageCard.bottom } : null
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.storageCard).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.storageCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw ? (JSON.parse(raw) as { materials?: number; greenhouseStorageLevel?: number }) : {};
+        return {
+          materials: parsed.materials,
+          greenhouseStorageLevel: parsed.greenhouseStorageLevel
+        };
+      })
+    )
+    .toEqual({ materials: 0, greenhouseStorageLevel: 1 });
+
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseShelf=1&qaGreenhouseStorage=1&qaReset=1");
+  await expect(page.getByText(/온실 선반 보관이 보관 보상 \+20%를 더했어요/)).toBeVisible();
+  await expect(page.getByText("자리를 비운 동안 잎 105개를 모았습니다.", { exact: false })).toBeVisible();
+  await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("105 잎");
+  await expect(page.getByLabel("온실 선반 보관 보너스")).toContainText("+20%");
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw ? (JSON.parse(raw) as { leaves?: number; greenhouseStorageLevel?: number }) : {};
+        return {
+          leaves: parsed.leaves,
+          greenhouseStorageLevel: parsed.greenhouseStorageLevel
+        };
+      })
+    )
+    .toEqual({ leaves: 115, greenhouseStorageLevel: 1 });
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-storage-upgrade-v0-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");

@@ -92,6 +92,9 @@ const GREENHOUSE_FACILITY_COST_MATERIALS = 1;
 const GREENHOUSE_FACILITY_MAX_LEVEL = 1;
 const GREENHOUSE_FACILITY_RATE_BONUS = 0.1;
 const GREENHOUSE_SHELF_OFFLINE_BONUS = 0.1;
+const GREENHOUSE_STORAGE_COST_MATERIALS = 1;
+const GREENHOUSE_STORAGE_MAX_LEVEL = 1;
+const GREENHOUSE_STORAGE_OFFLINE_BONUS = 0.1;
 const FIRST_RESEARCH_COST_LEAVES = 40;
 const FIRST_RESEARCH_COST_POLLEN = 2;
 const FIRST_RESEARCH_MAX_LEVEL = 1;
@@ -167,6 +170,7 @@ export default function App() {
     const qaHarvestReveal = getLocalQaHarvestReveal();
     const qaLunarGuardian = getLocalQaLunarGuardian();
     const qaGreenhouseShelf = getLocalQaGreenhouseShelf();
+    const qaGreenhouseStorage = getLocalQaGreenhouseStorage();
     const qaExpeditionActive = getLocalQaExpeditionActive();
     const qaExpeditionReady = getLocalQaExpeditionReady();
     const qaProductionReady = getLocalQaProductionReady();
@@ -199,7 +203,7 @@ export default function App() {
                         : qaExpeditionReady
                           ? createExpeditionReadyQaSave()
                           : qaOfflineMinutes
-                            ? createOfflineQaSave(qaOfflineMinutes, qaLunarGuardian, qaGreenhouseShelf)
+                            ? createOfflineQaSave(qaOfflineMinutes, qaLunarGuardian, qaGreenhouseShelf, qaGreenhouseStorage)
                             : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineReward = calculateOfflineReward(nextSave, Date.now());
@@ -304,6 +308,7 @@ export default function App() {
           buyProductionBoost,
           buyMaterialWorkbench,
           buyGreenhouseFacility,
+          buyGreenhouseStorage,
           buyFirstResearch
         )
       : [];
@@ -546,6 +551,27 @@ export default function App() {
         costLeaves: GREENHOUSE_FACILITY_COST_LEAVES,
         costMaterials: GREENHOUSE_FACILITY_COST_MATERIALS,
         greenhouseFacilityLevel: draft.greenhouseFacilityLevel
+      });
+    });
+    triggerRewardPulse();
+  }
+
+  function buyGreenhouseStorage() {
+    commit((draft) => {
+      if (
+        draft.greenhouseStorageLevel >= GREENHOUSE_STORAGE_MAX_LEVEL ||
+        !draft.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id) ||
+        draft.materials < GREENHOUSE_STORAGE_COST_MATERIALS
+      ) {
+        return;
+      }
+
+      draft.materials -= GREENHOUSE_STORAGE_COST_MATERIALS;
+      draft.greenhouseStorageLevel += 1;
+      trackEvent("upgrade_purchased", {
+        upgradeId: "greenhouse_storage_1",
+        costMaterials: GREENHOUSE_STORAGE_COST_MATERIALS,
+        greenhouseStorageLevel: draft.greenhouseStorageLevel
       });
     });
     triggerRewardPulse();
@@ -1680,7 +1706,9 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
           orderProgressLabel: `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
           orderReady: productionStatus.orderReady,
           orderCompleted: productionStatus.orderCompleted,
-          orderStatusLabel: greenhouseShelfStored ? `선반 보관 +${Math.round(GREENHOUSE_SHELF_OFFLINE_BONUS * 100)}%` : undefined,
+          orderStatusLabel: greenhouseShelfStored
+            ? `선반 보관 +${Math.round(getGreenhouseShelfOfflineBonus(save) * 100)}%`
+            : undefined,
           workAssetPath: getAssetPath(manifest, "creature_herb_common_001_work"),
           crateAssetPath: getAssetPath(manifest, "ui_order_crate_leaf_001")
         }
@@ -1796,6 +1824,7 @@ function buildUpgradeChoices(
   buyProductionBoost: () => void,
   buyMaterialWorkbench: () => void,
   buyGreenhouseFacility: () => void,
+  buyGreenhouseStorage: () => void,
   buyFirstResearch: () => void
 ): UpgradeChoice[] {
   const plotComplete = save.plotCount >= 2;
@@ -1815,6 +1844,11 @@ function buildUpgradeChoices(
     save.leaves >= GREENHOUSE_FACILITY_COST_LEAVES && save.materials >= GREENHOUSE_FACILITY_COST_MATERIALS;
   const facilityShortfallLeaves = Math.max(GREENHOUSE_FACILITY_COST_LEAVES - save.leaves, 0);
   const facilityShortfallMaterials = Math.max(GREENHOUSE_FACILITY_COST_MATERIALS - save.materials, 0);
+  const greenhouseOrderComplete = save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id);
+  const storageComplete = save.greenhouseStorageLevel >= GREENHOUSE_STORAGE_MAX_LEVEL;
+  const storageUnlocked = greenhouseOrderComplete;
+  const storageAffordable = save.materials >= GREENHOUSE_STORAGE_COST_MATERIALS;
+  const storageShortfallMaterials = Math.max(GREENHOUSE_STORAGE_COST_MATERIALS - save.materials, 0);
   const researchComplete = save.researchLevel >= FIRST_RESEARCH_MAX_LEVEL;
   const researchUnlocked = save.idleProduction.completedOrderIds.includes(SECOND_ORDER.id);
   const researchAffordable = save.leaves >= FIRST_RESEARCH_COST_LEAVES && save.pollen >= FIRST_RESEARCH_COST_POLLEN;
@@ -1881,6 +1915,22 @@ function buildUpgradeChoices(
             status: facilityComplete ? "설비 완료" : facilityAffordable ? "설비 준비" : "자원 부족",
             tone: facilityComplete ? "done" : facilityAffordable ? "ready" : "waiting",
             onSelect: !facilityComplete && facilityAffordable ? buyGreenhouseFacility : undefined
+          } satisfies UpgradeChoice
+        ]
+      : []),
+    ...(storageUnlocked
+      ? [
+          {
+            id: "greenhouse_storage",
+            title: "선반 정리",
+            detail: storageComplete
+              ? `보관 보너스 +${Math.round(getGreenhouseShelfOfflineBonus(save) * 100)}% 가동`
+              : storageAffordable
+                ? `${GREENHOUSE_STORAGE_COST_MATERIALS} 재료로 보관 보너스 +20%`
+                : `${storageShortfallMaterials} 재료 더 필요`,
+            status: storageComplete ? "정리 완료" : storageAffordable ? "정리 가능" : "재료 부족",
+            tone: storageComplete ? "done" : storageAffordable ? "ready" : "waiting",
+            onSelect: !storageComplete && storageAffordable ? buyGreenhouseStorage : undefined
           } satisfies UpgradeChoice
         ]
       : []),
@@ -2119,9 +2169,16 @@ function getOfflineGuardianBonus(save: PlayerSave): { multiplier: number; percen
 function getOfflineShelfBonus(save: PlayerSave): { percent: number; label?: string } {
   const hasGreenhouseShelf = save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id);
   return {
-    percent: hasGreenhouseShelf ? GREENHOUSE_SHELF_OFFLINE_BONUS : 0,
+    percent: hasGreenhouseShelf ? getGreenhouseShelfOfflineBonus(save) : 0,
     label: hasGreenhouseShelf ? "온실 선반 보관" : undefined
   };
+}
+
+function getGreenhouseShelfOfflineBonus(save: PlayerSave): number {
+  return (
+    GREENHOUSE_SHELF_OFFLINE_BONUS +
+    Math.min(save.greenhouseStorageLevel, GREENHOUSE_STORAGE_MAX_LEVEL) * GREENHOUSE_STORAGE_OFFLINE_BONUS
+  );
 }
 
 function getOfflineRewardMessage(reward: OfflineRewardResult): string {
@@ -2207,6 +2264,14 @@ function getLocalQaGreenhouseShelf(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaGreenhouseShelf") === "1";
+}
+
+function getLocalQaGreenhouseStorage(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaGreenhouseStorage") === "1";
 }
 
 function getLocalQaReset(): boolean {
@@ -2349,7 +2414,12 @@ function createSpriteQaSave(spriteState: "growing" | "ready"): PlayerSave {
   };
 }
 
-function createOfflineQaSave(minutesAway: number, includeLunarGuardian = false, includeGreenhouseShelf = false): PlayerSave {
+function createOfflineQaSave(
+  minutesAway: number,
+  includeLunarGuardian = false,
+  includeGreenhouseShelf = false,
+  includeGreenhouseStorage = false
+): PlayerSave {
   const lastSeen = new Date(Date.now() - minutesAway * 60 * 1000);
   const save = createNewSave(lastSeen);
   const discoveredCreatureIds = includeLunarGuardian
@@ -2367,6 +2437,7 @@ function createOfflineQaSave(minutesAway: number, includeLunarGuardian = false, 
     claimedAlbumMilestoneIds: ["album_1"],
     plotCount: 2,
     greenhouseFacilityLevel: includeGreenhouseShelf ? GREENHOUSE_FACILITY_MAX_LEVEL : save.greenhouseFacilityLevel,
+    greenhouseStorageLevel: includeGreenhouseStorage ? GREENHOUSE_STORAGE_MAX_LEVEL : save.greenhouseStorageLevel,
     materials: includeGreenhouseShelf ? 1 : save.materials,
     idleProduction: includeGreenhouseShelf
       ? {
