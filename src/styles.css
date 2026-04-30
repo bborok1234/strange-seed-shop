@@ -671,6 +671,12 @@ h1 {
 }
 
 .starter-panel.has-production
+  .production-action-card.has-worker-roster.has-greenhouse-order.has-completed-order
+  .production-complete-row {
+  display: grid;
+}
+
+.starter-panel.has-production
   .production-action-card.has-worker-roster.has-completed-order.has-material-workbench
   .production-roster {
   display: none;
@@ -2487,6 +2493,23 @@ h1 {
   }
 
   .starter-panel.has-production .next-creature-compact small {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-open-greenhouse-order .upgrade-choice-card {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-open-greenhouse-order .production-roster {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-greenhouse-order .next-creature-compact {
+    min-height: 40px;
+    padding: 5px 6px;
+  }
+
+  .starter-panel.has-production.has-greenhouse-order .next-creature-compact > div:last-child > span {
     display: none;
   }
 

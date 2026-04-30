@@ -38,6 +38,7 @@ interface FirstOrderDefinition {
   requiredLeaves: number;
   rewardLeaves: number;
   rewardPollen: number;
+  rewardMaterials?: number;
 }
 
 interface ProductionStatus {
@@ -118,7 +119,16 @@ const SECOND_ORDER: FirstOrderDefinition = {
   rewardLeaves: 28,
   rewardPollen: 2
 };
-const ORDER_DEFINITIONS: FirstOrderDefinition[] = [FIRST_ORDER, SECOND_ORDER];
+const GREENHOUSE_ORDER: FirstOrderDefinition = {
+  id: "order_greenhouse_shelf_001",
+  title: "온실 선반 납품",
+  customer: "새 온실 선반",
+  requiredLeaves: 36,
+  rewardLeaves: 42,
+  rewardPollen: 2,
+  rewardMaterials: 1
+};
+const ORDER_DEFINITIONS: FirstOrderDefinition[] = [FIRST_ORDER, SECOND_ORDER, GREENHOUSE_ORDER];
 const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "garden", label: "정원" },
   { id: "seeds", label: "씨앗" },
@@ -272,6 +282,8 @@ export default function App() {
     "starter-panel garden-action-surface",
     productionStatus ? "has-production" : "",
     productionStatus && productionStatus.workerCreatures.length > 1 && productionStatus.orderCompleted ? "has-roster-complete" : "",
+    productionStatus?.order.id === GREENHOUSE_ORDER.id ? "has-greenhouse-order" : "",
+    productionStatus?.order.id === GREENHOUSE_ORDER.id && !productionStatus.orderCompleted ? "has-open-greenhouse-order" : "",
     activePlot ? "has-active-plot" : "",
     activePlotReady ? "has-ready-plot" : ""
   ]
@@ -522,6 +534,7 @@ export default function App() {
       draft.leaves -= GREENHOUSE_FACILITY_COST_LEAVES;
       draft.materials -= GREENHOUSE_FACILITY_COST_MATERIALS;
       draft.greenhouseFacilityLevel += 1;
+      draft.idleProduction.pendingLeaves = Math.max(draft.idleProduction.pendingLeaves, GREENHOUSE_ORDER.requiredLeaves);
       trackEvent("upgrade_purchased", {
         upgradeId: "greenhouse_facility_1",
         costLeaves: GREENHOUSE_FACILITY_COST_LEAVES,
@@ -659,10 +672,12 @@ export default function App() {
       draft.idleProduction.completedOrderIds.push(currentOrder.id);
       draft.leaves += currentOrder.rewardLeaves;
       draft.pollen += currentOrder.rewardPollen;
+      draft.materials += currentOrder.rewardMaterials ?? 0;
       trackEvent("order_delivered", {
         orderId: currentOrder.id,
         rewardLeaves: currentOrder.rewardLeaves,
-        rewardPollen: currentOrder.rewardPollen
+        rewardPollen: currentOrder.rewardPollen,
+        rewardMaterials: currentOrder.rewardMaterials ?? 0
       });
     });
     triggerProductionFx("order");
@@ -830,6 +845,7 @@ export default function App() {
                   "production-card production-action-card",
                   productionStatus.workerCreatures.length > 1 ? "has-worker-roster" : "",
                   productionStatus.orderCompleted ? "has-completed-order" : "",
+                  productionStatus.order.id === GREENHOUSE_ORDER.id ? "has-greenhouse-order" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
                 ]
                   .filter(Boolean)
@@ -880,9 +896,7 @@ export default function App() {
                     </div>
                     <div>
                       <span>{productionStatus.order.title} 완료</span>
-                      <strong>
-                        +{productionStatus.order.rewardLeaves} 잎 · +{productionStatus.order.rewardPollen} 꽃가루
-                      </strong>
+                      <strong>{formatOrderReward(productionStatus.order)}</strong>
                     </div>
                   </div>
                 ) : (
@@ -899,7 +913,7 @@ export default function App() {
                     </div>
                     <progress max={productionStatus.order.requiredLeaves} value={productionStatus.orderProgress} />
                     <button disabled={!productionStatus.orderReady} onClick={deliverFirstOrder} type="button">
-                      {productionStatus.order.id === FIRST_ORDER.id ? "첫 잎 주문 납품" : "주문 납품"} +{productionStatus.order.rewardLeaves} 잎
+                      {productionStatus.order.id === FIRST_ORDER.id ? "첫 잎 주문 납품" : "주문 납품"} {formatOrderReward(productionStatus.order)}
                     </button>
                   </div>
                 )}
@@ -1727,7 +1741,32 @@ function getProductionWorkers(save: PlayerSave): CreatureDefinition[] {
 }
 
 function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
-  return ORDER_DEFINITIONS.find((order) => !save.idleProduction.completedOrderIds.includes(order.id)) ?? SECOND_ORDER;
+  if (!save.idleProduction.completedOrderIds.includes(FIRST_ORDER.id)) {
+    return FIRST_ORDER;
+  }
+
+  if (!save.idleProduction.completedOrderIds.includes(SECOND_ORDER.id)) {
+    return SECOND_ORDER;
+  }
+
+  if (
+    save.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL &&
+    !save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id)
+  ) {
+    return GREENHOUSE_ORDER;
+  }
+
+  return save.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL ? GREENHOUSE_ORDER : SECOND_ORDER;
+}
+
+function formatOrderReward(order: FirstOrderDefinition): string {
+  return [
+    `+${order.rewardLeaves} 잎`,
+    `+${order.rewardPollen} 꽃가루`,
+    order.rewardMaterials ? `+${order.rewardMaterials} 재료` : ""
+  ]
+    .filter(Boolean)
+    .join(" · ");
 }
 
 function buildUpgradeChoices(
