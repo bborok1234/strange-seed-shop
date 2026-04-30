@@ -75,6 +75,8 @@ interface OfflineRewardResult {
   awayMinutes: number;
   guardianBonusPercent: number;
   guardianName?: string;
+  shelfBonusPercent: number;
+  shelfBonusLabel?: string;
 }
 
 const FIRST_UPGRADE_COST = 25;
@@ -89,6 +91,7 @@ const GREENHOUSE_FACILITY_COST_LEAVES = 80;
 const GREENHOUSE_FACILITY_COST_MATERIALS = 1;
 const GREENHOUSE_FACILITY_MAX_LEVEL = 1;
 const GREENHOUSE_FACILITY_RATE_BONUS = 0.1;
+const GREENHOUSE_SHELF_OFFLINE_BONUS = 0.1;
 const FIRST_RESEARCH_COST_LEAVES = 40;
 const FIRST_RESEARCH_COST_POLLEN = 2;
 const FIRST_RESEARCH_MAX_LEVEL = 1;
@@ -163,6 +166,7 @@ export default function App() {
     const qaSpriteState = getLocalQaSpriteState();
     const qaHarvestReveal = getLocalQaHarvestReveal();
     const qaLunarGuardian = getLocalQaLunarGuardian();
+    const qaGreenhouseShelf = getLocalQaGreenhouseShelf();
     const qaExpeditionActive = getLocalQaExpeditionActive();
     const qaExpeditionReady = getLocalQaExpeditionReady();
     const qaProductionReady = getLocalQaProductionReady();
@@ -195,7 +199,7 @@ export default function App() {
                         : qaExpeditionReady
                           ? createExpeditionReadyQaSave()
                           : qaOfflineMinutes
-                            ? createOfflineQaSave(qaOfflineMinutes, qaLunarGuardian)
+                            ? createOfflineQaSave(qaOfflineMinutes, qaLunarGuardian, qaGreenhouseShelf)
                             : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineReward = calculateOfflineReward(nextSave, Date.now());
@@ -209,7 +213,9 @@ export default function App() {
       trackEvent("offline_reward_claimed", {
         leaves: offlineReward.leaves,
         guardianBonusPercent: offlineReward.guardianBonusPercent,
-        guardianName: offlineReward.guardianName ?? null
+        guardianName: offlineReward.guardianName ?? null,
+        shelfBonusPercent: offlineReward.shelfBonusPercent,
+        shelfBonusLabel: offlineReward.shelfBonusLabel ?? null
       });
     }
     localSaveStore.save(nextSave);
@@ -788,12 +794,24 @@ export default function App() {
                   <strong>{offlineRewardSummary.leaves} 잎</strong>
                 </span>
               </div>
-              {offlineRewardSummary.guardianName && offlineRewardSummary.guardianBonusPercent > 0 ? (
-                <article className="comeback-guardian-bonus" aria-label="달빛 수호자 보너스">
-                  <span>{offlineRewardSummary.guardianName}</span>
-                  <strong>달빛 보상 +{Math.round(offlineRewardSummary.guardianBonusPercent * 100)}%</strong>
-                  <small>밤 사이 모은 잎을 더 안전하게 지켜줬어요.</small>
-                </article>
+              {(offlineRewardSummary.guardianName && offlineRewardSummary.guardianBonusPercent > 0) ||
+              offlineRewardSummary.shelfBonusPercent > 0 ? (
+                <div className="comeback-bonus-stack">
+                  {offlineRewardSummary.guardianName && offlineRewardSummary.guardianBonusPercent > 0 && (
+                    <article className="comeback-guardian-bonus" aria-label="달빛 수호자 보너스">
+                      <span>{offlineRewardSummary.guardianName}</span>
+                      <strong>달빛 보상 +{Math.round(offlineRewardSummary.guardianBonusPercent * 100)}%</strong>
+                      <small>밤 사이 모은 잎을 더 안전하게 지켜줬어요.</small>
+                    </article>
+                  )}
+                  {offlineRewardSummary.shelfBonusPercent > 0 && (
+                    <article className="comeback-guardian-bonus comeback-shelf-bonus" aria-label="온실 선반 보관 보너스">
+                      <span>{offlineRewardSummary.shelfBonusLabel ?? "온실 선반 보관"}</span>
+                      <strong>보관 보상 +{Math.round(offlineRewardSummary.shelfBonusPercent * 100)}%</strong>
+                      <small>납품한 선반이 잎을 더 깔끔하게 모아줬어요.</small>
+                    </article>
+                  )}
+                </div>
               ) : (
                 <p className="comeback-next-copy">씨앗을 심고 생명체를 더 모으면 복귀 보상이 커집니다.</p>
               )}
@@ -2058,22 +2076,28 @@ function isPlotReady(plot: PlotState, seed: SeedDefinition, now: number): boolea
 function calculateOfflineReward(save: PlayerSave, now: number): OfflineRewardResult {
   const awaySeconds = Math.min(OFFLINE_CAP_SECONDS, Math.max(0, (now - new Date(save.lastSeenAt).getTime()) / 1000));
   const guardianBonus = getOfflineGuardianBonus(save);
+  const shelfBonus = getOfflineShelfBonus(save);
 
   if (awaySeconds < 15 * 60 || save.discoveredCreatureIds.length === 0) {
     return {
       leaves: 0,
       awayMinutes: Math.floor(awaySeconds / 60),
       guardianBonusPercent: guardianBonus.percent,
-      guardianName: guardianBonus.guardianName
+      guardianName: guardianBonus.guardianName,
+      shelfBonusPercent: shelfBonus.percent,
+      shelfBonusLabel: shelfBonus.label
     };
   }
 
   const baseRate = Math.max(0.03, save.discoveredCreatureIds.length * 0.02 + save.plotCount * 0.01);
+  const multiplier = guardianBonus.multiplier + shelfBonus.percent;
   return {
-    leaves: Math.floor(awaySeconds * baseRate * 0.35 * guardianBonus.multiplier),
+    leaves: Math.floor(awaySeconds * baseRate * 0.35 * multiplier),
     awayMinutes: Math.floor(awaySeconds / 60),
     guardianBonusPercent: guardianBonus.percent,
-    guardianName: guardianBonus.guardianName
+    guardianName: guardianBonus.guardianName,
+    shelfBonusPercent: shelfBonus.percent,
+    shelfBonusLabel: shelfBonus.label
   };
 }
 
@@ -2090,13 +2114,30 @@ function getOfflineGuardianBonus(save: PlayerSave): { multiplier: number; percen
   };
 }
 
+function getOfflineShelfBonus(save: PlayerSave): { percent: number; label?: string } {
+  const hasGreenhouseShelf = save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id);
+  return {
+    percent: hasGreenhouseShelf ? GREENHOUSE_SHELF_OFFLINE_BONUS : 0,
+    label: hasGreenhouseShelf ? "온실 선반 보관" : undefined
+  };
+}
+
 function getOfflineRewardMessage(reward: OfflineRewardResult): string {
   const base = `자리를 비운 동안 잎 ${reward.leaves}개를 모았습니다.`;
-  if (reward.guardianBonusPercent <= 0 || !reward.guardianName) {
+  const bonusMessages = [
+    reward.guardianBonusPercent > 0 && reward.guardianName
+      ? `${reward.guardianName}가 달빛 보상 +${Math.round(reward.guardianBonusPercent * 100)}%를 지켜줬어요.`
+      : "",
+    reward.shelfBonusPercent > 0
+      ? `${reward.shelfBonusLabel ?? "온실 선반 보관"}이 보관 보상 +${Math.round(reward.shelfBonusPercent * 100)}%를 더했어요.`
+      : ""
+  ].filter(Boolean);
+
+  if (bonusMessages.length === 0) {
     return base;
   }
 
-  return `${base} ${reward.guardianName}가 달빛 보상 +${Math.round(reward.guardianBonusPercent * 100)}%를 지켜줬어요.`;
+  return `${base} ${bonusMessages.join(" ")}`;
 }
 
 function getAwayTimeLabel(minutes: number): string {
@@ -2156,6 +2197,14 @@ function getLocalQaLunarGuardian(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaLunarGuardian") === "1";
+}
+
+function getLocalQaGreenhouseShelf(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaGreenhouseShelf") === "1";
 }
 
 function getLocalQaReset(): boolean {
@@ -2298,7 +2347,7 @@ function createSpriteQaSave(spriteState: "growing" | "ready"): PlayerSave {
   };
 }
 
-function createOfflineQaSave(minutesAway: number, includeLunarGuardian = false): PlayerSave {
+function createOfflineQaSave(minutesAway: number, includeLunarGuardian = false, includeGreenhouseShelf = false): PlayerSave {
   const lastSeen = new Date(Date.now() - minutesAway * 60 * 1000);
   const save = createNewSave(lastSeen);
   const discoveredCreatureIds = includeLunarGuardian
@@ -2315,6 +2364,20 @@ function createOfflineQaSave(minutesAway: number, includeLunarGuardian = false):
     discoveredCreatureIds,
     claimedAlbumMilestoneIds: ["album_1"],
     plotCount: 2,
+    greenhouseFacilityLevel: includeGreenhouseShelf ? GREENHOUSE_FACILITY_MAX_LEVEL : save.greenhouseFacilityLevel,
+    materials: includeGreenhouseShelf ? 1 : save.materials,
+    idleProduction: includeGreenhouseShelf
+      ? {
+          pendingLeaves: 0,
+          lastTickAt: lastSeen.toISOString(),
+          orderProgress: {
+            [FIRST_ORDER.id]: FIRST_ORDER.requiredLeaves,
+            [SECOND_ORDER.id]: SECOND_ORDER.requiredLeaves,
+            [GREENHOUSE_ORDER.id]: GREENHOUSE_ORDER.requiredLeaves
+          },
+          completedOrderIds: [FIRST_ORDER.id, SECOND_ORDER.id, GREENHOUSE_ORDER.id]
+        }
+      : save.idleProduction,
     lastSeenAt: lastSeen.toISOString(),
     updatedAt: lastSeen.toISOString()
   };

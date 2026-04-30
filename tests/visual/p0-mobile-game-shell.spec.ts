@@ -861,6 +861,58 @@ test("모바일 복귀 보상은 달빛 오프라인 수호 보너스를 breakdo
   await expect(page.locator(".garden-playfield-host")).toBeVisible();
 });
 
+test("모바일 복귀 보상은 온실 선반 보관 보너스를 함께 보여준다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseShelf=1&qaReset=1");
+
+  await expect(page.getByText(/달방울 누누가 달빛 보상 \+20%를 지켜줬어요/)).toBeVisible();
+  await expect(page.getByText(/온실 선반 보관이 보관 보상 \+10%를 더했어요/)).toBeVisible();
+  await expect(page.getByText("자리를 비운 동안 잎 98개를 모았습니다.", { exact: false })).toBeVisible();
+  await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("1시간");
+  await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("98 잎");
+  await expect(page.getByLabel("달빛 수호자 보너스")).toContainText("+20%");
+  await expect(page.getByLabel("온실 선반 보관 보너스")).toContainText("온실 선반 보관");
+  await expect(page.getByLabel("온실 선반 보관 보너스")).toContainText("+10%");
+  await expect(page.getByRole("button", { name: "방울새싹 씨앗 보러가기" })).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const cardElement = document.querySelector<HTMLElement>(".comeback-reward-card");
+    const card = cardElement?.getBoundingClientRect();
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      card: card
+        ? {
+            bottom: card.bottom,
+            clientHeight: cardElement?.clientHeight ?? 0,
+            scrollHeight: cardElement?.scrollHeight ?? 0
+          }
+        : null
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.card).not.toBeNull();
+  expect(metrics.card!.bottom).toBeLessThanOrEqual(metrics.innerHeight - 14);
+  expect(metrics.card!.scrollHeight).toBeLessThanOrEqual(metrics.card!.clientHeight + 1);
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as { leaves?: number; idleProduction?: { completedOrderIds?: string[] } })
+          : {};
+        return {
+          leaves: parsed.leaves,
+          greenhouseShelfDone: parsed.idleProduction?.completedOrderIds?.includes("order_greenhouse_shelf_001") ?? false
+        };
+      })
+    )
+    .toEqual({ leaves: 108, greenhouseShelfDone: true });
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-comeback-greenhouse-shelf-offline-v0-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");
