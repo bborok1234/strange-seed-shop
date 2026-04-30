@@ -4,6 +4,7 @@ Date: 2026-04-30
 Branch: `codex/0107-creature-production-roster-v0`
 Item: `items/0107-creature-production-roster-v0.md`
 Issue: #194
+PR: #195
 
 ## Game Studio route
 
