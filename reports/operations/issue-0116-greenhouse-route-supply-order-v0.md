@@ -62,7 +62,11 @@
 - `npm run check:visual -- --grep "온실 동선 확장|온실 동선 순환 주문"`: PASS
 - `npm run check:visual`: PASS, 41 passed
 - `npm run check:ci`: PASS
+- PR: #222 merged
+- PR checks: #222 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Main CI: `25158289934` PASS
 
 ## 남은 위험
 
-- PR checks에서 동일 gate를 재확인해야 한다.
+- #218 회귀에서 새 주문 open state가 production card 내부 overflow를 만들었고, route complete compact CSS와 route supply complete row 표시로 수정했다.
+- 남은 follow-up blocker 없음.

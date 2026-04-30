@@ -3,6 +3,7 @@
 Status: done
 Branch: `codex/0116-greenhouse-route-supply-order-v0`
 Issue: #221
+PR: #222
 
 ## Context
 
@@ -56,10 +57,13 @@ Issue: #221
 - Regression focused visual: `npm run check:visual -- --grep "온실 동선 확장|온실 동선 순환 주문"` PASS
 - Full visual: `npm run check:visual` PASS, 41 passed
 - CI: `npm run check:ci` PASS
+- PR checks: #222 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Main CI: `25158289934` PASS
 
 ## Risks
 
 - #218 회귀에서 새 주문 open state가 production card 내부 overflow를 만들었다. route complete compact CSS와 route supply complete row 표시를 수정했고, focused regression과 Browser Use 최종 캡처로 확인했다.
+- 남은 follow-up blocker 없음.
 
 ## Safety
 
