@@ -81,6 +81,9 @@ const PRODUCTION_BOOST_COST_LEAVES = 40;
 const PRODUCTION_BOOST_COST_POLLEN = 1;
 const PRODUCTION_BOOST_MAX_LEVEL = 1;
 const PRODUCTION_BOOST_RATE_BONUS = 0.25;
+const MATERIAL_WORKBENCH_COST_MATERIALS = 2;
+const MATERIAL_WORKBENCH_MAX_LEVEL = 1;
+const MATERIAL_WORKBENCH_RATE_BONUS = 0.15;
 const FIRST_RESEARCH_COST_LEAVES = 40;
 const FIRST_RESEARCH_COST_POLLEN = 2;
 const FIRST_RESEARCH_MAX_LEVEL = 1;
@@ -264,6 +267,7 @@ export default function App() {
   const actionSurfaceClassName = [
     "starter-panel garden-action-surface",
     productionStatus ? "has-production" : "",
+    productionStatus && productionStatus.workerCreatures.length > 1 && productionStatus.orderCompleted ? "has-roster-complete" : "",
     activePlot ? "has-active-plot" : "",
     activePlotReady ? "has-ready-plot" : ""
   ]
@@ -271,7 +275,7 @@ export default function App() {
     .join(" ");
   const upgradeChoices =
     save && productionStatus?.ratePerMinute
-      ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade, buyProductionBoost, buyFirstResearch)
+      ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade, buyProductionBoost, buyMaterialWorkbench, buyFirstResearch)
       : [];
   const researchClue = getResearchClue(save, nextCreatureGoal);
   const visibleSeedInventorySeeds =
@@ -467,6 +471,26 @@ export default function App() {
         costLeaves: PRODUCTION_BOOST_COST_LEAVES,
         costPollen: PRODUCTION_BOOST_COST_POLLEN,
         productionBoostLevel: draft.productionBoostLevel
+      });
+    });
+    triggerRewardPulse();
+  }
+
+  function buyMaterialWorkbench() {
+    commit((draft) => {
+      if (
+        draft.materialWorkbenchLevel >= MATERIAL_WORKBENCH_MAX_LEVEL ||
+        draft.materials < MATERIAL_WORKBENCH_COST_MATERIALS
+      ) {
+        return;
+      }
+
+      draft.materials -= MATERIAL_WORKBENCH_COST_MATERIALS;
+      draft.materialWorkbenchLevel += 1;
+      trackEvent("upgrade_purchased", {
+        upgradeId: "material_workbench_1",
+        costMaterials: MATERIAL_WORKBENCH_COST_MATERIALS,
+        materialWorkbenchLevel: draft.materialWorkbenchLevel
       });
     });
     triggerRewardPulse();
@@ -769,7 +793,8 @@ export default function App() {
                 className={[
                   "production-card production-action-card",
                   productionStatus.workerCreatures.length > 1 ? "has-worker-roster" : "",
-                  productionStatus.orderCompleted ? "has-completed-order" : ""
+                  productionStatus.orderCompleted ? "has-completed-order" : "",
+                  save?.materialWorkbenchLevel ? "has-material-workbench" : ""
                 ]
                   .filter(Boolean)
                   .join(" ")}
@@ -853,7 +878,7 @@ export default function App() {
                 <div className="upgrade-choice-list">
                   {upgradeChoices.map((choice) => (
                     <button
-                      className={`upgrade-choice upgrade-choice-${choice.tone}`}
+                      className={`upgrade-choice upgrade-choice-${choice.tone} upgrade-choice-${choice.id}`}
                       disabled={!choice.onSelect}
                       key={choice.id}
                       onClick={choice.onSelect}
@@ -1674,6 +1699,7 @@ function buildUpgradeChoices(
   productionStatus: ProductionStatus,
   buyFirstUpgrade: () => void,
   buyProductionBoost: () => void,
+  buyMaterialWorkbench: () => void,
   buyFirstResearch: () => void
 ): UpgradeChoice[] {
   const plotComplete = save.plotCount >= 2;
@@ -1683,6 +1709,10 @@ function buildUpgradeChoices(
   const speedAffordable = save.leaves >= PRODUCTION_BOOST_COST_LEAVES && save.pollen >= PRODUCTION_BOOST_COST_POLLEN;
   const speedShortfallLeaves = Math.max(PRODUCTION_BOOST_COST_LEAVES - save.leaves, 0);
   const speedShortfallPollen = Math.max(PRODUCTION_BOOST_COST_POLLEN - save.pollen, 0);
+  const workbenchComplete = save.materialWorkbenchLevel >= MATERIAL_WORKBENCH_MAX_LEVEL;
+  const workbenchAffordable = save.materials >= MATERIAL_WORKBENCH_COST_MATERIALS;
+  const workbenchUnlocked = workbenchAffordable || workbenchComplete;
+  const workbenchShortfallMaterials = Math.max(MATERIAL_WORKBENCH_COST_MATERIALS - save.materials, 0);
   const researchComplete = save.researchLevel >= FIRST_RESEARCH_MAX_LEVEL;
   const researchUnlocked = save.idleProduction.completedOrderIds.includes(SECOND_ORDER.id);
   const researchAffordable = save.leaves >= FIRST_RESEARCH_COST_LEAVES && save.pollen >= FIRST_RESEARCH_COST_POLLEN;
@@ -1718,6 +1748,22 @@ function buildUpgradeChoices(
       tone: speedComplete ? "done" : speedAffordable && speedUnlocked ? "ready" : "waiting",
       onSelect: !speedComplete && speedUnlocked && speedAffordable ? buyProductionBoost : undefined
     },
+    ...(workbenchUnlocked
+      ? [
+          {
+            id: "material_workbench",
+            title: "작업대 강화",
+            detail: workbenchComplete
+              ? `재료 작업대 +${Math.round(MATERIAL_WORKBENCH_RATE_BONUS * 100)}% 가동`
+              : workbenchAffordable
+                ? `${MATERIAL_WORKBENCH_COST_MATERIALS} 재료로 자동 생산 +${Math.round(MATERIAL_WORKBENCH_RATE_BONUS * 100)}%`
+                : `${workbenchShortfallMaterials} 재료 더 필요`,
+            status: workbenchComplete ? "강화 완료" : workbenchAffordable ? "재료 사용" : "재료 부족",
+            tone: workbenchComplete ? "done" : workbenchAffordable ? "ready" : "waiting",
+            onSelect: !workbenchComplete && workbenchAffordable ? buyMaterialWorkbench : undefined
+          } satisfies UpgradeChoice
+        ]
+      : []),
     {
       id: "first_order",
       title: "주문 준비",
@@ -1771,7 +1817,10 @@ function getProductionRatePerSecond(save: PlayerSave): number {
 
     return total + getCreatureProductionRate(creature);
   }, 0);
-  return baseRate * (1 + Math.min(save.productionBoostLevel, PRODUCTION_BOOST_MAX_LEVEL) * PRODUCTION_BOOST_RATE_BONUS);
+  const productionBoost = Math.min(save.productionBoostLevel, PRODUCTION_BOOST_MAX_LEVEL) * PRODUCTION_BOOST_RATE_BONUS;
+  const workbenchBoost =
+    Math.min(save.materialWorkbenchLevel, MATERIAL_WORKBENCH_MAX_LEVEL) * MATERIAL_WORKBENCH_RATE_BONUS;
+  return baseRate * (1 + productionBoost + workbenchBoost);
 }
 
 function formatRatePerMinute(ratePerMinute: number): string {
