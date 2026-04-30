@@ -84,6 +84,10 @@ const PRODUCTION_BOOST_RATE_BONUS = 0.25;
 const MATERIAL_WORKBENCH_COST_MATERIALS = 2;
 const MATERIAL_WORKBENCH_MAX_LEVEL = 1;
 const MATERIAL_WORKBENCH_RATE_BONUS = 0.15;
+const GREENHOUSE_FACILITY_COST_LEAVES = 80;
+const GREENHOUSE_FACILITY_COST_MATERIALS = 1;
+const GREENHOUSE_FACILITY_MAX_LEVEL = 1;
+const GREENHOUSE_FACILITY_RATE_BONUS = 0.1;
 const FIRST_RESEARCH_COST_LEAVES = 40;
 const FIRST_RESEARCH_COST_POLLEN = 2;
 const FIRST_RESEARCH_MAX_LEVEL = 1;
@@ -275,7 +279,15 @@ export default function App() {
     .join(" ");
   const upgradeChoices =
     save && productionStatus?.ratePerMinute
-      ? buildUpgradeChoices(save, productionStatus, buyFirstUpgrade, buyProductionBoost, buyMaterialWorkbench, buyFirstResearch)
+      ? buildUpgradeChoices(
+          save,
+          productionStatus,
+          buyFirstUpgrade,
+          buyProductionBoost,
+          buyMaterialWorkbench,
+          buyGreenhouseFacility,
+          buyFirstResearch
+        )
       : [];
   const researchClue = getResearchClue(save, nextCreatureGoal);
   const visibleSeedInventorySeeds =
@@ -491,6 +503,30 @@ export default function App() {
         upgradeId: "material_workbench_1",
         costMaterials: MATERIAL_WORKBENCH_COST_MATERIALS,
         materialWorkbenchLevel: draft.materialWorkbenchLevel
+      });
+    });
+    triggerRewardPulse();
+  }
+
+  function buyGreenhouseFacility() {
+    commit((draft) => {
+      if (
+        draft.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL ||
+        draft.materialWorkbenchLevel < MATERIAL_WORKBENCH_MAX_LEVEL ||
+        draft.leaves < GREENHOUSE_FACILITY_COST_LEAVES ||
+        draft.materials < GREENHOUSE_FACILITY_COST_MATERIALS
+      ) {
+        return;
+      }
+
+      draft.leaves -= GREENHOUSE_FACILITY_COST_LEAVES;
+      draft.materials -= GREENHOUSE_FACILITY_COST_MATERIALS;
+      draft.greenhouseFacilityLevel += 1;
+      trackEvent("upgrade_purchased", {
+        upgradeId: "greenhouse_facility_1",
+        costLeaves: GREENHOUSE_FACILITY_COST_LEAVES,
+        costMaterials: GREENHOUSE_FACILITY_COST_MATERIALS,
+        greenhouseFacilityLevel: draft.greenhouseFacilityLevel
       });
     });
     triggerRewardPulse();
@@ -1700,6 +1736,7 @@ function buildUpgradeChoices(
   buyFirstUpgrade: () => void,
   buyProductionBoost: () => void,
   buyMaterialWorkbench: () => void,
+  buyGreenhouseFacility: () => void,
   buyFirstResearch: () => void
 ): UpgradeChoice[] {
   const plotComplete = save.plotCount >= 2;
@@ -1713,6 +1750,12 @@ function buildUpgradeChoices(
   const workbenchAffordable = save.materials >= MATERIAL_WORKBENCH_COST_MATERIALS;
   const workbenchUnlocked = workbenchAffordable || workbenchComplete;
   const workbenchShortfallMaterials = Math.max(MATERIAL_WORKBENCH_COST_MATERIALS - save.materials, 0);
+  const facilityComplete = save.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL;
+  const facilityUnlocked = workbenchComplete;
+  const facilityAffordable =
+    save.leaves >= GREENHOUSE_FACILITY_COST_LEAVES && save.materials >= GREENHOUSE_FACILITY_COST_MATERIALS;
+  const facilityShortfallLeaves = Math.max(GREENHOUSE_FACILITY_COST_LEAVES - save.leaves, 0);
+  const facilityShortfallMaterials = Math.max(GREENHOUSE_FACILITY_COST_MATERIALS - save.materials, 0);
   const researchComplete = save.researchLevel >= FIRST_RESEARCH_MAX_LEVEL;
   const researchUnlocked = save.idleProduction.completedOrderIds.includes(SECOND_ORDER.id);
   const researchAffordable = save.leaves >= FIRST_RESEARCH_COST_LEAVES && save.pollen >= FIRST_RESEARCH_COST_POLLEN;
@@ -1761,6 +1804,24 @@ function buildUpgradeChoices(
             status: workbenchComplete ? "강화 완료" : workbenchAffordable ? "재료 사용" : "재료 부족",
             tone: workbenchComplete ? "done" : workbenchAffordable ? "ready" : "waiting",
             onSelect: !workbenchComplete && workbenchAffordable ? buyMaterialWorkbench : undefined
+          } satisfies UpgradeChoice
+        ]
+      : []),
+    ...(facilityUnlocked
+      ? [
+          {
+            id: "greenhouse_facility",
+            title: "온실 설비",
+            detail: facilityComplete
+              ? `온실 선반 +${Math.round(GREENHOUSE_FACILITY_RATE_BONUS * 100)}% 가동`
+              : facilityAffordable
+                ? `${GREENHOUSE_FACILITY_COST_LEAVES} 잎 · ${GREENHOUSE_FACILITY_COST_MATERIALS} 재료로 선반 설치`
+                : `${facilityShortfallLeaves ? `${facilityShortfallLeaves} 잎` : ""}${
+                    facilityShortfallLeaves && facilityShortfallMaterials ? " · " : ""
+                  }${facilityShortfallMaterials ? `${facilityShortfallMaterials} 재료` : ""} 더 필요`,
+            status: facilityComplete ? "설비 완료" : facilityAffordable ? "설비 준비" : "자원 부족",
+            tone: facilityComplete ? "done" : facilityAffordable ? "ready" : "waiting",
+            onSelect: !facilityComplete && facilityAffordable ? buyGreenhouseFacility : undefined
           } satisfies UpgradeChoice
         ]
       : []),
@@ -1820,7 +1881,9 @@ function getProductionRatePerSecond(save: PlayerSave): number {
   const productionBoost = Math.min(save.productionBoostLevel, PRODUCTION_BOOST_MAX_LEVEL) * PRODUCTION_BOOST_RATE_BONUS;
   const workbenchBoost =
     Math.min(save.materialWorkbenchLevel, MATERIAL_WORKBENCH_MAX_LEVEL) * MATERIAL_WORKBENCH_RATE_BONUS;
-  return baseRate * (1 + productionBoost + workbenchBoost);
+  const facilityBoost =
+    Math.min(save.greenhouseFacilityLevel, GREENHOUSE_FACILITY_MAX_LEVEL) * GREENHOUSE_FACILITY_RATE_BONUS;
+  return baseRate * (1 + productionBoost + workbenchBoost + facilityBoost);
 }
 
 function formatRatePerMinute(ratePerMinute: number): string {
