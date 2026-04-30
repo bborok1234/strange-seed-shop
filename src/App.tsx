@@ -1668,6 +1668,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
   const growingPlot = plots.find((plot) => plot.state === "growing");
   const openCount = plots.filter((plot) => plot.state === "empty").length;
   const productionStatus = getProductionStatus(save, now);
+  const greenhouseShelfStored = save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id);
   const productionScene =
     productionStatus.ratePerMinute > 0
       ? {
@@ -1679,6 +1680,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
           orderProgressLabel: `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
           orderReady: productionStatus.orderReady,
           orderCompleted: productionStatus.orderCompleted,
+          orderStatusLabel: greenhouseShelfStored ? `선반 보관 +${Math.round(GREENHOUSE_SHELF_OFFLINE_BONUS * 100)}%` : undefined,
           workAssetPath: getAssetPath(manifest, "creature_herb_common_001_work"),
           crateAssetPath: getAssetPath(manifest, "ui_order_crate_leaf_001")
         }

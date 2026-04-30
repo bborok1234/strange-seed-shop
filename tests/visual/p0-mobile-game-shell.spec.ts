@@ -913,6 +913,52 @@ test("모바일 복귀 보상은 온실 선반 보관 보너스를 함께 보여
   await page.screenshot({ path: testInfo.outputPath("mobile-comeback-greenhouse-shelf-offline-v0-393.png"), fullPage: false });
 });
 
+test("모바일 복귀 후 온실 선반 보관 상태는 정원 playfield에 남는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseShelf=1&qaReset=1");
+
+  await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("온실 선반 보관");
+  await page.getByRole("button", { name: "보상 확인" }).click();
+  await expect(page.getByLabel("오프라인 복귀 보상")).toHaveCount(0);
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("온실 선반 납품 완료");
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("선반 보관 +10%");
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const productionLane = document.querySelector<HTMLElement>(".playfield-production-lane");
+    const productionLaneRect = productionLane?.getBoundingClientRect();
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel ? { bottom: panel.bottom, clientHeight: panelElement?.clientHeight ?? 0, scrollHeight: panelElement?.scrollHeight ?? 0 } : null,
+      playfield: playfield ? { bottom: playfield.bottom } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      productionLane: productionLaneRect
+        ? {
+            bottom: productionLaneRect.bottom,
+            clientHeight: productionLane?.clientHeight ?? 0,
+            scrollHeight: productionLane?.scrollHeight ?? 0
+          }
+        : null
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.playfield).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.productionLane).not.toBeNull();
+  expect(metrics.playfield!.bottom).toBeLessThanOrEqual(metrics.panel!.bottom);
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.productionLane!.scrollHeight).toBeLessThanOrEqual(metrics.productionLane!.clientHeight + 1);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-shelf-playfield-state-v0-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");
