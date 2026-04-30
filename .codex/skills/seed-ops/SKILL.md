@@ -31,6 +31,8 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - `npm run check:visual`은 반복 회귀 gate이지 Browser Use 실기 QA의 대체재가 아니다. Browser Use evidence 또는 현재 세션 blocker 없이 Playwright 결과만으로 UI/visual 작업을 완료 처리하지 않는다.
 - 과거 Browser Use blocker report는 현재 세션의 fallback 근거가 아니다. fallback을 쓰려면 현재 세션에서 Browser Use를 다시 시도하고 blocker를 새로 기록한다.
 - “viewport 안에 있음”, “겹치지 않음”, “DOM text visible”만으로 UI 작업을 통과시키지 않는다.
+- 사용자 screenshot으로 제보된 visual bug는 그 screenshot의 URL, viewport, action sequence를 재현한 뒤 before/after evidence와 자동 회귀 gate를 같은 PR에 추가한다.
+- 모바일 panel/card QA는 `scrollHeight/clientHeight`, body scroll, bottom-tab overlap, visible child overflow를 함께 확인한다. DOM text가 있어도 `overflow: hidden`으로 중요한 내용이 가려지면 실패다.
 - 정원 첫 화면은 game-playtest 관점에서 첫 actionable screen, player verb, playfield obstruction, HUD weight를 확인한다.
 - 디자인/북극성 gate가 실패하면 CI가 green이어도 PR을 완료로 부르지 않는다.
 

@@ -26,12 +26,15 @@ Issue #188로 복귀 one-tap plant 후 action copy가 `약 n번 더 톡톡하면
 - [x] one-tap plant 후 growing plot을 누르면 feedback에 `4초 단축`이 보인다.
 - [x] 같은 feedback에 `약 n번 남음`이 보인다.
 - [x] Browser Use `iab` evidence가 남는다.
+- [x] 수확 준비 100% 상태에서 production/action surface 카드 내부가 잘리지 않는다.
 - [x] focused visual, full visual, CI가 통과한다.
 
 ## Verification
 
 - [x] Browser Use `iab`, session `🔎 0105 comeback tap feedback countdown QA`
+- [x] Browser Use `iab`, session `🔎 comeback ready clipping QA`
 - [x] `npm run check:visual -- --grep "복귀 심기 후 성장 탭 feedback"`
+- [x] `npm run check:visual -- --grep "복귀 성장 100%"`
 - [x] `npm run check:visual`
 - [x] `npm run update:dashboard && npm run check:dashboard && npm run check:ci`
 
@@ -40,6 +43,10 @@ Issue #188로 복귀 one-tap plant 후 action copy가 `약 n번 더 톡톡하면
 - `reports/visual/p0-comeback-tap-feedback-countdown-v0-20260430.md`
 - `reports/visual/p0-comeback-tap-feedback-countdown-browser-use-20260430.png`
 - `reports/visual/p0-comeback-tap-feedback-countdown-playwright-20260430.png`
+- `reports/visual/p0-comeback-ready-action-surface-fix-20260430.md`
+- `reports/visual/p0-comeback-ready-occlusion-browser-use-before-20260430.png`
+- `reports/visual/p0-comeback-ready-action-surface-browser-use-after-20260430.png`
+- `reports/operations/e2e-architecture-qa-improvement-20260430.md`
 
 ## Risks
 

@@ -22,6 +22,15 @@ Branch: `codex/0105-comeback-tap-feedback-countdown-v0`
 - Screenshot: `reports/visual/p0-comeback-tap-feedback-countdown-playwright-20260430.png`
 - Full visual: `npm run check:visual` PASS, 30 tests
 
+## Correction evidence
+
+사용자 제보로 `현재 100% · 수확할 준비가 됐어요...` 상태의 production/action surface 내부 잘림을 추가 확인했다.
+
+- Before screenshot: `reports/visual/p0-comeback-ready-occlusion-browser-use-before-20260430.png`
+- After Browser Use screenshot: `reports/visual/p0-comeback-ready-action-surface-browser-use-after-20260430.png`
+- Report: `reports/visual/p0-comeback-ready-action-surface-fix-20260430.md`
+- Focused visual: `npm run check:visual -- --grep "복귀 성장 100%"` PASS
+
 ## Result
 
-PASS. 실제 tap feedback이 `4초 단축`과 tap 후 남은 횟수 countdown을 함께 보여준다.
+PASS. 실제 tap feedback이 `4초 단축`과 tap 후 남은 횟수 countdown을 함께 보여주고, 수확 준비 100% 상태의 action surface도 내부에서 잘리지 않는다.

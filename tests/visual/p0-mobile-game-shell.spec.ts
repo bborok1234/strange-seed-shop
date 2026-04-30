@@ -670,6 +670,69 @@ test("모바일 복귀 심기 후 성장 탭 feedback은 단축 효과를 보여
   await page.screenshot({ path: testInfo.outputPath("mobile-comeback-tap-feedback-payoff-v0-393.png"), fullPage: false });
 });
 
+test("모바일 복귀 성장 100% 화면은 생산 카드가 내부에서 잘리지 않는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");
+
+  await page.getByRole("button", { name: "방울새싹 씨앗 구매하고 심기" }).click();
+
+  for (let tapCount = 0; tapCount < 20; tapCount += 1) {
+    if ((await page.getByRole("button", { name: "방울새싹 씨앗 수확" }).count()) > 0) {
+      break;
+    }
+    await page.getByRole("button", { name: "방울새싹 씨앗 성장시키기" }).click();
+  }
+
+  await expect(page.getByRole("button", { name: "방울새싹 씨앗 수확" })).toBeVisible();
+  await expect(page.locator(".active-growth-copy")).toContainText(
+    "현재 100% · 수확할 준비가 됐어요. 반짝이는 밭을 눌러 도감 보상으로 이어가세요."
+  );
+
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const productionCard = document.querySelector<HTMLElement>(".production-action-card");
+    const productionCardRect = productionCard?.getBoundingClientRect();
+    const actionSurfaceChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
+    );
+    const overflowingChildren = actionSurfaceChildren
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight,
+        text: element.textContent?.replace(/\s+/g, " ").trim().slice(0, 80) ?? ""
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel ? { bottom: panel.bottom, clientHeight: document.querySelector<HTMLElement>(".starter-panel")?.clientHeight ?? 0 } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      productionCard: productionCardRect
+        ? {
+            bottom: productionCardRect.bottom,
+            clientHeight: productionCard?.clientHeight ?? 0,
+            scrollHeight: productionCard?.scrollHeight ?? 0
+          }
+        : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.productionCard).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.productionCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.productionCard!.scrollHeight).toBeLessThanOrEqual(metrics.productionCard!.clientHeight + 1);
+  expect(metrics.overflowingChildren).toEqual([]);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-comeback-ready-action-surface-v0-393.png"), fullPage: false });
+});
+
 test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 깨지 않는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 399, height: 666 });
   await page.goto("/?qaResearchComplete=1");
