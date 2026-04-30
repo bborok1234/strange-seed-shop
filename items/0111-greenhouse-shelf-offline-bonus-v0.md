@@ -1,8 +1,9 @@
 # Greenhouse shelf offline bonus v0
 
-Status: active
+Status: done
 Branch: `codex/0111-greenhouse-shelf-offline-bonus-v0`
 Issue: #206
+PR: #207
 
 ## Context
 
@@ -45,6 +46,9 @@ Issue: #206
 - Focused visual: `npm run check:visual -- --grep "온실 선반 보관"` PASS
 - Full visual: `npm run check:visual` PASS, 36 passed
 - CI: `npm run check:ci` PASS
+- PR checks: #207 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Merge: PR #207 squash-merged to `main`
+- Main CI: `25152516010` PASS
 
 ## Risks
 

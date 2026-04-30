@@ -34,6 +34,9 @@
 - `npm run check:visual -- --grep "온실 선반 보관"` PASS
 - `npm run check:visual` PASS, 36 passed
 - `npm run check:ci` PASS
+- PR #207 checks PASS: `Check automerge eligibility`, `Verify game baseline`
+- PR #207 squash-merged to `main`
+- Main CI `25152516010` PASS
 
 ## 안전 범위
 
@@ -43,4 +46,4 @@
 
 ## 남은 위험
 
-- 복귀 modal 밀도가 올라가 모바일 화면을 다시 가릴 수 있으므로 Browser Use와 visual overflow gate를 필수로 둔다.
+- Issue #206은 PR #207 merge로 closed 상태다.
