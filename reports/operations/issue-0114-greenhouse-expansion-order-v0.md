@@ -47,6 +47,9 @@
 - Focused visual: `npm run check:visual -- --grep "온실 확장 준비"` PASS
 - Full visual: `npm run check:visual` PASS, 39 passed
 - CI: `npm run check:ci` PASS
+- PR: #216 merged
+- PR checks: #216 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Main CI: `25155573462` PASS
 
 ## 안전 범위
 
@@ -56,4 +59,4 @@
 
 ## 남은 위험
 
-- PR checks에서 같은 visual/CI gate를 재확인해야 한다.
+- 현재 남은 known blocker 없음. 다음 작업은 별도 vertical slice로 plan-first 선택한다.
