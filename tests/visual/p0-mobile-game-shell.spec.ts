@@ -1228,6 +1228,115 @@ test("모바일 온실 동선 확장은 3번 밭을 연다", async ({ page }, te
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-route-expansion-v0-393.png"), fullPage: false });
 });
 
+test("모바일 온실 동선 순환 주문은 3번 밭 생산을 쓴다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto(
+    "/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseShelf=1&qaGreenhouseStorage=1&qaGreenhouseRoute=1&qaReset=1"
+  );
+
+  await page.getByRole("button", { name: "보상 확인" }).click();
+  await expect(page.getByRole("button", { name: "3번 밭 빈 자리" })).toBeVisible();
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("3번 밭 순환 납품");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("0/90 잎 납품 준비");
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("3번 밭 순환 납품");
+  await expect(page.getByRole("button", { name: "주문 납품 +110 잎 · +4 꽃가루 · +1 재료" })).toBeDisabled();
+
+  await page.getByRole("button", { name: "생산 잎 수령" }).click();
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("90/90 잎 납품 준비");
+  await expect(page.getByRole("button", { name: "주문 납품 +110 잎 · +4 꽃가루 · +1 재료" })).toBeEnabled();
+  await page.getByRole("button", { name: "주문 납품 +110 잎 · +4 꽃가루 · +1 재료" }).click();
+
+  await expect(page.getByText("재료 1", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("3번 밭 순환 납품 납품 완료")).toContainText("+110 잎 · +4 꽃가루 · +1 재료");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("3번 밭 순환 납품 완료");
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("3번 밭 순환 납품 완료");
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const productionCard = document.querySelector<HTMLElement>(".production-action-card");
+    const productionCardRect = productionCard?.getBoundingClientRect();
+    const routeCard = document.querySelector<HTMLElement>(".upgrade-choice-greenhouse_route")?.getBoundingClientRect();
+    const thirdPlot = Array.from(document.querySelectorAll<HTMLElement>(".playfield-plot-card")).find((element) =>
+      element.textContent?.includes("3번 밭")
+    );
+    const thirdPlotRect = thirdPlot?.getBoundingClientRect();
+    const overflowingChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
+    )
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel
+        ? {
+            top: panel.top,
+            bottom: panel.bottom,
+            clientHeight: panelElement?.clientHeight ?? 0,
+            scrollHeight: panelElement?.scrollHeight ?? 0
+          }
+        : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      productionCard: productionCardRect
+        ? {
+            bottom: productionCardRect.bottom,
+            clientHeight: productionCard?.clientHeight ?? 0,
+            scrollHeight: productionCard?.scrollHeight ?? 0
+          }
+        : null,
+      routeCard: routeCard ? { bottom: routeCard.bottom } : null,
+      thirdPlot: thirdPlotRect ? { bottom: thirdPlotRect.bottom, height: thirdPlotRect.height } : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.productionCard).not.toBeNull();
+  expect(metrics.routeCard).not.toBeNull();
+  expect(metrics.thirdPlot).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.productionCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.productionCard!.scrollHeight).toBeLessThanOrEqual(metrics.productionCard!.clientHeight + 1);
+  expect(metrics.routeCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.thirdPlot!.bottom).toBeLessThanOrEqual(metrics.panel!.top - 4);
+  expect(metrics.thirdPlot!.height).toBeGreaterThan(44);
+  expect(metrics.overflowingChildren).toEqual([]);
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as {
+              materials?: number;
+              pollen?: number;
+              plotCount?: number;
+              idleProduction?: { completedOrderIds?: string[] };
+            })
+          : {};
+        return {
+          materials: parsed.materials,
+          pollen: parsed.pollen,
+          plotCount: parsed.plotCount,
+          routeSupplyDone:
+            parsed.idleProduction?.completedOrderIds?.includes("order_greenhouse_route_supply_001") ?? false
+        };
+      })
+    )
+    .toEqual({ materials: 1, pollen: 4, plotCount: 3, routeSupplyDone: true });
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-route-supply-order-v0-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");
