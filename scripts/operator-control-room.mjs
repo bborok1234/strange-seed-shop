@@ -125,7 +125,7 @@ For the current seed-ops issue run, stop only after the plan acceptance criteria
 
 ## Next queue quality gate
 
-The next seed-ops issue must name at least one competition-inspired production gap and at least one asset/FX or sprite-animation decision. A task that only adds another order, copy tweak, spacing change, or test-only assertion is not enough unless it unblocks that vertical slice.
+The next seed-ops issue must name at least one 경쟁작 production gap (competition-inspired production gap) and at least one asset/FX or sprite-animation decision that creates a concrete visual/game-feel payoff. The asset/FX axis 기존 asset 재사용만으로는 통과하지 않는다; it must commit to at least one of playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion. 단순 주문 추가, copy tweak, spacing tweak, or test-only work fails unless it is paired with that payoff and unblocks the vertical slice.
 `;
 
 const report = `# Operator Control Room Snapshot\n\n${snapshot.trim()}\n`;

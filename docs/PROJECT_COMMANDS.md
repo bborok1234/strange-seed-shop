@@ -58,10 +58,10 @@ Game Studio route가 필요한 issue/PR에서 route가 비어 있으면 plan 미
 1. `player verb`: 플레이어가 새로 하거나 더 명확히 이해하는 행동.
 2. `production/progression role`: 생산 엔진, 주문/납품, 업그레이드, 오프라인 복귀, 연구/원정, 수집 progression 중 어느 위치를 강화하는지.
 3. `screen moment`: 첫 5분 또는 복귀 후 30초 안에서 실제로 보이는 장면.
-4. `asset/FX`: 필요한 gameplay asset/FX 또는 기존 asset 활용 계획.
+4. `asset/FX`: 필요한 gameplay asset/FX, sprite state, motion, HUD/playfield 시각 변화. 기존 asset 재사용만으로는 통과하지 않는다.
 5. `playtest evidence`: Browser Use, visual QA, 수치 검증으로 볼 사용자 관찰 포인트.
 
-`safe`, `local`, `작다`는 선택 이유가 아니라 승인/파괴/외부 권한 gate를 통과했다는 조건이다. 색/여백/문구/test-only/doc-only 작업은 production vertical slice blocker를 제거하거나 명확한 vertical slice 일부일 때만 선택한다.
+`asset/FX` 축은 `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 최소 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 같이 적어야 한다. `safe`, `local`, `작다`는 선택 이유가 아니라 승인/파괴/외부 권한 gate를 통과했다는 조건이다. 단순 주문 추가, 색/여백/문구, copy tweak, test-only/doc-only 작업은 위 visual payoff를 동반해 production vertical slice blocker를 제거하거나 명확한 vertical slice 일부일 때만 선택한다.
 
 ### 작업 종료 문서 갱신 규칙
 

@@ -3,37 +3,37 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T07:35:42.439Z
+Generated at: 2026-05-01T08:09:42.884Z
 
 ## Current mission
 
-Issue #235 **Greenhouse mist return order v0**는 PR #236으로 merge됐고 main CI `25206692961`가 통과했다. 다음 `$seed-ops` 후보는 물안개/응축 주문 이후의 온실 장기 메타를 새 강화 또는 새 수집/원정 단서로 되돌리는 production vertical slice다. 새 issue는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan-first로 고정한 뒤 시작한다.
+Issue #238 **seed-ops asset/FX queue gate hardening**는 사용자가 지적한 ops 하네스 실패를 바로잡는 현재 작업이다. Issue #235 **Greenhouse mist return order v0**는 PR #236으로 merge됐고 main CI `25206692961`가 통과했다. 이번 작업이 끝나면 다음 `$seed-ops` 후보는 물안개/응축 주문 이후의 온실 장기 메타를 새 강화 또는 새 수집/원정 단서로 되돌리는 production vertical slice다. 새 issue는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan-first로 고정한 뒤 시작한다.
 
 즉시 다음 작업 선택 기준:
 
 1. 이번 run의 종료 조건은 Issue #235 plan acceptance, Browser Use iab, `npm run check:visual -- --grep "물안개 응축"`, `npm run check:ci`, PR checks, main CI가 green인 상태이며 모두 완료됐다.
 2. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
-3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 하며, asset/FX 또는 sprite-animation 결정을 최소 하나 포함해야 한다.
+3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.
 4. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
 5. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
 6. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
-7. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다.
+7. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, concrete visual/game-feel payoff, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다. 단순 주문 추가, copy tweak, test-only 작업은 위 payoff 없이 통과하지 않는다.
 
 ## Local state
 
-- Branch: codex/0121-greenhouse-mist-order-closeout
-- Latest commit: 167ce87 물안개 복귀 보상이 응축 주문으로 이어진다
+- Branch: codex/0122-seed-ops-asset-fx-gate-hardening
+- Latest commit: 175a356 물안개 응축 주문 완료 증거를 main 기준으로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T07:29:07.218Z
-- Phase: pr-open
-- Issue: #235
-- PR: #236
-- Item: items/0121-greenhouse-mist-order-v0.md
-- Next action: PR gate 확인 후 ready/merge/main CI gate까지 진행
+- Timestamp: 2026-05-01T08:09:07.544Z
+- Phase: implementing
+- Issue: #238
+- PR: 
+- Item: items/0122-seed-ops-asset-fx-gate-hardening.md
+- Next action: gate 구현 후 check:seed-ops-queue/check:ci/PR gate 확인
 
 ## Open PRs
 
@@ -41,7 +41,7 @@ Issue #235 **Greenhouse mist return order v0**는 PR #236으로 merge됐고 main
 
 ## Open issues
 
-- unavailable or none
+- #238 [Agent Ops] seed-ops asset/FX queue gate hardening — https://github.com/bborok1234/strange-seed-shop/issues/238
 
 ## Playable mode
 
@@ -64,7 +64,7 @@ For the current seed-ops issue run, stop only after the plan acceptance criteria
 
 ## Next queue quality gate
 
-The next seed-ops issue must name at least one competition-inspired production gap and at least one asset/FX or sprite-animation decision. A task that only adds another order, copy tweak, spacing change, or test-only assertion is not enough unless it unblocks that vertical slice.
+The next seed-ops issue must name at least one 경쟁작 production gap (competition-inspired production gap) and at least one asset/FX or sprite-animation decision that creates a concrete visual/game-feel payoff. The asset/FX axis 기존 asset 재사용만으로는 통과하지 않는다; it must commit to at least one of playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion. 단순 주문 추가, copy tweak, spacing tweak, or test-only work fails unless it is paired with that payoff and unblocks the vertical slice.
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:END -->
 
 Status: v1-live-control-room
