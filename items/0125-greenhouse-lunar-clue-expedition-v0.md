@@ -1,6 +1,6 @@
 # Greenhouse lunar clue expedition v0
 
-Status: review
+Status: done
 Work type: game_feature
 Owner: agent
 Created: 2026-05-01
@@ -64,6 +64,8 @@ Vertical slice axes:
 - `npm run check:content`: PASS
 - `npm run build`: PASS
 - `npm run check:ci`: PASS
+- PR #246 GitHub checks: PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Main CI: PASS, run `25208987443`, merge commit `bae8b9ef038351f0547a8cec3431b32a57d2d526`
 
 ## Safety
 
