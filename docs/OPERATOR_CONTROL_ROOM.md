@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T11:20:54.489Z
+Generated at: 2026-05-01T11:45:21.362Z
 
 ## Current mission
 
-Issue #251 **Greenhouse lunar reward source bridge v0**가 active branch `codex/0127-greenhouse-lunar-reward-source-bridge-v0`에서 local implementation/Browser Use/CI gate를 통과했다. 다음 `$seed-ops` 단계는 PR 본문과 GitHub issue acceptance를 같은 evidence로 갱신하고, PR checks까지 통과시킨 뒤 merge/main CI를 확인하는 것이다.
+Issue #251 **Greenhouse lunar reward source bridge v0**는 PR #252로 열렸고, active branch `codex/0127-greenhouse-lunar-reward-source-bridge-v0`에서 local implementation/Browser Use/CI gate를 통과했다. 다음 `$seed-ops` 단계는 PR #252 checks를 확인하고, green이면 merge/main CI까지 확인하는 것이다.
 
 즉시 다음 작업 선택 기준:
 
@@ -23,18 +23,18 @@ Issue #251 **Greenhouse lunar reward source bridge v0**가 active branch `codex/
 ## Local state
 
 - Branch: codex/0127-greenhouse-lunar-reward-source-bridge-v0
-- Latest commit: aebd229 Merge pull request #250 from bborok1234/codex/0126-seed-ops-no-final-continuation-gate-closeout
+- Latest commit: a06f548 PR 본문도 운영 증거로 남긴다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T11:20:42.270Z
-- Phase: verifying
+- Timestamp: 2026-05-01T11:44:57.917Z
+- Phase: pr
 - Issue: #251
-- PR: 
+- PR: #252
 - Item: items/0127-greenhouse-lunar-reward-source-bridge-v0.md
-- Next action: PR 생성/issue acceptance 갱신 gate 후 GitHub checks, merge, main CI 확인
+- Next action: PR #252 checks gate 확인, green이면 merge 준비
 
 ## Open PRs
 

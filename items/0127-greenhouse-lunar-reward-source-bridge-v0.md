@@ -3,6 +3,7 @@
 Status: review
 Owner: agent
 Issue: #251
+PR: #252
 Branch: `codex/0127-greenhouse-lunar-reward-source-bridge-v0`
 Started: 2026-05-01
 
@@ -48,6 +49,7 @@ Started: 2026-05-01
 
 ## Evidence
 
+- PR: #252
 - Browser Use `iab`: `reports/visual/p0-greenhouse-lunar-reward-source-bridge-browser-use-claim-20260501.png`, `reports/visual/p0-greenhouse-lunar-reward-source-bridge-browser-use-seeds-20260501.png`, `reports/visual/p0-greenhouse-lunar-reward-source-bridge-browser-use-album-20260501.png`
 - Visual report: `reports/visual/p0-greenhouse-lunar-reward-source-bridge-20260501.md`
 - `npm run check:visual -- --grep "달빛 온실 조사 보상"`: 1 passed
