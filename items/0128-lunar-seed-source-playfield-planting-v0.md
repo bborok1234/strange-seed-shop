@@ -1,9 +1,11 @@
 # Lunar seed source playfield planting v0
 
-Status: draft PR / checks pending
+Status: done / merged
 Owner: agent
 Issue: #254
 PR: #255
+Merge commit: `92b3b84`
+Main CI: `25215586874`
 Branch: `codex/0128-lunar-seed-source-playfield-planting-v0`
 Started: 2026-05-01
 
