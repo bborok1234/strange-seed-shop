@@ -3,15 +3,15 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T07:29:07.218Z
+Generated at: 2026-05-01T07:35:42.439Z
 
 ## Current mission
 
-현재 운영모드는 Issue #235 **Greenhouse mist return order v0**를 진행 중이다. 이번 run은 `온실 물안개` 완료 뒤 복귀 보너스 payoff가 `물안개 응축 납품` 주문, 생산 잎 수령, `재료 1 · 꽃가루 2` 보상으로 다시 이어지는 vertical slice를 닫는다. Browser Use iab와 focused visual gate는 통과했고, 남은 gate는 `npm run check:ci`, PR checks, merge, main CI다.
+Issue #235 **Greenhouse mist return order v0**는 PR #236으로 merge됐고 main CI `25206692961`가 통과했다. 다음 `$seed-ops` 후보는 물안개/응축 주문 이후의 온실 장기 메타를 새 강화 또는 새 수집/원정 단서로 되돌리는 production vertical slice다. 새 issue는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan-first로 고정한 뒤 시작한다.
 
 즉시 다음 작업 선택 기준:
 
-1. 이번 run의 종료 조건은 Issue #235 plan acceptance, Browser Use iab, `npm run check:visual -- --grep "물안개 응축"`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
+1. 이번 run의 종료 조건은 Issue #235 plan acceptance, Browser Use iab, `npm run check:visual -- --grep "물안개 응축"`, `npm run check:ci`, PR checks, main CI가 green인 상태이며 모두 완료됐다.
 2. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
 3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 하며, asset/FX 또는 sprite-animation 결정을 최소 하나 포함해야 한다.
 4. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
@@ -21,19 +21,19 @@ Generated at: 2026-05-01T07:29:07.218Z
 
 ## Local state
 
-- Branch: codex/0121-greenhouse-mist-order-v0
-- Latest commit: 331d1cf 물안개 강화 완료 증거를 main 기준으로 닫는다
+- Branch: codex/0121-greenhouse-mist-order-closeout
+- Latest commit: 167ce87 물안개 복귀 보상이 응축 주문으로 이어진다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T07:07:12.616Z
-- Phase: planning
+- Timestamp: 2026-05-01T07:29:07.218Z
+- Phase: pr-open
 - Issue: #235
-- PR: 
+- PR: #236
 - Item: items/0121-greenhouse-mist-order-v0.md
-- Next action: implementation gate: order/QA/visual 구현 후 Browser Use와 PR/main CI gate까지 진행
+- Next action: PR gate 확인 후 ready/merge/main CI gate까지 진행
 
 ## Open PRs
 
@@ -41,7 +41,7 @@ Generated at: 2026-05-01T07:29:07.218Z
 
 ## Open issues
 
-- #235 [Game Feature] 물안개 복귀 보상이 새 납품 주문으로 이어진다 — https://github.com/bborok1234/strange-seed-shop/issues/235
+- unavailable or none
 
 ## Playable mode
 
