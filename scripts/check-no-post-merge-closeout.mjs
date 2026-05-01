@@ -27,6 +27,7 @@ function collectOperationFiles() {
 
 function isForbiddenCloseoutBody(filePath) {
   const name = path.basename(filePath);
+  if (name.includes("no-post-merge-closeout")) return false;
   return /^(pr|issue)-.+closeout.+body\.md$/.test(name);
 }
 
