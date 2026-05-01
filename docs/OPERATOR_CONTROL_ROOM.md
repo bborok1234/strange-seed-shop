@@ -3,13 +3,13 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T14:02:51.471Z
+Generated at: 2026-05-01T14:08:13.527Z
 
 ## Current mission
 
-Issue #254 **Lunar seed source playfield planting v0**는 PR #255로 merge됐고 main CI `25215586874`가 통과했다. 정적 FX strip이 밭에 찍히던 회귀는 제거했고, closeout PR #256/main CI `25215839461`도 통과했다.
+Issue #257 **Game studio ops harness**는 PR #258로 merge됐고 main CI `25217147915`가 통과했다. closeout PR #259도 merge됐고 main CI `25217294128`이 통과했다.
 
-다음 작업은 Issue #257 `P0.5 Idle Core + Creative Rescue` studio campaign pass다. `$seed-ops`는 새 게임 implementation issue를 고르기 전에 `items/0129-game-studio-ops-harness.md`와 `reports/operations/game-studio-harness-reference-review-20260501.md`를 campaign source of truth로 사용해야 한다.
+다음 작업은 Issue #260 **P0.5 studio campaign audit**다. `$seed-ops`는 곧바로 좁은 implementation issue를 고르지 않고, `items/0130-p05-studio-campaign-audit.md`로 현재 첫 5분 loop, production readability, asset/FX consistency, Browser Use/playtest evidence를 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 관점에서 감사한 뒤 다음 implementation tranche를 선택한다.
 
 즉시 적용할 gate:
 
@@ -22,19 +22,19 @@ Issue #254 **Lunar seed source playfield planting v0**는 PR #255로 merge됐고
 
 ## Local state
 
-- Branch: codex/0129-game-studio-ops-harness-closeout
-- Latest commit: d2ecc4b Game studio ops harness (#258)
+- Branch: codex/0130-p05-studio-campaign-audit
+- Latest commit: 99602ee 게임사 하네스 완료 증거를 main 기준으로 닫는다 (#259)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T14:02:46.237Z
-- Phase: closeout
-- Issue: #257
-- PR: #258
-- Item: items/0129-game-studio-ops-harness.md
-- Next action: closeout PR 생성 후 다음 P0.5 campaign issue plan 준비
+- Timestamp: 2026-05-01T14:08:07.428Z
+- Phase: planning
+- Issue: #260
+- PR: pending
+- Item: items/0130-p05-studio-campaign-audit.md
+- Next action: Issue #260 campaign audit gate 준비
 
 ## Open PRs
 
