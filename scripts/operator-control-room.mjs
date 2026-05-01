@@ -134,6 +134,8 @@ Stop only after PR required checks, main CI, and local \`npm run check:all\` are
 
 Codex App action-time confirmation can apply when a GitHub PR, issue, or comment publishes representational communication. This is not a terminal stop: do not send final just to ask for PR creation. Record the pending external-publication gate with branch, commit, PR body file, pending command, confirmation, and next local safe work, then ensure next issue plan artifact exists and continue non-destructive/non-external local work.
 
+assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. confirmation wording, if unavoidable, must be commentary, not final. write heartbeat before any publication ask and leave a same-turn local continuation action in heartbeat, control room, report, checker, or next plan. If the same final publication ask repeats, open a harness-defect fix instead of stopping.
+
 ## Studio Campaign Gate
 
 The next game issue is a child of the active campaign, not a neighbor of the previous issue. Active campaign source of truth: P0.5 Idle Core + Creative Rescue. Before implementation, the next plan artifact must include reference teardown, creative brief, Game Studio Department Signoff, role-debate note when roles disagree, Subagent/Team Routing decision, and QA/playtest plan.

@@ -81,7 +81,7 @@ During a supervised run:
 - Treat every issue completion as a continuation checkpoint: **완료 보고는 중단 조건이 아니라 체크포인트**다.
 - If the user has asked for an ongoing operator run and no stop rule is active, immediately choose the next issue를 plan-first로 선택하고 `## Plan` artifact를 만든 뒤 다음 loop를 시작한다.
 - No-final continuation gate: in `$seed-ops`, `final response is terminal`. Stop rule이 없으면 final 응답 대신 commentary checkpoint를 남기고, `next issue plan artifact exists` 상태를 만든다. `left the next queue candidate is not continuation`: 다음 후보를 적어두기만 한 것은 continuation이 아니다.
-- PR publication confirmation boundary: Codex App에서 PR/issue/comment 게시가 action-time confirmation을 요구해도 This is not a terminal stop. do not send final just to ask for PR creation. Commentary checkpoint로 pending external-publication gate를 남기고, branch/commit/PR body file/pending command/confirmation/next local safe work를 `reports/operations/` 또는 현재 `items/<id>.md`에 기록한 뒤, `next issue plan artifact exists` 상태를 만들고 destructive/external이 아닌 local safe work를 계속한다.
+- PR publication confirmation boundary: Codex App에서 PR/issue/comment 게시가 action-time confirmation을 요구해도 This is not a terminal stop. do not send final just to ask for PR creation. assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. confirmation wording, if unavoidable, must be commentary, not final. write heartbeat before any publication ask를 먼저 수행하고, same-turn local continuation action으로 heartbeat/control room/report/checker/next plan 중 하나를 실제 tool action으로 남긴다. 같은 final publication ask가 반복되면 open a harness-defect fix instead of stopping. Commentary checkpoint로 pending external-publication gate를 남기고, branch/commit/PR body file/pending command/confirmation/next local safe work를 `reports/operations/` 또는 현재 `items/<id>.md`에 기록한 뒤, `next issue plan artifact exists` 상태를 만들고 destructive/external이 아닌 local safe work를 계속한다.
 
 ## Recover procedure
 
@@ -110,7 +110,7 @@ Do not stop only because a PR was merged, a local report was written, or a “co
 
 `$seed-ops`에서는 assistant `final` 응답도 stop으로 취급한다. `final response is terminal`이므로, final을 보내기 전 반드시 stop rule evidence가 있거나 `next issue plan artifact exists` 상태여야 한다. `left the next queue candidate is not continuation`.
 
-Codex App의 PR publication confirmation boundary는 단독 stop 사유가 아니다. action-time confirmation이 필요한 representational communication이면 pending external-publication gate를 보고서로 고정하고 로컬 연속 작업을 먼저 찾는다. do not send final just to ask for PR creation; 로컬 safe work가 전혀 없을 때만 blocker report로 종료한다.
+Codex App의 PR publication confirmation boundary는 단독 stop 사유가 아니다. action-time confirmation이 필요한 representational communication이면 pending external-publication gate를 보고서로 고정하고 로컬 연속 작업을 먼저 찾는다. assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. confirmation wording, if unavoidable, must be commentary, not final. write heartbeat before any publication ask를 먼저 수행하고, same-turn local continuation action을 남긴다. do not send final just to ask for PR creation; 로컬 safe work가 전혀 없을 때만 blocker report로 종료한다.
 
 Before stopping, record:
 

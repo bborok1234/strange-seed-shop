@@ -175,6 +175,10 @@ PR이 red check 상태면 verify lane은 실패 job을 읽고, 로컬 재현을 
 Codex App에서는 GitHub PR 생성/수정, issue 수정, comment 게시처럼 외부에 운영사 문장을 공개하는 representational communication이 action-time confirmation을 요구할 수 있다. 이 경계는 safety gate이지 `$seed-ops`의 완료 조건이 아니다.
 
 - This is not a terminal stop: PR publication confirmation boundary는 `final response is terminal` 예외가 아니며, do not send final just to ask for PR creation.
+- assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다.
+- confirmation wording, if unavoidable, must be commentary, not final.
+- write heartbeat before any publication ask를 먼저 수행하고, same-turn local continuation action으로 heartbeat/control room/report/checker/next plan 중 하나를 실제 tool action으로 남긴다.
+- 같은 final publication ask가 반복되면 open a harness-defect fix instead of stopping.
 - 확인이 필요한 순간에는 final이 아니라 commentary checkpoint로 pending external-publication gate를 남기고, branch, commit, PR body file, 정확한 pending command, 필요한 confirmation, next local safe work를 `reports/operations/` 또는 현재 `items/<id>.md`에 기록한다.
 - 그 직후 `next issue plan artifact exists` 상태를 만든다. 이미 다음 plan이 있으면 그 plan을 최신 blocker/continuation evidence와 연결한다.
 - 확인 대기 중에도 destructive/external 작업이 아닌 local safe work는 계속한다. 다음 issue plan 보강, asset plan/prompt 초안, local QA 계획, docs/checker hardening, report 갱신은 계속 가능한 작업이다.
