@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T08:14:54.107Z
+Generated at: 2026-05-01T08:22:51.656Z
 
 ## Current mission
 
-Issue #238 **seed-ops asset/FX queue gate hardening**는 사용자가 지적한 ops 하네스 실패를 바로잡는 현재 작업이다. Issue #235 **Greenhouse mist return order v0**는 PR #236으로 merge됐고 main CI `25206692961`가 통과했다. 이번 작업이 끝나면 다음 `$seed-ops` 후보는 물안개/응축 주문 이후의 온실 장기 메타를 새 강화 또는 새 수집/원정 단서로 되돌리는 production vertical slice다. 새 issue는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan-first로 고정한 뒤 시작한다.
+Issue #238 **seed-ops asset/FX queue gate hardening**는 PR #239로 merge됐고 main CI `25207807340`가 통과했다. 다음 `$seed-ops` 후보는 물안개/응축 주문 이후의 온실 장기 메타를 새 강화 또는 새 수집/원정 단서로 되돌리는 production vertical slice다. 새 issue는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan-first로 고정한 뒤 시작한다.
 
 즉시 다음 작업 선택 기준:
 
@@ -21,27 +21,27 @@ Issue #238 **seed-ops asset/FX queue gate hardening**는 사용자가 지적한 
 
 ## Local state
 
-- Branch: codex/0122-seed-ops-asset-fx-gate-hardening
-- Latest commit: 21e79e2 seed-ops가 약한 asset queue를 통과하지 못하게 한다
+- Branch: codex/0123-seed-ops-asset-gate-closeout
+- Latest commit: 797d16b asset gate merge 증거를 main 기준으로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T08:13:58.563Z
+- Timestamp: 2026-05-01T08:22:41.257Z
 - Phase: pr-open
-- Issue: #238
-- PR: #239
-- Item: items/0122-seed-ops-asset-fx-gate-hardening.md
-- Next action: PR checks 확인 후 ready/merge/main CI gate 확인
+- Issue: #240
+- PR: #241
+- Item: items/0123-seed-ops-asset-gate-closeout.md
+- Next action: PR #241 checks 확인 후 merge/main CI 확인하고 다음 production vertical slice 선택 준비
 
 ## Open PRs
 
-- #239 draft [Agent Ops] seed-ops asset/FX queue gate hardening — https://github.com/bborok1234/strange-seed-shop/pull/239
+- #241 draft [Agent Ops] seed-ops asset/FX gate closeout — https://github.com/bborok1234/strange-seed-shop/pull/241
 
 ## Open issues
 
-- #238 [Agent Ops] seed-ops asset/FX queue gate hardening — https://github.com/bborok1234/strange-seed-shop/issues/238
+- #240 [Agent Ops] seed-ops asset/FX gate closeout — https://github.com/bborok1234/strange-seed-shop/issues/240
 
 ## Playable mode
 
