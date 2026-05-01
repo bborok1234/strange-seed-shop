@@ -18,6 +18,14 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - UI/visual 작업은 Browser Use `iab` 실기 QA를 먼저 시도한다. Browser Use는 별도 `browser` namespace tool이 아니라 Node REPL `js`에서 `scripts/browser-client.mjs`를 absolute import해 bootstrap하는 방식이므로, `browser-use` tool namespace가 안 보인다는 이유만으로 fallback하지 않는다. Node REPL `js` tool이 처음 보이지 않으면 fallback 전에 `tool_search`로 노출을 재확인하고, `node_repl js`, `mcp__node_repl__js`, `js`, `node_repl js JavaScript execution`을 순서대로 찾는다.
 - 다음 issue 선택은 "safe small item"이 아니라 `docs/NORTH_STAR.md` 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md` vertical slice workflow를 우선한다. safety는 stop/approval gate이고, 제품 우선순위 기준이 아니다.
 
+## No-final continuation gate
+
+- `$seed-ops`에서 assistant `final` 응답은 세션을 닫는 terminal action이다. `final response is terminal`을 기본 운영 가정으로 둔다.
+- stop rule이 없고 non-destructive 다음 issue 후보가 있으면 `final` 응답을 보내지 않는다. 완료 요약은 commentary checkpoint로만 남기고 즉시 다음 issue를 생성/선택한다.
+- 실제 continuation은 `next issue plan artifact exists` 상태여야 인정한다. 즉, 다음 `items/<id>.md` 또는 동등 plan artifact에 `## Plan`, 수용 기준, 검증 명령, 리스크가 있어야 한다.
+- `left the next queue candidate is not continuation`: 다음 후보를 roadmap/control room/final summary에 적어둔 것은 continuation이 아니다. 다음 issue plan artifact가 없으면 아직 멈출 수 없다.
+- `final` 응답이 허용되는 경우는 Stop rules 중 하나가 활성화되고, final heartbeat/watchdog/daily report 또는 blocker report가 그 stop rule을 명시한 때뿐이다.
+
 ## Before implementation
 
 1. `docs/README.md`, `docs/ROADMAP.md`, `docs/PROJECT_COMMANDS.md`, `docs/NORTH_STAR.md`를 확인한다.

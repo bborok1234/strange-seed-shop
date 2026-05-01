@@ -73,6 +73,7 @@ During a supervised run:
 - When visual work changes UI, follow Browser Use first policy and save visual evidence under `reports/visual/`.
 - Treat every issue completion as a continuation checkpoint: **완료 보고는 중단 조건이 아니라 체크포인트**다.
 - If the user has asked for an ongoing operator run and no stop rule is active, immediately choose the next issue를 plan-first로 선택하고 `## Plan` artifact를 만든 뒤 다음 loop를 시작한다.
+- No-final continuation gate: in `$seed-ops`, `final response is terminal`. Stop rule이 없으면 final 응답 대신 commentary checkpoint를 남기고, `next issue plan artifact exists` 상태를 만든다. `left the next queue candidate is not continuation`: 다음 후보를 적어두기만 한 것은 continuation이 아니다.
 
 ## Recover procedure
 
@@ -98,6 +99,8 @@ Stop a long-running operator session only when one of these is true:
 - The user explicitly says stop/cancel/abort.
 
 Do not stop only because a PR was merged, a local report was written, or a “completed work” summary is ready. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 summary는 다음 issue로 이어지는 checkpoint이고, 다음 issue를 plan-first로 선택해야 한다. 게임 issue라면 `docs/NORTH_STAR.md` Production Bar 기준의 vertical slice 후보를 고르며, "안전하고 작은 작업"은 우선순위 기준이 아니다.
+
+`$seed-ops`에서는 assistant `final` 응답도 stop으로 취급한다. `final response is terminal`이므로, final을 보내기 전 반드시 stop rule evidence가 있거나 `next issue plan artifact exists` 상태여야 한다. `left the next queue candidate is not continuation`.
 
 Before stopping, record:
 

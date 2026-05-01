@@ -36,9 +36,18 @@ const coreGatePhrases = [
   "test-only"
 ];
 
+const continuationGatePhrases = [
+  "No-final continuation gate",
+  "final response is terminal",
+  "next issue plan artifact exists",
+  "left the next queue candidate is not continuation"
+];
+
 const requiredPaths = [
   "AGENTS.md",
   ".codex/skills/seed-ops/SKILL.md",
+  "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
+  "docs/OPERATOR_RUNBOOK.md",
   "docs/PROJECT_COMMANDS.md",
   "docs/ROADMAP.md",
   "docs/OPERATOR_CONTROL_ROOM.md",
@@ -59,6 +68,16 @@ for (const filePath of [
   "scripts/operator-control-room.mjs"
 ]) {
   requirePhrases(filePath, coreGatePhrases);
+}
+
+for (const filePath of [
+  "AGENTS.md",
+  ".codex/skills/seed-ops/SKILL.md",
+  "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
+  "docs/OPERATOR_RUNBOOK.md",
+  "docs/PROJECT_COMMANDS.md"
+]) {
+  requirePhrases(filePath, continuationGatePhrases);
 }
 
 requirePhrases("scripts/check-ops-live.mjs", [

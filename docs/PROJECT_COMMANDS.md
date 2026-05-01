@@ -37,6 +37,16 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 
 원격 게시 기본값: `$seed-ops` issue loop에서 branch push, draft PR 생성/갱신, GitHub checks 확인, merge, main CI 확인은 별도 사용자 지시가 없어도 완료 조건에 포함된다. 확인 질문으로 멈추지 않는다. 다만 credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary, 실채널 GTM은 stop rule과 명시 승인 규칙을 우선한다.
 
+### No-final continuation gate
+
+`$seed-ops`에서 assistant `final` 응답은 세션을 닫는 terminal action이다. `final response is terminal`을 운영 계약으로 보고, stop rule 없이 `final` 응답을 보내지 않는다.
+
+- 완료 요약은 final이 아니라 commentary checkpoint로 남긴다.
+- stop rule이 없고 다음 작업이 non-destructive라면 즉시 다음 issue를 만들거나 선택하고 plan-first artifact를 작성한다.
+- 실제 continuation은 `next issue plan artifact exists` 상태다. 다음 `items/<id>.md` 또는 동등 문서에 `## Plan`, 수용 기준, 검증 명령, 리스크가 있어야 한다.
+- `left the next queue candidate is not continuation`: roadmap/control room/final summary에 다음 후보를 적어두는 것은 continuation이 아니다.
+- final 응답은 명시 중단, 시간 상한, 외부 승인/credential/destructive boundary, 치명적 blocker, materially branching 제품 결정 중 하나를 보고서로 고정한 뒤에만 허용된다.
+
 ### Game Studio routing gate
 
 이 프로젝트는 일반 웹앱이 아니라 브라우저 게임이다. `$seed-ops`가 게임 기능, UI/HUD, playfield, asset, QA, playtest issue를 처리할 때는 Game Studio plugin route가 필수다.

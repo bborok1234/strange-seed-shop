@@ -85,6 +85,7 @@ For game work, use the Game Studio plugin as the product-quality routing layer b
 - Keep changes scoped, reversible, and tied to acceptance criteria.
 - When adding new implementation work, update the roadmap with status and verification evidence.
 - 장시간 `$ralph`/운영모드에서 완료 보고는 중단 조건이 아니라 체크포인트다. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 다음 issue를 plan-first로 선택하고 계속 진행한다.
+- No-final continuation gate: `$seed-ops`에서 assistant `final` 응답은 terminal action이다. `final response is terminal`을 전제로, stop rule이 없으면 final 대신 commentary checkpoint를 남기고 `next issue plan artifact exists` 상태를 만든다. `left the next queue candidate is not continuation`.
 - `$seed-ops` 또는 명시적 장시간 운영모드에서는 branch push, draft PR 생성/갱신, GitHub checks 확인, merge, main CI 확인까지가 issue loop의 완료 조건이다. 사용자가 원격 게시를 한 번 더 말하지 않았다는 이유만으로 확인 질문을 하지 않는다. credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary, 실채널 GTM은 stop/approval gate를 우선한다.
 - Issue 종료 전 `items/<id>.md`, `docs/ROADMAP.md`, `docs/DASHBOARD.md`(`npm run update:dashboard`), GitHub issue/PR evidence를 갱신한다. 세부 규칙은 `docs/PROJECT_COMMANDS.md`와 `docs/OPERATOR_RUNBOOK.md`를 따른다.
 - GitHub issue/PR/comment 본문은 운영사 evidence surface다. `gh issue create/edit`, `gh pr create/edit`, `gh issue comment`, `gh api .../comments`를 사용할 때 본문은 반드시 markdown 파일로 작성하고 `--body-file` 또는 API file payload로 제출한다. 셸 인자 안에 `\n`을 넣어 본문을 만들지 않는다.
