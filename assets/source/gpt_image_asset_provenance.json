@@ -1,0 +1,66 @@
+{
+  "version": "phase0-v1",
+  "provider": "openai_images_api",
+  "model": "gpt-image-2",
+  "source_prompts": "assets/source/asset_prompts.json",
+  "style_bible": "assets/source/asset_style_bible.json",
+  "records": [
+    {
+      "asset_id": "seed_lunar_001_greenhouse_source_icon",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "accepted_output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
+      "generated_at": "2026-05-01T12:39:30.218Z",
+      "status": "blocked_codex_native_fallback_required",
+      "blocker": "OpenAI image generation failed for seed_lunar_001_greenhouse_source_icon: Your organization must be verified to use the model `gpt-image-2`. Please go to: https://platform.openai.com/settings/organization/general and click on Verify Organization. If you just verified, it can take up to 15 minutes for access to propagate.",
+      "fallback": {
+        "provider": "codex_native_image_generation",
+        "required": true,
+        "output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
+        "rule": "Use Codex image generation to create raster PNG only; SVG/vector/code-native drawings remain rejected."
+      },
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "fx_lunar_greenhouse_planting_pulse_001",
+      "provider": "codex_native_image_generation",
+      "model": "codex_native_image_generation",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "/Users/mirlim/.codex/generated_images/019de24a-d5bb-72f0-ac03-57a23627a09b/ig_00e5ca9a2acadcba0169f49e3576bc8191b6fac6654ca0ec26.png",
+      "accepted_output_path": "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+      "generated_at": "2026-05-01T12:39:59.026Z",
+      "status": "accepted_codex_native_fallback",
+      "width": 640,
+      "height": 160,
+      "normalization": {
+        "frames": 4,
+        "frameWidth": 160,
+        "frameHeight": 160,
+        "sourceSize": "1983x793",
+        "method": "crop panels, edge-connected checkerboard cutout, fit frames to 160x160 transparent canvas"
+      },
+      "fallback_reason": "gpt-image-2 organization verification propagation blocker",
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    }
+  ],
+  "updated_at": "2026-05-01T12:39:59.026Z"
+}

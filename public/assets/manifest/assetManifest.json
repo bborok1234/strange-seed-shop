@@ -753,6 +753,69 @@
           ]
         }
       }
+    },
+    "seed_lunar_001_greenhouse_source_icon": {
+      "path": "/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
+      "category": "seed_icon",
+      "family": "lunar",
+      "rarity": "common",
+      "intended_use": "greenhouse_lunar_seed_source_icon",
+      "width": 1254,
+      "height": 1254,
+      "status": "accepted",
+      "tags": [
+        "phase0_5",
+        "seed",
+        "lunar",
+        "greenhouse_mist",
+        "source",
+        "asset_fx"
+      ],
+      "notes": "Codex native image generation fallback raster PNG with checkerboard matte cutout after gpt-image-2 organization verification propagation blocker."
+    },
+    "fx_lunar_greenhouse_planting_pulse_001": {
+      "path": "/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+      "category": "fx_strip",
+      "family": "lunar",
+      "rarity": "common",
+      "intended_use": "greenhouse_lunar_planting_playfield_fx",
+      "width": 640,
+      "height": 160,
+      "status": "accepted",
+      "tags": [
+        "phase0_5",
+        "fx",
+        "lunar",
+        "greenhouse_mist",
+        "playfield_state",
+        "planting"
+      ],
+      "notes": "Codex native image generation fallback raster PNG normalized to strict 4-frame 640x160 FX strip after gpt-image-2 organization verification propagation blocker.",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "fx_lunar_greenhouse_planting_pulse_001",
+        "frames": 4,
+        "frameWidth": 160,
+        "frameHeight": 160,
+        "frameRate": 12,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "seed_lunar_001_greenhouse_source_icon"
+        ],
+        "binding": {
+          "target": "effect",
+          "slot": "tap_feedback",
+          "seedIds": [
+            "seed_lunar_001"
+          ],
+          "plotStates": [
+            "growing"
+          ],
+          "actions": [
+            "tap_growth"
+          ]
+        }
+      }
     }
   }
 }

@@ -27,12 +27,28 @@ const EFFECT_LAYOUT: Partial<Record<PlayfieldAnimationSlot, { displaySize: numbe
   reward_fx: { displaySize: 78, offsetX: 16, offsetY: -18 }
 };
 
+type GardenPlayfieldFxDebugEvent = {
+  action: PlayfieldAnimationAction;
+  effects: string[];
+  playfieldAssets: number;
+  plotState: GardenPlotView["state"];
+  seedId?: string;
+};
+
 export class GardenScene extends Phaser.Scene {
   private readonly onActionRef: { current: GardenPlayfieldActionHandler };
   private viewModel: GardenPlayfieldViewModel | null = null;
   private playfieldAssets: ManifestAsset[] = [];
   private root?: Phaser.GameObjects.Container;
   private fxRoot?: Phaser.GameObjects.Container;
+  private pendingOneShotEffects: Array<{
+    action: PlayfieldAnimationAction;
+    displaySize: number;
+    plot: GardenPlotView;
+    textureKey: string;
+    x: number;
+    y: number;
+  }> = [];
 
   constructor(onActionRef: { current: GardenPlayfieldActionHandler }, playfieldAssets: ManifestAsset[] = []) {
     super("GardenScene");
@@ -132,6 +148,8 @@ export class GardenScene extends Phaser.Scene {
         yoyo: animation.yoyo ?? false
       });
     }
+
+    this.flushPendingOneShotEffects();
   }
 
   private renderPlayfield() {
@@ -364,6 +382,16 @@ export class GardenScene extends Phaser.Scene {
     }
   }
 
+  public playActionFeedback(plot: GardenPlotView, action: PlayfieldAnimationAction, x: number, y: number) {
+    if (plot.state !== "growing" && plot.state !== "ready") {
+      return false;
+    }
+
+    this.playBoundEffects(plot, action, x, y);
+    this.playProceduralFeedback(plot, action, x, y);
+    return true;
+  }
+
   private addAnimatedSprite(textureKey: string, x: number, y: number, displaySize: number) {
     const animationKey = this.getAnimationKey(textureKey);
     if (!this.textures.exists(textureKey) || !this.anims.exists(animationKey)) {
@@ -396,11 +424,8 @@ export class GardenScene extends Phaser.Scene {
   }
 
   private playBoundEffects(plot: GardenPlotView, action: PlayfieldAnimationAction, x: number, y: number) {
-    if (action === "tap_growth") {
-      return 0;
-    }
-
     const effects = this.findBoundAnimationAssets("effect", null, plot, action);
+    this.emitFxDebugTelemetry(plot, action, effects);
     let playedCount = 0;
 
     for (const asset of effects) {
@@ -410,14 +435,43 @@ export class GardenScene extends Phaser.Scene {
       }
 
       const layout = EFFECT_LAYOUT[animation.binding?.slot ?? "tap_feedback"] ?? { displaySize: 78, offsetX: 0, offsetY: 0 };
-      const played = this.playOneShot(animation.key, x + layout.offsetX, y + layout.offsetY, layout.displaySize);
+      const effectX = x + layout.offsetX;
+      const effectY = y + layout.offsetY;
+      const played = this.playOneShot(animation.key, effectX, effectY, layout.displaySize);
       if (played) {
         playedCount += 1;
         this.emitFxTelemetry(plot, action, "spritesheet");
+      } else if (this.pendingOneShotEffects.length < 8) {
+        this.pendingOneShotEffects.push({
+          action,
+          displaySize: layout.displaySize,
+          plot,
+          textureKey: animation.key,
+          x: effectX,
+          y: effectY
+        });
+        this.loadPlayfieldAssets(this.playfieldAssets);
       }
     }
 
     return playedCount;
+  }
+
+  private flushPendingOneShotEffects() {
+    if (this.pendingOneShotEffects.length === 0) {
+      return;
+    }
+
+    const pendingEffects = this.pendingOneShotEffects.splice(0);
+    const stillPending: typeof pendingEffects = [];
+    for (const effect of pendingEffects) {
+      if (this.playOneShot(effect.textureKey, effect.x, effect.y, effect.displaySize)) {
+        this.emitFxTelemetry(effect.plot, effect.action, "spritesheet");
+      } else {
+        stillPending.push(effect);
+      }
+    }
+    this.pendingOneShotEffects = [...stillPending, ...this.pendingOneShotEffects].slice(0, 8);
   }
 
   private playProceduralFeedback(plot: GardenPlotView, action: PlayfieldAnimationAction, x: number, y: number) {
@@ -546,6 +600,26 @@ export class GardenScene extends Phaser.Scene {
       __gardenPlayfieldFxEvents?: Array<typeof event>;
     };
     qaWindow.__gardenPlayfieldFxEvents = [...(qaWindow.__gardenPlayfieldFxEvents ?? []), event];
+  }
+
+  private emitFxDebugTelemetry(plot: GardenPlotView, action: PlayfieldAnimationAction, effects: ManifestAsset[]) {
+    if (typeof window === "undefined" || !window.location.search.includes("qaFxTelemetry=1")) {
+      return;
+    }
+
+    const qaWindow = window as unknown as {
+      __gardenPlayfieldFxDebug?: GardenPlayfieldFxDebugEvent[];
+    };
+    qaWindow.__gardenPlayfieldFxDebug = [
+      ...(qaWindow.__gardenPlayfieldFxDebug ?? []),
+      {
+        action,
+        effects: effects.map((asset) => asset.animation?.key ?? asset.path),
+        playfieldAssets: this.playfieldAssets.length,
+        plotState: plot.state,
+        seedId: plot.seedId
+      }
+    ];
   }
 
   private findBoundAnimationAsset(

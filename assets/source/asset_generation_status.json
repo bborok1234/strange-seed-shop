@@ -1,8 +1,8 @@
 {
   "source_prompts": "assets/source/asset_prompts.json",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-01",
   "generation_mode": "codex_native_image_generation",
-  "total": 31,
+  "total": 33,
   "completed": 31,
   "missing": [],
   "blocked": false,
@@ -11,7 +11,8 @@
     "Workflow guardrails added to .codex/skills/gpt-game-asset-generate/SKILL.md.",
     "sprite_batch_001: 6 starter spritesheet/fx strips saved as static workspace PNGs; runtime generation remains disabled. Codex native file export was approximated with deterministic local strip normalization for strict Phaser slicing.",
     "p0_5_core_asset_generation_first_pass: 5 production/order asset candidates saved as static workspace PNGs after Codex native generation and chroma-key alpha conversion. FX strips need normalization before manifest integration.",
-    "p0_5_core_asset_manifest_normalization: 5 P0.5 assets registered in manifest; FX strips normalized to 4x160 strict strips."
+    "p0_5_core_asset_manifest_normalization: 5 P0.5 assets registered in manifest; FX strips normalized to 4x160 strict strips.",
+    "p0_5_lunar_source_playfield_assets: SVG attempt rejected by asset provenance/style gates; must regenerate as GPT Image raster PNG seed icon plus 4-frame FX strip before manifest acceptance."
   ],
   "outputs": [
     "public/assets/game/creatures/creature_herb_common_001.png",
@@ -44,7 +45,9 @@
     "public/assets/game/creatures/states/creature_herb_common_001_celebrate.png",
     "public/assets/game/ui/ui_order_crate_leaf_001.png",
     "public/assets/game/fx/fx_production_tick_leaf_001_strip.png",
-    "public/assets/game/fx/fx_order_delivery_burst_001_strip.png"
+    "public/assets/game/fx/fx_order_delivery_burst_001_strip.png",
+    "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
+    "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png"
   ],
   "batches": {
     "p0_5_core_asset_generation_first_pass": {
@@ -105,6 +108,37 @@
         "Codex native image generation used one asset at a time.",
         "Generated cache files were copied into workspace output_path files after chroma-key alpha conversion.",
         "FX strips are candidate assets and should be normalized/reviewed before manifest integration."
+      ]
+    },
+    "p0_5_lunar_source_playfield_assets": {
+      "generated_at": "2026-05-01",
+      "total": 2,
+      "completed": 2,
+      "missing": [],
+      "blocked": false,
+      "runtime_generation_allowed": false,
+      "completed_assets": [
+        {
+          "asset_id": "seed_lunar_001_greenhouse_source_icon",
+          "output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
+          "status": "accepted_manifest_asset",
+          "width": 1254,
+          "height": 1254,
+          "notes": "Codex native image generation fallback raster PNG with checkerboard matte cutout after gpt-image-2 organization verification propagation blocker."
+        },
+        {
+          "asset_id": "fx_lunar_greenhouse_planting_pulse_001",
+          "output_path": "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+          "status": "accepted_manifest_asset",
+          "width": 640,
+          "height": 160,
+          "notes": "Codex native image generation fallback raster PNG normalized to strict 4-frame FX strip after gpt-image-2 organization verification propagation blocker."
+        }
+      ],
+      "notes": [
+        "SVG/vector attempt rejected by asset provenance/style gates.",
+        "Requires OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL for gpt-image generation.",
+        "FX output must be a 4-frame strip with manifest animation.binding."
       ]
     }
   }

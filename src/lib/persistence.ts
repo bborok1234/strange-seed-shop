@@ -109,6 +109,7 @@ function normalizePlot(raw: Partial<PlotState> | undefined, index: number): Plot
   return {
     index,
     seedId: raw?.seedId,
+    source: raw?.source,
     plantedAt: raw?.plantedAt,
     tapProgressSeconds: raw?.tapProgressSeconds ?? 0,
     harvestedCreatureId: raw?.harvestedCreatureId

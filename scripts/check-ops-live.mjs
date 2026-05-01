@@ -129,7 +129,15 @@ for (const phrase of [
   "HUD affordance",
   "sprite/FX",
   "order crate visual state",
-  "reward motion"
+  "reward motion",
+  "Codex native image generation",
+  "gpt-image-2",
+  "accepted manifest game asset",
+  "animation.binding",
+  "npm run check:asset-provenance",
+  "npm run check:asset-style",
+  "OPENAI_API_KEY",
+  "SEED_ASSET_IMAGE_MODEL"
 ]) {
   requirePhrase(controlRoomPath, phrase);
 }

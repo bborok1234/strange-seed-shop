@@ -59,6 +59,8 @@ public/assets/manifest/
 - Prefer 20 assets for the first style-validation batch.
 - Include a mix of creatures, seed icons, UI shop images, and one background if requested.
 - Use stable lowercase snake_case ids.
+- Plan final game graphics as generated raster assets, normally `.png`. Do not plan SVG/vector/code-native drawings as accepted game graphics unless the user explicitly asks for a non-game UI vector.
+- For FX or animation payoff, plan a sprite sheet or FX strip with frame count, frame size, intended frame rate, loop/yoyo behavior, and expected manifest `animation.binding`.
 - Do not include runtime generation instructions.
 - Do not include copyrighted character references, brand references, or living artist style imitation.
 

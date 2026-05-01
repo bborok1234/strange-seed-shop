@@ -12,6 +12,7 @@ Generate static game assets sequentially from `assets/source/asset_prompts.json`
 - Use Codex native image generation by default.
 - Do not use a custom OpenAI SDK runner.
 - Do not batch unrelated prompts into one image-generation call.
+- Do not create SVG/vector/code-native drawings as final game graphics. Final accepted game graphics must be generated raster assets saved to the requested workspace path, normally PNG.
 - Generate one asset at a time.
 - Inspect each output before accepting it.
 - Save accepted outputs into the workspace path specified by `output_path`.

@@ -3,42 +3,43 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T11:50:11.833Z
+Generated at: 2026-05-01T13:00:00.000Z
 
 ## Current mission
 
-Issue #251 **Greenhouse lunar reward source bridge v0**는 PR #252로 merge됐고 main CI `25213197863`가 통과했다. 다음 `$seed-ops` 후보는 온실 단서로 얻은 `달방울 씨앗`을 구매/심기 순간까지 이어서 garden playfield의 달빛 성장 state와 source payoff가 보이게 만드는 vertical slice다.
+Issue #254 **Lunar seed source playfield planting v0**는 PR #255 draft 상태다. generated raster PNG seed icon과 4-frame FX strip, Browser Use `iab`, `npm run check:ci`는 통과했다. 다음 gate는 PR #255 GitHub checks, merge, main CI다.
 
 즉시 다음 작업 선택 기준:
 
-1. 이번 run의 종료 증거는 Issue #251 plan acceptance, Browser Use `iab` claim/seeds/album screenshots, PR #252 checks, main CI `25213197863`다.
-2. 완료 후 stop rule이 없으면 final 응답 대신 다음 issue plan artifact를 먼저 만든다. `left the next queue candidate is not continuation`.
+1. 이번 run의 현재 증거는 Issue #254 plan acceptance, Browser Use `iab` purchase/planting screenshot, `npm run check:ci`, PR #255 draft다.
+2. 완료 후 stop rule이 없으면 final 응답 대신 PR #255 checks, merge, main CI를 먼저 확인한다.
 3. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
 4. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.
 5. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
 6. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
 7. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
 8. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, concrete visual/game-feel payoff, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다. 단순 주문 추가, copy tweak, test-only 작업은 위 payoff 없이 통과하지 않는다.
+9. 신규 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance가 있어야 하며 SVG/vector/code-native game graphics는 통과하지 않는다. gpt-image/API 생성은 `OPENAI_API_KEY`와 `SEED_ASSET_IMAGE_MODEL`을 사용하고, FX/애니메이션 payoff는 static icon 하나가 아니라 sprite/FX strip, frame count, frame size, intended frame rate, manifest `animation.binding`, `npm run check:asset-provenance`, `npm run check:asset-style` evidence를 요구한다.
 
 ## Local state
 
-- Branch: codex/0127-greenhouse-lunar-reward-source-bridge-closeout
-- Latest commit: b701352 Merge pull request #252 from bborok1234/codex/0127-greenhouse-lunar-reward-source-bridge-v0
+- Branch: codex/0128-lunar-seed-source-playfield-planting-v0
+- Latest commit: fec8f95 PR 본문도 온실 단서 심기 증거로 남긴다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T11:50:05.929Z
-- Phase: closeout
-- Issue: #251
-- PR: #252
-- Item: items/0127-greenhouse-lunar-reward-source-bridge-v0.md
-- Next action: closeout PR gate 후 달방울 씨앗 구매/심기 source playfield vertical slice plan 준비
+- Timestamp: 2026-05-01T13:00:00.000Z
+- Phase: pr
+- Issue: #254
+- PR: #255
+- Item: items/0128-lunar-seed-source-playfield-planting-v0.md
+- Next action: PR #255 GitHub checks 확인, green이면 merge 준비
 
 ## Open PRs
 
-- unavailable or none
+- PR #255 — 온실 단서 달방울 씨앗 심기 payoff
 
 ## Open issues
 
@@ -65,7 +66,7 @@ For the current seed-ops issue run, stop only after the plan acceptance criteria
 
 ## Next queue quality gate
 
-The next seed-ops issue must name at least one 경쟁작 production gap (competition-inspired production gap) and at least one asset/FX or sprite-animation decision that creates a concrete visual/game-feel payoff. The asset/FX axis 기존 asset 재사용만으로는 통과하지 않는다; it must commit to at least one of playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion. 단순 주문 추가, copy tweak, spacing tweak, or test-only work fails unless it is paired with that payoff and unblocks the vertical slice.
+The next seed-ops issue must name at least one 경쟁작 production gap (competition-inspired production gap) and at least one asset/FX or sprite-animation decision that creates a concrete visual/game-feel payoff. The asset/FX axis 기존 asset 재사용만으로는 통과하지 않는다; it must commit to at least one of playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion. New accepted manifest game asset work must use Codex native image generation or gpt-image-2 provenance, never SVG/vector/code-native game graphics, and must pass npm run check:asset-provenance and npm run check:asset-style. GPT image/API generation requires OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL. Sprite/FX payoff must name animation.binding plus frame count, frame size, and intended frame rate. 단순 주문 추가, copy tweak, spacing tweak, or test-only work fails unless it is paired with that payoff and unblocks the vertical slice.
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:END -->
 
 Status: v1-live-control-room

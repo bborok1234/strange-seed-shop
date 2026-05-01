@@ -239,6 +239,7 @@ export default function App() {
     const qaResearchExpeditionReady = getLocalQaResearchExpeditionReady();
     const qaResearchExpeditionClaimReady = getLocalQaResearchExpeditionClaimReady();
     const qaGreenhouseLunarClaimReady = getLocalQaGreenhouseLunarClaimReady();
+    const qaGreenhouseLunarSeedPlantReady = getLocalQaGreenhouseLunarSeedPlantReady();
     const qaLunarSeedReady = getLocalQaLunarSeedReady();
     const qaLunarSeedReadyToHarvest = getLocalQaLunarSeedReadyToHarvest();
     const existingSave = qaSpriteState
@@ -249,9 +250,11 @@ export default function App() {
           ? createLunarSeedReadyToHarvestQaSave()
           : qaLunarSeedReady
             ? createLunarSeedReadyQaSave()
-            : qaGreenhouseLunarClaimReady
-              ? createGreenhouseLunarClaimReadyQaSave()
-              : qaResearchExpeditionClaimReady
+            : qaGreenhouseLunarSeedPlantReady
+              ? createGreenhouseLunarSeedPlantReadyQaSave()
+              : qaGreenhouseLunarClaimReady
+                ? createGreenhouseLunarClaimReadyQaSave()
+                : qaResearchExpeditionClaimReady
                 ? createResearchExpeditionClaimReadyQaSave()
                 : qaResearchExpeditionReady
                   ? createResearchExpeditionReadyQaSave()
@@ -502,8 +505,9 @@ export default function App() {
       trackEvent("seed_purchased", { seedId: seed.id, costLeaves, source: "comeback_one_tap" });
 
       draft.seedInventory[seed.id] -= 1;
-      draft.plots[plot.index] = plantSeedInPlot(plot, seed);
-      trackEvent("seed_planted", { seedId: seed.id, plotIndex: plot.index, source: "comeback_one_tap" });
+      const seedSource = getSeedPlantingSource(draft, seed);
+      draft.plots[plot.index] = plantSeedInPlot(plot, seed, seedSource);
+      trackEvent("seed_planted", { seedId: seed.id, plotIndex: plot.index, source: seedSource ?? "comeback_one_tap" });
     });
     setOfflineRewardSummary(null);
     setOfflineMessage(`${seed.name}을 바로 심었어요. 밭을 톡톡 두드려 성장시켜요.`);
@@ -511,6 +515,12 @@ export default function App() {
   }
 
   function plantOwnedSeed(seed: SeedDefinition) {
+    const shouldOpenGardenAfterPlanting =
+      save !== null &&
+      (save.seedInventory[seed.id] ?? 0) > 0 &&
+      save.plots.some((candidate) => candidate.index < save.plotCount && !candidate.seedId) &&
+      getSeedPlantingSource(save, seed) === "greenhouse_mist";
+
     commit((draft) => {
       if ((draft.seedInventory[seed.id] ?? 0) <= 0) {
         return;
@@ -522,9 +532,13 @@ export default function App() {
       }
 
       draft.seedInventory[seed.id] -= 1;
-      draft.plots[plot.index] = plantSeedInPlot(plot, seed);
-      trackEvent("seed_planted", { seedId: seed.id, plotIndex: plot.index, source: "inventory" });
+      const seedSource = getSeedPlantingSource(draft, seed);
+      draft.plots[plot.index] = plantSeedInPlot(plot, seed, seedSource);
+      trackEvent("seed_planted", { seedId: seed.id, plotIndex: plot.index, source: seedSource ?? "inventory" });
     });
+    if (shouldOpenGardenAfterPlanting) {
+      setActiveTab("garden");
+    }
   }
 
   function tapGrowth(plotIndex: number) {
@@ -560,6 +574,7 @@ export default function App() {
       draft.leaves += seed.baseHarvestLeaves;
       plot.harvestedCreatureId = creatureId;
       plot.seedId = undefined;
+      plot.source = undefined;
       plot.plantedAt = undefined;
       plot.tapProgressSeconds = 0;
 
@@ -1330,7 +1345,7 @@ export default function App() {
               </header>
               {nextCreatureGoal && (
                 <article className="seed-goal-banner" aria-label="다음 도감 목표 씨앗">
-                  {renderAsset(nextCreatureGoal.seed.iconAssetId, "씨앗")}
+                  {renderAsset(getSeedIconAssetId(nextCreatureGoal.seed, save), "씨앗")}
                   <div>
                     <p className="panel-label">도감 목표 씨앗</p>
                     <strong>{nextCreatureGoal.seed.name}</strong>
@@ -1361,7 +1376,7 @@ export default function App() {
 
                   return (
                     <article className={targetSeed ? "seed-inventory-row seed-inventory-row-target seed-shop-row-target" : "seed-inventory-row"} key={seed.id}>
-                      {renderAsset(seed.iconAssetId, "씨앗")}
+                      {renderAsset(getSeedIconAssetId(seed, save), "씨앗")}
                       <div>
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개 · {getSeedHarvestSummary(seed)}</span>
@@ -1816,6 +1831,22 @@ function getLunarRewardSourceLabel(save: PlayerSave | null): string | null {
   return "응축기에서 회수한 온실 단서";
 }
 
+function getSeedIconAssetId(seed: SeedDefinition, save: PlayerSave | null): string {
+  if (seed.id === LUNAR_REWARD_SEED_ID && save?.lunarRewardSource === "greenhouse_mist") {
+    return "seed_lunar_001_greenhouse_source_icon";
+  }
+
+  return seed.iconAssetId;
+}
+
+function getSeedPlantingSource(save: PlayerSave, seed: SeedDefinition): ExpeditionRewardSource | undefined {
+  if (seed.id === LUNAR_REWARD_SEED_ID && save.lunarRewardSource === "greenhouse_mist") {
+    return "greenhouse_mist";
+  }
+
+  return undefined;
+}
+
 function getResearchClue(save: PlayerSave | null, nextCreatureGoal: NextCreatureGoal | null): string | null {
   if (!save || !nextCreatureGoal || save.researchLevel < FIRST_RESEARCH_MAX_LEVEL) {
     return null;
@@ -1859,12 +1890,17 @@ function getNextAction(
     const tapReductionSeconds = seed ? seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12) : 0;
     const tapReductionLabel = getTapReductionLabel(tapReductionSeconds);
     const tapsRemaining = tapReductionSeconds > 0 ? Math.max(1, Math.ceil(secondsRemaining / tapReductionSeconds)) : 0;
+    const greenhouseLunarSource = seed?.id === LUNAR_REWARD_SEED_ID && activePlot.source === "greenhouse_mist";
     return {
-      title: seed ? `${seed.name} 성장 중` : "성장 중",
+      title: greenhouseLunarSource ? "온실 단서 달빛 성장" : seed ? `${seed.name} 성장 중` : "성장 중",
       body:
         progressPercent >= 100
-          ? "현재 100% · 수확할 준비가 됐어요. 반짝이는 밭을 눌러 도감 보상으로 이어가세요."
-          : `현재 ${progressPercent}% · 약 ${remainingLabel} 남음. 약 ${tapsRemaining}번 더 톡톡하면 수확 준비 · 1회 ${tapReductionLabel} 단축.`
+          ? greenhouseLunarSource
+            ? "응축기에서 회수한 온실 단서가 수확 직전이에요. 반짝이는 밭을 눌러 달방울 누누 도감으로 이어가세요."
+            : "현재 100% · 수확할 준비가 됐어요. 반짝이는 밭을 눌러 도감 보상으로 이어가세요."
+          : greenhouseLunarSource
+            ? `온실 단서가 밭에서 자라는 중 · 현재 ${progressPercent}% · 약 ${remainingLabel} 남음 · 1회 ${tapReductionLabel} 단축.`
+            : `현재 ${progressPercent}% · 약 ${remainingLabel} 남음. 약 ${tapsRemaining}번 더 톡톡하면 수확 준비 · 1회 ${tapReductionLabel} 단축.`
     };
   }
 
@@ -1941,6 +1977,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
     const progressPercent = getGrowthProgress(plot, seed, now);
     const secondsRemaining = Math.max(0, Math.ceil(seed.baseGrowthSeconds * (1 - progressPercent / 100)));
     const tapReductionSeconds = seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12);
+    const greenhouseLunarSource = seed.id === LUNAR_REWARD_SEED_ID && plot.source === "greenhouse_mist";
 
     return {
       index: plot.index,
@@ -1948,6 +1985,9 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
       label: seed.name,
       seedId: seed.id,
       family: seed.family,
+      source: plot.source,
+      sourceLabel: greenhouseLunarSource ? "온실 단서" : undefined,
+      sourceAssetPath: greenhouseLunarSource ? getAssetPath(manifest, "seed_lunar_001_greenhouse_source_icon") : undefined,
       progressPercent,
       secondsRemaining,
       tapReductionLabel: getTapReductionLabel(tapReductionSeconds),
@@ -2499,10 +2539,11 @@ function getTargetSeedStatus(seed: SeedDefinition, owned: number, hasOpenPlot: b
   return `${seed.name} 구매 가능 · 구매 후 열린 밭에 심어보세요`;
 }
 
-function plantSeedInPlot(plot: PlotState, seed: SeedDefinition): PlotState {
+function plantSeedInPlot(plot: PlotState, seed: SeedDefinition, source?: ExpeditionRewardSource): PlotState {
   return {
     ...plot,
     seedId: seed.id,
+    source,
     plantedAt: new Date().toISOString(),
     tapProgressSeconds: 0,
     harvestedCreatureId: undefined
@@ -2782,6 +2823,14 @@ function getLocalQaGreenhouseLunarClaimReady(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaGreenhouseLunarClaimReady") === "1";
+}
+
+function getLocalQaGreenhouseLunarSeedPlantReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaGreenhouseLunarSeedPlantReady") === "1";
 }
 
 function getLocalQaLunarSeedReady(): boolean {
@@ -3088,6 +3137,56 @@ function createGreenhouseLunarClaimReadyQaSave(): PlayerSave {
       durationSeconds,
       claimed: false
     },
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
+  };
+}
+
+function createGreenhouseLunarSeedPlantReadyQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createLunarSeedReadyQaSave();
+
+  return {
+    ...save,
+    leaves: 595,
+    materials: 3,
+    pollen: 2,
+    discoveredCreatureIds: ["creature_herb_common_001", "creature_herb_common_002"],
+    claimedAlbumMilestoneIds: ["album_1"],
+    plotCount: GREENHOUSE_ROUTE_PLOT_COUNT,
+    greenhouseFacilityLevel: GREENHOUSE_FACILITY_MAX_LEVEL,
+    greenhouseStorageLevel: GREENHOUSE_STORAGE_MAX_LEVEL,
+    greenhouseRouteLevel: GREENHOUSE_ROUTE_MAX_LEVEL,
+    greenhouseIrrigationLevel: GREENHOUSE_IRRIGATION_MAX_LEVEL,
+    greenhouseMistLevel: GREENHOUSE_MIST_MAX_LEVEL,
+    lunarRewardSource: "greenhouse_mist",
+    seedInventory: {
+      ...save.seedInventory,
+      [LUNAR_REWARD_SEED_ID]: 0
+    },
+    idleProduction: {
+      pendingLeaves: 0,
+      lastTickAt: now.toISOString(),
+      orderProgress: {
+        [FIRST_ORDER.id]: FIRST_ORDER.requiredLeaves,
+        [SECOND_ORDER.id]: SECOND_ORDER.requiredLeaves,
+        [GREENHOUSE_ORDER.id]: GREENHOUSE_ORDER.requiredLeaves,
+        [GREENHOUSE_EXPANSION_ORDER.id]: GREENHOUSE_EXPANSION_ORDER.requiredLeaves,
+        [GREENHOUSE_ROUTE_SUPPLY_ORDER.id]: GREENHOUSE_ROUTE_SUPPLY_ORDER.requiredLeaves,
+        [GREENHOUSE_IRRIGATION_ORDER.id]: GREENHOUSE_IRRIGATION_ORDER.requiredLeaves,
+        [GREENHOUSE_MIST_RETURN_ORDER.id]: GREENHOUSE_MIST_RETURN_ORDER.requiredLeaves
+      },
+      completedOrderIds: [
+        FIRST_ORDER.id,
+        SECOND_ORDER.id,
+        GREENHOUSE_ORDER.id,
+        GREENHOUSE_EXPANSION_ORDER.id,
+        GREENHOUSE_ROUTE_SUPPLY_ORDER.id,
+        GREENHOUSE_IRRIGATION_ORDER.id,
+        GREENHOUSE_MIST_RETURN_ORDER.id
+      ]
+    },
+    activeExpedition: undefined,
     lastSeenAt: now.toISOString(),
     updatedAt: now.toISOString()
   };

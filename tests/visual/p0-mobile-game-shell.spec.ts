@@ -313,7 +313,7 @@ test("모바일 연구 단서는 정원과 씨앗 탭에서 다음 수집 목표
   await expect(page.locator(".next-creature-card .research-clue-line")).toContainText("넓은 잎으로 잠든 씨앗을 지켜준다");
   await page.screenshot({ path: testInfo.outputPath("mobile-research-clue-reward-v0-393.png"), fullPage: false });
 
-  await page.getByRole("button", { name: "씨앗" }).click();
+  await page.getByRole("button", { name: "씨앗", exact: true }).click();
   await expect(page.locator(".dev-panel.player-panel.tab-seeds")).toBeVisible();
   await expect(page.getByText("도감 목표 씨앗", { exact: true })).toBeVisible();
   await expect(page.locator(".seed-goal-banner .research-clue-line")).toContainText("연구 단서:");
@@ -1893,6 +1893,95 @@ test("모바일 달빛 온실 조사 보상은 온실 단서 source를 달방울
   await expect(page.getByLabel("도감 다음 수집 목표")).toContainText("달방울 누누");
 
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-lunar-reward-source-bridge-v0-393.png"), fullPage: false });
+});
+
+test("모바일 씨앗과 도감 발견 asset은 fallback 없이 실제 이미지로 렌더링된다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaGreenhouseLunarClaimReady=1&qaTab=album&qaReset=1");
+
+  await expect(page.locator(".dev-panel.player-panel.tab-album")).toBeVisible();
+  await expect(page.locator(".album-slot:not(.album-slot-locked) .asset-fallback")).toHaveCount(0);
+  await expect(page.locator(".album-slot:not(.album-slot-locked) img")).toHaveCount(2);
+
+  await page.getByRole("button", { name: "씨앗", exact: true }).click();
+  await expect(page.locator(".dev-panel.player-panel.tab-seeds")).toBeVisible();
+  await expect(page.locator(".seed-inventory-panel .asset-fallback")).toHaveCount(0);
+  await expect(page.locator(".seed-inventory-panel .seed-inventory-row img").first()).toBeVisible();
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-seed-album-assets-no-fallback-v0-393.png"), fullPage: false });
+});
+
+test("모바일 온실 단서 달방울 씨앗은 신규 asset과 FX로 밭에 심어진다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaGreenhouseLunarSeedPlantReady=1&qaTab=seeds&qaReset=1&qaFxTelemetry=1");
+
+  await expect(page.locator(".dev-panel.player-panel.tab-seeds")).toBeVisible();
+  await expect(page.getByLabel("다음 도감 목표 씨앗")).toContainText("응축기에서 회수한 온실 단서");
+  await expect(page.locator(".seed-goal-banner img")).toBeVisible();
+  await expect(page.locator(".seed-goal-banner .asset-fallback")).toHaveCount(0);
+
+  const lunarRow = page.locator(".seed-inventory-row", { hasText: "달방울 씨앗" }).first();
+  await expect(lunarRow).toContainText("다음 발견");
+  await expect(lunarRow).toContainText("구매 가능");
+  await expect(lunarRow.locator("img")).toBeVisible();
+  await expect(lunarRow.locator(".asset-fallback")).toHaveCount(0);
+  await lunarRow.getByRole("button", { name: "구매 300" }).click();
+  await expect(lunarRow).toContainText("보유 1개");
+  await lunarRow.getByRole("button", { name: "심기" }).click();
+
+  await expect(page.locator(".garden-playfield-host")).toBeVisible();
+  await expect(page.getByRole("button", { name: /달방울 씨앗 성장시키기/ })).toBeVisible();
+  await expect(page.locator(".plot-source-greenhouse-mist")).toContainText("온실 단서");
+  await expect(page.locator(".playfield-plot-source-icon")).toBeVisible();
+  await expect(page.locator(".playfield-plot-source-fx")).toHaveCount(0);
+  await expect(page.locator(".starter-panel")).toContainText("온실 단서 달빛 성장");
+
+  await page.getByRole("button", { name: /달방울 씨앗 성장시키기/ }).click();
+  await page.waitForFunction(() => {
+    const events = (window as unknown as { __gardenPlayfieldFxEvents?: Array<{ action: string; source: string }> }).__gardenPlayfieldFxEvents ?? [];
+    return events.some((event) => event.action === "tap_growth" && event.source === "spritesheet");
+  });
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as { leaves?: number; seedInventory?: Record<string, number>; plots?: Array<{ seedId?: string; source?: string }> })
+          : {};
+        return {
+          leaves: parsed.leaves,
+          lunarSeeds: parsed.seedInventory?.seed_lunar_001 ?? 0,
+          plantedWithSource: parsed.plots?.some((plot) => plot.seedId === "seed_lunar_001" && plot.source === "greenhouse_mist") ?? false
+        };
+      })
+    )
+    .toEqual({ leaves: 295, lunarSeeds: 0, plantedWithSource: true });
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const sourcePlot = document.querySelector<HTMLElement>(".plot-source-greenhouse-mist")?.getBoundingClientRect();
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel ? { bottom: panel.bottom, clientHeight: panelElement?.clientHeight ?? 0, scrollHeight: panelElement?.scrollHeight ?? 0 } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      sourcePlot: sourcePlot ? { bottom: sourcePlot.bottom } : null
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.sourcePlot).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.sourcePlot!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-lunar-seed-source-planting-v0-393.png"), fullPage: false });
 });
 
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
