@@ -36,6 +36,8 @@ PR #267 merge 이후 main CI evidence를 repo에 backfill하려고 별도 closeo
 - `npm run check:seed-ops-queue` - pass.
 - `npm run check:github-metadata` - pass.
 - `npm run check:ci` - pass.
+- GitHub PR check `Verify game baseline` - pass, run `25222092795`.
+- GitHub PR check `Check automerge eligibility` - pass, run `25222092774`.
 
 ## Risks
 
