@@ -816,6 +816,51 @@
           ]
         }
       }
+    },
+    "fx_lunar_harvest_moonburst_001": {
+      "path": "/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+      "category": "fx_strip",
+      "family": "lunar",
+      "rarity": "common",
+      "intended_use": "greenhouse_lunar_harvest_playfield_fx",
+      "width": 640,
+      "height": 160,
+      "status": "accepted",
+      "tags": [
+        "phase0_5",
+        "fx",
+        "lunar",
+        "greenhouse_mist",
+        "harvest",
+        "reward_motion"
+      ],
+      "notes": "Reuses accepted Codex native image generation fallback raster FX strip as the lunar harvest moonburst v0 because OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL are missing in this run.",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "fx_lunar_greenhouse_planting_pulse_001",
+        "frames": 4,
+        "frameWidth": 160,
+        "frameHeight": 160,
+        "frameRate": 12,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "seed_lunar_001_greenhouse_source_icon",
+          "creature_lunar_common_001"
+        ],
+        "binding": {
+          "target": "effect",
+          "slot": "harvest_fx",
+          "seedIds": [
+            "seed_lunar_001"
+          ],
+          "plotStates": [
+            "ready"
+          ],
+          "actions": [
+            "harvest_plot"
+          ]
+        }
+      }
     }
   }
 }

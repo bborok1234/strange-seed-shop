@@ -60,6 +60,25 @@
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
       ]
+    },
+    {
+      "asset_id": "fx_lunar_harvest_moonburst_001",
+      "provider": "codex_native_image_generation",
+      "model": "codex_native_image_generation",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "accepted_output_path": "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+      "generated_at": "2026-05-01T12:39:59.026Z",
+      "status": "accepted_reuse_binding",
+      "width": 640,
+      "height": 160,
+      "fallback_reason": "OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL are missing in this run; reuse accepted Codex native lunar greenhouse FX strip for harvest_plot binding.",
+      "style_reference_asset_ids": [
+        "creature_lunar_common_001",
+        "seed_lunar_001_icon",
+        "seed_lunar_001_greenhouse_source_icon",
+        "fx_lunar_greenhouse_planting_pulse_001"
+      ]
     }
   ],
   "updated_at": "2026-05-01T12:39:59.026Z"

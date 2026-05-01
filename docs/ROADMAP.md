@@ -60,6 +60,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | P0.5 studio campaign pass | done | Issue #257, PR #258, main CI `25217147915`, `items/0129-game-studio-ops-harness.md`, `reports/operations/game-studio-harness-reference-review-20260501.md` | 다음 게임 issue 선택이 직전 issue 인접 기능이 아니라 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하고, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 Game Studio Department Signoff, role-debate note, Subagent/Team Routing, reference teardown, creative brief, QA/playtest plan을 요구함 |
 | P0.5 studio campaign audit | review | Issue #260, draft PR #265, `items/0130-p05-studio-campaign-audit.md`, `reports/operations/p05-studio-campaign-audit-20260501.md`, Browser Use QA screenshots, `items/0132-lunar-harvest-creature-payoff-v0.md`, PR checks pass | 첫 5분 loop/production readability/asset-FX/QA coverage를 부서별로 감사했고, 다음 tranche를 `Lunar harvest creature payoff v0`로 고정함 |
 | Seed ops PR publication confirmation boundary | done | Draft PR #265, `items/0133-seed-ops-pr-publication-confirmation-boundary.md`, `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`, `$seed-ops` docs/checker hardening, `npm run check:ci` pass, PR checks pass | Codex App action-time confirmation이 필요한 PR/issue/comment publication을 terminal stop으로 취급하지 않고, `pending external-publication gate`와 `next local safe work`를 기록한 뒤 계속 진행하게 만듦 |
+| Lunar harvest creature payoff v0 | active | `items/0132-lunar-harvest-creature-payoff-v0.md`, `reports/visual/lunar-harvest-creature-payoff-v0-20260501.md`, Browser Use QA screenshots, accepted raster FX reuse binding, local asset/content gates pass | `달방울 씨앗` 수확 뒤 `달방울 누누`가 named reveal에서 끝나지 않고 production card/playfield actor/roster에 lunar work-state로 합류한다 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
 | Lunar seed harvest bridge v0 | done | Issue #166, `items/0093-lunar-seed-harvest-bridge-v0.md`, `reports/visual/p0-lunar-seed-harvest-bridge-v0-20260430.md` | `달방울 씨앗` 구매/심기/수확이 `달방울 누누` 발견과 다음 도감 목표 전환으로 이어지고 `npm run check:ci`가 통과함 |
 | Lunar guardian offline bonus v0 | done | Issue #168, `items/0094-lunar-guardian-offline-bonus-v0.md`, `reports/visual/p0-lunar-guardian-offline-bonus-v0-20260430.md` | `달방울 누누` 발견이 오프라인 복귀 보상 bonus와 toast 문구로 이어지고 `npm run check:ci`가 통과함 |
@@ -302,11 +303,14 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-Issue #260 **P0.5 studio campaign audit**는 로컬 감사와 Browser Use `iab` evidence를 완료했고, `reports/operations/p05-studio-campaign-audit-20260501.md`에 다음 tranche 선택 근거를 남겼다.
+현재 작업은 `items/0132-lunar-harvest-creature-payoff-v0.md`의 **Lunar harvest creature payoff v0**다. `달방울 씨앗` 수확이 단순 도감 reveal로 끝나지 않고, `달방울 누누`가 온실 production actor로 합류해 lunar-specific harvest/reward FX와 work-state로 화면에서 읽혀야 한다.
 
-운영 corrective gate는 verified 상태이며 draft PR #265로 게시됐다. Codex App PR publication이 action-time confirmation을 요구하는 경우에도 `$seed-ops`는 final로 멈추지 않는다. `PR publication confirmation boundary`는 pending external-publication gate로 기록하고 `next local safe work`를 계속해야 한다. 관련 plan/evidence는 `items/0133-seed-ops-pr-publication-confirmation-boundary.md`와 `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`이며 `npm run check:ci`와 PR #265 checks가 통과했다.
+현재 evidence:
 
-다음 작업은 `items/0132-lunar-harvest-creature-payoff-v0.md`의 **Lunar harvest creature payoff v0**다. `달방울 씨앗` 수확이 단순 도감 reveal로 끝나지 않고, `달방울 누누`가 온실 production actor로 합류해 lunar-specific harvest/reward FX와 work-state로 화면에서 읽혀야 한다.
+- Browser Use `iab` QA URL: `http://127.0.0.1:5173/?qaLunarSeedReadyToHarvest=1&qaFxTelemetry=1`
+- Screenshots: `reports/visual/lunar-harvest-payoff-before-browser-use-20260501.png`, `reports/visual/lunar-harvest-payoff-reveal-browser-use-20260501.png`, `reports/visual/lunar-harvest-payoff-production-browser-use-20260501.png`
+- Report: `reports/visual/lunar-harvest-creature-payoff-v0-20260501.md`
+- `OPENAI_API_KEY`와 `SEED_ASSET_IMAGE_MODEL`이 missing이라 dedicated harvest FX 생성은 막혔고, v0는 accepted Codex native lunar FX strip을 `fx_lunar_harvest_moonburst_001` harvest binding으로 재사용한다.
 
 즉시 적용할 gate:
 

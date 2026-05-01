@@ -409,6 +409,24 @@
       "width": 640,
       "height": 160,
       "notes": "Generated 4-frame raster PNG FX strip required; greenhouse-source lunar seed planting/tap pulse. frames=4; frame_width=160; frame_height=160; intended_frame_rate=12; loop=false; manifest animation.binding required."
+    },
+    {
+      "asset_id": "fx_lunar_harvest_moonburst_001",
+      "output_path": "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+      "prompt": "Use case: accepted raster PNG playfield FX fallback. Asset type: lunar harvest moonburst FX binding. Primary request: reuse the accepted Codex native image generation fallback strip fx_lunar_greenhouse_planting_pulse_001 as a harvest moonburst for 달방울 씨앗 until a dedicated 6-frame harvest strip can be generated. Subject: moonlit greenhouse pulse, soft crescent glow, condensation sparkles. Style: cute-strange greenhouse collectible, clear raster PNG, mobile game playfield affordance. Composition: single horizontal 4-frame FX strip, 160x160 per frame, total 640x160 PNG, transparent background.",
+      "acceptance": [
+        "workspace file exists at output_path",
+        "readable as a harvest playfield overlay",
+        "communicates lunar greenhouse harvest payoff",
+        "no text, watermark, logo, or runtime generation dependency",
+        "manifest animation.binding targets harvest_plot",
+        "single horizontal 4-frame FX strip",
+        "160x160 frame size, total 640x160 PNG"
+      ],
+      "category": "fx_strip",
+      "width": 640,
+      "height": 160,
+      "notes": "No new raster file generated in this run because OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL are missing. This prompt documents the accepted fallback binding to the existing Codex native raster FX strip."
     }
   ]
 }

@@ -3,15 +3,18 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T15:05:17.280Z
+Generated at: 2026-05-01T15:24:19.893Z
 
 ## Current mission
 
-Issue #260 **P0.5 studio campaign audit**는 로컬 감사와 Browser Use `iab` evidence를 완료했고, `reports/operations/p05-studio-campaign-audit-20260501.md`에 다음 tranche 선택 근거를 남겼다.
+현재 작업은 `items/0132-lunar-harvest-creature-payoff-v0.md`의 **Lunar harvest creature payoff v0**다. `달방울 씨앗` 수확이 단순 도감 reveal로 끝나지 않고, `달방울 누누`가 온실 production actor로 합류해 lunar-specific harvest/reward FX와 work-state로 화면에서 읽혀야 한다.
 
-운영 corrective gate는 verified 상태이며 draft PR #265로 게시됐다. Codex App PR publication이 action-time confirmation을 요구하는 경우에도 `$seed-ops`는 final로 멈추지 않는다. `PR publication confirmation boundary`는 pending external-publication gate로 기록하고 `next local safe work`를 계속해야 한다. 관련 plan/evidence는 `items/0133-seed-ops-pr-publication-confirmation-boundary.md`와 `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`이며 `npm run check:ci`와 PR #265 checks가 통과했다.
+현재 evidence:
 
-다음 작업은 `items/0132-lunar-harvest-creature-payoff-v0.md`의 **Lunar harvest creature payoff v0**다. `달방울 씨앗` 수확이 단순 도감 reveal로 끝나지 않고, `달방울 누누`가 온실 production actor로 합류해 lunar-specific harvest/reward FX와 work-state로 화면에서 읽혀야 한다.
+- Browser Use `iab` QA URL: `http://127.0.0.1:5173/?qaLunarSeedReadyToHarvest=1&qaFxTelemetry=1`
+- Screenshots: `reports/visual/lunar-harvest-payoff-before-browser-use-20260501.png`, `reports/visual/lunar-harvest-payoff-reveal-browser-use-20260501.png`, `reports/visual/lunar-harvest-payoff-production-browser-use-20260501.png`
+- Report: `reports/visual/lunar-harvest-creature-payoff-v0-20260501.md`
+- `OPENAI_API_KEY`와 `SEED_ASSET_IMAGE_MODEL`이 missing이라 dedicated harvest FX 생성은 막혔고, v0는 accepted Codex native lunar FX strip을 `fx_lunar_harvest_moonburst_001` harvest binding으로 재사용한다.
 
 즉시 적용할 gate:
 
@@ -25,19 +28,19 @@ Issue #260 **P0.5 studio campaign audit**는 로컬 감사와 Browser Use `iab` 
 
 ## Local state
 
-- Branch: codex/0130-p05-studio-campaign-audit
-- Latest commit: 560bf97 PR 게시 확인 경계가 seed-ops를 멈추지 않게 한다
+- Branch: codex/0132-lunar-harvest-creature-payoff-v0
+- Latest commit: e05fd3c PR 게시 확인 경계가 seed-ops를 멈추지 않게 한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T15:04:24.931Z
-- Phase: pr-checks-green
-- Issue: #260
-- PR: #265
-- Item: items/0130-p05-studio-campaign-audit.md
-- Next action: PR #265 checks green; update PR evidence and prepare merge gate
+- Timestamp: 2026-05-01T15:24:13.203Z
+- Phase: visual-verified
+- Issue: pending
+- PR: 
+- Item: items/0132-lunar-harvest-creature-payoff-v0.md
+- Next action: local CI gate 준비; GitHub issue publication gate pending
 
 ## Open PRs
 
