@@ -1,6 +1,6 @@
 # Game studio ops harness
 
-Status: active
+Status: done
 Owner: agent
 Created: 2026-05-01
 Updated: 2026-05-01
@@ -8,6 +8,7 @@ Work type: agent_ops
 Scope-risk: moderate
 Issue: #257
 PR: #258
+Main CI: 25217147915
 
 ## Intent
 
@@ -80,11 +81,11 @@ Plan field name: QA/playtest plan
 
 ## Acceptance Criteria
 
-- `P0.5 Idle Core + Creative Rescue`가 다음 issue 선택의 campaign source of truth로 명시된다.
-- 새 게임 issue는 Game Studio Department Signoff 없이 implementation issue로 내려갈 수 없다.
-- Subagent/team routing decision이 다음 issue plan의 필수 필드가 된다.
-- Asset/FX issue는 gastory식 style/provenance/animation bundle 기준을 포함한다.
-- 운영 checker가 위 문구 누락을 실패로 처리한다.
+- [x] `P0.5 Idle Core + Creative Rescue`가 다음 issue 선택의 campaign source of truth로 명시된다.
+- [x] 새 게임 issue는 Game Studio Department Signoff 없이 implementation issue로 내려갈 수 없다.
+- [x] Subagent/team routing decision이 다음 issue plan의 필수 필드가 된다.
+- [x] Asset/FX issue는 gastory식 style/provenance/animation bundle 기준을 포함한다.
+- [x] 운영 checker가 위 문구 누락을 실패로 처리한다.
 
 ## Verification
 
@@ -101,3 +102,10 @@ Plan field name: QA/playtest plan
 
 - 문서 gate만 강해지고 실제 실행이 안 바뀔 위험이 있다. 이를 막기 위해 ROADMAP Current Next Action과 control room snapshot을 campaign pass로 바꾸고 checker에 phrase gate를 추가한다.
 - 부서 모델이 과한 roleplay가 될 수 있다. 그래서 각 부서는 산출물과 통과 조건만 갖고, 실제 권한은 기존 ClawSweeper식 Intake/Review/Apply/Verify/Audit lane을 유지한다.
+
+## Evidence
+
+- Issue #257: closed by PR #258
+- PR #258: merged
+- Merge commit: `d2ecc4beab905e86237a58da0b353e8a82369791`
+- Main CI: `25217147915` success

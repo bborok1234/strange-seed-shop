@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T13:59:14.321Z
+Generated at: 2026-05-01T14:02:51.471Z
 
 ## Current mission
 
@@ -22,19 +22,19 @@ Issue #254 **Lunar seed source playfield planting v0**는 PR #255로 merge됐고
 
 ## Local state
 
-- Branch: codex/0129-game-studio-ops-harness
-- Latest commit: f997ea0 PR 본문도 게임사 하네스 증거로 남긴다
+- Branch: codex/0129-game-studio-ops-harness-closeout
+- Latest commit: d2ecc4b Game studio ops harness (#258)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T13:59:09.200Z
-- Phase: pr
+- Timestamp: 2026-05-01T14:02:46.237Z
+- Phase: closeout
 - Issue: #257
 - PR: #258
 - Item: items/0129-game-studio-ops-harness.md
-- Next action: PR #258 checks 확인 후 merge gate
+- Next action: closeout PR 생성 후 다음 P0.5 campaign issue plan 준비
 
 ## Open PRs
 
