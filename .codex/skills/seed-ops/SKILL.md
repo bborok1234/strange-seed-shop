@@ -34,10 +34,10 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 1. `player verb`: 플레이어가 새로 하거나 더 명확히 이해하는 행동.
 2. `production/progression role`: 생산 엔진, 주문/납품, 업그레이드, 오프라인 복귀, 연구/원정, 수집 progression 중 연결되는 위치.
 3. `screen moment`: 첫 5분 또는 복귀 후 30초 안에서 보이는 실제 화면 순간.
-4. `asset/FX`: 필요한 생명체/주문/자원/피드백 asset 또는 기존 asset 활용 계획.
+4. `asset/FX`: 필요한 생명체/주문/자원/피드백 asset, FX, sprite state, motion, HUD/playfield 시각 변화. 기존 asset 재사용만으로는 통과하지 않는다.
 5. `playtest evidence`: Browser Use/visual QA/수치 검증으로 확인할 사용자 관찰 포인트.
 
-색, 여백, 문구, 테스트-only, 문서-only 작업은 위 vertical slice를 막는 blocker를 제거하거나 명확한 slice 일부일 때만 고른다. `safe`, `local`, `작다`는 선택 이유가 될 수 없고, 오직 승인/파괴/외부 권한 gate를 통과했다는 조건으로만 사용한다.
+`asset/FX` 축을 쓰는 후보는 `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 최소 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 적어야 한다. 단순 주문 추가, 색, 여백, 문구, copy tweak, test-only, 문서-only 작업은 위 visual payoff를 동반해 vertical slice blocker를 제거하거나 명확한 slice 일부일 때만 고른다. `safe`, `local`, `작다`는 선택 이유가 될 수 없고, 오직 승인/파괴/외부 권한 gate를 통과했다는 조건으로만 사용한다.
 
 ## Product-quality gates
 

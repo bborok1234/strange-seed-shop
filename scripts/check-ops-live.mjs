@@ -122,7 +122,14 @@ for (const phrase of [
   "Goal-bounded stop condition",
   "Next queue quality gate",
   "competition-inspired production gap",
-  "asset/FX or sprite-animation decision"
+  "asset/FX or sprite-animation decision",
+  "concrete visual/game-feel payoff",
+  "기존 asset 재사용만으로는 통과하지 않는다",
+  "playfield state",
+  "HUD affordance",
+  "sprite/FX",
+  "order crate visual state",
+  "reward motion"
 ]) {
   requirePhrase(controlRoomPath, phrase);
 }

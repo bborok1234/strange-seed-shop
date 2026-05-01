@@ -53,6 +53,13 @@ requirePhrases("docs/PROJECT_COMMANDS.md", [
   "game-studio:phaser-2d-game",
   "game-studio:web-game-foundations",
   "game-studio:sprite-pipeline",
+  "기존 asset 재사용만으로는 통과하지 않는다",
+  "concrete visual/game-feel payoff",
+  "playfield state",
+  "HUD affordance",
+  "sprite/FX",
+  "order crate visual state",
+  "reward motion",
   "npm run play:main",
   ...commands
 ]);
@@ -77,7 +84,14 @@ requirePhrases("AGENTS.md", [
   "For game work, use the Game Studio plugin",
   "game-studio:game-studio",
   "game-studio:game-ui-frontend",
-  "game-studio:game-playtest"
+  "game-studio:game-playtest",
+  "기존 asset 재사용만으로는 통과하지 않는다",
+  "concrete visual/game-feel payoff",
+  "playfield state",
+  "HUD affordance",
+  "sprite/FX",
+  "order crate visual state",
+  "reward motion"
 ]);
 
 requirePhrases("docs/README.md", [
@@ -103,6 +117,13 @@ requirePhrases(".codex/skills/seed-ops/SKILL.md", [
   "game-studio:game-studio",
   "game-studio:game-ui-frontend",
   "game-studio:game-playtest",
+  "기존 asset 재사용만으로는 통과하지 않는다",
+  "concrete visual/game-feel payoff",
+  "playfield state",
+  "HUD affordance",
+  "sprite/FX",
+  "order crate visual state",
+  "reward motion",
   "Product-quality gates",
   "Stop rules"
 ]);
