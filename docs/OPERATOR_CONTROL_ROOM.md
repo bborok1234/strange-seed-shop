@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T15:56:02.778Z
+Generated at: 2026-05-01T15:58:52.792Z
 
 ## Current mission
 
@@ -32,22 +32,22 @@ Generated at: 2026-05-01T15:56:02.778Z
 ## Local state
 
 - Branch: codex/0132-lunar-harvest-creature-payoff-v0
-- Latest commit: 8c22c3a Ralph 실행 상태를 runner 근거로 구분한다
+- Latest commit: bd4dc13 달방울 수확 PR 게시 근거를 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T15:55:56.003Z
-- Phase: pr-publication-gate
+- Timestamp: 2026-05-01T15:57:30.171Z
+- Phase: pr-checks-wait
 - Issue: #266
-- PR: 
+- PR: #267
 - Item: items/0132-lunar-harvest-creature-payoff-v0.md
-- Next action: publication gate 준비: push branch and create draft PR for #266
+- Next action: PR checks gate 대기: verify #267 checks then merge/main CI if green
 
 ## Open PRs
 
-- unavailable or none
+- #267 draft Lunar harvest creature payoff v0 — https://github.com/bborok1234/strange-seed-shop/pull/267
 
 ## Open issues
 

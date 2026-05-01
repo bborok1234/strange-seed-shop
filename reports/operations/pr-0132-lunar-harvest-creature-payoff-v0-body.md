@@ -45,7 +45,7 @@ After:
 - [x] Asset/FX provenance 기록
 - [x] Browser Use 우선 QA evidence 기록
 - [x] Local CI pass
-- [ ] GitHub PR checks pass
+- [x] GitHub PR checks pass
 - [ ] main CI pass after merge
 
 ## 안전 범위
