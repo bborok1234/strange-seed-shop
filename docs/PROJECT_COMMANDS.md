@@ -38,6 +38,12 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 
 원격 게시 기본값: `$seed-ops` issue loop에서 branch push, draft PR 생성/갱신, GitHub checks 확인, merge, main CI 확인은 별도 사용자 지시가 없어도 완료 조건에 포함된다. 확인 질문으로 멈추지 않는다. 다만 credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary, 실채널 GTM은 stop rule과 명시 승인 규칙을 우선한다.
 
+### No post-merge closeout
+
+- all merge-blocking evidence must be in the original PR before merge/close.
+- post-merge main CI is observation-only: merge 후 main CI는 GitHub run 관찰로만 확인하고, 그 결과를 repo에 backfill하기 위한 main-targeted closeout commit을 만들지 않는다.
+- do not create a post-merge closeout PR for the just-merged issue. PR이 닫힌 뒤 evidence를 보강해야 할 정도로 누락이 있으면, 그것은 원 PR merge gate 실패로 보고 다음 plan-first harness defect issue로 분리한다.
+
 ### Ralph runner boundary
 
 `$seed-ops`는 `$ralph`의 상태/검증 계약을 참고하지만, Codex App에서 `$ralph`를 입력했다는 사실만으로 장시간 runner가 실행 중이라고 보지 않는다.

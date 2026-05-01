@@ -26,6 +26,8 @@
 - [ ] UI/visual 변경이면 Browser Use 우선 QA를 시도하고 evidence 또는 blocker를 남겼다.
 - [ ] 필요한 문서/roadmap/dashboard/report를 갱신했다.
 - [ ] GitHub issue/PR/comment evidence를 축약 없이 남겼다.
+- [ ] all merge-blocking evidence must be in the original PR before merge/close.
+- [ ] post-merge main CI is observation-only; do not create a post-merge closeout PR or main-targeted closeout commit.
 
 ## 사용자/운영자 가치
 
@@ -70,3 +72,4 @@ Closes #
 - 셸 인자에 `\n`을 넣어 multi-line 본문을 만들지 않는다. GitHub 화면에 literal `\n`이 보이면 실패다.
 - 섹션을 삭제하지 않는다. 해당 없음이면 `N/A 사유:`를 적는다.
 - `작업 checklist`는 삭제하지 않는다. 완료되지 않은 항목은 빈 체크박스로 남기고 사유를 적는다.
+- PR merge/close 이후 main CI 결과를 repo 문서에 backfill하기 위한 closeout PR을 만들지 않는다. main CI는 GitHub run에서 관찰하고, 다음 작업은 별도 plan-first issue로 시작한다.
