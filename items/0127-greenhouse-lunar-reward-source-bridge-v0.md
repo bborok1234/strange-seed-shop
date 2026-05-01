@@ -1,11 +1,13 @@
 # Greenhouse lunar reward source bridge v0
 
-Status: review
+Status: done
 Owner: agent
 Issue: #251
 PR: #252
 Branch: `codex/0127-greenhouse-lunar-reward-source-bridge-v0`
 Started: 2026-05-01
+Merged: 2026-05-01
+Main CI: `25213197863`
 
 ## 문제 / 배경
 
@@ -50,6 +52,9 @@ Started: 2026-05-01
 ## Evidence
 
 - PR: #252
+- Merge commit: `b701352`
+- Main CI: `25213197863`
+- GitHub issue: closed 2026-05-01T11:47:30Z
 - Browser Use `iab`: `reports/visual/p0-greenhouse-lunar-reward-source-bridge-browser-use-claim-20260501.png`, `reports/visual/p0-greenhouse-lunar-reward-source-bridge-browser-use-seeds-20260501.png`, `reports/visual/p0-greenhouse-lunar-reward-source-bridge-browser-use-album-20260501.png`
 - Visual report: `reports/visual/p0-greenhouse-lunar-reward-source-bridge-20260501.md`
 - `npm run check:visual -- --grep "달빛 온실 조사 보상"`: 1 passed
