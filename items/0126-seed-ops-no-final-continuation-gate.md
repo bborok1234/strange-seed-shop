@@ -1,10 +1,11 @@
 # Seed ops no-final continuation gate
 
-Status: review
+Status: done
 Owner: agent
 Issue: #248
 Branch: `codex/0126-seed-ops-no-final-continuation-gate`
 PR: #249
+Main CI: `25210777454`
 Started: 2026-05-01
 
 ## 문제 / 배경
@@ -46,6 +47,8 @@ Started: 2026-05-01
 - PASS: `npm run check:ops-live`
 - PASS: `npm run check:dashboard`
 - PASS: `npm run check:ci`
+- PASS: PR #249 checks
+- PASS: main CI `25210777454`
 
 ## 검증 명령
 
