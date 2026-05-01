@@ -7,6 +7,7 @@ Updated: 2026-05-01
 Work type: agent_ops
 Scope-risk: narrow
 Issue: #262
+PR: #263
 
 ## Intent
 

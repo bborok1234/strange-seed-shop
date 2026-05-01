@@ -4,6 +4,7 @@ Status: local-verified
 Owner: agent
 Date: 2026-05-01
 Issue: #262
+PR: #263
 
 ## Purpose
 
