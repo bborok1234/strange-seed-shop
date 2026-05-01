@@ -7,7 +7,7 @@ Created: 2026-05-01
 Updated: 2026-05-01
 Scope-risk: moderate
 Issue: #229
-PR: TBD
+PR: #230
 Branch: `codex/0119-ops-live-readiness-gate`
 
 ## Intent
@@ -53,6 +53,7 @@ Branch: `codex/0119-ops-live-readiness-gate`
 - `npm run check:control-room`: PASS
 - `npm run check:operator`: PASS
 - `npm run check:ci`: PASS
+- PR #230 checks: `Verify game baseline` PASS, `Check automerge eligibility` PASS
 
 ## Stop condition
 

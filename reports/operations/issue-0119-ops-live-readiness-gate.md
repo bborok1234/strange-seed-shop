@@ -8,6 +8,8 @@
 
 `$seed-ops`를 다시 돌리기 전에 live 상황판/heartbeat/next queue가 자동으로 준비되고, stale 상태를 checker가 실패로 잡게 만든다.
 
+PR: #230
+
 ## Small win
 
 - seed ops 시작 전 “지금 무엇을 왜 하는지, 언제 멈출지, 다음 queue가 무엇인지”를 control room과 heartbeat가 최신 상태로 말한다.
@@ -66,4 +68,5 @@
 - 기본 CI gate: `npm run check:ci` — PASS
 - 운영 준비 gate: `npm run check:ops-live` — PASS
 - stale heartbeat fixture: `npm run check:ops-live -- --heartbeat .omx/state/watchdog-stuck-guard-heartbeat.json --now 2026-05-01T06:30:00.000Z` — expected FAIL, stale 상태 감지
+- PR #230 checks: `Verify game baseline` PASS, `Check automerge eligibility` PASS
 - UI/visual 변경: N/A
