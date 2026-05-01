@@ -45,6 +45,7 @@ export function createNewSave(now = new Date()): PlayerSave {
     greenhouseFacilityLevel: 0,
     greenhouseStorageLevel: 0,
     greenhouseRouteLevel: 0,
+    greenhouseIrrigationLevel: 0,
     researchLevel: 0,
     plots: createEmptyPlots(),
     idleProduction: {
@@ -81,6 +82,7 @@ export function normalizeSave(raw: Partial<PlayerSave>, now = new Date()): Playe
     greenhouseFacilityLevel: raw.greenhouseFacilityLevel ?? fallback.greenhouseFacilityLevel,
     greenhouseStorageLevel: raw.greenhouseStorageLevel ?? fallback.greenhouseStorageLevel,
     greenhouseRouteLevel: raw.greenhouseRouteLevel ?? fallback.greenhouseRouteLevel,
+    greenhouseIrrigationLevel: raw.greenhouseIrrigationLevel ?? fallback.greenhouseIrrigationLevel,
     researchLevel: raw.researchLevel ?? fallback.researchLevel,
     plots: createEmptyPlots().map((plot) => normalizePlot(plots[plot.index], plot.index)),
     idleProduction: {
