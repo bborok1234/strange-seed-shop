@@ -54,12 +54,20 @@ const heartbeat = {
 
 const publicationGateTarget = readArg("publication-gate", "");
 if (publicationGateTarget) {
+  const pendingCommand = readArg("pending-command", heartbeat.current_command);
+  const bodyFile = readArg("body-file", "");
+  const dedupeKey = readArg(
+    "publication-dedupe-key",
+    [publicationGateTarget, heartbeat.branch, heartbeat.commit, bodyFile, pendingCommand].filter(Boolean).join("|")
+  );
   heartbeat.publication_gate = {
     active: true,
     kind: "representational_communication",
     target: publicationGateTarget,
-    pending_command: readArg("pending-command", heartbeat.current_command),
-    body_file: readArg("body-file", ""),
+    pending_command: pendingCommand,
+    body_file: bodyFile,
+    dedupe_key: dedupeKey,
+    repeat_policy: readArg("publication-repeat-policy", "do_not_repeat_final_ask"),
     branch: heartbeat.branch,
     commit: heartbeat.commit
   };

@@ -2,6 +2,8 @@
 
 `달방울 누누`가 합류한 뒤 `달빛 보호 주문`을 납품하는 화면 흐름을 추가하고, 사용자 스크린샷에서 드러난 `다음 행동` 카드 clipping 결함을 Browser Use와 visual regression으로 막습니다. 동시에 seed-ops가 작은 `bridge/payoff/v0/closeout` 패턴으로 수렴한 문제를 회고하고 `Strategic Jump Check` / `Title Contract`를 운영 하네스에 추가합니다.
 
+추가로 Codex App의 GitHub 게시 확인 경계를 `$seed-ops`가 terminal loop처럼 반복하던 결함을 고쳤습니다. issue/PR 생성은 정상 운영 단계로 유지하되, 게시 직전 action-time confirmation 상태는 `dedupe_key`와 `repeat_policy: do_not_repeat_final_ask`로 식별해 같은 PR 생성 질문/CI prep loop가 반복되지 않게 합니다.
+
 ## Small win
 
 - 이번 PR이 만든 가장 작은 승리: `qaLunarOrderReady=1&qaFxTelemetry=1`에서 납품 후 `달빛 보호 주문 완료`, `누누 야간 근무`, `달빛 보상 재료 +1`이 잘리지 않고 보입니다.
@@ -34,6 +36,7 @@
 
 - 게임 가치: `달방울 누누`가 roster badge에서 끝나지 않고 lunar order delivery와 다음 연구 재료 payoff로 이어집니다. 납품 후 카드가 더 이상 보상 텍스트를 자르지 않습니다.
 - 운영사 가치: seed-ops가 다음 issue를 고를 때 큰 방향 점프 후보와 제목 품질을 강제로 회고하게 되어, 작은 연결 기능/closeout evidence 루프에 갇히는 위험을 줄입니다.
+- 운영 루프 가치: PR/issue 생성 자체를 anti-pattern으로 오해하지 않고, Codex App publication confirmation boundary만 별도 상태로 기록합니다. 같은 branch/commit/body/pending command 조합에서는 반복 질문 대신 `await action-time confirmation without repeated ask` 상태를 유지합니다.
 
 ## Before / After 또는 Visual evidence
 
@@ -45,6 +48,7 @@
   - `reports/visual/lunar-guardian-order-delivered-no-clipping-browser-use-20260502.png`
 - Browser Use evidence 또는 blocker: Browser Use `iab` current tab에서 `http://127.0.0.1:5173/?qaLunarOrderReady=1&qaFxTelemetry=1` 직접 납품 후 screenshot 저장.
 - Issue/PR title retrospective: `reports/operations/seed-ops-issue-pr-title-retrospective-20260502.md`
+- Publication gate hardening: `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/write-operator-heartbeat.mjs`
 - N/A 사유: N/A
 
 ## Playable mode
@@ -60,6 +64,8 @@
 - [x] `npm run check:visual -- --grep "달빛 보호"` PASS
 - [x] `npm run check:visual -- --grep "달빛"` PASS, 7 tests
 - [x] `npm run check:seed-ops-queue` PASS
+- [x] `npm run check:seed-ops-publication-gate` PASS
+- [x] `npm run check:ops-live` PASS
 - [x] `npm run check:asset-provenance` PASS
 - [x] `npm run check:asset-style` PASS
 - [x] `npm run check:asset-alpha` PASS

@@ -113,6 +113,14 @@ User-reported blocker on 2026-05-02:
 - Root cause: mobile completed-order layout first kept the three-creature roster, then still squeezed title/reward/payoff text into an overflow-hidden lunar complete row. DOM text presence and broad `scrollHeight/clientHeight` checks were not enough.
 - Fix: collapse nonessential completed-state content, remove the dense `+88 잎...` reward line from the visible complete row, make the lunar complete row overflow-visible, and require a regression test that checks row overflow style, title/payoff bounds, hidden reward-line display, and visible child overflow.
 
+## Publication Gate Finding
+
+User-reported blocker on 2026-05-02:
+
+- Failure: after branch push and repeated PR prep, `$seed-ops` treated Codex App action-time publication confirmation as a terminal loop and kept repeating verification/PR creation gating.
+- Clarification: issue/PR creation is normal seed-ops work in this repo and is not an anti-pattern. The only special boundary is the Codex App representational communication confirmation when publishing GitHub-visible text.
+- Fix: publication-gate heartbeat state now records `dedupe_key` and `repeat_policy: do_not_repeat_final_ask`; the checker fails if GitHub text is not backed by `--body-file`, if the dedupe/repeat policy is missing, or if no-local-work state does not use `await action-time confirmation without repeated ask`.
+
 ## Evidence
 
 - Browser Use `iab` current tab: `http://127.0.0.1:5173/?qaLunarOrderReady=1&qaFxTelemetry=1`
@@ -122,6 +130,7 @@ User-reported blocker on 2026-05-02:
 - User-reported second clipping reproduction: `reports/visual/lunar-guardian-user-defect-delivered-browser-use-20260502.png`
 - Final Browser Use fixed state: `reports/visual/lunar-guardian-order-fixed-browser-use-20260502.png`
 - Issue/PR title retrospective: `reports/operations/seed-ops-issue-pr-title-retrospective-20260502.md`
+- Publication gate loop hardening: `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/write-operator-heartbeat.mjs`
 
 ## Verification Plan
 
@@ -134,6 +143,8 @@ User-reported blocker on 2026-05-02:
 - `npm run check:asset-style` - pass
 - `npm run check:asset-alpha` - pass
 - `npm run check:seed-ops-queue` - pass
+- `npm run check:seed-ops-publication-gate` - pass
+- `npm run check:ops-live` - pass
 - `npm run check:ci` - pass after heartbeat branch/next_action refresh
 
 ## Risks

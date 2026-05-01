@@ -102,6 +102,16 @@ const strategicSelectionPhrases = [
   "closeout"
 ];
 
+const publicationBoundaryPhrases = [
+  "PR/issue creation is normal seed-ops work",
+  "Publication gate de-duplication",
+  "publication_gate.dedupe_key",
+  "repeat_policy: do_not_repeat_final_ask",
+  "await action-time confirmation without repeated ask",
+  "fresh evidence 재수집",
+  "main CI 반복"
+];
+
 const requiredPaths = [
   "AGENTS.md",
   ".codex/skills/seed-ops/SKILL.md",
@@ -157,6 +167,7 @@ for (const filePath of [
 
 for (const filePath of [".codex/skills/seed-ops/SKILL.md", "docs/PROJECT_COMMANDS.md"]) {
   requirePhrases(filePath, strategicSelectionPhrases);
+  requirePhrases(filePath, publicationBoundaryPhrases);
 }
 
 requirePhrases("scripts/check-ops-live.mjs", [
