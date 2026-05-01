@@ -1760,6 +1760,37 @@ h1 {
   background: rgba(57, 75, 137, 0.9);
 }
 
+.greenhouse-lunar-clue-preview {
+  border-color: rgba(44, 106, 118, 0.28);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.82), transparent 34%),
+    radial-gradient(circle at 84% 12%, rgba(199, 247, 244, 0.64), transparent 30%),
+    linear-gradient(135deg, rgba(232, 255, 239, 0.96), rgba(255, 246, 191, 0.94));
+}
+
+.greenhouse-lunar-clue-preview small {
+  display: block;
+  margin-top: 4px;
+  color: #285a61;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.greenhouse-lunar-clue-preview .expedition-reward-chip {
+  background: rgba(41, 92, 100, 0.9);
+}
+
+.greenhouse-lunar-clue-action {
+  background: #295c64;
+  box-shadow: 0 10px 20px rgba(41, 92, 100, 0.16);
+}
+
+.greenhouse-lunar-clue-action:hover,
+.greenhouse-lunar-clue-action:focus-visible {
+  background: #214d54;
+}
+
 .lunar-expedition-reward {
   border-color: rgba(77, 73, 143, 0.24);
   background:

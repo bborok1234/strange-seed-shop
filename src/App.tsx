@@ -338,6 +338,18 @@ export default function App() {
     save && researchExpedition ? Math.max(researchExpedition.requiredCreatures - save.discoveredCreatureIds.length, 0) : 0;
   const researchExpeditionRewardClaimed = Boolean(save?.unlockedSeedIds.includes(LUNAR_REWARD_SEED_ID));
   const showResearchExpeditionClue = Boolean(save && researchExpedition && !save.activeExpedition && !researchExpeditionRewardClaimed);
+  const greenhouseLunarExpedition = content.expeditions.find((item) => item.id === RESEARCH_EXPEDITION_ID);
+  const hasGreenhouseLunarClue = Boolean(
+    save &&
+      !showResearchExpeditionClue &&
+      !save.activeExpedition &&
+      !researchExpeditionRewardClaimed &&
+      save.idleProduction.completedOrderIds.includes(GREENHOUSE_MIST_RETURN_ORDER.id)
+  );
+  const greenhouseLunarExpeditionShortfall =
+    save && greenhouseLunarExpedition
+      ? Math.max(greenhouseLunarExpedition.requiredCreatures - save.discoveredCreatureIds.length, 0)
+      : 0;
   const lunarExpeditionGoal = useMemo(() => getLunarExpeditionGoal(save), [save]);
   const visibleMissions = save ? content.missions : [];
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
@@ -1467,6 +1479,8 @@ export default function App() {
                     ? expeditionReady
                       ? "완료"
                       : "진행 중"
+                    : hasGreenhouseLunarClue
+                      ? "온실 단서"
                     : expeditionNeedsMoreCreatures
                       ? `${expeditionCreatureShortfall}마리 필요`
                       : "시작 가능"}
@@ -1508,7 +1522,34 @@ export default function App() {
                   <span className="expedition-reward-chip">연구 단서</span>
                 </article>
               )}
-              {!save?.activeExpedition && firstExpedition && (
+              {hasGreenhouseLunarClue && greenhouseLunarExpedition && (
+                <article className="expedition-preview greenhouse-lunar-clue-preview" aria-label="달빛 온실 조사 단서">
+                  <div>
+                    <p className="panel-label">온실 원정 단서</p>
+                    <strong>달빛 온실 조사</strong>
+                    <span>
+                      {getExpeditionDurationLabel(greenhouseLunarExpedition.durationSeconds)} · 생명체{" "}
+                      {greenhouseLunarExpedition.requiredCreatures}마리 필요 · {getExpeditionRewardSummary(greenhouseLunarExpedition)}
+                    </span>
+                    <small>
+                      {greenhouseLunarExpeditionShortfall > 0
+                        ? `${greenhouseLunarExpeditionShortfall}마리 더 발견하면 응축기 단서를 따라갈 수 있어요.`
+                        : "응축기에서 모은 달빛 단서로 원정 준비가 끝났어요."}
+                    </small>
+                    {greenhouseLunarExpeditionShortfall === 0 && (
+                      <button
+                        className="research-expedition-action greenhouse-lunar-clue-action"
+                        onClick={() => startExpedition(greenhouseLunarExpedition.id)}
+                        type="button"
+                      >
+                        달빛 온실 조사 시작
+                      </button>
+                    )}
+                  </div>
+                  <span className="expedition-reward-chip">온실 단서</span>
+                </article>
+              )}
+              {!save?.activeExpedition && firstExpedition && !hasGreenhouseLunarClue && (
                 <p
                   className={
                     expeditionNeedsMoreCreatures
@@ -1523,7 +1564,7 @@ export default function App() {
                       : "생명체가 원정을 기다리고 있어요."}
                 </p>
               )}
-              {!save?.activeExpedition && (
+              {!save?.activeExpedition && !hasGreenhouseLunarClue && (
                 <button
                   className="primary-action"
                   disabled={!save || save.discoveredCreatureIds.length === 0}
@@ -1611,6 +1652,8 @@ export default function App() {
                   ? researchExpeditionShortfall === 0
                     ? "준비"
                     : "단서"
+                  : tab.id === "expedition" && hasGreenhouseLunarClue
+                    ? "온실"
                   : null;
 
             return (
@@ -2789,7 +2832,9 @@ function createOfflineQaSave(
   const hasGreenhouseIrrigation = includeGreenhouseIrrigation || includeGreenhouseMist;
   const discoveredCreatureIds = includeLunarGuardian
     ? ["creature_herb_common_001", LUNAR_REWARD_CREATURE_ID]
-    : ["creature_herb_common_001"];
+    : includeGreenhouseMist
+      ? ["creature_herb_common_001", "creature_herb_common_002"]
+      : ["creature_herb_common_001"];
 
   return {
     ...save,
