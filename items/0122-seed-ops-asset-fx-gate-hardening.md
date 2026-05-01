@@ -8,6 +8,7 @@ Updated: 2026-05-01
 Scope-risk: moderate
 Issue: #238
 PR: #239
+Main CI: `25207807340`
 Branch: `codex/0122-seed-ops-asset-fx-gate-hardening`
 
 ## Intent
@@ -52,6 +53,8 @@ Branch: `codex/0122-seed-ops-asset-fx-gate-hardening`
 - `npm run check:ops-live`: PASS
 - `npm run check:dashboard`: PASS
 - `npm run check:ci`: PASS
+- PR #239 checks: `Verify game baseline` PASS, `Check automerge eligibility` PASS
+- Main CI `25207807340`: PASS
 
 ## Safety
 
