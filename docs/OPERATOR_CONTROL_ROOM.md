@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T10:07:56.523Z
+Generated at: 2026-05-01T10:10:15.390Z
 
 ## Current mission
 
@@ -23,18 +23,18 @@ Issue #248 **Seed ops no-final continuation gate**를 진행 중이다. Issue #2
 ## Local state
 
 - Branch: codex/0126-seed-ops-no-final-continuation-gate
-- Latest commit: 3264e06 달빛 온실 조사 완료 증거를 main 기준으로 닫는다
+- Latest commit: 946b75e seed-ops가 final 응답으로 멈추지 못하게 한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T10:07:51.035Z
-- Phase: verifying
+- Timestamp: 2026-05-01T10:10:02.286Z
+- Phase: pr
 - Issue: #248
-- PR: 
+- PR: #249
 - Item: items/0126-seed-ops-no-final-continuation-gate.md
-- Next action: PR 생성 준비 gate 후 GitHub checks, merge, main CI 확인
+- Next action: PR #249 checks gate 확인, green이면 merge 준비
 
 ## Open PRs
 

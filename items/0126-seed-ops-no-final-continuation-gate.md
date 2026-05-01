@@ -4,6 +4,7 @@ Status: review
 Owner: agent
 Issue: #248
 Branch: `codex/0126-seed-ops-no-final-continuation-gate`
+PR: #249
 Started: 2026-05-01
 
 ## 문제 / 배경
