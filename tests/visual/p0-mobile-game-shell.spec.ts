@@ -1664,7 +1664,7 @@ test("모바일 온실 물안개 강화는 물길 점검 보상을 복귀 보너
 
 test("모바일 물안개 응축 납품은 복귀 보상을 새 주문으로 잇는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
-  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseMist=1&qaReset=1");
+  await page.goto("/?qaOfflineMinutes=60&qaGreenhouseMist=1&qaReset=1");
 
   await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("보관 보상 +30%");
   await page.getByRole("button", { name: "보상 확인" }).click();
@@ -1761,6 +1761,63 @@ test("모바일 물안개 응축 납품은 복귀 보상을 새 주문으로 잇
     .toEqual({ materials: 1, pollen: 2, mistReturnOrderDone: true });
 
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-mist-return-order-v0-393.png"), fullPage: false });
+});
+
+test("모바일 달빛 온실 조사는 응축 단서를 원정 시작으로 소비한다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaGreenhouseMist=1&qaReset=1");
+
+  await page.getByRole("button", { name: "보상 확인" }).click();
+  await page.getByRole("button", { name: "생산 잎 수령" }).click();
+  await page.getByRole("button", { name: /주문 납품 \+165 잎 · \+2 꽃가루 · \+1 재료/ }).click();
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("달빛 온실 단서 +1");
+  await expect(page.getByRole("button", { name: /원정/ })).toContainText("온실");
+
+  await page.getByRole("button", { name: /원정/ }).click();
+  await expect(page.locator(".dev-panel.player-panel.tab-expedition")).toBeVisible();
+  await expect(page.getByLabel("달빛 온실 조사 단서")).toContainText("달빛 온실 조사");
+  await expect(page.getByLabel("달빛 온실 조사 단서")).toContainText("온실 단서");
+  await expect(page.getByLabel("달빛 온실 조사 단서")).toContainText("응축기에서 모은 달빛 단서");
+  await expect(page.getByRole("button", { name: "달빛 온실 조사 시작" })).toBeEnabled();
+  await page.getByRole("button", { name: "달빛 온실 조사 시작" }).click();
+
+  await expect(page.getByText("원정 진행 중", { exact: true })).toBeVisible();
+  await expect(page.getByText("60분 남음 · 돌아오면 보상 수령", { exact: true })).toBeVisible();
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw ? (JSON.parse(raw) as { activeExpedition?: { expeditionId?: string; creatureIds?: string[] } }) : {};
+        return {
+          expeditionId: parsed.activeExpedition?.expeditionId,
+          creatureCount: parsed.activeExpedition?.creatureIds?.length ?? 0
+        };
+      })
+    )
+    .toEqual({ expeditionId: "moon_hint", creatureCount: 2 });
+
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".dev-panel.player-panel.tab-expedition")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const progress = document.querySelector<HTMLElement>(".expedition-progress-status")?.getBoundingClientRect();
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel ? { bottom: panel.bottom, clientHeight: document.querySelector<HTMLElement>(".dev-panel")?.clientHeight ?? 0 } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      progress: progress ? { bottom: progress.bottom } : null
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.progress).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top + 1);
+  expect(metrics.progress!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-lunar-clue-expedition-v0-393.png"), fullPage: false });
 });
 
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
