@@ -7,7 +7,7 @@ Created: 2026-05-01
 Updated: 2026-05-01
 Scope-risk: narrow
 Issue: #245
-PR: TBD
+PR: #246
 Branch: `codex/0125-greenhouse-lunar-clue-expedition-v0`
 
 ## Intent

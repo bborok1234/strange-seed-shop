@@ -9,7 +9,7 @@
 응축기 완료 상태에서 원정 탭에 `달빛 온실 조사` preview를 열고, 기존 `moon_hint` 원정을 시작할 수 있게 한다.
 
 Issue: #245
-PR: TBD
+PR: #246
 
 ## Small win
 

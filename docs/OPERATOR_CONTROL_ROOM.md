@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T08:57:52.042Z
+Generated at: 2026-05-01T09:00:34.308Z
 
 ## Current mission
 
-Issue #245 **달빛 온실 단서가 원정 시작으로 소비된다**가 plan-first로 진행 중이다. Browser Use `iab`, `npm run check:visual -- --grep "달빛 온실 조사"`, `npm run check:content`, `npm run check:loop`, `npm run build`는 통과했다. 다음 gate는 `npm run check:ci`, PR checks, merge, main CI다.
+Issue #245 **달빛 온실 단서가 원정 시작으로 소비된다**가 plan-first로 진행 중이다. Browser Use `iab`, `npm run check:visual -- --grep "달빛 온실 조사"`, `npm run check:ci`가 통과했다. 다음 gate는 PR checks, merge, main CI다.
 
 즉시 다음 작업 선택 기준:
 
@@ -22,18 +22,18 @@ Issue #245 **달빛 온실 단서가 원정 시작으로 소비된다**가 plan-
 ## Local state
 
 - Branch: codex/0125-greenhouse-lunar-clue-expedition-v0
-- Latest commit: e0ea0ee 응축기 payoff 완료 증거를 main 기준으로 닫는다
+- Latest commit: 967e51a 달빛 온실 단서를 원정 시작으로 소비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T08:57:46.816Z
-- Phase: verifying
+- Timestamp: 2026-05-01T09:00:25.422Z
+- Phase: pr-open
 - Issue: #245
-- PR:
+- PR: #246
 - Item: items/0125-greenhouse-lunar-clue-expedition-v0.md
-- Next action: check:ci gate 후 PR checks/merge/main CI 진행
+- Next action: PR checks gate 통과 후 ready/merge/main CI 진행
 
 ## Open PRs
 
