@@ -18,6 +18,16 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - UI/visual 작업은 Browser Use `iab` 실기 QA를 먼저 시도한다. Browser Use는 별도 `browser` namespace tool이 아니라 Node REPL `js`에서 `scripts/browser-client.mjs`를 absolute import해 bootstrap하는 방식이므로, `browser-use` tool namespace가 안 보인다는 이유만으로 fallback하지 않는다. Node REPL `js` tool이 처음 보이지 않으면 fallback 전에 `tool_search`로 노출을 재확인하고, `node_repl js`, `mcp__node_repl__js`, `js`, `node_repl js JavaScript execution`을 순서대로 찾는다.
 - 다음 issue 선택은 "safe small item"이 아니라 `docs/NORTH_STAR.md` 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md` vertical slice workflow를 우선한다. safety는 stop/approval gate이고, 제품 우선순위 기준이 아니다.
 
+## Ralph runner boundary
+
+`$seed-ops`는 `$ralph`의 완료/검증 철학을 사용하지만, Codex App prompt-side `$ralph` activation만으로 실제 장시간 runner가 시작됐다고 보지 않는다.
+
+- prompt-side `$ralph` activation은 `.omx/state/sessions/<id>/ralph-state.json`을 seed할 수 있다. 이 상태가 `active:true`, `current_phase:"starting"`, `iteration:0`이고 runner metadata가 없으면 `prompt-side-only`다.
+- 4h/6h/overnight 같은 장시간 운영은 detached `omx ralph`/`omx exec` runner artifact, heartbeat source, watchdog source가 있어야만 live long runner로 인정한다.
+- foreground Codex App 작업은 직접 tool loop와 operator heartbeat로 진행한다. detached runner가 없으면 "Ralph long runner가 돌고 있다"고 보고하지 않는다.
+- lifecycle 판단은 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact를 기준으로 한다.
+- PR/CI wait continuation은 heartbeat phase와 watchdog source로 표현한다. final summary, 완료 문구, 게시 확인 문구는 continuation evidence가 아니다.
+
 ## No-final continuation gate
 
 - `$seed-ops`에서 assistant `final` 응답은 세션을 닫는 terminal action이다. `final response is terminal`을 기본 운영 가정으로 둔다.

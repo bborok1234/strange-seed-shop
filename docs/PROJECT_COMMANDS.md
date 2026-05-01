@@ -38,6 +38,16 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 
 원격 게시 기본값: `$seed-ops` issue loop에서 branch push, draft PR 생성/갱신, GitHub checks 확인, merge, main CI 확인은 별도 사용자 지시가 없어도 완료 조건에 포함된다. 확인 질문으로 멈추지 않는다. 다만 credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary, 실채널 GTM은 stop rule과 명시 승인 규칙을 우선한다.
 
+### Ralph runner boundary
+
+`$seed-ops`는 `$ralph`의 상태/검증 계약을 참고하지만, Codex App에서 `$ralph`를 입력했다는 사실만으로 장시간 runner가 실행 중이라고 보지 않는다.
+
+- prompt-side `$ralph` activation은 `.omx/state/sessions/<id>/ralph-state.json`을 만들거나 갱신할 수 있다. `active:true`, `current_phase:"starting"`, `iteration:0`, runner metadata 없음이면 `prompt-side-only` 상태다.
+- live long runner로 인정하려면 detached `omx ralph`/`omx exec` runner artifact, heartbeat source, watchdog source가 함께 있어야 한다.
+- foreground Codex App 루프는 직접 tool loop와 operator heartbeat로 증명한다. detached runner가 없으면 4h/6h/overnight Ralph runner가 돌고 있다고 보고하지 않는다.
+- lifecycle 판단은 assistant message 문구 감지가 아니라 structured state, heartbeat, watchdog, runner artifact를 기준으로 한다.
+- PR/CI wait continuation은 heartbeat phase와 watchdog source로 남긴다. final summary, 완료 문구, 게시 확인 문구는 continuation evidence가 아니다.
+
 ### No-final continuation gate
 
 `$seed-ops`에서 assistant `final` 응답은 세션을 닫는 terminal action이다. `final response is terminal`을 운영 계약으로 보고, stop rule 없이 `final` 응답을 보내지 않는다.

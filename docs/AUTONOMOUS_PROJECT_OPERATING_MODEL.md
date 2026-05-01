@@ -140,6 +140,14 @@ Plan은 거창한 PRD가 아니라도 된다. 작은 issue는 5~7줄짜리 light
 
 Ralph 세션은 iteration마다 `.omx/state/operator-heartbeat.json`를 최신 상태로 쓰고, 공유 가능한 증거는 `reports/operations/operator-heartbeat-YYYYMMDD.jsonl`에 누적한다. heartbeat에는 timestamp, phase, branch, issue, PR, current command, next action이 포함되어야 한다.
 
+### Ralph runner boundary
+
+Codex App prompt-side `$ralph` activation과 실제 장시간 Ralph/OMX runner는 분리해서 기록한다. prompt-side hook은 `.omx/state/sessions/<id>/ralph-state.json`을 seed할 수 있지만, `active:true`, `current_phase:"starting"`, `iteration:0`, runner metadata 없음 상태는 `prompt-side-only`다.
+
+Live long runner로 인정하려면 detached `omx ralph`/`omx exec` runner artifact, heartbeat source, watchdog source가 함께 있어야 한다. foreground Codex App 작업은 직접 tool loop와 operator heartbeat로 증명하며, detached runner evidence 없이 4h/6h/overnight 운영을 주장하지 않는다.
+
+Lifecycle 판단은 assistant message 문구 감지가 아니라 structured state, heartbeat, watchdog, runner artifact를 기준으로 한다. PR/CI wait continuation도 heartbeat phase와 watchdog source로 표현하며, final summary, 완료 문구, 게시 확인 문구는 continuation evidence가 아니다.
+
 ### stuck report
 
 `collab: Wait`, stale tmux, orphan process, timeout, red CI가 감지되면 완료 선언 대신 stuck report를 남긴다. stuck report는 `reports/operations/stuck-*.md`에 reason, phase, current command, last heartbeat, recovery next action을 적는다.

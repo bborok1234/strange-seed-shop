@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T15:43:11.840Z
+Generated at: 2026-05-01T15:53:06.023Z
 
 ## Current mission
 
-현재 작업은 `items/0134-seed-ops-final-publication-ask-regression.md`의 **Seed ops final publication ask regression**이다. GitHub issue/PR 게시 경계에서 assistant가 `final`로 “게시해도 될까요?”를 묻고 루프를 닫는 패턴을 하네스 결함으로 고정한다.
+현재 작업은 `items/0135-seed-ops-ralph-runner-bridge.md`의 **Seed ops Ralph runner bridge** 검증 완료분을 커밋하고, 이후 `0132` GitHub publication/PR/checks loop 또는 다음 plan-first issue로 이어가는 것이다.
 
 현재 evidence:
 
@@ -16,32 +16,34 @@ Generated at: 2026-05-01T15:43:11.840Z
 - Past 4h loop: `.omx/tasks/overnight-ralph-driver-20260427T1515.sh` + heartbeat/watchdog JSON loop.
 - External reference: LangGraph/Temporal/Cloudflare long-running agent docs also checkpoint/state/replay/plan 중심이다.
 - New structural gate: `publication_gate`, `confirmation.channel`, `continuation.action`, `continuation.artifact_path`, `safe_local_work`, `stop_rule`.
+- New Ralph runner gate: `scripts/check-ralph-runner-bridge.mjs` reports current Codex App `$ralph` state as `prompt-side-only` and detached runner count as 0.
 - Existing quality phrases kept in the live gate: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`.
 
-즉시 적용할 gate:
+즉시 적용된 gate:
 
 1. `reports/operations/ralph-state-contract-review-20260502.md`에 Ralph/local/external durable-state 근거를 남긴다.
 2. `scripts/write-operator-heartbeat.mjs`는 publication gate 구조화 필드를 쓸 수 있어야 한다.
 3. `scripts/check-seed-ops-publication-gate-state.mjs`는 `confirmation.channel: "final"`과 continuation 누락 fixture를 실패로 잡아야 한다.
 4. `scripts/check-ops-live.mjs`는 현재 heartbeat가 `external-publication-gate`일 때 구조화 필드를 검사해야 한다.
-5. `npm run check:seed-ops-publication-gate`, `npm run check:seed-ops-queue`, `npm run check:ops-live`, `npm run check:ci`가 통과해야 한다.
-6. 이 작업이 끝나면 멈추지 않고 `0132` GitHub publication/PR/checks loop 또는 다음 plan-first issue로 이어간다.
+5. `scripts/check-ralph-runner-bridge.mjs`는 prompt-side `$ralph` state와 detached runner evidence를 구분해야 한다.
+6. `npm run check:ralph-runner-bridge`, `npm run check:seed-ops-publication-gate`, `npm run check:seed-ops-queue`, `npm run check:ops-live`, `npm run check:ci`가 통과했다.
+7. 이 작업이 끝나면 멈추지 않고 `0132` GitHub publication/PR/checks loop 또는 다음 plan-first issue로 이어간다.
 
 ## Local state
 
 - Branch: codex/0132-lunar-harvest-creature-payoff-v0
-- Latest commit: cac2b47 달방울 누누 수확 보상을 생산 장면으로 이어준다
+- Latest commit: ea782c5 게시 경계를 구조화 상태로 검증한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T15:42:55.930Z
+- Timestamp: 2026-05-01T15:52:05.386Z
 - Phase: verified
 - Issue: local
 - PR: 
-- Item: items/0134-seed-ops-final-publication-ask-regression.md
-- Next action: commit harness fix then resume 0132 publication loop 준비
+- Item: items/0135-seed-ops-ralph-runner-bridge.md
+- Next action: commit Ralph runner bridge harness and keep publication gate state visible
 
 ## Open PRs
 

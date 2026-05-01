@@ -61,7 +61,8 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | P0.5 studio campaign audit | review | Issue #260, draft PR #265, `items/0130-p05-studio-campaign-audit.md`, `reports/operations/p05-studio-campaign-audit-20260501.md`, Browser Use QA screenshots, `items/0132-lunar-harvest-creature-payoff-v0.md`, PR checks pass | 첫 5분 loop/production readability/asset-FX/QA coverage를 부서별로 감사했고, 다음 tranche를 `Lunar harvest creature payoff v0`로 고정함 |
 | Seed ops PR publication confirmation boundary | done | Draft PR #265, `items/0133-seed-ops-pr-publication-confirmation-boundary.md`, `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`, `$seed-ops` docs/checker hardening, `npm run check:ci` pass, PR checks pass | Codex App action-time confirmation이 필요한 PR/issue/comment publication을 terminal stop으로 취급하지 않고, `pending external-publication gate`와 `next local safe work`를 기록한 뒤 계속 진행하게 만듦 |
 | Lunar harvest creature payoff v0 | active | `items/0132-lunar-harvest-creature-payoff-v0.md`, `reports/visual/lunar-harvest-creature-payoff-v0-20260501.md`, Browser Use QA screenshots, accepted raster FX reuse binding, local asset/content gates pass | `달방울 씨앗` 수확 뒤 `달방울 누누`가 named reveal에서 끝나지 않고 production card/playfield actor/roster에 lunar work-state로 합류한다 |
-| Seed ops final publication ask regression | active | `items/0134-seed-ops-final-publication-ask-regression.md`, `.codex/skills/seed-ops/SKILL.md`, `scripts/check-seed-ops-queue-gate.mjs`, `scripts/operator-control-room.mjs` | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, commentary checkpoint + heartbeat + same-turn local continuation action을 요구한다 |
+| Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
+| Seed ops Ralph runner bridge | done | `items/0135-seed-ops-ralph-runner-bridge.md`, `scripts/check-ralph-runner-bridge.mjs`, `.codex/skills/seed-ops/SKILL.md`, `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_RUNBOOK.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `npm run check:ci` pass | Codex App prompt-side `$ralph` activation을 실제 detached `omx ralph`/`omx exec` long runner와 분리하고, lifecycle 판단을 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact 기준으로 고정한다 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
 | Lunar seed harvest bridge v0 | done | Issue #166, `items/0093-lunar-seed-harvest-bridge-v0.md`, `reports/visual/p0-lunar-seed-harvest-bridge-v0-20260430.md` | `달방울 씨앗` 구매/심기/수확이 `달방울 누누` 발견과 다음 도감 목표 전환으로 이어지고 `npm run check:ci`가 통과함 |
 | Lunar guardian offline bonus v0 | done | Issue #168, `items/0094-lunar-guardian-offline-bonus-v0.md`, `reports/visual/p0-lunar-guardian-offline-bonus-v0-20260430.md` | `달방울 누누` 발견이 오프라인 복귀 보상 bonus와 toast 문구로 이어지고 `npm run check:ci`가 통과함 |
@@ -304,7 +305,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 `items/0134-seed-ops-final-publication-ask-regression.md`의 **Seed ops final publication ask regression**이다. GitHub issue/PR 게시 경계에서 assistant가 `final`로 “게시해도 될까요?”를 묻고 루프를 닫는 패턴을 하네스 결함으로 고정한다.
+현재 작업은 `items/0135-seed-ops-ralph-runner-bridge.md`의 **Seed ops Ralph runner bridge** 검증 완료분을 커밋하고, 이후 `0132` GitHub publication/PR/checks loop 또는 다음 plan-first issue로 이어가는 것이다.
 
 현재 evidence:
 
@@ -313,16 +314,18 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Past 4h loop: `.omx/tasks/overnight-ralph-driver-20260427T1515.sh` + heartbeat/watchdog JSON loop.
 - External reference: LangGraph/Temporal/Cloudflare long-running agent docs also checkpoint/state/replay/plan 중심이다.
 - New structural gate: `publication_gate`, `confirmation.channel`, `continuation.action`, `continuation.artifact_path`, `safe_local_work`, `stop_rule`.
+- New Ralph runner gate: `scripts/check-ralph-runner-bridge.mjs` reports current Codex App `$ralph` state as `prompt-side-only` and detached runner count as 0.
 - Existing quality phrases kept in the live gate: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`.
 
-즉시 적용할 gate:
+즉시 적용된 gate:
 
 1. `reports/operations/ralph-state-contract-review-20260502.md`에 Ralph/local/external durable-state 근거를 남긴다.
 2. `scripts/write-operator-heartbeat.mjs`는 publication gate 구조화 필드를 쓸 수 있어야 한다.
 3. `scripts/check-seed-ops-publication-gate-state.mjs`는 `confirmation.channel: "final"`과 continuation 누락 fixture를 실패로 잡아야 한다.
 4. `scripts/check-ops-live.mjs`는 현재 heartbeat가 `external-publication-gate`일 때 구조화 필드를 검사해야 한다.
-5. `npm run check:seed-ops-publication-gate`, `npm run check:seed-ops-queue`, `npm run check:ops-live`, `npm run check:ci`가 통과해야 한다.
-6. 이 작업이 끝나면 멈추지 않고 `0132` GitHub publication/PR/checks loop 또는 다음 plan-first issue로 이어간다.
+5. `scripts/check-ralph-runner-bridge.mjs`는 prompt-side `$ralph` state와 detached runner evidence를 구분해야 한다.
+6. `npm run check:ralph-runner-bridge`, `npm run check:seed-ops-publication-gate`, `npm run check:seed-ops-queue`, `npm run check:ops-live`, `npm run check:ci`가 통과했다.
+7. 이 작업이 끝나면 멈추지 않고 `0132` GitHub publication/PR/checks loop 또는 다음 plan-first issue로 이어간다.
 
 ## Previous Next Action History
 

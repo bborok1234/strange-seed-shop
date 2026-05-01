@@ -89,6 +89,7 @@ For game work, use the Game Studio plugin as the product-quality routing layer b
 - Separate proposal from mutation for risky work.
 - Keep changes scoped, reversible, and tied to acceptance criteria.
 - When adding new implementation work, update the roadmap with status and verification evidence.
+- `$ralph` prompt-side activation과 실제 장시간 runner를 분리한다. `.omx/state/sessions/<id>/ralph-state.json`이 `active:true`, `current_phase:"starting"`, `iteration:0`이고 runner metadata가 없으면 `prompt-side-only`이며, 4h/6h/overnight 운영은 detached `omx ralph`/`omx exec` runner artifact, heartbeat source, watchdog source가 있을 때만 주장한다. Lifecycle 판단은 assistant message 문구 감지가 아니라 structured state, heartbeat, watchdog, runner artifact를 기준으로 한다.
 - 장시간 `$ralph`/운영모드에서 완료 보고는 중단 조건이 아니라 체크포인트다. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 다음 issue를 plan-first로 선택하고 계속 진행한다.
 - No-final continuation gate: `$seed-ops`에서 assistant `final` 응답은 terminal action이다. `final response is terminal`을 전제로, stop rule이 없으면 final 대신 commentary checkpoint를 남기고 `next issue plan artifact exists` 상태를 만든다. `left the next queue candidate is not continuation`.
 - `$seed-ops` 또는 명시적 장시간 운영모드에서는 branch push, draft PR 생성/갱신, GitHub checks 확인, merge, main CI 확인까지가 issue loop의 완료 조건이다. 사용자가 원격 게시를 한 번 더 말하지 않았다는 이유만으로 확인 질문을 하지 않는다. credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary, 실채널 GTM은 stop/approval gate를 우선한다.

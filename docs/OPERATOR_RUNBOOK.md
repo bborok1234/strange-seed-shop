@@ -48,9 +48,13 @@ Before any supervised 4h or 24h run:
    - `npm run check:all`
 6. Write initial heartbeat:
    - `node scripts/write-operator-heartbeat.mjs --issue '#<n>' --item items/<id>.md --phase executing --iteration 1 --command '<current command>' --next '<next action>' --context <snapshot>`
-7. For 4h+ or 24h dry-run windows, start an independent heartbeat daemon before long PR/CI waits:
+7. Classify Ralph runner state before claiming long-run autonomy:
+   - prompt-side `$ralph` activation can seed `.omx/state/sessions/<id>/ralph-state.json`, but `active:true`, `current_phase:"starting"`, `iteration:0`, and no runner metadata means `prompt-side-only`.
+   - Live long runner evidence requires detached `omx ralph`/`omx exec` runner artifact, heartbeat source, and watchdog source.
+   - Lifecycle 판단은 assistant message 문구 감지가 아니라 structured state, heartbeat, watchdog, runner artifact를 기준으로 한다.
+8. For 4h+ or 24h dry-run windows, start an independent heartbeat daemon before long PR/CI waits:
    - `npm run operator:heartbeat:daemon -- --issue '#<n>' --item items/<id>.md --interval-seconds 300 --heartbeat .omx/state/operator-heartbeat.json --report .omx/logs/operator-<run>.jsonl --summary .omx/state/operator-heartbeat-daemon-summary.json`
-8. Announce/record start only after the plan artifact, heartbeat, daemon summary, and readiness checks exist.
+9. Announce/record start only after the plan artifact, heartbeat, daemon summary, runner classification, and readiness checks exist.
 
 ## Monitor procedure
 
@@ -58,6 +62,7 @@ During a supervised run:
 
 - Write heartbeat at least once per iteration and at least every 5 minutes during multi-hour trials.
 - During long PR/CI waits, the independent heartbeat daemon owns the 5-minute liveness signal; the foreground agent still records meaningful phase transitions.
+- `$ralph` prompt-side state without detached runner metadata is `prompt-side-only`, not live long runner evidence.
 - Run watchdog against the current heartbeat source:
   - `npm run operator:watchdog -- --heartbeat <path> --max-age-seconds 600 --report <report-path>`
   - add `--stuck-output <stuck-report-path>` when the watchdog should write the stale report automatically.
@@ -82,6 +87,7 @@ During a supervised run:
 - If the user has asked for an ongoing operator run and no stop rule is active, immediately choose the next issue를 plan-first로 선택하고 `## Plan` artifact를 만든 뒤 다음 loop를 시작한다.
 - No-final continuation gate: in `$seed-ops`, `final response is terminal`. Stop rule이 없으면 final 응답 대신 commentary checkpoint를 남기고, `next issue plan artifact exists` 상태를 만든다. `left the next queue candidate is not continuation`: 다음 후보를 적어두기만 한 것은 continuation이 아니다.
 - PR publication confirmation boundary: Codex App에서 PR/issue/comment 게시가 action-time confirmation을 요구해도 This is not a terminal stop. do not send final just to ask for PR creation. assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. confirmation wording, if unavoidable, must be commentary, not final. write heartbeat before any publication ask를 먼저 수행하고, same-turn local continuation action으로 heartbeat/control room/report/checker/next plan 중 하나를 실제 tool action으로 남긴다. 같은 final publication ask가 반복되면 open a harness-defect fix instead of stopping. Commentary checkpoint로 pending external-publication gate를 남기고, branch/commit/PR body file/pending command/confirmation/next local safe work를 `reports/operations/` 또는 현재 `items/<id>.md`에 기록한 뒤, `next issue plan artifact exists` 상태를 만들고 destructive/external이 아닌 local safe work를 계속한다.
+- PR/CI wait continuation is represented by heartbeat phase and watchdog source, not assistant final summaries, completion wording, or publication confirmation wording.
 
 ## Recover procedure
 
