@@ -159,12 +159,22 @@ const GREENHOUSE_ROUTE_SUPPLY_ORDER: FirstOrderDefinition = {
   rewardPollen: 4,
   rewardMaterials: 1
 };
+const GREENHOUSE_IRRIGATION_ORDER: FirstOrderDefinition = {
+  id: "order_greenhouse_irrigation_check_001",
+  title: "온실 물길 점검",
+  customer: "반짝이는 온실 물길",
+  requiredLeaves: 120,
+  rewardLeaves: 135,
+  rewardPollen: 3,
+  rewardMaterials: 1
+};
 const ORDER_DEFINITIONS: FirstOrderDefinition[] = [
   FIRST_ORDER,
   SECOND_ORDER,
   GREENHOUSE_ORDER,
   GREENHOUSE_EXPANSION_ORDER,
-  GREENHOUSE_ROUTE_SUPPLY_ORDER
+  GREENHOUSE_ROUTE_SUPPLY_ORDER,
+  GREENHOUSE_IRRIGATION_ORDER
 ];
 const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "garden", label: "정원" },
@@ -204,6 +214,7 @@ export default function App() {
     const qaGreenhouseStorage = getLocalQaGreenhouseStorage();
     const qaGreenhouseRoute = getLocalQaGreenhouseRoute();
     const qaGreenhouseRouteSupply = getLocalQaGreenhouseRouteSupply();
+    const qaGreenhouseIrrigation = getLocalQaGreenhouseIrrigation();
     const qaExpeditionActive = getLocalQaExpeditionActive();
     const qaExpeditionReady = getLocalQaExpeditionReady();
     const qaProductionReady = getLocalQaProductionReady();
@@ -242,7 +253,8 @@ export default function App() {
                                 qaGreenhouseShelf,
                                 qaGreenhouseStorage,
                                 qaGreenhouseRoute,
-                                qaGreenhouseRouteSupply
+                                qaGreenhouseRouteSupply,
+                                qaGreenhouseIrrigation
                               )
                             : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
@@ -996,6 +1008,7 @@ export default function App() {
                   productionStatus.orderCompleted ? "has-completed-order" : "",
                   productionStatus.order.id === GREENHOUSE_ORDER.id ? "has-greenhouse-order" : "",
                   productionStatus.order.id === GREENHOUSE_ROUTE_SUPPLY_ORDER.id ? "has-route-supply-order" : "",
+                  productionStatus.order.id === GREENHOUSE_IRRIGATION_ORDER.id ? "has-irrigation-order" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
                 ]
                   .filter(Boolean)
@@ -1925,6 +1938,17 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
     return GREENHOUSE_ROUTE_SUPPLY_ORDER;
   }
 
+  if (
+    save.greenhouseIrrigationLevel >= GREENHOUSE_IRRIGATION_MAX_LEVEL &&
+    !save.idleProduction.completedOrderIds.includes(GREENHOUSE_IRRIGATION_ORDER.id)
+  ) {
+    return GREENHOUSE_IRRIGATION_ORDER;
+  }
+
+  if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_IRRIGATION_ORDER.id)) {
+    return GREENHOUSE_IRRIGATION_ORDER;
+  }
+
   if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_ROUTE_SUPPLY_ORDER.id)) {
     return GREENHOUSE_ROUTE_SUPPLY_ORDER;
   }
@@ -2470,6 +2494,14 @@ function getLocalQaGreenhouseRouteSupply(): boolean {
   return new URLSearchParams(window.location.search).get("qaGreenhouseRouteSupply") === "1";
 }
 
+function getLocalQaGreenhouseIrrigation(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaGreenhouseIrrigation") === "1";
+}
+
 function getLocalQaReset(): boolean {
   if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
     return false;
@@ -2616,13 +2648,16 @@ function createOfflineQaSave(
   includeGreenhouseShelf = false,
   includeGreenhouseStorage = false,
   includeGreenhouseRoute = false,
-  includeGreenhouseRouteSupply = false
+  includeGreenhouseRouteSupply = false,
+  includeGreenhouseIrrigation = false
 ): PlayerSave {
   const lastSeen = new Date(Date.now() - minutesAway * 60 * 1000);
   const save = createNewSave(lastSeen);
-  const hasGreenhouseShelf = includeGreenhouseShelf || includeGreenhouseStorage || includeGreenhouseRoute || includeGreenhouseRouteSupply;
-  const hasGreenhouseStorage = includeGreenhouseStorage || includeGreenhouseRoute || includeGreenhouseRouteSupply;
-  const hasGreenhouseRoute = includeGreenhouseRoute || includeGreenhouseRouteSupply;
+  const hasGreenhouseShelf =
+    includeGreenhouseShelf || includeGreenhouseStorage || includeGreenhouseRoute || includeGreenhouseRouteSupply || includeGreenhouseIrrigation;
+  const hasGreenhouseStorage = includeGreenhouseStorage || includeGreenhouseRoute || includeGreenhouseRouteSupply || includeGreenhouseIrrigation;
+  const hasGreenhouseRoute = includeGreenhouseRoute || includeGreenhouseRouteSupply || includeGreenhouseIrrigation;
+  const hasGreenhouseRouteSupply = includeGreenhouseRouteSupply || includeGreenhouseIrrigation;
   const discoveredCreatureIds = includeLunarGuardian
     ? ["creature_herb_common_001", LUNAR_REWARD_CREATURE_ID]
     : ["creature_herb_common_001"];
@@ -2640,8 +2675,9 @@ function createOfflineQaSave(
     greenhouseFacilityLevel: hasGreenhouseShelf ? GREENHOUSE_FACILITY_MAX_LEVEL : save.greenhouseFacilityLevel,
     greenhouseStorageLevel: hasGreenhouseStorage ? GREENHOUSE_STORAGE_MAX_LEVEL : save.greenhouseStorageLevel,
     greenhouseRouteLevel: hasGreenhouseRoute ? GREENHOUSE_ROUTE_MAX_LEVEL : save.greenhouseRouteLevel,
-    materials: includeGreenhouseRouteSupply ? 1 : hasGreenhouseStorage ? 0 : hasGreenhouseShelf ? 1 : save.materials,
-    pollen: includeGreenhouseRouteSupply ? 4 : save.pollen,
+    greenhouseIrrigationLevel: includeGreenhouseIrrigation ? GREENHOUSE_IRRIGATION_MAX_LEVEL : save.greenhouseIrrigationLevel,
+    materials: includeGreenhouseIrrigation ? 0 : hasGreenhouseRouteSupply ? 1 : hasGreenhouseStorage ? 0 : hasGreenhouseShelf ? 1 : save.materials,
+    pollen: includeGreenhouseIrrigation ? 0 : hasGreenhouseRouteSupply ? 4 : save.pollen,
     idleProduction: hasGreenhouseShelf
       ? {
           pendingLeaves: 0,
@@ -2651,14 +2687,14 @@ function createOfflineQaSave(
             [SECOND_ORDER.id]: SECOND_ORDER.requiredLeaves,
             [GREENHOUSE_ORDER.id]: GREENHOUSE_ORDER.requiredLeaves,
             ...(hasGreenhouseRoute ? { [GREENHOUSE_EXPANSION_ORDER.id]: GREENHOUSE_EXPANSION_ORDER.requiredLeaves } : {}),
-            ...(includeGreenhouseRouteSupply ? { [GREENHOUSE_ROUTE_SUPPLY_ORDER.id]: GREENHOUSE_ROUTE_SUPPLY_ORDER.requiredLeaves } : {})
+            ...(hasGreenhouseRouteSupply ? { [GREENHOUSE_ROUTE_SUPPLY_ORDER.id]: GREENHOUSE_ROUTE_SUPPLY_ORDER.requiredLeaves } : {})
           },
           completedOrderIds: [
             FIRST_ORDER.id,
             SECOND_ORDER.id,
             GREENHOUSE_ORDER.id,
             ...(hasGreenhouseRoute ? [GREENHOUSE_EXPANSION_ORDER.id] : []),
-            ...(includeGreenhouseRouteSupply ? [GREENHOUSE_ROUTE_SUPPLY_ORDER.id] : [])
+            ...(hasGreenhouseRouteSupply ? [GREENHOUSE_ROUTE_SUPPLY_ORDER.id] : [])
           ]
         }
       : save.idleProduction,
