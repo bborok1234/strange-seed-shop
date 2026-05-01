@@ -67,3 +67,5 @@ Browser Use `iab`로 `qaGreenhouseMist=1` 복귀 상태에서 `보상 확인` ->
 - `npm run check:content` — PASS
 - `npm run build` — PASS
 - `npm run check:ci` — PASS
+- PR #246 GitHub checks — PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Main CI — PASS, run `25208987443`, merge commit `bae8b9ef038351f0547a8cec3431b32a57d2d526`

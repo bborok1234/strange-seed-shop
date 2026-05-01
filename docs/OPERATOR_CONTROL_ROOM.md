@@ -3,15 +3,15 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T09:00:34.308Z
+Generated at: 2026-05-01T09:05:21.991Z
 
 ## Current mission
 
-Issue #245 **달빛 온실 단서가 원정 시작으로 소비된다**가 plan-first로 진행 중이다. Browser Use `iab`, `npm run check:visual -- --grep "달빛 온실 조사"`, `npm run check:ci`가 통과했다. 다음 gate는 PR checks, merge, main CI다.
+Issue #245 **달빛 온실 단서가 원정 시작으로 소비된다**는 PR #246으로 merge됐고 main CI `25208987443`가 통과했다. 다음 `$seed-ops` 후보는 `달빛 온실 조사` 완료/보상 수령 순간에 온실 단서 source를 유지하면서 달빛 씨앗/수집 루프로 되돌리는 production vertical slice다.
 
 즉시 다음 작업 선택 기준:
 
-1. 이번 run의 종료 조건은 Issue #245 plan acceptance, Browser Use iab, `npm run check:visual -- --grep "달빛 온실 조사"`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
+1. 이번 run의 종료 조건은 Issue #245 plan acceptance, Browser Use iab, `npm run check:visual -- --grep "달빛 온실 조사"`, `npm run check:ci`, PR checks, main CI가 green인 상태이며 모두 완료됐다.
 2. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
 3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.
 4. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
@@ -21,19 +21,19 @@ Issue #245 **달빛 온실 단서가 원정 시작으로 소비된다**가 plan-
 
 ## Local state
 
-- Branch: codex/0125-greenhouse-lunar-clue-expedition-v0
-- Latest commit: 967e51a 달빛 온실 단서를 원정 시작으로 소비한다
+- Branch: codex/0125-greenhouse-lunar-clue-expedition-closeout
+- Latest commit: bae8b9e 달빛 온실 단서를 원정 시작으로 소비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T09:00:25.422Z
-- Phase: pr-open
+- Timestamp: 2026-05-01T09:05:17.389Z
+- Phase: closeout
 - Issue: #245
 - PR: #246
 - Item: items/0125-greenhouse-lunar-clue-expedition-v0.md
-- Next action: PR checks gate 통과 후 ready/merge/main CI 진행
+- Next action: closeout PR gate 통과 후 달빛 온실 조사 보상 source vertical slice prep
 
 ## Open PRs
 
