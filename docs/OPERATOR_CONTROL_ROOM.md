@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T07:07:23.406Z
+Generated at: 2026-05-01T07:17:08.562Z
 
 ## Current mission
 
-현재 운영모드는 Issue #232 **Greenhouse mist upgrade v0**를 진행 중이다. 이번 run은 `온실 물길 점검` 주문 보상 `재료 1 · 꽃가루 3`이 `온실 물안개` 강화와 다음 오프라인 복귀 보너스로 이어지는 production vertical slice를 닫는다. 이 issue는 PR/CI/main merge와 GitHub 수용 기준 체크박스 갱신까지 완료한 뒤 다음 `$seed-ops` checkpoint로 넘어간다.
+Issue #232 **Greenhouse mist upgrade v0**는 PR #233으로 merge됐고 main CI `25206219175`가 통과했다. 다음 `$seed-ops` 후보는 물안개 완료 뒤 복귀 보너스 payoff를 다시 생산/주문 목표로 되돌리는 온실 후속 vertical slice다. 새 issue는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan-first로 고정한 뒤 시작한다.
 
 즉시 다음 작업 선택 기준:
 
@@ -21,8 +21,8 @@ Generated at: 2026-05-01T07:07:23.406Z
 
 ## Local state
 
-- Branch: codex/0120-greenhouse-mist-upgrade-v0
-- Latest commit: b94aa7e 물길 점검 보상이 복귀 강화로 이어진다
+- Branch: codex/0120-greenhouse-mist-closeout
+- Latest commit: f4d3cd8 물길 점검 보상이 복귀 강화로 이어진다
 - Dirty files: present
 
 ## Heartbeat
@@ -33,7 +33,7 @@ Generated at: 2026-05-01T07:07:23.406Z
 - Issue: #232
 - PR: #233
 - Item: items/0120-greenhouse-mist-upgrade-v0.md
-- Next action: PR checks 확인 후 ready/merge/main CI까지 진행
+- Next action: PR gate 확인 후 ready/merge/main CI gate까지 진행
 
 ## Open PRs
 
@@ -41,7 +41,7 @@ Generated at: 2026-05-01T07:07:23.406Z
 
 ## Open issues
 
-- #232 [Game Feature] 온실 물길 점검 보상이 물안개 강화로 이어진다 — https://github.com/bborok1234/strange-seed-shop/issues/232
+- unavailable or none
 
 ## Playable mode
 

@@ -1,6 +1,6 @@
 # Greenhouse mist upgrade v0
 
-Status: verified
+Status: done
 Work type: game_feature
 Owner: agent
 Created: 2026-05-01
@@ -63,6 +63,7 @@ Vertical slice axes:
 - `npm run check:visual -- --grep "온실 물안개"`: PASS
 - `npm run check:ci`: PASS
 - PR #233 GitHub checks: PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Main CI: PASS, run `25206219175`, merge commit `f4d3cd8cfa94ec7a8e17cae630ccae3eb58ea9c6`
 - Browser Use `iab`: PASS, `reports/visual/p0-greenhouse-mist-upgrade-browser-use-20260501.png`
 - Playwright screenshot: `reports/visual/p0-greenhouse-mist-upgrade-v0-20260501.png`
 - Draft PR: #233
