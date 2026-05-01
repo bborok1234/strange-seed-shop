@@ -3,6 +3,7 @@
 Status: done
 Branch: `codex/0117-greenhouse-irrigation-upgrade-v0`
 Issue: #224
+PR: #225
 
 ## Context
 
@@ -56,11 +57,15 @@ Issue: #224
 - Regression focused visual: `npm run check:visual -- --grep "온실 동선 순환 주문|온실 물길 강화"` PASS
 - Full visual: `npm run check:visual` PASS, 42 passed
 - CI: `npm run check:ci` PASS
+- PR checks: #225 PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Merge: #225 merged to `main`
+- Main CI: run `25203668266`은 #225 병합 뒤 `docs/DASHBOARD.md`가 stale 상태라 실패했다. closeout branch에서 생성 대시보드와 완료 증거를 갱신한다.
 
 ## Risks
 
 - 새 save 필드가 추가된다. `createNewSave`와 `normalizeSave`에 기본값 0을 넣어 기존 save가 자동 보정되게 했다.
 - route complete 화면의 action surface 밀도는 기존 compact CSS와 신규 visual gate로 확인했다.
+- 남은 product follow-up blocker 없음. 남은 운영 follow-up은 #225 병합 뒤 stale dashboard를 closeout PR로 고정하는 것이다.
 
 ## Safety
 

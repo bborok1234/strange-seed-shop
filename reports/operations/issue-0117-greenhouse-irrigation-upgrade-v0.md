@@ -1,5 +1,9 @@
 # [P0.5] 온실 물길 강화로 순환 주문 보상 쓰기
 
+GitHub issue: #224
+Feature PR: #225
+Closeout PR: #226
+
 ## 문제 / 배경
 
 #221에서 `3번 밭 순환 납품`이 열렸지만, 납품 보상 `재료 1`과 `꽃가루 4`를 바로 다음 생산 성장에 쓰는 선택지가 없다.
@@ -62,7 +66,11 @@
 - `npm run check:visual -- --grep "온실 동선 순환 주문|온실 물길 강화"`: PASS
 - `npm run check:visual`: PASS, 42 passed
 - `npm run check:ci`: PASS
+- PR checks #225: PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Merge: #225 merged to `main`
+- Main CI #225: run `25203668266`은 생성 파일 `docs/DASHBOARD.md`가 stale 상태라 실패했다. gameplay regression이 아니라 운영 증거 gap이며, closeout PR에서 dashboard/evidence를 갱신하고 checks를 다시 확인한다.
 
 ## 남은 위험
 
-- PR checks에서 동일 gate를 재확인해야 한다.
+- Product follow-up blocker 없음.
+- Closeout PR에서 `docs/DASHBOARD.md`와 완료 evidence를 main 기준으로 고정해야 한다.
