@@ -3,11 +3,13 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T14:48:43.191Z
+Generated at: 2026-05-01T15:00:53.261Z
 
 ## Current mission
 
 Issue #260 **P0.5 studio campaign audit**는 로컬 감사와 Browser Use `iab` evidence를 완료했고, `reports/operations/p05-studio-campaign-audit-20260501.md`에 다음 tranche 선택 근거를 남겼다.
+
+운영 corrective gate는 verified 상태다. Codex App PR publication이 action-time confirmation을 요구하는 경우에도 `$seed-ops`는 final로 멈추지 않는다. `PR publication confirmation boundary`는 pending external-publication gate로 기록하고 `next local safe work`를 계속해야 한다. 관련 plan/evidence는 `items/0133-seed-ops-pr-publication-confirmation-boundary.md`와 `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`이며 `npm run check:ci`가 통과했다.
 
 다음 작업은 `items/0132-lunar-harvest-creature-payoff-v0.md`의 **Lunar harvest creature payoff v0**다. `달방울 씨앗` 수확이 단순 도감 reveal로 끝나지 않고, `달방울 누누`가 온실 production actor로 합류해 lunar-specific harvest/reward FX와 work-state로 화면에서 읽혀야 한다.
 
@@ -24,7 +26,7 @@ Issue #260 **P0.5 studio campaign audit**는 로컬 감사와 Browser Use `iab` 
 ## Local state
 
 - Branch: codex/0130-p05-studio-campaign-audit
-- Latest commit: 8e870f2 seed ops 드릴 완료 증거를 main 기준으로 닫는다 (#264)
+- Latest commit: 6e588e1 P0.5 캠페인 감사를 다음 lunar payoff로 연결한다
 - Dirty files: present
 
 ## Heartbeat
@@ -59,6 +61,10 @@ Issue #260 **P0.5 studio campaign audit**는 로컬 감사와 Browser Use `iab` 
 ## Next stop gate
 
 Stop only after PR required checks, main CI, and local `npm run check:all` are green, or after a written blocker report. The next work queue should name a North Star production vertical slice, not a merely safe small task.
+
+## PR publication confirmation boundary
+
+Codex App action-time confirmation can apply when a GitHub PR, issue, or comment publishes representational communication. This is not a terminal stop: do not send final just to ask for PR creation. Record the pending external-publication gate with branch, commit, PR body file, pending command, confirmation, and next local safe work, then ensure next issue plan artifact exists and continue non-destructive/non-external local work.
 
 ## Studio Campaign Gate
 

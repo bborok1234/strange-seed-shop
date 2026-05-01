@@ -51,6 +51,15 @@ const continuationGatePhrases = [
   "left the next queue candidate is not continuation"
 ];
 
+const prPublicationBoundaryPhrases = [
+  "PR publication confirmation boundary",
+  "action-time confirmation",
+  "This is not a terminal stop",
+  "do not send final just to ask for PR creation",
+  "pending external-publication gate",
+  "next local safe work"
+];
+
 const studioCampaignPhrases = [
   "Studio Campaign Gate",
   "P0.5 Idle Core + Creative Rescue",
@@ -115,6 +124,18 @@ for (const filePath of [
   "docs/PROJECT_COMMANDS.md"
 ]) {
   requirePhrases(filePath, continuationGatePhrases);
+}
+
+for (const filePath of [
+  "AGENTS.md",
+  ".codex/skills/seed-ops/SKILL.md",
+  "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
+  "docs/OPERATOR_RUNBOOK.md",
+  "docs/PROJECT_COMMANDS.md",
+  "docs/OPERATOR_CONTROL_ROOM.md",
+  "scripts/operator-control-room.mjs"
+]) {
+  requirePhrases(filePath, prPublicationBoundaryPhrases);
 }
 
 for (const filePath of [

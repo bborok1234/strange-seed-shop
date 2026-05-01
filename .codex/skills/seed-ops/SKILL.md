@@ -26,6 +26,16 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - `left the next queue candidate is not continuation`: 다음 후보를 roadmap/control room/final summary에 적어둔 것은 continuation이 아니다. 다음 issue plan artifact가 없으면 아직 멈출 수 없다.
 - `final` 응답이 허용되는 경우는 Stop rules 중 하나가 활성화되고, final heartbeat/watchdog/daily report 또는 blocker report가 그 stop rule을 명시한 때뿐이다.
 
+## PR publication confirmation boundary
+
+Codex App에서는 GitHub PR 생성/수정, issue 수정, comment 게시처럼 외부에 운영사 문장을 공개하는 representational communication이 action-time confirmation을 요구할 수 있다. 이 경계는 safety gate이지 `$seed-ops`의 완료 조건이 아니다.
+
+- This is not a terminal stop: PR publication confirmation boundary는 `final response is terminal` 예외가 아니며, do not send final just to ask for PR creation.
+- 확인이 필요한 순간에는 commentary checkpoint로 pending external-publication gate를 짧게 남기고, branch, commit, PR body file, 정확한 pending command, 필요한 confirmation, next local safe work를 `reports/operations/` 또는 현재 `items/<id>.md`에 기록한다.
+- 그 직후 `next issue plan artifact exists` 상태를 만든다. 이미 다음 plan이 있으면 그 plan을 최신 blocker/continuation evidence와 연결한다.
+- 확인 대기 중에도 destructive/external 작업이 아닌 local safe work는 계속한다. 예: 다음 issue plan 보강, asset plan/prompt 초안, local QA 계획, docs/checker hardening, report 갱신.
+- 로컬로 계속할 안전한 작업이 전혀 없고 PR/issue/comment 게시만 남으면 그때만 blocker report를 보낼 수 있다. 이 경우에도 final은 vague ask가 아니라 pending external-publication gate와 stop rule을 명시한 blocker report여야 한다.
+
 ## Before implementation
 
 1. `docs/README.md`, `docs/ROADMAP.md`, `docs/PROJECT_COMMANDS.md`, `docs/NORTH_STAR.md`를 확인한다.

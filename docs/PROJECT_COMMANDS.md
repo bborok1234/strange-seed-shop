@@ -48,6 +48,17 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 - `left the next queue candidate is not continuation`: roadmap/control room/final summary에 다음 후보를 적어두는 것은 continuation이 아니다.
 - final 응답은 명시 중단, 시간 상한, 외부 승인/credential/destructive boundary, 치명적 blocker, materially branching 제품 결정 중 하나를 보고서로 고정한 뒤에만 허용된다.
 
+### PR publication confirmation boundary
+
+Codex App에서는 GitHub PR 생성/수정, issue 수정, comment 게시처럼 외부에 운영사 문장을 공개하는 representational communication이 action-time confirmation을 요구할 수 있다. 이 경계는 safety gate이지 `$seed-ops`의 완료 조건이 아니다.
+
+- This is not a terminal stop: PR publication confirmation boundary는 `final response is terminal` 예외가 아니며, do not send final just to ask for PR creation.
+- 확인이 필요한 순간에는 final이 아니라 commentary checkpoint로 pending external-publication gate를 남긴다.
+- 동시에 `reports/operations/` 또는 현재 `items/<id>.md`에 branch, commit, PR body file, 정확한 pending command, 필요한 confirmation, next local safe work를 기록한다.
+- 그 직후 `next issue plan artifact exists` 상태를 만들거나 이미 존재하는 다음 plan artifact를 최신 blocker/continuation evidence에 연결한다.
+- 확인 대기 중에도 destructive/external 작업이 아닌 local safe work는 계속한다. 예: 다음 issue plan 보강, asset plan/prompt 초안, local QA 계획, docs/checker hardening, report 갱신.
+- 로컬로 계속할 안전한 작업이 전혀 없고 PR/issue/comment 게시만 남으면 blocker report를 보낼 수 있다. 이 경우에도 final은 vague ask가 아니라 pending external-publication gate와 stop rule을 명시해야 한다.
+
 ### Game Studio routing gate
 
 이 프로젝트는 일반 웹앱이 아니라 브라우저 게임이다. `$seed-ops`가 게임 기능, UI/HUD, playfield, asset, QA, playtest issue를 처리할 때는 Game Studio plugin route가 필수다.
