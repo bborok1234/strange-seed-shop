@@ -516,6 +516,17 @@ h1 {
   height: 38px;
 }
 
+.production-asset-lunar-work {
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 42% 24%, rgba(255, 255, 255, 0.78), transparent 32%),
+    radial-gradient(circle at 70% 76%, rgba(169, 199, 255, 0.46), transparent 36%),
+    linear-gradient(145deg, #dfe8ff, #fff2bb);
+  box-shadow:
+    0 8px 18px rgba(79, 97, 171, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.58);
+}
+
 .production-asset-celebrate {
   width: 38px;
   height: 38px;
@@ -3455,6 +3466,17 @@ h1 {
   background:
     radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.68), transparent 34%),
     linear-gradient(135deg, rgba(255, 250, 213, 0.96), rgba(235, 240, 189, 0.9));
+}
+
+.playfield-production-actor.is-lunar-actor {
+  border-color: rgba(87, 105, 177, 0.36);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.74), transparent 34%),
+    radial-gradient(circle at 76% 68%, rgba(178, 201, 255, 0.6), transparent 38%),
+    linear-gradient(135deg, rgba(234, 240, 255, 0.96), rgba(255, 247, 207, 0.9));
+  box-shadow:
+    0 5px 12px rgba(79, 97, 171, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.46);
 }
 
 .playfield-order-crate.order-ready {

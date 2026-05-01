@@ -37,6 +37,7 @@ export interface GardenPlayfieldViewModel {
     orderCompleted: boolean;
     orderVariant?: "mist-condenser-complete";
     orderStatusLabel?: string;
+    actorFamily?: "herb" | "candy" | "lunar";
     workAssetPath?: string;
     crateAssetPath?: string;
   };

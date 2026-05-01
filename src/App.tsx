@@ -50,6 +50,8 @@ interface ProductionStatus {
   orderReady: boolean;
   orderCompleted: boolean;
   workerCreatures: CreatureDefinition[];
+  primaryWorker?: CreatureDefinition;
+  primaryWorkAssetId: string;
   workerLabel: string;
   workerDetail: string;
 }
@@ -1112,8 +1114,16 @@ export default function App() {
                 {productionFx ? renderProductionFx(productionFx) : null}
                 <div className="production-card-heading">
                   <div className="production-scene">
-                    <div className="production-asset production-asset-work" aria-hidden="true">
-                      {renderAsset("creature_herb_common_001_work", "작업")}
+                    <div
+                      className={[
+                        "production-asset production-asset-work",
+                        productionStatus.primaryWorker?.family === "lunar" ? "production-asset-lunar-work" : ""
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      aria-hidden="true"
+                    >
+                      {renderAsset(productionStatus.primaryWorkAssetId, "작업")}
                     </div>
                     <div>
                       <p className="panel-label">자동 생산</p>
@@ -2025,7 +2035,8 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
             : greenhouseShelfStored
               ? `선반 보관 +${Math.round(getGreenhouseShelfOfflineBonus(save) * 100)}%`
               : undefined,
-          workAssetPath: getAssetPath(manifest, "creature_herb_common_001_work"),
+          actorFamily: productionStatus.primaryWorker?.family,
+          workAssetPath: getAssetPath(manifest, productionStatus.primaryWorkAssetId),
           crateAssetPath: getAssetPath(manifest, "ui_order_crate_leaf_001")
         }
       : undefined;
@@ -2068,7 +2079,10 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
   const currentOrder = getCurrentOrder(save);
   const pendingLeaves = getPendingProductionLeaves(save, now);
   const workerCreatures = getProductionWorkers(save);
-  const workerNames = workerCreatures.map((creature) => creature.name);
+  const primaryWorker = getPrimaryProductionWorker(workerCreatures);
+  const workerNames = primaryWorker
+    ? [primaryWorker.name, ...workerCreatures.filter((creature) => creature.id !== primaryWorker.id).map((creature) => creature.name)]
+    : workerCreatures.map((creature) => creature.name);
   const orderProgress = Math.min(
     currentOrder.requiredLeaves,
     save.idleProduction.orderProgress[currentOrder.id] ?? 0
@@ -2083,6 +2097,8 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
     orderReady: orderProgress >= currentOrder.requiredLeaves,
     orderCompleted,
     workerCreatures,
+    primaryWorker,
+    primaryWorkAssetId: getProductionWorkAssetId(primaryWorker),
     workerLabel:
       workerCreatures.length > 1
         ? `정원 동료 ${workerCreatures.length}명 작업 중`
@@ -2096,6 +2112,22 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
           ? `${getCreatureRoleLabel(workerCreatures[0].role)} 역할`
           : "첫 생명체를 수확하면 생산을 시작해요"
   };
+}
+
+function getPrimaryProductionWorker(workerCreatures: CreatureDefinition[]): CreatureDefinition | undefined {
+  return workerCreatures.find((creature) => creature.id === LUNAR_REWARD_CREATURE_ID) ?? workerCreatures[0];
+}
+
+function getProductionWorkAssetId(worker: CreatureDefinition | undefined): string {
+  if (!worker) {
+    return "creature_herb_common_001_work";
+  }
+
+  if (worker.id === "creature_herb_common_001") {
+    return "creature_herb_common_001_work";
+  }
+
+  return worker.assetId;
 }
 
 function getProductionWorkers(save: PlayerSave): CreatureDefinition[] {

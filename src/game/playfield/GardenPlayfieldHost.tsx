@@ -233,7 +233,7 @@ function GardenBoardOverlay({
 function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewModel["productionScene"]> }) {
   return (
     <section className="playfield-production-lane" aria-label="정원 자동 생산 장면">
-      <div className="playfield-production-actor">
+      <div className={["playfield-production-actor", scene.actorFamily === "lunar" ? "is-lunar-actor" : ""].filter(Boolean).join(" ")}>
         {scene.workAssetPath ? <img alt="" src={scene.workAssetPath} /> : <span className="playfield-scene-fallback">작업</span>}
         <div>
           <p>자동 생산</p>

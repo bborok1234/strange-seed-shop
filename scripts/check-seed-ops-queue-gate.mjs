@@ -22,6 +22,19 @@ function requirePhrases(filePath, phrases) {
   }
 }
 
+// This checker still guards static documentation quality gates with exact
+// phrases. Runtime behavior regressions, especially publication-boundary
+// continuation, must be checked through structured state in
+// check-seed-ops-publication-gate-state.mjs and check-ops-live.mjs.
+function readJson(filePath) {
+  try {
+    return JSON.parse(read(filePath));
+  } catch (error) {
+    failures.push(`${filePath} has invalid JSON: ${error.message}`);
+    return null;
+  }
+}
+
 const coreGatePhrases = [
   "기존 asset 재사용만으로는 통과하지 않는다",
   "concrete visual/game-feel payoff",
@@ -49,15 +62,6 @@ const continuationGatePhrases = [
   "final response is terminal",
   "next issue plan artifact exists",
   "left the next queue candidate is not continuation"
-];
-
-const prPublicationBoundaryPhrases = [
-  "PR publication confirmation boundary",
-  "action-time confirmation",
-  "This is not a terminal stop",
-  "do not send final just to ask for PR creation",
-  "pending external-publication gate",
-  "next local safe work"
 ];
 
 const studioCampaignPhrases = [
@@ -127,18 +131,6 @@ for (const filePath of [
 }
 
 for (const filePath of [
-  "AGENTS.md",
-  ".codex/skills/seed-ops/SKILL.md",
-  "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
-  "docs/OPERATOR_RUNBOOK.md",
-  "docs/PROJECT_COMMANDS.md",
-  "docs/OPERATOR_CONTROL_ROOM.md",
-  "scripts/operator-control-room.mjs"
-]) {
-  requirePhrases(filePath, prPublicationBoundaryPhrases);
-}
-
-for (const filePath of [
   ".codex/skills/seed-ops/SKILL.md",
   "docs/PROJECT_COMMANDS.md",
   "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
@@ -172,13 +164,30 @@ requirePhrases("reports/operations/asset-ops-reference-review-20260501.md", [
   "Matt Pocock skills"
 ]);
 
-requirePhrases("package.json", [
-  "check:seed-ops-queue",
-  "scripts/check-seed-ops-queue-gate.mjs",
-  "check:asset-provenance",
-  "check:asset-style",
-  "asset:generate:gpt-image"
-]);
+const packageJson = readJson("package.json");
+const scripts = packageJson?.scripts ?? {};
+const expectedScripts = {
+  "check:seed-ops-queue": "node scripts/check-seed-ops-queue-gate.mjs",
+  "check:seed-ops-publication-gate": "node scripts/check-seed-ops-publication-gate-state.mjs",
+  "check:ralph-runner-bridge": "node scripts/check-ralph-runner-bridge.mjs",
+  "check:asset-provenance": "node scripts/check-game-asset-provenance.mjs",
+  "check:asset-style": "node scripts/check-asset-style-consistency.mjs",
+  "asset:generate:gpt-image": "node scripts/generate-gpt-image-assets.mjs"
+};
+
+for (const [scriptName, expectedCommand] of Object.entries(expectedScripts)) {
+  if (scripts[scriptName] !== expectedCommand) {
+    failures.push(`package.json script ${scriptName} should be ${expectedCommand}, got ${scripts[scriptName] ?? "missing"}`);
+  }
+}
+
+if (!String(scripts["check:ci"] ?? "").includes("npm run check:seed-ops-publication-gate")) {
+  failures.push("package.json check:ci should run check:seed-ops-publication-gate");
+}
+
+if (!String(scripts["check:ci"] ?? "").includes("npm run check:ralph-runner-bridge")) {
+  failures.push("package.json check:ci should run check:ralph-runner-bridge");
+}
 
 console.log(JSON.stringify({ ok: failures.length === 0, checkedFiles: requiredPaths.length, failures }, null, 2));
 

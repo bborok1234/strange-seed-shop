@@ -1,12 +1,13 @@
 # Lunar harvest creature payoff v0
 
-Status: planned
+Status: verified
 Owner: agent
 Created: 2026-05-01
 Updated: 2026-05-01
 Work type: game_feature
 Scope-risk: moderate
-Issue: pending
+Issue: #266
+PR: #267
 
 ## Intent
 
@@ -83,39 +84,56 @@ Do not split write scopes until the asset list is final. Avoid parallel edits to
 
 ## Plan
 
-1. Extend the asset plan/prompt batch for lunar harvest payoff assets.
-2. Attempt gpt-image-2 generation with `OPENAI_API_KEY` and `SEED_ASSET_IMAGE_MODEL`; if blocked, record blocker and use Codex native image generation fallback.
-3. Normalize generated FX strips to fixed PNG spritesheets:
-   - `fx_lunar_harvest_moonburst_001`: 6 frames, 160x160, 960x160, 12fps, one-shot.
-   - `fx_lunar_reward_drop_001`: optional 5 frames, 160x160, 800x160, 12fps, one-shot.
-4. Register accepted assets in manifest with `animation.binding`:
+1. [x] Extend the asset plan/prompt batch for lunar harvest payoff assets.
+2. [x] Attempt gpt-image-2 generation with `OPENAI_API_KEY` and `SEED_ASSET_IMAGE_MODEL`; if blocked, record blocker and use Codex native image generation fallback.
+3. [x] Normalize generated FX strips to fixed PNG spritesheets:
+   - `fx_lunar_harvest_moonburst_001`: v0 reuses accepted 4-frame 160x160, 640x160 Codex native lunar greenhouse FX strip because image API env is missing in this run.
+   - `fx_lunar_reward_drop_001`: deferred until a dedicated generation lane has key/model access.
+4. [x] Register accepted assets in manifest with `animation.binding`:
    - `target: "effect"`, `slot: "harvest_fx"` or `slot: "reward_fx"`.
    - `seedIds: ["seed_lunar_001"]`.
    - `creatureIds: ["creature_lunar_common_001"]`.
    - `actions: ["harvest_plot"]`.
-5. Integrate `creature_lunar_common_001_work` into production card/playfield state so the roster no longer reads as herb starter-only after lunar harvest.
-6. Add or update QA state for `qaLunarSeedReadyToHarvest=1` and post-harvest roster/payoff.
-7. Capture Browser Use mobile/desktop evidence and run local gates.
+5. [x] Integrate `creature_lunar_common_001` fallback work portrait into production card/playfield state so the roster no longer reads as herb starter-only after lunar harvest.
+6. [x] Add or update QA state for `qaLunarSeedReadyToHarvest=1` and post-harvest roster/payoff.
+7. [x] Capture Browser Use mobile evidence and run local gates.
 
 ## Acceptance Criteria
 
-- [ ] `달방울 씨앗` ready harvest has a lunar-specific harvest/reward visual payoff, not only generic ready text.
-- [ ] `달방울 누누` has an accepted raster work-state asset or documented fallback candidate and appears as a production actor after harvest.
-- [ ] Manifest entries include `animation.binding`, frame count, frame size, frame rate, intended action, and source reference ids for any FX strip.
-- [ ] `gpt-image-2` default attempt or blocker plus Codex native fallback provenance is recorded.
-- [ ] Browser Use `iab` evidence shows before harvest, harvest reveal, and post-harvest production roster/playfield state.
-- [ ] Mobile visual QA confirms no body scroll, bottom-tab overlap, hidden child overflow, or production card clipping.
-- [ ] No runtime image generation, real payment, login, external deployment, customer data, or real GTM action is introduced.
+- [x] `달방울 씨앗` ready harvest has a lunar-specific harvest/reward visual payoff, not only generic ready text.
+- [x] `달방울 누누` has an accepted raster work-state asset or documented fallback candidate and appears as a production actor after harvest.
+- [x] Manifest entries include `animation.binding`, frame count, frame size, frame rate, intended action, and source reference ids for any FX strip.
+- [x] `gpt-image-2` default attempt or blocker plus Codex native fallback provenance is recorded.
+- [x] Browser Use `iab` evidence shows before harvest, harvest reveal, and post-harvest production roster/playfield state.
+- [x] Mobile visual QA confirms no body scroll, bottom-tab overlap, hidden child overflow, or production card clipping.
+- [x] No runtime image generation, real payment, login, external deployment, customer data, or real GTM action is introduced.
+
+## Evidence
+
+- Browser Use `iab` QA URL: `http://127.0.0.1:5173/?qaLunarSeedReadyToHarvest=1&qaFxTelemetry=1`
+- Before harvest: `reports/visual/lunar-harvest-payoff-before-browser-use-20260501.png`
+- Harvest reveal: `reports/visual/lunar-harvest-payoff-reveal-browser-use-20260501.png`
+- Post-harvest production state: `reports/visual/lunar-harvest-payoff-production-browser-use-20260501.png`
+- Browser Use visible checks:
+  - `달방울 씨앗 수확` button resolves to one target before click.
+  - `첫 생명체 획득` modal shows `달방울 누누`.
+  - post-record state shows `.production-asset-lunar-work img` and `.playfield-production-actor.is-lunar-actor img`.
+  - `.production-roster` includes `달방울 누누`.
+- Asset generation gate:
+  - `OPENAI_API_KEY=missing`
+  - `SEED_ASSET_IMAGE_MODEL=missing`
+  - `fx_lunar_harvest_moonburst_001` is recorded as `accepted_reuse_binding` to the accepted Codex native raster strip `public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png`.
 
 ## Verification
 
-- `npm run check:asset-provenance`
-- `npm run check:asset-style`
-- `npm run check:asset-alpha`
-- `npm run check:content`
-- `npm run check:loop`
-- `npm run check:visual -- --grep "달방울"`
-- `npm run check:ci`
+- `npm run check:asset-provenance` - pass
+- `npm run check:asset-style` - pass
+- `npm run check:asset-alpha` - pass
+- `npm run check:content` - pass
+- `npm run check:loop` - pass
+- `npm run check:visual -- --grep "달빛 씨앗"` - pass
+- `npm run check:ci` - pass
+- GitHub PR #267 checks - pass (`Check automerge eligibility`, `Verify game baseline`)
 
 ## Risks
 

@@ -179,6 +179,21 @@ if (heartbeat?.next_action && !/stop|멈춤|완료|gate|준비/.test(heartbeat.n
   failures.push("heartbeat next_action should include a bounded stop/prep/gate signal");
 }
 
+if (heartbeat?.phase === "external-publication-gate" || heartbeat?.publication_gate?.active === true) {
+  if (!heartbeat.publication_gate) failures.push("external publication gate heartbeat missing publication_gate object");
+  if (heartbeat.publication_gate && heartbeat.publication_gate.kind !== "representational_communication") {
+    failures.push("publication_gate.kind must be representational_communication");
+  }
+  if (heartbeat.confirmation?.channel === "final") failures.push("publication gate confirmation.channel must not be final");
+  if (!heartbeat.confirmation?.channel) failures.push("publication gate heartbeat missing confirmation.channel");
+  if (!heartbeat.continuation?.action) failures.push("publication gate heartbeat missing continuation.action");
+  if (!heartbeat.continuation?.artifact_path) failures.push("publication gate heartbeat missing continuation.artifact_path");
+  if (heartbeat.continuation?.artifact_path && !fs.existsSync(heartbeat.continuation.artifact_path)) {
+    failures.push(`publication gate continuation artifact missing: ${heartbeat.continuation.artifact_path}`);
+  }
+  if (!heartbeat.continuation?.safe_local_work) failures.push("publication gate heartbeat missing continuation.safe_local_work");
+}
+
 console.log(
   JSON.stringify(
     {

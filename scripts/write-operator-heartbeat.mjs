@@ -52,6 +52,29 @@ const heartbeat = {
   cwd: process.cwd()
 };
 
+const publicationGateTarget = readArg("publication-gate", "");
+if (publicationGateTarget) {
+  heartbeat.publication_gate = {
+    active: true,
+    kind: "representational_communication",
+    target: publicationGateTarget,
+    pending_command: readArg("pending-command", heartbeat.current_command),
+    body_file: readArg("body-file", ""),
+    branch: heartbeat.branch,
+    commit: heartbeat.commit
+  };
+  heartbeat.confirmation = {
+    required: readArg("confirmation-required", "true") !== "false",
+    channel: readArg("confirmation-channel", "commentary")
+  };
+  heartbeat.continuation = {
+    action: readArg("continuation-action", ""),
+    artifact_path: readArg("continuation-artifact", ""),
+    safe_local_work: readArg("safe-local-work", "")
+  };
+  heartbeat.stop_rule = readArg("stop-rule", "none");
+}
+
 ensureDir(heartbeatPath);
 fs.writeFileSync(heartbeatPath, `${JSON.stringify(heartbeat, null, 2)}\n`);
 

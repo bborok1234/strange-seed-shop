@@ -140,6 +140,14 @@ Plan은 거창한 PRD가 아니라도 된다. 작은 issue는 5~7줄짜리 light
 
 Ralph 세션은 iteration마다 `.omx/state/operator-heartbeat.json`를 최신 상태로 쓰고, 공유 가능한 증거는 `reports/operations/operator-heartbeat-YYYYMMDD.jsonl`에 누적한다. heartbeat에는 timestamp, phase, branch, issue, PR, current command, next action이 포함되어야 한다.
 
+### Ralph runner boundary
+
+Codex App prompt-side `$ralph` activation과 실제 장시간 Ralph/OMX runner는 분리해서 기록한다. prompt-side hook은 `.omx/state/sessions/<id>/ralph-state.json`을 seed할 수 있지만, `active:true`, `current_phase:"starting"`, `iteration:0`, runner metadata 없음 상태는 `prompt-side-only`다.
+
+Live long runner로 인정하려면 detached `omx ralph`/`omx exec` runner artifact, heartbeat source, watchdog source가 함께 있어야 한다. foreground Codex App 작업은 직접 tool loop와 operator heartbeat로 증명하며, detached runner evidence 없이 4h/6h/overnight 운영을 주장하지 않는다.
+
+Lifecycle 판단은 assistant message 문구 감지가 아니라 structured state, heartbeat, watchdog, runner artifact를 기준으로 한다. PR/CI wait continuation도 heartbeat phase와 watchdog source로 표현하며, final summary, 완료 문구, 게시 확인 문구는 continuation evidence가 아니다.
+
 ### stuck report
 
 `collab: Wait`, stale tmux, orphan process, timeout, red CI가 감지되면 완료 선언 대신 stuck report를 남긴다. stuck report는 `reports/operations/stuck-*.md`에 reason, phase, current command, last heartbeat, recovery next action을 적는다.
@@ -175,6 +183,10 @@ PR이 red check 상태면 verify lane은 실패 job을 읽고, 로컬 재현을 
 Codex App에서는 GitHub PR 생성/수정, issue 수정, comment 게시처럼 외부에 운영사 문장을 공개하는 representational communication이 action-time confirmation을 요구할 수 있다. 이 경계는 safety gate이지 `$seed-ops`의 완료 조건이 아니다.
 
 - This is not a terminal stop: PR publication confirmation boundary는 `final response is terminal` 예외가 아니며, do not send final just to ask for PR creation.
+- assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다.
+- confirmation wording, if unavoidable, must be commentary, not final.
+- write heartbeat before any publication ask를 먼저 수행하고, same-turn local continuation action으로 heartbeat/control room/report/checker/next plan 중 하나를 실제 tool action으로 남긴다.
+- 같은 final publication ask가 반복되면 open a harness-defect fix instead of stopping.
 - 확인이 필요한 순간에는 final이 아니라 commentary checkpoint로 pending external-publication gate를 남기고, branch, commit, PR body file, 정확한 pending command, 필요한 confirmation, next local safe work를 `reports/operations/` 또는 현재 `items/<id>.md`에 기록한다.
 - 그 직후 `next issue plan artifact exists` 상태를 만든다. 이미 다음 plan이 있으면 그 plan을 최신 blocker/continuation evidence와 연결한다.
 - 확인 대기 중에도 destructive/external 작업이 아닌 local safe work는 계속한다. 다음 issue plan 보강, asset plan/prompt 초안, local QA 계획, docs/checker hardening, report 갱신은 계속 가능한 작업이다.

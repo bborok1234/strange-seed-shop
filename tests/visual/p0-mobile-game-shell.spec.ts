@@ -798,10 +798,14 @@ test("모바일 달빛 씨앗은 구매와 심기로 다음 수집 행동을 닫
 
 test("모바일 달빛 씨앗 수확은 달방울 누누 발견과 다음 목표 전환을 보여준다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
-  await page.goto("/?qaLunarSeedReadyToHarvest=1");
+  await page.goto("/?qaLunarSeedReadyToHarvest=1&qaFxTelemetry=1");
 
   await expect(page.getByRole("button", { name: /달방울 씨앗 수확/ })).toBeVisible();
   await page.getByRole("button", { name: /달방울 씨앗 수확/ }).click();
+  await page.waitForFunction(() => {
+    const events = (window as unknown as { __gardenPlayfieldFxEvents?: Array<{ action: string; source: string }> }).__gardenPlayfieldFxEvents ?? [];
+    return events.some((event) => event.action === "harvest_plot" && event.source === "spritesheet");
+  });
 
   await expect(page.getByLabel("첫 생명체 획득")).toContainText("달방울 누누");
   await expect(page.getByLabel("달빛 수집 완료")).toContainText("원정 보상이 실제 새 생명체 수집으로 이어졌어요");
@@ -822,6 +826,9 @@ test("모바일 달빛 씨앗 수확은 달방울 누누 발견과 다음 목표
     .toEqual({ leaves: 452, lunarDiscovered: true });
 
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await expect(page.locator(".production-asset-lunar-work img")).toBeVisible();
+  await expect(page.locator(".playfield-production-actor.is-lunar-actor img")).toBeVisible();
+  await expect(page.locator(".production-roster")).toContainText("달방울 누누");
   await page.getByRole("button", { name: "도감" }).click();
   await expect(page.getByLabel("도감 다음 수집 목표")).not.toContainText("달방울 누누");
   await expect(page.getByLabel("도감 다음 수집 목표")).toContainText("젤리콩 통통");

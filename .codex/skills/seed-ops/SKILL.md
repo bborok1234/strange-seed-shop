@@ -18,6 +18,16 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - UI/visual 작업은 Browser Use `iab` 실기 QA를 먼저 시도한다. Browser Use는 별도 `browser` namespace tool이 아니라 Node REPL `js`에서 `scripts/browser-client.mjs`를 absolute import해 bootstrap하는 방식이므로, `browser-use` tool namespace가 안 보인다는 이유만으로 fallback하지 않는다. Node REPL `js` tool이 처음 보이지 않으면 fallback 전에 `tool_search`로 노출을 재확인하고, `node_repl js`, `mcp__node_repl__js`, `js`, `node_repl js JavaScript execution`을 순서대로 찾는다.
 - 다음 issue 선택은 "safe small item"이 아니라 `docs/NORTH_STAR.md` 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md` vertical slice workflow를 우선한다. safety는 stop/approval gate이고, 제품 우선순위 기준이 아니다.
 
+## Ralph runner boundary
+
+`$seed-ops`는 `$ralph`의 완료/검증 철학을 사용하지만, Codex App prompt-side `$ralph` activation만으로 실제 장시간 runner가 시작됐다고 보지 않는다.
+
+- prompt-side `$ralph` activation은 `.omx/state/sessions/<id>/ralph-state.json`을 seed할 수 있다. 이 상태가 `active:true`, `current_phase:"starting"`, `iteration:0`이고 runner metadata가 없으면 `prompt-side-only`다.
+- 4h/6h/overnight 같은 장시간 운영은 detached `omx ralph`/`omx exec` runner artifact, heartbeat source, watchdog source가 있어야만 live long runner로 인정한다.
+- foreground Codex App 작업은 직접 tool loop와 operator heartbeat로 진행한다. detached runner가 없으면 "Ralph long runner가 돌고 있다"고 보고하지 않는다.
+- lifecycle 판단은 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact를 기준으로 한다.
+- PR/CI wait continuation은 heartbeat phase와 watchdog source로 표현한다. final summary, 완료 문구, 게시 확인 문구는 continuation evidence가 아니다.
+
 ## No-final continuation gate
 
 - `$seed-ops`에서 assistant `final` 응답은 세션을 닫는 terminal action이다. `final response is terminal`을 기본 운영 가정으로 둔다.
@@ -31,6 +41,9 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 Codex App에서는 GitHub PR 생성/수정, issue 수정, comment 게시처럼 외부에 운영사 문장을 공개하는 representational communication이 action-time confirmation을 요구할 수 있다. 이 경계는 safety gate이지 `$seed-ops`의 완료 조건이 아니다.
 
 - This is not a terminal stop: PR publication confirmation boundary는 `final response is terminal` 예외가 아니며, do not send final just to ask for PR creation.
+- assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. 확인 문구가 불가피한 환경에서도 confirmation wording, if unavoidable, must be commentary, not final.
+- 확인 경계에 닿으면 any publication ask 전에 write heartbeat before any publication ask를 수행하고, same-turn local continuation action을 실행한다. 즉, heartbeat/control room/report/checker/next plan 중 하나를 실제 tool action으로 남겨 루프가 살아 있음을 증명한다.
+- 같은 final publication ask가 반복되면 open a harness-defect fix instead of stopping: 외부 게시 재시도보다 먼저 docs/checker hardening item을 만들고 검증한다.
 - 확인이 필요한 순간에는 commentary checkpoint로 pending external-publication gate를 짧게 남기고, branch, commit, PR body file, 정확한 pending command, 필요한 confirmation, next local safe work를 `reports/operations/` 또는 현재 `items/<id>.md`에 기록한다.
 - 그 직후 `next issue plan artifact exists` 상태를 만든다. 이미 다음 plan이 있으면 그 plan을 최신 blocker/continuation evidence와 연결한다.
 - 확인 대기 중에도 destructive/external 작업이 아닌 local safe work는 계속한다. 예: 다음 issue plan 보강, asset plan/prompt 초안, local QA 계획, docs/checker hardening, report 갱신.
