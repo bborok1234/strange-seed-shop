@@ -106,8 +106,29 @@ Game Studio route가 필요한 issue/PR에서 route가 비어 있으면 plan 미
 - creative brief
 - Game Studio Department Signoff
 - candidate issue list와 선택/거절 사유
+- Strategic Jump Check
+- Title Contract
 - Subagent/Team Routing decision
 - QA/playtest plan
+
+### Strategic Jump Check
+
+`$seed-ops`는 직전 issue에서 이어지는 작은 기능을 자동 선택하지 않는다. 새 게임 issue plan은 최소 3개 후보를 비교하고, 그중 하나는 큰 방향 점프 후보여야 한다.
+
+큰 방향 점프 후보는 전체 art direction/accepted raster asset family, 첫 화면 UI/UX 재배치, core gameplay verb 추가 또는 단순화, production readability를 막는 visual QA 하네스 결함, 첫 5분 fun rubric의 high-severity confusion 중 하나를 실제 화면/플레이에서 크게 바꾸는 후보다.
+
+선택한 후보가 작은 연결 기능이면 `Strategic Jump Check`에 큰 방향 점프 후보보다 먼저 해야 하는 근거를 적는다. “직전 issue에서 이어진다”, “작다”, “안전하다”, “CI가 빠르다”만으로는 선택 실패다.
+
+### Title Contract
+
+Issue/PR 제목은 운영사 evidence surface다. 게임 issue/PR 제목은 한국어를 기본으로 하고, `screen moment + player verb + production/progression role` 중 최소 2개를 담는다. `bridge`, `payoff`, `v0`, `closeout`, `완료 증거`만으로 제목을 만들지 않는다.
+
+- 좋은 예: `달방울 누누가 달빛 보호 주문을 납품하게 만들기`
+- 좋은 예: `정원 첫 화면을 생산 엔진 중심으로 재배치`
+- 나쁜 예: `Lunar guardian order bridge v0`
+- 나쁜 예: `Issue 254 closeout`
+
+PR 제목은 연결 issue 제목의 의도를 유지한다. issue와 PR이 서로 다른 언어/스코프/증거 단계처럼 보이면 PR body에 `Title Contract` 보정 사유를 적고, 가능하면 PR 제목을 고친다.
 
 ### Game Studio Department Signoff
 

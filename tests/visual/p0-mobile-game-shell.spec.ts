@@ -836,6 +836,107 @@ test("모바일 달빛 씨앗 수확은 달방울 누누 발견과 다음 목표
   await page.screenshot({ path: testInfo.outputPath("mobile-lunar-seed-harvest-bridge-v0-393.png"), fullPage: false });
 });
 
+test("모바일 달빛 보호 주문 완료는 다음 행동 카드 안에서 잘리지 않는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaLunarOrderReady=1&qaFxTelemetry=1");
+
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("달빛 보호 주문");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("달빛 보호 주문");
+  await page.getByRole("button", { name: /달빛 보호 주문 납품 \+88 잎 · \+3 꽃가루 · \+1 재료/ }).click();
+
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("달빛 보호 주문 완료");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("누누 야간 근무");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("달빛 보상 재료 +1");
+  await expect(page.locator(".lunar-guardian-payoff")).toBeVisible();
+  await expect(page.locator(".playfield-order-crate.order-variant-lunar-guardian")).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const productionCard = document.querySelector<HTMLElement>(".production-action-card");
+    const productionCardRect = productionCard?.getBoundingClientRect();
+    const completeRowElement = document.querySelector<HTMLElement>(".lunar-guardian-complete-row");
+    const completeRow = completeRowElement?.getBoundingClientRect();
+    const title = document
+      .querySelector<HTMLElement>(".lunar-guardian-complete-row .production-complete-copy > span")
+      ?.getBoundingClientRect();
+    const hiddenRewardLine = document.querySelector<HTMLElement>(
+      ".lunar-guardian-complete-row .production-complete-copy > strong"
+    );
+    const payoffElement = document.querySelector<HTMLElement>(".lunar-guardian-payoff");
+    const payoff = payoffElement?.getBoundingClientRect();
+    const overflowingChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        ".starter-panel > article, .starter-panel > .active-growth-copy, .lunar-guardian-complete-row, .lunar-guardian-payoff"
+      )
+    )
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel
+        ? {
+            bottom: panel.bottom,
+            clientHeight: panelElement?.clientHeight ?? 0,
+            scrollHeight: panelElement?.scrollHeight ?? 0
+          }
+        : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      productionCard: productionCardRect
+        ? {
+            bottom: productionCardRect.bottom,
+            clientHeight: productionCard?.clientHeight ?? 0,
+            scrollHeight: productionCard?.scrollHeight ?? 0
+          }
+        : null,
+      completeRow: completeRow
+        ? {
+            bottom: completeRow.bottom,
+            height: completeRow.height,
+            overflow: completeRowElement ? getComputedStyle(completeRowElement).overflow : ""
+          }
+        : null,
+      title: title ? { top: title.top, bottom: title.bottom, height: title.height } : null,
+      hiddenRewardLineDisplay: hiddenRewardLine ? getComputedStyle(hiddenRewardLine).display : "",
+      payoff: payoff
+        ? {
+            top: payoff.top,
+            bottom: payoff.bottom,
+            height: payoff.height,
+            overflow: payoffElement ? getComputedStyle(payoffElement).overflow : ""
+          }
+        : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.productionCard).not.toBeNull();
+  expect(metrics.completeRow).not.toBeNull();
+  expect(metrics.title).not.toBeNull();
+  expect(metrics.payoff).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.productionCard!.scrollHeight).toBeLessThanOrEqual(metrics.productionCard!.clientHeight + 1);
+  expect(metrics.completeRow!.bottom).toBeLessThanOrEqual(metrics.productionCard!.bottom - 2);
+  expect(metrics.completeRow!.overflow).toBe("visible");
+  expect(metrics.hiddenRewardLineDisplay).toBe("none");
+  expect(metrics.title!.bottom).toBeLessThanOrEqual(metrics.payoff!.top - 2);
+  expect(metrics.payoff!.bottom).toBeLessThanOrEqual(metrics.productionCard!.bottom - 2);
+  expect(metrics.overflowingChildren).toEqual([]);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-lunar-guardian-order-complete-no-clipping-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 보상은 달빛 오프라인 수호 보너스를 breakdown으로 보여준다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaReset=1");

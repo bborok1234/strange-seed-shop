@@ -91,6 +91,17 @@ const studioCampaignPhrases = [
   "frame/GIF/spritesheet extraction"
 ];
 
+const strategicSelectionPhrases = [
+  "Strategic Jump Check",
+  "Title Contract",
+  "큰 방향 점프 후보",
+  "Issue/PR 제목은 운영사 evidence surface",
+  "screen moment + player verb + production/progression role",
+  "bridge",
+  "payoff",
+  "closeout"
+];
+
 const requiredPaths = [
   "AGENTS.md",
   ".codex/skills/seed-ops/SKILL.md",
@@ -142,6 +153,10 @@ for (const filePath of [
   "reports/operations/game-studio-harness-reference-review-20260501.md"
 ]) {
   requirePhrases(filePath, studioCampaignPhrases);
+}
+
+for (const filePath of [".codex/skills/seed-ops/SKILL.md", "docs/PROJECT_COMMANDS.md"]) {
+  requirePhrases(filePath, strategicSelectionPhrases);
 }
 
 requirePhrases("scripts/check-ops-live.mjs", [
