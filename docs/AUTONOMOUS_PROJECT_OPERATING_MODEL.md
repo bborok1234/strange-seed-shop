@@ -162,6 +162,8 @@ PR이 red check 상태면 verify lane은 실패 job을 읽고, 로컬 재현을 
 
 `$seed-ops` 또는 명시적 장시간 운영모드에서는 branch push, draft PR 생성/갱신, GitHub checks 확인, merge, main CI 확인까지가 issue loop의 원격 게시 완료 조건이다. 사용자가 원격 게시를 한 번 더 말하지 않았다는 이유만으로 완료 전 확인 질문을 하지 않는다. credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary, 실채널 GTM은 별도 stop/approval gate를 우선한다.
 
+all merge-blocking evidence must be in the original PR before merge/close. post-merge main CI is observation-only: main CI 성공 여부는 GitHub run으로 관찰하되, 닫힌 PR/issue의 evidence를 repo에 backfill하기 위한 main-targeted closeout commit을 만들지 않는다. do not create a post-merge closeout PR; 누락된 evidence가 있으면 원 PR merge gate 실패로 보고 다음 plan-first harness defect issue로 분리한다.
+
 ### completion checkpoint / continuation watchdog
 
 장시간 `$ralph` 운영모드에서 **완료 보고는 중단 조건이 아니라 체크포인트**다. issue 하나가 `implementation -> local verification -> PR -> GitHub checks -> main merge`까지 닫히면 운영자는 최종 답변으로 세션을 닫지 않고 다음 중 하나를 즉시 기록해야 한다.

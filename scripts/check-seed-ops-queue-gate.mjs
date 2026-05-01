@@ -170,6 +170,7 @@ const expectedScripts = {
   "check:seed-ops-queue": "node scripts/check-seed-ops-queue-gate.mjs",
   "check:seed-ops-publication-gate": "node scripts/check-seed-ops-publication-gate-state.mjs",
   "check:ralph-runner-bridge": "node scripts/check-ralph-runner-bridge.mjs",
+  "check:no-post-merge-closeout": "node scripts/check-no-post-merge-closeout.mjs",
   "check:asset-provenance": "node scripts/check-game-asset-provenance.mjs",
   "check:asset-style": "node scripts/check-asset-style-consistency.mjs",
   "asset:generate:gpt-image": "node scripts/generate-gpt-image-assets.mjs"
@@ -187,6 +188,10 @@ if (!String(scripts["check:ci"] ?? "").includes("npm run check:seed-ops-publicat
 
 if (!String(scripts["check:ci"] ?? "").includes("npm run check:ralph-runner-bridge")) {
   failures.push("package.json check:ci should run check:ralph-runner-bridge");
+}
+
+if (!String(scripts["check:ci"] ?? "").includes("npm run check:no-post-merge-closeout")) {
+  failures.push("package.json check:ci should run check:no-post-merge-closeout");
 }
 
 console.log(JSON.stringify({ ok: failures.length === 0, checkedFiles: requiredPaths.length, failures }, null, 2));

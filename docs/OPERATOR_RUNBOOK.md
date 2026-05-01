@@ -79,6 +79,7 @@ During a supervised run:
   - merge or blocker state
 - Prefer small, reversible PRs over one large overnight diff.
 - In `$seed-ops` or ongoing operator mode, remote publication is part of the issue loop: push the branch, open/update a draft PR, verify GitHub checks, merge when gates are green, and verify main CI unless a stop rule applies. Do not pause only because the user did not repeat a remote publishing instruction.
+- all merge-blocking evidence must be in the original PR before merge/close. post-merge main CI is observation-only: observe the GitHub run, but do not create a post-merge closeout PR or main-targeted closeout commit for the just-merged issue.
 - When visual work changes UI, follow Browser Use first policy and save visual evidence under `reports/visual/`.
 - When asset/FX work changes gameplay visuals, require gpt-image-2 default or Codex native fallback provenance, gastory-style style state/prompt-model sidecar/reference consistency/animation camera-composition lock/frame-spritesheet plan, manifest QA, and small-size visual review before calling it complete.
 - Asset/FX 증거에는 exact bundle field도 남긴다: prompt/model sidecar, reference image consistency, animation camera/composition lock, frame/GIF/spritesheet extraction.

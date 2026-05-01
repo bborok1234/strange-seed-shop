@@ -28,6 +28,12 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - lifecycle 판단은 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact를 기준으로 한다.
 - PR/CI wait continuation은 heartbeat phase와 watchdog source로 표현한다. final summary, 완료 문구, 게시 확인 문구는 continuation evidence가 아니다.
 
+## No post-merge closeout
+
+- all merge-blocking evidence must be in the original PR before merge/close.
+- post-merge main CI is observation-only: merge 후 main CI는 `gh run watch` 같은 외부 관찰로 확인하고, repo에 evidence를 backfill하기 위한 main-targeted closeout commit을 만들지 않는다.
+- do not create a post-merge closeout PR for the issue that was just merged. 필요한 새 수정은 다음 plan-first issue로 분리한다.
+
 ## No-final continuation gate
 
 - `$seed-ops`에서 assistant `final` 응답은 세션을 닫는 terminal action이다. `final response is terminal`을 기본 운영 가정으로 둔다.
