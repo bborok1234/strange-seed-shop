@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T08:09:42.884Z
+Generated at: 2026-05-01T08:14:54.107Z
 
 ## Current mission
 
@@ -22,22 +22,22 @@ Issue #238 **seed-ops asset/FX queue gate hardening**는 사용자가 지적한 
 ## Local state
 
 - Branch: codex/0122-seed-ops-asset-fx-gate-hardening
-- Latest commit: 175a356 물안개 응축 주문 완료 증거를 main 기준으로 닫는다
+- Latest commit: 21e79e2 seed-ops가 약한 asset queue를 통과하지 못하게 한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T08:09:07.544Z
-- Phase: implementing
+- Timestamp: 2026-05-01T08:13:58.563Z
+- Phase: pr-open
 - Issue: #238
-- PR: 
+- PR: #239
 - Item: items/0122-seed-ops-asset-fx-gate-hardening.md
-- Next action: gate 구현 후 check:seed-ops-queue/check:ci/PR gate 확인
+- Next action: PR checks 확인 후 ready/merge/main CI gate 확인
 
 ## Open PRs
 
-- unavailable or none
+- #239 draft [Agent Ops] seed-ops asset/FX queue gate hardening — https://github.com/bborok1234/strange-seed-shop/pull/239
 
 ## Open issues
 

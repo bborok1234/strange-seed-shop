@@ -6,6 +6,11 @@
 
 다음 `$seed-ops` 게임 issue가 concrete asset/FX/playfield/HUD payoff 없이 plan-first gate를 통과하지 못하게 한다.
 
+## 원격 evidence
+
+- Issue: #238
+- PR: #239
+
 ## Small win
 
 - 이번 issue가 만들 가장 작은 승리: `check:seed-ops-queue`가 생겨 seed-ops/control-room/roadmap의 다음 queue gate가 약해지면 CI에서 실패한다.

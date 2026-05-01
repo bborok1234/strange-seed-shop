@@ -14,6 +14,17 @@ function tryRun(command, commandArgs) {
   }
 }
 
+function tryRunJson(command, commandArgs) {
+  const raw = tryRun(command, commandArgs);
+  if (!raw || raw === "unavailable") return [];
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
 function read(filePath, fallback = "") {
   return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : fallback;
 }
@@ -69,8 +80,8 @@ const status = tryRun("git", ["status", "--short"]);
 const latestCommit = tryRun("git", ["log", "-1", "--oneline"]);
 const heartbeatPath = read(".omx/state/operator-heartbeat.json").trim() ? ".omx/state/operator-heartbeat.json" : latestHeartbeatReport();
 const heartbeat = heartbeatPath ? readHeartbeat(heartbeatPath) : null;
-const openPrs = tryRun("gh", ["pr", "list", "--state", "open", "--limit", "5", "--json", "number,title,isDraft,url", "--jq", ".[] | \"#\\(.number) \\(.isDraft // false | if . then \\\"draft\\\" else \\\"ready\\\" end) \\(.title) — \\(.url)\""]);
-const openIssues = tryRun("gh", ["issue", "list", "--state", "open", "--limit", "5", "--json", "number,title,url", "--jq", ".[] | \"#\\(.number) \\(.title) — \\(.url)\""]);
+const openPrs = tryRunJson("gh", ["pr", "list", "--state", "open", "--limit", "5", "--json", "number,title,isDraft,url"]);
+const openIssues = tryRunJson("gh", ["issue", "list", "--state", "open", "--limit", "5", "--json", "number,title,url"]);
 
 const snapshot = `## Live Snapshot
 
@@ -98,11 +109,11 @@ ${currentNext}
 
 ## Open PRs
 
-${openPrs === "" || openPrs === "unavailable" ? "- unavailable or none" : openPrs.split("\n").map((line) => `- ${line}`).join("\n")}
+${openPrs.length === 0 ? "- unavailable or none" : openPrs.map((pr) => `- #${pr.number} ${pr.isDraft ? "draft" : "ready"} ${pr.title} — ${pr.url}`).join("\n")}
 
 ## Open issues
 
-${openIssues === "" || openIssues === "unavailable" ? "- unavailable or none" : openIssues.split("\n").map((line) => `- ${line}`).join("\n")}
+${openIssues.length === 0 ? "- unavailable or none" : openIssues.map((issue) => `- #${issue.number} ${issue.title} — ${issue.url}`).join("\n")}
 
 ## Playable mode
 

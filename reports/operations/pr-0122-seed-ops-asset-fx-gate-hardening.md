@@ -2,6 +2,8 @@
 
 `$seed-ops`가 다음 게임 issue를 고를 때 asset/FX/playfield/HUD/경쟁작 production gap 없이 기능 구현으로 흐르지 못하게 운영 gate를 강화했다.
 
+PR evidence: #239
+
 ## Small win
 
 - 이번 PR이 만든 가장 작은 승리: `npm run check:seed-ops-queue`가 생겨 seed-ops/control-room/roadmap의 다음 queue gate가 약해지면 실패한다.

@@ -7,7 +7,7 @@ Created: 2026-05-01
 Updated: 2026-05-01
 Scope-risk: moderate
 Issue: #238
-PR: TBD
+PR: #239
 Branch: `codex/0122-seed-ops-asset-fx-gate-hardening`
 
 ## Intent
