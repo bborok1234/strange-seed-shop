@@ -1,6 +1,6 @@
 # Seed ops loop drill
 
-Status: active
+Status: done
 Owner: agent
 Created: 2026-05-01
 Updated: 2026-05-01
@@ -8,6 +8,7 @@ Work type: agent_ops
 Scope-risk: narrow
 Issue: #262
 PR: #263
+Main CI: 25217988137
 
 ## Intent
 
@@ -68,9 +69,9 @@ N/A — 운영 하네스 QA.
 - [x] `check:ops-live`가 branch mismatch 없이 통과한다.
 - [x] `check:seed-ops-queue`가 통과한다.
 - [x] `check:ci`가 통과한다.
-- [ ] PR checks가 통과한다.
-- [ ] PR merge 후 main CI가 통과한다.
-- [ ] 로컬 작업공간이 `main...origin/main` clean 상태가 된다.
+- [x] PR checks가 통과한다.
+- [x] PR merge 후 main CI가 통과한다.
+- [x] 로컬 작업공간이 `main...origin/main` clean 상태가 된다.
 
 ## Verification
 
@@ -87,3 +88,6 @@ N/A — 운영 하네스 QA.
 - Initial failure: main에서 `check:ops-live`가 heartbeat branch mismatch로 실패했다.
 - Local fix: heartbeat/control room을 Issue #262 drill branch로 갱신했다.
 - Local verification: `npm run check:ops-live`, `npm run check:seed-ops-queue`, `npm run check:ci` passed.
+- PR #263 checks: passed.
+- PR #263 merge: `0c40b34aa3b367fb7ba0e1f4d606df6bb665c440`.
+- Main CI: `25217988137` success.
