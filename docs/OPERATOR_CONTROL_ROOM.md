@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T14:08:13.527Z
+Generated at: 2026-05-01T14:22:52.803Z
 
 ## Current mission
 
@@ -22,19 +22,19 @@ Issue #257 **Game studio ops harness**는 PR #258로 merge됐고 main CI `252171
 
 ## Local state
 
-- Branch: codex/0130-p05-studio-campaign-audit
-- Latest commit: 99602ee 게임사 하네스 완료 증거를 main 기준으로 닫는다 (#259)
+- Branch: codex/0131-seed-ops-loop-drill
+- Latest commit: 6a55c78 seed ops 루프 드릴로 heartbeat drift를 잡는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T14:08:07.428Z
-- Phase: planning
-- Issue: #260
-- PR: pending
-- Item: items/0130-p05-studio-campaign-audit.md
-- Next action: Issue #260 campaign audit gate 준비
+- Timestamp: 2026-05-01T14:22:45.595Z
+- Phase: pr
+- Issue: #262
+- PR: #263
+- Item: items/0131-seed-ops-loop-drill.md
+- Next action: PR #263 checks gate 준비
 
 ## Open PRs
 
