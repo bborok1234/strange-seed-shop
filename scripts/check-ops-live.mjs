@@ -107,7 +107,8 @@ if (heartbeat?.item && !fs.existsSync(heartbeat.item)) {
 }
 
 const currentBranch = tryRun("git", ["branch", "--show-current"]);
-if (currentBranch && heartbeat?.branch && heartbeat.branch !== currentBranch) {
+const heartbeatIsRuntimeState = heartbeatPath === ".omx/state/operator-heartbeat.json";
+if (heartbeatIsRuntimeState && currentBranch && heartbeat?.branch && heartbeat.branch !== currentBranch) {
   failures.push(`heartbeat branch ${heartbeat.branch} does not match current branch ${currentBranch}`);
 }
 
