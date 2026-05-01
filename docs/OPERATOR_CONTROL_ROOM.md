@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T16:02:52.205Z
+Generated at: 2026-05-01T16:04:37.781Z
 
 ## Current mission
 
@@ -32,19 +32,19 @@ Generated at: 2026-05-01T16:02:52.205Z
 
 ## Local state
 
-- Branch: main
-- Latest commit: 12aefc9 Merge pull request #267 from bborok1234/codex/0132-lunar-harvest-creature-payoff-v0
+- Branch: codex/0132-lunar-harvest-closeout
+- Latest commit: d437b30 달방울 수확 closeout을 main CI 기준으로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T16:02:40.729Z
-- Phase: main-ci-verified
+- Timestamp: 2026-05-01T16:04:28.660Z
+- Phase: closeout-pr-prep
 - Issue: #266
 - PR: #267
 - Item: items/0132-lunar-harvest-creature-payoff-v0.md
-- Next action: closeout gate 준비: commit main CI evidence and create next issue plan artifact
+- Next action: closeout PR gate 준비: push closeout branch and verify PR checks
 
 ## Open PRs
 
