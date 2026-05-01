@@ -30,9 +30,20 @@
 - 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 경쟁작 production gap과 visual payoff가 함께 없으면 queue gate 실패로 본다.
 - 이 규칙은 `.codex/skills/seed-ops/SKILL.md`, `docs/PROJECT_COMMANDS.md`, `AGENTS.md`, `docs/ROADMAP.md`, `docs/OPERATOR_CONTROL_ROOM.md`, `scripts/operator-control-room.mjs`, `scripts/check-ops-live.mjs`, `scripts/check-seed-ops-queue-gate.mjs`에 중복 고정한다.
 
+## 2026-05-01 재발 방지 보강
+
+이번 #254 중간 점검에서 `$seed-ops`가 `asset/FX`를 새 파일/manifest 등록으로만 해석해 repo-native SVG를 accepted game asset으로 만들 수 있는 허점이 드러났다. 이는 제품 판단 문제가 아니라 하네스 결함이다.
+
+- 신규 게임 그래픽 asset은 Codex native image generation 또는 gpt-image-2 provenance가 있어야 한다.
+- accepted manifest game asset은 PNG workspace file이어야 하며 SVG/vector/code-native 그림은 통과하지 않는다.
+- `assets/source/asset_prompts.json`, `assets/source/asset_generation_status.json`, `public/assets/manifest/assetManifest.json`의 output path가 서로 일치해야 한다.
+- `sprite/FX` payoff는 static icon 하나로 통과하지 않고 sprite sheet 또는 FX strip의 `animation.binding`, frame count, frame size, intended frame rate가 있어야 한다.
+- 위 조건은 `npm run check:asset-provenance`로 CI에서 강제한다.
+
 ## 검증
 
 - `npm run check:seed-ops-queue`
+- `npm run check:asset-provenance`
 - `npm run check:project-commands`
 - `npm run check:ops-live`
 - `npm run check:ci`

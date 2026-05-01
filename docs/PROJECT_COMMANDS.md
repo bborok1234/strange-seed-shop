@@ -73,6 +73,12 @@ Game Studio route가 필요한 issue/PR에서 route가 비어 있으면 plan 미
 
 `asset/FX` 축은 `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 최소 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 같이 적어야 한다. `safe`, `local`, `작다`는 선택 이유가 아니라 승인/파괴/외부 권한 gate를 통과했다는 조건이다. 단순 주문 추가, 색/여백/문구, copy tweak, test-only/doc-only 작업은 위 visual payoff를 동반해 production vertical slice blocker를 제거하거나 명확한 vertical slice 일부일 때만 선택한다.
 
+신규 게임 그래픽 asset의 기본 생성 경로는 OpenAI Images API `gpt-image-2`다. gpt-image-2/API 생성은 `OPENAI_API_KEY`와 `SEED_ASSET_IMAGE_MODEL`을 사용하며, 키가 없으면 생성 단계는 hard-block으로 기록한다. accepted manifest game asset으로 SVG/vector/code-native 그림을 만들거나 등록하지 않는다. `asset/FX` 축을 선택한 issue는 `gpt-game-asset-plan -> gpt-game-asset-prompt -> gpt-game-asset-generate -> gpt-game-asset-review` 또는 gpt-image-2 API provenance 중 하나를 plan/evidence에 남기고, `npm run check:asset-provenance`와 `npm run check:asset-style`을 통과해야 한다.
+
+gpt-image-2 API가 credit/quota/rate limit/organization verification/model access로 막히면 기존처럼 Codex native image generation fallback을 사용한다. fallback도 최종 산출물은 raster PNG workspace file이어야 하며, SVG/vector/code-native 그림은 여전히 금지다. fallback 발생 시 `assets/source/gpt_image_asset_provenance.json`에 blocker와 fallback_required를 남긴다.
+
+FX/애니메이션이 payoff인 issue는 static icon 하나로 통과하지 않는다. `sprite/FX` 후보는 sprite sheet 또는 FX strip 계획, frame count, frame size, intended frame rate, manifest `animation.binding`, Browser Use/playtest 관찰 지점을 함께 적어야 한다.
+
 ### 작업 종료 문서 갱신 규칙
 
 issue 단위 작업이 끝나기 전에는 사람이 요청하지 않아도 아래를 갱신한다.

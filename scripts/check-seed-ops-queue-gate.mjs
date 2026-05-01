@@ -31,6 +31,14 @@ const coreGatePhrases = [
   "order crate visual state",
   "reward motion",
   "경쟁작 production gap",
+  "Codex native image generation",
+  "gpt-image-2",
+  "accepted manifest game asset",
+  "animation.binding",
+  "npm run check:asset-provenance",
+  "npm run check:asset-style",
+  "OPENAI_API_KEY",
+  "SEED_ASSET_IMAGE_MODEL",
   "단순 주문 추가",
   "copy tweak",
   "test-only"
@@ -98,7 +106,10 @@ requirePhrases("reports/operations/asset-ops-reference-review-20260501.md", [
 
 requirePhrases("package.json", [
   "check:seed-ops-queue",
-  "scripts/check-seed-ops-queue-gate.mjs"
+  "scripts/check-seed-ops-queue-gate.mjs",
+  "check:asset-provenance",
+  "check:asset-style",
+  "asset:generate:gpt-image"
 ]);
 
 console.log(JSON.stringify({ ok: failures.length === 0, checkedFiles: requiredPaths.length, failures }, null, 2));

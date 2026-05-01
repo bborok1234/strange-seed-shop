@@ -11,6 +11,9 @@ export interface GardenPlotView {
   label: string;
   seedId?: string;
   family?: "herb" | "candy" | "lunar";
+  source?: "research" | "greenhouse_mist";
+  sourceLabel?: string;
+  sourceAssetPath?: string;
   progressPercent: number;
   secondsRemaining?: number;
   tapReductionLabel?: string;

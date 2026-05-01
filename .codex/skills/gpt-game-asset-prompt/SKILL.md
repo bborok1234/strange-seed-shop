@@ -63,6 +63,10 @@ For game assets, usually request:
 - no logos
 - no background clutter
 - readable silhouette at small size
+- raster image output suitable for PNG export
+- for FX/animation, a single horizontal sprite sheet or FX strip with explicit frame count and consistent frame size
+
+Do not write prompts whose `output_path` ends in `.svg` for game graphics. SVG/vector/code-native drawings are not accepted game asset output for this project.
 
 ## Style Baseline
 

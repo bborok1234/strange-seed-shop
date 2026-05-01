@@ -376,6 +376,39 @@
         "no text, watermark, logo, or money/casino cue",
         "matches warm greenhouse reward style"
       ]
+    },
+    {
+      "asset_id": "seed_lunar_001_greenhouse_source_icon",
+      "output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
+      "prompt": "Use case: raster PNG raster PNG game asset. Asset type: seed shop/source icon. Primary request: create a source-linked 달방울 씨앗 icon that combines the existing Lunar seed motif with greenhouse mist/condensation cues. Subject: pale lunar seed, crescent highlight, tiny greenhouse leaf, soft condensation glow. Style: cute-strange greenhouse collectible, mobile readable, clean raster PNG edges, no text. Composition: centered 160x160 transparent raster PNG, readable at 48px. Avoid: brand marks, text, horror, busy details.",
+      "acceptance": [
+        "workspace file exists at output_path",
+        "readable at 48px and 96px",
+        "clearly combines lunar seed and greenhouse source motifs",
+        "no text, watermark, logo, or runtime generation dependency",
+        "manifest entry points to project-local file"
+      ],
+      "notes": ""
+    },
+    {
+      "asset_id": "fx_lunar_greenhouse_planting_pulse_001",
+      "output_path": "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+      "prompt": "Use case: raster PNG raster PNG playfield FX asset. Asset type: garden planting pulse/source state. Primary request: create a compact 달빛 온실 planting pulse for a lunar seed planted from greenhouse source. Subject: moonlit greenhouse sprout, soft pulse ring, small stars/condensation sparkles. Style: cute-strange greenhouse collectible, clear raster PNG, mobile game playfield affordance. Composition: centered 160x160 transparent raster PNG, readable as overlay behind or above a plot. Avoid: text, watermark, logo, dark horror, noisy particles.\nAnimation requirement: create a single horizontal 4-frame FX strip, 160x160 per frame, total 640x160 PNG, transparent background, soft lunar greenhouse pulse expanding from frame 1 to frame 4.",
+      "acceptance": [
+        "workspace file exists at output_path",
+        "readable as a 160px playfield overlay and at smaller sizes",
+        "communicates lunar greenhouse planting payoff",
+        "no text, watermark, logo, or runtime generation dependency",
+        "manifest entry points to project-local file",
+        "single horizontal 4-frame FX strip",
+        "160x160 frame size, total 640x160 PNG",
+        "transparent or alpha-ready background",
+        "manifest animation.binding ready"
+      ],
+      "category": "fx_strip",
+      "width": 640,
+      "height": 160,
+      "notes": "Generated 4-frame raster PNG FX strip required; greenhouse-source lunar seed planting/tap pulse. frames=4; frame_width=160; frame_height=160; intended_frame_rate=12; loop=false; manifest animation.binding required."
     }
   ]
 }

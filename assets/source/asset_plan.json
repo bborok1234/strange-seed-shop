@@ -3,8 +3,8 @@
   "project": "이상한 씨앗상회",
   "batch": {
     "id": "milestone1_style_validation_001",
-    "purpose": "Validate Codex native image generation for static Phase 0 assets, starter sprite strips, and P0.5 production/order gameplay assets.",
-    "target_asset_count": 31,
+    "purpose": "Validate and extend static Phase 0/P0.5 assets, including source-linked lunar greenhouse planting assets for production/playfield payoff.",
+    "target_asset_count": 33,
     "generation_mode": "codex_native_image_generation",
     "runtime_generation_allowed": false
   },
@@ -556,6 +556,50 @@
         "reward"
       ],
       "notes": "Reward burst effect for first order delivery."
+    },
+    {
+      "id": "seed_lunar_001_greenhouse_source_icon",
+      "category": "seed_icon",
+      "family": "lunar",
+      "rarity": "common",
+      "growth_stage": "seed_source",
+      "intended_use": "greenhouse_lunar_seed_source_icon",
+      "output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
+      "manifest_tags": [
+        "phase0_5",
+        "seed",
+        "lunar",
+        "greenhouse_mist",
+        "source",
+        "asset_fx"
+      ],
+      "notes": "Generated raster PNG required; greenhouse source variant of 달방울 씨앗."
+    },
+    {
+      "id": "fx_lunar_greenhouse_planting_pulse_001",
+      "category": "fx_strip",
+      "family": "lunar",
+      "rarity": "common",
+      "growth_stage": "planting_fx",
+      "intended_use": "greenhouse_lunar_planting_playfield_fx",
+      "output_path": "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+      "manifest_tags": [
+        "phase0_5",
+        "fx",
+        "lunar",
+        "greenhouse_mist",
+        "playfield_state",
+        "planting"
+      ],
+      "notes": "Generated 4-frame raster PNG FX strip required; greenhouse-source lunar seed planting/tap pulse. frames=4; frame_width=160; frame_height=160; intended_frame_rate=12; loop=false; manifest animation.binding required.",
+      "width": 640,
+      "height": 160,
+      "acceptance": [
+        "single horizontal 4-frame FX strip",
+        "160x160 frame size, total 640x160 PNG",
+        "transparent or alpha-ready background",
+        "manifest animation.binding ready"
+      ]
     }
   ]
 }

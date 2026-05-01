@@ -167,9 +167,22 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
       role="application"
     >
       <GardenBoardOverlay
-        onPlotAction={(plot) => {
+        onPlotAction={(plot, target) => {
           const actionType = plot.state === "ready" ? "harvest_plot" : "tap_growth";
-          recordOverlayFxTelemetry(actionType, plot.index);
+          const targetRect = target.getBoundingClientRect();
+          const hostRect = hostRef.current?.getBoundingClientRect();
+          const playedSceneFx =
+            hostRect && sceneRef.current
+              ? sceneRef.current.playActionFeedback(
+                  plot,
+                  actionType,
+                  targetRect.left - hostRect.left + targetRect.width / 2,
+                  targetRect.top - hostRect.top + targetRect.height * 0.55
+                )
+              : false;
+          if (!playedSceneFx) {
+            recordOverlayFxTelemetry(actionType, plot.index);
+          }
           actionRef.current({ type: actionType, plotIndex: plot.index });
         }}
         viewModel={viewModel}
@@ -190,7 +203,7 @@ function GardenBoardOverlay({
   onPlotAction,
   viewModel
 }: {
-  onPlotAction: (plot: GardenPlotView) => void;
+  onPlotAction: (plot: GardenPlotView, target: HTMLButtonElement) => void;
   viewModel: GardenPlayfieldViewModel;
 }) {
   const visiblePlots = viewModel.plots.filter((plot) => plot.state !== "locked");
@@ -248,19 +261,34 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
   );
 }
 
-function GardenPlotCard({ onPlotAction, plot }: { onPlotAction: (plot: GardenPlotView) => void; plot: GardenPlotView }) {
+function GardenPlotCard({
+  onPlotAction,
+  plot
+}: {
+  onPlotAction: (plot: GardenPlotView, target: HTMLButtonElement) => void;
+  plot: GardenPlotView;
+}) {
   const disabled = plot.state === "empty" || plot.state === "locked";
+  const classes = [
+    "playfield-plot-card",
+    `plot-state-${plot.state}`,
+    plot.source === "greenhouse_mist" ? "plot-source-greenhouse-mist" : ""
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <button
       aria-label={`${plot.label} ${plot.state === "ready" ? "수확" : plot.state === "growing" ? "성장시키기" : "빈 자리"}`}
-      className={`playfield-plot-card plot-state-${plot.state}`}
+      className={classes}
       disabled={disabled}
-      onClick={() => onPlotAction(plot)}
+      onClick={(event) => onPlotAction(plot, event.currentTarget)}
       type="button"
     >
       <span className="playfield-plot-index">{plot.index + 1}</span>
+      {plot.sourceAssetPath ? <img alt="" className="playfield-plot-source-icon" src={plot.sourceAssetPath} /> : null}
       <strong>{plot.label}</strong>
+      {plot.sourceLabel ? <span className="playfield-plot-source-label">{plot.sourceLabel}</span> : null}
       {plot.state === "empty" ? <span className="playfield-empty-plus">+</span> : null}
       <span className="playfield-plot-state">
         {plot.state === "ready" ? "수확!" : plot.state === "growing" ? `${Math.round(plot.progressPercent)}%` : "빈 자리"}

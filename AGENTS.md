@@ -68,6 +68,11 @@ For game work, use the Game Studio plugin as the product-quality routing layer b
 - Runtime gameplay must not call image generation tools or APIs.
 - Static assets should be produced ahead of time through Codex native image generation skills by default.
 - GPT-image-2 API or CLI batch generation is optional and only for explicit model-controlled, separately billed production runs.
+- New game graphics assets must come from OpenAI Images API `gpt-image-2` or Codex native image generation provenance. Do not create or accept SVG/vector/code-native drawings as an accepted manifest game asset in `public/assets/manifest/assetManifest.json`.
+- gpt-image/API generation uses `OPENAI_API_KEY` and `SEED_ASSET_IMAGE_MODEL`; without the key, the generation step is a hard blocker rather than a reason to invent local vector art.
+- If gpt-image-2 API is blocked by credit/quota/rate limit/organization verification/model access, fall back to Codex native image generation, still saving raster PNG workspace files only.
+- If an issue claims an asset/FX payoff, it must leave `gpt-game-asset-plan -> gpt-game-asset-prompt -> gpt-game-asset-generate -> gpt-game-asset-review` evidence, or explicit gpt-image-2 API provenance, and must pass `npm run check:asset-provenance` and `npm run check:asset-style`.
+- Animation/FX work cannot be satisfied by a static icon alone. Sprite/FX candidates must specify a sprite sheet or FX strip, frame count, frame size, intended frame rate, manifest `animation.binding`, and Browser Use/playtest observation.
 - Monetization in Phase 0 is mock/click-intent only. No real payment integration without explicit approval.
 
 ## Autonomous Operating Rules

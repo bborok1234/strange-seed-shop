@@ -1,0 +1,38 @@
+{
+  "version": "phase0-v1",
+  "project": "이상한 씨앗상회",
+  "style_anchor": "cute-strange greenhouse collectible, polished 2D mobile idle game art, soft rounded silhouettes, clean alpha-ready edges, warm whimsical mood, slightly odd but friendly plant-creature forms",
+  "reference_asset_ids": [
+    "creature_herb_common_001",
+    "creature_herb_common_002",
+    "creature_lunar_common_001",
+    "seed_herb_001_icon",
+    "seed_lunar_001_icon",
+    "ui_order_crate_leaf_001",
+    "fx_production_tick_leaf_001"
+  ],
+  "family_motifs": {
+    "herb": ["fresh leaf shapes", "warm yellow-green highlights", "rounded seed and sprout silhouettes"],
+    "candy": ["glossy candy surface", "pastel pink/coral accents", "no real brand packaging or mascots"],
+    "lunar": ["moonlit blue and silver lavender", "crescent or dew glow", "gentle magical mood without horror"]
+  },
+  "quality_checks": [
+    "same-screen asset set reads as one art direction",
+    "48px and 96px silhouette remains readable",
+    "no text, watermark, logo, or copyrighted character resemblance",
+    "transparent or alpha-ready cutout for creatures, seed icons, UI cutouts, and FX",
+    "screen integration screenshot shows the asset in the actual mobile UI",
+    "FX payoff includes frame count, frame size, intended frame rate, and manifest animation.binding"
+  ],
+  "default_generation": {
+    "provider": "openai_images_api",
+    "model_env": "SEED_ASSET_IMAGE_MODEL",
+    "default_model": "gpt-image-2",
+    "snapshot_model": "gpt-image-2-2026-04-21",
+    "endpoint": "v1/images/generations",
+    "api_key_env": "OPENAI_API_KEY",
+    "fallback_provider": "codex_native_image_generation",
+    "fallback_when": ["quota_exhausted", "credits_exhausted", "rate_limited", "organization_verification_blocked", "model_access_blocked"],
+    "output_format": "png"
+  }
+}

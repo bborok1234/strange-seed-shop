@@ -27,6 +27,7 @@ For each asset:
 
 - File exists at expected path.
 - Filename matches lowercase snake_case convention.
+- Accepted game graphics are generated raster assets, normally PNG. Reject SVG/vector/code-native drawings unless the user explicitly requested a non-game UI vector.
 - Asset id is stable and unique.
 - Category/family/rarity match the plan.
 - Image is readable at intended UI size.
@@ -35,6 +36,7 @@ For each asset:
 - No obvious brand/copyright resemblance.
 - Style is consistent with accepted batch.
 - Dimensions are suitable for the intended use.
+- FX/animation assets include sprite sheet or FX strip metadata, including frame count, frame size, intended frame rate, and manifest `animation.binding`.
 - Manifest entry points to the workspace file, not Codex cache.
 
 ## Manifest Shape

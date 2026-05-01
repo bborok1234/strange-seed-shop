@@ -146,6 +146,7 @@ export interface IdleProductionState {
 export interface PlotState {
   index: number;
   seedId?: string;
+  source?: ExpeditionRewardSource;
   plantedAt?: string;
   tapProgressSeconds: number;
   harvestedCreatureId?: string;
