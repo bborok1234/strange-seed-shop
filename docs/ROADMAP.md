@@ -57,6 +57,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Greenhouse lunar clue expedition v0 | done | Issue #245, PR #246, `items/0125-greenhouse-lunar-clue-expedition-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-lunar-clue-expedition-20260501.md`, main CI `25208987443` | `달빛 온실 단서 +1`이 원정 탭 `달빛 온실 조사` preview와 기존 `moon_hint` 원정 시작으로 소비된다 |
 | Greenhouse lunar reward source bridge v0 | done | Issue #251, PR #252, `items/0127-greenhouse-lunar-reward-source-bridge-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-lunar-reward-source-bridge-20260501.md`, main CI `25213197863` | `달빛 온실 조사` 보상 수령 뒤 `응축기에서 회수한 온실 단서` source가 `달방울 씨앗` / `달방울 누누` 다음 수집 목표까지 이어진다 |
 | Lunar seed source playfield planting v0 | done | Issue #254, PR #255, `items/0128-lunar-seed-source-playfield-planting-v0.md`, `reports/visual/p0-lunar-seed-source-playfield-planting-20260501.md`, generated raster PNG seed icon + 4-frame FX strip, Browser Use QA, main CI `25215586874` | 온실 단서로 얻은 `달방울 씨앗` 구매/심기 순간이 garden playfield의 달빛 성장 state와 source payoff로 이어지고, gpt-image-2 API blocker 시 Codex native image generation fallback/provenance가 동작함 |
+| P0.5 studio campaign pass | active | Issue #257, PR #258, `items/0129-game-studio-ops-harness.md`, `reports/operations/game-studio-harness-reference-review-20260501.md` | 다음 게임 issue 선택이 직전 issue 인접 기능이 아니라 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하고, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 Game Studio Department Signoff, role-debate note, Subagent/Team Routing, reference teardown, creative brief, QA/playtest plan을 요구함 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
 | Lunar seed harvest bridge v0 | done | Issue #166, `items/0093-lunar-seed-harvest-bridge-v0.md`, `reports/visual/p0-lunar-seed-harvest-bridge-v0-20260430.md` | `달방울 씨앗` 구매/심기/수확이 `달방울 누누` 발견과 다음 도감 목표 전환으로 이어지고 `npm run check:ci`가 통과함 |
 | Lunar guardian offline bonus v0 | done | Issue #168, `items/0094-lunar-guardian-offline-bonus-v0.md`, `reports/visual/p0-lunar-guardian-offline-bonus-v0-20260430.md` | `달방울 누누` 발견이 오프라인 복귀 보상 bonus와 toast 문구로 이어지고 `npm run check:ci`가 통과함 |
@@ -269,6 +270,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Ops live readiness gate | active | Issue #229, `items/0119-ops-live-readiness-gate.md`, `scripts/check-ops-live.mjs`, `docs/OPERATOR_CONTROL_ROOM.md`, `reports/operations/operator-heartbeat-20260501.jsonl` | stale 상황판/heartbeat를 통과시키지 않고, 다음 `$seed-ops` queue가 goal/stop condition과 asset/FX 또는 sprite-animation 결정을 요구함 |
 | Seed ops asset/FX queue hardening | done | Issue #238, PR #239, `items/0122-seed-ops-asset-fx-gate-hardening.md`, `scripts/check-seed-ops-queue-gate.mjs`, `scripts/check-game-asset-provenance.mjs`, `scripts/check-asset-style-consistency.mjs`, `reports/operations/asset-ops-reference-review-20260501.md`, main CI `25207807340` | 다음 게임 issue의 asset/FX 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 요구하고, 신규 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance, `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL`, `animation.binding`, `npm run check:asset-provenance`, `npm run check:asset-style` gate를 요구함 |
 | Seed ops no-final continuation gate | done | Issue #248, PR #249, `items/0126-seed-ops-no-final-continuation-gate.md`, `scripts/check-seed-ops-queue-gate.mjs`, `reports/operations/issue-0126-seed-ops-no-final-continuation-gate.md`, main CI `25210777454` | `final response is terminal`을 운영 계약으로 고정하고, stop rule 없이 종료하려면 실패하게 만든다. 실제 continuation은 `next issue plan artifact exists` 상태여야 하며 `left the next queue candidate is not continuation`을 검사한다 |
+| Game studio department harness | active | Issue #257, PR #258, `items/0129-game-studio-ops-harness.md`, `reports/operations/game-studio-harness-reference-review-20260501.md`, `.codex/skills/seed-ops/SKILL.md`, `scripts/check-seed-ops-queue-gate.mjs`, `scripts/check-ops-live.mjs` | `P0.5 Idle Core + Creative Rescue`를 active campaign source of truth로 고정하고, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, Subagent/Team Routing, gastory style state/prompt/model sidecar/reference image consistency/animation camera/composition lock/frame/GIF/spritesheet extraction gate를 요구함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
 | Project command surface | done | Issue #117, `items/0067-project-command-surface.md`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-*` | `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`로 운영 루프와 대화/보고/QA/playable 세션을 구분함 |
@@ -297,19 +299,18 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-Issue #254 **Lunar seed source playfield planting v0**는 PR #255로 merge됐고 main CI `25215586874`가 통과했다. generated raster PNG seed icon과 4-frame FX strip이 manifest/provenance/style/alpha/content/build/focused visual/Browser Use/`npm run check:ci` gate를 통과했다. 정적 FX strip이 밭에 찍히던 회귀는 제거했고, FX는 첫 탭의 spritesheet feedback으로만 재생된다. 다음은 같은 production chain의 다음 vertical slice를 plan-first로 선택하는 것이다.
+Issue #254 **Lunar seed source playfield planting v0**는 PR #255로 merge됐고 main CI `25215586874`가 통과했다. 정적 FX strip이 밭에 찍히던 회귀는 제거했고, closeout PR #256/main CI `25215839461`도 통과했다.
 
-즉시 다음 작업 선택 기준:
+다음 작업은 Issue #257 `P0.5 Idle Core + Creative Rescue` studio campaign pass다. `$seed-ops`는 새 게임 implementation issue를 고르기 전에 `items/0129-game-studio-ops-harness.md`와 `reports/operations/game-studio-harness-reference-review-20260501.md`를 campaign source of truth로 사용해야 한다.
 
-1. 직전 run의 종료 증거는 Issue #251 plan acceptance, Browser Use `iab` claim/seeds/album screenshots, PR #252 checks, main CI `25213197863`, closeout PR #253/main CI `25213344461`다. 현재 run은 Issue #254 구현 단계다.
-2. 완료 후 stop rule이 없으면 final 응답 대신 다음 issue plan artifact를 먼저 만든다. `left the next queue candidate is not continuation`.
-3. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
-4. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.
-5. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
-6. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
-7. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
-8. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, concrete visual/game-feel payoff, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다. 단순 주문 추가, copy tweak, test-only 작업은 위 payoff 없이 통과하지 않는다.
-9. 신규 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance가 있어야 하며 SVG/vector/code-native game graphics는 통과하지 않는다. gpt-image/API 생성은 `OPENAI_API_KEY`와 `SEED_ASSET_IMAGE_MODEL`을 사용하고, FX/애니메이션 payoff는 static icon 하나가 아니라 sprite/FX strip, frame count, frame size, intended frame rate, manifest `animation.binding`, `npm run check:asset-provenance`, `npm run check:asset-style` evidence를 요구한다.
+즉시 적용할 gate:
+
+1. 다음 issue plan artifact는 `Studio Campaign Gate`, `Game Studio Department Signoff`, `Subagent/Team Routing`, `reference teardown`, `creative brief`, `QA/playtest plan`을 포함해야 한다.
+2. 기획팀, 리서치팀, 아트팀, 개발팀, 검수팀, 마케팅팀, 고객지원팀 중 필요한 부서 산출물과 `role-debate note`가 없으면 implementation issue로 내려가지 않는다.
+3. Codex native subagents 또는 team mode는 리서치, 로컬 감사, 아트 계획, runtime 구현, QA가 독립 산출물로 나뉠 때 사용하고, 사용하지 않으면 이유를 plan에 남긴다.
+4. asset/FX issue는 gastory식 `style state`, `prompt/model sidecar`, `reference image consistency`, `animation camera/composition lock`, `frame/GIF/spritesheet extraction`, manifest QA를 요구한다. 신규 accepted manifest game asset은 gpt-image-2 default 또는 Codex native fallback provenance를 남기고 SVG/vector/code-native game graphics는 금지한다.
+5. `left the next queue candidate is not continuation`: ROADMAP/control room에 다음 후보를 쓰는 것만으로는 continuation이 아니다. 다음 issue plan artifact가 있어야 한다.
+6. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 campaign payoff와 concrete visual/game-feel payoff 없이 통과하지 않는다.
 
 ## Previous Next Action History
 

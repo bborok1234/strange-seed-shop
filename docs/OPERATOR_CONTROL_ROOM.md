@@ -3,39 +3,38 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T13:16:00.000Z
+Generated at: 2026-05-01T13:59:14.321Z
 
 ## Current mission
 
-Issue #254 **Lunar seed source playfield planting v0**는 PR #255로 merge됐고 main CI `25215586874`가 통과했다. generated raster PNG seed icon과 4-frame FX strip, Browser Use `iab`, `npm run check:ci`는 통과했다. 다음 gate는 같은 production chain의 다음 vertical slice를 plan-first로 선택하는 것이다.
+Issue #254 **Lunar seed source playfield planting v0**는 PR #255로 merge됐고 main CI `25215586874`가 통과했다. 정적 FX strip이 밭에 찍히던 회귀는 제거했고, closeout PR #256/main CI `25215839461`도 통과했다.
 
-즉시 다음 작업 선택 기준:
+다음 작업은 Issue #257 `P0.5 Idle Core + Creative Rescue` studio campaign pass다. `$seed-ops`는 새 게임 implementation issue를 고르기 전에 `items/0129-game-studio-ops-harness.md`와 `reports/operations/game-studio-harness-reference-review-20260501.md`를 campaign source of truth로 사용해야 한다.
 
-1. 이번 run의 종료 증거는 Issue #254 plan acceptance, Browser Use `iab` purchase/planting screenshot, `npm run check:ci`, PR #255 checks, merge commit `92b3b84`, main CI `25215586874`다.
-2. 완료 후 stop rule이 없으면 final 응답 대신 다음 issue plan artifact를 먼저 만든다.
-3. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
-4. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.
-5. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
-6. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
-7. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
-8. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, concrete visual/game-feel payoff, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다. 단순 주문 추가, copy tweak, test-only 작업은 위 payoff 없이 통과하지 않는다.
-9. 신규 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance가 있어야 하며 SVG/vector/code-native game graphics는 통과하지 않는다. gpt-image/API 생성은 `OPENAI_API_KEY`와 `SEED_ASSET_IMAGE_MODEL`을 사용하고, FX/애니메이션 payoff는 static icon 하나가 아니라 sprite/FX strip, frame count, frame size, intended frame rate, manifest `animation.binding`, `npm run check:asset-provenance`, `npm run check:asset-style` evidence를 요구한다.
+즉시 적용할 gate:
+
+1. 다음 issue plan artifact는 `Studio Campaign Gate`, `Game Studio Department Signoff`, `Subagent/Team Routing`, `reference teardown`, `creative brief`, `QA/playtest plan`을 포함해야 한다.
+2. 기획팀, 리서치팀, 아트팀, 개발팀, 검수팀, 마케팅팀, 고객지원팀 중 필요한 부서 산출물과 `role-debate note`가 없으면 implementation issue로 내려가지 않는다.
+3. Codex native subagents 또는 team mode는 리서치, 로컬 감사, 아트 계획, runtime 구현, QA가 독립 산출물로 나뉠 때 사용하고, 사용하지 않으면 이유를 plan에 남긴다.
+4. asset/FX issue는 gastory식 `style state`, `prompt/model sidecar`, `reference image consistency`, `animation camera/composition lock`, `frame/GIF/spritesheet extraction`, manifest QA를 요구한다. 신규 accepted manifest game asset은 gpt-image-2 default 또는 Codex native fallback provenance를 남기고 SVG/vector/code-native game graphics는 금지한다.
+5. `left the next queue candidate is not continuation`: ROADMAP/control room에 다음 후보를 쓰는 것만으로는 continuation이 아니다. 다음 issue plan artifact가 있어야 한다.
+6. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 campaign payoff와 concrete visual/game-feel payoff 없이 통과하지 않는다.
 
 ## Local state
 
-- Branch: codex/0128-lunar-seed-source-playfield-planting-closeout
-- Latest commit: 92b3b84 Merge pull request #255 from bborok1234/codex/0128-lunar-seed-source-playfield-planting-v0
+- Branch: codex/0129-game-studio-ops-harness
+- Latest commit: f997ea0 PR 본문도 게임사 하네스 증거로 남긴다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T13:16:00.000Z
-- Phase: closeout
-- Issue: #254
-- PR: #255
-- Item: items/0128-lunar-seed-source-playfield-planting-v0.md
-- Next action: closeout PR gate 후 같은 production chain의 다음 vertical slice plan 준비
+- Timestamp: 2026-05-01T13:59:09.200Z
+- Phase: pr
+- Issue: #257
+- PR: #258
+- Item: items/0129-game-studio-ops-harness.md
+- Next action: PR #258 checks 확인 후 merge gate
 
 ## Open PRs
 
@@ -59,6 +58,28 @@ Issue #254 **Lunar seed source playfield planting v0**는 PR #255로 merge됐고
 ## Next stop gate
 
 Stop only after PR required checks, main CI, and local `npm run check:all` are green, or after a written blocker report. The next work queue should name a North Star production vertical slice, not a merely safe small task.
+
+## Studio Campaign Gate
+
+The next game issue is a child of the active campaign, not a neighbor of the previous issue. Active campaign source of truth: P0.5 Idle Core + Creative Rescue. Before implementation, the next plan artifact must include reference teardown, creative brief, Game Studio Department Signoff, role-debate note when roles disagree, Subagent/Team Routing decision, and QA/playtest plan.
+
+## Game Studio Department Signoff
+
+- 기획팀: player verb, production/progression role, first 5 minutes moment.
+- 리서치팀: 경쟁작 production gap, reference teardown, rejected alternative.
+- 아트팀: art direction, gpt-image-2 default/fallback, manifest/animation plan.
+- 개발팀: implementation tranche, touched files, rollback boundary.
+- 검수팀: Browser Use/playtest evidence, screenshot/report/check list.
+- 마케팅팀: mock-only player-facing promise, no real channel action.
+- 고객지원팀: first 5 minutes confusion/support risk and FAQ note.
+
+## Subagent/Team Routing
+
+Use Codex native subagents or team mode when research, local audit, asset planning, runtime implementation, or QA can produce independent evidence in parallel. If not used, the plan must explain why.
+
+## Asset/FX production bundle
+
+Asset/FX work follows gastory-style style state, prompt/model sidecar, reference image consistency, animation camera/composition lock, frame/GIF/spritesheet extraction, manifest QA, and small-size visual review.
 
 ## Goal-bounded stop condition
 
@@ -111,6 +132,9 @@ Applies to: 모든 장시간 `$ralph`, issue-to-PR loop, 24h dry run 전 운영
 | Playable status | main 게임 실행 가능 여부와 명령 |
 | Next stop gate | 사람이 멈춰도 되는 다음 지점 또는 승인이 필요한 경계 |
 | Next vertical slice queue | 이 작업 이후의 북극성 vertical slice 후보 |
+| Campaign source of truth | 현재 issue가 속한 campaign. 지금 기본값은 `P0.5 Idle Core + Creative Rescue` |
+| Game Studio Department Signoff | 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 중 필요한 부서 산출물 |
+| Subagent/Team Routing | Codex native subagents 또는 team mode 사용 여부와 이유 |
 
 ## Issue 작성 규칙
 
@@ -119,12 +143,15 @@ Issue는 한국어 우선으로 작성하고, 다음 섹션을 포함한다.
 1. 문제 / 배경
 2. 목표
 3. Small win
-4. 플레이어 가치 또는 운영사 가치
-5. 수용 기준
-6. Visual evidence 계획
-7. Playable mode 영향
-8. 안전 범위
-9. 검증 명령
+4. Campaign source of truth
+5. Game Studio Department Signoff
+6. Subagent/Team Routing
+7. 플레이어 가치 또는 운영사 가치
+8. 수용 기준
+9. Visual evidence 계획
+10. Playable mode 영향
+11. 안전 범위
+12. 검증 명령
 
 ## PR 작성 규칙
 
@@ -179,17 +206,22 @@ npm run dev -- --host 127.0.0.1 --port 5174
 ## 운영 리듬
 
 1. Issue 생성: small win과 visual/playable 계획 포함.
-2. Branch 시작: heartbeat와 control room snapshot 기록.
-3. 구현: 작은 단위로 변경.
-4. 검증: local checks + visual/playable evidence.
-5. Draft PR: control room 형식의 PR 본문.
-6. Ready/merge: required checks 통과 후 branch protection 우회 없이 merge.
-7. Main 확인: main CI + local `npm run check:all`.
-8. Dashboard/roadmap 갱신: 다음 vertical slice queue와 stop gate를 분리해 명시.
+2. Studio Campaign Gate: `P0.5 Idle Core + Creative Rescue` 같은 active campaign source of truth와 reference teardown을 기록.
+3. Department Signoff: 기획팀, 리서치팀, 아트팀, 개발팀, 검수팀, 마케팅팀, 고객지원팀 산출물과 role-debate note를 기록.
+4. Subagent/Team Routing: 병렬 리서치/QA/아트/구현 분리가 유효하면 Codex native subagents 또는 team mode를 사용하고, 사용하지 않으면 이유를 남김.
+5. Branch 시작: heartbeat와 control room snapshot 기록.
+6. 구현: 작은 단위로 변경.
+7. 검증: local checks + visual/playable evidence.
+8. Draft PR: control room 형식의 PR 본문.
+9. Ready/merge: required checks 통과 후 branch protection 우회 없이 merge.
+10. Main 확인: main CI + local `npm run check:all`.
+11. Dashboard/roadmap 갱신: 다음 vertical slice queue와 stop gate를 분리해 명시.
 
 ## 관련 리서치에서 가져온 원칙
 
 - ClawSweeper: dashboard는 장식이 아니라 queue/review/apply/audit health를 보여주는 운영 표면이다.
+- ClawSweeper: review lane은 proposal-only이고 apply lane만 mutation을 수행한다. Seed ops도 부서 signoff와 apply mutation gate를 분리한다.
+- gastory: asset/FX는 project style state, prompt/model sidecar, reference consistency, animation camera/composition lock, frames/spritesheet extraction까지 bundle로 관리한다.
 - GitHub Mission Control: agent task는 한 곳에서 시작·추적·PR jump가 가능해야 한다.
 - Ralph 계열: phase isolation, progress file, stale recovery가 없으면 “계속 도는 loop”가 사람에게 불투명해진다.
 - Agentic PR 연구: 작은 작업, green CI, reviewer engagement, 명확한 scope가 merge 가능성을 높인다.

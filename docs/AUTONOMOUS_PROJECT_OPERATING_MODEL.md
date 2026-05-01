@@ -180,6 +180,39 @@ Milestone 7부터 watchdog runner는 heartbeat ledger를 읽어 `fresh`, `stale`
 
 ## 5. Lanes
 
+`Intake / Review / Apply / Verify / Audit`는 ClawSweeper에서 가져온 실행 stage다. 게임사 운영에서는 여기에 department ownership axis를 겹쳐 쓴다. 즉 review lane은 proposal-only이고 apply lane은 mutation gate라는 원칙을 유지하되, 각 work item은 어떤 부서 관점이 필요한지와 그 부서의 signoff 산출물을 함께 가진다.
+
+### Game Studio Department Axis
+
+새 게임 issue는 `Studio Campaign Gate`를 통과한 active campaign source of truth에서 출발한다. 현재 campaign은 `P0.5 Idle Core + Creative Rescue`이며, implementation issue는 이 campaign의 하위 산출물이다. 직전 issue 옆의 작은 기능을 고르는 것은 campaign gate가 아니다. issue plan은 `Game Studio Department Signoff`, creative brief, QA/playtest plan을 포함해야 한다.
+
+| 부서 | 책임 | 산출물 |
+| --- | --- | --- |
+| 기획팀 | player verb, core loop, reward timing | player value, production/progression role, first 5 minutes moment |
+| 리서치팀 | 경쟁작 production gap과 레퍼런스 | reference teardown, 비교 기준, rejected alternative |
+| 아트팀 | visual target, style consistency, asset/FX bundle | art direction, gpt-image-2 default/fallback, manifest/animation plan |
+| 개발팀 | runtime architecture, save/economy boundary | implementation tranche, touched files, rollback boundary |
+| 검수팀 | Browser Use, visual QA, regression | playtest evidence, screenshot/report/checks |
+| 마케팅팀 | mock-only player-facing promise | devlog/release-note angle, no real channel action |
+| 고객지원팀 | player confusion/support risk | support risk, FAQ note, first 5 minutes confusion |
+
+Department signoff는 stage를 대체하지 않는다. 예를 들어 아트팀 signoff가 있어도 apply lane은 여전히 plan artifact, open item, scope, protected boundary를 확인한다. 검수팀 signoff가 있어도 verify lane은 테스트와 screenshot evidence를 실제로 실행한다.
+
+부서 간 관점이 충돌하면 `role-debate note`에 최종 선택과 rejected alternative를 남긴다.
+
+### Subagent/Team Routing
+
+Codex native subagents와 team mode는 역할별 독립 산출물이 있을 때 쓴다.
+
+- 리서치팀이나 검수팀이 구현과 독립적으로 evidence를 만들 수 있으면 병렬화한다.
+- 아트팀 asset plan과 개발팀 runtime 구현의 write scope가 분리되면 병렬화한다.
+- campaign pass처럼 관점 누락 위험이 크면 적어도 repo-local audit이나 reference audit을 subagent로 분리한다.
+- 사용하지 않는 경우도 `Subagent/Team Routing decision`에 이유를 남긴다.
+
+### Asset/FX Department Rule
+
+gastory에서 가져온 asset 운영 원칙을 따른다. asset/FX work는 이미지 한 장 생성이 아니라 project style state, prompt/model sidecar, reference image consistency, animation camera/composition lock, frame/GIF/spritesheet extraction, manifest QA를 하나의 bundle로 다룬다. 기본 생성 경로는 gpt-image-2이고, credit/quota/rate/organization/model blocker가 있으면 Codex native image generation fallback을 쓴다. accepted manifest game asset으로 SVG/vector/code-native graphics는 등록하지 않는다.
+
 ### Intake Lane
 
 Turns ideas, bugs, playtest notes, and user requests into normalized work items.

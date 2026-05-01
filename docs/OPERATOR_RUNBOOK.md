@@ -31,6 +31,9 @@ Before any supervised 4h or 24h run:
 3. Create or update the issue plan artifact before implementation:
    - `items/<id>.md` 또는 `.omx/plans/*`에 `## Plan`을 작성한다.
    - Plan에는 small win, 구현 단계, 수용 기준, 검증 명령, 금지 범위를 포함한다.
+   - 게임 issue라면 먼저 `Studio Campaign Gate`를 적용해 `P0.5 Idle Core + Creative Rescue` 같은 active campaign source of truth를 고정하고 `Game Studio Department Signoff`와 `Subagent/Team Routing decision`을 적는다.
+   - Plan에는 reference teardown, creative brief, QA/playtest plan을 포함한다.
+   - 기획팀, 리서치팀, 아트팀, 개발팀, 검수팀, 마케팅팀, 고객지원팀 중 관련 부서가 맡는 산출물과 role-debate note를 적는다.
    - Plan artifact가 없으면 branch 구현, 제품 코드 수정, 운영 문서 수정으로 넘어가지 않는다.
 4. Create or reuse a context snapshot under `.omx/context/` with:
    - task statement
@@ -61,6 +64,7 @@ During a supervised run:
 - Keep every issue-to-PR loop evidence-backed:
   - issue/work item
   - plan artifact with `## Plan`
+  - game issue이면 campaign source of truth, Game Studio Department Signoff, Subagent/Team Routing decision
   - branch
   - commits
   - local checks
@@ -71,6 +75,9 @@ During a supervised run:
 - Prefer small, reversible PRs over one large overnight diff.
 - In `$seed-ops` or ongoing operator mode, remote publication is part of the issue loop: push the branch, open/update a draft PR, verify GitHub checks, merge when gates are green, and verify main CI unless a stop rule applies. Do not pause only because the user did not repeat a remote publishing instruction.
 - When visual work changes UI, follow Browser Use first policy and save visual evidence under `reports/visual/`.
+- When asset/FX work changes gameplay visuals, require gpt-image-2 default or Codex native fallback provenance, gastory-style style state/prompt-model sidecar/reference consistency/animation camera-composition lock/frame-spritesheet plan, manifest QA, and small-size visual review before calling it complete.
+- Asset/FX 증거에는 exact bundle field도 남긴다: prompt/model sidecar, reference image consistency, animation camera/composition lock, frame/GIF/spritesheet extraction.
+- When research, asset planning, local audit, or QA can run independently, use Codex native subagents or team mode; if not used, record why in Subagent/Team Routing.
 - Treat every issue completion as a continuation checkpoint: **완료 보고는 중단 조건이 아니라 체크포인트**다.
 - If the user has asked for an ongoing operator run and no stop rule is active, immediately choose the next issue를 plan-first로 선택하고 `## Plan` artifact를 만든 뒤 다음 loop를 시작한다.
 - No-final continuation gate: in `$seed-ops`, `final response is terminal`. Stop rule이 없으면 final 응답 대신 commentary checkpoint를 남기고, `next issue plan artifact exists` 상태를 만든다. `left the next queue candidate is not continuation`: 다음 후보를 적어두기만 한 것은 continuation이 아니다.

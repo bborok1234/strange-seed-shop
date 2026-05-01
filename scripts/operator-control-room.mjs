@@ -130,6 +130,28 @@ ${openIssues.length === 0 ? "- unavailable or none" : openIssues.map((issue) => 
 
 Stop only after PR required checks, main CI, and local \`npm run check:all\` are green, or after a written blocker report. The next work queue should name a North Star production vertical slice, not a merely safe small task.
 
+## Studio Campaign Gate
+
+The next game issue is a child of the active campaign, not a neighbor of the previous issue. Active campaign source of truth: P0.5 Idle Core + Creative Rescue. Before implementation, the next plan artifact must include reference teardown, creative brief, Game Studio Department Signoff, role-debate note when roles disagree, Subagent/Team Routing decision, and QA/playtest plan.
+
+## Game Studio Department Signoff
+
+- 기획팀: player verb, production/progression role, first 5 minutes moment.
+- 리서치팀: 경쟁작 production gap, reference teardown, rejected alternative.
+- 아트팀: art direction, gpt-image-2 default/fallback, manifest/animation plan.
+- 개발팀: implementation tranche, touched files, rollback boundary.
+- 검수팀: Browser Use/playtest evidence, screenshot/report/check list.
+- 마케팅팀: mock-only player-facing promise, no real channel action.
+- 고객지원팀: first 5 minutes confusion/support risk and FAQ note.
+
+## Subagent/Team Routing
+
+Use Codex native subagents or team mode when research, local audit, asset planning, runtime implementation, or QA can produce independent evidence in parallel. If not used, the plan must explain why.
+
+## Asset/FX production bundle
+
+Asset/FX work follows gastory-style style state, prompt/model sidecar, reference image consistency, animation camera/composition lock, frame/GIF/spritesheet extraction, manifest QA, and small-size visual review.
+
 ## Goal-bounded stop condition
 
 For the current seed-ops issue run, stop only after the plan acceptance criteria, local verification, PR required checks, merge, and main CI are green, or after a written blocker report.

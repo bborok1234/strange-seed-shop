@@ -51,6 +51,33 @@ const continuationGatePhrases = [
   "left the next queue candidate is not continuation"
 ];
 
+const studioCampaignPhrases = [
+  "Studio Campaign Gate",
+  "P0.5 Idle Core + Creative Rescue",
+  "campaign source of truth",
+  "Game Studio Department Signoff",
+  "기획팀",
+  "리서치팀",
+  "아트팀",
+  "개발팀",
+  "검수팀",
+  "마케팅팀",
+  "고객지원팀",
+  "role-debate note",
+  "Subagent/Team Routing",
+  "Codex native subagents",
+  "team mode",
+  "reference teardown",
+  "creative brief",
+  "QA/playtest plan",
+  "gastory",
+  "style state",
+  "prompt/model sidecar",
+  "reference image consistency",
+  "animation camera/composition lock",
+  "frame/GIF/spritesheet extraction"
+];
+
 const requiredPaths = [
   "AGENTS.md",
   ".codex/skills/seed-ops/SKILL.md",
@@ -62,6 +89,8 @@ const requiredPaths = [
   "scripts/operator-control-room.mjs",
   "scripts/check-ops-live.mjs",
   "reports/operations/asset-ops-reference-review-20260501.md",
+  "reports/operations/game-studio-harness-reference-review-20260501.md",
+  "items/0129-game-studio-ops-harness.md",
   "items/0122-seed-ops-asset-fx-gate-hardening.md"
 ];
 
@@ -88,10 +117,28 @@ for (const filePath of [
   requirePhrases(filePath, continuationGatePhrases);
 }
 
+for (const filePath of [
+  ".codex/skills/seed-ops/SKILL.md",
+  "docs/PROJECT_COMMANDS.md",
+  "docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md",
+  "docs/OPERATOR_RUNBOOK.md",
+  "docs/OPERATOR_CONTROL_ROOM.md",
+  "docs/ROADMAP.md",
+  "scripts/operator-control-room.mjs",
+  "items/0129-game-studio-ops-harness.md",
+  "reports/operations/game-studio-harness-reference-review-20260501.md"
+]) {
+  requirePhrases(filePath, studioCampaignPhrases);
+}
+
 requirePhrases("scripts/check-ops-live.mjs", [
   "concrete visual/game-feel payoff",
   "기존 asset 재사용만으로는 통과하지 않는다",
-  "asset/FX or sprite-animation decision"
+  "asset/FX or sprite-animation decision",
+  "P0.5 Idle Core + Creative Rescue",
+  "Game Studio Department Signoff",
+  "Subagent/Team Routing",
+  "campaign source of truth"
 ]);
 
 requirePhrases("reports/operations/asset-ops-reference-review-20260501.md", [
