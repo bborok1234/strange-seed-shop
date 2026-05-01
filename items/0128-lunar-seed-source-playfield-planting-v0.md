@@ -1,8 +1,9 @@
 # Lunar seed source playfield planting v0
 
-Status: implemented / local verification
+Status: draft PR / checks pending
 Owner: agent
 Issue: #254
+PR: #255
 Branch: `codex/0128-lunar-seed-source-playfield-planting-v0`
 Started: 2026-05-01
 
