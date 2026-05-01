@@ -266,6 +266,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Add operator control room and playable mode | review | Issue #87, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/PLAYABLE_MODE.md`, `.github/ISSUE_TEMPLATE/agent-work-item.md`, `.github/pull_request_template.md`, `scripts/prepare-playable-main.mjs`, `items/0052-operator-control-room-playable-mode.md` | 사람이 active mission, small win, visual evidence, PR/issue, playable main command를 한 화면에서 파악하고 agent 작업 중에도 게임을 실행할 수 있음 |
 | Ops live readiness gate | active | Issue #229, `items/0119-ops-live-readiness-gate.md`, `scripts/check-ops-live.mjs`, `docs/OPERATOR_CONTROL_ROOM.md`, `reports/operations/operator-heartbeat-20260501.jsonl` | stale 상황판/heartbeat를 통과시키지 않고, 다음 `$seed-ops` queue가 goal/stop condition과 asset/FX 또는 sprite-animation 결정을 요구함 |
 | Seed ops asset/FX queue hardening | done | Issue #238, PR #239, `items/0122-seed-ops-asset-fx-gate-hardening.md`, `scripts/check-seed-ops-queue-gate.mjs`, `reports/operations/asset-ops-reference-review-20260501.md`, main CI `25207807340` | 다음 게임 issue의 asset/FX 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 요구함 |
+| Seed ops no-final continuation gate | review | Issue #248, `items/0126-seed-ops-no-final-continuation-gate.md`, `scripts/check-seed-ops-queue-gate.mjs`, `reports/operations/issue-0126-seed-ops-no-final-continuation-gate.md`, local `npm run check:ci` PASS | `final response is terminal`을 운영 계약으로 고정하고, stop rule 없이 종료하려면 실패하게 만든다. 실제 continuation은 `next issue plan artifact exists` 상태여야 하며 `left the next queue candidate is not continuation`을 검사한다 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
 | Project command surface | done | Issue #117, `items/0067-project-command-surface.md`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-*` | `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`로 운영 루프와 대화/보고/QA/playable 세션을 구분함 |
@@ -294,17 +295,18 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-Issue #245 **달빛 온실 단서가 원정 시작으로 소비된다**는 PR #246으로 merge됐고 main CI `25208987443`가 통과했다. 다음 `$seed-ops` 후보는 `달빛 온실 조사` 완료/보상 수령 순간에 온실 단서 source를 유지하면서 달빛 씨앗/수집 루프로 되돌리는 production vertical slice다.
+Issue #248 **Seed ops no-final continuation gate**를 진행 중이다. Issue #245/PR #246/closeout PR #247 이후 stop rule 없이 assistant final로 멈춘 운영 사고를 고치기 위해 `final response is terminal` 계약과 `next issue plan artifact exists` gate를 문서/검사에 고정한다.
 
 즉시 다음 작업 선택 기준:
 
-1. 이번 run의 종료 조건은 Issue #245 plan acceptance, Browser Use iab, `npm run check:visual -- --grep "달빛 온실 조사"`, `npm run check:ci`, PR checks, main CI가 green인 상태이며 모두 완료됐다.
-2. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
-3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.
-4. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
-5. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
-6. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
-7. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, concrete visual/game-feel payoff, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다. 단순 주문 추가, copy tweak, test-only 작업은 위 payoff 없이 통과하지 않는다.
+1. 이번 run의 종료 조건은 Issue #248 plan acceptance, `npm run check:seed-ops-queue`, `npm run check:project-commands`, `npm run check:ops-live`, `npm run check:dashboard`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
+2. 완료 후 stop rule이 없으면 final 응답 대신 다음 issue plan artifact를 먼저 만든다. `left the next queue candidate is not continuation`.
+3. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
+4. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.
+5. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
+6. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
+7. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
+8. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, concrete visual/game-feel payoff, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다. 단순 주문 추가, copy tweak, test-only 작업은 위 payoff 없이 통과하지 않는다.
 
 ## Previous Next Action History
 

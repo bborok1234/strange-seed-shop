@@ -164,6 +164,12 @@ PR이 red check 상태면 verify lane은 실패 job을 읽고, 로컬 재현을 
 
 즉, 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 완료 보고 다음 행동은 “요약 후 종료”가 아니라 **다음 issue를 plan-first로 선택**하는 것이다. 게임 작업에서는 이 선택이 "safe small item"이 아니라 production vertical slice 후보여야 한다. 이 규칙은 사용자가 기대한 6~8시간 또는 향후 24시간 운영을 위해 completion gate 위에 얹히는 continuation watchdog으로 취급한다.
 
+#### No-final continuation gate
+
+장시간 `$seed-ops`/운영모드에서 assistant `final` 응답은 terminal action이다. `final response is terminal`이라는 가정 때문에, stop rule이 없고 다음 non-destructive 후보가 있으면 final summary를 보내지 않는다. 요약은 commentary checkpoint로만 남기고, 다음 issue를 생성/선택한 뒤 `next issue plan artifact exists` 상태를 만들어야 한다.
+
+`left the next queue candidate is not continuation`: roadmap, control room, 또는 요약에 다음 후보를 적어두는 것만으로는 continuation이 아니다. 다음 `items/<id>.md` 또는 동등 artifact에 `## Plan`, 수용 기준, 검증 명령, 리스크가 있을 때만 계속 진행 중으로 본다. final 응답은 시간 상한, 명시 중단, 외부 승인/credential/destructive boundary, 치명적 blocker, materially branching 제품 결정 중 하나가 보고서에 고정된 뒤에만 허용된다.
+
 ### watchdog runner
 
 Milestone 7부터 watchdog runner는 heartbeat ledger를 읽어 `fresh`, `stale`, `missing`, `invalid` 상태를 판정한다. v0 runner는 deterministic `--now` 입력을 지원해 CI에서 장시간 대기 없이 freshness 판정을 검증한다. 실제 재시작은 별도 승인된 supervised trial에서만 수행하고, 기본 동작은 report 생성과 안전한 중단이다.
