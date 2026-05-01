@@ -14,6 +14,14 @@ function requirePhrases(filePath, phrases) {
   }
 }
 
+function rejectPhrases(filePath, phrases) {
+  if (!fs.existsSync(filePath)) return;
+  const content = fs.readFileSync(filePath, "utf8");
+  for (const phrase of phrases) {
+    if (content.includes(phrase)) failures.push(`${filePath} contains stale phrase: ${phrase}`);
+  }
+}
+
 const requiredPaths = [
   "docs/OPERATOR_CONTROL_ROOM.md",
   "docs/PLAYABLE_MODE.md",
@@ -28,15 +36,30 @@ for (const filePath of requiredPaths) requirePath(filePath);
 
 requirePhrases("docs/OPERATOR_CONTROL_ROOM.md", [
   "Operator Control Room",
+  "Live Snapshot",
+  "Generated at:",
+  "Heartbeat",
   "Small win",
   "Visual evidence",
   "Playable Mode",
   "npm run play:main",
   "5174",
   "24h dry run gate",
+  "Goal-bounded stop condition",
+  "Next queue quality gate",
+  "competition-inspired production gap",
+  "asset/FX or sprite-animation decision",
   "ClawSweeper",
   "GitHub Mission Control",
   "Ralph"
+]);
+
+rejectPhrases("docs/OPERATOR_CONTROL_ROOM.md", [
+  "Active issue | #87",
+  "codex/operator-control-room",
+  "Issue #93",
+  "#94",
+  "2026-04-28T13:35:02.511Z"
 ]);
 
 requirePhrases("docs/PLAYABLE_MODE.md", [
@@ -78,11 +101,14 @@ requirePhrases("scripts/prepare-playable-main.mjs", [
 
 requirePhrases("scripts/operator-control-room.mjs", [
   "Operator Control Room Snapshot",
+  "OPERATOR_CONTROL_ROOM_SNAPSHOT",
+  "Heartbeat",
   "Open PRs",
   "Open issues",
   "Playable mode",
   "Visual evidence rule",
   "Next stop gate",
+  "Goal-bounded stop condition",
   "production vertical slice"
 ]);
 

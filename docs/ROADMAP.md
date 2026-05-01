@@ -260,6 +260,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Run 4-hour supervised trial | review | `reports/operations/operator-trial-20260428T053230Z.md`, `items/0035-supervised-4h-operator-trial.md` | heartbeat 47건, merge된 PR 15개, green main CI, initial stuck report, final watchdog freshness, heartbeat gap warning이 기록됨 |
 | Harden heartbeat daemon before 24h run | review | Issue #84, `scripts/operator-heartbeat-daemon.mjs`, `reports/operations/heartbeat-daemon-hardening-20260428.md`, `items/0051-heartbeat-daemon-hardening.md` | 독립 heartbeat daemon, stale-gap dry-run guard, watchdog stuck-output guard로 600초 초과 gap을 완료로 오인하지 않게 한다 |
 | Add operator control room and playable mode | review | Issue #87, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/PLAYABLE_MODE.md`, `.github/ISSUE_TEMPLATE/agent-work-item.md`, `.github/pull_request_template.md`, `scripts/prepare-playable-main.mjs`, `items/0052-operator-control-room-playable-mode.md` | 사람이 active mission, small win, visual evidence, PR/issue, playable main command를 한 화면에서 파악하고 agent 작업 중에도 게임을 실행할 수 있음 |
+| Ops live readiness gate | active | Issue #229, `items/0119-ops-live-readiness-gate.md`, `scripts/check-ops-live.mjs`, `docs/OPERATOR_CONTROL_ROOM.md`, `reports/operations/operator-heartbeat-20260501.jsonl` | stale 상황판/heartbeat를 통과시키지 않고, 다음 `$seed-ops` queue가 goal/stop condition과 asset/FX 또는 sprite-animation 결정을 요구함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
 | Project command surface | done | Issue #117, `items/0067-project-command-surface.md`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-*` | `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`로 운영 루프와 대화/보고/QA/playable 세션을 구분함 |
@@ -288,16 +289,17 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 운영모드는 **북극성 지속 운영 루프**다. P0가 끝나도 멈추지 않고 게임 북극성(첫 5분 귀여움/수집 욕구)과 운영사 북극성(issue intake -> plan -> 구현 -> 검증 -> PR -> CI 복구 -> follow-up evidence)을 향해 계속 진행한다. 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택한다.
+현재 운영모드는 **ops live readiness gate**를 먼저 닫는 목표 제한 `$seed-ops`다. 이번 run은 무한 운영 테스트가 아니라 Issue #229를 통해 stale 상황판/heartbeat를 실패로 잡고, 준비 완료 control room/heartbeat/next queue gate를 만든 뒤 PR/CI/main merge까지 확인하면 멈춘다. 그 다음 `$seed-ops`는 게임 북극성(첫 5분 귀여움/수집 욕구)과 운영사 북극성(issue intake -> plan -> 구현 -> 검증 -> PR -> CI 복구 -> follow-up evidence)을 향해 계속 진행하되, 완료 보고는 중단 조건이 아니라 checkpoint로 취급한다.
 
 즉시 다음 작업 선택 기준:
 
-1. 다음 `$seed-ops` issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
-2. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다.
-3. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
-4. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
-5. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
-6. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다.
+1. 이번 준비 run의 종료 조건은 `npm run check:ops-live`, `npm run check:control-room`, `npm run check:operator`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
+2. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
+3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 하며, asset/FX 또는 sprite-animation 결정을 최소 하나 포함해야 한다.
+4. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
+5. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
+6. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
+7. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다.
 
 ## Previous Next Action History
 

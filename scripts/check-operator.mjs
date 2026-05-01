@@ -46,6 +46,7 @@ const requiredPaths = [
   "items/0052-operator-control-room-playable-mode.md",
   "items/0061-issue-plan-first-operating-rule.md",
   "items/0066-operator-continuation-watchdog.md",
+  "items/0119-ops-live-readiness-gate.md",
   "items/0029-operator-completion-gate.md",
   "docs/OPERATOR_RUNBOOK.md",
   "docs/OPERATOR_CONTROL_ROOM.md",
@@ -66,6 +67,7 @@ const requiredPaths = [
   "scripts/write-operator-heartbeat.mjs",
   "scripts/operator-heartbeat-daemon.mjs",
   "scripts/operator-control-room.mjs",
+  "scripts/check-ops-live.mjs",
   "scripts/prepare-playable-main.mjs",
   "scripts/check-operator-control-room.mjs",
   "scripts/update-operator-live-status.mjs",
@@ -240,6 +242,18 @@ requirePhrases("items/0066-operator-continuation-watchdog.md", [
   "치명적 blocker",
   "npm run check:operator",
   "npm run check:all"
+]);
+
+requirePhrases("items/0119-ops-live-readiness-gate.md", [
+  "Status: active",
+  "Work type: agent_ops",
+  "Issue: #229",
+  "## Plan",
+  "stale `docs/OPERATOR_CONTROL_ROOM.md`",
+  "stale `.omx/state/operator-heartbeat.json`",
+  "stop-condition 테스트",
+  "npm run check:ops-live",
+  "goal/stop condition"
 ]);
 
 requirePhrases("AGENTS.md", [
@@ -530,6 +544,8 @@ requirePhrases("package.json", [
   "operator:trial:gap-guard",
   "operator:watchdog:stuck-guard",
   "operator:control-room",
+  "check:ops-live",
+  "operator:heartbeat:write",
   "play:main",
   "check:control-room",
   "operator:trial:readiness",
@@ -538,6 +554,7 @@ requirePhrases("package.json", [
   "scripts/check-operator-trial-gap-guard.mjs",
   "scripts/check-operator-watchdog-stuck-report.mjs",
   "scripts/operator-control-room.mjs",
+  "scripts/check-ops-live.mjs",
   "scripts/prepare-playable-main.mjs",
   "scripts/check-operator-control-room.mjs",
   "scripts/check-operator.mjs",

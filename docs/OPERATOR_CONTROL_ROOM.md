@@ -1,27 +1,96 @@
 # Operator Control Room / 운영 상황판
 
-Status: v0-control-room
+<!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
+## Live Snapshot
+
+Generated at: 2026-05-01T06:34:14.363Z
+
+## Current mission
+
+현재 운영모드는 **ops live readiness gate**를 먼저 닫는 목표 제한 `$seed-ops`다. 이번 run은 무한 운영 테스트가 아니라 Issue #229를 통해 stale 상황판/heartbeat를 실패로 잡고, 준비 완료 control room/heartbeat/next queue gate를 만든 뒤 PR/CI/main merge까지 확인하면 멈춘다. 그 다음 `$seed-ops`는 게임 북극성(첫 5분 귀여움/수집 욕구)과 운영사 북극성(issue intake -> plan -> 구현 -> 검증 -> PR -> CI 복구 -> follow-up evidence)을 향해 계속 진행하되, 완료 보고는 중단 조건이 아니라 checkpoint로 취급한다.
+
+즉시 다음 작업 선택 기준:
+
+1. 이번 준비 run의 종료 조건은 `npm run check:ops-live`, `npm run check:control-room`, `npm run check:operator`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
+2. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
+3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 하며, asset/FX 또는 sprite-animation 결정을 최소 하나 포함해야 한다.
+4. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
+5. "safe/local/small"은 선택 기준이 아니다. 결제, 로그인, 외부 배포, credential, destructive boundary를 피하는 safety gate일 뿐이다.
+6. 운영사 인프라는 CI/QA/상태 이해가 위 production vertical slice 진행을 막을 때만 우선한다.
+7. 다음 작업을 시작하기 전 plan artifact는 reference teardown, creative brief, asset/FX 필요 여부, Browser Use/playtest evidence 계획을 포함해야 한다.
+
+## Local state
+
+- Branch: codex/0119-ops-live-readiness-gate
+- Latest commit: 63de3cd 물길 강화 속도가 다음 점검 주문으로 이어진다 (#228)
+- Dirty files: present
+
+## Heartbeat
+
+- Source: .omx/state/operator-heartbeat.json
+- Timestamp: 2026-05-01T06:34:04.215Z
+- Phase: verifying
+- Issue: #229
+- PR: 
+- Item: items/0119-ops-live-readiness-gate.md
+- Next action: PR 생성 후 checks/main CI green 확인하고 준비 완료로 멈춤
+
+## Open PRs
+
+- unavailable or none
+
+## Open issues
+
+- #229 [Agent Ops] seed-ops 재시작 전 live 상황판 준비 gate — https://github.com/bborok1234/strange-seed-shop/issues/229
+
+## Playable mode
+
+- Prepare stable main worktree: `npm run play:main`
+- Serve stable main game: `cd ../strange-seed-shop-play && npm run dev -- --host 127.0.0.1 --port 5174`
+- URL: http://127.0.0.1:5174
+
+## Visual evidence rule
+
+- UI/game PR: link before/after screenshots under `reports/visual/`.
+- Docs/scripts-only PR: write `N/A — UI 변화 없음` and link check output/report.
+
+## Next stop gate
+
+Stop only after PR required checks, main CI, and local `npm run check:all` are green, or after a written blocker report. The next work queue should name a North Star production vertical slice, not a merely safe small task.
+
+## Goal-bounded stop condition
+
+For the current ops-prep run, stop after live control room, heartbeat freshness, and next queue readiness gates are green. Do not continue into game feature work from this preparation task.
+
+## Next queue quality gate
+
+The next seed-ops issue must name at least one competition-inspired production gap and at least one asset/FX or sprite-animation decision. A task that only adds another order, copy tweak, spacing change, or test-only assertion is not enough unless it unblocks that vertical slice.
+<!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:END -->
+
+Status: v1-live-control-room
 Owner: agent
-Last updated: 2026-04-28
+Last updated: 2026-05-01
 Applies to: 모든 장시간 `$ralph`, issue-to-PR loop, 24h dry run 전 운영
 
 ## 왜 필요한가
 
 4h trial은 자동화가 실제로 issue → branch → PR → CI → merge → report를 반복할 수 있음을 증명했다. 하지만 사람이 중간에 돌아왔을 때 “지금 무엇을, 왜, 어디까지 했는지”를 한눈에 보기 어려웠다. 이 문서는 자동화의 속도를 유지하면서도 사람이 언제든 이해·검수·플레이할 수 있게 만드는 control room 계약이다.
 
-## 한눈에 보는 현재 미션
+## 한눈에 보는 현재 미션 카드 계약
+
+실제 현재 미션은 문서 상단의 `Live Snapshot`이 소유한다. 아래 표는 상황판이 유지해야 하는 필드 계약이며, 과거 issue/branch 값을 고정하지 않는다.
 
 | 필드 | 현재 값 |
 | --- | --- |
 | 운영 북극성 | 에이전트가 안전하게 오래 일하되, 사람이 즉시 이해하고 멈출 수 있는 게임 스튜디오 |
 | 게임 북극성 | 첫 5분 안에 “귀엽다, 하나만 더 키우자”를 만드는 수집 idle game |
-| 현재 milestone | 24h dry run 전 운영 가시성 보강 |
-| Active issue | #87 — Operator Control Room + Playable Mode |
-| Active branch | `codex/operator-control-room` |
-| 이번 small win | 사람이 퇴근/복귀/중간 확인 시 현재 작업·결과·증거·게임 실행법을 한 화면에서 파악한다 |
-| 플레이어 가치 | 자동화가 UI/게임을 계속 바꿔도 사람은 main 기준 게임을 열고 재미/귀여움/혼란을 직접 확인할 수 있다 |
-| 다음 안전 정지점 | PR green + main CI green + `npm run check:all` PASS |
-| 24h dry run gate | 이 control room PR이 merge되기 전 24h dry run 금지 |
+| 현재 milestone | `Live Snapshot`의 Current mission |
+| Active issue | `Live Snapshot`의 Heartbeat issue 또는 open issue queue |
+| Active branch | `Live Snapshot`의 Local state branch |
+| 이번 small win | 현재 issue/item의 가장 작은 승리 |
+| 플레이어 가치 | 게임 북극성 또는 운영사 북극성과의 연결 |
+| 다음 안전 정지점 | goal-bounded stop condition 또는 blocker report |
+| 24h dry run gate | live heartbeat/control-room/readiness gate가 green일 때만 검토 |
 
 ## Control Room 카드 형식
 
