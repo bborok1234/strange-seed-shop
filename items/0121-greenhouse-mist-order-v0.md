@@ -1,6 +1,6 @@
 # Greenhouse mist return order v0
 
-Status: verified
+Status: done
 Work type: game_feature
 Owner: agent
 Created: 2026-05-01
@@ -64,6 +64,8 @@ Vertical slice axes:
 - `npm run check:content`: PASS
 - `npm run build`: PASS
 - `npm run check:ci`: PASS
+- PR #236 GitHub checks: PASS (`Check automerge eligibility`, `Verify game baseline`)
+- Main CI: PASS, run `25206692961`, merge commit `167ce8740857dab2cceb1832fb02261c124b5902`
 
 ## Safety
 
