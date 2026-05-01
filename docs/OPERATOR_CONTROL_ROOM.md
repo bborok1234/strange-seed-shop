@@ -3,38 +3,41 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T14:26:20.676Z
+Generated at: 2026-05-01T15:05:17.280Z
 
 ## Current mission
 
-Issue #257 **Game studio ops harness**는 PR #258로 merge됐고 main CI `25217147915`가 통과했다. closeout PR #259도 merge됐고 main CI `25217294128`이 통과했다.
+Issue #260 **P0.5 studio campaign audit**는 로컬 감사와 Browser Use `iab` evidence를 완료했고, `reports/operations/p05-studio-campaign-audit-20260501.md`에 다음 tranche 선택 근거를 남겼다.
 
-다음 작업은 Issue #260 **P0.5 studio campaign audit**다. `$seed-ops`는 곧바로 좁은 implementation issue를 고르지 않고, `items/0130-p05-studio-campaign-audit.md`로 현재 첫 5분 loop, production readability, asset/FX consistency, Browser Use/playtest evidence를 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 관점에서 감사한 뒤 다음 implementation tranche를 선택한다.
+운영 corrective gate는 verified 상태이며 draft PR #265로 게시됐다. Codex App PR publication이 action-time confirmation을 요구하는 경우에도 `$seed-ops`는 final로 멈추지 않는다. `PR publication confirmation boundary`는 pending external-publication gate로 기록하고 `next local safe work`를 계속해야 한다. 관련 plan/evidence는 `items/0133-seed-ops-pr-publication-confirmation-boundary.md`와 `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`이며 `npm run check:ci`와 PR #265 checks가 통과했다.
+
+다음 작업은 `items/0132-lunar-harvest-creature-payoff-v0.md`의 **Lunar harvest creature payoff v0**다. `달방울 씨앗` 수확이 단순 도감 reveal로 끝나지 않고, `달방울 누누`가 온실 production actor로 합류해 lunar-specific harvest/reward FX와 work-state로 화면에서 읽혀야 한다.
 
 즉시 적용할 gate:
 
-1. 다음 issue plan artifact는 `Studio Campaign Gate`, `Game Studio Department Signoff`, `Subagent/Team Routing`, `reference teardown`, `creative brief`, `QA/playtest plan`을 포함해야 한다.
-2. 기획팀, 리서치팀, 아트팀, 개발팀, 검수팀, 마케팅팀, 고객지원팀 중 필요한 부서 산출물과 `role-debate note`가 없으면 implementation issue로 내려가지 않는다.
-3. Codex native subagents 또는 team mode는 리서치, 로컬 감사, 아트 계획, runtime 구현, QA가 독립 산출물로 나뉠 때 사용하고, 사용하지 않으면 이유를 plan에 남긴다.
-4. asset/FX issue는 gastory식 `style state`, `prompt/model sidecar`, `reference image consistency`, `animation camera/composition lock`, `frame/GIF/spritesheet extraction`, manifest QA를 요구한다. 신규 accepted manifest game asset은 gpt-image-2 default 또는 Codex native fallback provenance를 남기고 SVG/vector/code-native game graphics는 금지한다.
-5. `left the next queue candidate is not continuation`: ROADMAP/control room에 다음 후보를 쓰는 것만으로는 continuation이 아니다. 다음 issue plan artifact가 있어야 한다.
-6. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 campaign payoff와 concrete visual/game-feel payoff 없이 통과하지 않는다.
+1. `Studio Campaign Gate`는 계속 적용한다. 새 GitHub issue/PR metadata는 `items/0132-lunar-harvest-creature-payoff-v0.md`를 source of truth로 작성한다.
+2. Codex native subagents 또는 team mode는 asset 계획, runtime 구현, QA가 독립 산출물로 나뉠 때 사용하고, 사용하지 않으면 plan에 이유를 남긴다.
+3. asset/FX issue는 gastory식 `style state`, `prompt/model sidecar`, `reference image consistency`, `animation camera/composition lock`, `frame/GIF/spritesheet extraction`, manifest QA를 요구한다. 신규 accepted manifest game asset은 gpt-image-2 default 또는 Codex native fallback provenance를 남기고 SVG/vector/code-native game graphics는 금지한다.
+4. Browser Use `iab`로 lunar ready harvest, harvest reveal, post-harvest production roster/playfield를 mobile/desktop에서 확인한다.
+5. `달방울 누누` work-state와 lunar harvest FX는 `animation.binding`, frame count, frame size, intended frame rate, source reference ids를 manifest에 남긴다.
+6. `left the next queue candidate is not continuation`: ROADMAP/control room에 다음 후보를 쓰는 것만으로는 continuation이 아니다. 다음 issue plan artifact가 있어야 한다.
+7. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 campaign payoff와 concrete visual/game-feel payoff 없이 통과하지 않는다.
 
 ## Local state
 
-- Branch: codex/0131-seed-ops-loop-drill-closeout
-- Latest commit: 0c40b34 Seed ops loop drill (#263)
+- Branch: codex/0130-p05-studio-campaign-audit
+- Latest commit: 560bf97 PR 게시 확인 경계가 seed-ops를 멈추지 않게 한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T14:26:14.080Z
-- Phase: closeout
-- Issue: #262
-- PR: #263
-- Item: items/0131-seed-ops-loop-drill.md
-- Next action: Issue #262 closeout PR gate 준비
+- Timestamp: 2026-05-01T15:04:24.931Z
+- Phase: pr-checks-green
+- Issue: #260
+- PR: #265
+- Item: items/0130-p05-studio-campaign-audit.md
+- Next action: PR #265 checks green; update PR evidence and prepare merge gate
 
 ## Open PRs
 
@@ -58,6 +61,10 @@ Issue #257 **Game studio ops harness**는 PR #258로 merge됐고 main CI `252171
 ## Next stop gate
 
 Stop only after PR required checks, main CI, and local `npm run check:all` are green, or after a written blocker report. The next work queue should name a North Star production vertical slice, not a merely safe small task.
+
+## PR publication confirmation boundary
+
+Codex App action-time confirmation can apply when a GitHub PR, issue, or comment publishes representational communication. This is not a terminal stop: do not send final just to ask for PR creation. Record the pending external-publication gate with branch, commit, PR body file, pending command, confirmation, and next local safe work, then ensure next issue plan artifact exists and continue non-destructive/non-external local work.
 
 ## Studio Campaign Gate
 

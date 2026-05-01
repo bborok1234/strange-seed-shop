@@ -1,6 +1,6 @@
 # P0.5 studio campaign audit
 
-Status: planned
+Status: verified
 Owner: agent
 Created: 2026-05-01
 Updated: 2026-05-01
@@ -74,17 +74,42 @@ Expected tension: 아트팀은 asset batch와 motion polish를 우선할 가능�
 
 ## Acceptance Criteria
 
-- [ ] Audit report names at least three competition-inspired production gaps.
-- [ ] Audit report includes department signoff and role-debate note.
-- [ ] Asset/FX gaps use gpt-image-2 default/Codex fallback and gastory-style bundle language.
-- [ ] Next implementation tranche names player verb, production/progression role, screen moment, asset/FX, playtest evidence.
-- [ ] Browser Use `iab` evidence or current-session blocker is recorded.
+- [x] Audit report names at least three competition-inspired production gaps.
+- [x] Audit report includes department signoff and role-debate note.
+- [x] Asset/FX gaps use gpt-image-2 default/Codex fallback and gastory-style bundle language.
+- [x] Next implementation tranche names player verb, production/progression role, screen moment, asset/FX, playtest evidence.
+- [x] Browser Use `iab` evidence or current-session blocker is recorded.
+
+## Evidence
+
+- Draft PR: #265 `https://github.com/bborok1234/strange-seed-shop/pull/265`
+- Audit report: `reports/operations/p05-studio-campaign-audit-20260501.md`
+- Next implementation plan artifact: `items/0132-lunar-harvest-creature-payoff-v0.md`
+- Browser Use `iab` screenshots:
+  - `reports/visual/p05-campaign-audit-greenhouse-lunar-plant-browser-use-20260501.png`
+  - `reports/visual/p05-campaign-audit-lunar-ready-harvest-browser-use-20260501.png`
+  - `reports/visual/p05-campaign-audit-lunar-harvest-reveal-browser-use-20260501.png`
+- Subagent audit lanes:
+  - loop/progression gap audit
+  - asset/FX consistency audit
+  - visual/playtest evidence audit
+
+## Selected Next Tranche
+
+`Lunar harvest creature payoff v0` was selected over full roster work and order board choice.
+
+Rationale: P0.5 latest path already reaches `온실 단서 -> 달방울 씨앗 심기`; the next strongest production gap is proving that `달방울 누누` becomes a working garden actor with lunar-specific harvest/reward payoff. Full roster work is deferred until one lunar creature proves the asset/runtime contract.
 
 ## Verification
 
-- `npm run check:seed-ops-queue`
-- `npm run check:ops-live`
-- `npm run check:ci`
+- `npm run check:seed-ops-queue` — pass
+- `npm run check:ops-live` — pass
+- `npm run check:dashboard` — pass
+- `npm run check:ci` — pass
+- `npm run check:visual` — pass, 49 tests. First sandbox run failed on local port bind `127.0.0.1:4173`; escalated rerun passed.
+- PR #265 checks — pass:
+  - Check automerge eligibility: `https://github.com/bborok1234/strange-seed-shop/actions/runs/25219403256/job/73947597649`
+  - Verify game baseline: `https://github.com/bborok1234/strange-seed-shop/actions/runs/25219403267/job/73947597333`
 
 ## Risks
 

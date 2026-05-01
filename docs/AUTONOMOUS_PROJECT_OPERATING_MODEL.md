@@ -170,6 +170,16 @@ PR이 red check 상태면 verify lane은 실패 job을 읽고, 로컬 재현을 
 
 `left the next queue candidate is not continuation`: roadmap, control room, 또는 요약에 다음 후보를 적어두는 것만으로는 continuation이 아니다. 다음 `items/<id>.md` 또는 동등 artifact에 `## Plan`, 수용 기준, 검증 명령, 리스크가 있을 때만 계속 진행 중으로 본다. final 응답은 시간 상한, 명시 중단, 외부 승인/credential/destructive boundary, 치명적 blocker, materially branching 제품 결정 중 하나가 보고서에 고정된 뒤에만 허용된다.
 
+#### PR publication confirmation boundary
+
+Codex App에서는 GitHub PR 생성/수정, issue 수정, comment 게시처럼 외부에 운영사 문장을 공개하는 representational communication이 action-time confirmation을 요구할 수 있다. 이 경계는 safety gate이지 `$seed-ops`의 완료 조건이 아니다.
+
+- This is not a terminal stop: PR publication confirmation boundary는 `final response is terminal` 예외가 아니며, do not send final just to ask for PR creation.
+- 확인이 필요한 순간에는 final이 아니라 commentary checkpoint로 pending external-publication gate를 남기고, branch, commit, PR body file, 정확한 pending command, 필요한 confirmation, next local safe work를 `reports/operations/` 또는 현재 `items/<id>.md`에 기록한다.
+- 그 직후 `next issue plan artifact exists` 상태를 만든다. 이미 다음 plan이 있으면 그 plan을 최신 blocker/continuation evidence와 연결한다.
+- 확인 대기 중에도 destructive/external 작업이 아닌 local safe work는 계속한다. 다음 issue plan 보강, asset plan/prompt 초안, local QA 계획, docs/checker hardening, report 갱신은 계속 가능한 작업이다.
+- 로컬로 계속할 안전한 작업이 전혀 없고 PR/issue/comment 게시만 남으면 blocker report를 보낼 수 있다. 이 경우에도 final은 vague ask가 아니라 pending external-publication gate와 stop rule을 명시해야 한다.
+
 ### watchdog runner
 
 Milestone 7부터 watchdog runner는 heartbeat ledger를 읽어 `fresh`, `stale`, `missing`, `invalid` 상태를 판정한다. v0 runner는 deterministic `--now` 입력을 지원해 CI에서 장시간 대기 없이 freshness 판정을 검증한다. 실제 재시작은 별도 승인된 supervised trial에서만 수행하고, 기본 동작은 report 생성과 안전한 중단이다.
