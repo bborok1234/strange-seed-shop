@@ -7,6 +7,7 @@ Updated: 2026-05-01
 Work type: agent_ops
 Scope-risk: moderate
 Issue: #257
+PR: #258
 
 ## Intent
 
@@ -87,14 +88,14 @@ Plan field name: QA/playtest plan
 
 ## Verification
 
-- `npm run check:seed-ops-queue`
-- `npm run check:ops-live`
-- `npm run check:project-commands`
-- `npm run check:operator`
-- `npm run check:control-room`
-- `npm run check:dashboard`
-- `npm run check:docs`
-- `npm run check:ci`
+- `npm run check:seed-ops-queue` — passed
+- `npm run check:ops-live` — passed
+- `npm run check:project-commands` — passed
+- `npm run check:operator` — passed
+- `npm run check:control-room` — passed
+- `npm run check:dashboard` — passed
+- `npm run check:docs` — passed
+- `npm run check:ci` — passed
 
 ## Risks
 
