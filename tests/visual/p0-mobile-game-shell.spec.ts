@@ -1544,6 +1544,124 @@ test("모바일 온실 물길 점검 주문은 강화된 생산을 다음 납품
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-irrigation-order-v0-393.png"), fullPage: false });
 });
 
+test("모바일 온실 물안개 강화는 물길 점검 보상을 복귀 보너스로 바꾼다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto(
+    "/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseShelf=1&qaGreenhouseStorage=1&qaGreenhouseRoute=1&qaGreenhouseRouteSupply=1&qaGreenhouseIrrigation=1&qaReset=1"
+  );
+
+  await page.getByRole("button", { name: "보상 확인" }).click();
+  await page.getByRole("button", { name: "생산 잎 수령" }).click();
+  await page.getByRole("button", { name: /주문 납품 \+135 잎 · \+3 꽃가루 · \+1 재료/ }).click();
+
+  const mistChoice = page.locator(".upgrade-choice", { hasText: "온실 물안개" });
+  await expect(mistChoice).toContainText("분사 가능");
+  await expect(mistChoice).toContainText("1 재료 · 3 꽃가루로 복귀 보관 +10%");
+  await mistChoice.click();
+
+  await expect(page.getByText("재료 0", { exact: true })).toBeVisible();
+  await expect(page.getByText("꽃가루 0", { exact: true })).toBeVisible();
+  await expect(mistChoice).toContainText("물안개 완료");
+  await expect(mistChoice).toContainText("복귀 보관 +10% 가동");
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("선반 보관 +30%");
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const productionCard = document.querySelector<HTMLElement>(".production-action-card");
+    const productionCardRect = productionCard?.getBoundingClientRect();
+    const mistCard = document.querySelector<HTMLElement>(".upgrade-choice-greenhouse_mist")?.getBoundingClientRect();
+    const overflowingChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
+    )
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel
+        ? {
+            bottom: panel.bottom,
+            clientHeight: panelElement?.clientHeight ?? 0,
+            scrollHeight: panelElement?.scrollHeight ?? 0
+          }
+        : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      productionCard: productionCardRect
+        ? {
+            bottom: productionCardRect.bottom,
+            clientHeight: productionCard?.clientHeight ?? 0,
+            scrollHeight: productionCard?.scrollHeight ?? 0
+          }
+        : null,
+      mistCard: mistCard ? { bottom: mistCard.bottom } : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.productionCard).not.toBeNull();
+  expect(metrics.mistCard).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.productionCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.productionCard!.scrollHeight).toBeLessThanOrEqual(metrics.productionCard!.clientHeight + 1);
+  expect(metrics.mistCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.overflowingChildren).toEqual([]);
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as {
+              materials?: number;
+              pollen?: number;
+              greenhouseMistLevel?: number;
+              idleProduction?: { completedOrderIds?: string[] };
+            })
+          : {};
+        return {
+          materials: parsed.materials,
+          pollen: parsed.pollen,
+          greenhouseMistLevel: parsed.greenhouseMistLevel,
+          irrigationOrderDone:
+            parsed.idleProduction?.completedOrderIds?.includes("order_greenhouse_irrigation_check_001") ?? false
+        };
+      })
+    )
+    .toEqual({ materials: 0, pollen: 0, greenhouseMistLevel: 1, irrigationOrderDone: true });
+
+  await page.evaluate(() => {
+    const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+    const parsed = raw ? JSON.parse(raw) : {};
+    const lastSeenAt = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    window.localStorage.setItem(
+      "strange-seed-shop:phase0-save",
+      JSON.stringify({
+        ...parsed,
+        lastSeenAt,
+        updatedAt: lastSeenAt,
+        idleProduction: {
+          ...parsed.idleProduction,
+          lastTickAt: lastSeenAt
+        }
+      })
+    );
+  });
+  await page.goto("/");
+  await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("보관 보상 +30%");
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-mist-upgrade-v0-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");

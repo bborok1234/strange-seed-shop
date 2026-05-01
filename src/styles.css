@@ -2597,6 +2597,26 @@ h1 {
     display: none;
   }
 
+  .starter-panel.has-production.has-greenhouse-mist-choice .upgrade-choice-plot_2,
+  .starter-panel.has-production.has-greenhouse-mist-choice .upgrade-choice-production_rate,
+  .starter-panel.has-production.has-greenhouse-mist-choice .upgrade-choice-material_workbench,
+  .starter-panel.has-production.has-greenhouse-mist-choice .upgrade-choice-greenhouse_facility,
+  .starter-panel.has-production.has-greenhouse-mist-choice .upgrade-choice-greenhouse_storage,
+  .starter-panel.has-production.has-greenhouse-mist-choice .upgrade-choice-greenhouse_route,
+  .starter-panel.has-production.has-greenhouse-mist-choice .upgrade-choice-greenhouse_irrigation {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-greenhouse-mist-complete .upgrade-choice-plot_2,
+  .starter-panel.has-production.has-greenhouse-mist-complete .upgrade-choice-production_rate,
+  .starter-panel.has-production.has-greenhouse-mist-complete .upgrade-choice-material_workbench,
+  .starter-panel.has-production.has-greenhouse-mist-complete .upgrade-choice-greenhouse_facility,
+  .starter-panel.has-production.has-greenhouse-mist-complete .upgrade-choice-greenhouse_storage,
+  .starter-panel.has-production.has-greenhouse-mist-complete .upgrade-choice-greenhouse_route,
+  .starter-panel.has-production.has-greenhouse-mist-complete .upgrade-choice-greenhouse_irrigation {
+    display: none;
+  }
+
   .starter-panel.has-production.has-greenhouse-route-complete .production-roster,
   .starter-panel.has-production.has-greenhouse-route-complete .production-worker-detail {
     display: none;

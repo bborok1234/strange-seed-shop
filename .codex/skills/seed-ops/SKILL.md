@@ -15,7 +15,7 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 - 원격 게시 기본값: `$seed-ops`로 시작한 issue loop에서는 사용자가 별도로 "push/PR/merge 해도 돼?"라고 말하지 않아도 branch push, draft PR 생성/갱신, GitHub checks 확인, main merge, main CI 확인까지가 완료 조건이다. 단, credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary는 Stop rules를 우선한다.
 - 각 issue는 작은 승리, 수용 기준, 검증 명령, evidence, 남은 리스크를 남긴다.
 - issue 종료 전 GitHub issue 본문의 `## 수용 기준` 체크박스를 실제 검증 결과로 갱신한다. `Closes #id`는 issue를 닫을 뿐 체크박스를 채우지 않으므로 빈 체크박스가 남으면 완료 gate 실패다.
-- UI/visual 작업은 Browser Use `iab` 실기 QA를 먼저 시도한다. Node REPL `js` tool이 처음 보이지 않으면 fallback 전에 `tool_search`로 노출을 재확인한다.
+- UI/visual 작업은 Browser Use `iab` 실기 QA를 먼저 시도한다. Browser Use는 별도 `browser` namespace tool이 아니라 Node REPL `js`에서 `scripts/browser-client.mjs`를 absolute import해 bootstrap하는 방식이므로, `browser-use` tool namespace가 안 보인다는 이유만으로 fallback하지 않는다. Node REPL `js` tool이 처음 보이지 않으면 fallback 전에 `tool_search`로 노출을 재확인하고, `node_repl js`, `mcp__node_repl__js`, `js`, `node_repl js JavaScript execution`을 순서대로 찾는다.
 - 다음 issue 선택은 "safe small item"이 아니라 `docs/NORTH_STAR.md` 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md` vertical slice workflow를 우선한다. safety는 stop/approval gate이고, 제품 우선순위 기준이 아니다.
 
 ## Before implementation
@@ -43,6 +43,7 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 
 - UI/visual 작업은 `docs/GAME_UI_UX_RESEARCH_20260428.md`, `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/DESIGN_SYSTEM.md`, Game Studio route를 acceptance criteria에 연결한다.
 - `npm run check:visual`은 반복 회귀 gate이지 Browser Use 실기 QA의 대체재가 아니다. Browser Use evidence 또는 현재 세션 blocker 없이 Playwright 결과만으로 UI/visual 작업을 완료 처리하지 않는다.
+- Browser Use 현재 세션 blocker로 인정하려면 `browser-use:browser` skill 전체 읽기, Node REPL `js` discovery, `scripts/browser-client.mjs` 존재 확인, `setupAtlasRuntime({ backend: "iab" })` bootstrap 시도 중 어디서 실패했는지를 evidence에 남겨야 한다.
 - 과거 Browser Use blocker report는 현재 세션의 fallback 근거가 아니다. fallback을 쓰려면 현재 세션에서 Browser Use를 다시 시도하고 blocker를 새로 기록한다.
 - “viewport 안에 있음”, “겹치지 않음”, “DOM text visible”만으로 UI 작업을 통과시키지 않는다.
 - 사용자 screenshot으로 제보된 visual bug는 그 screenshot의 URL, viewport, action sequence를 재현한 뒤 before/after evidence와 자동 회귀 gate를 같은 PR에 추가한다.
