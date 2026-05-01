@@ -3,15 +3,15 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T06:34:14.363Z
+Generated at: 2026-05-01T07:07:23.406Z
 
 ## Current mission
 
-현재 운영모드는 **ops live readiness gate**를 먼저 닫는 목표 제한 `$seed-ops`다. 이번 run은 무한 운영 테스트가 아니라 Issue #229를 통해 stale 상황판/heartbeat를 실패로 잡고, 준비 완료 control room/heartbeat/next queue gate를 만든 뒤 PR/CI/main merge까지 확인하면 멈춘다. 그 다음 `$seed-ops`는 게임 북극성(첫 5분 귀여움/수집 욕구)과 운영사 북극성(issue intake -> plan -> 구현 -> 검증 -> PR -> CI 복구 -> follow-up evidence)을 향해 계속 진행하되, 완료 보고는 중단 조건이 아니라 checkpoint로 취급한다.
+현재 운영모드는 Issue #232 **Greenhouse mist upgrade v0**를 진행 중이다. 이번 run은 `온실 물길 점검` 주문 보상 `재료 1 · 꽃가루 3`이 `온실 물안개` 강화와 다음 오프라인 복귀 보너스로 이어지는 production vertical slice를 닫는다. 이 issue는 PR/CI/main merge와 GitHub 수용 기준 체크박스 갱신까지 완료한 뒤 다음 `$seed-ops` checkpoint로 넘어간다.
 
 즉시 다음 작업 선택 기준:
 
-1. 이번 준비 run의 종료 조건은 `npm run check:ops-live`, `npm run check:control-room`, `npm run check:operator`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
+1. 이번 run의 종료 조건은 Issue #232 plan acceptance, `npm run check:visual -- --grep "온실 물안개"`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
 2. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
 3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 하며, asset/FX 또는 sprite-animation 결정을 최소 하나 포함해야 한다.
 4. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
@@ -21,19 +21,19 @@ Generated at: 2026-05-01T06:34:14.363Z
 
 ## Local state
 
-- Branch: codex/0119-ops-live-readiness-gate
-- Latest commit: 63de3cd 물길 강화 속도가 다음 점검 주문으로 이어진다 (#228)
+- Branch: codex/0120-greenhouse-mist-upgrade-v0
+- Latest commit: b94aa7e 물길 점검 보상이 복귀 강화로 이어진다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T06:34:04.215Z
-- Phase: verifying
-- Issue: #229
-- PR: 
-- Item: items/0119-ops-live-readiness-gate.md
-- Next action: PR 생성 후 checks/main CI green 확인하고 준비 완료로 멈춤
+- Timestamp: 2026-05-01T07:07:12.616Z
+- Phase: pr-open
+- Issue: #232
+- PR: #233
+- Item: items/0120-greenhouse-mist-upgrade-v0.md
+- Next action: PR checks 확인 후 ready/merge/main CI까지 진행
 
 ## Open PRs
 
@@ -41,7 +41,7 @@ Generated at: 2026-05-01T06:34:14.363Z
 
 ## Open issues
 
-- #229 [Agent Ops] seed-ops 재시작 전 live 상황판 준비 gate — https://github.com/bborok1234/strange-seed-shop/issues/229
+- #232 [Game Feature] 온실 물길 점검 보상이 물안개 강화로 이어진다 — https://github.com/bborok1234/strange-seed-shop/issues/232
 
 ## Playable mode
 
@@ -60,7 +60,7 @@ Stop only after PR required checks, main CI, and local `npm run check:all` are g
 
 ## Goal-bounded stop condition
 
-For the current ops-prep run, stop after live control room, heartbeat freshness, and next queue readiness gates are green. Do not continue into game feature work from this preparation task.
+For the current seed-ops issue run, stop only after the plan acceptance criteria, local verification, PR required checks, merge, and main CI are green, or after a written blocker report.
 
 ## Next queue quality gate
 

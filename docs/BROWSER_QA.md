@@ -13,6 +13,25 @@
 5. DOM snapshot, 클릭, 스크린샷을 통해 실제 사용자 화면 기준으로 확인한다.
 6. 중요한 증거는 `reports/visual/`에 저장하고 로드맵 또는 수용 기준 문서에 연결한다.
 
+중요한 하네스 형태:
+
+- Browser Use는 Codex App에서 별도 `browser-use` namespace tool로 보이지 않을 수 있다.
+- 정상 경로는 Node REPL `js` 도구에서 plugin 내부 `scripts/browser-client.mjs`를 absolute import하는 것이다.
+- 따라서 `tool_search "Browser Use"`가 Computer Use를 먼저 보여주거나 `browser` namespace가 보이지 않아도, 그것은 Browser Use unavailable의 증거가 아니다.
+- unavailable로 기록하기 전에 아래 bootstrap을 실제로 시도해야 한다.
+
+```js
+if (!globalThis.agent) {
+  const { setupAtlasRuntime } = await import("/Users/mirlim/.codex/plugins/cache/openai-bundled/browser-use/0.1.0-alpha1/scripts/browser-client.mjs");
+  const backend = "iab";
+  await setupAtlasRuntime({ globals: globalThis, backend });
+}
+await agent.browser.nameSession("🔎 seed QA");
+if (typeof tab === "undefined") {
+  globalThis.tab = await agent.browser.tabs.new();
+}
+```
+
 Browser Use evidence는 최소한 아래를 포함한다.
 
 - Browser Use 세션명과 backend: `iab`
@@ -54,8 +73,8 @@ Browser Use를 시도하기 전에 별도 Computer Use, macOS `screencapture`를
 폴백은 아래 중 하나가 명확할 때만 허용한다.
 
 - Browser Use 플러그인 또는 `scripts/browser-client.mjs`가 없다.
-- `tool_search`로 재확인해도 Node REPL `js` 실행 도구가 노출되지 않는다.
-- Browser Use 런타임이 로컬 앱에 접근하지 못하며, 에러가 재시도 후에도 재현된다.
+- `tool_search`로 `node_repl js`, `mcp__node_repl__js`, `js`, `node_repl js JavaScript execution`을 재확인해도 Node REPL `js` 실행 도구가 노출되지 않는다.
+- `setupAtlasRuntime({ backend: "iab" })` bootstrap 또는 Browser Use 런타임의 로컬 앱 접근이 재시도 후에도 실패한다.
 - CI처럼 Codex in-app browser가 없는 환경에서 자동 검증이 필요하다.
 - 정확한 viewport 크기 지정이 필요한 경우에는 `npm run capture:local -- <url> <output> <width> <height>`로 Chrome DevTools Protocol 캡처를 사용한다.
 

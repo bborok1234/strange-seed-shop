@@ -51,6 +51,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Greenhouse route supply order v0 | done | Issue #221, PR #222, `items/0116-greenhouse-route-supply-order-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-route-supply-order-v0-20260430.md`, main CI `25158289934` | 3번 밭 개방 뒤 `3번 밭 순환 납품` 주문이 열리고, 확장된 밭 용량이 다음 생산/납품 목표로 이어진다 |
 | Greenhouse irrigation upgrade v0 | done | Issue #224, PR #225, closeout PR #226, `items/0117-greenhouse-irrigation-upgrade-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-irrigation-upgrade-v0-20260430.md` | `3번 밭 순환 납품` 보상 재료와 꽃가루가 `온실 물길` 강화로 이어지고, 자동 생산률이 오른다 |
 | Greenhouse irrigation order v0 | done | Issue #227, PR #228, `items/0118-greenhouse-irrigation-order-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-irrigation-order-v0-20260501.md` | `온실 물길` 완료 뒤 강화된 생산률이 `온실 물길 점검` 주문과 납품 보상으로 이어진다 |
+| Greenhouse mist upgrade v0 | review | Issue #232, `items/0120-greenhouse-mist-upgrade-v0.md`, `reports/visual/p0-greenhouse-mist-upgrade-v0-20260501.md` | `온실 물길 점검` 보상 재료와 꽃가루가 `온실 물안개` 강화로 이어지고, 다음 오프라인 복귀 보관 보너스가 커진다 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
 | Lunar seed harvest bridge v0 | done | Issue #166, `items/0093-lunar-seed-harvest-bridge-v0.md`, `reports/visual/p0-lunar-seed-harvest-bridge-v0-20260430.md` | `달방울 씨앗` 구매/심기/수확이 `달방울 누누` 발견과 다음 도감 목표 전환으로 이어지고 `npm run check:ci`가 통과함 |
 | Lunar guardian offline bonus v0 | done | Issue #168, `items/0094-lunar-guardian-offline-bonus-v0.md`, `reports/visual/p0-lunar-guardian-offline-bonus-v0-20260430.md` | `달방울 누누` 발견이 오프라인 복귀 보상 bonus와 toast 문구로 이어지고 `npm run check:ci`가 통과함 |
@@ -289,11 +290,11 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 운영모드는 **ops live readiness gate**를 먼저 닫는 목표 제한 `$seed-ops`다. 이번 run은 무한 운영 테스트가 아니라 Issue #229를 통해 stale 상황판/heartbeat를 실패로 잡고, 준비 완료 control room/heartbeat/next queue gate를 만든 뒤 PR/CI/main merge까지 확인하면 멈춘다. 그 다음 `$seed-ops`는 게임 북극성(첫 5분 귀여움/수집 욕구)과 운영사 북극성(issue intake -> plan -> 구현 -> 검증 -> PR -> CI 복구 -> follow-up evidence)을 향해 계속 진행하되, 완료 보고는 중단 조건이 아니라 checkpoint로 취급한다.
+현재 운영모드는 Issue #232 **Greenhouse mist upgrade v0**를 진행 중이다. 이번 run은 `온실 물길 점검` 주문 보상 `재료 1 · 꽃가루 3`이 `온실 물안개` 강화와 다음 오프라인 복귀 보너스로 이어지는 production vertical slice를 닫는다. 이 issue는 PR/CI/main merge와 GitHub 수용 기준 체크박스 갱신까지 완료한 뒤 다음 `$seed-ops` checkpoint로 넘어간다.
 
 즉시 다음 작업 선택 기준:
 
-1. 이번 준비 run의 종료 조건은 `npm run check:ops-live`, `npm run check:control-room`, `npm run check:operator`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
+1. 이번 run의 종료 조건은 Issue #232 plan acceptance, `npm run check:visual -- --grep "온실 물안개"`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
 2. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
 3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 하며, asset/FX 또는 sprite-animation 결정을 최소 하나 포함해야 한다.
 4. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.

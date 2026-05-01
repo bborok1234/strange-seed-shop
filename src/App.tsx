@@ -102,6 +102,10 @@ const GREENHOUSE_IRRIGATION_COST_MATERIALS = 1;
 const GREENHOUSE_IRRIGATION_COST_POLLEN = 4;
 const GREENHOUSE_IRRIGATION_MAX_LEVEL = 1;
 const GREENHOUSE_IRRIGATION_RATE_BONUS = 0.15;
+const GREENHOUSE_MIST_COST_MATERIALS = 1;
+const GREENHOUSE_MIST_COST_POLLEN = 3;
+const GREENHOUSE_MIST_MAX_LEVEL = 1;
+const GREENHOUSE_MIST_OFFLINE_BONUS = 0.1;
 const FIRST_RESEARCH_COST_LEAVES = 40;
 const FIRST_RESEARCH_COST_POLLEN = 2;
 const FIRST_RESEARCH_MAX_LEVEL = 1;
@@ -215,6 +219,7 @@ export default function App() {
     const qaGreenhouseRoute = getLocalQaGreenhouseRoute();
     const qaGreenhouseRouteSupply = getLocalQaGreenhouseRouteSupply();
     const qaGreenhouseIrrigation = getLocalQaGreenhouseIrrigation();
+    const qaGreenhouseMist = getLocalQaGreenhouseMist();
     const qaExpeditionActive = getLocalQaExpeditionActive();
     const qaExpeditionReady = getLocalQaExpeditionReady();
     const qaProductionReady = getLocalQaProductionReady();
@@ -254,7 +259,8 @@ export default function App() {
                                 qaGreenhouseStorage,
                                 qaGreenhouseRoute,
                                 qaGreenhouseRouteSupply,
-                                qaGreenhouseIrrigation
+                                qaGreenhouseIrrigation,
+                                qaGreenhouseMist
                               )
                             : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
@@ -361,6 +367,12 @@ export default function App() {
       ? "has-greenhouse-irrigation-choice"
       : "",
     save && save.greenhouseIrrigationLevel >= GREENHOUSE_IRRIGATION_MAX_LEVEL ? "has-greenhouse-irrigation-complete" : "",
+    save &&
+    save.idleProduction.completedOrderIds.includes(GREENHOUSE_IRRIGATION_ORDER.id) &&
+    save.greenhouseMistLevel < GREENHOUSE_MIST_MAX_LEVEL
+      ? "has-greenhouse-mist-choice"
+      : "",
+    save && save.greenhouseMistLevel >= GREENHOUSE_MIST_MAX_LEVEL ? "has-greenhouse-mist-complete" : "",
     activePlot ? "has-active-plot" : "",
     activePlotReady ? "has-ready-plot" : ""
   ]
@@ -378,6 +390,7 @@ export default function App() {
           buyGreenhouseStorage,
           buyGreenhouseRoute,
           buyGreenhouseIrrigation,
+          buyGreenhouseMist,
           buyFirstResearch
         )
       : [];
@@ -689,6 +702,30 @@ export default function App() {
         costMaterials: GREENHOUSE_IRRIGATION_COST_MATERIALS,
         costPollen: GREENHOUSE_IRRIGATION_COST_POLLEN,
         greenhouseIrrigationLevel: draft.greenhouseIrrigationLevel
+      });
+    });
+    triggerRewardPulse();
+  }
+
+  function buyGreenhouseMist() {
+    commit((draft) => {
+      if (
+        draft.greenhouseMistLevel >= GREENHOUSE_MIST_MAX_LEVEL ||
+        !draft.idleProduction.completedOrderIds.includes(GREENHOUSE_IRRIGATION_ORDER.id) ||
+        draft.materials < GREENHOUSE_MIST_COST_MATERIALS ||
+        draft.pollen < GREENHOUSE_MIST_COST_POLLEN
+      ) {
+        return;
+      }
+
+      draft.materials -= GREENHOUSE_MIST_COST_MATERIALS;
+      draft.pollen -= GREENHOUSE_MIST_COST_POLLEN;
+      draft.greenhouseMistLevel += 1;
+      trackEvent("upgrade_purchased", {
+        upgradeId: "greenhouse_mist_1",
+        costMaterials: GREENHOUSE_MIST_COST_MATERIALS,
+        costPollen: GREENHOUSE_MIST_COST_POLLEN,
+        greenhouseMistLevel: draft.greenhouseMistLevel
       });
     });
     triggerRewardPulse();
@@ -1980,6 +2017,7 @@ function buildUpgradeChoices(
   buyGreenhouseStorage: () => void,
   buyGreenhouseRoute: () => void,
   buyGreenhouseIrrigation: () => void,
+  buyGreenhouseMist: () => void,
   buyFirstResearch: () => void
 ): UpgradeChoice[] {
   const plotComplete = save.plotCount >= 2;
@@ -2017,6 +2055,12 @@ function buildUpgradeChoices(
     save.materials >= GREENHOUSE_IRRIGATION_COST_MATERIALS && save.pollen >= GREENHOUSE_IRRIGATION_COST_POLLEN;
   const irrigationShortfallMaterials = Math.max(GREENHOUSE_IRRIGATION_COST_MATERIALS - save.materials, 0);
   const irrigationShortfallPollen = Math.max(GREENHOUSE_IRRIGATION_COST_POLLEN - save.pollen, 0);
+  const irrigationOrderComplete = save.idleProduction.completedOrderIds.includes(GREENHOUSE_IRRIGATION_ORDER.id);
+  const mistComplete = save.greenhouseMistLevel >= GREENHOUSE_MIST_MAX_LEVEL;
+  const mistUnlocked = irrigationOrderComplete;
+  const mistAffordable = save.materials >= GREENHOUSE_MIST_COST_MATERIALS && save.pollen >= GREENHOUSE_MIST_COST_POLLEN;
+  const mistShortfallMaterials = Math.max(GREENHOUSE_MIST_COST_MATERIALS - save.materials, 0);
+  const mistShortfallPollen = Math.max(GREENHOUSE_MIST_COST_POLLEN - save.pollen, 0);
   const researchComplete = save.researchLevel >= FIRST_RESEARCH_MAX_LEVEL;
   const researchUnlocked = save.idleProduction.completedOrderIds.includes(SECOND_ORDER.id);
   const researchAffordable = save.leaves >= FIRST_RESEARCH_COST_LEAVES && save.pollen >= FIRST_RESEARCH_COST_POLLEN;
@@ -2133,6 +2177,24 @@ function buildUpgradeChoices(
             status: irrigationComplete ? "물길 완료" : irrigationAffordable ? "연결 가능" : "재료 부족",
             tone: irrigationComplete ? "done" : irrigationAffordable ? "ready" : "waiting",
             onSelect: !irrigationComplete && irrigationAffordable ? buyGreenhouseIrrigation : undefined
+          } satisfies UpgradeChoice
+        ]
+      : []),
+    ...(mistUnlocked
+      ? [
+          {
+            id: "greenhouse_mist",
+            title: "온실 물안개",
+            detail: mistComplete
+              ? `복귀 보관 +${Math.round(GREENHOUSE_MIST_OFFLINE_BONUS * 100)}% 가동`
+              : mistAffordable
+                ? `${GREENHOUSE_MIST_COST_MATERIALS} 재료 · ${GREENHOUSE_MIST_COST_POLLEN} 꽃가루로 복귀 보관 +10%`
+                : `${mistShortfallMaterials ? `${mistShortfallMaterials} 재료` : ""}${
+                    mistShortfallMaterials && mistShortfallPollen ? " · " : ""
+                  }${mistShortfallPollen ? `${mistShortfallPollen} 꽃가루` : ""} 부족`,
+            status: mistComplete ? "물안개 완료" : mistAffordable ? "분사 가능" : "재료 부족",
+            tone: mistComplete ? "done" : mistAffordable ? "ready" : "waiting",
+            onSelect: !mistComplete && mistUnlocked && mistAffordable ? buyGreenhouseMist : undefined
           } satisfies UpgradeChoice
         ]
       : []),
@@ -2381,7 +2443,8 @@ function getOfflineShelfBonus(save: PlayerSave): { percent: number; label?: stri
 function getGreenhouseShelfOfflineBonus(save: PlayerSave): number {
   return (
     GREENHOUSE_SHELF_OFFLINE_BONUS +
-    Math.min(save.greenhouseStorageLevel, GREENHOUSE_STORAGE_MAX_LEVEL) * GREENHOUSE_STORAGE_OFFLINE_BONUS
+    Math.min(save.greenhouseStorageLevel, GREENHOUSE_STORAGE_MAX_LEVEL) * GREENHOUSE_STORAGE_OFFLINE_BONUS +
+    Math.min(save.greenhouseMistLevel, GREENHOUSE_MIST_MAX_LEVEL) * GREENHOUSE_MIST_OFFLINE_BONUS
   );
 }
 
@@ -2500,6 +2563,14 @@ function getLocalQaGreenhouseIrrigation(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaGreenhouseIrrigation") === "1";
+}
+
+function getLocalQaGreenhouseMist(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaGreenhouseMist") === "1";
 }
 
 function getLocalQaReset(): boolean {
@@ -2649,15 +2720,23 @@ function createOfflineQaSave(
   includeGreenhouseStorage = false,
   includeGreenhouseRoute = false,
   includeGreenhouseRouteSupply = false,
-  includeGreenhouseIrrigation = false
+  includeGreenhouseIrrigation = false,
+  includeGreenhouseMist = false
 ): PlayerSave {
   const lastSeen = new Date(Date.now() - minutesAway * 60 * 1000);
   const save = createNewSave(lastSeen);
   const hasGreenhouseShelf =
-    includeGreenhouseShelf || includeGreenhouseStorage || includeGreenhouseRoute || includeGreenhouseRouteSupply || includeGreenhouseIrrigation;
-  const hasGreenhouseStorage = includeGreenhouseStorage || includeGreenhouseRoute || includeGreenhouseRouteSupply || includeGreenhouseIrrigation;
-  const hasGreenhouseRoute = includeGreenhouseRoute || includeGreenhouseRouteSupply || includeGreenhouseIrrigation;
-  const hasGreenhouseRouteSupply = includeGreenhouseRouteSupply || includeGreenhouseIrrigation;
+    includeGreenhouseShelf ||
+    includeGreenhouseStorage ||
+    includeGreenhouseRoute ||
+    includeGreenhouseRouteSupply ||
+    includeGreenhouseIrrigation ||
+    includeGreenhouseMist;
+  const hasGreenhouseStorage =
+    includeGreenhouseStorage || includeGreenhouseRoute || includeGreenhouseRouteSupply || includeGreenhouseIrrigation || includeGreenhouseMist;
+  const hasGreenhouseRoute = includeGreenhouseRoute || includeGreenhouseRouteSupply || includeGreenhouseIrrigation || includeGreenhouseMist;
+  const hasGreenhouseRouteSupply = includeGreenhouseRouteSupply || includeGreenhouseIrrigation || includeGreenhouseMist;
+  const hasGreenhouseIrrigation = includeGreenhouseIrrigation || includeGreenhouseMist;
   const discoveredCreatureIds = includeLunarGuardian
     ? ["creature_herb_common_001", LUNAR_REWARD_CREATURE_ID]
     : ["creature_herb_common_001"];
@@ -2675,9 +2754,10 @@ function createOfflineQaSave(
     greenhouseFacilityLevel: hasGreenhouseShelf ? GREENHOUSE_FACILITY_MAX_LEVEL : save.greenhouseFacilityLevel,
     greenhouseStorageLevel: hasGreenhouseStorage ? GREENHOUSE_STORAGE_MAX_LEVEL : save.greenhouseStorageLevel,
     greenhouseRouteLevel: hasGreenhouseRoute ? GREENHOUSE_ROUTE_MAX_LEVEL : save.greenhouseRouteLevel,
-    greenhouseIrrigationLevel: includeGreenhouseIrrigation ? GREENHOUSE_IRRIGATION_MAX_LEVEL : save.greenhouseIrrigationLevel,
-    materials: includeGreenhouseIrrigation ? 0 : hasGreenhouseRouteSupply ? 1 : hasGreenhouseStorage ? 0 : hasGreenhouseShelf ? 1 : save.materials,
-    pollen: includeGreenhouseIrrigation ? 0 : hasGreenhouseRouteSupply ? 4 : save.pollen,
+    greenhouseIrrigationLevel: hasGreenhouseIrrigation ? GREENHOUSE_IRRIGATION_MAX_LEVEL : save.greenhouseIrrigationLevel,
+    greenhouseMistLevel: includeGreenhouseMist ? GREENHOUSE_MIST_MAX_LEVEL : save.greenhouseMistLevel,
+    materials: includeGreenhouseMist ? 0 : includeGreenhouseIrrigation ? 0 : hasGreenhouseRouteSupply ? 1 : hasGreenhouseStorage ? 0 : hasGreenhouseShelf ? 1 : save.materials,
+    pollen: includeGreenhouseMist ? 0 : includeGreenhouseIrrigation ? 0 : hasGreenhouseRouteSupply ? 4 : save.pollen,
     idleProduction: hasGreenhouseShelf
       ? {
           pendingLeaves: 0,
@@ -2687,14 +2767,16 @@ function createOfflineQaSave(
             [SECOND_ORDER.id]: SECOND_ORDER.requiredLeaves,
             [GREENHOUSE_ORDER.id]: GREENHOUSE_ORDER.requiredLeaves,
             ...(hasGreenhouseRoute ? { [GREENHOUSE_EXPANSION_ORDER.id]: GREENHOUSE_EXPANSION_ORDER.requiredLeaves } : {}),
-            ...(hasGreenhouseRouteSupply ? { [GREENHOUSE_ROUTE_SUPPLY_ORDER.id]: GREENHOUSE_ROUTE_SUPPLY_ORDER.requiredLeaves } : {})
+            ...(hasGreenhouseRouteSupply ? { [GREENHOUSE_ROUTE_SUPPLY_ORDER.id]: GREENHOUSE_ROUTE_SUPPLY_ORDER.requiredLeaves } : {}),
+            ...(includeGreenhouseMist ? { [GREENHOUSE_IRRIGATION_ORDER.id]: GREENHOUSE_IRRIGATION_ORDER.requiredLeaves } : {})
           },
           completedOrderIds: [
             FIRST_ORDER.id,
             SECOND_ORDER.id,
             GREENHOUSE_ORDER.id,
             ...(hasGreenhouseRoute ? [GREENHOUSE_EXPANSION_ORDER.id] : []),
-            ...(hasGreenhouseRouteSupply ? [GREENHOUSE_ROUTE_SUPPLY_ORDER.id] : [])
+            ...(hasGreenhouseRouteSupply ? [GREENHOUSE_ROUTE_SUPPLY_ORDER.id] : []),
+            ...(includeGreenhouseMist ? [GREENHOUSE_IRRIGATION_ORDER.id] : [])
           ]
         }
       : save.idleProduction,

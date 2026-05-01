@@ -121,7 +121,7 @@ Stop only after PR required checks, main CI, and local \`npm run check:all\` are
 
 ## Goal-bounded stop condition
 
-For the current ops-prep run, stop after live control room, heartbeat freshness, and next queue readiness gates are green. Do not continue into game feature work from this preparation task.
+For the current seed-ops issue run, stop only after the plan acceptance criteria, local verification, PR required checks, merge, and main CI are green, or after a written blocker report.
 
 ## Next queue quality gate
 
