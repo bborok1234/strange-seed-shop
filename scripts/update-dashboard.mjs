@@ -44,7 +44,7 @@ const rows = [
   ["운영사 watchdog", stepStatus("Build watchdog runner", "todo"), "`npm run operator:watchdog`"],
   ["운영사 trial dry-run", stepStatus("Create supervised trial dry-run", "todo"), "`npm run operator:trial:dry-run`"],
   ["운영사 2h readiness", stepStatus("Add 2h supervised trial readiness gate", "todo"), "`npm run operator:trial:readiness`"],
-  ["운영 상황판", stepStatus("Add operator control room and playable mode", "todo"), "`docs/OPERATOR_CONTROL_ROOM.md`, `npm run check:control-room`"],
+  ["운영 상황판", stepStatus("Add operator control room and playable mode", "todo"), "`docs/OPERATOR_CONTROL_ROOM.md`, `npm run check:control-room`, `npm run check:ops-live`"],
   ["운영 루프 지속성", stepStatus("Operator continuation watchdog", "todo"), "Issue #115, `npm run check:operator`"],
   ["프로젝트 명령어", stepStatus("Project command surface", "todo"), "`docs/PROJECT_COMMANDS.md`, `npm run check:project-commands`"],
   ["사람 플레이 모드", fileStatus(["docs/PLAYABLE_MODE.md", "scripts/prepare-playable-main.mjs"]), "`npm run play:main`, port 5174"],
@@ -71,6 +71,7 @@ const commands = [
   "npm run check:playtest-intake",
   "npm run check:gtm-mock",
   "npm run check:control-room",
+  "npm run check:ops-live",
   "npm run check:project-commands",
   "npm run check:operator",
   "npm run check:governance",
@@ -118,7 +119,7 @@ ${commands.map((command) => `| \`${command}\` | tracked |`).join("\n")}
 - \`main\` Branch protection은 2026-04-28 기준 활성이고 required checks를 강제한다. \`ENABLE_AGENT_AUTOMERGE\` 활성화는 별도 운영 결정으로 유지한다.
 - Browser Use QA는 Phase 0 기준을 통과했지만, 신규 UI가 생기면 같은 캡처 절차로 갱신해야 한다.
 - 대시보드는 자동 생성되지만 검증 결과 자체를 실행해 저장하지는 않는다.
-- 운영 상황판은 살아있는 snapshot이므로 장시간 run 시작/종료/PR 전후에 \`npm run operator:control-room -- --output reports/operations/operator-control-room-YYYYMMDD.md\`로 갱신한다.
+- 운영 상황판은 살아있는 snapshot이므로 장시간 run 시작/종료/PR 전후에 \`npm run operator:control-room -- --output docs/OPERATOR_CONTROL_ROOM.md\`와 \`npm run check:ops-live\`로 갱신/검증한다.
 `;
 
 if (process.argv.includes("--check")) {

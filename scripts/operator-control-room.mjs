@@ -18,16 +18,61 @@ function read(filePath, fallback = "") {
   return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : fallback;
 }
 
+function readHeartbeat(filePath) {
+  if (!fs.existsSync(filePath)) return null;
+  const raw = fs.readFileSync(filePath, "utf8").trim();
+  if (!raw) return null;
+
+  try {
+    if (filePath.endsWith(".jsonl")) {
+      const lines = raw.split("\n").filter(Boolean);
+      return JSON.parse(lines.at(-1));
+    }
+
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function latestHeartbeatReport() {
+  const operationsDir = "reports/operations";
+  if (!fs.existsSync(operationsDir)) return "";
+
+  return fs
+    .readdirSync(operationsDir)
+    .filter((name) => /^operator-heartbeat-\d{8}\.jsonl$/.test(name))
+    .sort()
+    .map((name) => path.join(operationsDir, name))
+    .at(-1) ?? "";
+}
+
+function updateMarkedBlock(existing, block) {
+  const start = "<!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->";
+  const end = "<!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:END -->";
+  const replacement = `${start}\n${block.trim()}\n${end}`;
+
+  if (existing.includes(start) && existing.includes(end)) {
+    return existing.replace(new RegExp(`${start}[\\s\\S]*?${end}`), replacement);
+  }
+
+  const firstHeadingEnd = existing.indexOf("\n\n");
+  if (firstHeadingEnd === -1) return `${replacement}\n\n${existing}`;
+  return `${existing.slice(0, firstHeadingEnd)}\n\n${replacement}${existing.slice(firstHeadingEnd)}`;
+}
+
 const roadmap = read("docs/ROADMAP.md");
 const currentNextMatch = roadmap.match(/## Current Next Action\n\n([\s\S]*?)(?:\n## |\n# |\n$)/);
 const currentNext = currentNextMatch?.[1]?.trim() || "Current Next Action unavailable";
 const branch = tryRun("git", ["branch", "--show-current"]);
 const status = tryRun("git", ["status", "--short"]);
 const latestCommit = tryRun("git", ["log", "-1", "--oneline"]);
+const heartbeatPath = read(".omx/state/operator-heartbeat.json").trim() ? ".omx/state/operator-heartbeat.json" : latestHeartbeatReport();
+const heartbeat = heartbeatPath ? readHeartbeat(heartbeatPath) : null;
 const openPrs = tryRun("gh", ["pr", "list", "--state", "open", "--limit", "5", "--json", "number,title,isDraft,url", "--jq", ".[] | \"#\\(.number) \\(.isDraft // false | if . then \\\"draft\\\" else \\\"ready\\\" end) \\(.title) — \\(.url)\""]);
 const openIssues = tryRun("gh", ["issue", "list", "--state", "open", "--limit", "5", "--json", "number,title,url", "--jq", ".[] | \"#\\(.number) \\(.title) — \\(.url)\""]);
 
-const report = `# Operator Control Room Snapshot
+const snapshot = `## Live Snapshot
 
 Generated at: ${new Date().toISOString()}
 
@@ -40,6 +85,16 @@ ${currentNext}
 - Branch: ${branch}
 - Latest commit: ${latestCommit}
 - Dirty files: ${status === "" ? "none" : "present"}
+
+## Heartbeat
+
+- Source: ${heartbeatPath || "missing"}
+- Timestamp: ${heartbeat?.timestamp ?? "missing"}
+- Phase: ${heartbeat?.phase ?? "missing"}
+- Issue: ${heartbeat?.issue ?? "missing"}
+- PR: ${heartbeat?.pr ?? "missing"}
+- Item: ${heartbeat?.item ?? "missing"}
+- Next action: ${heartbeat?.next_action ?? "missing"}
 
 ## Open PRs
 
@@ -63,11 +118,25 @@ ${openIssues === "" || openIssues === "unavailable" ? "- unavailable or none" : 
 ## Next stop gate
 
 Stop only after PR required checks, main CI, and local \`npm run check:all\` are green, or after a written blocker report. The next work queue should name a North Star production vertical slice, not a merely safe small task.
+
+## Goal-bounded stop condition
+
+For the current ops-prep run, stop after live control room, heartbeat freshness, and next queue readiness gates are green. Do not continue into game feature work from this preparation task.
+
+## Next queue quality gate
+
+The next seed-ops issue must name at least one competition-inspired production gap and at least one asset/FX or sprite-animation decision. A task that only adds another order, copy tweak, spacing change, or test-only assertion is not enough unless it unblocks that vertical slice.
 `;
+
+const report = `# Operator Control Room Snapshot\n\n${snapshot.trim()}\n`;
 
 if (outputPath) {
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-  fs.writeFileSync(outputPath, report);
+  if (outputPath === "docs/OPERATOR_CONTROL_ROOM.md" && fs.existsSync(outputPath)) {
+    fs.writeFileSync(outputPath, updateMarkedBlock(read(outputPath), snapshot));
+  } else {
+    fs.writeFileSync(outputPath, report);
+  }
 }
 
 console.log(report);
