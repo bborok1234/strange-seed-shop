@@ -1811,6 +1811,32 @@ h1 {
   background: rgba(68, 63, 132, 0.92);
 }
 
+.greenhouse-lunar-reward {
+  border-color: rgba(44, 106, 118, 0.3);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.84), transparent 34%),
+    radial-gradient(circle at 85% 14%, rgba(185, 244, 238, 0.66), transparent 31%),
+    linear-gradient(135deg, rgba(232, 255, 240, 0.96), rgba(238, 233, 255, 0.94));
+}
+
+.lunar-source-line {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 5px;
+  padding: 4px 7px;
+  border: 1px solid rgba(44, 106, 118, 0.2);
+  border-radius: var(--radius-pill);
+  background: rgba(236, 255, 247, 0.86);
+  color: #285a61;
+  font-size: 11px;
+  font-weight: 950;
+  line-height: 1.25;
+}
+
+.greenhouse-lunar-reward .expedition-reward-chip {
+  background: rgba(41, 92, 100, 0.92);
+}
+
 .research-expedition-action {
   min-height: 38px;
   margin-top: 8px;

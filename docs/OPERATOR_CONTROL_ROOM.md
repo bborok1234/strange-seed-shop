@@ -3,15 +3,15 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T10:14:49.506Z
+Generated at: 2026-05-01T11:45:21.362Z
 
 ## Current mission
 
-Issue #248 **Seed ops no-final continuation gate**는 PR #249로 merge됐고 main CI `25210777454`가 통과했다. 다음 `$seed-ops` 후보는 `달빛 온실 조사` 완료/보상 수령 순간에 온실 단서 source를 유지하면서 달빛 씨앗/수집 루프로 되돌리는 production vertical slice다.
+Issue #251 **Greenhouse lunar reward source bridge v0**는 PR #252로 열렸고, active branch `codex/0127-greenhouse-lunar-reward-source-bridge-v0`에서 local implementation/Browser Use/CI gate를 통과했다. 다음 `$seed-ops` 단계는 PR #252 checks를 확인하고, green이면 merge/main CI까지 확인하는 것이다.
 
 즉시 다음 작업 선택 기준:
 
-1. 이번 run의 종료 조건은 Issue #248 plan acceptance, `npm run check:seed-ops-queue`, `npm run check:project-commands`, `npm run check:ops-live`, `npm run check:dashboard`, `npm run check:ci`, PR checks, main CI가 green인 상태이며 모두 완료됐다.
+1. 이번 run의 현재 완료 증거는 Issue #251 plan acceptance, Browser Use `iab` claim/seeds/album screenshots, `npm run check:visual -- --grep "달빛 온실 조사 보상"`, `npm run check:ci`다.
 2. 완료 후 stop rule이 없으면 final 응답 대신 다음 issue plan artifact를 먼저 만든다. `left the next queue candidate is not continuation`.
 3. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
 4. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.
@@ -22,19 +22,19 @@ Issue #248 **Seed ops no-final continuation gate**는 PR #249로 merge됐고 mai
 
 ## Local state
 
-- Branch: codex/0126-seed-ops-no-final-continuation-gate-closeout
-- Latest commit: 6d4a4c1 Merge pull request #249 from bborok1234/codex/0126-seed-ops-no-final-continuation-gate
+- Branch: codex/0127-greenhouse-lunar-reward-source-bridge-v0
+- Latest commit: a06f548 PR 본문도 운영 증거로 남긴다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T10:14:44.486Z
-- Phase: closeout
-- Issue: #248
-- PR: #249
-- Item: items/0126-seed-ops-no-final-continuation-gate.md
-- Next action: closeout PR gate 후 다음 달빛 온실 조사 보상 source vertical slice plan 준비
+- Timestamp: 2026-05-01T11:44:57.917Z
+- Phase: pr
+- Issue: #251
+- PR: #252
+- Item: items/0127-greenhouse-lunar-reward-source-bridge-v0.md
+- Next action: PR #252 checks gate 확인, green이면 merge 준비
 
 ## Open PRs
 

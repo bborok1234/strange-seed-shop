@@ -85,6 +85,7 @@ export function normalizeSave(raw: Partial<PlayerSave>, now = new Date()): Playe
     greenhouseRouteLevel: raw.greenhouseRouteLevel ?? fallback.greenhouseRouteLevel,
     greenhouseIrrigationLevel: raw.greenhouseIrrigationLevel ?? fallback.greenhouseIrrigationLevel,
     greenhouseMistLevel: raw.greenhouseMistLevel ?? fallback.greenhouseMistLevel,
+    lunarRewardSource: raw.lunarRewardSource,
     researchLevel: raw.researchLevel ?? fallback.researchLevel,
     plots: createEmptyPlots().map((plot) => normalizePlot(plots[plot.index], plot.index)),
     idleProduction: {
