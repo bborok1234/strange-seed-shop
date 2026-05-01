@@ -1,6 +1,6 @@
 # Lunar harvest creature payoff v0
 
-Status: verified
+Status: done
 Owner: agent
 Created: 2026-05-01
 Updated: 2026-05-01
@@ -134,6 +134,8 @@ Do not split write scopes until the asset list is final. Avoid parallel edits to
 - `npm run check:visual -- --grep "달빛 씨앗"` - pass
 - `npm run check:ci` - pass
 - GitHub PR #267 checks - pass (`Check automerge eligibility`, `Verify game baseline`)
+- PR #267 merged: merge commit `12aefc9`
+- main CI run `25221623897` - pass
 
 ## Risks
 

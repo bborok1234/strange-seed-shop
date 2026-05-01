@@ -60,7 +60,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | P0.5 studio campaign pass | done | Issue #257, PR #258, main CI `25217147915`, `items/0129-game-studio-ops-harness.md`, `reports/operations/game-studio-harness-reference-review-20260501.md` | 다음 게임 issue 선택이 직전 issue 인접 기능이 아니라 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하고, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 Game Studio Department Signoff, role-debate note, Subagent/Team Routing, reference teardown, creative brief, QA/playtest plan을 요구함 |
 | P0.5 studio campaign audit | review | Issue #260, draft PR #265, `items/0130-p05-studio-campaign-audit.md`, `reports/operations/p05-studio-campaign-audit-20260501.md`, Browser Use QA screenshots, `items/0132-lunar-harvest-creature-payoff-v0.md`, PR checks pass | 첫 5분 loop/production readability/asset-FX/QA coverage를 부서별로 감사했고, 다음 tranche를 `Lunar harvest creature payoff v0`로 고정함 |
 | Seed ops PR publication confirmation boundary | done | Draft PR #265, `items/0133-seed-ops-pr-publication-confirmation-boundary.md`, `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`, `$seed-ops` docs/checker hardening, `npm run check:ci` pass, PR checks pass | Codex App action-time confirmation이 필요한 PR/issue/comment publication을 terminal stop으로 취급하지 않고, `pending external-publication gate`와 `next local safe work`를 기록한 뒤 계속 진행하게 만듦 |
-| Lunar harvest creature payoff v0 | active | Issue #266, PR #267 checks pass, `items/0132-lunar-harvest-creature-payoff-v0.md`, `reports/visual/lunar-harvest-creature-payoff-v0-20260501.md`, Browser Use QA screenshots, accepted raster FX reuse binding, local asset/content gates pass | `달방울 씨앗` 수확 뒤 `달방울 누누`가 named reveal에서 끝나지 않고 production card/playfield actor/roster에 lunar work-state로 합류한다 |
+| Lunar harvest creature payoff v0 | done | Issue #266 closed, PR #267 merged, main CI `25221623897`, `items/0132-lunar-harvest-creature-payoff-v0.md`, `reports/visual/lunar-harvest-creature-payoff-v0-20260501.md`, Browser Use QA screenshots, accepted raster FX reuse binding | `달방울 씨앗` 수확 뒤 `달방울 누누`가 named reveal에서 끝나지 않고 production card/playfield actor/roster에 lunar work-state로 합류한다 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Seed ops Ralph runner bridge | done | `items/0135-seed-ops-ralph-runner-bridge.md`, `scripts/check-ralph-runner-bridge.mjs`, `.codex/skills/seed-ops/SKILL.md`, `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_RUNBOOK.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `npm run check:ci` pass | Codex App prompt-side `$ralph` activation을 실제 detached `omx ralph`/`omx exec` long runner와 분리하고, lifecycle 판단을 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact 기준으로 고정한다 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
@@ -305,7 +305,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 `items/0135-seed-ops-ralph-runner-bridge.md`의 **Seed ops Ralph runner bridge** 검증 완료분을 커밋하고, 이후 `0132` GitHub publication/PR/checks loop 또는 다음 plan-first issue로 이어가는 것이다.
+현재 작업은 `Lunar harvest creature payoff v0` closeout evidence를 main 기준으로 닫고, stop rule이 없으면 다음 P0.5 production vertical slice issue를 plan-first로 선택하는 것이다.
 
 현재 evidence:
 
@@ -315,6 +315,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - External reference: LangGraph/Temporal/Cloudflare long-running agent docs also checkpoint/state/replay/plan 중심이다.
 - New structural gate: `publication_gate`, `confirmation.channel`, `continuation.action`, `continuation.artifact_path`, `safe_local_work`, `stop_rule`.
 - New Ralph runner gate: `scripts/check-ralph-runner-bridge.mjs` reports current Codex App `$ralph` state as `prompt-side-only` and detached runner count as 0.
+- PR #267 merged and main CI run `25221623897` passed.
 - Existing quality phrases kept in the live gate: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`.
 
 즉시 적용된 gate:

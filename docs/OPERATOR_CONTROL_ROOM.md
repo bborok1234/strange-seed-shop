@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T15:58:52.792Z
+Generated at: 2026-05-01T16:02:52.205Z
 
 ## Current mission
 
-현재 작업은 `items/0135-seed-ops-ralph-runner-bridge.md`의 **Seed ops Ralph runner bridge** 검증 완료분을 커밋하고, 이후 `0132` GitHub publication/PR/checks loop 또는 다음 plan-first issue로 이어가는 것이다.
+현재 작업은 `Lunar harvest creature payoff v0` closeout evidence를 main 기준으로 닫고, stop rule이 없으면 다음 P0.5 production vertical slice issue를 plan-first로 선택하는 것이다.
 
 현재 evidence:
 
@@ -17,6 +17,7 @@ Generated at: 2026-05-01T15:58:52.792Z
 - External reference: LangGraph/Temporal/Cloudflare long-running agent docs also checkpoint/state/replay/plan 중심이다.
 - New structural gate: `publication_gate`, `confirmation.channel`, `continuation.action`, `continuation.artifact_path`, `safe_local_work`, `stop_rule`.
 - New Ralph runner gate: `scripts/check-ralph-runner-bridge.mjs` reports current Codex App `$ralph` state as `prompt-side-only` and detached runner count as 0.
+- PR #267 merged and main CI run `25221623897` passed.
 - Existing quality phrases kept in the live gate: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`.
 
 즉시 적용된 gate:
@@ -31,27 +32,27 @@ Generated at: 2026-05-01T15:58:52.792Z
 
 ## Local state
 
-- Branch: codex/0132-lunar-harvest-creature-payoff-v0
-- Latest commit: bd4dc13 달방울 수확 PR 게시 근거를 연결한다
+- Branch: main
+- Latest commit: 12aefc9 Merge pull request #267 from bborok1234/codex/0132-lunar-harvest-creature-payoff-v0
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T15:57:30.171Z
-- Phase: pr-checks-wait
+- Timestamp: 2026-05-01T16:02:40.729Z
+- Phase: main-ci-verified
 - Issue: #266
 - PR: #267
 - Item: items/0132-lunar-harvest-creature-payoff-v0.md
-- Next action: PR checks gate 대기: verify #267 checks then merge/main CI if green
+- Next action: closeout gate 준비: commit main CI evidence and create next issue plan artifact
 
 ## Open PRs
 
-- #267 draft Lunar harvest creature payoff v0 — https://github.com/bborok1234/strange-seed-shop/pull/267
+- unavailable or none
 
 ## Open issues
 
-- #266 Lunar harvest creature payoff v0 — https://github.com/bborok1234/strange-seed-shop/issues/266
+- unavailable or none
 
 ## Playable mode
 
