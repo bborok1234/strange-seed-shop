@@ -58,6 +58,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Greenhouse lunar reward source bridge v0 | done | Issue #251, PR #252, `items/0127-greenhouse-lunar-reward-source-bridge-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-lunar-reward-source-bridge-20260501.md`, main CI `25213197863` | `달빛 온실 조사` 보상 수령 뒤 `응축기에서 회수한 온실 단서` source가 `달방울 씨앗` / `달방울 누누` 다음 수집 목표까지 이어진다 |
 | Lunar seed source playfield planting v0 | done | Issue #254, PR #255, `items/0128-lunar-seed-source-playfield-planting-v0.md`, `reports/visual/p0-lunar-seed-source-playfield-planting-20260501.md`, generated raster PNG seed icon + 4-frame FX strip, Browser Use QA, main CI `25215586874` | 온실 단서로 얻은 `달방울 씨앗` 구매/심기 순간이 garden playfield의 달빛 성장 state와 source payoff로 이어지고, gpt-image-2 API blocker 시 Codex native image generation fallback/provenance가 동작함 |
 | P0.5 studio campaign pass | done | Issue #257, PR #258, main CI `25217147915`, `items/0129-game-studio-ops-harness.md`, `reports/operations/game-studio-harness-reference-review-20260501.md` | 다음 게임 issue 선택이 직전 issue 인접 기능이 아니라 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하고, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 Game Studio Department Signoff, role-debate note, Subagent/Team Routing, reference teardown, creative brief, QA/playtest plan을 요구함 |
+| P0.5 studio campaign audit | review | Issue #260, `items/0130-p05-studio-campaign-audit.md`, `reports/operations/p05-studio-campaign-audit-20260501.md`, Browser Use QA screenshots, `items/0132-lunar-harvest-creature-payoff-v0.md` | 첫 5분 loop/production readability/asset-FX/QA coverage를 부서별로 감사했고, 다음 tranche를 `Lunar harvest creature payoff v0`로 고정함 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
 | Lunar seed harvest bridge v0 | done | Issue #166, `items/0093-lunar-seed-harvest-bridge-v0.md`, `reports/visual/p0-lunar-seed-harvest-bridge-v0-20260430.md` | `달방울 씨앗` 구매/심기/수확이 `달방울 누누` 발견과 다음 도감 목표 전환으로 이어지고 `npm run check:ci`가 통과함 |
 | Lunar guardian offline bonus v0 | done | Issue #168, `items/0094-lunar-guardian-offline-bonus-v0.md`, `reports/visual/p0-lunar-guardian-offline-bonus-v0-20260430.md` | `달방울 누누` 발견이 오프라인 복귀 보상 bonus와 toast 문구로 이어지고 `npm run check:ci`가 통과함 |
@@ -299,18 +300,19 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-Issue #257 **Game studio ops harness**는 PR #258로 merge됐고 main CI `25217147915`가 통과했다. closeout PR #259도 merge됐고 main CI `25217294128`이 통과했다.
+Issue #260 **P0.5 studio campaign audit**는 로컬 감사와 Browser Use `iab` evidence를 완료했고, `reports/operations/p05-studio-campaign-audit-20260501.md`에 다음 tranche 선택 근거를 남겼다.
 
-다음 작업은 Issue #260 **P0.5 studio campaign audit**다. `$seed-ops`는 곧바로 좁은 implementation issue를 고르지 않고, `items/0130-p05-studio-campaign-audit.md`로 현재 첫 5분 loop, production readability, asset/FX consistency, Browser Use/playtest evidence를 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 관점에서 감사한 뒤 다음 implementation tranche를 선택한다.
+다음 작업은 `items/0132-lunar-harvest-creature-payoff-v0.md`의 **Lunar harvest creature payoff v0**다. `달방울 씨앗` 수확이 단순 도감 reveal로 끝나지 않고, `달방울 누누`가 온실 production actor로 합류해 lunar-specific harvest/reward FX와 work-state로 화면에서 읽혀야 한다.
 
 즉시 적용할 gate:
 
-1. 다음 issue plan artifact는 `Studio Campaign Gate`, `Game Studio Department Signoff`, `Subagent/Team Routing`, `reference teardown`, `creative brief`, `QA/playtest plan`을 포함해야 한다.
-2. 기획팀, 리서치팀, 아트팀, 개발팀, 검수팀, 마케팅팀, 고객지원팀 중 필요한 부서 산출물과 `role-debate note`가 없으면 implementation issue로 내려가지 않는다.
-3. Codex native subagents 또는 team mode는 리서치, 로컬 감사, 아트 계획, runtime 구현, QA가 독립 산출물로 나뉠 때 사용하고, 사용하지 않으면 이유를 plan에 남긴다.
-4. asset/FX issue는 gastory식 `style state`, `prompt/model sidecar`, `reference image consistency`, `animation camera/composition lock`, `frame/GIF/spritesheet extraction`, manifest QA를 요구한다. 신규 accepted manifest game asset은 gpt-image-2 default 또는 Codex native fallback provenance를 남기고 SVG/vector/code-native game graphics는 금지한다.
-5. `left the next queue candidate is not continuation`: ROADMAP/control room에 다음 후보를 쓰는 것만으로는 continuation이 아니다. 다음 issue plan artifact가 있어야 한다.
-6. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 campaign payoff와 concrete visual/game-feel payoff 없이 통과하지 않는다.
+1. `Studio Campaign Gate`는 계속 적용한다. 새 GitHub issue/PR metadata는 `items/0132-lunar-harvest-creature-payoff-v0.md`를 source of truth로 작성한다.
+2. Codex native subagents 또는 team mode는 asset 계획, runtime 구현, QA가 독립 산출물로 나뉠 때 사용하고, 사용하지 않으면 plan에 이유를 남긴다.
+3. asset/FX issue는 gastory식 `style state`, `prompt/model sidecar`, `reference image consistency`, `animation camera/composition lock`, `frame/GIF/spritesheet extraction`, manifest QA를 요구한다. 신규 accepted manifest game asset은 gpt-image-2 default 또는 Codex native fallback provenance를 남기고 SVG/vector/code-native game graphics는 금지한다.
+4. Browser Use `iab`로 lunar ready harvest, harvest reveal, post-harvest production roster/playfield를 mobile/desktop에서 확인한다.
+5. `달방울 누누` work-state와 lunar harvest FX는 `animation.binding`, frame count, frame size, intended frame rate, source reference ids를 manifest에 남긴다.
+6. `left the next queue candidate is not continuation`: ROADMAP/control room에 다음 후보를 쓰는 것만으로는 continuation이 아니다. 다음 issue plan artifact가 있어야 한다.
+7. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 campaign payoff와 concrete visual/game-feel payoff 없이 통과하지 않는다.
 
 ## Previous Next Action History
 
