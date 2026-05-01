@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T15:53:06.023Z
+Generated at: 2026-05-01T15:56:02.778Z
 
 ## Current mission
 
@@ -32,18 +32,18 @@ Generated at: 2026-05-01T15:53:06.023Z
 ## Local state
 
 - Branch: codex/0132-lunar-harvest-creature-payoff-v0
-- Latest commit: ea782c5 게시 경계를 구조화 상태로 검증한다
+- Latest commit: 8c22c3a Ralph 실행 상태를 runner 근거로 구분한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T15:52:05.386Z
-- Phase: verified
-- Issue: local
+- Timestamp: 2026-05-01T15:55:56.003Z
+- Phase: pr-publication-gate
+- Issue: #266
 - PR: 
-- Item: items/0135-seed-ops-ralph-runner-bridge.md
-- Next action: commit Ralph runner bridge harness and keep publication gate state visible
+- Item: items/0132-lunar-harvest-creature-payoff-v0.md
+- Next action: publication gate 준비: push branch and create draft PR for #266
 
 ## Open PRs
 
@@ -51,7 +51,7 @@ Generated at: 2026-05-01T15:53:06.023Z
 
 ## Open issues
 
-- unavailable or none
+- #266 Lunar harvest creature payoff v0 — https://github.com/bborok1234/strange-seed-shop/issues/266
 
 ## Playable mode
 

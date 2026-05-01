@@ -37,6 +37,7 @@ After:
 - [x] `npm run check:visual -- --grep "달빛 씨앗"`
 - [x] `npm run check:ci`
 - [x] Browser Use `iab` ready harvest / reveal / post-harvest production screenshot evidence
+- [x] Seed-ops publication/Ralph runner harness regression fixed and covered by `npm run check:seed-ops-publication-gate`, `npm run check:ralph-runner-bridge`, `npm run check:ops-live`
 
 ## 작업 checklist
 
@@ -58,6 +59,8 @@ After:
 
 Dedicated 6-frame harvest moonburst strip은 image API key/model 접근이 생긴 뒤 별도 issue에서 생성해야 합니다.
 
+운영 하네스 수정은 이번 branch에서 같이 고정했습니다. Codex App prompt-side `$ralph` activation은 실제 detached long runner가 아니며, 앞으로 장시간 운영 주장은 runner artifact + heartbeat + watchdog evidence로만 인정합니다.
+
 ## 연결된 issue
 
-Closes <ISSUE_NUMBER>
+Closes #266

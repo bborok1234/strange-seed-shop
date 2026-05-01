@@ -6,7 +6,7 @@ Created: 2026-05-01
 Updated: 2026-05-01
 Work type: game_feature
 Scope-risk: moderate
-Issue: pending
+Issue: #266
 
 ## Intent
 

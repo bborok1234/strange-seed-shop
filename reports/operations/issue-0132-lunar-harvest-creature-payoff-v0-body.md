@@ -56,5 +56,6 @@ Dedicated 6-frame lunar harvest moonburst strip은 image API key/model 접근이
 
 ## 연결된 issue
 
+- GitHub issue: #266
 - Item: `items/0132-lunar-harvest-creature-payoff-v0.md`
 - Campaign: `P0.5 Idle Core + Creative Rescue`
