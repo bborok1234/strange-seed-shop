@@ -1820,6 +1820,81 @@ test("모바일 달빛 온실 조사는 응축 단서를 원정 시작으로 소
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-lunar-clue-expedition-v0-393.png"), fullPage: false });
 });
 
+test("모바일 달빛 온실 조사 보상은 온실 단서 source를 달방울 씨앗으로 잇는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaGreenhouseLunarClaimReady=1&qaTab=expedition&qaReset=1");
+
+  await expect(page.locator(".dev-panel.player-panel.tab-expedition")).toBeVisible();
+  await expect(page.getByText("원정 완료", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "원정 보상 받기" }).click();
+
+  await expect(page.getByLabel("달빛 원정 보상 다음 목표")).toContainText("달빛 온실 조사 보상");
+  await expect(page.getByLabel("달빛 원정 보상 다음 목표")).toContainText("응축기에서 회수한 온실 단서");
+  await expect(page.getByLabel("달빛 원정 보상 다음 목표")).toContainText("달방울 씨앗");
+  await expect(page.getByLabel("달빛 원정 보상 다음 목표")).toContainText("달방울 누누");
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as {
+              activeExpedition?: { expeditionId?: string; source?: string };
+              lunarRewardSource?: string;
+              unlockedSeedIds?: string[];
+              leaves?: number;
+              materials?: number;
+            })
+          : {};
+        return {
+          activeExpeditionCleared: !parsed.activeExpedition,
+          lunarRewardSource: parsed.lunarRewardSource,
+          lunarUnlocked: parsed.unlockedSeedIds?.includes("seed_lunar_001") ?? false,
+          leaves: parsed.leaves,
+          materials: parsed.materials
+        };
+      })
+    )
+    .toEqual({
+      activeExpeditionCleared: true,
+      lunarRewardSource: "greenhouse_mist",
+      lunarUnlocked: true,
+      leaves: 595,
+      materials: 3
+    });
+
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".dev-panel.player-panel.tab-expedition")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const reward = document.querySelector<HTMLElement>(".greenhouse-lunar-reward")?.getBoundingClientRect();
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel ? { bottom: panel.bottom } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      reward: reward ? { bottom: reward.bottom } : null
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.reward).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top + 1);
+  expect(metrics.reward!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.getByRole("button", { name: "달방울 씨앗 보러가기" }).click();
+  await expect(page.getByLabel("다음 도감 목표 씨앗")).toContainText("응축기에서 회수한 온실 단서");
+  await expect(page.getByLabel("다음 도감 목표 씨앗")).toContainText("달방울 씨앗");
+
+  await page.getByRole("button", { name: /도감/ }).click();
+  await expect(page.getByLabel("도감 다음 수집 목표")).toContainText("응축기에서 회수한 온실 단서");
+  await expect(page.getByLabel("도감 다음 수집 목표")).toContainText("달방울 누누");
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-lunar-reward-source-bridge-v0-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");

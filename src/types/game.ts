@@ -128,6 +128,7 @@ export interface PlayerSave {
   greenhouseRouteLevel: number;
   greenhouseIrrigationLevel: number;
   greenhouseMistLevel: number;
+  lunarRewardSource?: ExpeditionRewardSource;
   researchLevel: number;
   plots: PlotState[];
   activeExpedition?: ExpeditionState;
@@ -152,8 +153,11 @@ export interface PlotState {
 
 export interface ExpeditionState {
   expeditionId: string;
+  source?: ExpeditionRewardSource;
   creatureIds: string[];
   startedAt: string;
   durationSeconds: number;
   claimed: boolean;
 }
+
+export type ExpeditionRewardSource = "research" | "greenhouse_mist";

@@ -55,6 +55,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Greenhouse mist return order v0 | done | Issue #235, PR #236, `items/0121-greenhouse-mist-order-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-mist-return-order-v0-20260501.md`, main CI `25206692961` | `온실 물안개` 완료 뒤 복귀 보너스가 `물안개 응축 납품` 주문과 재료/꽃가루 보상으로 이어진다 |
 | Greenhouse mist condenser payoff v0 | done | Issue #242, PR #243, `items/0124-greenhouse-mist-condenser-payoff-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-mist-condenser-payoff-20260501.md`, main CI `25208478314` | `물안개 응축 납품` 완료 뒤 playfield order crate와 production card에 `응축기 가동` / `달빛 온실 단서 +1` payoff가 남는다 |
 | Greenhouse lunar clue expedition v0 | done | Issue #245, PR #246, `items/0125-greenhouse-lunar-clue-expedition-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-lunar-clue-expedition-20260501.md`, main CI `25208987443` | `달빛 온실 단서 +1`이 원정 탭 `달빛 온실 조사` preview와 기존 `moon_hint` 원정 시작으로 소비된다 |
+| Greenhouse lunar reward source bridge v0 | review | Issue #251, `items/0127-greenhouse-lunar-reward-source-bridge-v0.md`, Browser Use QA, `reports/visual/p0-greenhouse-lunar-reward-source-bridge-20260501.md`, local CI passed | `달빛 온실 조사` 보상 수령 뒤 `응축기에서 회수한 온실 단서` source가 `달방울 씨앗` / `달방울 누누` 다음 수집 목표까지 이어진다 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
 | Lunar seed harvest bridge v0 | done | Issue #166, `items/0093-lunar-seed-harvest-bridge-v0.md`, `reports/visual/p0-lunar-seed-harvest-bridge-v0-20260430.md` | `달방울 씨앗` 구매/심기/수확이 `달방울 누누` 발견과 다음 도감 목표 전환으로 이어지고 `npm run check:ci`가 통과함 |
 | Lunar guardian offline bonus v0 | done | Issue #168, `items/0094-lunar-guardian-offline-bonus-v0.md`, `reports/visual/p0-lunar-guardian-offline-bonus-v0-20260430.md` | `달방울 누누` 발견이 오프라인 복귀 보상 bonus와 toast 문구로 이어지고 `npm run check:ci`가 통과함 |
@@ -295,11 +296,11 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-Issue #248 **Seed ops no-final continuation gate**는 PR #249로 merge됐고 main CI `25210777454`가 통과했다. 다음 `$seed-ops` 후보는 `달빛 온실 조사` 완료/보상 수령 순간에 온실 단서 source를 유지하면서 달빛 씨앗/수집 루프로 되돌리는 production vertical slice다.
+Issue #251 **Greenhouse lunar reward source bridge v0**가 active branch `codex/0127-greenhouse-lunar-reward-source-bridge-v0`에서 local implementation/Browser Use/CI gate를 통과했다. 다음 `$seed-ops` 단계는 PR 본문과 GitHub issue acceptance를 같은 evidence로 갱신하고, PR checks까지 통과시킨 뒤 merge/main CI를 확인하는 것이다.
 
 즉시 다음 작업 선택 기준:
 
-1. 이번 run의 종료 조건은 Issue #248 plan acceptance, `npm run check:seed-ops-queue`, `npm run check:project-commands`, `npm run check:ops-live`, `npm run check:dashboard`, `npm run check:ci`, PR checks, main CI가 green인 상태이며 모두 완료됐다.
+1. 이번 run의 현재 완료 증거는 Issue #251 plan acceptance, Browser Use `iab` claim/seeds/album screenshots, `npm run check:visual -- --grep "달빛 온실 조사 보상"`, `npm run check:ci`다.
 2. 완료 후 stop rule이 없으면 final 응답 대신 다음 issue plan artifact를 먼저 만든다. `left the next queue candidate is not continuation`.
 3. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
 4. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.

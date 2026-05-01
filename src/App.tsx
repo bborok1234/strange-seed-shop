@@ -9,6 +9,7 @@ import type {
   AssetManifest,
   CreatureDefinition,
   ExpeditionState,
+  ExpeditionRewardSource,
   MissionDefinition,
   PlayerSave,
   PlotState,
@@ -237,6 +238,7 @@ export default function App() {
     const qaResearchComplete = getLocalQaResearchComplete();
     const qaResearchExpeditionReady = getLocalQaResearchExpeditionReady();
     const qaResearchExpeditionClaimReady = getLocalQaResearchExpeditionClaimReady();
+    const qaGreenhouseLunarClaimReady = getLocalQaGreenhouseLunarClaimReady();
     const qaLunarSeedReady = getLocalQaLunarSeedReady();
     const qaLunarSeedReadyToHarvest = getLocalQaLunarSeedReadyToHarvest();
     const existingSave = qaSpriteState
@@ -247,32 +249,34 @@ export default function App() {
           ? createLunarSeedReadyToHarvestQaSave()
           : qaLunarSeedReady
             ? createLunarSeedReadyQaSave()
-            : qaResearchExpeditionClaimReady
-              ? createResearchExpeditionClaimReadyQaSave()
-              : qaResearchExpeditionReady
-                ? createResearchExpeditionReadyQaSave()
-                : qaResearchComplete
-                  ? createResearchCompleteQaSave()
-                  : qaResearchReady
-                    ? createResearchReadyQaSave()
-                    : qaProductionReady
-                      ? createProductionReadyQaSave()
-                      : qaExpeditionActive
-                        ? createExpeditionActiveQaSave()
-                        : qaExpeditionReady
-                          ? createExpeditionReadyQaSave()
-                          : qaOfflineMinutes
-                            ? createOfflineQaSave(
-                                qaOfflineMinutes,
-                                qaLunarGuardian,
-                                qaGreenhouseShelf,
-                                qaGreenhouseStorage,
-                                qaGreenhouseRoute,
-                                qaGreenhouseRouteSupply,
-                                qaGreenhouseIrrigation,
-                                qaGreenhouseMist
-                              )
-                            : localSaveStore.load();
+            : qaGreenhouseLunarClaimReady
+              ? createGreenhouseLunarClaimReadyQaSave()
+              : qaResearchExpeditionClaimReady
+                ? createResearchExpeditionClaimReadyQaSave()
+                : qaResearchExpeditionReady
+                  ? createResearchExpeditionReadyQaSave()
+                  : qaResearchComplete
+                    ? createResearchCompleteQaSave()
+                    : qaResearchReady
+                      ? createResearchReadyQaSave()
+                      : qaProductionReady
+                        ? createProductionReadyQaSave()
+                        : qaExpeditionActive
+                          ? createExpeditionActiveQaSave()
+                          : qaExpeditionReady
+                            ? createExpeditionReadyQaSave()
+                            : qaOfflineMinutes
+                              ? createOfflineQaSave(
+                                  qaOfflineMinutes,
+                                  qaLunarGuardian,
+                                  qaGreenhouseShelf,
+                                  qaGreenhouseStorage,
+                                  qaGreenhouseRoute,
+                                  qaGreenhouseRouteSupply,
+                                  qaGreenhouseIrrigation,
+                                  qaGreenhouseMist
+                                )
+                              : localSaveStore.load();
     const nextSave = existingSave ?? createNewSave();
     const offlineReward = calculateOfflineReward(nextSave, Date.now());
     if (offlineReward.leaves > 0) {
@@ -351,6 +355,7 @@ export default function App() {
       ? Math.max(greenhouseLunarExpedition.requiredCreatures - save.discoveredCreatureIds.length, 0)
       : 0;
   const lunarExpeditionGoal = useMemo(() => getLunarExpeditionGoal(save), [save]);
+  const lunarRewardSourceLabel = getLunarRewardSourceLabel(save);
   const visibleMissions = save ? content.missions : [];
   const availableSeeds = save ? content.seeds.filter((seed) => save.unlockedSeedIds.includes(seed.id)).slice(0, 3) : [];
   const hasOpenPlot = save ? save.plots.some((plot) => plot.index < save.plotCount && !plot.seedId) : false;
@@ -783,7 +788,7 @@ export default function App() {
     triggerRewardPulse();
   }
 
-  function startExpedition(expeditionId = FIRST_EXPEDITION_ID) {
+  function startExpedition(expeditionId = FIRST_EXPEDITION_ID, source?: ExpeditionRewardSource) {
     commit((draft) => {
       const expedition = content.expeditions.find((item) => item.id === expeditionId);
       if (!expedition || draft.activeExpedition || draft.discoveredCreatureIds.length < expedition.requiredCreatures) {
@@ -794,6 +799,7 @@ export default function App() {
 
       draft.activeExpedition = {
         expeditionId: expedition.id,
+        source,
         creatureIds: expeditionCreatureIds,
         startedAt: new Date().toISOString(),
         durationSeconds: expedition.durationSeconds,
@@ -802,6 +808,7 @@ export default function App() {
       advanceMission(draft, "daily_start_expedition");
       trackEvent("expedition_started", {
         expeditionId: expedition.id,
+        source: source ?? null,
         creatureCount: expeditionCreatureIds.length,
         primaryCreatureId: expeditionCreatureIds[0] ?? null
       });
@@ -833,13 +840,18 @@ export default function App() {
 
       const expedition = content.expeditions.find((item) => item.id === draft.activeExpedition?.expeditionId);
       const activeExpeditionId = draft.activeExpedition.expeditionId;
+      const activeExpeditionSource = getExpeditionRewardSource(draft);
       draft.leaves += expedition?.rewardLeaves ?? 0;
       draft.materials += expedition?.rewardMaterials ?? 0;
       if (activeExpeditionId === RESEARCH_EXPEDITION_ID && !draft.unlockedSeedIds.includes(LUNAR_REWARD_SEED_ID)) {
         draft.unlockedSeedIds.push(LUNAR_REWARD_SEED_ID);
       }
+      if (activeExpeditionId === RESEARCH_EXPEDITION_ID && activeExpeditionSource) {
+        draft.lunarRewardSource = activeExpeditionSource;
+      }
       trackEvent("expedition_claimed", {
         expeditionId: activeExpeditionId,
+        source: activeExpeditionSource ?? null,
         leaves: expedition?.rewardLeaves ?? 0,
         materials: expedition?.rewardMaterials ?? 0,
         unlockedSeedId: activeExpeditionId === RESEARCH_EXPEDITION_ID ? LUNAR_REWARD_SEED_ID : null
@@ -1326,6 +1338,9 @@ export default function App() {
                       {getRarityLabel(nextCreatureGoal.creature.rarity)} · {nextCreatureGoal.creature.name}
                       {getObjectParticle(nextCreatureGoal.creature.name)} 만날 차례예요.
                     </span>
+                    {lunarRewardSourceLabel && nextCreatureGoal.seed.id === LUNAR_REWARD_SEED_ID && (
+                      <span className="lunar-source-line">온실 단서 source: {lunarRewardSourceLabel}</span>
+                    )}
                     {researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
                     <button className="seed-goal-action-button" onClick={() => setActiveTab("garden")} type="button">
                       정원에서 심기
@@ -1457,6 +1472,9 @@ export default function App() {
                     <p className="panel-label">다음 도감 칸</p>
                     <strong>{nextCreatureGoal.creature.name}</strong>
                     <span>{nextCreatureGoal.creature.albumHint}</span>
+                    {lunarRewardSourceLabel && nextCreatureGoal.seed.id === LUNAR_REWARD_SEED_ID && (
+                      <span className="lunar-source-line">온실 단서 source: {lunarRewardSourceLabel}</span>
+                    )}
                     <small>{nextCreatureGoal.seed.name}을 심어 만나보세요.</small>
                     <button className="goal-link-button" onClick={() => setActiveTab("seeds")} type="button">
                       {nextCreatureGoal.seed.name} 보러가기
@@ -1514,7 +1532,7 @@ export default function App() {
                         : "연구 기록으로 새 원정 준비가 끝났어요."}
                     </small>
                     {researchExpeditionShortfall === 0 && (
-                      <button className="research-expedition-action" onClick={() => startExpedition(researchExpedition.id)} type="button">
+                      <button className="research-expedition-action" onClick={() => startExpedition(researchExpedition.id, "research")} type="button">
                         {researchExpedition.name} 시작
                       </button>
                     )}
@@ -1539,7 +1557,7 @@ export default function App() {
                     {greenhouseLunarExpeditionShortfall === 0 && (
                       <button
                         className="research-expedition-action greenhouse-lunar-clue-action"
-                        onClick={() => startExpedition(greenhouseLunarExpedition.id)}
+                        onClick={() => startExpedition(greenhouseLunarExpedition.id, "greenhouse_mist")}
                         type="button"
                       >
                         달빛 온실 조사 시작
@@ -1588,14 +1606,18 @@ export default function App() {
                 </>
               )}
               {!save?.activeExpedition && researchExpeditionRewardClaimed && lunarExpeditionGoal && (
-                <article className="expedition-preview lunar-expedition-reward" aria-label="달빛 원정 보상 다음 목표">
+                <article
+                  className={lunarRewardSourceLabel ? "expedition-preview lunar-expedition-reward greenhouse-lunar-reward" : "expedition-preview lunar-expedition-reward"}
+                  aria-label="달빛 원정 보상 다음 목표"
+                >
                   <div>
-                    <p className="panel-label">달빛 원정 보상</p>
+                    <p className="panel-label">{lunarRewardSourceLabel ? "달빛 온실 조사 보상" : "달빛 원정 보상"}</p>
                     <strong>{lunarExpeditionGoal.seed.name}</strong>
                     <span>
                       {lunarExpeditionGoal.creature.name} 단서 해금 · {getRarityLabel(lunarExpeditionGoal.creature.rarity)} ·{" "}
                       {getCreatureFamilyLabel(lunarExpeditionGoal.creature.family)}
                     </span>
+                    {lunarRewardSourceLabel && <span className="lunar-source-line">{lunarRewardSourceLabel}</span>}
                     <small>{lunarExpeditionGoal.creature.albumHint}</small>
                     <button className="research-expedition-action" onClick={() => setActiveTab("seeds")} type="button">
                       {lunarExpeditionGoal.seed.name} 보러가기
@@ -1776,6 +1798,22 @@ function getLunarExpeditionGoal(save: PlayerSave | null): NextCreatureGoal | nul
     discoveredCount: save.discoveredCreatureIds.length,
     totalCount: content.creatures.length
   };
+}
+
+function getExpeditionRewardSource(save: PlayerSave): ExpeditionRewardSource | undefined {
+  if (save.activeExpedition?.expeditionId !== RESEARCH_EXPEDITION_ID) {
+    return undefined;
+  }
+
+  return save.activeExpedition.source ?? (save.idleProduction.completedOrderIds.includes(GREENHOUSE_MIST_RETURN_ORDER.id) ? "greenhouse_mist" : "research");
+}
+
+function getLunarRewardSourceLabel(save: PlayerSave | null): string | null {
+  if (save?.lunarRewardSource !== "greenhouse_mist") {
+    return null;
+  }
+
+  return "응축기에서 회수한 온실 단서";
 }
 
 function getResearchClue(save: PlayerSave | null, nextCreatureGoal: NextCreatureGoal | null): string | null {
@@ -2738,6 +2776,14 @@ function getLocalQaResearchExpeditionClaimReady(): boolean {
   return new URLSearchParams(window.location.search).get("qaResearchExpeditionClaimReady") === "1";
 }
 
+function getLocalQaGreenhouseLunarClaimReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaGreenhouseLunarClaimReady") === "1";
+}
+
 function getLocalQaLunarSeedReady(): boolean {
   if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
     return false;
@@ -3004,6 +3050,39 @@ function createResearchExpeditionClaimReadyQaSave(): PlayerSave {
     materials: 1,
     activeExpedition: {
       expeditionId: RESEARCH_EXPEDITION_ID,
+      creatureIds: ["creature_herb_common_001", "creature_herb_common_002"],
+      startedAt: startedAt.toISOString(),
+      durationSeconds,
+      claimed: false
+    },
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
+  };
+}
+
+function createGreenhouseLunarClaimReadyQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createOfflineQaSave(60, false, false, false, false, false, false, true);
+  const expedition = content.expeditions.find((item) => item.id === RESEARCH_EXPEDITION_ID);
+  const durationSeconds = expedition?.durationSeconds ?? 3600;
+  const startedAt = new Date(now.getTime() - (durationSeconds + 15) * 1000);
+
+  return {
+    ...save,
+    leaves: 175,
+    materials: 1,
+    pollen: 2,
+    idleProduction: {
+      ...save.idleProduction,
+      orderProgress: {
+        ...save.idleProduction.orderProgress,
+        [GREENHOUSE_MIST_RETURN_ORDER.id]: GREENHOUSE_MIST_RETURN_ORDER.requiredLeaves
+      },
+      completedOrderIds: Array.from(new Set([...save.idleProduction.completedOrderIds, GREENHOUSE_MIST_RETURN_ORDER.id]))
+    },
+    activeExpedition: {
+      expeditionId: RESEARCH_EXPEDITION_ID,
+      source: "greenhouse_mist",
       creatureIds: ["creature_herb_common_001", "creature_herb_common_002"],
       startedAt: startedAt.toISOString(),
       durationSeconds,
