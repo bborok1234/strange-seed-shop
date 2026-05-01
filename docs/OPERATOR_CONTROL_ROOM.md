@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T14:08:13.527Z
+Generated at: 2026-05-01T14:19:32.634Z
 
 ## Current mission
 
@@ -22,19 +22,19 @@ Issue #257 **Game studio ops harness**는 PR #258로 merge됐고 main CI `252171
 
 ## Local state
 
-- Branch: codex/0130-p05-studio-campaign-audit
-- Latest commit: 99602ee 게임사 하네스 완료 증거를 main 기준으로 닫는다 (#259)
+- Branch: codex/0131-seed-ops-loop-drill
+- Latest commit: aba8c9c P0.5 studio campaign audit plan (#261)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T14:08:07.428Z
-- Phase: planning
-- Issue: #260
+- Timestamp: 2026-05-01T14:19:27.628Z
+- Phase: executing
+- Issue: #262
 - PR: pending
-- Item: items/0130-p05-studio-campaign-audit.md
-- Next action: Issue #260 campaign audit gate 준비
+- Item: items/0131-seed-ops-loop-drill.md
+- Next action: Issue #262 gate 검증 준비
 
 ## Open PRs
 
