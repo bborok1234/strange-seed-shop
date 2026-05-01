@@ -4,6 +4,7 @@ Date: 2026-05-01
 Status: verified
 Branch: `codex/0130-p05-studio-campaign-audit`
 Related work: Issue #260, `items/0130-p05-studio-campaign-audit.md`, `items/0133-seed-ops-pr-publication-confirmation-boundary.md`
+Draft PR: #265 `https://github.com/bborok1234/strange-seed-shop/pull/265`
 
 ## Problem
 
@@ -38,3 +39,6 @@ Related work: Issue #260, `items/0130-p05-studio-campaign-audit.md`, `items/0133
 - `npm run check:ops-live` pass
 - `npm run check:dashboard` pass
 - `npm run check:ci` pass
+- PR #265 checks pass:
+  - Check automerge eligibility: `https://github.com/bborok1234/strange-seed-shop/actions/runs/25219403256/job/73947597649`
+  - Verify game baseline: `https://github.com/bborok1234/strange-seed-shop/actions/runs/25219403267/job/73947597333`

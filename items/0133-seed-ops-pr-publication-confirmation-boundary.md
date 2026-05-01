@@ -43,6 +43,7 @@ npm run check:ci
 
 ## Evidence
 
+- Draft PR: #265 `https://github.com/bborok1234/strange-seed-shop/pull/265`
 - `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`
 - `.codex/skills/seed-ops/SKILL.md`
 - `docs/PROJECT_COMMANDS.md`
@@ -56,3 +57,6 @@ npm run check:ci
 - `npm run check:ops-live` pass
 - `npm run check:dashboard` pass
 - `npm run check:ci` pass
+- PR #265 checks pass:
+  - Check automerge eligibility: `https://github.com/bborok1234/strange-seed-shop/actions/runs/25219403256/job/73947597649`
+  - Verify game baseline: `https://github.com/bborok1234/strange-seed-shop/actions/runs/25219403267/job/73947597333`

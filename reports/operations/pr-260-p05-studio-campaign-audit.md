@@ -12,6 +12,7 @@ Issue #260의 P0.5 campaign audit를 완료하고, 다음 implementation tranche
 
 ## Plan-first evidence
 
+- Draft PR #265: https://github.com/bborok1234/strange-seed-shop/pull/265
 - `items/0130-p05-studio-campaign-audit.md`
 - `reports/operations/p05-studio-campaign-audit-20260501.md`
 - `items/0132-lunar-harvest-creature-payoff-v0.md`
@@ -47,6 +48,7 @@ Issue #260의 P0.5 campaign audit를 완료하고, 다음 implementation tranche
 - `npm run check:ci` pass
 - `npm run check:visual` pass, 49 tests. 첫 sandbox 실행은 `127.0.0.1:4173` 포트 바인딩 권한으로 실패했고, 승인 경로 재실행은 통과했다.
 - PR publication confirmation boundary corrective checks: `npm run check:seed-ops-queue` pass, `npm run check:ops-live` pass, `npm run check:dashboard` pass, `npm run check:ci` pass.
+- PR #265 checks: Check automerge eligibility pass, Verify game baseline pass.
 
 ## 작업 checklist
 
