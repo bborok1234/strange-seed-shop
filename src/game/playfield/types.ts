@@ -32,6 +32,7 @@ export interface GardenPlayfieldViewModel {
     orderProgressLabel: string;
     orderReady: boolean;
     orderCompleted: boolean;
+    orderVariant?: "mist-condenser-complete";
     orderStatusLabel?: string;
     workAssetPath?: string;
     crateAssetPath?: string;

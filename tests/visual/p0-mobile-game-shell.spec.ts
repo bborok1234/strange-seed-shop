@@ -1676,6 +1676,11 @@ test("모바일 물안개 응축 납품은 복귀 보상을 새 주문으로 잇
 
   await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("물안개 응축 납품 완료");
   await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("+165 잎 · +2 꽃가루 · +1 재료");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("응축기 가동");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("달빛 온실 단서 +1");
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("응축기 가동");
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("달빛 온실 단서 +1");
+  await expect(page.locator(".playfield-order-crate.order-variant-mist-condenser-complete")).toBeVisible();
 
   const metrics = await page.evaluate(() => {
     const panelElement = document.querySelector<HTMLElement>(".starter-panel");
@@ -1683,8 +1688,14 @@ test("모바일 물안개 응축 납품은 복귀 보상을 새 주문으로 잇
     const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
     const productionCard = document.querySelector<HTMLElement>(".production-action-card");
     const productionCardRect = productionCard?.getBoundingClientRect();
+    const mistPayoff = document.querySelector<HTMLElement>(".mist-condenser-payoff")?.getBoundingClientRect();
+    const mistCrate = document
+      .querySelector<HTMLElement>(".playfield-order-crate.order-variant-mist-condenser-complete")
+      ?.getBoundingClientRect();
     const overflowingChildren = Array.from(
-      document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
+      document.querySelectorAll<HTMLElement>(
+        ".starter-panel > article, .starter-panel > .active-growth-copy, .mist-condenser-payoff"
+      )
     )
       .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
       .map((element) => ({
@@ -1711,6 +1722,8 @@ test("모바일 물안개 응축 납품은 복귀 보상을 새 주문으로 잇
             scrollHeight: productionCard?.scrollHeight ?? 0
           }
         : null,
+      mistPayoff: mistPayoff ? { bottom: mistPayoff.bottom, clientHeight: mistPayoff.height } : null,
+      mistCrate: mistCrate ? { bottom: mistCrate.bottom, height: mistCrate.height } : null,
       overflowingChildren
     };
   });
@@ -1719,6 +1732,8 @@ test("모바일 물안개 응축 납품은 복귀 보상을 새 주문으로 잇
   expect(metrics.panel).not.toBeNull();
   expect(metrics.tabs).not.toBeNull();
   expect(metrics.productionCard).not.toBeNull();
+  expect(metrics.mistPayoff).not.toBeNull();
+  expect(metrics.mistCrate).not.toBeNull();
   expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
   expect(metrics.productionCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);

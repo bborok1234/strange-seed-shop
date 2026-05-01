@@ -3,15 +3,15 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T08:22:51.656Z
+Generated at: 2026-05-01T08:39:53.561Z
 
 ## Current mission
 
-Issue #238 **seed-ops asset/FX queue gate hardening**는 PR #239로 merge됐고 main CI `25207807340`가 통과했다. 다음 `$seed-ops` 후보는 물안개/응축 주문 이후의 온실 장기 메타를 새 강화 또는 새 수집/원정 단서로 되돌리는 production vertical slice다. 새 issue는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan-first로 고정한 뒤 시작한다.
+Issue #242 **물안개 응축 완료가 playfield 보상 상태로 남는다**가 plan-first로 진행 중이다. Browser Use `iab`와 `npm run check:visual -- --grep "물안개 응축"`, `npm run check:content`, `npm run check:loop`, `npm run build`는 통과했다. 다음 gate는 `npm run check:ci`, PR checks, merge, main CI다.
 
 즉시 다음 작업 선택 기준:
 
-1. 이번 run의 종료 조건은 Issue #235 plan acceptance, Browser Use iab, `npm run check:visual -- --grep "물안개 응축"`, `npm run check:ci`, PR checks, main CI가 green인 상태이며 모두 완료됐다.
+1. 이번 run의 종료 조건은 Issue #242 plan acceptance, Browser Use iab, `npm run check:visual -- --grep "물안개 응축"`, `npm run check:ci`, PR checks, main CI가 green인 상태다.
 2. 다음 `$seed-ops` 게임 issue는 `docs/NORTH_STAR.md`의 경쟁작 기준 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow를 먼저 적용한다.
 3. 새 후보는 `player verb + production/progression role + screen moment + asset/FX + playtest evidence` 중 최소 3개를 plan에 명시해야 한다. `asset/FX` 축은 기존 asset 재사용만으로는 통과하지 않는다. `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 포함해야 한다.
 4. 우선순위는 복귀 micro-copy나 작은 기능 추가가 아니라 production idle loop의 가장 큰 빈칸을 메우는 vertical slice다. 현재 후보군은 생산 엔진 가시성, 주문/납품 반복성, 업그레이드 선택, 연구/원정 장기 메타, 오프라인 복귀 hook 중 하나를 실제 화면과 gameplay에 연결해야 한다.
@@ -21,27 +21,27 @@ Issue #238 **seed-ops asset/FX queue gate hardening**는 PR #239로 merge됐고 
 
 ## Local state
 
-- Branch: codex/0123-seed-ops-asset-gate-closeout
-- Latest commit: 797d16b asset gate merge 증거를 main 기준으로 닫는다
+- Branch: codex/0124-greenhouse-mist-condenser-payoff-v0
+- Latest commit: 0681016 seed-ops asset/FX gate closeout
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T08:22:41.257Z
-- Phase: pr-open
-- Issue: #240
-- PR: #241
-- Item: items/0123-seed-ops-asset-gate-closeout.md
-- Next action: PR #241 checks 확인 후 merge/main CI 확인하고 다음 production vertical slice 선택 준비
+- Timestamp: 2026-05-01T08:39:49.479Z
+- Phase: verifying
+- Issue: #242
+- PR:
+- Item: items/0124-greenhouse-mist-condenser-payoff-v0.md
+- Next action: check:ci 후 PR checks/merge/main CI gate 진행
 
 ## Open PRs
 
-- #241 draft [Agent Ops] seed-ops asset/FX gate closeout — https://github.com/bborok1234/strange-seed-shop/pull/241
+- unavailable or none
 
 ## Open issues
 
-- #240 [Agent Ops] seed-ops asset/FX gate closeout — https://github.com/bborok1234/strange-seed-shop/issues/240
+- unavailable or none
 
 ## Playable mode
 

@@ -356,6 +356,9 @@ export default function App() {
     ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
     : 0;
   const productionStatus = useMemo(() => (save ? getProductionStatus(save, now) : null), [save, now]);
+  const mistCondenserPayoffActive = Boolean(
+    productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && productionStatus.orderCompleted
+  );
   const actionSurfaceClassName = [
     "starter-panel garden-action-surface",
     productionStatus ? "has-production" : "",
@@ -364,6 +367,7 @@ export default function App() {
     productionStatus?.order.id === GREENHOUSE_ORDER.id && !productionStatus.orderCompleted ? "has-open-greenhouse-order" : "",
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id ? "has-mist-return-order" : "",
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && !productionStatus.orderCompleted ? "has-open-mist-return-order" : "",
+    mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
     save &&
     save.idleProduction.completedOrderIds.includes(GREENHOUSE_EXPANSION_ORDER.id) &&
     save.greenhouseRouteLevel < GREENHOUSE_ROUTE_MAX_LEVEL &&
@@ -1059,6 +1063,7 @@ export default function App() {
                   productionStatus.order.id === GREENHOUSE_ROUTE_SUPPLY_ORDER.id ? "has-route-supply-order" : "",
                   productionStatus.order.id === GREENHOUSE_IRRIGATION_ORDER.id ? "has-irrigation-order" : "",
                   productionStatus.order.id === GREENHOUSE_MIST_RETURN_ORDER.id ? "has-mist-return-order" : "",
+                  mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
                 ]
                   .filter(Boolean)
@@ -1103,13 +1108,23 @@ export default function App() {
                   </button>
                 </div>
                 {productionStatus.orderCompleted ? (
-                  <div className="production-complete-row" aria-label={`${productionStatus.order.title} 납품 완료`}>
+                  <div
+                    className={mistCondenserPayoffActive ? "production-complete-row mist-condenser-complete-row" : "production-complete-row"}
+                    aria-label={`${productionStatus.order.title} 납품 완료`}
+                  >
                     <div className="production-asset production-asset-celebrate" aria-hidden="true">
                       {renderAsset("creature_herb_common_001_celebrate", "완료")}
                     </div>
-                    <div>
+                    <div className="production-complete-copy">
                       <span>{productionStatus.order.title} 완료</span>
                       <strong>{formatOrderReward(productionStatus.order)}</strong>
+                      {mistCondenserPayoffActive && (
+                        <div className="mist-condenser-payoff" aria-label="물안개 응축 보상 상태">
+                          <span>응축기 가동</span>
+                          <strong>달빛 온실 단서 +1</strong>
+                          <small>다음 온실 원정 준비</small>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ) : (
@@ -1864,6 +1879,8 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
   const openCount = plots.filter((plot) => plot.state === "empty").length;
   const productionStatus = getProductionStatus(save, now);
   const greenhouseShelfStored = save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id);
+  const mistCondenserPayoffActive =
+    productionStatus.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && productionStatus.orderCompleted;
   const productionScene =
     productionStatus.ratePerMinute > 0
       ? {
@@ -1871,13 +1888,22 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
           actorLine: productionStatus.orderCompleted ? `${productionStatus.workerDetail} · 납품을 마치고 쉬는 중` : productionStatus.workerDetail,
           rateLabel: `분당 ${formatRatePerMinute(productionStatus.ratePerMinute)} 잎`,
           pendingLabel: `대기 ${productionStatus.pendingLeaves} 잎`,
-          orderTitle: productionStatus.orderCompleted ? `${productionStatus.order.title} 완료` : productionStatus.order.title,
-          orderProgressLabel: `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
+          orderTitle: mistCondenserPayoffActive
+            ? "물안개 응축 완료"
+            : productionStatus.orderCompleted
+              ? `${productionStatus.order.title} 완료`
+              : productionStatus.order.title,
+          orderProgressLabel: mistCondenserPayoffActive
+            ? "응축기 가동"
+            : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
           orderReady: productionStatus.orderReady,
           orderCompleted: productionStatus.orderCompleted,
-          orderStatusLabel: greenhouseShelfStored
-            ? `선반 보관 +${Math.round(getGreenhouseShelfOfflineBonus(save) * 100)}%`
-            : undefined,
+          orderVariant: mistCondenserPayoffActive ? ("mist-condenser-complete" as const) : undefined,
+          orderStatusLabel: mistCondenserPayoffActive
+            ? "달빛 온실 단서 +1"
+            : greenhouseShelfStored
+              ? `선반 보관 +${Math.round(getGreenhouseShelfOfflineBonus(save) * 100)}%`
+              : undefined,
           workAssetPath: getAssetPath(manifest, "creature_herb_common_001_work"),
           crateAssetPath: getAssetPath(manifest, "ui_order_crate_leaf_001")
         }

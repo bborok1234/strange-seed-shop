@@ -228,7 +228,15 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
           <span>{scene.actorLine}</span>
         </div>
       </div>
-      <div className={scene.orderReady || scene.orderCompleted ? "playfield-order-crate order-ready" : "playfield-order-crate"}>
+      <div
+        className={[
+          "playfield-order-crate",
+          scene.orderReady || scene.orderCompleted ? "order-ready" : "",
+          scene.orderVariant ? `order-variant-${scene.orderVariant}` : ""
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
         {scene.crateAssetPath ? <img alt="" src={scene.crateAssetPath} /> : <span className="playfield-scene-fallback">주문</span>}
         <div>
           <p>{scene.orderTitle}</p>
