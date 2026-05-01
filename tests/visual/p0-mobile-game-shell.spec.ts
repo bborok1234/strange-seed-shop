@@ -1662,6 +1662,92 @@ test("모바일 온실 물안개 강화는 물길 점검 보상을 복귀 보너
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-mist-upgrade-v0-393.png"), fullPage: false });
 });
 
+test("모바일 물안개 응축 납품은 복귀 보상을 새 주문으로 잇는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseMist=1&qaReset=1");
+
+  await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("보관 보상 +30%");
+  await page.getByRole("button", { name: "보상 확인" }).click();
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("물안개 응축 납품");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("안개 맺힌 온실 선반");
+  await page.getByRole("button", { name: "생산 잎 수령" }).click();
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("150/150 잎 납품 준비");
+  await page.getByRole("button", { name: /주문 납품 \+165 잎 · \+2 꽃가루 · \+1 재료/ }).click();
+
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("물안개 응축 납품 완료");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("+165 잎 · +2 꽃가루 · +1 재료");
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const productionCard = document.querySelector<HTMLElement>(".production-action-card");
+    const productionCardRect = productionCard?.getBoundingClientRect();
+    const overflowingChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
+    )
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel
+        ? {
+            bottom: panel.bottom,
+            clientHeight: panelElement?.clientHeight ?? 0,
+            scrollHeight: panelElement?.scrollHeight ?? 0
+          }
+        : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      productionCard: productionCardRect
+        ? {
+            bottom: productionCardRect.bottom,
+            clientHeight: productionCard?.clientHeight ?? 0,
+            scrollHeight: productionCard?.scrollHeight ?? 0
+          }
+        : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.productionCard).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.productionCard!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.productionCard!.scrollHeight).toBeLessThanOrEqual(metrics.productionCard!.clientHeight + 1);
+  expect(metrics.overflowingChildren).toEqual([]);
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        const parsed = raw
+          ? (JSON.parse(raw) as {
+              materials?: number;
+              pollen?: number;
+              idleProduction?: { completedOrderIds?: string[] };
+            })
+          : {};
+        return {
+          materials: parsed.materials,
+          pollen: parsed.pollen,
+          mistReturnOrderDone:
+            parsed.idleProduction?.completedOrderIds?.includes("order_greenhouse_mist_return_001") ?? false
+        };
+      })
+    )
+    .toEqual({ materials: 1, pollen: 2, mistReturnOrderDone: true });
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-mist-return-order-v0-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 다음 행동은 보상 modal에서 씨앗 목표로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");

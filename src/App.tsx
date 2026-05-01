@@ -172,13 +172,23 @@ const GREENHOUSE_IRRIGATION_ORDER: FirstOrderDefinition = {
   rewardPollen: 3,
   rewardMaterials: 1
 };
+const GREENHOUSE_MIST_RETURN_ORDER: FirstOrderDefinition = {
+  id: "order_greenhouse_mist_return_001",
+  title: "물안개 응축 납품",
+  customer: "안개 맺힌 온실 선반",
+  requiredLeaves: 150,
+  rewardLeaves: 165,
+  rewardPollen: 2,
+  rewardMaterials: 1
+};
 const ORDER_DEFINITIONS: FirstOrderDefinition[] = [
   FIRST_ORDER,
   SECOND_ORDER,
   GREENHOUSE_ORDER,
   GREENHOUSE_EXPANSION_ORDER,
   GREENHOUSE_ROUTE_SUPPLY_ORDER,
-  GREENHOUSE_IRRIGATION_ORDER
+  GREENHOUSE_IRRIGATION_ORDER,
+  GREENHOUSE_MIST_RETURN_ORDER
 ];
 const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "garden", label: "정원" },
@@ -352,6 +362,8 @@ export default function App() {
     productionStatus && productionStatus.workerCreatures.length > 1 && productionStatus.orderCompleted ? "has-roster-complete" : "",
     productionStatus?.order.id === GREENHOUSE_ORDER.id ? "has-greenhouse-order" : "",
     productionStatus?.order.id === GREENHOUSE_ORDER.id && !productionStatus.orderCompleted ? "has-open-greenhouse-order" : "",
+    productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id ? "has-mist-return-order" : "",
+    productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && !productionStatus.orderCompleted ? "has-open-mist-return-order" : "",
     save &&
     save.idleProduction.completedOrderIds.includes(GREENHOUSE_EXPANSION_ORDER.id) &&
     save.greenhouseRouteLevel < GREENHOUSE_ROUTE_MAX_LEVEL &&
@@ -1046,6 +1058,7 @@ export default function App() {
                   productionStatus.order.id === GREENHOUSE_ORDER.id ? "has-greenhouse-order" : "",
                   productionStatus.order.id === GREENHOUSE_ROUTE_SUPPLY_ORDER.id ? "has-route-supply-order" : "",
                   productionStatus.order.id === GREENHOUSE_IRRIGATION_ORDER.id ? "has-irrigation-order" : "",
+                  productionStatus.order.id === GREENHOUSE_MIST_RETURN_ORDER.id ? "has-mist-return-order" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
                 ]
                   .filter(Boolean)
@@ -1980,6 +1993,17 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
     !save.idleProduction.completedOrderIds.includes(GREENHOUSE_IRRIGATION_ORDER.id)
   ) {
     return GREENHOUSE_IRRIGATION_ORDER;
+  }
+
+  if (
+    save.greenhouseMistLevel >= GREENHOUSE_MIST_MAX_LEVEL &&
+    !save.idleProduction.completedOrderIds.includes(GREENHOUSE_MIST_RETURN_ORDER.id)
+  ) {
+    return GREENHOUSE_MIST_RETURN_ORDER;
+  }
+
+  if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_MIST_RETURN_ORDER.id)) {
+    return GREENHOUSE_MIST_RETURN_ORDER;
   }
 
   if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_IRRIGATION_ORDER.id)) {
