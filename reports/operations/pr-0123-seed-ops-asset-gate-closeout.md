@@ -2,6 +2,8 @@
 
 Issue #238 / PR #239 merge 뒤 main 기준 evidence를 닫고, 다음 `$seed-ops` queue를 production vertical slice 선택으로 되돌린다.
 
+PR evidence: #241
+
 ## Small win
 
 - 이번 PR이 만든 가장 작은 승리: roadmap/control room/heartbeat가 #238 done, PR #239 merge, main CI `25207807340` 성공을 가리킨다.

@@ -3,6 +3,7 @@
 Issue #238 / PR #239가 merge됐고 main CI `25207807340`가 성공했다. 하지만 roadmap/control room이 #238을 active mission으로 계속 가리키면 다음 `$seed-ops`가 stale state에서 다시 시작한다.
 
 Issue: #240
+PR: #241
 
 ## 목표
 

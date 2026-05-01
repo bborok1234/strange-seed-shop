@@ -7,7 +7,7 @@ Created: 2026-05-01
 Updated: 2026-05-01
 Scope-risk: narrow
 Issue: #240
-PR: TBD
+PR: #241
 Branch: `codex/0123-seed-ops-asset-gate-closeout`
 
 ## Intent

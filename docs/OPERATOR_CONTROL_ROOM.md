@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T08:20:18.376Z
+Generated at: 2026-05-01T08:22:51.656Z
 
 ## Current mission
 
@@ -22,22 +22,22 @@ Issue #238 **seed-ops asset/FX queue gate hardening**는 PR #239로 merge됐고 
 ## Local state
 
 - Branch: codex/0123-seed-ops-asset-gate-closeout
-- Latest commit: 04a5794 seed-ops asset/FX queue gate hardening
+- Latest commit: 797d16b asset gate merge 증거를 main 기준으로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T08:20:07.390Z
-- Phase: closeout
+- Timestamp: 2026-05-01T08:22:41.257Z
+- Phase: pr-open
 - Issue: #240
-- PR: 
+- PR: #241
 - Item: items/0123-seed-ops-asset-gate-closeout.md
-- Next action: closeout PR checks 후 main CI 확인하고 다음 production vertical slice 선택 준비
+- Next action: PR #241 checks 확인 후 merge/main CI 확인하고 다음 production vertical slice 선택 준비
 
 ## Open PRs
 
-- unavailable or none
+- #241 draft [Agent Ops] seed-ops asset/FX gate closeout — https://github.com/bborok1234/strange-seed-shop/pull/241
 
 ## Open issues
 
