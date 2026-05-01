@@ -184,6 +184,15 @@ const GREENHOUSE_MIST_RETURN_ORDER: FirstOrderDefinition = {
   rewardPollen: 2,
   rewardMaterials: 1
 };
+const LUNAR_GUARDIAN_ORDER: FirstOrderDefinition = {
+  id: "order_lunar_guardian_watch_001",
+  title: "달빛 보호 주문",
+  customer: "밤 온실 주문 상자",
+  requiredLeaves: 72,
+  rewardLeaves: 88,
+  rewardPollen: 3,
+  rewardMaterials: 1
+};
 const ORDER_DEFINITIONS: FirstOrderDefinition[] = [
   FIRST_ORDER,
   SECOND_ORDER,
@@ -191,7 +200,8 @@ const ORDER_DEFINITIONS: FirstOrderDefinition[] = [
   GREENHOUSE_EXPANSION_ORDER,
   GREENHOUSE_ROUTE_SUPPLY_ORDER,
   GREENHOUSE_IRRIGATION_ORDER,
-  GREENHOUSE_MIST_RETURN_ORDER
+  GREENHOUSE_MIST_RETURN_ORDER,
+  LUNAR_GUARDIAN_ORDER
 ];
 const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "garden", label: "정원" },
@@ -244,19 +254,22 @@ export default function App() {
     const qaGreenhouseLunarSeedPlantReady = getLocalQaGreenhouseLunarSeedPlantReady();
     const qaLunarSeedReady = getLocalQaLunarSeedReady();
     const qaLunarSeedReadyToHarvest = getLocalQaLunarSeedReadyToHarvest();
+    const qaLunarOrderReady = getLocalQaLunarOrderReady();
     const existingSave = qaSpriteState
       ? createSpriteQaSave(qaSpriteState)
       : qaHarvestReveal
         ? createHarvestRevealQaSave()
-        : qaLunarSeedReadyToHarvest
-          ? createLunarSeedReadyToHarvestQaSave()
-          : qaLunarSeedReady
-            ? createLunarSeedReadyQaSave()
-            : qaGreenhouseLunarSeedPlantReady
-              ? createGreenhouseLunarSeedPlantReadyQaSave()
-              : qaGreenhouseLunarClaimReady
-                ? createGreenhouseLunarClaimReadyQaSave()
-                : qaResearchExpeditionClaimReady
+        : qaLunarOrderReady
+          ? createLunarOrderReadyQaSave()
+          : qaLunarSeedReadyToHarvest
+            ? createLunarSeedReadyToHarvestQaSave()
+            : qaLunarSeedReady
+              ? createLunarSeedReadyQaSave()
+              : qaGreenhouseLunarSeedPlantReady
+                ? createGreenhouseLunarSeedPlantReadyQaSave()
+                : qaGreenhouseLunarClaimReady
+                  ? createGreenhouseLunarClaimReadyQaSave()
+                  : qaResearchExpeditionClaimReady
                 ? createResearchExpeditionClaimReadyQaSave()
                 : qaResearchExpeditionReady
                   ? createResearchExpeditionReadyQaSave()
@@ -381,6 +394,9 @@ export default function App() {
   const mistCondenserPayoffActive = Boolean(
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && productionStatus.orderCompleted
   );
+  const lunarGuardianOrderPayoffActive = Boolean(
+    productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id && productionStatus.orderCompleted
+  );
   const actionSurfaceClassName = [
     "starter-panel garden-action-surface",
     productionStatus ? "has-production" : "",
@@ -389,7 +405,10 @@ export default function App() {
     productionStatus?.order.id === GREENHOUSE_ORDER.id && !productionStatus.orderCompleted ? "has-open-greenhouse-order" : "",
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id ? "has-mist-return-order" : "",
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && !productionStatus.orderCompleted ? "has-open-mist-return-order" : "",
+    productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id ? "has-lunar-guardian-order" : "",
+    productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id && !productionStatus.orderCompleted ? "has-open-lunar-guardian-order" : "",
     mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
+    lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
     save &&
     save.idleProduction.completedOrderIds.includes(GREENHOUSE_EXPANSION_ORDER.id) &&
     save.greenhouseRouteLevel < GREENHOUSE_ROUTE_MAX_LEVEL &&
@@ -905,6 +924,7 @@ export default function App() {
   }
 
   function deliverFirstOrder() {
+    const orderFxAssetId = save ? getProductionFxAssetId("order", getCurrentOrder(save)) : PRODUCTION_FX_ASSETS.order;
     commit((draft) => {
       const currentOrder = getCurrentOrder(draft);
       const progress = draft.idleProduction.orderProgress[currentOrder.id] ?? 0;
@@ -923,7 +943,7 @@ export default function App() {
         rewardMaterials: currentOrder.rewardMaterials ?? 0
       });
     });
-    triggerProductionFx("order");
+    triggerProductionFx("order", orderFxAssetId);
     triggerRewardPulse();
   }
 
@@ -943,15 +963,15 @@ export default function App() {
     window.setTimeout(() => setRewardPulse(null), 420);
   }
 
-  function triggerProductionFx(kind: ProductionFxKind) {
+  function triggerProductionFx(kind: ProductionFxKind, assetId = PRODUCTION_FX_ASSETS[kind]) {
     const id = Date.now();
-    setProductionFx({ assetId: PRODUCTION_FX_ASSETS[kind], id, kind });
+    setProductionFx({ assetId, id, kind });
     const qaWindow = window as unknown as {
       __productionFxEvents?: Array<{ kind: ProductionFxKind; assetId: string; timestamp: number }>;
     };
     qaWindow.__productionFxEvents = [
       ...(qaWindow.__productionFxEvents ?? []),
-      { kind, assetId: PRODUCTION_FX_ASSETS[kind], timestamp: Date.now() }
+      { kind, assetId, timestamp: Date.now() }
     ];
     window.setTimeout(() => {
       setProductionFx((current) => (current?.id === id ? null : current));
@@ -1104,7 +1124,9 @@ export default function App() {
                   productionStatus.order.id === GREENHOUSE_ROUTE_SUPPLY_ORDER.id ? "has-route-supply-order" : "",
                   productionStatus.order.id === GREENHOUSE_IRRIGATION_ORDER.id ? "has-irrigation-order" : "",
                   productionStatus.order.id === GREENHOUSE_MIST_RETURN_ORDER.id ? "has-mist-return-order" : "",
+                  productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id ? "has-lunar-guardian-order" : "",
                   mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
+                  lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
                 ]
                   .filter(Boolean)
@@ -1158,7 +1180,13 @@ export default function App() {
                 </div>
                 {productionStatus.orderCompleted ? (
                   <div
-                    className={mistCondenserPayoffActive ? "production-complete-row mist-condenser-complete-row" : "production-complete-row"}
+                    className={[
+                      "production-complete-row",
+                      mistCondenserPayoffActive ? "mist-condenser-complete-row" : "",
+                      lunarGuardianOrderPayoffActive ? "lunar-guardian-complete-row" : ""
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
                     aria-label={`${productionStatus.order.title} 납품 완료`}
                   >
                     <div className="production-asset production-asset-celebrate" aria-hidden="true">
@@ -1174,12 +1202,34 @@ export default function App() {
                           <small>다음 온실 원정 준비</small>
                         </div>
                       )}
+                      {lunarGuardianOrderPayoffActive && (
+                        <div className="lunar-guardian-payoff" aria-label="달빛 보호 주문 보상 상태">
+                          <span>누누 야간 근무</span>
+                          <strong>달빛 보상 재료 +1</strong>
+                          <small>다음 달빛 씨앗 연구 준비</small>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ) : (
-                  <div className="order-progress-card">
+                  <div
+                    className={[
+                      "order-progress-card",
+                      productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id ? "order-progress-lunar-guardian" : ""
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                  >
                     <div className="order-progress-main">
-                      <div className="production-asset production-asset-crate" aria-hidden="true">
+                      <div
+                        className={[
+                          "production-asset production-asset-crate",
+                          productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id ? "production-asset-lunar-crate" : ""
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+                        aria-hidden="true"
+                      >
                         {renderAsset("ui_order_crate_leaf_001", "주문")}
                       </div>
                       <div>
@@ -1190,7 +1240,7 @@ export default function App() {
                     </div>
                     <progress max={productionStatus.order.requiredLeaves} value={productionStatus.orderProgress} />
                     <button disabled={!productionStatus.orderReady} onClick={deliverFirstOrder} type="button">
-                      {productionStatus.order.id === FIRST_ORDER.id ? "첫 잎 주문 납품" : "주문 납품"} {formatOrderReward(productionStatus.order)}
+                      {getOrderDeliveryCta(productionStatus.order)} {formatOrderReward(productionStatus.order)}
                     </button>
                   </div>
                 )}
@@ -2012,6 +2062,7 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
   const greenhouseShelfStored = save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id);
   const mistCondenserPayoffActive =
     productionStatus.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && productionStatus.orderCompleted;
+  const lunarGuardianOrderActive = productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id;
   const productionScene =
     productionStatus.ratePerMinute > 0
       ? {
@@ -2029,12 +2080,20 @@ function buildGardenPlayfieldViewModel(save: PlayerSave | null, now: number, man
             : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
           orderReady: productionStatus.orderReady,
           orderCompleted: productionStatus.orderCompleted,
-          orderVariant: mistCondenserPayoffActive ? ("mist-condenser-complete" as const) : undefined,
+          orderVariant: lunarGuardianOrderActive
+            ? ("lunar-guardian" as const)
+            : mistCondenserPayoffActive
+              ? ("mist-condenser-complete" as const)
+              : undefined,
           orderStatusLabel: mistCondenserPayoffActive
             ? "달빛 온실 단서 +1"
-            : greenhouseShelfStored
-              ? `선반 보관 +${Math.round(getGreenhouseShelfOfflineBonus(save) * 100)}%`
-              : undefined,
+            : lunarGuardianOrderActive
+              ? productionStatus.orderCompleted
+                ? "달빛 보호 완료"
+                : "누누 보호 주문"
+              : greenhouseShelfStored
+                ? `선반 보관 +${Math.round(getGreenhouseShelfOfflineBonus(save) * 100)}%`
+                : undefined,
           actorFamily: productionStatus.primaryWorker?.family,
           workAssetPath: getAssetPath(manifest, productionStatus.primaryWorkAssetId),
           crateAssetPath: getAssetPath(manifest, "ui_order_crate_leaf_001")
@@ -2080,6 +2139,7 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
   const pendingLeaves = getPendingProductionLeaves(save, now);
   const workerCreatures = getProductionWorkers(save);
   const primaryWorker = getPrimaryProductionWorker(workerCreatures);
+  const lunarGuardianOrderActive = currentOrder.id === LUNAR_GUARDIAN_ORDER.id;
   const workerNames = primaryWorker
     ? [primaryWorker.name, ...workerCreatures.filter((creature) => creature.id !== primaryWorker.id).map((creature) => creature.name)]
     : workerCreatures.map((creature) => creature.name);
@@ -2106,7 +2166,9 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
           ? `${workerCreatures[0].name} 작업 중`
           : "생명체 작업 중",
     workerDetail:
-      workerCreatures.length > 1
+      lunarGuardianOrderActive
+        ? "달방울 누누가 밤 온실 주문을 지키는 중"
+        : workerCreatures.length > 1
         ? `${workerNames.slice(0, 2).join(" · ")}${workerNames.length > 2 ? ` 외 ${workerNames.length - 2}명` : ""}`
         : workerCreatures[0]
           ? `${getCreatureRoleLabel(workerCreatures[0].role)} 역할`
@@ -2143,6 +2205,13 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
 
   if (!save.idleProduction.completedOrderIds.includes(SECOND_ORDER.id)) {
     return SECOND_ORDER;
+  }
+
+  if (
+    save.discoveredCreatureIds.includes(LUNAR_REWARD_CREATURE_ID) &&
+    !save.idleProduction.completedOrderIds.includes(LUNAR_GUARDIAN_ORDER.id)
+  ) {
+    return LUNAR_GUARDIAN_ORDER;
   }
 
   if (
@@ -2185,6 +2254,10 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
     return GREENHOUSE_MIST_RETURN_ORDER;
   }
 
+  if (save.idleProduction.completedOrderIds.includes(LUNAR_GUARDIAN_ORDER.id)) {
+    return LUNAR_GUARDIAN_ORDER;
+  }
+
   if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_IRRIGATION_ORDER.id)) {
     return GREENHOUSE_IRRIGATION_ORDER;
   }
@@ -2198,6 +2271,26 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
   }
 
   return save.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL ? GREENHOUSE_ORDER : SECOND_ORDER;
+}
+
+function getProductionFxAssetId(kind: ProductionFxKind, order?: FirstOrderDefinition): string {
+  if (kind === "order" && order?.id === LUNAR_GUARDIAN_ORDER.id) {
+    return "fx_lunar_harvest_moonburst_001";
+  }
+
+  return PRODUCTION_FX_ASSETS[kind];
+}
+
+function getOrderDeliveryCta(order: FirstOrderDefinition): string {
+  if (order.id === FIRST_ORDER.id) {
+    return "첫 잎 주문 납품";
+  }
+
+  if (order.id === LUNAR_GUARDIAN_ORDER.id) {
+    return "달빛 보호 주문 납품";
+  }
+
+  return "주문 납품";
 }
 
 function formatOrderReward(order: FirstOrderDefinition): string {
@@ -2881,6 +2974,14 @@ function getLocalQaLunarSeedReadyToHarvest(): boolean {
   return new URLSearchParams(window.location.search).get("qaLunarSeedReadyToHarvest") === "1";
 }
 
+function getLocalQaLunarOrderReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaLunarOrderReady") === "1";
+}
+
 function getLocalDebugMode() {
   if (typeof window === "undefined") {
     return false;
@@ -3266,6 +3367,43 @@ function createLunarSeedReadyToHarvestQaSave(): PlayerSave {
           }
         : plot
     ),
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
+  };
+}
+
+function createLunarOrderReadyQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createLunarSeedReadyQaSave();
+
+  return {
+    ...save,
+    leaves: 244,
+    pollen: 2,
+    materials: 3,
+    discoveredCreatureIds: Array.from(new Set([...save.discoveredCreatureIds, LUNAR_REWARD_CREATURE_ID])),
+    plots: save.plots.map((plot) =>
+      plot.index === 1
+        ? {
+            ...plot,
+            seedId: undefined,
+            source: undefined,
+            plantedAt: undefined,
+            tapProgressSeconds: 0,
+            harvestedCreatureId: LUNAR_REWARD_CREATURE_ID
+          }
+        : plot
+    ),
+    idleProduction: {
+      ...save.idleProduction,
+      pendingLeaves: 0,
+      lastTickAt: now.toISOString(),
+      orderProgress: {
+        ...save.idleProduction.orderProgress,
+        [LUNAR_GUARDIAN_ORDER.id]: LUNAR_GUARDIAN_ORDER.requiredLeaves
+      },
+      completedOrderIds: save.idleProduction.completedOrderIds.filter((orderId) => orderId !== LUNAR_GUARDIAN_ORDER.id)
+    },
     lastSeenAt: now.toISOString(),
     updatedAt: now.toISOString()
   };

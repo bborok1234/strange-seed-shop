@@ -34,6 +34,14 @@ function validatePublicationGate(heartbeat, label) {
   if (gate && !gate.pending_command) failures.push(`${label}: publication_gate.pending_command is required`);
   if (gate && !gate.branch) failures.push(`${label}: publication_gate.branch is required`);
   if (gate && !gate.commit) failures.push(`${label}: publication_gate.commit is required`);
+  if (gate && !gate.body_file) failures.push(`${label}: publication_gate.body_file is required`);
+  if (gate && !gate.dedupe_key) failures.push(`${label}: publication_gate.dedupe_key is required`);
+  if (gate && gate.repeat_policy !== "do_not_repeat_final_ask") {
+    failures.push(`${label}: publication_gate.repeat_policy must be do_not_repeat_final_ask`);
+  }
+  if (gate?.pending_command && gate.pending_command.includes("gh ") && !gate.pending_command.includes("--body-file") && !gate.pending_command.includes("body=@")) {
+    failures.push(`${label}: publication_gate.pending_command must publish GitHub text through --body-file or file payload`);
+  }
 
   const confirmation = heartbeat.confirmation;
   if (!confirmation) failures.push(`${label}: publication gate requires confirmation object`);
@@ -50,6 +58,13 @@ function validatePublicationGate(heartbeat, label) {
     failures.push(`${label}: continuation.artifact_path does not exist: ${continuation.artifact_path}`);
   }
   if (continuation && !continuation.safe_local_work) failures.push(`${label}: continuation.safe_local_work is required`);
+  if (
+    continuation?.safe_local_work &&
+    /no remaining local safe work/i.test(continuation.safe_local_work) &&
+    !/await action-time confirmation without repeated ask/i.test(continuation.action ?? "")
+  ) {
+    failures.push(`${label}: continuation.action must wait without repeated ask when no local safe work remains`);
+  }
 
   if (heartbeat.stop_rule && heartbeat.stop_rule !== "none" && !["credential", "destructive", "external-production", "payment", "customer-data", "hard-blocker", "user-stop", "timebox"].includes(heartbeat.stop_rule)) {
     failures.push(`${label}: stop_rule is not recognized: ${heartbeat.stop_rule}`);
@@ -71,6 +86,9 @@ const fixtures = [
         kind: "representational_communication",
         target: "github_pr",
         pending_command: "gh pr create --body-file reports/operations/pr.md",
+        body_file: "reports/operations/pr.md",
+        dedupe_key: "github_pr|codex/example|abc1234|reports/operations/pr.md",
+        repeat_policy: "do_not_repeat_final_ask",
         branch: "codex/example",
         commit: "abc1234"
       },
@@ -94,7 +112,10 @@ const fixtures = [
         active: true,
         kind: "representational_communication",
         target: "github_pr",
-        pending_command: "gh pr create",
+        pending_command: "gh pr create --body-file reports/operations/pr.md",
+        body_file: "reports/operations/pr.md",
+        dedupe_key: "github_pr|codex/example|abc1234|reports/operations/pr.md",
+        repeat_policy: "do_not_repeat_final_ask",
         branch: "codex/example",
         commit: "abc1234"
       },
@@ -118,7 +139,10 @@ const fixtures = [
         active: true,
         kind: "representational_communication",
         target: "github_issue",
-        pending_command: "gh issue create",
+        pending_command: "gh issue create --body-file reports/operations/issue.md",
+        body_file: "reports/operations/issue.md",
+        dedupe_key: "github_issue|codex/example|abc1234|reports/operations/issue.md",
+        repeat_policy: "do_not_repeat_final_ask",
         branch: "codex/example",
         commit: "abc1234"
       },
