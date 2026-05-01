@@ -9,7 +9,7 @@
 `물안개 응축 납품` 완료 직후 production card와 playfield order crate에 `응축기 가동` 상태, `달빛 온실 단서`, reward motion을 추가해 기능-only 주문 완료를 production payoff 장면으로 바꾼다.
 
 Issue: #242
-PR: TBD
+PR: #243
 
 ## Small win
 

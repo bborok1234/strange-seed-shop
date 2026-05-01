@@ -7,7 +7,7 @@ Created: 2026-05-01
 Updated: 2026-05-01
 Scope-risk: narrow
 Issue: #242
-PR: TBD
+PR: #243
 Branch: `codex/0124-greenhouse-mist-condenser-payoff-v0`
 
 ## Intent
