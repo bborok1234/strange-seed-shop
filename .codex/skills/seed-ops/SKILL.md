@@ -29,11 +29,66 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 ## Before implementation
 
 1. `docs/README.md`, `docs/ROADMAP.md`, `docs/PROJECT_COMMANDS.md`, `docs/NORTH_STAR.md`를 확인한다.
-2. 게임 기능/UI/HUD/playfield/asset/QA issue는 `game-studio:game-studio`로 먼저 분류하고 specialist route를 고정한다.
-3. UI/HUD/layout은 `game-studio:game-ui-frontend`, browser-game QA는 `game-studio:game-playtest`, Phaser runtime은 `game-studio:phaser-2d-game`, simulation/render/UI boundary는 `game-studio:web-game-foundations`, 2D sprite/FX는 `game-studio:sprite-pipeline` 기준을 적용한다.
-4. 새 issue/work item은 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`과 `## Game Studio route`를 만든다.
-5. stop rule이 없는 한 완료 후 다음 production vertical slice 후보를 plan-first로 선택한다.
-6. 다음 issue로 넘어가기 전 닫힌 issue/PR metadata를 확인해 acceptance checkbox, 작업 checklist, Browser Use/visual evidence, main CI 링크가 비어 있지 않은지 검증한다.
+2. 새 게임 issue를 고르기 전에 `## Studio Campaign Gate`를 적용한다. 현재 active campaign은 `P0.5 Idle Core + Creative Rescue`이며, campaign source of truth 없이 직전 issue 옆의 작은 작업으로 내려가지 않는다.
+3. 게임 기능/UI/HUD/playfield/asset/QA issue는 `game-studio:game-studio`로 먼저 분류하고 specialist route를 고정한다.
+4. UI/HUD/layout은 `game-studio:game-ui-frontend`, browser-game QA는 `game-studio:game-playtest`, Phaser runtime은 `game-studio:phaser-2d-game`, simulation/render/UI boundary는 `game-studio:web-game-foundations`, 2D sprite/FX는 `game-studio:sprite-pipeline` 기준을 적용한다.
+5. 새 issue/work item은 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`, `## Game Studio route`, `## Game Studio Department Signoff`, `## Subagent/Team Routing`을 만든다.
+6. stop rule이 없는 한 완료 후 다음 production vertical slice 후보를 plan-first로 선택한다.
+7. 다음 issue로 넘어가기 전 닫힌 issue/PR metadata를 확인해 acceptance checkbox, 작업 checklist, Browser Use/visual evidence, main CI 링크가 비어 있지 않은지 검증한다.
+
+## Studio Campaign Gate
+
+`$seed-ops`의 게임 작업 단위는 개별 issue가 아니라 campaign이다. issue는 campaign의 하위 산출물이다. 다음 implementation issue를 선택하기 전 active campaign source of truth를 확인하고, campaign completion 기준에서 가장 큰 production gap을 고른다.
+
+현재 active campaign: `P0.5 Idle Core + Creative Rescue`
+
+이 campaign의 완료 기준은 “기능 목록 완료”가 아니라 첫 5분 idle vertical slice가 production 게임 장면으로 읽히는 것이다.
+
+- 첫 5분 loop가 심기 -> 성장 가속 -> 수확/발견 -> 자동 생산 -> 보상 사용 -> 다음 목표로 이어진다.
+- 정원 화면에서 생산 주체, 생산량, 주문/납품, 다음 보상, 오프라인 복귀 hook이 즉시 읽힌다.
+- 핵심 seed/creature/FX/order/facility visual surface는 accepted manifest raster asset이고 SVG/vector/code-native accepted game graphics가 없다.
+- asset/FX work는 gpt-image-2 default, Codex native fallback, style/provenance/animation evidence를 남긴다.
+- Browser Use `iab` 또는 현재 세션 blocker와 visual regression evidence가 visible gameplay PR마다 남는다.
+- 첫 5분 confusion/support risk가 닫혔거나 follow-up으로 남는다.
+
+다음 issue plan artifact는 아래를 포함해야 한다.
+
+1. campaign source of truth
+2. reference teardown
+3. creative brief
+4. Game Studio Department Signoff
+5. candidate issue list와 선택/거절 사유
+6. Subagent/Team Routing decision
+7. QA/playtest plan
+
+`left the next queue candidate is not continuation`: ROADMAP나 control room에 다음 후보를 적는 것은 continuation이 아니다. 이 gate가 들어간 plan artifact가 있어야 계속 진행 중으로 인정한다.
+
+## Game Studio Department Signoff
+
+기존 ClawSweeper식 `Intake / Review / Apply / Verify / Audit`는 실행 stage다. 여기에 게임사 부서 ownership axis를 겹쳐서 쓴다. 각 부서는 roleplay가 아니라 산출물과 통과 조건을 소유한다.
+
+| 부서 | 책임 | Plan에 남길 산출물 |
+| --- | --- | --- |
+| 기획팀 | player verb, core loop, reward timing | player value, production/progression role, first 5 minutes moment |
+| 리서치팀 | 경쟁작 production gap, 외부/내부 레퍼런스 | reference teardown, 비교 기준, 거절한 대안 |
+| 아트팀 | visual target, style consistency, asset/FX plan | art direction, gpt-image-2 default/fallback, manifest/animation plan |
+| 개발팀 | runtime architecture, save/economy boundaries | implementation tranche, touched files, rollback boundary |
+| 검수팀 | Browser Use, visual QA, regression | playtest evidence, screenshot/report/check list |
+| 마케팅팀 | mock-only player-facing promise | devlog/release-note angle, no real channel action |
+| 고객지원팀 | 첫 5분 혼란과 support risk | confusion/support risk, player-facing FAQ note |
+
+부서 간 관점이 충돌하면 `role-debate note`를 plan에 남긴다. 예: 아트팀이 신규 raster asset을 요구하지만 개발팀이 scope를 줄이려는 경우, 최종 선택과 rejected alternative를 기록한다.
+
+## Subagent/Team Routing
+
+`$seed-ops`는 혼자 모든 역할을 순차 처리하는 것을 기본값으로 삼지 않는다. 아래 조건이면 Codex native subagents 또는 team mode를 사용한다.
+
+- 리서치/로컬 감사/QA가 구현과 독립적으로 병렬 진행 가능하다.
+- 아트 계획과 runtime 구현의 write scope가 분리된다.
+- 검수팀이 구현 후가 아니라 구현 중 회귀 기준을 준비할 수 있다.
+- campaign pass처럼 여러 역할의 관점 누락 위험이 높은 작업이다.
+
+사용하지 않는 경우도 plan에 이유를 적는다. 예: 단일 문서 gate 수정처럼 병렬화 비용이 더 크고 write scope가 거의 같은 작업.
 
 ## Issue selection gate
 
@@ -48,6 +103,8 @@ description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사
 `asset/FX` 축을 쓰는 후보는 `playfield state`, `HUD affordance`, `sprite/FX`, `order crate visual state`, `reward motion` 중 최소 하나의 concrete visual/game-feel payoff와 경쟁작 production gap을 적어야 한다. 단순 주문 추가, 색, 여백, 문구, copy tweak, test-only, 문서-only 작업은 위 visual payoff를 동반해 vertical slice blocker를 제거하거나 명확한 slice 일부일 때만 고른다. `safe`, `local`, `작다`는 선택 이유가 될 수 없고, 오직 승인/파괴/외부 권한 gate를 통과했다는 조건으로만 사용한다.
 
 신규 게임 그래픽 asset의 기본 생성 경로는 OpenAI Images API `gpt-image-2`다. gpt-image-2/API 생성은 `OPENAI_API_KEY`와 `SEED_ASSET_IMAGE_MODEL`을 사용하며, 키가 없으면 생성 단계는 hard-block으로 기록한다. accepted manifest game asset으로 SVG/vector/code-native 그림을 만들거나 등록하지 않는다. `asset/FX` 축을 선택한 issue는 `gpt-game-asset-plan -> gpt-game-asset-prompt -> gpt-game-asset-generate -> gpt-game-asset-review` 또는 gpt-image-2 API provenance 중 하나를 plan/evidence에 남기고, `npm run check:asset-provenance`와 `npm run check:asset-style`을 통과해야 한다.
+
+Asset/FX work는 gastory에서 가져온 bundle 기준도 따른다. 즉 project style state, prompt/model sidecar, reference image consistency, animation camera/composition lock, frame/GIF/spritesheet extraction, manifest QA, small-size visual review가 plan/evidence에 있어야 한다.
 
 gpt-image-2 API가 credit/quota/rate limit/organization verification/model access로 막히면 기존처럼 Codex native image generation fallback을 사용한다. fallback도 최종 산출물은 raster PNG workspace file이어야 하며, SVG/vector/code-native 그림은 여전히 금지다. fallback 발생 시 `assets/source/gpt_image_asset_provenance.json`에 blocker와 fallback_required를 남긴다.
 

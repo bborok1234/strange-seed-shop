@@ -142,6 +142,33 @@ for (const phrase of [
   requirePhrase(controlRoomPath, phrase);
 }
 
+for (const phrase of [
+  "P0.5 Idle Core + Creative Rescue",
+  "campaign source of truth",
+  "Game Studio Department Signoff",
+  "기획팀",
+  "리서치팀",
+  "아트팀",
+  "개발팀",
+  "검수팀",
+  "마케팅팀",
+  "고객지원팀",
+  "role-debate note",
+  "Subagent/Team Routing",
+  "Codex native subagents",
+  "team mode",
+  "reference teardown",
+  "creative brief",
+  "QA/playtest plan",
+  "gastory-style style state",
+  "prompt/model sidecar",
+  "reference image consistency",
+  "animation camera/composition lock",
+  "frame/GIF/spritesheet extraction"
+]) {
+  requirePhrase(controlRoomPath, phrase);
+}
+
 if (heartbeat?.next_action && !/stop|멈춤|완료|gate|준비/.test(heartbeat.next_action)) {
   failures.push("heartbeat next_action should include a bounded stop/prep/gate signal");
 }
