@@ -1,10 +1,11 @@
 # Seed Ops Loop Drill
 
-Status: local-verified
+Status: done
 Owner: agent
 Date: 2026-05-01
 Issue: #262
 PR: #263
+Main CI: 25217988137
 
 ## Purpose
 
@@ -35,10 +36,20 @@ main에서 `npm run check:ops-live`를 실행했을 때 heartbeat branch가 `cod
 
 ## Status
 
-Local verification passed. PR/checks/merge/main CI gate remains.
+PR #263 was merged and main CI `25217988137` passed. Closeout evidence is being written before closing Issue #262.
 
 ## Local Verification
 
 - `npm run check:ops-live` — passed after heartbeat/control room refresh
 - `npm run check:seed-ops-queue` — passed
 - `npm run check:ci` — passed
+
+## Remote Verification
+
+- PR #263 checks — passed
+- PR #263 merge commit — `0c40b34aa3b367fb7ba0e1f4d606df6bb665c440`
+- Main CI — `25217988137` success
+
+## Result
+
+The seed-ops loop drill proved that a one-issue run must not stop at branch or PR creation. The durable completion point is merge, main CI success, local main fast-forward, issue checkbox update, and explicit issue close.
