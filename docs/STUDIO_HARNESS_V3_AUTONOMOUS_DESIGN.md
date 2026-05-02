@@ -242,6 +242,16 @@ read GitHub queue
 
 The loop does not stop at checkpoint summaries. A summary is an evidence event, not a terminal condition.
 
+### Deterministic bot-runner checker slice
+
+Issue #276 implements the first deterministic slice of the runner plane as fixture-backed scripts, not live GitHub mutation:
+
+- `scripts/studio-v3-bot-runner.mjs` reconstructs a WorkUnit from GitHub issue/PR/GateEvent fixture data and classifies authorization, recovery, and reconciliation states.
+- `scripts/check-studio-v3-bot-runner.mjs` verifies the required fixtures for a valid GateEvent chain, local campaign ledger authority regression, routine GitHub human handoff regression, stale local branch / unpushed dirty work recovery, and GateEvent hash mismatch taint.
+- `npm run check:studio-v3-bot-runner` is part of `npm run check:ci`, so #276 regressions block normal CI.
+
+This slice is intentionally deterministic. It does not call GitHub during CI; live `gh` synchronization remains runner/runtime work, while the checker proves that local-only authorization and publication handoff regressions cannot silently pass.
+
 ### Infinite Run Contract
 
 Studio run is infinite by default. Once `$seed-studio` or the Studio Harness v3 runner starts, it continues operating until the process is physically unable to continue. Issue creation, PR creation, merge, Release, Retro, daily report, queue refresh, and recovery report are loop events, not completion states.

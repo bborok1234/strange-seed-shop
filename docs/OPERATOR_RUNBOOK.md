@@ -61,6 +61,9 @@ Before any supervised 4h or 24h run:
 During a supervised run:
 
 - Studio run is infinite by default. Once the operator/studio runner starts, issue creation, PR creation, merge, Release, Retro, daily report, and recovery report are checkpoints inside the loop, not terminal states.
+- Studio Harness v3 runner reconstructs each WorkUnit from GitHub issue/PR/GateEvent surfaces before mutation. GitHub issue/PR/GateEvent is operational truth; issue/PR body text is projection, and local campaign ledger may mirror evidence but must not authorize gates.
+- Never authorize work from local campaign ledger alone. Treat local `campaigns/**`, `.omx/**`, recovery stash/branch, and local reports as read model/runtime cache unless backfilled to a GitHub WorkUnit.
+- routine git/GitHub actions(branch push, PR create/update, issue/comment update, GitHub checks 확인, merge when green)는 agent/runner 책임이다. Do not turn ordinary GitHub publication into human handoff unless credentials, destructive policy, or external-production boundary blocks every safe local continuation.
 - Queue empty is not a stop condition. If no legal WorkUnit is ready, reconcile GitHub/local state, open or update an Intake WorkUnit, repair stale PR/check state, harden deterministic contracts, refresh evidence, or write a retry heartbeat.
 - Write heartbeat at least once per iteration and at least every 5 minutes during multi-hour trials.
 - During long PR/CI waits, the independent heartbeat daemon owns the 5-minute liveness signal; the foreground agent still records meaningful phase transitions.

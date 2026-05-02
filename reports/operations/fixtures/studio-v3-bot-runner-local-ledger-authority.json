@@ -1,0 +1,20 @@
+{
+  "repo": "bborok1234/strange-seed-shop",
+  "local_mirror": {
+    "source": "campaigns",
+    "authority": "local",
+    "authorizes_gate_advance": true,
+    "campaign_id": "creature-collection-rescue",
+    "gate": "Release"
+  },
+  "local_git": {
+    "branch": "codex/recover-local-studio-work-20260503",
+    "upstream_exists": false,
+    "dirty": false,
+    "pushed": false
+  },
+  "expected": {
+    "status": "quarantined",
+    "authorization": false
+  }
+}

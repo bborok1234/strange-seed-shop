@@ -3,48 +3,51 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-02T16:11:49.231Z
+Generated at: 2026-05-02T16:32:02.787Z
 
 ## Current mission
 
-현재 작업은 `items/0137-lunar-guardian-order-bridge-v0.md`의 **달방울 누누 달빛 보호 주문 + visual QA correction**이다. 사용자 제보 스크린샷 기준으로 `다음 행동` 카드의 달빛 보호 주문 payoff clipping을 고치고, 기존 seed-ops issue/PR 제목 패턴이 작은 연결 기능과 closeout evidence로 수렴한 문제를 회고해 `Strategic Jump Check`와 `Title Contract`를 하네스에 추가한다.
+현재 작업은 GitHub-authoritative queue의 #276 **Studio Harness v3 bot runner 구현 spec 및 checker 정리**다. #274/#275가 같은 복구 queue에 남아 있지만, #276은 v3 WorkUnit reconstruction과 local ledger authority 회귀 방지를 먼저 막는 blocking WorkUnit이므로 우선 진행한다.
 
 현재 evidence:
 
-- Browser Use current tab: `http://127.0.0.1:5173/?qaLunarOrderReady=1&qaFxTelemetry=1`
-- User-reported defect reproduction: `reports/visual/lunar-guardian-user-defect-delivered-browser-use-20260502.png`
-- Fixed Browser Use state: `reports/visual/lunar-guardian-order-fixed-browser-use-20260502.png`
-- Regression gate: `npm run check:visual -- --grep "달빛 보호"` passed after the second clipping fix.
-- Issue/PR title retrospective: `reports/operations/seed-ops-issue-pr-title-retrospective-20260502.md`
-- Existing Studio Campaign Gate quality phrases remain active in the queue gate: `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`.
+- GitHub issue: #276 `Studio Harness v3 bot runner 구현 spec 및 checker 정리`
+- Plan artifact: `items/0140-studio-v3-bot-runner-checker.md`
+- Branch: `codex/0276-studio-v3-bot-runner-checker`
+- Runner/checker: `scripts/studio-v3-bot-runner.mjs`, `scripts/check-studio-v3-bot-runner.mjs`
+- Fixtures: `reports/operations/fixtures/studio-v3-bot-runner-*.json`
+- Focused verification: `npm run check:studio-v3-bot-runner` 통과, valid fixture `--require-authorized` 통과, local-ledger authority fixture `--require-authorized` 실패 확인
+- Existing Studio Campaign Gate quality phrases remain active while #276 runs: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`. #276은 operator checker work라 신규 게임 issue 선택은 아니지만, 다음 #275 같은 game/UI WorkUnit으로 넘어갈 때 이 gate를 계속 적용한다.
 
 즉시 적용된 gate:
 
-1. `.codex/skills/seed-ops/SKILL.md`와 `docs/PROJECT_COMMANDS.md`에 `Strategic Jump Check`를 추가한다.
-2. `.codex/skills/seed-ops/SKILL.md`와 `docs/PROJECT_COMMANDS.md`에 `Title Contract`를 추가한다.
-3. `scripts/check-seed-ops-queue-gate.mjs`가 이 두 계약이 seed-ops surface에서 사라지지 않게 확인한다.
-4. 이 작업 PR body에는 Browser Use fixed screenshot과 issue/PR title retrospective를 원 PR evidence로 포함한다.
-5. merge 뒤 main-targeted closeout commit/PR을 만들지 않고, stop rule이 없으면 다음 issue를 `Strategic Jump Check`부터 plan-first로 만든다.
+1. GitHub issue/PR/GateEvent fixture에서 WorkUnit을 복원하고 state hash를 검증한다.
+2. local `campaigns/**` 또는 recovery ledger만으로 gate advance를 authorize하면 `quarantined`로 실패한다.
+3. routine branch push/PR create/update/issue/comment update를 사람 handoff로 넘기는 projection은 `human-handoff-regression`으로 실패한다.
+4. stale local branch와 unpushed dirty work는 `recovery-state`로 분류한다.
+5. `npm run check:ci`가 `npm run check:studio-v3-bot-runner`를 포함한다.
+
+다음 checkpoint는 focused checks와 전체 `npm run check:ci`, PR 생성, GitHub checks 확인, merge, main CI 관찰이다. Stop rule이 없으면 이후 #274 또는 #275 중 GitHub state 기준 다음 합법 WorkUnit으로 이어간다.
 
 ## Local state
 
-- Branch: codex/recover-local-studio-work-20260503
-- Latest commit: 177d3f4 복구 원장 PR 본문을 운영 증거로 남김
+- Branch: codex/0276-studio-v3-bot-runner-checker
+- Latest commit: 1b8a4a0 로컬 Studio 미반영 작업을 복구 단위로 분리 (#277)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-02T16:11:05.688Z
-- Phase: verifying
-- Issue: #274
+- Timestamp: 2026-05-02T16:32:01.056Z
+- Phase: ready-for-pr
+- Issue: #276
 - PR: 
-- Item: items/0139-studio-infinite-runner-contract.md
-- Next action: gate 준비: PR277 CI recheck and merge
+- Item: items/0140-studio-v3-bot-runner-checker.md
+- Next action: PR publication gate 준비: commit, push branch, create PR with body file
 
 ## Open PRs
 
-- #277 ready 로컬 Studio 미반영 작업을 복구 단위로 분리 — https://github.com/bborok1234/strange-seed-shop/pull/277
+- unavailable or none
 
 ## Open issues
 
