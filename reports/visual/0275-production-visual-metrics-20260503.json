@@ -1,0 +1,232 @@
+{
+  "issue": 275,
+  "branch": "codex/0275-creature-stage-care-album-production",
+  "viewport": {
+    "width": 393,
+    "height": 852
+  },
+  "records": [
+    {
+      "kind": "stage",
+      "label": "initial",
+      "metrics": {
+        "stageText": "오늘의 온실 친구달방울 누누밤 사이 모은 보상을 숨겨두었어요.돌보기젤리콩 통통젤리콩 발자국",
+        "stageState": "idle",
+        "bodyScrollHeight": 852,
+        "innerHeight": 852,
+        "focus": {
+          "top": 96,
+          "bottom": 440,
+          "width": 369,
+          "height": 344,
+          "clientHeight": 344,
+          "scrollHeight": 398
+        },
+        "portrait": {
+          "top": 136,
+          "bottom": 324,
+          "width": 188,
+          "height": 188,
+          "clientHeight": 188,
+          "scrollHeight": 188
+        },
+        "panel": {
+          "top": 448,
+          "bottom": 776,
+          "width": 369,
+          "height": 328,
+          "clientHeight": 326,
+          "scrollHeight": 326
+        },
+        "bottomTabs": {
+          "top": 788,
+          "bottom": 852,
+          "width": 393,
+          "height": 64,
+          "clientHeight": 64,
+          "scrollHeight": 64
+        },
+        "albumMemory": null,
+        "albumPhoto": null,
+        "albumClue": null
+      }
+    },
+    {
+      "kind": "stage",
+      "label": "after-care",
+      "metrics": {
+        "stageText": "오늘의 온실 친구달방울 누누달방울 누누가 눈을 뜨고 발밑의 반짝이는 흔적을 살펴요.단서 따라가기젤리콩 통통젤리콩 발자국",
+        "stageState": "care",
+        "bodyScrollHeight": 852,
+        "innerHeight": 852,
+        "focus": {
+          "top": 96,
+          "bottom": 440,
+          "width": 369,
+          "height": 344,
+          "clientHeight": 344,
+          "scrollHeight": 399
+        },
+        "portrait": {
+          "top": 112,
+          "bottom": 334,
+          "width": 222,
+          "height": 222,
+          "clientHeight": 188,
+          "scrollHeight": 188
+        },
+        "panel": {
+          "top": 448,
+          "bottom": 776,
+          "width": 369,
+          "height": 328,
+          "clientHeight": 326,
+          "scrollHeight": 326
+        },
+        "bottomTabs": {
+          "top": 788,
+          "bottom": 852,
+          "width": 393,
+          "height": 64,
+          "clientHeight": 64,
+          "scrollHeight": 64
+        },
+        "albumMemory": null,
+        "albumPhoto": null,
+        "albumClue": null
+      }
+    },
+    {
+      "kind": "album",
+      "label": "appreciation",
+      "metrics": {
+        "stageText": "오늘의 온실 친구말랑잎 포리오늘도 잎을 같이 주우러 갈래요?돌보기젤리콩 통통젤리콩 발자국",
+        "stageState": "idle",
+        "bodyScrollHeight": 852,
+        "innerHeight": 852,
+        "focus": {
+          "top": 96,
+          "bottom": 440,
+          "width": 369,
+          "height": 344,
+          "clientHeight": 344,
+          "scrollHeight": 398
+        },
+        "portrait": {
+          "top": 136,
+          "bottom": 324,
+          "width": 188,
+          "height": 188,
+          "clientHeight": 188,
+          "scrollHeight": 188
+        },
+        "panel": {
+          "top": 448,
+          "bottom": 776,
+          "width": 369,
+          "height": 328,
+          "clientHeight": 326,
+          "scrollHeight": 326
+        },
+        "bottomTabs": {
+          "top": 788,
+          "bottom": 852,
+          "width": 393,
+          "height": 64,
+          "clientHeight": 64,
+          "scrollHeight": 64
+        },
+        "albumMemory": {
+          "top": 76,
+          "bottom": 258,
+          "width": 361,
+          "height": 182,
+          "clientHeight": 180,
+          "scrollHeight": 180
+        },
+        "albumPhoto": {
+          "top": 87,
+          "bottom": 247,
+          "width": 152,
+          "height": 159,
+          "clientHeight": 154,
+          "scrollHeight": 222
+        },
+        "albumClue": {
+          "top": 396,
+          "bottom": 632,
+          "width": 361,
+          "height": 236,
+          "clientHeight": 234,
+          "scrollHeight": 234
+        }
+      }
+    },
+    {
+      "kind": "album",
+      "label": "clue-focus",
+      "metrics": {
+        "stageText": "오늘의 온실 친구말랑잎 포리오늘도 잎을 같이 주우러 갈래요?돌보기젤리콩 통통젤리콩 발자국",
+        "stageState": "idle",
+        "bodyScrollHeight": 852,
+        "innerHeight": 852,
+        "focus": {
+          "top": 96,
+          "bottom": 440,
+          "width": 369,
+          "height": 344,
+          "clientHeight": 344,
+          "scrollHeight": 398
+        },
+        "portrait": {
+          "top": 136,
+          "bottom": 324,
+          "width": 188,
+          "height": 188,
+          "clientHeight": 188,
+          "scrollHeight": 188
+        },
+        "panel": {
+          "top": 448,
+          "bottom": 776,
+          "width": 369,
+          "height": 328,
+          "clientHeight": 326,
+          "scrollHeight": 326
+        },
+        "bottomTabs": {
+          "top": 788,
+          "bottom": 852,
+          "width": 393,
+          "height": 64,
+          "clientHeight": 64,
+          "scrollHeight": 64
+        },
+        "albumMemory": {
+          "top": -244,
+          "bottom": -62,
+          "width": 361,
+          "height": 182,
+          "clientHeight": 180,
+          "scrollHeight": 180
+        },
+        "albumPhoto": {
+          "top": -233,
+          "bottom": -73,
+          "width": 152,
+          "height": 159,
+          "clientHeight": 154,
+          "scrollHeight": 222
+        },
+        "albumClue": {
+          "top": 76,
+          "bottom": 312,
+          "width": 361,
+          "height": 236,
+          "clientHeight": 234,
+          "scrollHeight": 234
+        }
+      }
+    }
+  ]
+}

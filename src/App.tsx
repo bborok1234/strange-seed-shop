@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getAssetPath, getPlayfieldAnimationAssets, loadAssetManifest } from "./lib/assetManifest";
 import { createNewSave, localSaveStore } from "./lib/persistence";
 import { content, getStarterSeeds } from "./lib/content";
@@ -223,6 +223,9 @@ export default function App() {
   const [harvestReveal, setHarvestReveal] = useState<CreatureDefinition | null>(null);
   const [productionFx, setProductionFx] = useState<ProductionFxState | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
+  const [creatureStageReaction, setCreatureStageReaction] = useState(0);
+  const [albumMemoryPage, setAlbumMemoryPage] = useState(0);
+  const albumClueFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     loadAssetManifest()
@@ -380,6 +383,9 @@ export default function App() {
   const showSeedShop = Boolean(save?.selectedStarterSeedId) && !firstAlbumRewardReady;
   const nextAction = getNextAction(save, activePlot, firstAlbumRewardReady, now);
   const nextCreatureGoal = useMemo(() => getNextCreatureGoal(save), [save]);
+  const stageHeroCreature = useMemo(() => getStageHeroCreature(save, firstOwnedCreature), [save, firstOwnedCreature]);
+  const stageNextCreatureGoal = useMemo(() => getStageNextCreatureGoal(save, nextCreatureGoal), [save, nextCreatureGoal]);
+  const creatureStageState = creatureStageReaction >= 2 ? "clue" : creatureStageReaction >= 1 ? "care" : "idle";
   const comebackGoalSeed = nextCreatureGoal?.seed ?? null;
   const comebackGoalSeedCost = comebackGoalSeed ? getSeedPurchaseCost(comebackGoalSeed) : 0;
   const canBuyComebackGoalSeed = Boolean(
@@ -390,6 +396,32 @@ export default function App() {
   const nextAlbumRewardRemaining = nextAlbumMilestone
     ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
     : 0;
+  const albumFeaturedCreature = firstOwnedCreature;
+  const albumMemoryVariant = albumMemoryPage % 2 === 1;
+  const albumMemoryCopy = albumMemoryVariant
+    ? albumFeaturedCreature
+      ? `${albumFeaturedCreature.name}${getSubjectParticle(albumFeaturedCreature.name)} 온실 바닥의 작은 흔적을 먼저 살피는 버릇을 남겼어요.`
+      : ""
+    : albumFeaturedCreature?.greeting ?? "";
+  const albumMemoryNote = albumMemoryVariant
+    ? `기록 ${String((albumMemoryPage % 3) + 1).padStart(2, "0")} · 좋아하는 것: ${albumFeaturedCreature?.favoriteThing ?? "조용한 온실"}`
+    : albumFeaturedCreature
+      ? `첫 발견 기록 · ${getCreatureRoleLabel(albumFeaturedCreature.role)} · ${getCreatureFamilyLabel(albumFeaturedCreature.family)}`
+      : "";
+  const albumClueCreatures = useMemo(() => {
+    if (!save) {
+      return [];
+    }
+
+    const discovered = new Set(save.discoveredCreatureIds);
+    const lockedCreatures = content.creatures.filter((creature) => !discovered.has(creature.id));
+    const nextGoalCreature = nextCreatureGoal?.creature;
+    const ordered = nextGoalCreature
+      ? [nextGoalCreature, ...lockedCreatures.filter((creature) => creature.id !== nextGoalCreature.id)]
+      : lockedCreatures;
+
+    return ordered.slice(0, 3);
+  }, [nextCreatureGoal, save]);
   const productionStatus = useMemo(() => (save ? getProductionStatus(save, now) : null), [save, now]);
   const mistCondenserPayoffActive = Boolean(
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && productionStatus.orderCompleted
@@ -978,6 +1010,13 @@ export default function App() {
     }, 1_600);
   }
 
+  function focusAlbumClues() {
+    setAlbumMemoryPage((current) => current + 1);
+    window.setTimeout(() => {
+      albumClueFocusRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
+    }, 0);
+  }
+
   function markAssetBroken(assetId: string) {
     setBrokenAssetIds((current) => {
       const next = new Set(current);
@@ -1017,6 +1056,7 @@ export default function App() {
     <main className={showDebugPanel ? "app-shell debug-shell" : "app-shell playable-focus"}>
       <section
         className={["garden-stage", isPlayerTabScreen ? "has-player-tab" : "", showDebugPanel ? "debug-mode" : ""]
+          .concat(stageHeroCreature ? ["has-creature-stage"] : [])
           .filter(Boolean)
           .join(" ")}
         style={backgroundPath ? { backgroundImage: `url(${backgroundPath})` } : undefined}
@@ -1109,6 +1149,71 @@ export default function App() {
 
         <section aria-hidden={isPlayerTabScreen ? true : undefined} className="garden-panel" aria-label="정원">
           <GardenPlayfieldHost onAction={handlePlayfieldAction} playfieldAssets={playfieldAssets} viewModel={gardenViewModel} />
+
+          {stageHeroCreature && (
+            <section
+              className={[
+                "creature-stage-focus",
+                creatureStageReaction > 0 ? "is-cared" : "",
+                creatureStageReaction > 1 ? "is-clue" : ""
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              data-stage-state={creatureStageState}
+              aria-label="대표 생명체 무대"
+            >
+              <div className="creature-stage-floor-light" aria-hidden="true" />
+              <div className="creature-stage-hero">
+                <p className="panel-label">오늘의 온실 친구</p>
+                <div className="creature-stage-portrait" aria-hidden="true">
+                  <span className="creature-stage-eye-glint left" />
+                  <span className="creature-stage-eye-glint right" />
+                  <span className="creature-stage-sparkle sparkle-one" />
+                  <span className="creature-stage-sparkle sparkle-two" />
+                  <span className="creature-stage-sparkle sparkle-three" />
+                  {renderAsset(stageHeroCreature.assetId, "생명체")}
+                </div>
+                <div className="creature-stage-shadow" aria-hidden="true" />
+                <h2>{stageHeroCreature.name}</h2>
+                <p>
+                  {creatureStageReaction > 1
+                    ? "젤리콩처럼 말랑한 발자국 끝에서 닫힌 씨앗이 톡톡 흔들립니다."
+                    : creatureStageReaction > 0
+                      ? `${stageHeroCreature.name}${getSubjectParticle(stageHeroCreature.name)} 눈을 뜨고 발밑의 반짝이는 흔적을 살펴요.`
+                      : stageHeroCreature.greeting}
+                </p>
+              </div>
+              <button
+                className="creature-stage-care"
+                onClick={() => setCreatureStageReaction((current) => current + 1)}
+                type="button"
+              >
+                {creatureStageReaction > 1 ? "곁에 앉기" : creatureStageReaction > 0 ? "단서 따라가기" : "돌보기"}
+              </button>
+              {stageNextCreatureGoal && (
+                <button
+                  className="creature-stage-clue-trail"
+                  onClick={() => setCreatureStageReaction((current) => Math.max(current + 1, 2))}
+                  type="button"
+                  aria-label={`${stageNextCreatureGoal.creature.name} 발자국 단서 따라가기`}
+                >
+                  <span className="creature-footprint footprint-one" aria-hidden="true" />
+                  <span className="creature-footprint footprint-two" aria-hidden="true" />
+                  <span className="creature-footprint footprint-three" aria-hidden="true" />
+                  <span className="creature-footprint footprint-four" aria-hidden="true" />
+                  <span className="creature-footprint footprint-five" aria-hidden="true" />
+                  <span className="creature-stage-seed-pod" aria-hidden="true">
+                    <span className="creature-stage-pod-glow" />
+                    {renderAsset(stageNextCreatureGoal.seed.iconAssetId, "씨앗")}
+                  </span>
+                  <span className="creature-stage-trail-label">
+                    <strong>{stageNextCreatureGoal.creature.name}</strong>
+                    <small>젤리콩 발자국</small>
+                  </span>
+                </button>
+              )}
+            </section>
+          )}
 
           <aside className={actionSurfaceClassName}>
             <p className="panel-label">다음 행동</p>
@@ -1467,14 +1572,48 @@ export default function App() {
 
           {activeTab === "album" && (
             <section className="tab-panel album-strip" aria-label="도감">
-              <header className="tab-section-heading">
-                <div>
-                  <p className="panel-label">수집 도감</p>
-                  <h3>발견한 생명체</h3>
-                </div>
-                <span className="tab-section-chip">{albumDiscoveredCount}/{content.creatures.length}</span>
-              </header>
-              <p className="album-progress-copy">미발견 슬롯의 단서를 따라 씨앗을 심고 도감 칸을 채워보세요.</p>
+              {albumFeaturedCreature ? (
+                <article
+                  className={albumMemoryVariant ? "album-memory-feature is-memory-variant" : "album-memory-feature"}
+                  aria-label="도감 대표 생명체 기록"
+                >
+                  <div className="album-memory-photo" aria-hidden="true">
+                    <span className="album-page-ribbon">기록 {String((albumMemoryPage % 3) + 1).padStart(2, "0")}</span>
+                    <span className="album-memory-stamp">seed shop</span>
+                    <span className="album-photo-shimmer" />
+                    <div className="album-memory-portrait">{renderAsset(albumFeaturedCreature.assetId, "생명체")}</div>
+                  </div>
+                  <div className="album-memory-copy">
+                    <p className="panel-label">오늘의 표정 photo</p>
+                    <h3>{albumFeaturedCreature.name}</h3>
+                    <p>{albumMemoryCopy}</p>
+                    <small>{albumMemoryNote}</small>
+                    <div className="album-memory-actions">
+                      <button onClick={() => setAlbumMemoryPage((current) => current + 1)} type="button">
+                        기록 넘기기
+                      </button>
+                      {albumClueCreatures.length > 0 && (
+                        <button className="album-memory-secondary" onClick={focusAlbumClues} type="button">
+                          단서 보기
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              ) : (
+                <p>아직 없습니다. 씨앗을 키워 첫 생명체를 수확하세요.</p>
+              )}
+              <div className="album-status-strip" aria-label="도감 보조 진행 정보">
+                <span>{albumDiscoveredCount}마리 발견</span>
+                <span>
+                  {nextAlbumMilestone
+                    ? nextAlbumRewardRemaining > 0
+                      ? `다음 보상까지 ${nextAlbumRewardRemaining}마리`
+                      : "도감 보상 준비"
+                    : "도감 보상 완료"}
+                </span>
+                <span>{albumFeaturedCreature ? `${albumFeaturedCreature.name} 기록` : "첫 기록 대기"}</span>
+              </div>
               {nextAlbumMilestone && (
                 <article className="album-reward-preview" aria-label="다음 도감 보상">
                   <div>
@@ -1490,10 +1629,41 @@ export default function App() {
                   <span className="album-reward-chip">수집 보상 예고</span>
                 </article>
               )}
+              {albumClueCreatures.length > 0 && (
+                <section className="album-clue-focus" ref={albumClueFocusRef} aria-label="도감 단서 사진">
+                  <div className="album-clue-heading">
+                    <strong>다음에 만날 아이들</strong>
+                    <span>보상보다 먼저, 흔적을 봅니다</span>
+                  </div>
+                  <div className="album-clue-polaroids">
+                    {albumClueCreatures.map((creature, index) => {
+                      const isNextGoal = creature.id === nextCreatureGoal?.creature.id;
+                      const seedHint = getSeedHintForCreature(creature);
+
+                      return (
+                        <button
+                          aria-label={`${getAlbumClueLabel(creature, index)} 단서, ${seedHint} 보러가기`}
+                          className={isNextGoal ? "album-clue-polaroid is-next" : "album-clue-polaroid"}
+                          key={creature.id}
+                          onClick={() => setActiveTab("seeds")}
+                          type="button"
+                        >
+                          <span className={`album-clue-photo clue-${creature.family}`} aria-hidden="true">
+                            {renderAsset(creature.assetId, "단서")}
+                          </span>
+                          <strong>{getAlbumClueLabel(creature, index)}</strong>
+                          <small>{getAlbumClueCopy(creature, seedHint, index)}</small>
+                          <span className="album-clue-action-text">씨앗 보러가기</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+              )}
               {nextCreatureGoal && (
                 <button
                   aria-label={`다음 발견 목표 ${nextCreatureGoal.creature.name}, ${nextCreatureGoal.seed.name} 씨앗 보러가기`}
-                  className="album-next-action-chip"
+                  className="album-next-action-chip album-next-action-chip-legacy-bridge"
                   onClick={() => setActiveTab("seeds")}
                   type="button"
                 >
@@ -1504,7 +1674,14 @@ export default function App() {
                   </small>
                 </button>
               )}
-              {albumDiscoveredCount === 0 && <p>아직 없습니다. 씨앗을 키워 첫 생명체를 수확하세요.</p>}
+              <header className="tab-section-heading album-grid-heading">
+                <div>
+                  <p className="panel-label">수집 도감</p>
+                  <h3>발견한 생명체</h3>
+                </div>
+                <span className="tab-section-chip">{albumDiscoveredCount}/{content.creatures.length}</span>
+              </header>
+              <p className="album-progress-copy">미발견 슬롯의 단서를 따라 씨앗을 심고 도감 칸을 채워보세요.</p>
               <div className="creature-list album-grid">
                 {content.creatures.map((creature) => {
                   const discovered = discoveredCreatureIds.has(creature.id);
@@ -1529,7 +1706,7 @@ export default function App() {
                           ?
                         </span>
                       )}
-                      <figcaption>{discovered ? creature.name : "???"}</figcaption>
+                      <figcaption>{discovered ? creature.name : getAlbumClueLabel(creature, 0)}</figcaption>
                       <small>
                         {discovered
                           ? `${getCreatureRoleLabel(creature.role)} · ${creature.personality}`
@@ -1856,6 +2033,40 @@ function getNextCreatureGoal(save: PlayerSave | null): NextCreatureGoal | null {
   };
 }
 
+function getStageHeroCreature(
+  save: PlayerSave | null,
+  fallbackCreature: CreatureDefinition | undefined
+): CreatureDefinition | undefined {
+  if (!save || !save.discoveredCreatureIds.includes(LUNAR_REWARD_CREATURE_ID)) {
+    return undefined;
+  }
+
+  return getCreature(LUNAR_REWARD_CREATURE_ID) ?? fallbackCreature;
+}
+
+function getStageNextCreatureGoal(save: PlayerSave | null, nextCreatureGoal: NextCreatureGoal | null): NextCreatureGoal | null {
+  if (nextCreatureGoal) {
+    return nextCreatureGoal;
+  }
+
+  if (!save || save.discoveredCreatureIds.includes("creature_candy_common_001")) {
+    return null;
+  }
+
+  const seed = getSeed("seed_candy_001");
+  const creature = getCreature("creature_candy_common_001");
+  if (!seed || !creature) {
+    return null;
+  }
+
+  return {
+    seed,
+    creature,
+    discoveredCount: save.discoveredCreatureIds.length,
+    totalCount: content.creatures.length
+  };
+}
+
 function getLunarExpeditionGoal(save: PlayerSave | null): NextCreatureGoal | null {
   if (!save || !save.unlockedSeedIds.includes(LUNAR_REWARD_SEED_ID)) {
     return null;
@@ -1920,6 +2131,13 @@ function getObjectParticle(label: string): "을" | "를" {
   const hasFinalConsonant = lastCode >= 0xac00 && lastCode <= 0xd7a3 && (lastCode - 0xac00) % 28 !== 0;
 
   return hasFinalConsonant ? "을" : "를";
+}
+
+function getSubjectParticle(label: string): "이" | "가" {
+  const lastCode = label.charCodeAt(label.length - 1);
+  const hasFinalConsonant = lastCode >= 0xac00 && lastCode <= 0xd7a3 && (lastCode - 0xac00) % 28 !== 0;
+
+  return hasFinalConsonant ? "이" : "가";
 }
 
 function getNextAction(
@@ -2208,13 +2426,6 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
   }
 
   if (
-    save.discoveredCreatureIds.includes(LUNAR_REWARD_CREATURE_ID) &&
-    !save.idleProduction.completedOrderIds.includes(LUNAR_GUARDIAN_ORDER.id)
-  ) {
-    return LUNAR_GUARDIAN_ORDER;
-  }
-
-  if (
     save.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL &&
     !save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id)
   ) {
@@ -2254,10 +2465,6 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
     return GREENHOUSE_MIST_RETURN_ORDER;
   }
 
-  if (save.idleProduction.completedOrderIds.includes(LUNAR_GUARDIAN_ORDER.id)) {
-    return LUNAR_GUARDIAN_ORDER;
-  }
-
   if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_IRRIGATION_ORDER.id)) {
     return GREENHOUSE_IRRIGATION_ORDER;
   }
@@ -2268,6 +2475,21 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
 
   if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_EXPANSION_ORDER.id)) {
     return GREENHOUSE_EXPANSION_ORDER;
+  }
+
+  if (save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id)) {
+    return GREENHOUSE_ORDER;
+  }
+
+  if (save.idleProduction.completedOrderIds.includes(LUNAR_GUARDIAN_ORDER.id)) {
+    return LUNAR_GUARDIAN_ORDER;
+  }
+
+  if (
+    save.discoveredCreatureIds.includes(LUNAR_REWARD_CREATURE_ID) &&
+    !save.idleProduction.completedOrderIds.includes(LUNAR_GUARDIAN_ORDER.id)
+  ) {
+    return LUNAR_GUARDIAN_ORDER;
   }
 
   return save.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL ? GREENHOUSE_ORDER : SECOND_ORDER;
@@ -2628,6 +2850,30 @@ function getRarityLabel(rarity: CreatureDefinition["rarity"]): string {
 function getSeedHintForCreature(creature: CreatureDefinition): string {
   const sourceSeed = content.seeds.find((seed) => seed.creaturePool.includes(creature.id));
   return sourceSeed ? `${sourceSeed.name} 단서` : `${getCreatureFamilyLabel(creature.family)} 씨앗 단서`;
+}
+
+function getAlbumClueLabel(creature: CreatureDefinition, index: number): string {
+  if (creature.family === "candy") {
+    return "젤리콩 흔적";
+  }
+
+  if (creature.family === "lunar") {
+    return index === 0 ? "달잎 그림자" : "밤잎 그림자";
+  }
+
+  return index === 0 ? "향기 둥근 발자국" : "풀잎 방문 흔적";
+}
+
+function getAlbumClueCopy(creature: CreatureDefinition, seedHint: string, index: number): string {
+  if (creature.family === "candy") {
+    return `말랑한 발자국이 ${seedHint}${getObjectParticle(seedHint)} 가리킵니다`;
+  }
+
+  if (creature.family === "lunar") {
+    return `밤마다 조금씩 자라는 잎 그림자 · ${seedHint}`;
+  }
+
+  return index === 0 ? `흙 위에 남은 둥근 향기 자국 · ${seedHint}` : `${creature.albumHint} · ${seedHint}`;
 }
 
 function advanceMission(draft: PlayerSave, missionId: string, amount = 1) {

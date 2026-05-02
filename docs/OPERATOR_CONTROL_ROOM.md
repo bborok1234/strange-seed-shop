@@ -3,48 +3,55 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-02T16:41:20.771Z
+Generated at: 2026-05-02T17:36:55.957Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative queue의 #274 **로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필**이다. #276은 PR #279로 merge되고 main CI `25256607105`가 통과했다. 남은 #274/#275 중 #274는 v2 local ledger authority 회귀를 먼저 격리하는 WorkUnit이므로 사용자 지정 순서대로 진행한다.
+현재 작업은 GitHub-authoritative queue의 #275 **대표 생명체 stage, 돌보기 반응, 도감 감상면을 production으로 복구**이다. #276(PR #279)과 #274(PR #280)는 merge 및 main CI 관찰을 완료했고, 남은 지정 queue의 visible game/UI production WorkUnit인 #275를 진행 중이다.
 
 현재 evidence:
 
-- GitHub issue: #274 `로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필`
-- Plan artifact: `items/0141-v2-ledger-quarantine-backfill.md`
-- Branch: `codex/0274-v2-ledger-quarantine`
-- Migration manifest: `reports/operations/studio-v3-migration-backfill-20260503.json`
-- Migration report: `reports/operations/studio-v3-migration-backfill-20260503.md`
-- Checker: `scripts/check-studio-v3-migration-backfill.mjs`
-- Focused verification: `npm run check:studio-v3-migration-backfill` 통과
-- Existing Studio Campaign Gate quality phrases remain active while #274 runs: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`. #274는 operator migration evidence work라 신규 게임 issue 선택은 아니지만, 다음 #275 game/UI WorkUnit에서 이 gate를 계속 적용한다.
+- GitHub issue: #275 `대표 생명체 stage, 돌보기 반응, 도감 감상면을 production으로 복구`
+- Plan artifact: `items/0142-creature-stage-care-album-production.md`
+- Branch: `codex/0275-creature-stage-care-album-production`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest`
+- Browser Use current-session blocker: `reports/visual/browser-use-blocker-0275-20260503.md`
+- Visual/playtest report: `reports/visual/0275-production-playtest-20260503.md`
+- Screenshot evidence:
+  - `reports/visual/creature-stage-production-20260503.png`
+  - `reports/visual/care-clue-production-20260503.png`
+  - `reports/visual/album-appreciation-production-20260503.png`
+  - `reports/visual/album-clue-focus-production-20260503.png`
+- Focused regression: `npm run check:visual -- --grep "creature stage|도감은 보상표"` 통과
+- Full visual regression: `npm run check:visual` → 52 passed (4.6m)
+- CI gate: `npm run check:ci` 통과
 
 즉시 적용된 gate:
 
-1. v2 `campaigns/**`, `prototypes/**`, visual evidence, asset prompt prep, legacy harness surfaces를 `quarantined` 또는 `migration-backfill`로 분류한다.
-2. local ledger는 `evidence-mirror-only`이며 work authorization source가 될 수 없음을 manifest/checker로 강제한다.
-3. production game code(`src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`)는 #275 `excluded-follow-up`으로 분리한다.
-4. `stash@{0}`와 `stash@{1}` 보존 상태, recovery branch 부재/보존 근거를 report에 기록한다.
-5. `npm run check:ci`가 `npm run check:studio-v3-migration-backfill`를 포함한다.
+1. v2 local campaign ledger는 authority가 아니며, #275 GitHub issue/PR와 current-session visual evidence만 완료 권한을 가진다.
+2. `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` production slice만 적용하고 `campaigns/**`, `prototypes/**`, legacy harness, asset prompt prep은 제외한다.
+3. Browser Use `iab`는 현재 세션에서 skill/client/Node REPL `js` discovery까지 시도했고, `js` tool 미노출 blocker를 남긴 뒤 Playwright fallback screenshot을 수집한다.
+4. 달빛 resident stage는 기존 연구/온실 progression surface를 압박하지 않도록 달빛 resident 발견 순간으로 범위를 좁힌다.
+5. 온실 chain과 달빛 주문이 동시에 가능한 QA 상태에서는 온실 chain 완료/다음 주문을 먼저 보존한다.
+6. 다음 #275 이후 WorkUnit 선택도 `Studio Campaign Gate`, `Codex native subagents`, `team mode` 문구와 품질 gate를 유지한다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff 또는 vertical slice blocker 제거 없이 선택하지 않는다.
 
-다음 checkpoint는 `npm run check:docs`, `npm run check:studio-v3-bot-runner`, 전체 `npm run check:ci`, PR 생성, GitHub checks 확인, merge, main CI 관찰이다. Stop rule이 없으면 이후 #275를 `game-studio:game-studio`/Browser Use `iab` plan-first로 이어간다.
+다음 checkpoint는 issue #275 acceptance checkbox 갱신, PR 생성, GitHub checks 확인, merge, main CI 관찰이다. `npm run check:ci`는 통과했다. Stop rule이 없으면 이후 queue reconciliation 또는 다음 GitHub WorkUnit plan-first로 이어간다.
 
 ## Local state
 
-- Branch: codex/0274-v2-ledger-quarantine
-- Latest commit: f2e928b Studio runner가 GitHub WorkUnit 회귀를 CI에서 막게 만들기
+- Branch: codex/0275-creature-stage-care-album-production
+- Latest commit: 1fb675c v2 로컬 ledger를 v3 evidence로 격리하기
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-02T16:37:55.535Z
-- Phase: planning
-- Issue: #274
+- Timestamp: 2026-05-02T17:36:53.718Z
+- Phase: publication-prep
+- Issue: 275
 - PR: 
-- Item: items/0141-v2-ledger-quarantine-backfill.md
-- Next action: plan gate 준비: write #274 plan artifact and map recovery evidence
+- Item: items/0142-creature-stage-care-album-production.md
+- Next action: PR publication gate 준비
 
 ## Open PRs
 
@@ -53,7 +60,6 @@ Generated at: 2026-05-02T16:41:20.771Z
 ## Open issues
 
 - #275 대표 생명체 stage, 돌보기 반응, 도감 감상면을 production으로 복구 — https://github.com/bborok1234/strange-seed-shop/issues/275
-- #274 로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필 — https://github.com/bborok1234/strange-seed-shop/issues/274
 
 ## Playable mode
 
