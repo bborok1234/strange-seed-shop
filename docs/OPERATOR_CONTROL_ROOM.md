@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-02T17:50:05.379Z
+Generated at: 2026-05-02T18:02:54.100Z
 
 ## Current mission
 
@@ -17,6 +17,10 @@ Generated at: 2026-05-02T17:50:05.379Z
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `browser-use:browser`
 - Candidate comparison: plan artifact에 선택 후보, 큰 방향 점프 후보, asset/FX 후보 및 Strategic Jump Check 기록
 - GitHub issue body file: `reports/operations/issue-282-body-20260503.md`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0282-20260503.md`
+- Playtest report: `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`
+- Screenshot evidence: `reports/visual/lunar-care-memory-reward-20260503.png`, `reports/visual/lunar-care-album-stamp-20260503.png`
+- Local verification: focused visual 1 passed, adjacent visual 4 passed, full visual 53 passed, `npm run check:ci` passed
 
 즉시 적용할 gate:
 
@@ -27,23 +31,23 @@ Generated at: 2026-05-02T17:50:05.379Z
 5. 신규 accepted manifest game asset은 만들지 않는다. reward motion/HUD affordance/album stamp는 CSS/DOM으로 구현하고 runtime image generation을 추가하지 않는다.
 6. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
 
-다음 checkpoint는 #282 plan-first commit, implementation, focused visual checks, `npm run check:ci`, PR #282 publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
+다음 checkpoint는 #282 PR publication, GateEvent 게시, GitHub checks 확인, merge, main CI 관찰이다. Local focused visual, full visual(53 passed), `npm run check:ci`는 통과했다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
 
 ## Local state
 
 - Branch: codex/0282-lunar-care-memory-reward
-- Latest commit: e945802 #275 GateEvent를 PR evidence surface에 묶는다
+- Latest commit: ba68833 #282 돌보기 기억 보상 WorkUnit을 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-02T17:50:03.683Z
-- Phase: planning
+- Timestamp: 2026-05-02T18:02:52.171Z
+- Phase: publication-prep
 - Issue: 282
 - PR: 
 - Item: items/0143-lunar-care-memory-reward.md
-- Next action: prepare #282 plan-first commit then implement save-backed care reward motion gate
+- Next action: publication gate prep: push #282 branch create draft PR publish GateEvent then watch GitHub checks
 
 ## Open PRs
 

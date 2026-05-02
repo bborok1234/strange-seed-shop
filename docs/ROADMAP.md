@@ -63,7 +63,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Lunar harvest creature payoff v0 | done | Issue #266, PR #267 merged, `items/0132-lunar-harvest-creature-payoff-v0.md`, `reports/visual/lunar-harvest-creature-payoff-v0-20260501.md`, Browser Use QA screenshots, accepted raster FX reuse binding, local asset/content gates pass | `달방울 씨앗` 수확 뒤 `달방울 누누`가 named reveal에서 끝나지 않고 production card/playfield actor/roster에 lunar work-state로 합류한다 |
 | 달방울 누누 달빛 보호 주문 + visual QA correction | done | Issue #270, PR #271, `items/0137-lunar-guardian-order-bridge-v0.md`, `reports/operations/seed-ops-issue-pr-title-retrospective-20260502.md`, Browser Use screenshots in `reports/visual/`, main CI `25223907905` | `달방울 누누`가 달빛 보호 주문 납품/payoff로 이어지고, 다음 행동 카드 clipping을 Browser Use + regression gate로 잡는다. 동시에 다음 issue 선택에 `Strategic Jump Check`와 `Title Contract`를 추가한다 |
 | 대표 생명체 stage/care/album production 복구 | done | Issue #275, PR #281, `items/0142-creature-stage-care-album-production.md`, `reports/visual/0275-production-playtest-20260503.md`, main CI `25257945257` | 달방울 누누가 정원 첫 화면 stage, 돌보기 반응, 도감 memory photo/단서 감상면으로 복구됨 |
-| 달방울 누누 돌보기 기억 보상 motion | active | Issue #282, `items/0143-lunar-care-memory-reward.md`, `reports/operations/issue-282-body-20260503.md` | 정원 `돌보기`가 save-backed 기억 도장/one-time reward와 도감 memory stamp로 이어지고 Browser Use/playtest evidence를 남김 |
+| 달방울 누누 돌보기 기억 보상 motion | active | Issue #282, `items/0143-lunar-care-memory-reward.md`, `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`, local `npm run check:visual` 53 passed, `npm run check:ci` pass | 정원 `돌보기`가 save-backed 기억 도장/one-time reward와 도감 memory stamp로 이어지고 Browser Use blocker + Playwright fallback evidence를 남김 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Seed ops Ralph runner bridge | done | `items/0135-seed-ops-ralph-runner-bridge.md`, `scripts/check-ralph-runner-bridge.mjs`, `.codex/skills/seed-ops/SKILL.md`, `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_RUNBOOK.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `npm run check:ci` pass | Codex App prompt-side `$ralph` activation을 실제 detached `omx ralph`/`omx exec` long runner와 분리하고, lifecycle 판단을 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact 기준으로 고정한다 |
 | Seed ops no post-merge closeout gate | active | `items/0136-no-post-merge-closeout.md`, `scripts/check-no-post-merge-closeout.mjs`, `.github/pull_request_template.md`, `npm run check:ci` pass | PR merge/close 이후 main 대상 closeout PR/commit으로 evidence를 backfill하지 못하게 하고, merge-blocking evidence는 원 PR이 닫히기 전에 포함하게 고정한다 |
@@ -321,6 +321,10 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `browser-use:browser`
 - Candidate comparison: plan artifact에 선택 후보, 큰 방향 점프 후보, asset/FX 후보 및 Strategic Jump Check 기록
 - GitHub issue body file: `reports/operations/issue-282-body-20260503.md`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0282-20260503.md`
+- Playtest report: `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`
+- Screenshot evidence: `reports/visual/lunar-care-memory-reward-20260503.png`, `reports/visual/lunar-care-album-stamp-20260503.png`
+- Local verification: focused visual 1 passed, adjacent visual 4 passed, full visual 53 passed, `npm run check:ci` passed
 
 즉시 적용할 gate:
 
@@ -331,7 +335,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 5. 신규 accepted manifest game asset은 만들지 않는다. reward motion/HUD affordance/album stamp는 CSS/DOM으로 구현하고 runtime image generation을 추가하지 않는다.
 6. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
 
-다음 checkpoint는 #282 plan-first commit, implementation, focused visual checks, `npm run check:ci`, PR #282 publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
+다음 checkpoint는 #282 PR publication, GateEvent 게시, GitHub checks 확인, merge, main CI 관찰이다. Local focused visual, full visual(53 passed), `npm run check:ci`는 통과했다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
 ## Previous Next Action History
 
 
