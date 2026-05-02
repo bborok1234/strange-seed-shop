@@ -74,6 +74,8 @@ Scope-risk: moderate
 - 2026-05-03: `reports/operations/studio-v3-migration-backfill-20260503.json`와 `.md`로 `quarantined`/`migration-backfill`/`excluded-follow-up #275` 분류를 기록.
 - 2026-05-03: `scripts/check-studio-v3-migration-backfill.mjs`와 `npm run check:studio-v3-migration-backfill` 추가 및 `check:ci` 연결.
 - 2026-05-03: `npm run check:docs`, `npm run check:studio-v3-bot-runner`, `npm run check:studio-v3-migration-backfill`, `npm run check:ci` 통과.
+- 2026-05-03: Draft PR #280을 `reports/operations/pr-0274-v2-ledger-quarantine-backfill.md` 본문으로 생성했다.
+- 2026-05-03: GateEvent comment를 #274에 게시했다: https://github.com/bborok1234/strange-seed-shop/issues/274#issuecomment-4364272489
 
 ## 남은 리스크
 

@@ -80,3 +80,6 @@ v2 local ledger 산출물을 삭제하지 않고 `quarantined` 또는 `migration
 - `reports/operations/studio-v3-migration-backfill-20260503.json`
 - `scripts/check-studio-v3-migration-backfill.mjs`
 - #276 PR #279 / main CI `25256607105`
+
+- PR #280: https://github.com/bborok1234/strange-seed-shop/pull/280
+- GateEvent comment: https://github.com/bborok1234/strange-seed-shop/issues/274#issuecomment-4364272489
