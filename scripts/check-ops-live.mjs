@@ -63,6 +63,7 @@ const controlRoomPath = readArg("control-room", "docs/OPERATOR_CONTROL_ROOM.md")
 const heartbeatPath = readArg("heartbeat", fs.existsSync(".omx/state/operator-heartbeat.json") ? ".omx/state/operator-heartbeat.json" : latestHeartbeatReport());
 const controlRoom = read(controlRoomPath);
 const heartbeat = heartbeatPath ? readHeartbeat(heartbeatPath) : null;
+const heartbeatIsRuntimeState = heartbeatPath === ".omx/state/operator-heartbeat.json";
 
 if (!controlRoom) failures.push(`missing control room: ${controlRoomPath}`);
 if (!heartbeatPath) failures.push("missing heartbeat source");
@@ -73,7 +74,7 @@ const generatedAt = generatedMatch ? Date.parse(generatedMatch[1]) : Number.NaN;
 if (!generatedMatch) failures.push(`${controlRoomPath} missing Generated at timestamp`);
 if (Number.isNaN(generatedAt)) failures.push(`${controlRoomPath} has invalid Generated at timestamp`);
 
-if (!Number.isNaN(now) && !Number.isNaN(generatedAt)) {
+if (heartbeatIsRuntimeState && !Number.isNaN(now) && !Number.isNaN(generatedAt)) {
   const ageSeconds = Math.max(0, Math.floor((now - generatedAt) / 1000));
   if (ageSeconds > maxAgeSeconds) {
     failures.push(`${controlRoomPath} is stale: generated age ${ageSeconds}s exceeds ${maxAgeSeconds}s`);
@@ -84,7 +85,7 @@ if (heartbeat?.timestamp) {
   const heartbeatAt = Date.parse(heartbeat.timestamp);
   if (Number.isNaN(heartbeatAt)) {
     failures.push(`heartbeat timestamp is invalid: ${heartbeat.timestamp}`);
-  } else if (!Number.isNaN(now)) {
+  } else if (heartbeatIsRuntimeState && !Number.isNaN(now)) {
     const heartbeatAgeSeconds = Math.max(0, Math.floor((now - heartbeatAt) / 1000));
     if (heartbeatAgeSeconds > maxAgeSeconds) {
       failures.push(`heartbeat is stale: age ${heartbeatAgeSeconds}s exceeds ${maxAgeSeconds}s`);
@@ -107,7 +108,6 @@ if (heartbeat?.item && !fs.existsSync(heartbeat.item)) {
 }
 
 const currentBranch = tryRun("git", ["branch", "--show-current"]);
-const heartbeatIsRuntimeState = heartbeatPath === ".omx/state/operator-heartbeat.json";
 if (heartbeatIsRuntimeState && currentBranch && heartbeat?.branch && heartbeat.branch !== currentBranch) {
   failures.push(`heartbeat branch ${heartbeat.branch} does not match current branch ${currentBranch}`);
 }

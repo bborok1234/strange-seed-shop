@@ -23,6 +23,7 @@ After:
 - recovery branch: `codex/recover-local-studio-work-20260503`
 - backup stash: `stash@{0}` 보존
 - 복구 원장: `reports/operations/local-studio-work-recovery-20260503.md`
+- `check:ops-live`는 CI에서 committed fallback heartbeat/control-room timestamp를 wall-clock live state로 오해하지 않도록 조정했습니다.
 - GitHub issues:
   - #274 `로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필`
   - #275 `대표 생명체 stage, 돌보기 반응, 도감 감상면을 production으로 복구`
@@ -37,6 +38,8 @@ After:
 - `gh issue create`로 #274, #275, #276 생성 확인
 - selective staging으로 복구 원장/issue body 파일만 커밋
 - production game/UI 및 v2 ledger diff는 이 PR 커밋에 포함하지 않음
+- `npm run check:ops-live`
+- `npm run check:ci`
 
 ## 안전 범위
 
@@ -63,6 +66,7 @@ Refs #276
 - [x] 작업 묶음을 WU-A/WU-B/WU-C/WU-D로 분류
 - [x] GitHub issue #274, #275, #276 생성
 - [x] 복구 원장과 issue body 파일 커밋
+- [x] CI fallback heartbeat stale-age 오탐 수정
 - [ ] 후속 PR에서 #274 처리
 - [ ] 후속 PR에서 #275 처리
 - [ ] 후속 PR에서 #276 처리
