@@ -76,6 +76,10 @@
 - Browser Use `iab` hands-on QA는 current session에서 Node REPL `js` 미노출로 막혀 Playwright fallback을 사용했습니다.
 - care memory save field는 v2 normalize로 기본값을 채우지만, 향후 care memory가 늘어나면 별도 content config로 분리할 수 있습니다.
 
+## GateEvent
+
+- `reports/operations/gate-event-0282-productionization-20260503.md`
+
 ## 연결된 issue
 
 Closes #282
