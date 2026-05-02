@@ -116,6 +116,8 @@ const FIRST_EXPEDITION_ID = "quick_scout";
 const RESEARCH_EXPEDITION_ID = "moon_hint";
 const LUNAR_REWARD_SEED_ID = "seed_lunar_001";
 const LUNAR_REWARD_CREATURE_ID = "creature_lunar_common_001";
+const LUNAR_CARE_MEMORY_ID = "care_lunar_nunu_001";
+const LUNAR_CARE_REWARD_LEAVES = 18;
 const GUARDIAN_OFFLINE_BONUS = 0.2;
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
@@ -385,7 +387,27 @@ export default function App() {
   const nextCreatureGoal = useMemo(() => getNextCreatureGoal(save), [save]);
   const stageHeroCreature = useMemo(() => getStageHeroCreature(save, firstOwnedCreature), [save, firstOwnedCreature]);
   const stageNextCreatureGoal = useMemo(() => getStageNextCreatureGoal(save, nextCreatureGoal), [save, nextCreatureGoal]);
-  const creatureStageState = creatureStageReaction >= 2 ? "clue" : creatureStageReaction >= 1 ? "care" : "idle";
+  const lunarCareMemoryEligible = Boolean(
+    save &&
+      stageHeroCreature?.id === LUNAR_REWARD_CREATURE_ID &&
+      save.discoveredCreatureIds.includes(LUNAR_REWARD_CREATURE_ID)
+  );
+  const lunarCareMemoryClaimed = Boolean(save?.claimedCareMemoryIds.includes(LUNAR_CARE_MEMORY_ID));
+  const showLunarCareMemoryReward = lunarCareMemoryEligible && (lunarCareMemoryClaimed || creatureStageReaction > 0);
+  const stageCareButtonLabel = lunarCareMemoryClaimed
+    ? "도감 기록 보기"
+    : creatureStageReaction > 1
+      ? "곁에 앉기"
+      : creatureStageReaction > 0
+        ? "단서 따라가기"
+        : "돌보기";
+  const creatureStageState = lunarCareMemoryClaimed
+    ? "memory-reward"
+    : creatureStageReaction >= 2
+      ? "clue"
+      : creatureStageReaction >= 1
+        ? "care"
+        : "idle";
   const comebackGoalSeed = nextCreatureGoal?.seed ?? null;
   const comebackGoalSeedCost = comebackGoalSeed ? getSeedPurchaseCost(comebackGoalSeed) : 0;
   const canBuyComebackGoalSeed = Boolean(
@@ -396,7 +418,7 @@ export default function App() {
   const nextAlbumRewardRemaining = nextAlbumMilestone
     ? Math.max(0, nextAlbumMilestone.requiredDiscoveries - albumDiscoveredCount)
     : 0;
-  const albumFeaturedCreature = firstOwnedCreature;
+  const albumFeaturedCreature = lunarCareMemoryClaimed ? getCreature(LUNAR_REWARD_CREATURE_ID) ?? firstOwnedCreature : firstOwnedCreature;
   const albumMemoryVariant = albumMemoryPage % 2 === 1;
   const albumMemoryCopy = albumMemoryVariant
     ? albumFeaturedCreature
@@ -408,6 +430,8 @@ export default function App() {
     : albumFeaturedCreature
       ? `첫 발견 기록 · ${getCreatureRoleLabel(albumFeaturedCreature.role)} · ${getCreatureFamilyLabel(albumFeaturedCreature.family)}`
       : "";
+  const albumCareMemoryActive = Boolean(albumFeaturedCreature?.id === LUNAR_REWARD_CREATURE_ID && lunarCareMemoryClaimed);
+  const albumCareMemoryLabel = albumCareMemoryActive ? `누누 돌봄 도장 · +${LUNAR_CARE_REWARD_LEAVES} 잎 기억` : "";
   const albumClueCreatures = useMemo(() => {
     if (!save) {
       return [];
@@ -654,6 +678,38 @@ export default function App() {
       draft.leaves += 25;
       advanceMission(draft, "tutorial_claim_album_reward");
       trackEvent("album_reward_claimed", { milestoneId: "album_1", leaves: 25 });
+    });
+    triggerRewardPulse();
+  }
+
+  function careForStageCreature() {
+    if (lunarCareMemoryClaimed) {
+      setCreatureStageReaction((current) => Math.max(current, 2));
+      setActiveTab("album");
+      return;
+    }
+
+    setCreatureStageReaction((current) => Math.max(current + 1, 1));
+
+    if (!lunarCareMemoryEligible) {
+      return;
+    }
+
+    commit((draft) => {
+      if (
+        !draft.discoveredCreatureIds.includes(LUNAR_REWARD_CREATURE_ID) ||
+        draft.claimedCareMemoryIds.includes(LUNAR_CARE_MEMORY_ID)
+      ) {
+        return;
+      }
+
+      draft.claimedCareMemoryIds.push(LUNAR_CARE_MEMORY_ID);
+      draft.leaves += LUNAR_CARE_REWARD_LEAVES;
+      trackEvent("creature_care_memory_claimed", {
+        creatureId: LUNAR_REWARD_CREATURE_ID,
+        memoryId: LUNAR_CARE_MEMORY_ID,
+        leaves: LUNAR_CARE_REWARD_LEAVES
+      });
     });
     triggerRewardPulse();
   }
@@ -1155,7 +1211,8 @@ export default function App() {
               className={[
                 "creature-stage-focus",
                 creatureStageReaction > 0 ? "is-cared" : "",
-                creatureStageReaction > 1 ? "is-clue" : ""
+                creatureStageReaction > 1 ? "is-clue" : "",
+                showLunarCareMemoryReward ? "is-memory-reward" : ""
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -1176,7 +1233,9 @@ export default function App() {
                 <div className="creature-stage-shadow" aria-hidden="true" />
                 <h2>{stageHeroCreature.name}</h2>
                 <p>
-                  {creatureStageReaction > 1
+                  {lunarCareMemoryClaimed
+                    ? "반짝이는 흔적이 도감 기억 도장으로 남았어요. 누누가 다음 사진을 보러 가자고 손짓합니다."
+                    : creatureStageReaction > 1
                     ? "젤리콩처럼 말랑한 발자국 끝에서 닫힌 씨앗이 톡톡 흔들립니다."
                     : creatureStageReaction > 0
                       ? `${stageHeroCreature.name}${getSubjectParticle(stageHeroCreature.name)} 눈을 뜨고 발밑의 반짝이는 흔적을 살펴요.`
@@ -1185,11 +1244,18 @@ export default function App() {
               </div>
               <button
                 className="creature-stage-care"
-                onClick={() => setCreatureStageReaction((current) => current + 1)}
+                onClick={careForStageCreature}
                 type="button"
               >
-                {creatureStageReaction > 1 ? "곁에 앉기" : creatureStageReaction > 0 ? "단서 따라가기" : "돌보기"}
+                {stageCareButtonLabel}
               </button>
+              {showLunarCareMemoryReward && (
+                <div className="creature-care-reward" aria-label="달빛 돌보기 기억 보상">
+                  <span className="care-memory-stamp">누누 돌봄 도장</span>
+                  <strong>+{LUNAR_CARE_REWARD_LEAVES} 잎 기억 보상</strong>
+                  <small>{lunarCareMemoryClaimed ? "도감 사진에 오늘 돌본 기록이 찍혔어요" : "돌보면 도감 기억으로 남아요"}</small>
+                </div>
+              )}
               {stageNextCreatureGoal && (
                 <button
                   className="creature-stage-clue-trail"
@@ -1580,6 +1646,7 @@ export default function App() {
                   <div className="album-memory-photo" aria-hidden="true">
                     <span className="album-page-ribbon">기록 {String((albumMemoryPage % 3) + 1).padStart(2, "0")}</span>
                     <span className="album-memory-stamp">seed shop</span>
+                    {albumCareMemoryActive && <span className="album-care-stamp">누누 돌봄 도장</span>}
                     <span className="album-photo-shimmer" />
                     <div className="album-memory-portrait">{renderAsset(albumFeaturedCreature.assetId, "생명체")}</div>
                   </div>
@@ -1588,6 +1655,11 @@ export default function App() {
                     <h3>{albumFeaturedCreature.name}</h3>
                     <p>{albumMemoryCopy}</p>
                     <small>{albumMemoryNote}</small>
+                    {albumCareMemoryActive && (
+                      <span className="album-care-memory-note" aria-label="도감 돌봄 기억 도장">
+                        {albumCareMemoryLabel}
+                      </span>
+                    )}
                     <div className="album-memory-actions">
                       <button onClick={() => setAlbumMemoryPage((current) => current + 1)} type="button">
                         기록 넘기기
@@ -1612,7 +1684,7 @@ export default function App() {
                       : "도감 보상 준비"
                     : "도감 보상 완료"}
                 </span>
-                <span>{albumFeaturedCreature ? `${albumFeaturedCreature.name} 기록` : "첫 기록 대기"}</span>
+                <span>{albumCareMemoryActive ? "돌봄 도장 완료" : albumFeaturedCreature ? `${albumFeaturedCreature.name} 기록` : "첫 기록 대기"}</span>
               </div>
               {nextAlbumMilestone && (
                 <article className="album-reward-preview" aria-label="다음 도감 보상">

@@ -1,6 +1,6 @@
 # #282 정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다
 
-- 상태: `planned`
+- 상태: `ready_for_pr`
 - GitHub issue: #282 `정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다`
 - Branch: `codex/0282-lunar-care-memory-reward`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend`, `game-studio:game-playtest`, `browser-use:browser`
@@ -67,13 +67,13 @@
 
 ## 수용 기준
 
-- [ ] `돌보기`가 로컬 React state만 바꾸지 않고 save-backed care memory 또는 one-time reward 상태를 남긴다.
-- [ ] 정원 첫 화면에서 care reward motion/도장/HUD affordance가 하단 탭이나 다음 행동 카드에 가리지 않고 보인다.
-- [ ] 도감 memory photo가 돌봄 기록/도장을 보상표보다 먼저 보여준다.
-- [ ] 동일 save에서 이미 수령한 care reward는 중복 지급되지 않고, UI가 수령 완료 상태로 바뀐다.
-- [ ] 신규 accepted manifest asset 없이 구현하고 runtime image generation을 추가하지 않는다.
-- [ ] Browser Use `iab` current-session evidence 또는 blocker + Playwright fallback screenshot을 남긴다.
-- [ ] focused visual regression과 `npm run check:ci`가 통과한다.
+- [x] `돌보기`가 로컬 React state만 바꾸지 않고 save-backed care memory 또는 one-time reward 상태를 남긴다.
+- [x] 정원 첫 화면에서 care reward motion/도장/HUD affordance가 하단 탭이나 다음 행동 카드에 가리지 않고 보인다.
+- [x] 도감 memory photo가 돌봄 기록/도장을 보상표보다 먼저 보여준다.
+- [x] 동일 save에서 이미 수령한 care reward는 중복 지급되지 않고, UI가 수령 완료 상태로 바뀐다.
+- [x] 신규 accepted manifest asset 없이 구현하고 runtime image generation을 추가하지 않는다.
+- [x] Browser Use `iab` current-session evidence 또는 blocker + Playwright fallback screenshot을 남긴다.
+- [x] focused visual regression과 `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -88,3 +88,26 @@
 - 모바일 overflow: stage reward UI는 기존 `.creature-stage-focus` 안에서 compact하게 배치하고 layout invariant를 visual test에 추가한다.
 - 경제 흔들림: reward는 small one-time bonus로 제한하고 반복 지급을 막는다.
 - 롤백: 새 save field와 stage/album care UI를 제거하면 #275 stage baseline으로 되돌아간다.
+
+## 구현 결과
+
+- `PlayerSave.claimedCareMemoryIds`를 추가하고 `normalizeSave` 기본값을 보강했다.
+- 달방울 누누 stage의 `돌보기`가 `care_lunar_nunu_001` one-time reward(+18 잎)를 저장하고, 중복 클릭 시 도감 기록 보기로 전환된다.
+- stage 안에 `달빛 돌보기 기억 보상` reward motion/HUD affordance를 추가했다.
+- 도감 memory photo에 `누누 돌봄 도장`과 `도감 돌봄 기억 도장`을 추가했다.
+- 신규 accepted manifest game asset 또는 runtime image generation은 추가하지 않았다.
+
+## 검증 결과
+
+- `npm run check:visual -- --grep "돌보기|기억 도장|care reward"` → 1 passed
+- `npm run check:visual -- --grep "creature stage|도감은 보상표|달빛 보호 주문|돌보기|기억 도장|care reward"` → 4 passed
+- `npm run check:visual` → 53 passed (4.8m)
+- `npm run check:ci` → passed
+- Browser Use `iab`: current-session Node REPL `js` tool 미노출 blocker 기록
+
+## Visual evidence
+
+- `reports/visual/browser-use-blocker-0282-20260503.md`
+- `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`
+- `reports/visual/lunar-care-memory-reward-20260503.png`
+- `reports/visual/lunar-care-album-stamp-20260503.png`
