@@ -4,8 +4,15 @@ This folder is the durable memory for `이상한 씨앗상회` and the agent-nat
 
 ## Current Source of Truth
 
+Studio Harness v2 기준의 현재 최상위 source of truth는 repo root의 `README.md`, `STUDIO.md`, `GAME_BRIEF.md`, `ROADMAP.md`와 `campaigns/active.json`이다. 이 `docs/` index는 기존 상세 문서와 historical evidence를 찾기 위한 표면이다. `.omx/`는 runtime cache이며 source of truth가 아니다.
+
 | Document | Purpose | Read When |
 | --- | --- | --- |
+| `../STUDIO.md` | Studio Harness v2 gate graph, source authority, role contract | Before autonomous studio/gate work |
+| `STUDIO_HARNESS_V3_AUTONOMOUS_DESIGN.md` | GitHub-authoritative Studio Harness v3, GateEvent state model, and no-human runner plane execution spec | Before replacing v2 local ledger authority or launching Ralph/Team for v3 |
+| `../GAME_BRIEF.md` | Game reboot brief and active campaign direction | Before game reboot planning |
+| `../ROADMAP.md` | Current concise Studio Harness v2 roadmap | Before choosing current next gate |
+| `../campaigns/active.json` | Single active campaign registry | Before `seed-studio` gate transitions |
 | `NORTH_STAR.md` | Dual north star for the game and the agent-native studio/operator | Before choosing strategy or roadmap work |
 | `ROADMAP.md` | Milestone tracking, next tasks, current status | Before deciding what to do next |
 | `PROJECT_COMMANDS.md` | 프로젝트 전용 명령어: `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play` | Before choosing operating/report/design/QA/playable mode |
@@ -39,7 +46,8 @@ The first asset-production workflow is stored under `.codex/skills/`.
 | `gpt-game-asset-prompt` | Converts the asset plan into `assets/source/asset_prompts.json` |
 | `gpt-game-asset-generate` | Uses Codex native image generation one asset at a time |
 | `gpt-game-asset-review` | Reviews assets and prepares `assetManifest.json` |
-| `seed-ops` | `$seed-ops`: project-specific long-running operator loop |
+| `seed-studio` | `$seed-studio`: Studio Harness v2 gate graph and Keep/Kill/Pivot workflow |
+| `seed-ops` | `$seed-ops`: deprecated adapter for approved Productionization tasks only |
 | `seed-brief` | `$seed-brief`: evidence-backed status/reporting mode |
 | `seed-design` | `$seed-design`: design/product/operator conversation mode |
 | `seed-qa` | `$seed-qa`: practical browser/visual QA mode |
@@ -68,6 +76,7 @@ Current Game Studio direction:
 - The central garden now uses a Phaser 2D playfield boundary for plot state, tap feedback, ready state, and harvest input.
 - Phaser is lazy-loaded into a separate runtime chunk; dense HUD/panels stay in DOM.
 - Sprite work should now shift from static card art toward state strips: seed idle, tap response, growth, harvest-ready, and reward FX.
+- Studio Harness v2 now treats this implementation as reusable evidence, not an obligation. The next game reboot starts through the active campaign gate ledger before production code changes.
 
 ## Current Operating Summary
 
@@ -82,3 +91,5 @@ The operating project should move toward a ClawSweeper-style autonomous model:
 The shared charter is `NORTH_STAR.md`. Until the richer item system exists, `ROADMAP.md` is the tracking surface.
 
 Current PR automation audit evidence is stored in `reports/audits/pr_automation_20260427.md`.
+
+For Studio Harness v2, use `seed-studio` and the active campaign ledger before using Ralph/OMX. `$seed-ops` cannot choose the next issue or cite `.omx` as product truth.
