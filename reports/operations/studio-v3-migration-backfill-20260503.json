@@ -1,0 +1,111 @@
+{
+  "schema_version": "studio-v3-migration-backfill/v1",
+  "source_issue": 274,
+  "source_issue_url": "https://github.com/bborok1234/strange-seed-shop/issues/274",
+  "status": "migration-backfill",
+  "captured_at": "2026-05-03T01:40:00+09:00",
+  "authorization": {
+    "source_of_truth": "github-authoritative",
+    "local_ledger_can_authorize_work": false,
+    "local_ledger_role": "evidence-mirror-only",
+    "required_gate_event_state": "quarantined-or-migration-backfill"
+  },
+  "captured_stash_entries": [
+    {
+      "ref_at_capture": "stash@{0}",
+      "created_local": "Sun May 3 00:59:46 2026",
+      "message": "On codex/recover-local-studio-work-20260503: codex classified recovery diff after PR277 split before studio contract update",
+      "tracked_and_untracked_paths": 123,
+      "classification": "migration-backfill",
+      "preserve": true
+    },
+    {
+      "ref_at_capture": "stash@{1}",
+      "created_local": "Sun May 3 00:05:42 2026",
+      "message": "On codex/studio-harness-v3-autonomous-design: codex cleanup backup before returning to main after PR 273",
+      "tracked_and_untracked_paths": 123,
+      "classification": "quarantined-backup",
+      "preserve": true
+    }
+  ],
+  "recovery_branch_status": {
+    "reported_branch": "codex/recover-local-studio-work-20260503",
+    "local_branch_present_at_capture": false,
+    "remote_branch_present_at_capture": false,
+    "preserved_by": ["stash@{0}", "stash@{1}", "reports/operations/local-studio-work-recovery-20260503.md"],
+    "note": "PR #277 split the local recovery work into GitHub issues and removed the recovery branch; #274 preserves the evidence via stash/report, not by restoring the branch."
+  },
+  "main_tree_status": {
+    "campaigns_dir_present": false,
+    "prototypes_dir_present": false,
+    "seed_studio_skill_present": false,
+    "legacy_check_studio_harness_present": false,
+    "portrait_variant_asset_prompts_present": false
+  },
+  "artifact_groups": [
+    {
+      "id": "v2-campaign-ledger",
+      "paths": ["campaigns/active.json", "campaigns/creature-collection-rescue/**", "STUDIO.md", "GAME_BRIEF.md", "ROADMAP.md"],
+      "path_count_in_each_stash": 47,
+      "classification": "quarantined",
+      "action": "preserve in stash/report; do not restore to main as authority",
+      "authorization_allowed": false
+    },
+    {
+      "id": "throwaway-prototypes",
+      "paths": ["prototypes/creature-collection-rescue/**"],
+      "path_count_in_each_stash": 13,
+      "classification": "migration-backfill",
+      "action": "record as historical prototype evidence; do not ship as production runtime",
+      "authorization_allowed": false
+    },
+    {
+      "id": "visual-evidence",
+      "paths": ["reports/visual/*20260502.png"],
+      "path_count_in_each_stash": 24,
+      "classification": "migration-backfill",
+      "action": "reuse only as historical before/prototype evidence; #275 must recapture current Browser Use evidence",
+      "authorization_allowed": false
+    },
+    {
+      "id": "asset-prompt-prep",
+      "paths": ["assets/source/portrait_variant_asset_plan_20260502.json", "assets/source/portrait_variant_asset_prompts_20260502.json"],
+      "path_count_in_each_stash": 2,
+      "classification": "migration-backfill",
+      "action": "preserve as prompt planning evidence; not accepted manifest game assets",
+      "authorization_allowed": false
+    },
+    {
+      "id": "legacy-harness-surfaces",
+      "paths": [".codex/skills/seed-studio/SKILL.md", "scripts/check-studio-harness.mjs", "items/0138-studio-harness-v2-first-pass.md"],
+      "path_count_in_each_stash": 3,
+      "classification": "quarantined",
+      "action": "do not reinstate without v3 GitHub-authoritative rewrite",
+      "authorization_allowed": false
+    },
+    {
+      "id": "production-game-code",
+      "paths": ["src/App.tsx", "src/styles.css", "tests/visual/p0-mobile-game-shell.spec.ts"],
+      "path_count_in_each_stash": 3,
+      "classification": "excluded-follow-up",
+      "action": "route to GitHub issue #275 with Browser Use evidence and visual regression",
+      "authorization_allowed": false,
+      "follow_up_issue": 275
+    }
+  ],
+  "preservation_policy": [
+    "preserve stash entries; do not drop",
+    "do not restore campaigns/** or prototypes/** to main as an active ledger",
+    "do not infer Release/Keep/Productionization completion from local ledger files",
+    "backfill useful evidence only through GitHub issue/PR/GateEvent surfaces",
+    "production game code remains excluded for #275"
+  ],
+  "verification": {
+    "commands": [
+      "npm run check:studio-v3-migration-backfill",
+      "npm run check:studio-v3-bot-runner",
+      "npm run check:docs",
+      "npm run check:ci"
+    ]
+  }
+}

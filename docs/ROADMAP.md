@@ -280,6 +280,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Seed ops PR publication confirmation boundary | done | Draft PR #265, `items/0133-seed-ops-pr-publication-confirmation-boundary.md`, `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`, `scripts/check-seed-ops-queue-gate.mjs`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-ops/SKILL.md`, `npm run check:ci` pass, PR checks pass | Codex App action-time confirmation이 필요한 PR 생성/수정, issue 수정, comment 게시를 `This is not a terminal stop`으로 고정하고, `do not send final just to ask for PR creation`, `pending external-publication gate`, `next local safe work`를 검사한다 |
 | Game studio department harness | done | Issue #257, PR #258, main CI `25217147915`, `items/0129-game-studio-ops-harness.md`, `reports/operations/game-studio-harness-reference-review-20260501.md`, `.codex/skills/seed-ops/SKILL.md`, `scripts/check-seed-ops-queue-gate.mjs`, `scripts/check-ops-live.mjs` | `P0.5 Idle Core + Creative Rescue`를 active campaign source of truth로 고정하고, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, Subagent/Team Routing, gastory style state/prompt/model sidecar/reference image consistency/animation camera/composition lock/frame/GIF/spritesheet extraction gate를 요구함 |
 | Studio Harness v3 bot runner deterministic gate | review | Issue #276, `items/0140-studio-v3-bot-runner-checker.md`, `scripts/studio-v3-bot-runner.mjs`, `scripts/check-studio-v3-bot-runner.mjs`, `reports/operations/fixtures/studio-v3-bot-runner-*.json` | GitHub issue/PR/GateEvent fixture로 WorkUnit을 복원하고, local campaign ledger authority, routine GitHub human handoff, stale branch/dirty work, GateEvent hash mismatch 회귀를 `npm run check:studio-v3-bot-runner`와 `npm run check:ci`에서 차단함 |
+| Studio Harness v3 migration backfill gate | review | Issue #274, `items/0141-v2-ledger-quarantine-backfill.md`, `reports/operations/studio-v3-migration-backfill-20260503.md`, `reports/operations/studio-v3-migration-backfill-20260503.json`, `scripts/check-studio-v3-migration-backfill.mjs` | v2 local campaign ledger/prototype/visual/asset prep 산출물을 `quarantined` 또는 `migration-backfill` evidence로 분류하고, local ledger가 work authorization source가 아님을 `npm run check:studio-v3-migration-backfill`과 `npm run check:ci`에서 검증함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
 | Project command surface | done | Issue #117, `items/0067-project-command-surface.md`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-*` | `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`로 운영 루프와 대화/보고/QA/playable 세션을 구분함 |
@@ -308,27 +309,28 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative queue의 #276 **Studio Harness v3 bot runner 구현 spec 및 checker 정리**다. #274/#275가 같은 복구 queue에 남아 있지만, #276은 v3 WorkUnit reconstruction과 local ledger authority 회귀 방지를 먼저 막는 blocking WorkUnit이므로 우선 진행한다.
+현재 작업은 GitHub-authoritative queue의 #274 **로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필**이다. #276은 PR #279로 merge되고 main CI `25256607105`가 통과했다. 남은 #274/#275 중 #274는 v2 local ledger authority 회귀를 먼저 격리하는 WorkUnit이므로 사용자 지정 순서대로 진행한다.
 
 현재 evidence:
 
-- GitHub issue: #276 `Studio Harness v3 bot runner 구현 spec 및 checker 정리`
-- Plan artifact: `items/0140-studio-v3-bot-runner-checker.md`
-- Branch: `codex/0276-studio-v3-bot-runner-checker`
-- Runner/checker: `scripts/studio-v3-bot-runner.mjs`, `scripts/check-studio-v3-bot-runner.mjs`
-- Fixtures: `reports/operations/fixtures/studio-v3-bot-runner-*.json`
-- Focused verification: `npm run check:studio-v3-bot-runner` 통과, valid fixture `--require-authorized` 통과, local-ledger authority fixture `--require-authorized` 실패 확인
-- Existing Studio Campaign Gate quality phrases remain active while #276 runs: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`. #276은 operator checker work라 신규 게임 issue 선택은 아니지만, 다음 #275 같은 game/UI WorkUnit으로 넘어갈 때 이 gate를 계속 적용한다.
+- GitHub issue: #274 `로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필`
+- Plan artifact: `items/0141-v2-ledger-quarantine-backfill.md`
+- Branch: `codex/0274-v2-ledger-quarantine`
+- Migration manifest: `reports/operations/studio-v3-migration-backfill-20260503.json`
+- Migration report: `reports/operations/studio-v3-migration-backfill-20260503.md`
+- Checker: `scripts/check-studio-v3-migration-backfill.mjs`
+- Focused verification: `npm run check:studio-v3-migration-backfill` 통과
+- Existing Studio Campaign Gate quality phrases remain active while #274 runs: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`. #274는 operator migration evidence work라 신규 게임 issue 선택은 아니지만, 다음 #275 game/UI WorkUnit에서 이 gate를 계속 적용한다.
 
 즉시 적용된 gate:
 
-1. GitHub issue/PR/GateEvent fixture에서 WorkUnit을 복원하고 state hash를 검증한다.
-2. local `campaigns/**` 또는 recovery ledger만으로 gate advance를 authorize하면 `quarantined`로 실패한다.
-3. routine branch push/PR create/update/issue/comment update를 사람 handoff로 넘기는 projection은 `human-handoff-regression`으로 실패한다.
-4. stale local branch와 unpushed dirty work는 `recovery-state`로 분류한다.
-5. `npm run check:ci`가 `npm run check:studio-v3-bot-runner`를 포함한다.
+1. v2 `campaigns/**`, `prototypes/**`, visual evidence, asset prompt prep, legacy harness surfaces를 `quarantined` 또는 `migration-backfill`로 분류한다.
+2. local ledger는 `evidence-mirror-only`이며 work authorization source가 될 수 없음을 manifest/checker로 강제한다.
+3. production game code(`src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`)는 #275 `excluded-follow-up`으로 분리한다.
+4. `stash@{0}`와 `stash@{1}` 보존 상태, recovery branch 부재/보존 근거를 report에 기록한다.
+5. `npm run check:ci`가 `npm run check:studio-v3-migration-backfill`를 포함한다.
 
-다음 checkpoint는 focused checks와 전체 `npm run check:ci`, PR 생성, GitHub checks 확인, merge, main CI 관찰이다. Stop rule이 없으면 이후 #274 또는 #275 중 GitHub state 기준 다음 합법 WorkUnit으로 이어간다.
+다음 checkpoint는 `npm run check:docs`, `npm run check:studio-v3-bot-runner`, 전체 `npm run check:ci`, PR 생성, GitHub checks 확인, merge, main CI 관찰이다. Stop rule이 없으면 이후 #275를 `game-studio:game-studio`/Browser Use `iab` plan-first로 이어간다.
 
 ## Previous Next Action History
 
