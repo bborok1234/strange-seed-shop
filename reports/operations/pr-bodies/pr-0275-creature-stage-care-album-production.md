@@ -69,6 +69,10 @@
 - Browser Use `iab` hands-on QA는 current session에서 Node REPL `js` 미노출로 막혀 Playwright fallback을 사용했습니다.
 - stage는 달빛 resident 발견 상태로 scope를 좁혔습니다. 일반 연구/온실 progression 화면은 기존 action surface를 유지합니다.
 
+## GateEvent
+
+- `reports/operations/gate-event-0275-productionization-20260503.md`
+
 ## 연결된 issue
 
 Closes #275
