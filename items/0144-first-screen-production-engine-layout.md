@@ -1,6 +1,6 @@
 # #284 정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다
 
-- 상태: `planned`
+- 상태: `ready-for-pr`
 - GitHub issue: #284 `정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다`
 - Branch: `codex/0284-first-screen-production-engine-layout`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend`, `game-studio:game-playtest`, `browser-use:browser`
@@ -66,13 +66,13 @@ GitHub open queue가 비어 있어 P0.5 Production Bar 기준으로 새 Intake W
 
 ## 수용 기준
 
-- [ ] 달방울 누누 발견 상태의 393x852 첫 정원 화면에서 stage, playfield, 자동 생산/주문 progress가 하나의 game scene으로 읽힌다.
-- [ ] `돌보기`, `생산 잎 수령`, `주문 납품` 중 가능한 primary verbs가 viewport 안에서 하단 탭에 가리지 않는다.
-- [ ] action surface가 body scroll 없이 bottom tab 위에 머물고, visible child overflow가 없다.
-- [ ] order crate/progress visual state가 카드 본문보다 먼저 보인다.
-- [ ] 신규 accepted manifest asset 없이 구현하고 runtime image generation을 추가하지 않는다.
-- [ ] Browser Use `iab` current-session evidence 또는 blocker + Playwright fallback screenshot을 남긴다.
-- [ ] focused visual regression과 `npm run check:ci`가 통과한다.
+- [x] 달방울 누누 발견 상태의 393x852 첫 정원 화면에서 stage, playfield, 자동 생산/주문 progress가 하나의 game scene으로 읽힌다.
+- [x] `돌보기`, `생산 잎 수령`, `주문 납품` 중 가능한 primary verbs가 viewport 안에서 하단 탭에 가리지 않는다.
+- [x] action surface가 body scroll 없이 bottom tab 위에 머물고, visible child overflow가 없다.
+- [x] order crate/progress visual state가 카드 본문보다 먼저 보인다.
+- [x] 신규 accepted manifest asset 없이 구현하고 runtime image generation을 추가하지 않는다.
+- [x] Browser Use `iab` current-session evidence 또는 blocker + Playwright fallback screenshot을 남긴다.
+- [x] focused visual regression과 `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -86,3 +86,21 @@ GitHub open queue가 비어 있어 P0.5 Production Bar 기준으로 새 Intake W
 - 큰 layout change라 기존 greenhouse/lunar visual regression을 깨뜨릴 수 있다.
 - persistent HUD를 늘리면 playfield를 가릴 수 있으므로 edge/compact tray로 제한한다.
 - 롤백은 #283 main 상태로 CSS/DOM 재배치 diff를 되돌리는 것이다.
+
+
+## 구현 evidence
+
+- `GardenPlayfieldHost`의 production scene overlay에 `role="group"` / `aria-label="정원 생산 엔진 한 장면"`을 부여했다.
+- `has-creature-stage` + `has-lunar-guardian-order` 상태에서 기존에 숨겨졌던 playfield production scene을 transparent edge tray로 다시 보이게 했다.
+- open lunar guardian order 상태의 action card는 order progress → production claim → worker/roster 순서로 압축하고, secondary growth cards는 숨겨 primary verbs를 bottom tab 위에 보존했다.
+- 신규 accepted manifest asset, runtime image generation, economy 수치 변경 없음.
+
+## 검증 evidence
+
+- Browser Use `iab` current-session blocker: `reports/visual/browser-use-blocker-0284-20260503.md`
+- Playtest report: `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`
+- Screenshot: `reports/visual/first-screen-production-engine-one-scene-20260503.png`
+- `npm run check:visual -- --grep "생산 엔진|한 장면|production engine"` → 1 passed
+- `npm run check:visual -- --grep "creature stage|기억 도장|생산 엔진|달빛 보호 주문 완료"` → 4 passed
+- `npm run check:visual` → 54 passed
+- `npm run check:ci` → passed
