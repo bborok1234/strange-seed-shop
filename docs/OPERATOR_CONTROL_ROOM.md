@@ -3,47 +3,48 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-02T16:32:02.787Z
+Generated at: 2026-05-02T16:41:20.771Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative queue의 #276 **Studio Harness v3 bot runner 구현 spec 및 checker 정리**다. #274/#275가 같은 복구 queue에 남아 있지만, #276은 v3 WorkUnit reconstruction과 local ledger authority 회귀 방지를 먼저 막는 blocking WorkUnit이므로 우선 진행한다.
+현재 작업은 GitHub-authoritative queue의 #274 **로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필**이다. #276은 PR #279로 merge되고 main CI `25256607105`가 통과했다. 남은 #274/#275 중 #274는 v2 local ledger authority 회귀를 먼저 격리하는 WorkUnit이므로 사용자 지정 순서대로 진행한다.
 
 현재 evidence:
 
-- GitHub issue: #276 `Studio Harness v3 bot runner 구현 spec 및 checker 정리`
-- Plan artifact: `items/0140-studio-v3-bot-runner-checker.md`
-- Branch: `codex/0276-studio-v3-bot-runner-checker`
-- Runner/checker: `scripts/studio-v3-bot-runner.mjs`, `scripts/check-studio-v3-bot-runner.mjs`
-- Fixtures: `reports/operations/fixtures/studio-v3-bot-runner-*.json`
-- Focused verification: `npm run check:studio-v3-bot-runner` 통과, valid fixture `--require-authorized` 통과, local-ledger authority fixture `--require-authorized` 실패 확인
-- Existing Studio Campaign Gate quality phrases remain active while #276 runs: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`. #276은 operator checker work라 신규 게임 issue 선택은 아니지만, 다음 #275 같은 game/UI WorkUnit으로 넘어갈 때 이 gate를 계속 적용한다.
+- GitHub issue: #274 `로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필`
+- Plan artifact: `items/0141-v2-ledger-quarantine-backfill.md`
+- Branch: `codex/0274-v2-ledger-quarantine`
+- Migration manifest: `reports/operations/studio-v3-migration-backfill-20260503.json`
+- Migration report: `reports/operations/studio-v3-migration-backfill-20260503.md`
+- Checker: `scripts/check-studio-v3-migration-backfill.mjs`
+- Focused verification: `npm run check:studio-v3-migration-backfill` 통과
+- Existing Studio Campaign Gate quality phrases remain active while #274 runs: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`. #274는 operator migration evidence work라 신규 게임 issue 선택은 아니지만, 다음 #275 game/UI WorkUnit에서 이 gate를 계속 적용한다.
 
 즉시 적용된 gate:
 
-1. GitHub issue/PR/GateEvent fixture에서 WorkUnit을 복원하고 state hash를 검증한다.
-2. local `campaigns/**` 또는 recovery ledger만으로 gate advance를 authorize하면 `quarantined`로 실패한다.
-3. routine branch push/PR create/update/issue/comment update를 사람 handoff로 넘기는 projection은 `human-handoff-regression`으로 실패한다.
-4. stale local branch와 unpushed dirty work는 `recovery-state`로 분류한다.
-5. `npm run check:ci`가 `npm run check:studio-v3-bot-runner`를 포함한다.
+1. v2 `campaigns/**`, `prototypes/**`, visual evidence, asset prompt prep, legacy harness surfaces를 `quarantined` 또는 `migration-backfill`로 분류한다.
+2. local ledger는 `evidence-mirror-only`이며 work authorization source가 될 수 없음을 manifest/checker로 강제한다.
+3. production game code(`src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`)는 #275 `excluded-follow-up`으로 분리한다.
+4. `stash@{0}`와 `stash@{1}` 보존 상태, recovery branch 부재/보존 근거를 report에 기록한다.
+5. `npm run check:ci`가 `npm run check:studio-v3-migration-backfill`를 포함한다.
 
-다음 checkpoint는 focused checks와 전체 `npm run check:ci`, PR 생성, GitHub checks 확인, merge, main CI 관찰이다. Stop rule이 없으면 이후 #274 또는 #275 중 GitHub state 기준 다음 합법 WorkUnit으로 이어간다.
+다음 checkpoint는 `npm run check:docs`, `npm run check:studio-v3-bot-runner`, 전체 `npm run check:ci`, PR 생성, GitHub checks 확인, merge, main CI 관찰이다. Stop rule이 없으면 이후 #275를 `game-studio:game-studio`/Browser Use `iab` plan-first로 이어간다.
 
 ## Local state
 
-- Branch: codex/0276-studio-v3-bot-runner-checker
-- Latest commit: 1b8a4a0 로컬 Studio 미반영 작업을 복구 단위로 분리 (#277)
+- Branch: codex/0274-v2-ledger-quarantine
+- Latest commit: f2e928b Studio runner가 GitHub WorkUnit 회귀를 CI에서 막게 만들기
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-02T16:32:01.056Z
-- Phase: ready-for-pr
-- Issue: #276
+- Timestamp: 2026-05-02T16:37:55.535Z
+- Phase: planning
+- Issue: #274
 - PR: 
-- Item: items/0140-studio-v3-bot-runner-checker.md
-- Next action: PR publication gate 준비: commit, push branch, create PR with body file
+- Item: items/0141-v2-ledger-quarantine-backfill.md
+- Next action: plan gate 준비: write #274 plan artifact and map recovery evidence
 
 ## Open PRs
 
@@ -51,7 +52,6 @@ Generated at: 2026-05-02T16:32:02.787Z
 
 ## Open issues
 
-- #276 Studio Harness v3 bot runner 구현 spec 및 checker 정리 — https://github.com/bborok1234/strange-seed-shop/issues/276
 - #275 대표 생명체 stage, 돌보기 반응, 도감 감상면을 production으로 복구 — https://github.com/bborok1234/strange-seed-shop/issues/275
 - #274 로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필 — https://github.com/bborok1234/strange-seed-shop/issues/274
 
