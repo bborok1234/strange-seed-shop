@@ -3,56 +3,54 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-01T16:09:57.418Z
+Generated at: 2026-05-02T16:11:49.231Z
 
 ## Current mission
 
-현재 작업은 `items/0136-no-post-merge-closeout.md`의 **Seed ops no post-merge closeout gate**다. PR merge/close 이후 main을 대상으로 evidence backfill closeout PR/commit을 만드는 안티패턴을 하네스에서 금지한다.
+현재 작업은 `items/0137-lunar-guardian-order-bridge-v0.md`의 **달방울 누누 달빛 보호 주문 + visual QA correction**이다. 사용자 제보 스크린샷 기준으로 `다음 행동` 카드의 달빛 보호 주문 payoff clipping을 고치고, 기존 seed-ops issue/PR 제목 패턴이 작은 연결 기능과 closeout evidence로 수렴한 문제를 회고해 `Strategic Jump Check`와 `Title Contract`를 하네스에 추가한다.
 
 현재 evidence:
 
-- `$ralph` skill review: `state_write`, `current_phase`, `.omx/state/{scope}/ralph-progress.json`, fresh verification, architect verification 중심이다.
-- Current `$ralph` activation: `.omx/state/sessions/019de3f6-4472-7cd1-a549-aa9eb399c536/ralph-state.json` is prompt-side only, `active:true`, `current_phase:"starting"`.
-- Past 4h loop: `.omx/tasks/overnight-ralph-driver-20260427T1515.sh` + heartbeat/watchdog JSON loop.
-- External reference: LangGraph/Temporal/Cloudflare long-running agent docs also checkpoint/state/replay/plan 중심이다.
-- New structural gate: `publication_gate`, `confirmation.channel`, `continuation.action`, `continuation.artifact_path`, `safe_local_work`, `stop_rule`.
-- New Ralph runner gate: `scripts/check-ralph-runner-bridge.mjs` reports current Codex App `$ralph` state as `prompt-side-only` and detached runner count as 0.
-- New no-post-merge gate: `scripts/check-no-post-merge-closeout.mjs` forbids new `reports/operations/*closeout*body.md` files and requires original-PR evidence before merge/close.
-- Existing quality phrases kept in the live gate: `Studio Campaign Gate`, `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`.
+- Browser Use current tab: `http://127.0.0.1:5173/?qaLunarOrderReady=1&qaFxTelemetry=1`
+- User-reported defect reproduction: `reports/visual/lunar-guardian-user-defect-delivered-browser-use-20260502.png`
+- Fixed Browser Use state: `reports/visual/lunar-guardian-order-fixed-browser-use-20260502.png`
+- Regression gate: `npm run check:visual -- --grep "달빛 보호"` passed after the second clipping fix.
+- Issue/PR title retrospective: `reports/operations/seed-ops-issue-pr-title-retrospective-20260502.md`
+- Existing Studio Campaign Gate quality phrases remain active in the queue gate: `Codex native subagents`, `team mode`, `단순 주문 추가`, `copy tweak`, `test-only`.
 
 즉시 적용된 gate:
 
-1. `reports/operations/ralph-state-contract-review-20260502.md`에 Ralph/local/external durable-state 근거를 남긴다.
-2. `scripts/write-operator-heartbeat.mjs`는 publication gate 구조화 필드를 쓸 수 있어야 한다.
-3. `scripts/check-seed-ops-publication-gate-state.mjs`는 `confirmation.channel: "final"`과 continuation 누락 fixture를 실패로 잡아야 한다.
-4. `scripts/check-ops-live.mjs`는 현재 heartbeat가 `external-publication-gate`일 때 구조화 필드를 검사해야 한다.
-5. `scripts/check-ralph-runner-bridge.mjs`는 prompt-side `$ralph` state와 detached runner evidence를 구분해야 한다.
-6. `npm run check:ralph-runner-bridge`, `npm run check:seed-ops-publication-gate`, `npm run check:seed-ops-queue`, `npm run check:ops-live`, `npm run check:ci`가 통과했다.
-7. 이 작업이 끝나면 멈추지 않고 `0132` GitHub publication/PR/checks loop 또는 다음 plan-first issue로 이어간다.
+1. `.codex/skills/seed-ops/SKILL.md`와 `docs/PROJECT_COMMANDS.md`에 `Strategic Jump Check`를 추가한다.
+2. `.codex/skills/seed-ops/SKILL.md`와 `docs/PROJECT_COMMANDS.md`에 `Title Contract`를 추가한다.
+3. `scripts/check-seed-ops-queue-gate.mjs`가 이 두 계약이 seed-ops surface에서 사라지지 않게 확인한다.
+4. 이 작업 PR body에는 Browser Use fixed screenshot과 issue/PR title retrospective를 원 PR evidence로 포함한다.
+5. merge 뒤 main-targeted closeout commit/PR을 만들지 않고, stop rule이 없으면 다음 issue를 `Strategic Jump Check`부터 plan-first로 만든다.
 
 ## Local state
 
-- Branch: codex/0136-no-post-merge-closeout
-- Latest commit: 12aefc9 Merge pull request #267 from bborok1234/codex/0132-lunar-harvest-creature-payoff-v0
+- Branch: codex/recover-local-studio-work-20260503
+- Latest commit: 177d3f4 복구 원장 PR 본문을 운영 증거로 남김
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-01T16:08:39.395Z
+- Timestamp: 2026-05-02T16:11:05.688Z
 - Phase: verifying
-- Issue: local
+- Issue: #274
 - PR: 
-- Item: items/0136-no-post-merge-closeout.md
-- Next action: no-post-merge-closeout gate 검증 후 PR 준비
+- Item: items/0139-studio-infinite-runner-contract.md
+- Next action: gate 준비: PR277 CI recheck and merge
 
 ## Open PRs
 
-- unavailable or none
+- #277 ready 로컬 Studio 미반영 작업을 복구 단위로 분리 — https://github.com/bborok1234/strange-seed-shop/pull/277
 
 ## Open issues
 
-- unavailable or none
+- #276 Studio Harness v3 bot runner 구현 spec 및 checker 정리 — https://github.com/bborok1234/strange-seed-shop/issues/276
+- #275 대표 생명체 stage, 돌보기 반응, 도감 감상면을 production으로 복구 — https://github.com/bborok1234/strange-seed-shop/issues/275
+- #274 로컬 v2 campaign ledger를 v3 WorkUnit evidence로 격리/백필 — https://github.com/bborok1234/strange-seed-shop/issues/274
 
 ## Playable mode
 
