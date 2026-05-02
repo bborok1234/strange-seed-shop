@@ -19,6 +19,24 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 | `$seed-qa` | 실기 QA | 모바일/데스크톱 실제 화면과 visual regression 확인 | Browser Use 우선, Playwright CLI/CDP fallback, screenshot evidence |
 | `$seed-play` | 사람 플레이 준비 | 사용자가 agent 작업과 별개로 main 게임을 실행 | `npm run play:main`, `../strange-seed-shop-play`, port 5174 |
 
+## Studio 무한 운영 계약
+
+Studio run is infinite by default. `$seed-studio`, `$seed-ops`, 또는 Studio Harness v3 runner가 시작되면 issue 생성, PR 생성, merge, Release, Retro, daily report는 모두 루프 내부 checkpoint다. 이것들은 완료나 종료 사유가 아니다.
+
+허용되는 중단 사유는 아래뿐이다.
+
+- token/context limit 또는 모델 런타임 고갈
+- network, GitHub, tool, filesystem, machine outage로 더 이상 안전한 작업을 할 수 없음
+- 사용자가 명시적으로 stop/cancel/interrupt/close
+- destructive, credential, payment, external-production boundary이고 더 이상 안전한 local continuation이 없음
+- machine sleep/shutdown/crash 또는 force majeure
+
+Queue empty is not a stop condition. 합법 WorkUnit이 없으면 GitHub/local state reconciliation, Intake WorkUnit 생성/갱신, stale PR/check 복구, deterministic contract hardening, evidence refresh, retry heartbeat 중 하나를 수행한다.
+
+Checkpoint is not completion. 보고는 commentary checkpoint 또는 GitHub/report evidence로 남기고 즉시 다음 합법 local action으로 이어간다. final user-facing report는 위 중단 사유가 활성화되었거나 사용자가 status-only 답변을 명시했을 때만 허용된다.
+
+Final report requires local main. 최종 보고 전 foreground workspace는 반드시 `main`으로 돌아와야 하며, 남은 작업은 named recovery stash, branch, PR 중 하나로 보존되어야 한다. feature/recovery branch에 남은 채 종료하는 것은 Studio 계약 실패다.
+
 ## `$seed-ops` — 운영모드
 
 `$seed-ops`는 장시간 운영사 루프의 프로젝트 전용 진입점이다. `$ralph`는 범용 엔진이고, `$seed-ops`는 이 레포의 제품/운영 북극성, safety gate, issue 단위 plan-first 규칙을 함께 적용한다.
