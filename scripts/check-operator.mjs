@@ -284,9 +284,10 @@ requirePhrases("docs/OPERATOR_RUNBOOK.md", [
   "Plan artifact가 없으면 branch 구현",
   "plan artifact with `## Plan`",
   "완료 보고는 중단 조건이 아니라 체크포인트",
-  "다음 issue를 plan-first로 선택",
-  "Production Bar",
-  "명시 중단, 시간 상한, 외부 승인, 치명적 blocker"
+  "Studio run is infinite by default",
+  "Queue empty is not a stop condition",
+  "Those are checkpoints",
+  "Final report requires local main"
 ]);
 
 requirePhrases("reports/operations/operator-continuation-watchdog-20260429.md", [
@@ -426,7 +427,7 @@ requirePhrases("docs/OPERATOR_RUNBOOK.md", [
   "Start procedure",
   "Monitor procedure",
   "Recover procedure",
-  "Stop procedure",
+  "Interruption procedure",
   "Summarize procedure",
   "4h supervised trial readiness checklist",
   "24h dry-run readiness checklist",

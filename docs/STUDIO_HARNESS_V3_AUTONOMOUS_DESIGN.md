@@ -237,10 +237,28 @@ read GitHub queue
 -> run focused checks
 -> if PR exists, observe/update CI
 -> heartbeat
--> continue until policy boundary or queue empty
+-> continue forever
 ```
 
 The loop does not stop at checkpoint summaries. A summary is an evidence event, not a terminal condition.
+
+### Infinite Run Contract
+
+Studio run is infinite by default. Once `$seed-studio` or the Studio Harness v3 runner starts, it continues operating until the process is physically unable to continue. Issue creation, PR creation, merge, Release, Retro, daily report, queue refresh, and recovery report are loop events, not completion states.
+
+Allowed interruption causes are intentionally narrow:
+
+- token/context limit or model runtime exhaustion
+- network, GitHub, tool, filesystem, or machine outage that prevents further safe action
+- user explicitly stops, closes, interrupts, or cancels the run
+- destructive/credential/payment/external-production boundary where no safe local continuation exists
+- machine sleep, shutdown, crash, or other force majeure
+
+Queue empty is not a stop condition. If no legal WorkUnit is ready, the runner must reconcile GitHub/local state, open or update an Intake WorkUnit, repair stale PR/check state, harden deterministic contracts, refresh evidence, or write a heartbeat that names the next retry. It must not send a final report merely because the current issue/PR/checkpoint finished.
+
+Checkpoint is not completion. The runner may emit commentary checkpoints and GitHub/report evidence, then immediately continue to the next legal local action. A final user-facing report is allowed only when one interruption cause above is active or when the user explicitly asks for a status-only answer.
+
+Final report requires local main. Before sending any final user-facing completion/blocker report, the foreground workspace must be back on `main` with a clean status or with all remaining work preserved in a named recovery stash, branch, or PR. Ending on a feature/recovery branch is a Studio contract failure.
 
 ### Autonomy Policy
 
@@ -353,7 +371,7 @@ Recommended lanes:
 Launch shape:
 
 ```bash
-omx ralph "Implement Studio Harness v3 from docs/STUDIO_HARNESS_V3_AUTONOMOUS_DESIGN.md. The runner owns routine git/GitHub operations: create/update the GitHub issue, create a branch, push, open/update a draft PR, inspect checks, and repair CI when credentials and policy allow. Record a PublicationBoundary only when tooling, credentials, branch protection, destructive scope, external deployment, or policy actually blocks automation. Do not modify game production code. Do not advance any gate from local ledger alone. Stop only at destructive/external policy boundaries or after full local verification."
+omx ralph "Implement Studio Harness v3 from docs/STUDIO_HARNESS_V3_AUTONOMOUS_DESIGN.md. Studio run is infinite by default. The runner owns routine git/GitHub operations: create/update the GitHub issue, create a branch, push, open/update a draft PR, inspect checks, and repair CI when credentials and policy allow. Record a PublicationBoundary only when tooling, credentials, branch protection, destructive scope, external deployment, or policy actually blocks automation. Do not modify game production code. Do not advance any gate from local ledger alone. Checkpoints are not completion. Queue empty is not a stop condition. Interrupt only for token/context exhaustion, network/tool/machine outage, user stop/close/interrupt, force majeure, or destructive/credential/payment/external-production boundary with no safe local continuation."
 ```
 
 ### Team path

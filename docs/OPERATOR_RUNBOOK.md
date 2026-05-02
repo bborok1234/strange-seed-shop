@@ -60,6 +60,8 @@ Before any supervised 4h or 24h run:
 
 During a supervised run:
 
+- Studio run is infinite by default. Once the operator/studio runner starts, issue creation, PR creation, merge, Release, Retro, daily report, and recovery report are checkpoints inside the loop, not terminal states.
+- Queue empty is not a stop condition. If no legal WorkUnit is ready, reconcile GitHub/local state, open or update an Intake WorkUnit, repair stale PR/check state, harden deterministic contracts, refresh evidence, or write a retry heartbeat.
 - Write heartbeat at least once per iteration and at least every 5 minutes during multi-hour trials.
 - During long PR/CI waits, the independent heartbeat daemon owns the 5-minute liveness signal; the foreground agent still records meaningful phase transitions.
 - `$ralph` prompt-side state without detached runner metadata is `prompt-side-only`, not live long runner evidence.
@@ -104,18 +106,21 @@ When something goes wrong, do not continue silently.
 | Scope touches payment/login/ads/customer data/real GTM/deploy | Stop for explicit approval. |
 | Same failure repeats 3+ times | Create blocker report and narrow the next issue. |
 
-## Stop procedure
+## Interruption procedure
 
-Stop a long-running operator session only when one of these is true:
+Studio/Operator runs do not normally stop. They are interrupted only when one of these is true:
 
-- The planned trial time is reached and the final heartbeat/watchdog evidence is recorded.
-- A destructive, credential-gated, external-production, or materially branching decision is required.
-- A hard blocker has a written report and no safe recovery path remains.
-- The user explicitly says stop/cancel/abort.
+- token/context limit or model runtime exhaustion
+- network, GitHub, tool, filesystem, or machine outage prevents further safe action
+- the user explicitly says stop/cancel/abort, closes the session, or interrupts the run
+- destructive, credential-gated, payment, external-production, or materially branching boundary is required and no safe local continuation remains
+- machine sleep, shutdown, crash, or other force majeure
 
-Do not stop only because a PR was merged, a local report was written, or a “completed work” summary is ready. 명시 중단, 시간 상한, 외부 승인, 치명적 blocker가 없으면 summary는 다음 issue로 이어지는 checkpoint이고, 다음 issue를 plan-first로 선택해야 한다. 게임 issue라면 `docs/NORTH_STAR.md` Production Bar 기준의 vertical slice 후보를 고르며, "안전하고 작은 작업"은 우선순위 기준이 아니다.
+Do not stop only because a PR was merged, a local report was written, an issue was created, a queue was emptied, or a “completed work” summary is ready. Those are checkpoints. The runner must continue to the next legal local action.
 
-`$seed-ops`에서는 assistant `final` 응답도 stop으로 취급한다. `final response is terminal`이므로, final을 보내기 전 반드시 stop rule evidence가 있거나 `next issue plan artifact exists` 상태여야 한다. `left the next queue candidate is not continuation`.
+`$seed-ops`와 `$seed-studio`에서는 assistant `final` 응답도 interruption으로 취급한다. `final response is terminal`이므로, final을 보내기 전 반드시 interruption evidence가 있어야 한다. `left the next queue candidate is not continuation`: 다음 후보를 적어두기만 한 것은 continuation이 아니다.
+
+Final report requires local main. Before any final user-facing completion/blocker report, the foreground workspace must be back on `main` with clean status, or all remaining work must be preserved in a named recovery stash, branch, or PR and the active shell must still be on `main`.
 
 Codex App의 PR publication confirmation boundary는 단독 stop 사유가 아니다. action-time confirmation이 필요한 representational communication이면 pending external-publication gate를 보고서로 고정하고 로컬 연속 작업을 먼저 찾는다. assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. confirmation wording, if unavoidable, must be commentary, not final. write heartbeat before any publication ask를 먼저 수행하고, same-turn local continuation action을 남긴다. do not send final just to ask for PR creation; 로컬 safe work가 전혀 없을 때만 blocker report로 종료한다.
 
