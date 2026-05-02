@@ -82,3 +82,5 @@ GitHub-authoritative Studio Harness v3의 첫 deterministic runner/checker slice
 - `items/0140-studio-v3-bot-runner-checker.md`
 - `reports/operations/operator-heartbeat-20260502.jsonl`
 - `reports/operations/fixtures/studio-v3-bot-runner-*.json`
+- PR #279: https://github.com/bborok1234/strange-seed-shop/pull/279
+- GateEvent comment: https://github.com/bborok1234/strange-seed-shop/issues/276#issuecomment-4364251574

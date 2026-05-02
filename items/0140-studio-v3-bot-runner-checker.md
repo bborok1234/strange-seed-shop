@@ -72,6 +72,9 @@ Scope-risk: moderate
 - 2026-05-03: `node scripts/studio-v3-bot-runner.mjs --fixture reports/operations/fixtures/studio-v3-bot-runner-valid.json --require-authorized` 통과.
 - 2026-05-03: `! node scripts/studio-v3-bot-runner.mjs --fixture reports/operations/fixtures/studio-v3-bot-runner-local-ledger-authority.json --require-authorized`로 local ledger authority fixture 실패 확인.
 - 2026-05-03: `npm run check:ci` 통과. 1차 실패는 `docs/ROADMAP.md`의 기존 Studio Campaign Gate 문구 누락이었고, ROADMAP에 활성 gate 문구를 복원한 뒤 재실행해 통과했다.
+- 2026-05-03: GitHub issue #276 body를 `reports/operations/issue-0276-studio-v3-bot-runner-checker.md`로 갱신해 acceptance checkbox를 체크했다.
+- 2026-05-03: Draft PR #279를 `reports/operations/pr-0276-studio-v3-bot-runner-checker.md` 본문으로 생성했다.
+- 2026-05-03: GateEvent comment를 #276에 게시했다: https://github.com/bborok1234/strange-seed-shop/issues/276#issuecomment-4364251574
 
 ## 남은 리스크
 
