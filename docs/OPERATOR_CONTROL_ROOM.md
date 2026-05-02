@@ -3,55 +3,47 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-02T17:36:55.957Z
+Generated at: 2026-05-02T17:50:05.379Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative queue의 #275 **대표 생명체 stage, 돌보기 반응, 도감 감상면을 production으로 복구**이다. #276(PR #279)과 #274(PR #280)는 merge 및 main CI 관찰을 완료했고, 남은 지정 queue의 visible game/UI production WorkUnit인 #275를 진행 중이다.
+현재 작업은 GitHub-authoritative open WorkUnit #282 **정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다**이다. 지정 queue #276(PR #279), #274(PR #280), #275(PR #281)는 merge 및 main CI 관찰을 완료했고, open issue/PR reconciliation 결과 새 Intake WorkUnit #282를 생성했다.
 
 현재 evidence:
 
-- GitHub issue: #275 `대표 생명체 stage, 돌보기 반응, 도감 감상면을 production으로 복구`
-- Plan artifact: `items/0142-creature-stage-care-album-production.md`
-- Branch: `codex/0275-creature-stage-care-album-production`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest`
-- Browser Use current-session blocker: `reports/visual/browser-use-blocker-0275-20260503.md`
-- Visual/playtest report: `reports/visual/0275-production-playtest-20260503.md`
-- Screenshot evidence:
-  - `reports/visual/creature-stage-production-20260503.png`
-  - `reports/visual/care-clue-production-20260503.png`
-  - `reports/visual/album-appreciation-production-20260503.png`
-  - `reports/visual/album-clue-focus-production-20260503.png`
-- Focused regression: `npm run check:visual -- --grep "creature stage|도감은 보상표"` 통과
-- Full visual regression: `npm run check:visual` → 52 passed (4.6m)
-- CI gate: `npm run check:ci` 통과
+- GitHub issue: #282 `정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다`
+- Plan artifact: `items/0143-lunar-care-memory-reward.md`
+- Branch: `codex/0282-lunar-care-memory-reward`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `browser-use:browser`
+- Candidate comparison: plan artifact에 선택 후보, 큰 방향 점프 후보, asset/FX 후보 및 Strategic Jump Check 기록
+- GitHub issue body file: `reports/operations/issue-282-body-20260503.md`
 
-즉시 적용된 gate:
+즉시 적용할 gate:
 
-1. v2 local campaign ledger는 authority가 아니며, #275 GitHub issue/PR와 current-session visual evidence만 완료 권한을 가진다.
-2. `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` production slice만 적용하고 `campaigns/**`, `prototypes/**`, legacy harness, asset prompt prep은 제외한다.
-3. Browser Use `iab`는 현재 세션에서 skill/client/Node REPL `js` discovery까지 시도했고, `js` tool 미노출 blocker를 남긴 뒤 Playwright fallback screenshot을 수집한다.
-4. 달빛 resident stage는 기존 연구/온실 progression surface를 압박하지 않도록 달빛 resident 발견 순간으로 범위를 좁힌다.
-5. 온실 chain과 달빛 주문이 동시에 가능한 QA 상태에서는 온실 chain 완료/다음 주문을 먼저 보존한다.
-6. 다음 #275 이후 WorkUnit 선택도 `Studio Campaign Gate`, `Codex native subagents`, `team mode` 문구와 품질 gate를 유지한다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff 또는 vertical slice blocker 제거 없이 선택하지 않는다.
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local campaign ledger, stash, `.omx`는 권한이 아니라 evidence/cache다.
+2. `Studio Campaign Gate`는 `P0.5 Idle Core + Creative Rescue`이며, 이 작업은 첫 5분 `attachment`와 `first_5m_clarity` blocker를 다룬다.
+3. `Codex native subagents`/`team mode` 사용 여부는 plan에 기록했다. 현재 구현은 공유 파일 결합도가 높아 본 agent가 직접 수행하고, Browser Use/playtest evidence를 우선한다.
+4. `단순 주문 추가`, `copy tweak`, `test-only` 작업이 아니다. player verb + progression role + screen moment + reward motion + playtest evidence를 충족해야 한다.
+5. 신규 accepted manifest game asset은 만들지 않는다. reward motion/HUD affordance/album stamp는 CSS/DOM으로 구현하고 runtime image generation을 추가하지 않는다.
+6. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
 
-다음 checkpoint는 issue #275 acceptance checkbox 갱신, PR 생성, GitHub checks 확인, merge, main CI 관찰이다. `npm run check:ci`는 통과했다. Stop rule이 없으면 이후 queue reconciliation 또는 다음 GitHub WorkUnit plan-first로 이어간다.
+다음 checkpoint는 #282 plan-first commit, implementation, focused visual checks, `npm run check:ci`, PR #282 publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
 
 ## Local state
 
-- Branch: codex/0275-creature-stage-care-album-production
-- Latest commit: 1fb675c v2 로컬 ledger를 v3 evidence로 격리하기
+- Branch: codex/0282-lunar-care-memory-reward
+- Latest commit: e945802 #275 GateEvent를 PR evidence surface에 묶는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-02T17:36:53.718Z
-- Phase: publication-prep
-- Issue: 275
+- Timestamp: 2026-05-02T17:50:03.683Z
+- Phase: planning
+- Issue: 282
 - PR: 
-- Item: items/0142-creature-stage-care-album-production.md
-- Next action: PR publication gate 준비
+- Item: items/0143-lunar-care-memory-reward.md
+- Next action: prepare #282 plan-first commit then implement save-backed care reward motion gate
 
 ## Open PRs
 
@@ -59,7 +51,7 @@ Generated at: 2026-05-02T17:36:55.957Z
 
 ## Open issues
 
-- #275 대표 생명체 stage, 돌보기 반응, 도감 감상면을 production으로 복구 — https://github.com/bborok1234/strange-seed-shop/issues/275
+- #282 정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다 — https://github.com/bborok1234/strange-seed-shop/issues/282
 
 ## Playable mode
 
