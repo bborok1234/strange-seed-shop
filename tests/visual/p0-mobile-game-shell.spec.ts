@@ -836,6 +836,56 @@ test("모바일 달빛 씨앗 수확은 달방울 누누 발견과 다음 목표
   await page.screenshot({ path: testInfo.outputPath("mobile-lunar-seed-harvest-bridge-v0-393.png"), fullPage: false });
 });
 
+test("모바일 정원 첫 화면은 달방울 누누 creature stage로 읽힌다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaLunarOrderReady=1");
+
+  await expect(page.getByLabel("대표 생명체 무대")).toContainText("달방울 누누");
+  await expect(page.getByRole("button", { name: "돌보기" })).toBeVisible();
+  await expect(page.locator(".creature-stage-clue-trail")).toHaveCSS("opacity", "0");
+
+  const metrics = await page.evaluate(() => {
+    const stage = document.querySelector<HTMLElement>(".garden-stage")?.getBoundingClientRect();
+    const focus = document.querySelector<HTMLElement>(".creature-stage-focus")?.getBoundingClientRect();
+    const portrait = document.querySelector<HTMLElement>(".creature-stage-portrait")?.getBoundingClientRect();
+    const clue = document.querySelector<HTMLElement>(".creature-stage-clue-trail")?.getBoundingClientRect();
+    const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const topBar = document.querySelector<HTMLElement>(".top-bar")?.getBoundingClientRect();
+    return {
+      innerHeight: window.innerHeight,
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      stage: stage ? { height: stage.height } : null,
+      focus: focus ? { top: focus.top, bottom: focus.bottom, height: focus.height } : null,
+      portrait: portrait ? { top: portrait.top, bottom: portrait.bottom, width: portrait.width, height: portrait.height } : null,
+      clue: clue ? { top: clue.top, bottom: clue.bottom } : null,
+      panel: panel ? { top: panel.top, bottom: panel.bottom } : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      topBar: topBar ? { bottom: topBar.bottom } : null
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.stage).not.toBeNull();
+  expect(metrics.focus).not.toBeNull();
+  expect(metrics.portrait).not.toBeNull();
+  expect(metrics.clue).not.toBeNull();
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.topBar).not.toBeNull();
+  expect(metrics.portrait!.height).toBeGreaterThanOrEqual(metrics.innerHeight * 0.22);
+  expect(metrics.focus!.bottom).toBeLessThanOrEqual(metrics.panel!.top + 2);
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.portrait!.top).toBeGreaterThanOrEqual(metrics.topBar!.bottom - 24);
+  expect(metrics.clue!.bottom).toBeLessThanOrEqual(metrics.focus!.bottom + 4);
+
+  await page.getByRole("button", { name: "돌보기" }).click();
+  await expect(page.getByLabel("대표 생명체 무대")).toContainText("반짝이는 흔적");
+  await expect(page.locator(".creature-stage-clue-trail")).toHaveCSS("opacity", "1");
+  await expect(page.getByRole("button", { name: "젤리콩 통통 발자국 단서 따라가기" })).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath("mobile-creature-stage-first-screen-393.png"), fullPage: false });
+});
+
 test("모바일 달빛 보호 주문 완료는 다음 행동 카드 안에서 잘리지 않는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaLunarOrderReady=1&qaFxTelemetry=1");
@@ -2017,6 +2067,55 @@ test("모바일 씨앗과 도감 발견 asset은 fallback 없이 실제 이미�
   await expect(page.locator(".seed-inventory-panel .seed-inventory-row img").first()).toBeVisible();
 
   await page.screenshot({ path: testInfo.outputPath("mobile-seed-album-assets-no-fallback-v0-393.png"), fullPage: false });
+});
+
+test("모바일 도감은 보상표보다 생명체 기억 앨범과 단서 사진을 먼저 보여준다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaGreenhouseLunarClaimReady=1&qaTab=album&qaReset=1");
+
+  await expect(page.locator(".dev-panel.player-panel.tab-album")).toBeVisible();
+  await expect(page.getByLabel("도감 대표 생명체 기록")).toBeVisible();
+  await expect(page.locator(".album-memory-photo img")).toBeVisible();
+  await expect(page.getByText("오늘의 표정 photo", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("도감 단서 사진")).toBeVisible();
+  await expect(page.getByLabel("도감 단서 사진")).not.toContainText("???");
+
+  const initialMetrics = await page.evaluate(() => {
+    const memory = document.querySelector<HTMLElement>(".album-memory-feature")?.getBoundingClientRect();
+    const reward = document.querySelector<HTMLElement>(".album-reward-preview")?.getBoundingClientRect();
+    const clue = document.querySelector<HTMLElement>(".album-clue-focus")?.getBoundingClientRect();
+    const photo = document.querySelector<HTMLElement>(".album-memory-photo")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+
+    return {
+      memory: memory ? { top: memory.top, bottom: memory.bottom } : null,
+      reward: reward ? { top: reward.top } : null,
+      clue: clue ? { top: clue.top, bottom: clue.bottom } : null,
+      photo: photo ? { width: photo.width, height: photo.height } : null,
+      tabs: tabs ? { top: tabs.top } : null
+    };
+  });
+
+  expect(initialMetrics.memory).not.toBeNull();
+  expect(initialMetrics.reward).not.toBeNull();
+  expect(initialMetrics.clue).not.toBeNull();
+  expect(initialMetrics.photo).not.toBeNull();
+  expect(initialMetrics.tabs).not.toBeNull();
+  expect(initialMetrics.memory!.top).toBeLessThan(initialMetrics.reward!.top);
+  expect(initialMetrics.photo!.width).toBeGreaterThanOrEqual(118);
+  expect(initialMetrics.photo!.height).toBeGreaterThanOrEqual(140);
+  expect(initialMetrics.clue!.bottom).toBeLessThanOrEqual(initialMetrics.tabs!.top + 4);
+
+  await page.getByRole("button", { name: "기록 넘기기" }).click();
+  await expect(page.locator(".album-memory-feature")).toHaveClass(/is-memory-variant/);
+  await expect(page.locator(".album-page-ribbon")).toBeVisible();
+  await expect(page.locator(".album-memory-stamp")).toBeVisible();
+
+  await page.getByRole("button", { name: "단서 보기" }).click();
+  await expect(page.getByLabel("도감 단서 사진")).toBeInViewport();
+  await expect(page.locator(".album-clue-polaroid")).toHaveCount(3);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-album-memory-clue-focus-393.png"), fullPage: false });
 });
 
 test("모바일 온실 단서 달방울 씨앗은 신규 asset과 FX로 밭에 심어진다", async ({ page }, testInfo) => {

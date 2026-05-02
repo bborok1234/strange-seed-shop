@@ -1,0 +1,35 @@
+{
+  "issue": 275,
+  "viewport": {
+    "width": 393,
+    "height": 852
+  },
+  "metrics": {
+    "appreciationVisible": true,
+    "photo": {
+      "top": -233,
+      "bottom": -73,
+      "width": 152,
+      "height": 159
+    },
+    "clue": {
+      "top": 76,
+      "bottom": 312,
+      "width": 361,
+      "height": 236
+    },
+    "reward": {
+      "top": -6,
+      "bottom": 68,
+      "width": 361,
+      "height": 74
+    },
+    "bottomTabs": {
+      "top": 788,
+      "bottom": 852,
+      "width": 393,
+      "height": 64
+    },
+    "polaroidCount": 3
+  }
+}
