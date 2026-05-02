@@ -1,0 +1,36 @@
+{
+  "repo": "bborok1234/strange-seed-shop",
+  "github": {
+    "issue": {
+      "number": 276,
+      "url": "https://github.com/bborok1234/strange-seed-shop/issues/276",
+      "title": "Studio Harness v3 bot runner 구현 spec 및 checker 정리",
+      "body": "## Plan\n사람이 gh pr create --body-file reports/operations/pr.md 를 대신 실행해줘야 완료한다.",
+      "labels": [
+        {
+          "name": "studio-v3"
+        },
+        {
+          "name": "agent-ops"
+        }
+      ],
+      "gate": "Intake",
+      "verification_status": "unknown",
+      "publication_state": "published"
+    },
+    "prs": [
+      {
+        "number": 280,
+        "headRefName": "codex/0276-studio-v3-bot-runner-checker",
+        "headSha": "abc2760",
+        "state": "OPEN",
+        "body": "## 요약\n#276 runner checker PR projection."
+      }
+    ],
+    "comments": []
+  },
+  "expected": {
+    "status": "human-handoff-regression",
+    "authorization": false
+  }
+}

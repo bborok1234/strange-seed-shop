@@ -37,6 +37,8 @@ Checkpoint is not completion. 보고는 commentary checkpoint 또는 GitHub/repo
 
 Final report requires local main. 최종 보고 전 foreground workspace는 반드시 `main`으로 돌아와야 하며, 남은 작업은 named recovery stash, branch, PR 중 하나로 보존되어야 한다. feature/recovery branch에 남은 채 종료하는 것은 Studio 계약 실패다.
 
+Studio Harness v3 runner는 GitHub issue/PR/GateEvent를 operational truth로 사용한다. Never authorize work from local campaign ledger alone: local `campaigns/**`, `.omx/**`, recovery stash/branch는 read model 또는 runtime cache이며 gate advance나 Release를 승인할 수 없다. routine git/GitHub actions(branch push, PR create/update, issue/comment update, GitHub checks 확인, merge when green)는 agent/runner 책임이며 사람 handoff로 넘기지 않는다. publication boundary가 있으면 pending-publication으로 기록하고 안전한 local continuation을 계속한다.
+
 ## `$seed-ops` — 운영모드
 
 `$seed-ops`는 장시간 운영사 루프의 프로젝트 전용 진입점이다. `$ralph`는 범용 엔진이고, `$seed-ops`는 이 레포의 제품/운영 북극성, safety gate, issue 단위 plan-first 규칙을 함께 적용한다.

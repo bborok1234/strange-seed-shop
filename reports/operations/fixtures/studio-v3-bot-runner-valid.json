@@ -1,0 +1,52 @@
+{
+  "repo": "bborok1234/strange-seed-shop",
+  "github": {
+    "issue": {
+      "number": 276,
+      "url": "https://github.com/bborok1234/strange-seed-shop/issues/276",
+      "title": "Studio Harness v3 bot runner 구현 spec 및 checker 정리",
+      "body": "## Plan\nGitHub issue/PR/GateEvent를 기준으로 WorkUnit을 복원한다.",
+      "labels": [
+        {
+          "name": "studio-v3"
+        },
+        {
+          "name": "agent-ops"
+        }
+      ],
+      "gate": "Intake",
+      "verification_status": "unknown",
+      "publication_state": "published"
+    },
+    "prs": [
+      {
+        "number": 280,
+        "headRefName": "codex/0276-studio-v3-bot-runner-checker",
+        "headSha": "abc2760",
+        "state": "OPEN",
+        "body": "## 요약\n#276 runner checker PR projection."
+      }
+    ],
+    "comments": [
+      {
+        "id": "comment-valid-gate-event",
+        "body": "<!-- STUDIO_GATE_EVENT:START -->\n{\n  \"schema_version\": \"studio-gate-event/v1\",\n  \"event_id\": \"gate-276-productionization-fixture\",\n  \"event_type\": \"gate-transition\",\n  \"repo\": \"bborok1234/strange-seed-shop\",\n  \"issue_number\": 276,\n  \"gate_from\": \"Intake\",\n  \"gate_to\": \"Productionization\",\n  \"actor\": \"codex-fixture\",\n  \"timestamp\": \"2026-05-03T00:00:00.000Z\",\n  \"branch\": \"codex/0276-studio-v3-bot-runner-checker\",\n  \"head_sha\": \"abc2760\",\n  \"pr_number\": 280,\n  \"pending_pr_target\": null,\n  \"publication_state\": \"published\",\n  \"verification_status\": \"focused-checks-passing\",\n  \"evidence_refs\": [\n    \"items/0140-studio-v3-bot-runner-checker.md\"\n  ],\n  \"previous_state_hash\": \"sha256:9149fbe1a37b88b2a9b65c3cf8ecebcb7d01c0bf708a03b7926411107d59b110\",\n  \"next_state_hash\": \"sha256:0100c1f707bfdb29443bed155e12b2e4d34a91267bd9dbb4aec2fa00e16338a4\"\n}\n<!-- STUDIO_GATE_EVENT:END -->"
+      }
+    ]
+  },
+  "local_mirror": {
+    "source": "github-read-model",
+    "authorizes_gate_advance": false
+  },
+  "local_git": {
+    "branch": "codex/0276-studio-v3-bot-runner-checker",
+    "upstream_exists": true,
+    "dirty": false,
+    "pushed": true
+  },
+  "expected": {
+    "status": "synced",
+    "authorization": true,
+    "gate_events": 1
+  }
+}
