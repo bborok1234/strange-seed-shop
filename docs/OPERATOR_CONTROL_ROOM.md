@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T12:30:47.339Z
+Generated at: 2026-05-03T12:33:09.497Z
 
 ## Current mission
 
@@ -39,22 +39,22 @@ Generated at: 2026-05-03T12:30:47.339Z
 ## Local state
 
 - Branch: codex/0328-merchant-harvest-crate-payoff
-- Latest commit: b541c97 포장잎 상인 수확 payoff WorkUnit을 plan-first로 고정한다
+- Latest commit: 3f79e10 포장잎 상인 수확을 주문상자 payoff로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T12:30:45.115Z
-- Phase: issue-328-pr-publication
+- Timestamp: 2026-05-03T12:33:07.361Z
+- Phase: issue-328-pr-checks
 - Issue: 328
-- PR: 
+- PR: 329
 - Item: items/0166-merchant-record-harvest-crate-payoff.md
-- Next action: gate: publish #328 issue/PR body files, watch checks, merge when green
+- Next action: gate: watch PR #329 checks, repair if needed, mark ready and merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #329 draft 포장잎 상인 수확을 주문상자 payoff로 닫는다 — https://github.com/bborok1234/strange-seed-shop/pull/329
 
 ## Open issues
 
