@@ -66,6 +66,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 달방울 누누 돌보기 기억 보상 motion | done | Issue #282, PR #283, `items/0143-lunar-care-memory-reward.md`, `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`, main CI `25258388344` | 정원 `돌보기`가 save-backed 기억 도장/one-time reward와 도감 memory stamp로 이어지고 Browser Use blocker + Playwright fallback evidence를 남김 |
 | 정원 첫 화면 production engine layout | review | Issue #284, `items/0144-first-screen-production-engine-layout.md`, `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`, `reports/visual/first-screen-production-engine-one-scene-20260503.png`, Browser Use blocker, `npm run check:visual` 54 passed | 첫 정원 화면에서 달빛 resident, playfield, 자동 생산, 주문 crate/progress, primary verbs가 한 장면의 production engine으로 읽히게 재배치 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
+| Routine GitHub publication no-final harness | review | Issue #286, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `npm run check:ci` pass | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
 | Seed ops Ralph runner bridge | done | `items/0135-seed-ops-ralph-runner-bridge.md`, `scripts/check-ralph-runner-bridge.mjs`, `.codex/skills/seed-ops/SKILL.md`, `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_RUNBOOK.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `npm run check:ci` pass | Codex App prompt-side `$ralph` activation을 실제 detached `omx ralph`/`omx exec` long runner와 분리하고, lifecycle 판단을 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact 기준으로 고정한다 |
 | Seed ops no post-merge closeout gate | active | `items/0136-no-post-merge-closeout.md`, `scripts/check-no-post-merge-closeout.mjs`, `.github/pull_request_template.md`, `npm run check:ci` pass | PR merge/close 이후 main 대상 closeout PR/commit으로 evidence를 backfill하지 못하게 하고, merge-blocking evidence는 원 PR이 닫히기 전에 포함하게 고정한다 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
@@ -311,6 +312,27 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 | Prepare split-ready operator package | todo | docs/scripts package plan | Operator surfaces that should move to a future separate repo are inventoried |
 
 ## Current Next Action
+
+현재 작업은 GitHub-authoritative open WorkUnit #286 **GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다**이다. #284(PR #285)는 merge 및 main CI `25265967477` 관찰을 완료했다. 사용자가 지적한 #284 publication final ask는 Studio Harness v3 결함으로 처리하며, routine GitHub issue/PR/comment publication이 self-imposed confirmation wait로 멈추지 않도록 문서와 checker를 harden한다.
+
+현재 evidence:
+
+- GitHub issue: #286 `GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다`
+- Plan artifact: `items/0145-routine-github-publication-no-final.md`
+- Branch: `codex/0286-routine-github-publication-no-final`
+- Related regression: #284/#285 publication ask final stop
+- Game Studio route: N/A — 운영사 하네스/문서/체커 작업
+
+즉시 적용할 gate:
+
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다.
+2. Routine GitHub issue/PR/comment publication은 agent responsibility이며 checkpoint다.
+3. PublicationBoundary는 credential/tool/runtime이 실제로 막을 때만 적용한다.
+4. `final` 또는 self-imposed confirmation wait로 멈추면 checker 실패로 고정한다.
+
+다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
+
+
 
 현재 작업은 GitHub-authoritative open WorkUnit #284 **정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다**이다. 구현과 Browser Use current-session blocker/Playwright fallback evidence, focused visual regression, 전체 `npm run check:visual` 54건 통과까지 완료했으며, 다음 gate는 `npm run check:ci`, issue/PR evidence publication, GitHub checks, merge, main CI 관찰이다.
 

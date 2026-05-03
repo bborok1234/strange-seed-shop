@@ -49,6 +49,12 @@ function validatePublicationGate(heartbeat, label) {
   if (confirmation && !["commentary", "tool", "preapproved"].includes(confirmation.channel)) {
     failures.push(`${label}: confirmation.channel must be commentary, tool, or preapproved`);
   }
+  const routineGithubPublication = Boolean(gate?.pending_command && /\bgh\s+(issue|pr)\s+(create|edit|comment|merge|ready)\b/.test(gate.pending_command));
+  if (routineGithubPublication) {
+    if (confirmation?.required !== false || confirmation?.channel !== "preapproved") {
+      failures.push(`${label}: routine GitHub issue/PR/comment publication must be preapproved, not an action-time confirmation wait`);
+    }
+  }
 
   const continuation = heartbeat.continuation;
   if (!continuation) failures.push(`${label}: publication gate requires continuation object`);
@@ -59,11 +65,15 @@ function validatePublicationGate(heartbeat, label) {
   }
   if (continuation && !continuation.safe_local_work) failures.push(`${label}: continuation.safe_local_work is required`);
   if (
+    !routineGithubPublication &&
     continuation?.safe_local_work &&
     /no remaining local safe work/i.test(continuation.safe_local_work) &&
     !/await action-time confirmation without repeated ask/i.test(continuation.action ?? "")
   ) {
     failures.push(`${label}: continuation.action must wait without repeated ask when no local safe work remains`);
+  }
+  if (routineGithubPublication && /await action-time confirmation/i.test(continuation?.action ?? "")) {
+    failures.push(`${label}: routine GitHub publication must not wait for action-time confirmation`);
   }
 
   if (heartbeat.stop_rule && heartbeat.stop_rule !== "none" && !["credential", "destructive", "external-production", "payment", "customer-data", "hard-blocker", "user-stop", "timebox"].includes(heartbeat.stop_rule)) {
@@ -75,8 +85,35 @@ function validatePublicationGate(heartbeat, label) {
 
 const fixtures = [
   {
-    label: "fixture:good-publication-gate",
+    label: "fixture:good-routine-github-publication",
     shouldPass: true,
+    heartbeat: {
+      schemaVersion: 1,
+      kind: "operator-heartbeat",
+      phase: "external-publication-gate",
+      publication_gate: {
+        active: true,
+        kind: "representational_communication",
+        target: "github_pr",
+        pending_command: "gh pr create --body-file reports/operations/pr.md",
+        body_file: "reports/operations/pr.md",
+        dedupe_key: "github_pr|codex/example|abc1234|reports/operations/pr.md",
+        repeat_policy: "do_not_repeat_final_ask",
+        branch: "codex/example",
+        commit: "abc1234"
+      },
+      confirmation: { required: false, channel: "preapproved" },
+      continuation: {
+        action: "execute GitHub publication and watch checks",
+        artifact_path: "items/0134-seed-ops-final-publication-ask-regression.md",
+        safe_local_work: "publish routine GitHub body-file command"
+      },
+      stop_rule: "none"
+    }
+  },
+  {
+    label: "fixture:bad-routine-github-self-imposed-wait",
+    shouldPass: false,
     heartbeat: {
       schemaVersion: 1,
       kind: "operator-heartbeat",
@@ -94,9 +131,9 @@ const fixtures = [
       },
       confirmation: { required: true, channel: "commentary" },
       continuation: {
-        action: "write next issue plan",
+        action: "await action-time confirmation without repeated ask",
         artifact_path: "items/0134-seed-ops-final-publication-ask-regression.md",
-        safe_local_work: "harden local checker"
+        safe_local_work: "no remaining local safe work"
       },
       stop_rule: "none"
     }
