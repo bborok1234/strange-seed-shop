@@ -64,6 +64,14 @@ interface ProductionFxState {
   kind: ProductionFxKind;
 }
 
+interface ProductionClaimReceipt {
+  id: number;
+  leaves: number;
+  orderTitle: string;
+  orderProgress: number;
+  orderRequired: number;
+}
+
 interface OrderDeliveryReceipt {
   id: number;
   orderId: string;
@@ -239,6 +247,7 @@ export default function App() {
   const [rewardPulse, setRewardPulse] = useState<number | null>(null);
   const [harvestReveal, setHarvestReveal] = useState<CreatureDefinition | null>(null);
   const [productionFx, setProductionFx] = useState<ProductionFxState | null>(null);
+  const [productionClaimReceipt, setProductionClaimReceipt] = useState<ProductionClaimReceipt | null>(null);
   const [orderDeliveryReceipt, setOrderDeliveryReceipt] = useState<OrderDeliveryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
@@ -489,6 +498,7 @@ export default function App() {
     productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id && !productionStatus.orderCompleted ? "has-open-lunar-guardian-order" : "",
     mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
     lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
+    productionClaimReceipt ? "has-production-claim-receipt" : "",
     orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
     firstOrderDispatchReceiptActive ? "has-first-order-dispatch-receipt" : "",
     save &&
@@ -545,8 +555,8 @@ export default function App() {
     : visibleSeedInventorySeeds;
   const totalOwnedSeeds = save ? Object.values(save.seedInventory).reduce((total, count) => total + count, 0) : 0;
   const gardenViewModel = useMemo(
-    () => buildGardenPlayfieldViewModel(save, now, manifest, orderDeliveryReceipt),
-    [save, now, manifest, orderDeliveryReceipt]
+    () => buildGardenPlayfieldViewModel(save, now, manifest, orderDeliveryReceipt, productionClaimReceipt),
+    [save, now, manifest, orderDeliveryReceipt, productionClaimReceipt]
   );
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
   const showDebugPanel = getLocalDebugMode();
@@ -1047,28 +1057,45 @@ export default function App() {
   }
 
   function claimProductionLeaves() {
+    if (!save) {
+      return;
+    }
+
+    const pendingLeaves = getPendingProductionLeaves(save, now);
+    if (pendingLeaves <= 0) {
+      return;
+    }
+
+    const currentOrder = getCurrentOrder(save);
+    const currentProgress = save.idleProduction.orderProgress[currentOrder.id] ?? 0;
+    const nextProgress = Math.min(currentOrder.requiredLeaves, currentProgress + pendingLeaves);
+    const claimReceipt: ProductionClaimReceipt = {
+      id: Date.now(),
+      leaves: pendingLeaves,
+      orderTitle: currentOrder.title,
+      orderProgress: nextProgress,
+      orderRequired: currentOrder.requiredLeaves
+    };
+
     setOrderDeliveryReceipt(null);
     commit((draft) => {
-      const pendingLeaves = getPendingProductionLeaves(draft, now);
-      if (pendingLeaves <= 0) {
-        return;
-      }
-
       draft.leaves += pendingLeaves;
       draft.idleProduction.pendingLeaves = 0;
       draft.idleProduction.lastTickAt = new Date(now).toISOString();
-      const currentOrder = getCurrentOrder(draft);
-      const currentProgress = draft.idleProduction.orderProgress[currentOrder.id] ?? 0;
-      draft.idleProduction.orderProgress[currentOrder.id] = Math.min(
-        currentOrder.requiredLeaves,
-        currentProgress + pendingLeaves
-      );
+      draft.idleProduction.orderProgress[currentOrder.id] = nextProgress;
       trackEvent("idle_production_claimed", {
         leaves: pendingLeaves,
         orderId: currentOrder.id,
-        ratePerMinute: getProductionRatePerSecond(draft) * 60
+        orderProgress: nextProgress,
+        orderRequiredLeaves: currentOrder.requiredLeaves,
+        ratePerMinute: getProductionRatePerSecond(draft) * 60,
+        rewardMotion: "worker_leaf_burst"
       });
     });
+    setProductionClaimReceipt(claimReceipt);
+    window.setTimeout(() => {
+      setProductionClaimReceipt((current) => (current?.id === claimReceipt.id ? null : current));
+    }, 1_700);
     triggerProductionFx("production");
     triggerRewardPulse();
   }
@@ -1086,6 +1113,8 @@ export default function App() {
     ) {
       return;
     }
+
+    setProductionClaimReceipt(null);
 
     const orderFxAssetId = getProductionFxAssetId("order", orderBeforeDelivery);
     const deliveryReceipt: OrderDeliveryReceipt = {
@@ -1398,6 +1427,7 @@ export default function App() {
                   productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id ? "has-lunar-guardian-order" : "",
                   mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
                   lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
+                  productionClaimReceipt ? "has-production-claim-receipt" : "",
                   orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
                   firstOrderDispatchReady ? "has-order-ready" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
@@ -1451,6 +1481,14 @@ export default function App() {
                     생산 잎 수령
                   </button>
                 </div>
+                {productionClaimReceipt && (
+                  <div className="production-claim-receipt" aria-label="생산 잎 수령 작업 FX">
+                    <span className="production-claim-chip">포리 작업 완료</span>
+                    <strong>+{productionClaimReceipt.leaves} 잎 수령</strong>
+                    <span>{productionClaimReceipt.orderTitle} {productionClaimReceipt.orderProgress}/{productionClaimReceipt.orderRequired}</span>
+                    <small>잎 반짝임이 주문 상자로 이동</small>
+                  </div>
+                )}
                 {orderDeliveryReceipt && (
                   <div className="order-dispatch-receipt" aria-label="주문 상자 출하 완료">
                     <span className="order-dispatch-chip">상자 출하 완료</span>
@@ -2408,7 +2446,8 @@ function buildGardenPlayfieldViewModel(
   save: PlayerSave | null,
   now: number,
   manifest: AssetManifest | null,
-  orderDeliveryReceipt: OrderDeliveryReceipt | null
+  orderDeliveryReceipt: OrderDeliveryReceipt | null,
+  productionClaimReceipt: ProductionClaimReceipt | null
 ): GardenPlayfieldViewModel {
   if (!save) {
     return {
@@ -2476,13 +2515,16 @@ function buildGardenPlayfieldViewModel(
     productionStatus.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && productionStatus.orderCompleted;
   const lunarGuardianOrderActive = productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id;
   const firstOrderDispatchReceiptActive = orderDeliveryReceipt?.orderId === FIRST_ORDER.id;
+  const productionClaimActive = Boolean(productionClaimReceipt);
   const productionScene =
     productionStatus.ratePerMinute > 0
       ? {
           actorName: productionStatus.workerLabel,
           actorLine: firstOrderDispatchReceiptActive
             ? `${orderDeliveryReceipt.title} 출하 완료 · 다음 주문 준비`
-            : productionStatus.orderCompleted
+            : productionClaimActive
+              ? `+${productionClaimReceipt?.leaves ?? 0} 잎 수령 · 주문 상자에 반짝임 전달`
+              : productionStatus.orderCompleted
               ? `${productionStatus.workerDetail} · 납품을 마치고 쉬는 중`
               : productionStatus.workerDetail,
           rateLabel: `분당 ${formatRatePerMinute(productionStatus.ratePerMinute)} 잎`,
@@ -2496,7 +2538,9 @@ function buildGardenPlayfieldViewModel(
               : productionStatus.order.title,
           orderProgressLabel: firstOrderDispatchReceiptActive
             ? "보상 수거 완료"
-            : mistCondenserPayoffActive
+            : productionClaimActive
+              ? `${productionClaimReceipt?.orderProgress ?? productionStatus.orderProgress}/${productionClaimReceipt?.orderRequired ?? productionStatus.order.requiredLeaves} 잎`
+              : mistCondenserPayoffActive
             ? "응축기 가동"
             : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
           orderReady: productionStatus.orderReady || firstOrderDispatchReceiptActive,
@@ -2510,7 +2554,9 @@ function buildGardenPlayfieldViewModel(
               : undefined,
           orderStatusLabel: firstOrderDispatchReceiptActive
             ? `${orderDeliveryReceipt.rewardLabel} 수거`
-            : mistCondenserPayoffActive
+            : productionClaimActive
+              ? `+${productionClaimReceipt?.leaves ?? 0} 잎 이동`
+              : mistCondenserPayoffActive
             ? "달빛 온실 단서 +1"
             : lunarGuardianOrderActive
               ? productionStatus.orderCompleted

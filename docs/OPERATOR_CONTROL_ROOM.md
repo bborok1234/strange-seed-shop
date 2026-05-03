@@ -3,48 +3,48 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T03:16:36.548Z
+Generated at: 2026-05-03T03:44:17.753Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #296 **첫 주문 납품을 상자 출하 상태와 보상 흐름으로 production화한다**이다. #292는 main commit `234ea5f`와 main CI `25267928815`로 닫혔고, 지금은 #296 PR/merge gate를 진행한다.
+현재 작업은 GitHub-authoritative open WorkUnit #298 **정원에서 생산 잎을 수령할 때 포리 작업 FX를 보이게 만든다**이다. #296은 PR #297 merge와 main CI `25268693935` success로 닫혔고, queue-empty 후 생성한 #298은 P0.5 Idle Core + Creative Rescue production game quality intake다. 지금은 #298 verification/PR gate를 진행한다.
 
 현재 evidence:
 
-- GitHub issue: #296 `첫 주문 납품을 상자 출하 상태와 보상 흐름으로 production화한다`
-- Plan artifact: `items/0150-order-crate-dispatch-reward-motion.md`
-- Branch: `codex/0296-order-crate-dispatch-reward-motion`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`
-- Implementation: `src/App.tsx`, `src/game/playfield/types.ts`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Harness sidecar: `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs` — 현재 Codex CLI foreground command가 unsupported `--ask-for-approval`을 내보내지 않도록 `-c approval_policy="never"` gate를 고정한다.
-- Browser Use current-session blocker: `reports/visual/browser-use-blocker-0296-20260503.md`
-- Visual evidence: `reports/visual/issue-296-order-crate-dispatch-reward-motion-393.png`
-- Verification: `npm run build` pass, focused Playwright 8 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
+- GitHub issue: #298 `정원에서 생산 잎을 수령할 때 포리 작업 FX를 보이게 만든다`
+- Plan artifact: `items/0151-production-tick-worker-fx.md`
+- Branch: `codex/0298-production-tick-worker-fx`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:sprite-pipeline` + `game-studio:game-playtest`
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Asset/FX binding: accepted raster strip `public/assets/game/fx/fx_production_tick_leaf_001_strip.png`, manifest id `fx_production_tick_leaf_001`, 4 frames, 160x160, 10fps, `production_tick_fx` binding. `OPENAI_API_KEY`/`SEED_ASSET_IMAGE_MODEL` 부재로 새 API 생성은 하지 않고, 기존 accepted raster FX를 runtime reward motion/payoff에 연결한다.
+- Browser Use current-session blocker: `reports/visual/browser-use-blocker-0298-20260503.md`
+- Visual evidence: `reports/visual/issue-298-production-claim-worker-fx-393.png`, `reports/visual/issue-298-order-dispatch-after-production-claim-393.png`
+- Verification: `npm run build` pass, focused Playwright `자동 생산과 첫 주문` 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. Browser Use iab current-session blocker를 PR에 명시하고, Playwright fallback screenshot/regression을 merge-blocking visual evidence로 연결한다.
-3. #296의 “출하 준비/봉인 완료” copy는 첫 주문 ready 상태에만 제한되어야 한다. 온실 후속 주문의 기존 `납품 준비` 회귀는 focused 8개와 full visual gate로 검증했다.
+2. #298은 기존 asset 재사용만 주장하지 않는다. player verb `생산 잎 수령하기`를 playfield state, reward motion, action-surface receipt, order progress 증가로 묶는 runtime payoff가 merge scope다.
+3. Browser Use iab current-session blocker를 PR에 명시하고, Playwright fallback screenshot/regression을 merge-blocking visual evidence로 연결한다.
 4. PR body-file에 `요약`, `Small win`, `사용자/운영자 가치`, `Before / After 또는 Visual evidence`, `Playable mode`, `검증`, `안전 범위`, `남은 위험`, `연결된 issue`, `작업 checklist`를 유지한다.
-5. 다음 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+5. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. 다음 게임 WorkUnit 선택도 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0296-order-crate-dispatch-reward-motion
-- Latest commit: 234ea5f #292 복귀 첫 30초 생산 목표를 보상 CTA에 연결한다
+- Branch: codex/0298-production-tick-worker-fx
+- Latest commit: 3057c27 #298 생산 잎 수령을 포리 작업 보상으로 읽히게 만든다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T03:02:30.867Z
-- Phase: studio-v3-live-runner
-- Issue: 296
+- Timestamp: 2026-05-03T03:44:15Z
+- Phase: issue-298-pr-publication
+- Issue: 298
 - PR: 
-- Item: items/0150-order-crate-dispatch-reward-motion.md
-- Next action: implementation gate: plan-first for GitHub issue #296
+- Item: items/0151-production-tick-worker-fx.md
+- Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
 
@@ -52,7 +52,7 @@ Generated at: 2026-05-03T03:16:36.548Z
 
 ## Open issues
 
-- #296 첫 주문 납품을 상자 출하 상태와 보상 흐름으로 production화한다 — https://github.com/bborok1234/strange-seed-shop/issues/296
+- #298 정원에서 생산 잎을 수령할 때 포리 작업 FX를 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/298
 
 ## Playable mode
 
