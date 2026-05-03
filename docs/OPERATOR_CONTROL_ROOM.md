@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T14:14:20.103Z
+Generated at: 2026-05-03T14:15:17.128Z
 
 ## Current mission
 
@@ -39,22 +39,22 @@ Generated at: 2026-05-03T14:14:20.103Z
 ## Local state
 
 - Branch: codex/0330-merchant-crate-claim-fx
-- Latest commit: 8a542ed 상인 주문상자 보상 수령 WorkUnit을 plan-first로 고정한다
+- Latest commit: d723b70 상인 주문상자 수령을 HUD 보상 이동으로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T14:14:17.616Z
-- Phase: issue-330-pr-publication
+- Timestamp: 2026-05-03T14:15:14.925Z
+- Phase: issue-330-pr-checks
 - Issue: 330
-- PR: 
+- PR: 331
 - Item: items/0167-merchant-crate-claim-fx.md
-- Next action: gate: publish #330 issue/PR body files, watch checks, merge when green
+- Next action: gate: watch PR #331 checks, repair if needed, mark ready and merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #331 draft 상인 주문상자 수령을 HUD 보상 이동으로 닫는다 — https://github.com/bborok1234/strange-seed-shop/pull/331
 
 ## Open issues
 
