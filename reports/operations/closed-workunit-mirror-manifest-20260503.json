@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T07:53:00Z",
-  "source": "GitHub CLI observation after #318/#319 merge and active #320 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T08:23:00Z",
+  "source": "GitHub CLI observation after #320/#321 merge and active #322 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 320,
-    "title": "새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다",
-    "item": "items/0162-album-record-followup-harvest-reveal.md",
-    "branch": "codex/0320-album-record-followup-harvest-reveal"
+    "issue": 322,
+    "title": "새 기록 후속 수확 도감 저장을 다음 씨앗 목표 재순환으로 이어지게 만든다",
+    "item": "items/0163-album-record-followup-next-goal-loop.md",
+    "branch": "codex/0322-album-record-followup-next-goal-loop"
   },
   "workUnits": [
     {
@@ -456,6 +456,31 @@
         "GitHub-authoritative open WorkUnit #318",
         "Branch: `codex/0318-album-record-followup-growth-preview`",
         "Branch: codex/0318-album-record-followup-growth-preview"
+      ]
+    },
+    {
+      "issue": 320,
+      "issueTitle": "새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T08:21:40Z",
+      "pr": 321,
+      "prTitle": "#320 새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T08:21:40Z",
+      "mergeCommit": "0bf0c855516828bcefa073783d618a56ea5b8ee4",
+      "mainCiRun": 25274149549,
+      "mainCiConclusion": "success",
+      "roadmapStep": "새 기록 후속 재배 수확 발견 payoff",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #320",
+        "PR #321",
+        "main CI `25274149549`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #320",
+        "Branch: `codex/0320-album-record-followup-harvest-reveal`",
+        "Branch: codex/0320-album-record-followup-harvest-reveal"
       ]
     }
   ]
