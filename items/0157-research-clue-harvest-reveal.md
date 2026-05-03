@@ -2,7 +2,7 @@
 
 - GitHub issue: #310 https://github.com/bborok1234/strange-seed-shop/issues/310
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: verification-ready
 - Branch: `codex/0310-research-clue-harvest-reveal`
 - Created: 2026-05-03
 
@@ -16,11 +16,11 @@
 
 ## 수용 기준
 
-- [ ] 연구 단서 source plot 수확 시 일반 수확과 구분되는 `단서 생명체 발견`/`도감 단서 기록` receipt가 보인다.
-- [ ] next creature card 또는 action surface가 수확한 생명체 이름과 다음 목표 전환을 한 화면에서 설명한다.
-- [ ] 신규 accepted manifest asset 없이 DOM/CSS reward motion/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 receipt/action surface/next creature card가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] 연구 단서 source plot 수확 시 일반 수확과 구분되는 `단서 생명체 발견`/`도감 단서 기록` receipt가 보인다.
+- [x] next creature card 또는 action surface가 수확한 생명체 이름과 다음 목표 전환을 한 화면에서 설명한다.
+- [x] 신규 accepted manifest asset 없이 DOM/CSS reward motion/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 receipt/action surface/next creature card가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## 검증 명령
 
@@ -79,3 +79,28 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이므로 Codex native subagents/team mode는 사용하지 않는다.
 - 필요 시 분리 기준: asset generation이 필요해지면 asset pipeline subtask, Browser Use 복구가 필요하면 QA/verifier subtask로 분리한다.
+
+
+## 구현 Evidence
+
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Harvest reveal: 연구 단서 source plot 수확 시 overlay aria-label이 `단서 생명체 발견`으로 전환되고 `도감 단서 기록`/`연구 단서 수확` receipt가 함께 보인다.
+- Playfield state: overlay를 닫은 뒤 정원 생산 장면에 `단서 생명체 발견`/`도감 단서 기록` 상태가 남아 수확 payoff가 playfield reward motion으로 이어진다.
+- Asset/FX boundary: 신규 accepted manifest asset 없음. 기존 creature/seed image와 DOM/CSS reward motion만 사용했고 runtime image generation/API 호출 없음.
+
+## QA / Playtest Evidence
+
+- Browser Use blocker: `reports/visual/browser-use-blocker-0310-20260503.md` — 현 Codex 세션 iab backend discovery 실패를 새로 기록했다.
+- Screenshot: `reports/visual/issue-310-research-clue-harvest-reveal-393.png`
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 수확|단서 생명체"` — 1 passed
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장|연구 단서 수확|단서 생명체"` — 3 passed
+- `npm run check:visual` — 58 passed
+- `npm run check:ci` — pass
+
+## PR Gate
+
+- Status: PR publication ready
+- Prepared at: 2026-05-03T05:53:41Z
+- Next gate: GitHub issue body update → branch push → draft PR create/update → GitHub checks watch/repair → ready/merge when green → main CI observation → next WorkUnit plan-first.
+- Stop rule: none

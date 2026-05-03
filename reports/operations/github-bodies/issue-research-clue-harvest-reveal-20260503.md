@@ -1,6 +1,6 @@
 ## 문제 / 배경
 
-#308이 연구 단서 씨앗 성장 중 `수확 예고`를 만들었지만, 실제 수확 순간은 아직 일반 수확 receipt와 크게 다르지 않다. 연구 단서 chain은 심기/성장/수확이 하나의 discovery arc로 읽혀야 하므로, 목표 씨앗 수확 시 다음 생명체 발견과 도감 단서가 정원 첫 화면에서 즉시 터져야 한다.
+#308이 연구 단서 씨앗 성장 중 `수확 예고`를 만들었지만, 실제 수확 순간은 아직 일반 수확 receipt와 크게 다르지 않았다. #310은 연구 단서 chain의 심기/성장/수확을 하나의 discovery arc로 닫기 위해 목표 씨앗 수확 시 다음 생명체 발견과 도감 단서가 정원 첫 화면에서 즉시 터지게 만든다.
 
 ## 목표
 
@@ -27,7 +27,7 @@
 
 ## Subagent/Team Routing
 
-- 단일 React/CSS/visual regression tranche이므로 Codex native subagents/team mode는 기본 미사용.
+- 단일 React/CSS/visual regression tranche이므로 Codex native subagents/team mode는 미사용.
 - 독립 분리 기준: Browser Use 복구가 필요하면 QA/verifier subtask, 새 sprite/FX가 필요하면 asset pipeline subtask로 분리.
 
 ## 플레이어 가치 또는 운영사 가치
@@ -37,16 +37,16 @@
 
 ## 수용 기준
 
-- [ ] 연구 단서 source plot 수확 시 일반 수확과 구분되는 `단서 생명체 발견`/`도감 단서 기록` receipt가 보인다.
-- [ ] next creature card 또는 action surface가 수확한 생명체 이름과 다음 목표 전환을 한 화면에서 설명한다.
-- [ ] 신규 accepted manifest asset 없이 DOM/CSS reward motion/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 receipt/action surface/next creature card가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] 연구 단서 source plot 수확 시 일반 수확과 구분되는 `단서 생명체 발견`/`도감 단서 기록` receipt가 보인다.
+- [x] next creature card 또는 action surface가 수확한 생명체 이름과 다음 목표 전환을 한 화면에서 설명한다.
+- [x] 신규 accepted manifest asset 없이 DOM/CSS reward motion/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 receipt/action surface/next creature card가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## Visual evidence 계획
 
-- Browser Use iab target: `/?qaResearchComplete=1&qaTab=seeds`에서 목표 씨앗 구매/심기/수확 flow 확인.
-- Fallback screenshot: `reports/visual/issue-310-research-clue-harvest-reveal-393.png`.
+- Browser Use blocker: `reports/visual/browser-use-blocker-0310-20260503.md` — 현재 세션 iab backend 미발견.
+- Screenshot: `reports/visual/issue-310-research-clue-harvest-reveal-393.png`.
 - Layout invariant: receipt/action surface/next creature card vs `.bottom-tabs`, no masked overflow.
 
 ## Playable mode 영향
@@ -57,20 +57,15 @@
 ## 안전 범위
 
 - runtime image generation/API 호출 없음.
-- 신규 accepted manifest asset 없음. DOM/CSS reward motion과 HUD affordance만 허용.
+- 신규 accepted manifest asset 없음. DOM/CSS reward motion과 HUD affordance만 사용.
 - real payment, customer data, external production deployment 없음.
 
 ## 검증 명령
 
-- `npm run build`
-- focused Playwright: 연구 단서 수확/reveal
-- `npm run check:visual`
-- `npm run check:ci`
-- `npm run update:dashboard`
-- `npm run operator:control-room -- --output docs/OPERATOR_CONTROL_ROOM.md`
-- `npm run check:dashboard`
-- `npm run check:control-room`
-- `npm run check:ops-live`
-- `npm run check:github-metadata`
-- `npm run check:seed-ops-queue`
-- `npm run check:closed-workunit-mirrors`
+- [x] `npm run build` — pass
+- [x] `npx playwright test --config playwright.config.ts --grep "연구 단서 수확|단서 생명체"` — 1 passed
+- [x] `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장|연구 단서 수확|단서 생명체"` — 3 passed
+- [x] `npm run check:visual` — 58 passed
+- [x] `npm run check:ci` — pass
+- [x] `npm run update:dashboard` / `npm run operator:control-room -- --output docs/OPERATOR_CONTROL_ROOM.md` — pass
+- [x] `npm run check:dashboard` / `npm run check:control-room` / `npm run check:ops-live` / `npm run check:github-metadata` / `npm run check:seed-ops-queue` / `npm run check:closed-workunit-mirrors` — pass
