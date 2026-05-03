@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T09:31:45.587Z
+Generated at: 2026-05-03T09:32:29.824Z
 
 ## Current mission
 
@@ -42,22 +42,22 @@ Generated at: 2026-05-03T09:31:45.587Z
 ## Local state
 
 - Branch: codex/0324-album-record-loop-rami-harvest-payoff
-- Latest commit: cad2a01 이슬연금 라미 수확 payoff WorkUnit을 plan-first로 고정한다
+- Latest commit: 5c1cd4b 다음 기록 목표를 라미 수확 payoff로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T09:31:42.957Z
-- Phase: issue-324-pr-publication
+- Timestamp: 2026-05-03T09:32:27.556Z
+- Phase: issue-324-pr-checks
 - Issue: 324
-- PR: 
+- PR: 325
 - Item: items/0164-album-record-loop-rami-harvest-payoff.md
-- Next action: gate: publish PR #324 evidence, watch checks, merge when green
+- Next action: gate: mark PR #325 ready, watch required checks, merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #325 draft 다음 기록 목표를 라미 수확 payoff로 닫는다 — https://github.com/bborok1234/strange-seed-shop/pull/325
 
 ## Open issues
 
