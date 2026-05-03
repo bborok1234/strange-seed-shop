@@ -2994,6 +2994,83 @@ h1 {
     0 12px 26px rgba(39, 86, 64, 0.13);
 }
 
+.album-new-record-card {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 var(--space-3);
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(83, 151, 115, 0.34);
+  border-radius: calc(var(--radius-control) + 6px);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.74), transparent 34%),
+    linear-gradient(135deg, rgba(225, 245, 199, 0.96), rgba(255, 249, 214, 0.9));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.42),
+    0 10px 22px rgba(39, 86, 64, 0.12);
+}
+
+.album-new-record-portrait {
+  display: grid;
+  width: 76px;
+  height: 76px;
+  place-items: center;
+  border: 1px solid rgba(83, 151, 115, 0.22);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.album-new-record-portrait img,
+.album-new-record-portrait .asset-fallback {
+  width: 68px;
+  height: 68px;
+  margin: 0;
+  object-fit: contain;
+}
+
+.album-new-record-copy h3,
+.album-new-record-copy p,
+.album-new-record-copy small {
+  display: block;
+  margin: 0;
+}
+
+.album-new-record-copy h3 {
+  color: #3f7c57;
+  font-size: 19px;
+  line-height: 1.05;
+}
+
+.album-new-record-copy p:not(.panel-label) {
+  margin-top: 3px;
+  color: var(--text-main);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.album-new-record-copy small {
+  margin-top: 4px;
+  color: #6d5835;
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.album-new-record-copy .album-memory-secondary {
+  min-height: 30px;
+  margin-top: 7px;
+  padding: 0 10px;
+  border: 1px solid rgba(39, 86, 64, 0.18);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 252, 235, 0.74);
+  color: var(--action-primary-strong);
+  font-size: 11px;
+  font-weight: 950;
+}
+
 .album-memory-photo {
   position: relative;
   display: grid;
@@ -3924,6 +4001,30 @@ h1 {
   box-shadow:
     inset 0 0 0 2px rgba(255, 224, 101, 0.6),
     0 13px 26px rgba(39, 86, 64, 0.14);
+}
+
+.album-slot-new-record {
+  border-color: rgba(83, 151, 115, 0.44);
+  border-style: solid;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.76), transparent 36%),
+    linear-gradient(180deg, rgba(237, 250, 208, 0.96), rgba(255, 245, 193, 0.9));
+  box-shadow:
+    inset 0 0 0 2px rgba(136, 196, 96, 0.44),
+    0 12px 24px rgba(61, 126, 83, 0.14);
+}
+
+.album-slot-new-record::after {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 4px 7px;
+  border-radius: var(--radius-pill);
+  background: rgba(83, 151, 115, 0.88);
+  color: #fff8d9;
+  content: "새 기록";
+  font-size: 10px;
+  font-weight: 950;
 }
 
 .album-target-badge {

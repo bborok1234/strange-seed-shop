@@ -2,7 +2,7 @@
 
 - GitHub issue: #312 https://github.com/bborok1234/strange-seed-shop/issues/312
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: verification-ready
 - Branch: `codex/0312-research-clue-album-record`
 - Created: 2026-05-03
 
@@ -16,11 +16,11 @@
 
 ## 수용 기준
 
-- [ ] 연구 단서 발견 reveal의 `도감에 기록하기` 이후 방금 발견한 생명체의 `새 단서 기록`/`도감 기록 저장` 상태가 보인다.
-- [ ] 도감 탭 또는 action surface가 다음 수집 목표 전환을 한 화면에서 설명한다.
-- [ ] 신규 accepted manifest asset 없이 DOM/CSS album highlight/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 album/action surface/next creature card가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] 연구 단서 발견 reveal의 `도감에 기록하기` 이후 방금 발견한 생명체의 `새 단서 기록`/`도감 기록 저장` 상태가 보인다.
+- [x] 도감 탭 또는 action surface가 다음 수집 목표 전환을 한 화면에서 설명한다.
+- [x] 신규 accepted manifest asset 없이 DOM/CSS album highlight/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 album/action surface/next creature card가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## 검증 명령
 
@@ -79,3 +79,28 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이므로 Codex native subagents/team mode는 사용하지 않는다.
 - 필요 시 분리 기준: asset generation이 필요해지면 asset pipeline subtask, Browser Use 복구가 필요하면 QA/verifier subtask로 분리한다.
+
+
+## 구현 Evidence
+
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- CTA flow: 연구 단서 reveal의 `도감에 기록하기`가 도감 탭으로 전환하고 `새 단서 기록` card를 표시한다.
+- Album highlight: 방금 발견한 생명체 slot에 `album-slot-new-record` highlight와 `새 기록` badge가 붙고 다음 씨앗 목표 CTA가 보인다.
+- Asset/FX boundary: 신규 accepted manifest asset 없음. 기존 creature image와 DOM/CSS album highlight만 사용했고 runtime image generation/API 호출 없음.
+
+## QA / Playtest Evidence
+
+- Browser Use blocker: `reports/visual/browser-use-blocker-0312-20260503.md` — 현 Codex 세션 iab backend discovery 실패를 새로 기록했다.
+- Screenshot: `reports/visual/issue-312-research-clue-album-record-393.png`
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 도감|새 단서 기록"` — 1 passed
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장|연구 단서 수확|단서 생명체|연구 단서 도감|새 단서 기록"` — 4 passed
+- `npm run check:visual` — 59 passed
+- `npm run check:ci` — pass
+
+## PR Gate
+
+- Status: PR publication ready
+- Prepared at: 2026-05-03T06:17:10Z
+- Next gate: GitHub issue body update → branch push → draft PR create/update → GitHub checks watch/repair → ready/merge when green → main CI observation → next WorkUnit plan-first.
+- Stop rule: none
