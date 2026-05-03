@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T11:26:00.406Z
+Generated at: 2026-05-03T11:27:09.832Z
 
 ## Current mission
 
@@ -39,18 +39,18 @@ Generated at: 2026-05-03T11:26:00.406Z
 ## Local state
 
 - Branch: codex/0326-rami-record-next-merchant-goal
-- Latest commit: b47c9bd 라미 저장 후 포장잎 상인 목표를 보존한다
+- Latest commit: b1c6851 PR 점검 게이트에 #326 heartbeat를 맞춘다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T11:25:57.741Z
+- Timestamp: 2026-05-03T11:27:07.731Z
 - Phase: issue-326-pr-checks
 - Issue: 326
 - PR: 327
 - Item: items/0165-rami-record-next-merchant-goal.md
-- Next action: watch PR #327 checks, repair if needed, mark ready and merge when green
+- Next action: gate: watch PR #327 checks, repair if needed, mark ready and merge when green
 
 ## Open PRs
 
