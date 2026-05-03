@@ -1424,6 +1424,21 @@ h1 {
     linear-gradient(135deg, rgba(255, 244, 206, 0.96), rgba(226, 249, 196, 0.9));
 }
 
+.production-action-card.has-merchant-followup-order .order-progress-card {
+  border-color: rgba(153, 96, 44, 0.36);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.84), transparent 34%),
+    radial-gradient(circle at 82% 66%, rgba(255, 210, 128, 0.42), transparent 38%),
+    linear-gradient(135deg, rgba(255, 244, 206, 0.98), rgba(231, 247, 207, 0.9));
+}
+
+.production-asset-merchant-crate {
+  box-shadow:
+    0 8px 18px rgba(153, 96, 44, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.56);
+  animation: merchant-crate-pack 1.45s ease-in-out infinite;
+}
+
 .production-claim-receipt small {
   grid-column: 1 / -1;
   color: var(--text-muted);
@@ -6171,6 +6186,43 @@ h1 {
     -18px 3px 0 -6px rgba(86, 151, 75, 0.76),
     0 0 14px rgba(92, 150, 83, 0.3);
   content: "";
+  animation: merchant-reward-flyout 1.05s ease-in-out infinite;
+}
+
+.playfield-order-crate.order-variant-merchant-followup,
+.playfield-order-crate.order-variant-merchant-delivered {
+  position: relative;
+  border-color: rgba(153, 96, 44, 0.44);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.84), transparent 32%),
+    radial-gradient(circle at 78% 62%, rgba(255, 210, 128, 0.54), transparent 36%),
+    linear-gradient(135deg, rgba(255, 244, 206, 0.98), rgba(231, 247, 207, 0.9));
+  box-shadow:
+    0 5px 12px rgba(153, 96, 44, 0.17),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.playfield-order-crate.order-variant-merchant-followup::after,
+.playfield-order-crate.order-variant-merchant-delivered::after {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  width: 26px;
+  height: 16px;
+  border: 2px solid rgba(153, 96, 44, 0.48);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow:
+    -8px 7px 0 -5px rgba(255, 198, 122, 0.94),
+    -18px 2px 0 -6px rgba(92, 150, 83, 0.72),
+    0 0 12px rgba(153, 96, 44, 0.28);
+  content: "";
+  animation: merchant-crate-pack 1.45s ease-in-out infinite;
+}
+
+.playfield-order-crate.order-variant-merchant-delivered::after {
+  border-radius: 999px;
+  border-color: transparent;
   animation: merchant-reward-flyout 1.05s ease-in-out infinite;
 }
 

@@ -6,7 +6,7 @@
 - Branch: `codex/0332-merchant-followup-order`
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
 - Runner decision: `production-game-intake-required` after #331 merge and main CI `25281550163` success
-- Status: plan-first ready
+- Status: PR publication ready
 
 ## 문제 / 배경
 
@@ -57,13 +57,13 @@
 
 ## 수용 기준
 
-- [ ] #330 flow에서 상인 주문상자 보상 수령 후 production card/playfield에 merchant follow-up order가 표시된다.
-- [ ] 생산 잎 수령 또는 동등한 player verb로 follow-up order progress가 증가한다.
-- [ ] progress가 충분하면 `상인 단골 납품` 또는 동등한 납품 CTA가 enabled되고, 납품 후 reward receipt/reward motion/claimed crate state가 보인다.
-- [ ] 다음 목표 affordance가 같은 모바일 화면에서 읽힌다.
-- [ ] 신규 accepted manifest asset 없이 DOM/CSS FX와 existing assets만 사용하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 order card/playfield crate/receipt/하단 탭이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] #330 flow에서 상인 주문상자 보상 수령 후 production card/playfield에 merchant follow-up order가 표시된다.
+- [x] 생산 잎 수령 또는 동등한 player verb로 follow-up order progress가 증가한다.
+- [x] progress가 충분하면 `상인 단골 납품` 또는 동등한 납품 CTA가 enabled되고, 납품 후 reward receipt/reward motion/claimed crate state가 보인다.
+- [x] 다음 목표 affordance가 같은 모바일 화면에서 읽힌다.
+- [x] 신규 accepted manifest asset 없이 DOM/CSS FX와 existing assets만 사용하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 order card/playfield crate/receipt/하단 탭이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## 검증 명령
 
@@ -90,3 +90,23 @@
 
 - 기본은 solo execution: order selection, UI, CSS, regression이 같은 파일 집합이라 병렬 worker conflict 가능성이 높다.
 - Codex native subagents/team mode는 order selection 영향 분석과 visual QA가 독립 evidence로 분리될 때만 사용한다.
+
+
+## 구현 결과
+
+- `src/App.tsx`: `MERCHANT_FOLLOWUP_ORDER`를 추가하고, `claimedMerchantCrateRewardIds`가 있는 상태에서 `포장잎 상인 단골 납품` follow-up order가 current order로 표시되도록 연결했다.
+- `src/App.tsx`: 상인 주문상자 claim 직후 생산 대기 잎을 follow-up order 필요량 이상으로 준비해 player verb `생산 잎 수령`으로 progress를 채울 수 있게 했다.
+- `src/game/playfield/types.ts`: `merchant-followup`, `merchant-delivered` order variant를 추가했다.
+- `src/styles.css`: merchant follow-up order card, crate glow, delivered reward flyout visual state를 추가했다.
+- `tests/visual/p0-mobile-game-shell.spec.ts`: #330 flow 뒤 follow-up order 표시, 생산 수령 progress, `상인 단골 납품`, completed order save state, 393px layout invariant를 검증했다.
+- 신규 accepted manifest asset, runtime image generation/API 호출, 결제/외부 배포/고객 데이터 변경 없음.
+
+## 검증 결과
+
+- Browser Use iab current-session 시도: blocked, `reports/visual/browser-use-blocker-0332-20260503.md`.
+- Screenshot: `reports/visual/issue-332-merchant-followup-order-393.png`.
+- `npm run build` — pass.
+- `npx playwright test --config playwright.config.ts --grep "상인 주문상자 보상은 단골"` — 1 passed.
+- `npx playwright test --config playwright.config.ts --grep "상인 주문상자 보상|상인 단골 납품"` — 2 passed.
+- `npm run check:visual` — 69 passed.
+- `npm run check:ci` — pass.

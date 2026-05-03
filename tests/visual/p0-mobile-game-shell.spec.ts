@@ -1396,6 +1396,100 @@ test("모바일 상인 주문상자 보상 수령은 HUD 보상 이동 FX로 이
   });
 });
 
+test("모바일 상인 주문상자 보상은 단골 납품 주문으로 이어진다", async ({ page }, testInfo) => {
+  test.setTimeout(600_000);
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1&qaTab=seeds&qaFxTelemetry=1");
+
+  const researchTargetRow = page.locator(".seed-inventory-row-target").first();
+  await researchTargetRow.getByRole("button", { name: /구매/ }).click();
+  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 씨앗 목표: 젤리콩 통통" }).click();
+
+  const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
+  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 기록으로 이어가기: 방울새싹 씨앗" }).click();
+
+  const ramiTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
+  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
+  await expect(page.getByLabel("새 기록 재순환 생명체 발견")).toContainText("이슬연금 라미");
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 기록으로 이어가기: 젤리콩 씨앗" }).click();
+
+  const merchantTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await merchantTargetRow.getByRole("button", { name: /구매/ }).click();
+  await merchantTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
+  await page.getByRole("button", { name: "상인 주문상자 보상 받기" }).click();
+  await expect(page.getByLabel("상인 주문상자 보상 수령 완료")).toContainText("+36 잎 · +1 꽃가루");
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "정원", exact: true }).click();
+
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("포장잎 상인 단골 납품");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("0/18 잎 납품 준비");
+  await expect(page.locator(".playfield-order-crate.order-variant-merchant-followup")).toContainText("포장잎 상인 단골 납품");
+  await expect(page.getByRole("button", { name: "생산 잎 수령" })).toBeEnabled();
+  await page.getByRole("button", { name: "생산 잎 수령" }).click();
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("18/18 잎");
+  await expect(page.getByRole("button", { name: "상인 단골 납품 +54 잎 · +2 꽃가루 · +1 재료" })).toBeEnabled();
+  await page.getByRole("button", { name: "상인 단골 납품 +54 잎 · +2 꽃가루 · +1 재료" }).click();
+
+  await expect(page.getByLabel("주문 상자 출하 완료")).toContainText("포장잎 상인 단골 납품");
+  await expect(page.getByLabel("주문 상자 출하 완료")).toContainText("+54 잎 · +2 꽃가루 · +1 재료");
+  await expect(page.locator(".playfield-order-crate.order-variant-merchant-delivered")).toContainText("상인 단골 납품 완료");
+  await expect(page.locator(".playfield-order-crate.order-variant-merchant-delivered")).toContainText("보상 수거 완료");
+  await expect(page.locator(".playfield-order-crate.order-variant-merchant-delivered")).toContainText("+54 잎 · +2 꽃가루 · +1 재료 수거");
+
+  const saved = await page.evaluate(() => {
+    const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+    const parsed = raw ? (JSON.parse(raw) as { idleProduction?: { completedOrderIds?: string[]; orderProgress?: Record<string, number> } }) : {};
+    return {
+      completed: parsed.idleProduction?.completedOrderIds?.includes("order_merchant_leaf_bundle_001") ?? false,
+      progress: parsed.idleProduction?.orderProgress?.order_merchant_leaf_bundle_001 ?? 0
+    };
+  });
+  expect(saved).toEqual({ completed: true, progress: 18 });
+
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".starter-panel");
+    const receipt = document.querySelector<HTMLElement>(".order-dispatch-receipt")?.getBoundingClientRect();
+    const playfieldCrate = document.querySelector<HTMLElement>(".playfield-order-crate.order-variant-merchant-delivered")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    return {
+      innerHeight: window.innerHeight,
+      bodyScrollHeight,
+      panelClientHeight: panel?.clientHeight ?? 0,
+      panelScrollHeight: panel?.scrollHeight ?? 0,
+      receipt: receipt ? { bottom: receipt.bottom } : null,
+      playfieldCrate: playfieldCrate ? { bottom: playfieldCrate.bottom } : null,
+      tabs: tabs ? { top: tabs.top } : null
+    };
+  });
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
+  expect(metrics.receipt).not.toBeNull();
+  expect(metrics.playfieldCrate).not.toBeNull();
+  expect(metrics.receipt!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-merchant-followup-order-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
+
 
 test("모바일 연구 완료 후 원정 탭은 장기 메타 단서를 보여준다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });

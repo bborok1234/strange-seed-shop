@@ -295,6 +295,15 @@ const LUNAR_GUARDIAN_ORDER: FirstOrderDefinition = {
   rewardPollen: 3,
   rewardMaterials: 1
 };
+const MERCHANT_FOLLOWUP_ORDER: FirstOrderDefinition = {
+  id: "order_merchant_leaf_bundle_001",
+  title: "포장잎 상인 단골 납품",
+  customer: "포장잎 상인의 새 주문상자",
+  requiredLeaves: 18,
+  rewardLeaves: 54,
+  rewardPollen: 2,
+  rewardMaterials: 1
+};
 const ORDER_DEFINITIONS: FirstOrderDefinition[] = [
   FIRST_ORDER,
   SECOND_ORDER,
@@ -303,7 +312,8 @@ const ORDER_DEFINITIONS: FirstOrderDefinition[] = [
   GREENHOUSE_ROUTE_SUPPLY_ORDER,
   GREENHOUSE_IRRIGATION_ORDER,
   GREENHOUSE_MIST_RETURN_ORDER,
-  LUNAR_GUARDIAN_ORDER
+  LUNAR_GUARDIAN_ORDER,
+  MERCHANT_FOLLOWUP_ORDER
 ];
 const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "garden", label: "정원" },
@@ -1075,6 +1085,7 @@ export default function App() {
       });
       setActiveTab("album");
     }
+    setMerchantCrateClaimReceipt(null);
     setHarvestReveal(null);
   }
 
@@ -1109,7 +1120,8 @@ export default function App() {
       draft.pollen += MERCHANT_CRATE_REWARD_POLLEN;
       draft.idleProduction.pendingLeaves = Math.max(
         getPendingProductionLeaves(draft, now),
-        draft.idleProduction.pendingLeaves
+        draft.idleProduction.pendingLeaves,
+        MERCHANT_FOLLOWUP_ORDER.requiredLeaves
       );
       draft.idleProduction.lastTickAt = new Date(now).toISOString();
       trackEvent("merchant_crate_reward_claimed", {
@@ -1620,7 +1632,7 @@ export default function App() {
         });
       }
     });
-    if (orderBeforeDelivery.id === FIRST_ORDER.id) {
+    if (orderBeforeDelivery.id === FIRST_ORDER.id || orderBeforeDelivery.id === MERCHANT_FOLLOWUP_ORDER.id) {
       setOrderDeliveryReceipt(deliveryReceipt);
       window.setTimeout(() => {
         setOrderDeliveryReceipt((current) => (current?.id === deliveryReceipt.id ? null : current));
@@ -1912,6 +1924,7 @@ export default function App() {
                   productionStatus.order.id === GREENHOUSE_IRRIGATION_ORDER.id ? "has-irrigation-order" : "",
                   productionStatus.order.id === GREENHOUSE_MIST_RETURN_ORDER.id ? "has-mist-return-order" : "",
                   productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id ? "has-lunar-guardian-order" : "",
+                  productionStatus.order.id === MERCHANT_FOLLOWUP_ORDER.id ? "has-merchant-followup-order" : "",
                   mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
                   lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
                   productionClaimReceipt ? "has-production-claim-receipt" : "",
@@ -2085,9 +2098,10 @@ export default function App() {
                   >
                     <div className="order-progress-main">
                       <div
-                        className={[
-                          "production-asset production-asset-crate",
-                          productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id ? "production-asset-lunar-crate" : ""
+                      className={[
+                        "production-asset production-asset-crate",
+                          productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id ? "production-asset-lunar-crate" : "",
+                          productionStatus.order.id === MERCHANT_FOLLOWUP_ORDER.id ? "production-asset-merchant-crate" : ""
                         ]
                           .filter(Boolean)
                           .join(" ")}
@@ -3234,6 +3248,8 @@ function buildGardenPlayfieldViewModel(
     productionStatus.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && productionStatus.orderCompleted;
   const lunarGuardianOrderActive = productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id;
   const firstOrderDispatchReceiptActive = orderDeliveryReceipt?.orderId === FIRST_ORDER.id;
+  const merchantFollowupOrderActive = productionStatus.order.id === MERCHANT_FOLLOWUP_ORDER.id;
+  const merchantFollowupDispatchReceiptActive = orderDeliveryReceipt?.orderId === MERCHANT_FOLLOWUP_ORDER.id;
   const productionClaimActive = Boolean(productionClaimReceipt);
   const productionBoostActive = Boolean(productionBoostReceipt);
   const researchUnlockActive = Boolean(researchUnlockReceipt);
@@ -3256,10 +3272,14 @@ function buildGardenPlayfieldViewModel(
           actorName: productionStatus.workerLabel,
           actorLine: firstOrderDispatchReceiptActive
             ? `${orderDeliveryReceipt.title} 출하 완료 · 다음 주문 준비`
+            : merchantFollowupDispatchReceiptActive
+              ? `${orderDeliveryReceipt.title} 납품 완료 · 상인 단골 보상 수거`
             : productionClaimActive
               ? `+${productionClaimReceipt?.leaves ?? 0} 잎 수령 · 주문 상자에 반짝임 전달`
               : merchantCrateClaimActive
                 ? `${merchantCrateClaimReceipt?.creatureName ?? "상인"} 주문상자 열림 · HUD 보상 이동`
+              : merchantFollowupOrderActive
+                ? "포장잎 상인이 단골 주문상자를 기다리는 중"
               : productionBoostActive
                 ? `작업 간식 충전 · 분당 ${formatRatePerMinute(productionBoostReceipt?.nextRatePerMinute ?? productionStatus.ratePerMinute)} 잎`
                 : researchUnlockActive
@@ -3283,8 +3303,12 @@ function buildGardenPlayfieldViewModel(
           pendingLabel: `대기 ${productionStatus.pendingLeaves} 잎`,
           orderTitle: firstOrderDispatchReceiptActive
             ? "첫 주문 상자 출하"
+            : merchantFollowupDispatchReceiptActive
+              ? "상인 단골 납품 완료"
             : merchantCrateClaimActive
               ? "상인 주문상자 수령"
+            : merchantFollowupOrderActive
+              ? productionStatus.order.title
             : researchUnlockActive
               ? "연구 노트 개방"
               : researchCompleteActive
@@ -3304,10 +3328,14 @@ function buildGardenPlayfieldViewModel(
               : productionStatus.order.title,
           orderProgressLabel: firstOrderDispatchReceiptActive
             ? "보상 수거 완료"
+            : merchantFollowupDispatchReceiptActive
+              ? "보상 수거 완료"
             : merchantCrateClaimActive
               ? `+${merchantCrateClaimReceipt?.rewardLeaves ?? MERCHANT_CRATE_REWARD_LEAVES} 잎 · +${
                   merchantCrateClaimReceipt?.rewardPollen ?? MERCHANT_CRATE_REWARD_POLLEN
                 } 꽃가루`
+            : merchantFollowupOrderActive
+              ? `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`
             : productionClaimActive
               ? `${productionClaimReceipt?.orderProgress ?? productionStatus.orderProgress}/${productionClaimReceipt?.orderRequired ?? productionStatus.order.requiredLeaves} 잎`
               : researchUnlockActive
@@ -3328,6 +3356,7 @@ function buildGardenPlayfieldViewModel(
           orderReady:
             productionStatus.orderReady ||
             firstOrderDispatchReceiptActive ||
+            merchantFollowupDispatchReceiptActive ||
             merchantCrateClaimActive ||
             researchUnlockActive ||
             researchCompleteActive ||
@@ -3338,6 +3367,7 @@ function buildGardenPlayfieldViewModel(
           orderCompleted:
             productionStatus.orderCompleted ||
             firstOrderDispatchReceiptActive ||
+            merchantFollowupDispatchReceiptActive ||
             merchantCrateClaimActive ||
             researchUnlockActive ||
             researchCompleteActive ||
@@ -3347,8 +3377,12 @@ function buildGardenPlayfieldViewModel(
             researchSeedPlantedActive,
           orderVariant: firstOrderDispatchReceiptActive
             ? ("first-dispatched" as const)
+            : merchantFollowupDispatchReceiptActive
+              ? ("merchant-delivered" as const)
             : merchantCrateClaimActive
               ? ("merchant-claimed" as const)
+            : merchantFollowupOrderActive
+                ? ("merchant-followup" as const)
             : albumRecordHarvestReceipt?.orderCrateLabel
               ? ("merchant-record" as const)
               : lunarGuardianOrderActive
@@ -3358,8 +3392,14 @@ function buildGardenPlayfieldViewModel(
               : undefined,
           orderStatusLabel: firstOrderDispatchReceiptActive
             ? `${orderDeliveryReceipt.rewardLabel} 수거`
+            : merchantFollowupDispatchReceiptActive
+              ? `${orderDeliveryReceipt.rewardLabel} 수거`
             : merchantCrateClaimActive
               ? "HUD 보상 이동"
+            : merchantFollowupOrderActive
+              ? productionStatus.orderReady
+                ? "상인 단골 납품 가능"
+                : "상인 단골 주문 진행"
             : productionClaimActive
               ? `+${productionClaimReceipt?.leaves ?? 0} 잎 이동`
               : productionBoostActive
@@ -3547,6 +3587,13 @@ function getCurrentOrder(save: PlayerSave): FirstOrderDefinition {
   }
 
   if (
+    save.claimedMerchantCrateRewardIds.includes(getMerchantCrateRewardId(MERCHANT_RECORD_CREATURE_ID)) &&
+    !save.idleProduction.completedOrderIds.includes(MERCHANT_FOLLOWUP_ORDER.id)
+  ) {
+    return MERCHANT_FOLLOWUP_ORDER;
+  }
+
+  if (
     save.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL &&
     !save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id)
   ) {
@@ -3641,6 +3688,10 @@ function getOrderDeliveryCta(order: FirstOrderDefinition): string {
 
   if (order.id === LUNAR_GUARDIAN_ORDER.id) {
     return "달빛 보호 주문 납품";
+  }
+
+  if (order.id === MERCHANT_FOLLOWUP_ORDER.id) {
+    return "상인 단골 납품";
   }
 
   return "주문 납품";
