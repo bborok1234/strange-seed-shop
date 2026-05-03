@@ -81,7 +81,7 @@ Options:
   --report PATH         Report output path. Default: reports/operations/studio-v3-operator-YYYYMMDD.md.
   --log PATH            Detached log path. Default: .omx/logs/studio-v3-operator-TIMESTAMP.log.
   --pid PATH            Detached pid path. Default: .omx/state/studio-v3-operator.pid.
-  --yolo                Use Codex bypass flag instead of approval/sandbox flags.
+  --yolo                Use Codex bypass flag instead of config/sandbox flags.
 `;
 }
 
@@ -189,7 +189,9 @@ ${detachedCommandText}
 
 function buildExecArgs({ backend, worktree, yolo }) {
   const base = backend === "omx" ? ["exec"] : ["exec"];
-  const safety = yolo ? ["--dangerously-bypass-approvals-and-sandbox"] : ["--ask-for-approval", "never", "--sandbox", "danger-full-access"];
+  const safety = yolo
+    ? ["--dangerously-bypass-approvals-and-sandbox"]
+    : ["-c", 'approval_policy="never"', "--sandbox", "danger-full-access"];
   return [...base, "-C", worktree, ...safety, "-"];
 }
 

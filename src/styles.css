@@ -1326,11 +1326,136 @@ h1 {
 
 .order-progress-card {
   display: grid;
+  position: relative;
   gap: 6px;
   padding: 8px;
   border: 1px dashed rgba(39, 86, 64, 0.28);
   border-radius: var(--radius-control);
   background: rgba(255, 251, 226, 0.72);
+}
+
+.order-progress-ready {
+  overflow: hidden;
+  border-style: solid;
+  border-color: rgba(44, 99, 64, 0.36);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.78), transparent 34%),
+    linear-gradient(135deg, rgba(255, 244, 170, 0.96), rgba(227, 248, 191, 0.9));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.52);
+}
+
+.order-progress-ready::after {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  display: grid;
+  min-width: 38px;
+  min-height: 18px;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(44, 99, 64, 0.12);
+  color: #315d3b;
+  content: "출하";
+  font-size: 9px;
+  font-weight: 1000;
+  letter-spacing: 0.04em;
+}
+
+.order-dispatch-readiness {
+  display: block;
+  margin-top: 2px;
+  color: #7c6331;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.order-dispatch-receipt {
+  display: grid;
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px 7px;
+  min-height: 54px;
+  padding: 7px 52px 7px 8px;
+  overflow: hidden;
+  border: 1px solid rgba(44, 99, 64, 0.24);
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.8), transparent 32%),
+    linear-gradient(135deg, rgba(255, 247, 192, 0.96), rgba(224, 247, 198, 0.92));
+  box-shadow:
+    0 8px 16px rgba(80, 93, 36, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.order-dispatch-receipt::after {
+  position: absolute;
+  right: 9px;
+  bottom: 9px;
+  width: 34px;
+  height: 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow:
+    -8px -5px 0 -4px rgba(255, 238, 128, 0.92),
+    -18px 3px 0 -5px rgba(92, 150, 83, 0.72),
+    0 0 12px rgba(44, 99, 64, 0.22);
+  content: "";
+  animation: order-dispatch-trail 1.35s ease-in-out infinite;
+}
+
+.order-dispatch-chip {
+  display: inline-grid;
+  min-height: 19px;
+  place-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(44, 99, 64, 0.13);
+  color: #315d3b;
+  font-size: 9px;
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.order-dispatch-receipt strong,
+.order-dispatch-receipt span,
+.order-dispatch-receipt small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-dispatch-receipt strong {
+  color: var(--action-primary-strong);
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.order-dispatch-receipt > span:not(.order-dispatch-chip) {
+  color: #765b32;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.order-dispatch-receipt small {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+@keyframes order-dispatch-trail {
+  0%,
+  100% {
+    opacity: 0.64;
+    transform: translateX(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateX(3px);
+  }
 }
 
 .order-progress-lunar-guardian {
@@ -3927,6 +4052,34 @@ h1 {
     font-size: 11px;
   }
 
+  .starter-panel.has-production.has-order-dispatch-receipt .production-meter-row {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-order-dispatch-receipt .upgrade-choice-card,
+  .starter-panel.has-production.has-order-dispatch-receipt .next-creature-compact {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-order-dispatch-receipt .production-action-card {
+    overflow: visible;
+  }
+
+  .order-dispatch-receipt {
+    min-height: 48px;
+    padding: 6px 46px 6px 7px;
+  }
+
+  .order-dispatch-receipt strong {
+    font-size: 11px;
+  }
+
+  .order-dispatch-receipt > span:not(.order-dispatch-chip),
+  .order-dispatch-receipt small,
+  .order-dispatch-readiness {
+    font-size: 9px;
+  }
+
   .order-progress-card {
     padding: 6px;
   }
@@ -4747,6 +4900,34 @@ h1 {
   background:
     radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.72), transparent 34%),
     linear-gradient(135deg, rgba(255, 241, 159, 0.98), rgba(218, 246, 184, 0.92));
+}
+
+.playfield-order-crate.order-variant-first-dispatched {
+  position: relative;
+  border-color: rgba(44, 99, 64, 0.46);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.8), transparent 32%),
+    radial-gradient(circle at 80% 64%, rgba(255, 237, 132, 0.58), transparent 36%),
+    linear-gradient(135deg, rgba(255, 248, 198, 0.98), rgba(220, 247, 194, 0.9));
+  box-shadow:
+    0 5px 12px rgba(44, 99, 64, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.46);
+}
+
+.playfield-order-crate.order-variant-first-dispatched::after {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  width: 28px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow:
+    -8px 7px 0 -5px rgba(255, 237, 132, 0.92),
+    -18px 1px 0 -5px rgba(92, 150, 83, 0.72),
+    0 0 10px rgba(44, 99, 64, 0.32);
+  content: "";
+  animation: order-dispatch-trail 1.35s ease-in-out infinite;
 }
 
 .playfield-order-crate.order-variant-mist-condenser-complete {
