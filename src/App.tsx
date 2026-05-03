@@ -931,6 +931,7 @@ export default function App() {
     const harvestedCreature = currentSeed && currentPlot && isPlotReady(currentPlot, currentSeed, now)
       ? getHarvestCreatureForPlot(currentSeed, currentPlot.source, nextCreatureGoal)
       : undefined;
+    const harvestedCreatureId = harvestedCreature?.id;
     const isResearchClueHarvest = Boolean(
       currentPlot?.source === "research" &&
         currentSeed &&
@@ -974,7 +975,7 @@ export default function App() {
         return;
       }
 
-      const creatureId = seed.creaturePool[0];
+      const creatureId = harvestedCreatureId ?? seed.creaturePool[0];
       draft.idleProduction.pendingLeaves = getPendingProductionLeaves(draft, now);
       draft.idleProduction.lastTickAt = new Date(now).toISOString();
       draft.leaves += seed.baseHarvestLeaves;

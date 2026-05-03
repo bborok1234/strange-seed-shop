@@ -52,12 +52,12 @@
 
 ## 수용 기준
 
-- [ ] `이슬연금 라미` reveal에서 `도감에 기록하기`를 누르면 album 화면이 라미 저장과 다음 목표 `포장잎 상인`을 함께 보여준다.
-- [ ] album CTA가 `다음 기록으로 이어가기: 젤리콩 씨앗` 또는 동등한 source seed action을 제공한다.
-- [ ] seeds target row가 `젤리콩 씨앗`, `포장잎 상인`, `다음 기록` 재순환 affordance를 보여준다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 album/seeds row/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] `이슬연금 라미` reveal에서 `도감에 기록하기`를 누르면 album 화면이 라미 저장과 다음 목표 `포장잎 상인`을 함께 보여준다.
+- [x] album CTA가 `다음 기록으로 이어가기: 젤리콩 씨앗` 또는 동등한 source seed action을 제공한다.
+- [x] seeds target row가 `젤리콩 씨앗`, `포장잎 상인`, `다음 기록` 재순환 affordance를 보여준다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 album/seeds row/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## Visual evidence 계획
 
@@ -90,3 +90,26 @@
 - `npm run check:github-metadata`
 - `npm run check:seed-ops-queue`
 - `npm run check:closed-workunit-mirrors`
+
+
+## 구현 결과
+
+- 실제 수확 reveal의 `harvestedCreature.id`를 저장해, 라미 저장 후 discovered list가 seed pool 첫 번째 생명체로 잘못 회귀하지 않도록 고쳤다.
+- 라미 저장 직후 album card는 `후속 기록 저장`, `이슬연금 라미`, `다음 기록 목표: 포장잎 상인`을 보여준다.
+- album CTA는 `다음 기록으로 이어가기: 젤리콩 씨앗`이며, seeds target row는 `다음 기록 재순환 · 포장잎 상인 준비`와 `만날 아이: 포장잎 상인 · 미발견`을 보여준다.
+- 신규 accepted manifest asset, runtime image generation/API, 결제/외부 배포/고객 데이터 변경 없음.
+
+## Evidence
+
+- Browser Use blocker: `reports/visual/browser-use-blocker-0326-20260503.md`
+- Screenshot: `reports/visual/issue-326-rami-record-next-merchant-goal-393.png`
+- GateEvent: `reports/operations/gate-event-0326-rami-record-next-merchant-goal-20260503.md`
+- Implementation: `src/App.tsx`, `tests/visual/p0-mobile-game-shell.spec.ts`
+
+## 검증 결과
+
+- [x] `npm run build` — pass
+- [x] `npx playwright test --config playwright.config.ts --grep "연구 단서 도감 기록|라미 도감 저장|새 기록 후속 수확은 예고했던"` — 3 passed
+- [x] `npx playwright test --config playwright.config.ts --grep "새 기록 후속 저장은 다음 기록 목표 재순환"` — 1 passed
+- [x] `npm run check:visual` — 66 passed
+- [x] `npm run check:ci` — pass

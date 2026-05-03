@@ -2,7 +2,7 @@
 
 - GitHub issue: #326 https://github.com/bborok1234/strange-seed-shop/issues/326
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: PR publication ready
 - Branch: `codex/0326-rami-record-next-merchant-goal`
 - Created: 2026-05-03
 
@@ -16,12 +16,12 @@
 
 ## 수용 기준
 
-- [ ] `이슬연금 라미` reveal에서 `도감에 기록하기`를 누르면 album 화면이 라미 저장과 다음 목표 `포장잎 상인`을 함께 보여준다.
-- [ ] album CTA가 `다음 기록으로 이어가기: 젤리콩 씨앗` 또는 동등한 source seed action을 제공한다.
-- [ ] seeds target row가 `젤리콩 씨앗`, `포장잎 상인`, `다음 기록` 재순환 affordance를 보여준다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 album/seeds row/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] `이슬연금 라미` reveal에서 `도감에 기록하기`를 누르면 album 화면이 라미 저장과 다음 목표 `포장잎 상인`을 함께 보여준다.
+- [x] album CTA가 `다음 기록으로 이어가기: 젤리콩 씨앗` 또는 동등한 source seed action을 제공한다.
+- [x] seeds target row가 `젤리콩 씨앗`, `포장잎 상인`, `다음 기록` 재순환 affordance를 보여준다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 album/seeds row/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## 검증 명령
 
@@ -80,3 +80,21 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이므로 Codex native subagents/team mode는 사용하지 않는다.
 - 필요 시 분리 기준: next goal ordering에 설계 이견이 생기면 architect/verifier subtask, 신규 FX asset이 필요하면 asset pipeline subtask로 분리한다.
+
+
+## 구현 결과
+
+- `src/App.tsx`: 수확 reveal이 선택한 실제 생명체(`harvestedCreature.id`)를 도감 discovered list에 저장하도록 고쳐, `방울새싹 씨앗` 두 번째 pool target인 `이슬연금 라미` 저장 뒤 다음 unlocked target이 `젤리콩 씨앗 → 포장잎 상인`으로 계산되게 했다.
+- `tests/visual/p0-mobile-game-shell.spec.ts`: 라미 저장 → `포장잎 상인` 다음 기록 목표 → `젤리콩 씨앗` target row 재진입 regression을 추가했다.
+- 같은 테스트 파일의 긴 모바일 수집 루프에서 ready/reveal 상태를 수확 완료로 인식하는 `growAndHarvestSeed` 헬퍼를 추가해, 앱은 이미 reveal 상태인데 테스트가 성장 버튼만 기다리는 오탐을 줄였다.
+- 신규 accepted manifest asset, runtime image generation/API 호출, 결제/외부 배포/고객 데이터 변경 없음.
+
+## 검증 결과
+
+- Browser Use iab current-session 시도: blocked, `reports/visual/browser-use-blocker-0326-20260503.md`.
+- Screenshot: `reports/visual/issue-326-rami-record-next-merchant-goal-393.png`.
+- `npm run build` — pass.
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 도감 기록|라미 도감 저장|새 기록 후속 수확은 예고했던"` — 3 passed.
+- `npx playwright test --config playwright.config.ts --grep "새 기록 후속 저장은 다음 기록 목표 재순환"` — 1 passed.
+- `npm run check:visual` — 66 passed.
+- `npm run check:ci` — pass.
