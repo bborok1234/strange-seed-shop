@@ -3,50 +3,48 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T04:02:25.891Z
+Generated at: 2026-05-03T04:07:38.113Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #300 **작업 간식 강화가 포리 버프와 생산 속도 상승으로 보이게 만든다**이다. #298은 PR #299 merge와 main CI `25269100475` success로 닫혔고, queue-empty 후 생성한 #300은 P0.5 Idle Core + Creative Rescue production game quality intake다. 지금은 #300 plan-first/implementation gate다.
+현재 작업은 GitHub-authoritative open WorkUnit #302 **두 번째 주문 보상이 연구 노트 unlock payoff로 이어지게 만든다**이다. #300은 PR #301 merge와 main CI `25269424020` success로 닫혔고, queue-empty 후 생성한 #302는 P0.5 Idle Core + Creative Rescue production game quality intake다. 지금은 #302 plan-first/implementation gate다.
 
 현재 evidence:
 
-- GitHub issue: #300 `작업 간식 강화가 포리 버프와 생산 속도 상승으로 보이게 만든다`
-- Plan artifact: `items/0152-snack-upgrade-worker-payoff.md`
-- Branch: `codex/0300-snack-upgrade-worker-payoff`
+- GitHub issue: #302 `두 번째 주문 보상이 연구 노트 unlock payoff로 이어지게 만든다`
+- Plan artifact: `items/0153-research-unlock-note-payoff.md`
+- Branch: `codex/0302-research-unlock-note-payoff`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; asset lane 확장 시 `game-studio:sprite-pipeline`
 - Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `작업 간식 강화하기`
-- Production role: 첫 주문 보상 → 생산 속도 업그레이드 → 다음 주문 반복 속도 증가
-- Screen moment: 첫 주문 납품/보상 수거 직후 강화 버튼을 누르는 순간
-- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Visual evidence: `reports/visual/browser-use-blocker-0300-20260503.md`, `reports/visual/issue-300-snack-upgrade-worker-payoff-393.png`
-- Verification: `npm run build` pass, focused Playwright `자동 생산과 첫 주문` 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
+- Player verb: `연구 준비 잎 묶음 납품하기`
+- Production role: 반복 주문 완료 → 연구 unlock → 다음 생명체/원정 단서
+- Screen moment: 생산 속도 강화 후 두 번째 주문을 채우고 납품하는 순간
+- Planned payoff: research note receipt, playfield order crate state, HUD affordance, reward motion
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
 2. 구현 전 plan artifact의 수용 기준과 Game Studio route를 유지한다.
 3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
-4. 393px 모바일 visual regression은 worker buff, rate 상승, action-surface overflow, bottom-tab overlap을 함께 검증한다.
-5. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+4. 393px 모바일 visual regression은 research note unlock, research CTA, action-surface overflow, bottom-tab overlap을 함께 검증한다.
+5. 남은 checkpoint는 implementation, focused visual, `npm run check:visual`, `npm run check:ci`, branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. 다음 게임 WorkUnit 선택도 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0300-snack-upgrade-worker-payoff
-- Latest commit: 0ff27d1 #300 작업 간식 강화 payoff를 plan-first로 고정한다
+- Branch: codex/0302-research-unlock-note-payoff
+- Latest commit: c5afae7 #300 작업 간식 강화를 포리 생산 버프로 보이게 만든다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T04:02:23Z
-- Phase: issue-300-pr-publication
-- Issue: 300
+- Timestamp: 2026-05-03T04:07:34Z
+- Phase: issue-302-plan-first
+- Issue: 302
 - PR: 
-- Item: items/0152-snack-upgrade-worker-payoff.md
-- Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
+- Item: items/0153-research-unlock-note-payoff.md
+- Next action: implementation gate: map research unlock flow, implement note payoff, verify visual/ci, publish PR
 
 ## Open PRs
 
@@ -54,7 +52,7 @@ Generated at: 2026-05-03T04:02:25.891Z
 
 ## Open issues
 
-- #300 작업 간식 강화가 포리 버프와 생산 속도 상승으로 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/300
+- #302 두 번째 주문 보상이 연구 노트 unlock payoff로 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/302
 
 ## Playable mode
 
