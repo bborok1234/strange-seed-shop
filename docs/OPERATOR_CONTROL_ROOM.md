@@ -3,62 +3,60 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T11:27:09.832Z
+Generated at: 2026-05-03T11:31:50.308Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #326 **라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
+현재 작업은 GitHub-authoritative open WorkUnit #328 **포장잎 상인 수확을 주문상자 payoff로 닫는다**의 plan-first gate다. #326은 PR #327 merge와 main CI `25277919013` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단해 #328을 생성했다.
 
 현재 evidence:
 
-- GitHub issue: #326 `라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다`
-- Plan artifact: `items/0165-rami-record-next-merchant-goal.md`
-- Branch: `codex/0326-rami-record-next-merchant-goal`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-rami-record-next-merchant-goal-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-326-rami-record-next-merchant-goal-20260503.md`
-- GateEvent: `reports/operations/gate-event-0326-rami-record-next-merchant-goal-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0326-20260503.md`
-- Screenshot: `reports/visual/issue-326-rami-record-next-merchant-goal-393.png`
-- Implementation: `src/App.tsx`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Validation: `npm run build` pass, focused Playwright 3 passed + 1 passed, `npm run check:visual` 66 passed, `npm run check:ci` pass
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing `포장잎 상인`/`젤리콩 씨앗` visuals + DOM/CTA + target row highlight
+- GitHub issue: #328 `포장잎 상인 수확을 주문상자 payoff로 닫는다`
+- Plan artifact: `items/0166-merchant-record-harvest-crate-payoff.md`
+- Branch: `codex/0328-merchant-harvest-crate-payoff`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-record-harvest-crate-payoff-20260503.md`
+- Runner dry-run: `npm run studio:v3:runner -- --once --dry-run` → `production-game-intake-required`, main CI `25277919013` success observed
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing `포장잎 상인` portrait + DOM/CSS order crate visual state + reward motion + HUD affordance
 - Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `이슬연금 라미를 도감에 저장하고 포장잎 상인 목표로 이동하기`
-- Concrete payoff: `다음 기록 목표: 포장잎 상인`, `다음 기록으로 이어가기: 젤리콩 씨앗`, seeds target row `다음 기록 재순환 · 포장잎 상인 준비`, bottom-tab/overflow-safe 393px screenshot
+- Player verb: `젤리콩 씨앗을 심어 포장잎 상인을 수확하고 상인 주문상자를 확인하기`
+- Production role: 라미 저장 다음 목표 → 젤리콩 씨앗 target row → planting/growth → 포장잎 상인 reveal → order crate/reward motion → 다음 행동
+- Screen moment: #326 seeds target row에서 구매/심기 이후 정원 harvest reveal과 주문상자 상태
+- Concrete payoff: `포장잎 상인` harvest reveal, merchant/order crate visual state, reward motion/receipt, playfield state, bottom-tab/overflow-safe 393px screenshot
+- Competition production gap: collection idle games는 next target row가 실제 named reveal과 production reward로 닫힐 때 반복 수집 신뢰가 강해진다.
 
 즉시 적용할 gate:
 
-1. `gh issue edit 326 --body-file reports/operations/github-bodies/issue-rami-record-next-merchant-goal-20260503.md`.
-2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-326-rami-record-next-merchant-goal-20260503.md`.
-3. GateEvent comment body-file publication, PR checks watch/repair, ready/merge when green.
-4. Post-merge main CI는 observation-only로 기록한다. 닫힌 PR/issue에 누락 evidence backfill을 위한 main closeout commit은 만들지 않는다.
-5. Stop rule이 없으므로 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
+2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
+3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
+4. 393px 모바일 visual regression은 포장잎 상인 reveal, order crate visual state, reward motion/receipt, bottom-tab overlap을 함께 검증한다.
+5. 남은 checkpoint는 plan-first commit, implementation, focused/full checks, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
 7. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용한다. 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
 
 ## Local state
 
-- Branch: codex/0326-rami-record-next-merchant-goal
-- Latest commit: b1c6851 PR 점검 게이트에 #326 heartbeat를 맞춘다
+- Branch: codex/0328-merchant-harvest-crate-payoff
+- Latest commit: f131978 라미 저장 후 포장잎 상인 목표를 보존한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T11:27:07.731Z
-- Phase: issue-326-pr-checks
-- Issue: 326
-- PR: 327
-- Item: items/0165-rami-record-next-merchant-goal.md
-- Next action: gate: watch PR #327 checks, repair if needed, mark ready and merge when green
+- Timestamp: 2026-05-03T11:31:05.819Z
+- Phase: issue-328-plan-first
+- Issue: 328
+- PR: 
+- Item: items/0166-merchant-record-harvest-crate-payoff.md
+- Next action: gate: commit #328 plan artifact, then inspect merchant harvest crate payoff
 
 ## Open PRs
 
-- #327 draft 라미 저장 후 포장잎 상인 목표를 보존한다 — https://github.com/bborok1234/strange-seed-shop/pull/327
+- unavailable or none
 
 ## Open issues
 
-- #326 라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/326
+- #328 포장잎 상인 수확을 주문상자 payoff로 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/328
 
 ## Playable mode
 

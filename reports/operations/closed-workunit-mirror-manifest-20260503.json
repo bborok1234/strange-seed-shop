@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T09:36:00Z",
-  "source": "GitHub CLI observation after #324/#325 merge and active #326 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T11:31:50Z",
+  "source": "GitHub CLI observation after #326/#327 merge and active #328 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 326,
-    "title": "라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다",
-    "item": "items/0165-rami-record-next-merchant-goal.md",
-    "branch": "codex/0326-rami-record-next-merchant-goal"
+    "issue": 328,
+    "title": "포장잎 상인 수확을 주문상자 payoff로 닫는다",
+    "item": "items/0166-merchant-record-harvest-crate-payoff.md",
+    "branch": "codex/0328-merchant-harvest-crate-payoff"
   },
   "workUnits": [
     {
@@ -531,6 +531,31 @@
         "GitHub-authoritative open WorkUnit #324",
         "Branch: `codex/0324-album-record-loop-rami-harvest-payoff`",
         "Branch: codex/0324-album-record-loop-rami-harvest-payoff"
+      ]
+    },
+    {
+      "issue": 326,
+      "issueTitle": "라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T11:28:53Z",
+      "pr": 327,
+      "prTitle": "라미 저장 후 포장잎 상인 목표를 보존한다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T11:28:52Z",
+      "mergeCommit": "f1319786a3a52d873d8b697ee3e6f646aac16e48",
+      "mainCiRun": 25277919013,
+      "mainCiConclusion": "success",
+      "roadmapStep": "라미 저장 다음 포장잎 상인 목표 재순환",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #326",
+        "PR #327",
+        "main CI `25277919013`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #326",
+        "Branch: `codex/0326-rami-record-next-merchant-goal`",
+        "Branch: codex/0326-rami-record-next-merchant-goal"
       ]
     }
   ]
