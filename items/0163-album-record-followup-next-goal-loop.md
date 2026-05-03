@@ -2,7 +2,7 @@
 
 - GitHub issue: #322 https://github.com/bborok1234/strange-seed-shop/issues/322
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: review
 - Branch: `codex/0322-album-record-followup-next-goal-loop`
 - Created: 2026-05-03
 
@@ -16,12 +16,12 @@
 
 ## 수용 기준
 
-- [ ] 새 기록 후속 수확 reveal에서 `도감에 기록하기`를 누르면 album 화면이 저장한 생명체와 다음 씨앗/생명체 목표를 함께 보여준다.
-- [ ] album CTA 또는 action surface가 seeds tab target row로 이동하는 다음 행동을 명확히 제공한다.
-- [ ] seeds tab target row가 새 목표의 seed/creature 이름과 `다음 기록` 또는 동등한 재순환 affordance를 보여준다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 album/action surface/seeds row/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] 새 기록 후속 수확 reveal에서 `도감에 기록하기`를 누르면 album 화면이 저장한 생명체와 다음 씨앗/생명체 목표를 함께 보여준다.
+- [x] album CTA 또는 action surface가 seeds tab target row로 이동하는 다음 행동을 명확히 제공한다.
+- [x] seeds tab target row가 새 목표의 seed/creature 이름과 `다음 기록` 또는 동등한 재순환 affordance를 보여준다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 album/action surface/seeds row/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session blocker, focused Playwright screenshot, `npm run check:visual` evidence가 남았다. `npm run check:ci`까지 통과했다.
 
 ## 검증 명령
 
@@ -80,3 +80,20 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이므로 Codex native subagents/team mode는 사용하지 않는다.
 - 필요 시 분리 기준: Browser Use 복구가 필요하면 QA/verifier subtask, 새 FX asset이 필요하면 asset pipeline subtask로 분리한다.
+
+## 구현 결과
+
+- `ResearchAlbumRecord.source`를 추가해 일반 연구 단서 저장과 `album_record_next_seed` 후속 수확 저장을 구분했다.
+- 후속 수확 저장 card는 `후속 기록 저장`, `다음 기록 목표`, `다음 기록으로 이어가기` CTA를 보여주고 seeds tab으로 이동한다.
+- 첫 deterministic creature를 모두 발견한 뒤에는 unlocked seed의 다음 미발견 creature pool 목표로 재순환한다. #322 흐름에서는 `젤리콩 통통` 저장 후 `방울새싹 씨앗 → 이슬연금 라미`가 다음 기록 목표가 된다.
+- seeds target row는 `후속 기록 다음 목표`, `다음 기록 재순환`, target creature preview를 표시한다.
+- 신규 manifest asset/runtime image generation 없이 existing seed/creature asset과 DOM/CSS affordance만 사용했다.
+
+## 검증 결과
+
+- Browser Use iab: `reports/visual/browser-use-blocker-0322-20260503.md` — 현재 세션 iab backend discovery 실패를 issue 전용 blocker로 기록.
+- Screenshot: `reports/visual/issue-322-album-record-followup-next-goal-loop-393.png`
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "후속 저장은 다음 기록 목표 재순환|후속 수확은 예고했던"` — 2 passed
+- `npm run check:visual` — 64 passed
+- `npm run check:ci` — pass

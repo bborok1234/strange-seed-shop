@@ -115,6 +115,7 @@ interface ResearchAlbumRecord {
   creatureName: string;
   seedName: string;
   clueLabel: string;
+  source: "research" | "album_record_followup";
 }
 
 interface AlbumRecordPlantReceipt {
@@ -646,7 +647,9 @@ export default function App() {
   const albumRecordGrowthPreview = hasAlbumRecordFollowupPlot && nextCreatureGoal
     ? `${nextCreatureGoal.seed.name} 후속 성장 중 · ${nextCreatureGoal.creature.name} 수확 예고`
     : null;
+  const albumRecordLoopActive = researchAlbumRecord?.source === "album_record_followup";
   const albumRecordNextSeedActive = Boolean(researchAlbumRecord && activeTab === "seeds" && nextCreatureGoal);
+  const albumRecordLoopNextSeedActive = Boolean(albumRecordLoopActive && albumRecordNextSeedActive);
   const gardenViewModel = useMemo(
     () =>
       buildGardenPlayfieldViewModel(
@@ -925,7 +928,7 @@ export default function App() {
     const currentPlot = save?.plots[plotIndex];
     const currentSeed = getSeed(currentPlot?.seedId);
     const harvestedCreature = currentSeed && currentPlot && isPlotReady(currentPlot, currentSeed, now)
-      ? getCreature(currentSeed.creaturePool[0])
+      ? getHarvestCreatureForPlot(currentSeed, currentPlot.source, nextCreatureGoal)
       : undefined;
     const isResearchClueHarvest = Boolean(
       currentPlot?.source === "research" &&
@@ -1027,7 +1030,8 @@ export default function App() {
         creatureId: harvestReveal.id,
         creatureName: albumRecordHarvest.creatureName,
         seedName: albumRecordHarvest.seedName,
-        clueLabel: albumRecordHarvest.clueLabel
+        clueLabel: albumRecordHarvest.clueLabel,
+        source: albumRecordHarvestReceipt ? "album_record_followup" : "research"
       });
       setActiveTab("album");
     }
@@ -2178,14 +2182,20 @@ export default function App() {
                 >
                   {renderAsset(getSeedIconAssetId(nextCreatureGoal.seed, save), "씨앗")}
                   <div>
-                    <p className="panel-label">{albumRecordNextSeedActive ? "새 기록 다음 목표" : "도감 목표 씨앗"}</p>
+                    <p className="panel-label">
+                      {albumRecordLoopNextSeedActive ? "후속 기록 다음 목표" : albumRecordNextSeedActive ? "새 기록 다음 목표" : "도감 목표 씨앗"}
+                    </p>
                     <strong>{nextCreatureGoal.seed.name}</strong>
                     <span>
                       {getRarityLabel(nextCreatureGoal.creature.rarity)} · {nextCreatureGoal.creature.name}
                       {getObjectParticle(nextCreatureGoal.creature.name)} 만날 차례예요.
                     </span>
                     {albumRecordNextSeedActive && (
-                      <span className="album-record-next-seed-line">도감 기록 다음 씨앗: {nextCreatureGoal.seed.name}</span>
+                      <span className={albumRecordLoopNextSeedActive ? "album-record-next-seed-line album-record-loop-line" : "album-record-next-seed-line"}>
+                        {albumRecordLoopNextSeedActive
+                          ? `다음 기록 재순환 씨앗: ${nextCreatureGoal.seed.name}`
+                          : `도감 기록 다음 씨앗: ${nextCreatureGoal.seed.name}`}
+                      </span>
                     )}
                     {lunarRewardSourceLabel && nextCreatureGoal.seed.id === LUNAR_REWARD_SEED_ID && (
                       <span className="lunar-source-line">온실 단서 source: {lunarRewardSourceLabel}</span>
@@ -2203,10 +2213,11 @@ export default function App() {
                   const costLeaves = getSeedPurchaseCost(seed);
                   const currentLeaves = save?.leaves ?? 0;
                   const leafShortfall = Math.max(0, costLeaves - currentLeaves);
-                  const previewCreature = getDeterministicCreatureForSeed(seed);
-                  const previewDiscovered = previewCreature ? (save?.discoveredCreatureIds.includes(previewCreature.id) ?? false) : false;
                   const targetSeed = seed.id === nextCreatureGoal?.seed.id;
+                  const previewCreature = targetSeed && nextCreatureGoal ? nextCreatureGoal.creature : getDeterministicCreatureForSeed(seed);
+                  const previewDiscovered = previewCreature ? (save?.discoveredCreatureIds.includes(previewCreature.id) ?? false) : false;
                   const albumRecordTargetSeed = albumRecordNextSeedActive && targetSeed;
+                  const albumRecordLoopTargetSeed = albumRecordLoopNextSeedActive && targetSeed;
                   const targetSeedStatus = targetSeed ? getTargetSeedStatus(seed, owned, hasOpenPlot, leafShortfall) : null;
 
                   return (
@@ -2224,8 +2235,14 @@ export default function App() {
                       <div>
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개 · {getSeedHarvestSummary(seed)}</span>
-                        {targetSeed && <span className="seed-target-badge">{albumRecordTargetSeed ? "새 기록 다음 목표" : "다음 발견"}</span>}
-                        {albumRecordTargetSeed && <span className="album-record-next-seed-line">도감 기록 다음 씨앗 · 구매/심기 준비</span>}
+                        {targetSeed && <span className="seed-target-badge">{albumRecordLoopTargetSeed ? "후속 기록 다음 목표" : albumRecordTargetSeed ? "새 기록 다음 목표" : "다음 발견"}</span>}
+                        {albumRecordTargetSeed && (
+                          <span className={albumRecordLoopTargetSeed ? "album-record-next-seed-line album-record-loop-line" : "album-record-next-seed-line"}>
+                            {albumRecordLoopTargetSeed
+                              ? `다음 기록 재순환 · ${nextCreatureGoal?.creature.name ?? "새 생명체"} 준비`
+                              : "도감 기록 다음 씨앗 · 구매/심기 준비"}
+                          </span>
+                        )}
                         {targetSeedStatus && <span className="seed-target-status-line">{targetSeedStatus}</span>}
                         {targetSeed && researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
                         {leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}
@@ -2253,18 +2270,27 @@ export default function App() {
           {activeTab === "album" && (
             <section className="tab-panel album-strip" aria-label="도감">
               {researchAlbumRecord && researchAlbumRecordCreature && (
-                <article className="album-new-record-card" aria-label="새 단서 기록">
+                <article className={albumRecordLoopActive ? "album-new-record-card is-album-record-loop" : "album-new-record-card"} aria-label="새 단서 기록">
                   <div className="album-new-record-portrait" aria-hidden="true">
                     {renderAsset(researchAlbumRecordCreature.assetId, "생명체")}
                   </div>
                   <div className="album-new-record-copy">
-                    <p className="panel-label">도감 기록 저장</p>
+                    <p className="panel-label">{albumRecordLoopActive ? "후속 기록 저장" : "도감 기록 저장"}</p>
                     <h3>{researchAlbumRecord.creatureName}</h3>
-                    <p>{researchAlbumRecord.seedName}에서 찾은 연구 단서가 새 기억으로 붙었어요.</p>
+                    <p>
+                      {albumRecordLoopActive
+                        ? `${researchAlbumRecord.seedName} 후속 수확이 새 기록으로 저장됐어요. 다음 씨앗 목표로 다시 이어가요.`
+                        : `${researchAlbumRecord.seedName}에서 찾은 연구 단서가 새 기억으로 붙었어요.`}
+                    </p>
                     <small>{researchAlbumRecord.clueLabel}</small>
+                    {albumRecordLoopActive && nextCreatureGoal && (
+                      <span className="album-record-loop-note">다음 기록 목표: {nextCreatureGoal.creature.name}</span>
+                    )}
                     {nextCreatureGoal && (
                       <button className="album-memory-secondary" onClick={() => setActiveTab("seeds")} type="button">
-                        다음 씨앗 목표: {nextCreatureGoal.creature.name}
+                        {albumRecordLoopActive
+                          ? `다음 기록으로 이어가기: ${nextCreatureGoal.seed.name}`
+                          : `다음 씨앗 목표: ${nextCreatureGoal.creature.name}`}
                       </button>
                     )}
                   </div>
@@ -2756,19 +2782,33 @@ function getNextCreatureGoal(save: PlayerSave | null): NextCreatureGoal | null {
     return lunarGoal;
   }
 
-  const seed = content.seeds.find((candidate) => {
+  const firstPassSeed = content.seeds.find((candidate) => {
     const deterministicCreature = getDeterministicCreatureForSeed(candidate);
     return save.unlockedSeedIds.includes(candidate.id) && deterministicCreature && !discovered.has(deterministicCreature.id);
   });
-  const creature = seed ? getDeterministicCreatureForSeed(seed) : undefined;
+  const firstPassCreature = firstPassSeed ? getDeterministicCreatureForSeed(firstPassSeed) : undefined;
 
-  if (!seed || !creature) {
+  if (firstPassSeed && firstPassCreature) {
+    return {
+      seed: firstPassSeed,
+      creature: firstPassCreature,
+      discoveredCount: save.discoveredCreatureIds.length,
+      totalCount: content.creatures.length
+    };
+  }
+
+  const poolPassSeed = content.seeds.find((candidate) => {
+    return save.unlockedSeedIds.includes(candidate.id) && candidate.creaturePool.some((creatureId) => !discovered.has(creatureId));
+  });
+  const poolPassCreature = poolPassSeed ? getNextUndiscoveredCreatureForSeed(poolPassSeed, discovered) : undefined;
+
+  if (!poolPassSeed || !poolPassCreature) {
     return null;
   }
 
   return {
-    seed,
-    creature,
+    seed: poolPassSeed,
+    creature: poolPassCreature,
     discoveredCount: save.discoveredCreatureIds.length,
     totalCount: content.creatures.length
   };
@@ -3730,6 +3770,23 @@ function getSeed(seedId: string | undefined): SeedDefinition | undefined {
 
 function getDeterministicCreatureForSeed(seed: SeedDefinition): CreatureDefinition | undefined {
   return getCreature(seed.creaturePool[0]);
+}
+
+function getNextUndiscoveredCreatureForSeed(seed: SeedDefinition, discovered: Set<string>): CreatureDefinition | undefined {
+  const nextCreatureId = seed.creaturePool.find((creatureId) => !discovered.has(creatureId));
+  return getCreature(nextCreatureId);
+}
+
+function getHarvestCreatureForPlot(
+  seed: SeedDefinition,
+  source: ExpeditionRewardSource | undefined,
+  nextCreatureGoal: NextCreatureGoal | null
+): CreatureDefinition | undefined {
+  if ((source === "research" || source === "album_record_next_seed") && nextCreatureGoal?.seed.id === seed.id) {
+    return nextCreatureGoal.creature;
+  }
+
+  return getDeterministicCreatureForSeed(seed);
 }
 
 function getCreature(creatureId: string | undefined): CreatureDefinition | undefined {

@@ -942,6 +942,92 @@ test("모바일 새 기록 후속 수확은 예고했던 생명체 발견 payoff
   expect(panelMetrics.scene!.bottom).toBeLessThanOrEqual(panelMetrics.tabs!.top - 4);
 });
 
+
+test("모바일 새 기록 후속 저장은 다음 기록 목표 재순환으로 이어진다", async ({ page }, testInfo) => {
+  test.setTimeout(130_000);
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1&qaTab=seeds&qaFxTelemetry=1");
+
+  const researchTargetRow = page.locator(".seed-inventory-row-target").first();
+  await researchTargetRow.getByRole("button", { name: /구매/ }).click();
+  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  for (let tapCount = 0; tapCount < 32; tapCount += 1) {
+    if ((await page.getByRole("button", { name: /방울새싹 씨앗 수확/ }).count()) > 0) {
+      break;
+    }
+    await page.getByRole("button", { name: /방울새싹 씨앗 성장시키기/ }).click();
+  }
+
+  await page.getByRole("button", { name: /방울새싹 씨앗 수확/ }).click();
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 씨앗 목표: 젤리콩 통통" }).click();
+
+  const albumTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await albumTargetRow.getByRole("button", { name: /구매/ }).click();
+  await albumTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  for (let tapCount = 0; tapCount < 32; tapCount += 1) {
+    if ((await page.getByRole("button", { name: /젤리콩 씨앗 수확/ }).count()) > 0) {
+      break;
+    }
+    await page.getByRole("button", { name: /젤리콩 씨앗 성장시키기/ }).click();
+  }
+
+  await page.getByRole("button", { name: /젤리콩 씨앗 수확/ }).click({ force: true });
+  await page.waitForFunction(() => {
+    const events = (window as unknown as { __gardenPlayfieldFxEvents?: Array<{ action: string }> }).__gardenPlayfieldFxEvents ?? [];
+    return events.some((event) => event.action === "harvest_plot");
+  });
+
+  await expect(page.getByLabel("새 기록 후속 생명체 발견")).toContainText("젤리콩 통통");
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+
+  await expect(page.getByLabel("새 단서 기록")).toContainText("후속 기록 저장");
+  await expect(page.getByLabel("새 단서 기록")).toContainText("젤리콩 통통");
+  await expect(page.getByLabel("새 단서 기록")).toContainText("다음 기록 목표: 이슬연금 라미");
+  await expect(page.getByRole("button", { name: "다음 기록으로 이어가기: 방울새싹 씨앗" })).toBeVisible();
+
+  await page.getByRole("button", { name: "다음 기록으로 이어가기: 방울새싹 씨앗" }).click();
+
+  await expect(page.getByRole("region", { name: "씨앗 주머니", exact: true })).toBeVisible();
+  await expect(page.locator(".seed-goal-banner-record-next")).toContainText("후속 기록 다음 목표");
+  await expect(page.locator(".seed-goal-banner-record-next")).toContainText("다음 기록 재순환 씨앗: 방울새싹 씨앗");
+  await expect(page.locator(".seed-goal-banner-record-next")).toContainText("이슬연금 라미");
+  await expect(page.locator(".seed-inventory-row-record-next")).toContainText("후속 기록 다음 목표");
+  await expect(page.locator(".seed-inventory-row-record-next")).toContainText("다음 기록 재순환 · 이슬연금 라미 준비");
+  await expect(page.locator(".seed-inventory-row-record-next")).toContainText("만날 아이: 이슬연금 라미 · 미발견");
+
+  const metrics = await page.evaluate(() => {
+    const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    const panel = document.querySelector<HTMLElement>(".starter-panel");
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const banner = document.querySelector<HTMLElement>(".seed-goal-banner-record-next")?.getBoundingClientRect();
+    const row = document.querySelector<HTMLElement>(".seed-inventory-row-record-next")?.getBoundingClientRect();
+    return {
+      innerHeight: window.innerHeight,
+      bodyScrollHeight,
+      panelClientHeight: panel?.clientHeight ?? 0,
+      panelScrollHeight: panel?.scrollHeight ?? 0,
+      tabs: tabs ? { top: tabs.top } : null,
+      banner: banner ? { top: banner.top, bottom: banner.bottom } : null,
+      row: row ? { top: row.top, bottom: row.bottom } : null
+    };
+  });
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
+  expect(metrics.banner).not.toBeNull();
+  expect(metrics.row).not.toBeNull();
+  expect(metrics.banner!.top).toBeGreaterThanOrEqual(0);
+  expect(metrics.row!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-album-record-followup-next-goal-loop-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
+
 test("모바일 연구 완료 후 원정 탭은 장기 메타 단서를 보여준다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaResearchComplete=1");

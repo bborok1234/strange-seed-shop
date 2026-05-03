@@ -52,12 +52,12 @@
 
 ## 수용 기준
 
-- [ ] 새 기록 후속 수확 reveal에서 `도감에 기록하기`를 누르면 album 화면이 저장한 생명체와 다음 씨앗/생명체 목표를 함께 보여준다.
-- [ ] album CTA 또는 action surface가 seeds tab target row로 이동하는 다음 행동을 명확히 제공한다.
-- [ ] seeds tab target row가 새 목표의 seed/creature 이름과 `다음 기록` 또는 동등한 재순환 affordance를 보여준다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 album/action surface/seeds row/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] 새 기록 후속 수확 reveal에서 `도감에 기록하기`를 누르면 album 화면이 저장한 생명체와 다음 씨앗/생명체 목표를 함께 보여준다.
+- [x] album CTA 또는 action surface가 seeds tab target row로 이동하는 다음 행동을 명확히 제공한다.
+- [x] seeds tab target row가 새 목표의 seed/creature 이름과 `다음 기록` 또는 동등한 재순환 affordance를 보여준다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 album/action surface/seeds row/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session blocker, focused Playwright screenshot, `npm run check:visual` evidence가 남았다. `npm run check:ci`까지 통과했다.
 
 ## Visual evidence 계획
 
@@ -90,3 +90,14 @@
 - `npm run check:github-metadata`
 - `npm run check:seed-ops-queue`
 - `npm run check:closed-workunit-mirrors`
+
+## 구현 / 검증 evidence
+
+- Plan artifact: `items/0163-album-record-followup-next-goal-loop.md`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0322-20260503.md`
+- Screenshot: `reports/visual/issue-322-album-record-followup-next-goal-loop-393.png`
+- 구현 파일: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "후속 저장은 다음 기록 목표 재순환|후속 수확은 예고했던"` — 2 passed
+- `npm run check:visual` — 64 passed
+- `npm run check:ci` — pass

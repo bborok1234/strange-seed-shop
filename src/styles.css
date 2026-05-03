@@ -3132,6 +3132,16 @@ h1 {
     0 10px 22px rgba(39, 86, 64, 0.12);
 }
 
+.album-new-record-card.is-album-record-loop {
+  border-color: rgba(106, 128, 208, 0.34);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.78), transparent 34%),
+    linear-gradient(135deg, rgba(231, 242, 255, 0.96), rgba(255, 248, 208, 0.92));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.48),
+    0 10px 22px rgba(70, 86, 150, 0.13);
+}
+
 .album-new-record-portrait {
   display: grid;
   width: 76px;
@@ -3189,6 +3199,27 @@ h1 {
   color: var(--action-primary-strong);
   font-size: 11px;
   font-weight: 950;
+}
+
+.album-record-loop-note {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 6px;
+  padding: 4px 8px;
+  border: 1px solid rgba(106, 128, 208, 0.18);
+  border-radius: var(--radius-pill);
+  background: rgba(239, 243, 255, 0.82);
+  color: #4b559a;
+  font-size: 10px;
+  font-weight: 950;
+  line-height: 1.25;
+}
+
+.album-new-record-card.is-album-record-loop .album-memory-secondary {
+  border-color: rgba(106, 128, 208, 0.22);
+  background: rgba(244, 247, 255, 0.82);
+  color: #4b559a;
 }
 
 .album-memory-photo {
@@ -4024,6 +4055,11 @@ h1 {
   color: #3f7c57;
   font-size: 11px;
   font-weight: 950;
+}
+
+.album-record-next-seed-line.album-record-loop-line {
+  background: rgba(106, 128, 208, 0.13);
+  color: #4b559a;
 }
 
 .seed-inventory-row .seed-target-status-line {
