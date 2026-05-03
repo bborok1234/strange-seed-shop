@@ -18,18 +18,20 @@ Studio Harness v3 queue가 비었으므로 local ledger가 아니라 GitHub issu
 - Idle Miner Tycoon: worker/manager가 생산을 수행하고 수령/운반 motion이 다음 업그레이드 판단으로 이어진다.
 - Cell to Singularity: click/idle reward가 즉각적인 시각 feedback과 다음 unlock progress로 연결된다.
 
-## 후보 비교 / 선택 근거
+## 선택 근거
 
-1. 선택: 생산 잎 수령 worker FX + leaf burst reward motion
-   - player verb: `생산 잎 수령하기`
-   - production/progression role: 자동 생산 엔진 → 주문 progress → 다음 주문/업그레이드
-   - screen moment: 첫 5분 또는 복귀 후 30초, `생산 대기 n 잎`이 생긴 뒤 수령 버튼을 누르는 순간
-   - asset/FX/game-feel payoff: 포리 work/celebrate FX strip 또는 leaf burst strip, playfield state, reward motion
-   - playtest evidence: 모바일 393px에서 수령 전/후 worker FX, leaf burst, order progress 증가, overflow/bottom-tab invariants 확인
-2. 보류: 정원 첫 화면 전체 art direction 대점프
-   - 큰 방향 점프 후보. 효과는 크지만 #296 직후에는 생산 verb 자체의 game feel 구멍이 더 직접적인 first 5m blocker다.
-3. 보류: 새 주문/원정 teaser 추가
-   - 주문 수를 늘리기보다 기존 생산 수령 순간이 게임 장면으로 읽히게 만든 뒤 확장한다.
+선택: 생산 잎 수령 worker FX + leaf burst reward motion
+
+- player verb: `생산 잎 수령하기`
+- production/progression role: 자동 생산 엔진 → 주문 progress → 다음 주문/업그레이드
+- screen moment: 첫 5분 또는 복귀 후 30초, `생산 대기 n 잎`이 생긴 뒤 수령 버튼을 누르는 순간
+- asset/FX/game-feel payoff: accepted raster FX strip `fx_production_tick_leaf_001`, playfield state, action-surface receipt, reward motion
+- playtest evidence: 모바일 393px에서 수령 전/후 worker FX, leaf burst, order progress 증가, overflow/bottom-tab invariants 확인
+
+보류한 후보:
+
+- 정원 첫 화면 전체 art direction 대점프: 효과는 크지만 #296 직후에는 생산 verb 자체의 game feel 구멍이 더 직접적인 first 5m blocker다.
+- 새 주문/원정 teaser 추가: 주문 수를 늘리기보다 기존 생산 수령 순간이 게임 장면으로 읽히게 만든 뒤 확장한다.
 
 ## Strategic Jump Check
 
@@ -38,7 +40,7 @@ Studio Harness v3 queue가 비었으므로 local ledger가 아니라 GitHub issu
 ## Creative brief
 
 - Player value: “포리가 일해서 잎을 만들었고, 내가 수령하자 주문 상자가 채워졌다”를 즉시 이해한다.
-- Art direction: 기존 말랑잎 포리 raster style과 같은 조명/외곽선/투명 배경. 새 FX는 64px에서도 잎/반짝임/수령 방향성이 읽혀야 한다.
+- Art direction: 기존 말랑잎 포리 raster style과 같은 조명/외곽선/투명 배경. `OPENAI_API_KEY`/`SEED_ASSET_IMAGE_MODEL` 부재와 기존 accepted strip 존재로 새 API 생성은 하지 않고, accepted FX strip을 runtime payoff에 연결한다.
 - Motion tone: 짧고 통통 튀는 leaf burst, reduced-motion에서는 과도한 반복을 줄인다.
 
 ## Game Studio route
@@ -51,49 +53,52 @@ Studio Harness v3 queue가 비었으므로 local ledger가 아니라 GitHub issu
 
 - 기획팀: player verb는 `생산 잎 수령하기`; core loop role은 자동 생산 → 주문 progress.
 - 리서치팀: 경쟁작 production gap은 worker/reward motion 부재.
-- 아트팀: gpt-image-2 default, Codex native fallback. FX strip은 frame count/frame size/fps/manifest binding을 plan에 고정한다.
-- 개발팀: `src/App.tsx`, playfield view model/types, CSS animation, visual regression test를 작은 tranche로 수정한다.
+- 아트팀: 새 API 생성 대신 accepted raster FX strip을 사용한다. Manifest id `fx_production_tick_leaf_001`, 4 frames, 160x160, 10fps, `production_tick_fx` binding.
+- 개발팀: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`를 작은 tranche로 수정한다.
 - 검수팀: Browser Use iab 우선; blocker 시 current-session blocker와 Playwright screenshot fallback. 393px overflow/bottom-tab invariant 필수.
 - 마케팅팀: mock-only devlog angle은 “포리가 실제로 일하는 정원”이다. 실채널 action 없음.
 - 고객지원팀: 첫 5분 혼란 risk는 “생산 잎 수령이 왜 중요한지 모름”; FAQ note는 수령하면 주문 상자가 채워진다는 설명.
 
 ## Plan
 
-- 구현 전 작성/검토할 plan artifact: `items/0151-production-tick-worker-fx.md`
-- 예상 단계:
+- 구현 전 plan artifact: `items/0151-production-tick-worker-fx.md`
+- 단계:
   1. 현재 production FX/asset manifest/worker playfield state를 매핑한다.
-  2. asset/FX plan과 prompt batch를 만들고, gpt-image-2 API 가능 여부를 확인한다. API blocker면 Codex native image generation fallback/provenance를 남긴다.
-  3. 포리 worker/leaf burst FX strip 또는 최소 leaf burst FX strip을 workspace PNG로 저장하고 manifest animation binding을 등록한다.
-  4. `생산 잎 수령` 직후 playfield worker/leaf burst/reward motion과 order progress 증가를 연결한다.
-  5. 모바일 393px visual regression으로 수령 전/후, overflow, bottom-tab overlap, reduced-motion safety를 고정한다.
-  6. Browser Use iab 우선 QA 또는 current-session blocker + Playwright fallback evidence를 남긴다.
-  7. roadmap/dashboard/control room/PR evidence를 갱신한다.
+  2. gpt-image-2 API 가능 여부와 기존 accepted raster FX를 확인한다.
+  3. `생산 잎 수령` 직후 playfield worker/leaf burst/reward motion과 order progress 증가를 연결한다.
+  4. 모바일 393px visual regression으로 수령 전/후, overflow, bottom-tab overlap, reduced-motion safety를 고정한다.
+  5. Browser Use iab 우선 QA 또는 current-session blocker + Playwright fallback evidence를 남긴다.
+  6. roadmap/dashboard/control room/PR evidence를 갱신한다.
 
 ## Subagent/Team Routing
 
-- 사용할 수 있음: asset prompt/review와 runtime implementation은 write scope가 분리되므로 Codex native subagent가 유효하다.
-- 현재 Intake 단계에서는 단일 agent가 issue/plan artifact를 만들고, 구현 단계에서 asset lane과 runtime/test lane을 분리할지 재평가한다.
+- 새 asset generation lane은 env 부재와 기존 accepted raster strip 존재로 축소되었다.
+- runtime/test 변경은 `claimProductionLeaves` → view model → mobile regression으로 강하게 결합되어 단일 agent가 구현/검증한다.
 
 ## QA/playtest plan
 
 - `npm run build`
-- focused Playwright: `npx playwright test --config playwright.config.ts --grep "생산 잎 수령|worker FX|leaf burst|자동 생산과 첫 주문"`
-- `npm run check:asset-provenance`
-- `npm run check:asset-style`
+- focused Playwright: `npx playwright test --config playwright.config.ts --grep "자동 생산과 첫 주문"`
 - `npm run check:visual`
 - `npm run check:ci`
 
 ## 수용 기준
 
-- [ ] `생산 잎 수령` 실행 직후 worker/leaf reward motion이 정원 playfield 또는 action surface에서 보인다.
-- [ ] 새 asset/FX가 raster PNG provenance와 manifest animation binding을 갖고 style/provenance checks를 통과한다.
-- [ ] order progress 증가와 reward telemetry가 deterministic test로 검증된다.
-- [ ] 모바일 393px에서 body scroll, panel overflow, bottom-tab overlap 회귀가 없다.
-- [ ] Browser Use `iab` current-session evidence 또는 current-session blocker + Playwright fallback screenshot을 남긴다.
-- [ ] `npm run check:visual`과 `npm run check:ci`가 통과한다.
+- [x] `생산 잎 수령` 실행 직후 worker/leaf reward motion이 정원 playfield 또는 action surface에서 보인다.
+- [x] asset/FX는 accepted raster PNG `public/assets/game/fx/fx_production_tick_leaf_001_strip.png`와 manifest animation binding을 사용한다.
+- [x] order progress 증가와 reward telemetry가 deterministic test로 검증된다.
+- [x] 모바일 393px에서 body scroll, panel overflow, bottom-tab overlap 회귀가 없다.
+- [x] Browser Use `iab` current-session blocker + Playwright fallback screenshot을 남긴다.
+- [x] `npm run check:ci`가 통과한다.
+
+## Visual evidence
+
+- Browser Use blocker: `reports/visual/browser-use-blocker-0298-20260503.md`
+- Production claim screenshot: `reports/visual/issue-298-production-claim-worker-fx-393.png`
+- Dispatch-after-claim screenshot: `reports/visual/issue-298-order-dispatch-after-production-claim-393.png`
 
 ## 안전 범위
 
 - 실제 결제, 로그인/account, ads SDK, 외부 배포, 고객 데이터, credential, 실채널 GTM 없음.
-- 런타임 이미지 생성 없음. 새 그래픽 asset은 사전 생성된 raster PNG만 manifest에 등록한다.
-- SVG/vector/code-native accepted game graphics 금지.
+- 런타임 이미지 생성 없음.
+- SVG/vector/code-native accepted game graphics 추가 없음.

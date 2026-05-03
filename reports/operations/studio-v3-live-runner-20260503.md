@@ -1,20 +1,20 @@
 # Studio Harness v3 Live Runner Report
 
-- Runner: `studio-v3-1777777348137`
+- Runner: `studio-v3-1777778611784`
 - Iteration: 1
-- Updated: 2026-05-03T03:02:30.688Z
+- Updated: 2026-05-03T03:23:34.678Z
 - Source of truth: github-authoritative
 - Dry run: true
 - Queue empty is stop: false
-- Decision: `select-github-workunit`
-- Target: Issue #296
-- Next action: implementation gate: plan-first for GitHub issue #296
+- Decision: `production-game-intake-required`
+- Target: new GitHub issue
+- Next action: Intake gate: create a production game quality WorkUnit from P0.5 Idle Core + Creative Rescue
 
 ## Open GitHub issues
 
 | Issue | Title | Labels | URL |
 | --- | --- | --- | --- |
-| #296 | 첫 주문 납품을 상자 출하 상태와 보상 흐름으로 production화한다 |  | https://github.com/bborok1234/strange-seed-shop/issues/296 |
+| none | GitHub queue empty |  |  |
 
 ## Open GitHub PRs
 
@@ -26,11 +26,11 @@
 
 | Run | Workflow | Status | Conclusion | URL |
 | --- | --- | --- | --- | --- |
+| 25268693935 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25268693935 |
 | 25267928815 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25267928815 |
 | 25267635921 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25267635921 |
 | 25266675744 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25266675744 |
 | 25266430855 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25266430855 |
-| 25266229841 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25266229841 |
 
 ## Production game quality intake rule
 

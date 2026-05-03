@@ -1324,6 +1324,109 @@ h1 {
   color: rgba(255, 249, 222, 0.82);
 }
 
+
+.production-action-card.has-production-claim-receipt .production-asset-work {
+  box-shadow:
+    0 10px 20px rgba(70, 120, 57, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.66);
+  transform-origin: center bottom;
+  animation: production-worker-claim-pop 700ms cubic-bezier(0.2, 1, 0.2, 1) both;
+}
+
+.production-action-card.has-production-claim-receipt .order-progress-card {
+  border-color: rgba(84, 139, 65, 0.34);
+  background:
+    radial-gradient(circle at 16% 20%, rgba(255, 255, 255, 0.78), transparent 34%),
+    linear-gradient(135deg, rgba(246, 255, 203, 0.94), rgba(226, 249, 196, 0.9));
+}
+
+.production-claim-receipt {
+  display: grid;
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px 7px;
+  min-height: 48px;
+  padding: 7px 46px 7px 8px;
+  overflow: hidden;
+  border: 1px solid rgba(84, 139, 65, 0.24);
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.82), transparent 32%),
+    linear-gradient(135deg, rgba(244, 255, 199, 0.96), rgba(221, 248, 190, 0.92));
+  box-shadow:
+    0 8px 16px rgba(74, 115, 53, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.52);
+}
+
+.production-claim-receipt::after {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 32px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow:
+    -7px -6px 0 -4px rgba(255, 238, 128, 0.92),
+    -18px 3px 0 -5px rgba(92, 150, 83, 0.72),
+    0 0 12px rgba(84, 139, 65, 0.28);
+  content: "";
+  animation: production-leaf-stream 1.2s ease-in-out infinite;
+}
+
+.production-claim-chip {
+  display: inline-grid;
+  min-height: 19px;
+  place-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(84, 139, 65, 0.13);
+  color: #3f6f33;
+  font-size: 9px;
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.production-claim-receipt strong,
+.production-claim-receipt span,
+.production-claim-receipt small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.production-claim-receipt strong {
+  color: var(--action-primary-strong);
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.production-claim-receipt > span:not(.production-claim-chip) {
+  color: #5d7131;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.production-claim-receipt small {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+@keyframes production-worker-claim-pop {
+  0% { transform: translateY(0) scale(1); }
+  42% { transform: translateY(-3px) scale(1.045); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes production-leaf-stream {
+  0%, 100% { opacity: 0.62; transform: translate(0, -50%); }
+  50% { opacity: 1; transform: translate(4px, -50%); }
+}
+
 .order-progress-card {
   display: grid;
   position: relative;
@@ -4050,6 +4153,34 @@ h1 {
     min-height: 44px;
     padding: 0 8px;
     font-size: 11px;
+  }
+
+
+  .starter-panel.has-production.has-production-claim-receipt .upgrade-choice-card,
+  .starter-panel.has-production.has-production-claim-receipt .next-creature-compact {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-production-claim-receipt .production-meter-row {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-production-claim-receipt .production-action-card {
+    overflow: visible;
+  }
+
+  .production-claim-receipt {
+    min-height: 44px;
+    padding: 6px 42px 6px 7px;
+  }
+
+  .production-claim-receipt strong {
+    font-size: 11px;
+  }
+
+  .production-claim-receipt > span:not(.production-claim-chip),
+  .production-claim-receipt small {
+    font-size: 9px;
   }
 
   .starter-panel.has-production.has-order-dispatch-receipt .production-meter-row {
