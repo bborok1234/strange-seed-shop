@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T08:52:07.935Z
+Generated at: 2026-05-03T08:53:11.525Z
 
 ## Current mission
 
@@ -41,22 +41,22 @@ Generated at: 2026-05-03T08:52:07.935Z
 ## Local state
 
 - Branch: codex/0322-album-record-followup-next-goal-loop
-- Latest commit: 10882c6 새 기록 후속 저장 재순환 WorkUnit을 plan-first로 고정한다
+- Latest commit: c923e8c 후속 도감 저장을 다음 기록 목표로 재순환시킨다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T08:52:05.131Z
-- Phase: issue-322-pr-publication
+- Timestamp: 2026-05-03T08:53:08.145Z
+- Phase: issue-322-pr-checks
 - Issue: 322
-- PR: 
+- PR: 323
 - Item: items/0163-album-record-followup-next-goal-loop.md
-- Next action: gate: publish PR #322 evidence, watch checks, merge when green
+- Next action: gate: mark PR #323 ready, watch required checks, merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #323 draft 후속 도감 저장을 다음 기록 목표로 재순환 — https://github.com/bborok1234/strange-seed-shop/pull/323
 
 ## Open issues
 
