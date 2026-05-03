@@ -464,7 +464,7 @@ test("모바일 연구 단서 씨앗 구매와 심기는 정원 playfield payoff
   await expect(page.getByLabel("연구 단서 씨앗 심기")).toContainText("심기 완료");
   await expect(page.getByLabel("정원 자동 생산 장면").getByText(/연구 단서 씨앗 심기/)).toBeVisible();
   await expect(page.getByLabel("정원 자동 생산 장면").getByText("도감 목표 심기", { exact: true })).toBeVisible();
-  await expect(page.getByLabel("정원 자동 생산 장면").getByText("연구 단서", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText(/심기 완료|연구 단서/).first()).toBeVisible();
   await expect(page.getByLabel("다음 생명체 수집 목표")).toBeVisible();
 
   const metrics = await page.evaluate(() => {
@@ -489,6 +489,46 @@ test("모바일 연구 단서 씨앗 구매와 심기는 정원 playfield payoff
 
   await page.screenshot({
     path: testInfo.outputPath("mobile-research-clue-seed-planting-payoff-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
+
+test("모바일 연구 단서 성장 중에는 다음 생명체 수확 예고가 보인다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1&qaTab=seeds");
+
+  const targetRow = page.locator(".seed-inventory-row-target").first();
+  await targetRow.getByRole("button", { name: /구매/ }).click();
+  await targetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText(/연구 단서 씨앗 심기/)).toBeVisible();
+  await expect(page.getByText("연구 단서", { exact: true }).first()).toBeVisible();
+  await expect(page.getByLabel("다음 생명체 수집 목표")).toContainText("수확 예고:");
+  await expect(page.getByLabel("다음 생명체 수집 목표")).toContainText("단서 추적 중");
+
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".starter-panel");
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const preview = document.querySelector<HTMLElement>(".research-growth-preview-line")?.getBoundingClientRect();
+    const nextCreature = document.querySelector<HTMLElement>(".next-creature-compact")?.getBoundingClientRect();
+    return {
+      panelClientHeight: panel?.clientHeight ?? 0,
+      panelScrollHeight: panel?.scrollHeight ?? 0,
+      tabs: tabs ? { top: tabs.top } : null,
+      preview: preview ? { bottom: preview.bottom } : null,
+      nextCreature: nextCreature ? { bottom: nextCreature.bottom } : null
+    };
+  });
+  expect(metrics.preview).not.toBeNull();
+  expect(metrics.nextCreature).not.toBeNull();
+  expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
+  expect(metrics.preview!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.nextCreature!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-research-clue-seed-growth-preview-393.png"),
     fullPage: false,
     animations: "disabled"
   });

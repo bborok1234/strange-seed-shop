@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T04:43:00.000Z",
-  "source": "GitHub CLI observation after #304/#305 merge and active #306 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T05:16:00.000Z",
+  "source": "GitHub CLI observation after #306/#307 merge and active #308 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 306,
-    "title": "연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다",
-    "item": "items/0155-research-clue-seed-planting-payoff.md",
-    "branch": "codex/0306-research-clue-seed-planting-payoff"
+    "issue": 308,
+    "title": "연구 단서 씨앗 성장 중 다음 생명체 수확 예고가 보이게 만든다",
+    "item": "items/0156-research-clue-seed-growth-preview.md",
+    "branch": "codex/0308-research-clue-seed-growth-preview"
   },
   "workUnits": [
     {
@@ -281,6 +281,31 @@
         "GitHub-authoritative open WorkUnit #304",
         "Branch: `codex/0304-research-complete-clue-motion`",
         "Branch: codex/0304-research-complete-clue-motion"
+      ]
+    },
+    {
+      "issue": 306,
+      "issueTitle": "연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T05:11:37Z",
+      "pr": 307,
+      "prTitle": "#306 연구 단서 씨앗 심기를 도감 목표 payoff로 보이게 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T05:11:36Z",
+      "mergeCommit": "781fcf5af06d904d1dfa166cd02d2306d881942a",
+      "mainCiRun": 25270603561,
+      "mainCiConclusion": "success",
+      "roadmapStep": "연구 단서 씨앗 구매/심기 payoff",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #306",
+        "PR #307",
+        "main CI `25270603561`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #306",
+        "Branch: `codex/0306-research-clue-seed-planting-payoff`",
+        "Branch: codex/0306-research-clue-seed-planting-payoff"
       ]
     }
   ]

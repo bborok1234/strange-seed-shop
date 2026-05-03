@@ -3,46 +3,57 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T05:09:12.751Z
+Generated at: 2026-05-03T05:30:42.389Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #306 **연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다**이다. #304는 PR #305 merge와 main CI `25270047931` success로 닫혔고, #306은 plan-first와 구현/로컬 검증을 완료했다. 지금은 #306 PR publication gate다.
+현재 작업은 GitHub-authoritative open WorkUnit #308 **연구 단서 씨앗 성장 중 다음 생명체 수확 예고가 보이게 만든다**의 PR publication gate다. 구현/검증은 완료되었고, routine GitHub publication은 agent responsibility이므로 issue body update, branch push, draft PR create, PR checks watch/repair, ready/merge, main CI observation까지 이어간다.
 
 현재 evidence:
 
-- GitHub issue: #306 `연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다`
-- Plan artifact: `items/0155-research-clue-seed-planting-payoff.md`
-- Branch: `codex/0306-research-clue-seed-planting-payoff`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS reward motion + HUD affordance
+- GitHub issue: #308 `연구 단서 씨앗 성장 중 다음 생명체 수확 예고가 보이게 만든다`
+- Plan artifact: `items/0156-research-clue-seed-growth-preview.md` — 수용 기준 모두 충족, status `verification-ready`
+- Branch: `codex/0308-research-clue-seed-growth-preview`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS HUD affordance + reward motion
 - Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Visual evidence: `reports/visual/browser-use-blocker-0306-20260503.md`, `reports/visual/issue-306-research-clue-seed-planting-payoff-393.png`
-- Verification: `npm run build` pass, focused Playwright `연구 단서 씨앗` 1 passed, lunar seed regression pair 2 passed, `npm run check:visual` 56 passed, `npm run check:ci` pass.
+- Browser Use blocker: `reports/visual/browser-use-blocker-0308-20260503.md`
+- Screenshot: `reports/visual/issue-308-research-clue-seed-growth-preview-393.png`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-research-clue-seed-growth-preview-20260503.md`
+- PR body-file: `reports/operations/github-bodies/pr-308-research-clue-seed-growth-preview-20260503.md`
+- GateEvent body-file: `reports/operations/gate-event-0308-research-clue-seed-growth-preview-20260503.md`
 
-즉시 적용할 gate:
+검증 evidence:
 
-1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. Browser Use iab current-session 시도는 `reports/visual/browser-use-blocker-0306-20260503.md`에 기록했고, Playwright screenshot은 regression gate로만 사용한다.
-3. 393px 모바일 visual regression은 target seed row, purchase/plant receipt, playfield state, action-surface overflow, bottom-tab overlap을 검증했다.
-4. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
-5. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
-6. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓴다.
-7. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장"` — 2 passed
+- `npm run check:visual` — 57 passed
+- `npm run check:ci` — pass
+
+즉시 다음 gate:
+
+1. `gh issue edit 308 --body-file reports/operations/github-bodies/issue-research-clue-seed-growth-preview-20260503.md`
+2. branch push와 draft PR create/update를 body-file로 수행한다.
+3. PR required checks를 watch/repair하고 green이면 ready/merge한다.
+4. merge 후 main CI를 GitHub run으로 관찰한다. post-merge closeout commit/PR은 만들지 않는다.
+5. Stop rule이 없으면 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub-authoritative WorkUnit을 선택하고 plan-first로 계속한다.
+6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
+7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #308은 단일 React/CSS/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
+8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0306-research-clue-seed-planting-payoff
-- Latest commit: 78a0d45 #306 연구 단서 씨앗 심기 payoff를 plan-first로 고정한다
+- Branch: codex/0308-research-clue-seed-growth-preview
+- Latest commit: c50cfec #308 연구 단서 성장 예고를 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T05:03:00Z
-- Phase: issue-306-pr-publication
-- Issue: 306
+- Timestamp: 2026-05-03T05:30:21Z
+- Phase: issue-308-pr-publication
+- Issue: 308
 - PR: 
-- Item: items/0155-research-clue-seed-planting-payoff.md
+- Item: items/0156-research-clue-seed-growth-preview.md
 - Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
@@ -51,7 +62,7 @@ Generated at: 2026-05-03T05:09:12.751Z
 
 ## Open issues
 
-- #306 연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/306
+- #308 연구 단서 씨앗 성장 중 다음 생명체 수확 예고가 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/308
 
 ## Playable mode
 
