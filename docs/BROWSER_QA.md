@@ -20,6 +20,24 @@
 - 따라서 `tool_search "Browser Use"`가 Computer Use를 먼저 보여주거나 `browser` namespace가 보이지 않아도, 그것은 Browser Use unavailable의 증거가 아니다.
 - unavailable로 기록하기 전에 아래 bootstrap을 실제로 시도해야 한다.
 
+Codex CLI 전용 사전 조건:
+
+- CLI에서 `browser-use:browser` skill만 보이고 `mcp__node_repl__js`가 항상 노출되지 않는다면, Browser Use 자체가 없는 것이 아니라 `node_repl` MCP가 CLI config에 등록되지 않은 상태일 수 있다.
+- 먼저 아래를 확인한다.
+
+```bash
+codex mcp get node_repl
+codex mcp list | grep node_repl
+```
+
+- 없으면 Codex App에 번들된 Node REPL MCP를 등록한다.
+
+```bash
+codex mcp add node_repl -- /Applications/Codex.app/Contents/Resources/node_repl
+```
+
+- `codex mcp get node_repl`이 `enabled: true`를 보여야 한다. 단, 이미 실행 중인 Codex CLI 세션은 tool palette를 hot reload하지 못할 수 있으므로, 등록 직후 같은 세션에서 계속 `tool_search`가 0이면 현재 세션 blocker로 기록하고 다음 CLI 세션/resume에서 재확인한다.
+
 ```js
 if (!globalThis.agent) {
   const { setupAtlasRuntime } = await import("/Users/mirlim/.codex/plugins/cache/openai-bundled/browser-use/0.1.0-alpha1/scripts/browser-client.mjs");

@@ -1230,6 +1230,104 @@ test("모바일 복귀 보상은 달빛 오프라인 수호 보너스를 breakdo
   await expect(page.locator(".garden-playfield-host")).toBeVisible();
 });
 
+test("모바일 복귀 첫 30초는 보상 수령을 생산 주문 목표로 바로 잇는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1&qaFxTelemetry=1");
+
+  await expect(page.getByLabel("오프라인 복귀 보상")).toContainText("다음 생산 목표");
+  await expect(page.getByLabel("복귀 다음 생산 목표")).toContainText("생산 대기");
+  await expect(page.getByLabel("복귀 다음 생산 목표")).toContainText("말랑잎 첫 납품");
+  await expect(page.getByRole("button", { name: "보상 받고 생산 잎 수령" })).toBeVisible();
+
+  const modalMetrics = await page.evaluate(() => {
+    const cardElement = document.querySelector<HTMLElement>(".comeback-reward-card");
+    const card = cardElement?.getBoundingClientRect();
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      card: card
+        ? {
+            bottom: card.bottom,
+            clientHeight: cardElement?.clientHeight ?? 0,
+            scrollHeight: cardElement?.scrollHeight ?? 0
+          }
+        : null
+    };
+  });
+
+  expect(modalMetrics.bodyScrollHeight).toBeLessThanOrEqual(modalMetrics.innerHeight + 2);
+  expect(modalMetrics.card).not.toBeNull();
+  expect(modalMetrics.card!.bottom).toBeLessThanOrEqual(modalMetrics.innerHeight - 14);
+  expect(modalMetrics.card!.scrollHeight).toBeLessThanOrEqual(modalMetrics.card!.clientHeight + 1);
+
+  await page.getByRole("button", { name: "보상 받고 생산 잎 수령" }).click();
+
+  await expect(page.getByLabel("오프라인 복귀 보상")).toHaveCount(0);
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("말랑잎 첫 납품");
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("12/12 잎 납품 준비");
+  await expect(page.getByRole("button", { name: "첫 잎 주문 납품 +18 잎 · +1 꽃가루" })).toBeEnabled();
+  await expect(page.getByText(/복귀 보상을 받고/)).toBeVisible();
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const events = (window as unknown as { __productionFxEvents?: Array<{ kind: string }> }).__productionFxEvents ?? [];
+        return events.some((event) => event.kind === "production");
+      })
+    )
+    .toBe(true);
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const productionCardElement = document.querySelector<HTMLElement>(".production-action-card");
+    const productionCard = productionCardElement?.getBoundingClientRect();
+    const overflowingChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        ".starter-panel > article, .production-action-card, .order-progress-card, .production-meter-row"
+      )
+    )
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel
+        ? {
+            bottom: panel.bottom,
+            clientHeight: panelElement?.clientHeight ?? 0,
+            scrollHeight: panelElement?.scrollHeight ?? 0
+          }
+        : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      productionCard: productionCard
+        ? {
+            bottom: productionCard.bottom,
+            clientHeight: productionCardElement?.clientHeight ?? 0,
+            scrollHeight: productionCardElement?.scrollHeight ?? 0
+          }
+        : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.productionCard).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.productionCard!.scrollHeight).toBeLessThanOrEqual(metrics.productionCard!.clientHeight + 1);
+  expect(metrics.overflowingChildren).toEqual([]);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-comeback-production-briefing-393.png"), fullPage: false });
+});
+
 test("모바일 복귀 보상은 온실 선반 보관 보너스를 함께 보여준다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseShelf=1&qaReset=1");

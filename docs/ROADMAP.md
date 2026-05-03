@@ -65,6 +65,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 대표 생명체 stage/care/album production 복구 | done | Issue #275, PR #281, `items/0142-creature-stage-care-album-production.md`, `reports/visual/0275-production-playtest-20260503.md`, main CI `25257945257` | 달방울 누누가 정원 첫 화면 stage, 돌보기 반응, 도감 memory photo/단서 감상면으로 복구됨 |
 | 달방울 누누 돌보기 기억 보상 motion | done | Issue #282, PR #283, `items/0143-lunar-care-memory-reward.md`, `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`, main CI `25258388344` | 정원 `돌보기`가 save-backed 기억 도장/one-time reward와 도감 memory stamp로 이어지고 Browser Use blocker + Playwright fallback evidence를 남김 |
 | 정원 첫 화면 production engine layout | done | Issue #284, PR #285, `items/0144-first-screen-production-engine-layout.md`, `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`, `reports/visual/first-screen-production-engine-one-scene-20260503.png`, Browser Use blocker, `npm run check:visual` 54 passed, main CI `25265967477` | 첫 정원 화면에서 달빛 resident, playfield, 자동 생산, 주문 crate/progress, primary verbs가 한 장면의 production engine으로 읽히게 재배치 |
+| 복귀 첫 30초 production briefing | review | Issue #292, `items/0148-return-30s-production-briefing.md`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`, Browser Use blocker/fix evidence, `reports/visual/0292-mobile-comeback-production-briefing-393-20260503.png` | 복귀 보상 modal이 다음 생산 목표와 `보상 받고 생산 잎 수령` CTA를 한 화면에 보여주고, 수령 후 첫 주문 progress/FX/overflow gate가 `npm run check:visual` 55 passed와 `npm run check:ci`로 검증됨 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Routine GitHub publication no-final harness | done | Issue #286, PR #287, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `npm run check:ci` pass, main CI `25266229841` | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
 | Closed WorkUnit mirror consistency gate | done | Issue #288, PR #289, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs`, main CI `25266430855` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
@@ -286,7 +287,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Game studio department harness | done | Issue #257, PR #258, main CI `25217147915`, `items/0129-game-studio-ops-harness.md`, `reports/operations/game-studio-harness-reference-review-20260501.md`, `.codex/skills/seed-ops/SKILL.md`, `scripts/check-seed-ops-queue-gate.mjs`, `scripts/check-ops-live.mjs` | `P0.5 Idle Core + Creative Rescue`를 active campaign source of truth로 고정하고, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, Subagent/Team Routing, gastory style state/prompt/model sidecar/reference image consistency/animation camera/composition lock/frame/GIF/spritesheet extraction gate를 요구함 |
 | Studio Harness v3 bot runner deterministic gate | review | Issue #276, `items/0140-studio-v3-bot-runner-checker.md`, `scripts/studio-v3-bot-runner.mjs`, `scripts/check-studio-v3-bot-runner.mjs`, `reports/operations/fixtures/studio-v3-bot-runner-*.json` | GitHub issue/PR/GateEvent fixture로 WorkUnit을 복원하고, local campaign ledger authority, routine GitHub human handoff, stale branch/dirty work, GateEvent hash mismatch 회귀를 `npm run check:studio-v3-bot-runner`와 `npm run check:ci`에서 차단함 |
 | Studio Harness v3 24h live runner entrypoint | done | Issue #290, PR #291, `items/0147-studio-v3-24h-live-runner.md`, `scripts/studio-v3-live-runner.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-live-runner-20260503.md`, main CI `25266675744` | `npm run studio:v3:runner -- --once --dry-run`으로 GitHub queue/PR/main 상태를 읽고, queue empty를 production game quality WorkUnit intake로 분류하는 watcher/decision runner 진입점을 만들었다 |
-| Studio Harness v3 foreground operator entrypoint | review | Issue #293, `items/0149-studio-v3-foreground-operator-entrypoint.md`, `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-operator-20260503.md` | `npm run studio:v3:operate -- --doctor --print-command`와 `npm run studio:v3:operate -- --duration-hours 24`로 `$seed-ops` 없이 v3 native foreground operator를 시작하고, GitHub WorkUnit/plan-first/Browser Use iab/PR/check/merge/main CI/next WorkUnit 계약을 prompt+checker로 고정함 |
+| Studio Harness v3 foreground operator entrypoint | done | Issue #293, PR #294, `items/0149-studio-v3-foreground-operator-entrypoint.md`, `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-operator-20260503.md`, main CI `25267635921` | `npm run studio:v3:operate -- --doctor --print-command`와 `npm run studio:v3:operate -- --duration-hours 24`로 `$seed-ops` 없이 v3 native foreground operator를 시작하고, GitHub WorkUnit/plan-first/Browser Use iab/PR/check/merge/main CI/next WorkUnit 계약을 prompt+checker로 고정함 |
 | Studio Harness v3 migration backfill gate | review | Issue #274, `items/0141-v2-ledger-quarantine-backfill.md`, `reports/operations/studio-v3-migration-backfill-20260503.md`, `reports/operations/studio-v3-migration-backfill-20260503.json`, `scripts/check-studio-v3-migration-backfill.mjs` | v2 local campaign ledger/prototype/visual/asset prep 산출물을 `quarantined` 또는 `migration-backfill` evidence로 분류하고, local ledger가 work authorization source가 아님을 `npm run check:studio-v3-migration-backfill`과 `npm run check:ci`에서 검증함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
@@ -316,27 +317,25 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #293 **Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다**이다. #290 runner는 watcher/decision/heartbeat 진입점이었고, 이번 작업은 사용자가 실제로 foreground Codex/OMX 운영 루프를 시작할 수 있는 v3 native entrypoint를 만든다. `$seed-ops`는 v3 entrypoint가 아니라 deprecated adapter로 격리한다.
+현재 작업은 GitHub-authoritative open WorkUnit #292 **복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다**이다. #293에서 v3 foreground operator entrypoint를 복구했으므로, 지금은 그 GitHub-authoritative queue의 게임 WorkUnit을 이어서 PR/merge gate까지 진행한다.
 
 현재 evidence:
 
-- GitHub issue: #293 `Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다`
-- Plan artifact: `items/0149-studio-v3-foreground-operator-entrypoint.md`
-- Branch: `codex/0293-studio-v3-foreground-operator-entrypoint`
-- Operator entrypoint: `scripts/studio-v3-operator.mjs` / `npm run studio:v3:operate`
-- Checker: `scripts/check-studio-v3-operator.mjs` / `npm run check:studio-v3-operator`
-- Usage doc: `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`
-- Readiness report: `reports/operations/studio-v3-operator-20260503.md`
-- Game Studio route: N/A — 운영사 하네스/runner 작업. 단 v3 operator가 만드는 visible gameplay WorkUnit은 Game Studio route와 Browser Use evidence를 요구한다.
+- GitHub issue: #292 `복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다`
+- Plan artifact: `items/0148-return-30s-production-briefing.md`
+- Branch: `codex/0292-return-30s-production-briefing`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Browser Use current-session blocker/fix: `reports/visual/browser-use-blocker-0292-20260503.md`, `reports/operations/codex-cli-browser-use-node-repl-fix-20260503.md`
+- Visual evidence: `reports/visual/0292-mobile-comeback-production-briefing-393-20260503.png`
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. Queue empty is not a stop condition. Queue가 비면 production game quality WorkUnit intake로 이어져야 한다.
-3. `npm run studio:v3:operate`는 `$seed-ops`를 호출하거나 안내하지 않아야 한다.
-4. Browser Use iab는 visible gameplay WorkUnit의 hands-on QA gate이며, CLI에서는 `node_repl` MCP `js` readiness를 doctor가 점검한다.
-5. v3 operator가 다음 게임 WorkUnit을 만들거나 선택할 때는 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
-6. 다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 #292 stash 복구 또는 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+2. Browser Use iab를 우선하되, 현재 Codex CLI 세션은 `node_repl` MCP를 hot reload하지 못한 blocker를 기록했다. 다음 CLI 세션은 `codex mcp get node_repl` doctor를 먼저 확인한다.
+3. 게임 WorkUnit 선택은 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+4. `npm run check:visual` 55 passed와 `npm run check:ci` passed를 PR 본문에 merge-blocking evidence로 포함한다.
+5. 다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 
 ## Previous Next Action History
 

@@ -1,20 +1,20 @@
 # Studio Harness v3 Live Runner Report
 
-- Runner: `studio-v3-1777773112786`
+- Runner: `studio-v3-1777771745641`
 - Iteration: 1
-- Updated: 2026-05-03T01:51:55.606Z
+- Updated: 2026-05-03T01:29:08.388Z
 - Source of truth: github-authoritative
 - Dry run: true
 - Queue empty is stop: false
-- Decision: `select-github-workunit`
-- Target: Issue #292
-- Next action: implementation gate: plan-first for GitHub issue #292
+- Decision: `production-game-intake-required`
+- Target: new GitHub issue
+- Next action: Intake gate: create a production game quality WorkUnit from P0.5 Idle Core + Creative Rescue
 
 ## Open GitHub issues
 
 | Issue | Title | Labels | URL |
 | --- | --- | --- | --- |
-| #292 | 복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다 |  | https://github.com/bborok1234/strange-seed-shop/issues/292 |
+| none | GitHub queue empty |  |  |
 
 ## Open GitHub PRs
 

@@ -3,47 +3,45 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T02:16:29.473Z
+Generated at: 2026-05-03T02:33:23.781Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #293 **Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다**이다. #290 runner는 watcher/decision/heartbeat 진입점이었고, 이번 작업은 사용자가 실제로 foreground Codex/OMX 운영 루프를 시작할 수 있는 v3 native entrypoint를 만든다. `$seed-ops`는 v3 entrypoint가 아니라 deprecated adapter로 격리한다.
+현재 작업은 GitHub-authoritative open WorkUnit #292 **복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다**이다. #293에서 v3 foreground operator entrypoint를 복구했으므로, 지금은 그 GitHub-authoritative queue의 게임 WorkUnit을 이어서 PR/merge gate까지 진행한다.
 
 현재 evidence:
 
-- GitHub issue: #293 `Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다`
-- Plan artifact: `items/0149-studio-v3-foreground-operator-entrypoint.md`
-- Branch: `codex/0293-studio-v3-foreground-operator-entrypoint`
-- Operator entrypoint: `scripts/studio-v3-operator.mjs` / `npm run studio:v3:operate`
-- Checker: `scripts/check-studio-v3-operator.mjs` / `npm run check:studio-v3-operator`
-- Usage doc: `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`
-- Readiness report: `reports/operations/studio-v3-operator-20260503.md`
-- Game Studio route: N/A — 운영사 하네스/runner 작업. 단 v3 operator가 만드는 visible gameplay WorkUnit은 Game Studio route와 Browser Use evidence를 요구한다.
+- GitHub issue: #292 `복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다`
+- Plan artifact: `items/0148-return-30s-production-briefing.md`
+- Branch: `codex/0292-return-30s-production-briefing`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Browser Use current-session blocker/fix: `reports/visual/browser-use-blocker-0292-20260503.md`, `reports/operations/codex-cli-browser-use-node-repl-fix-20260503.md`
+- Visual evidence: `reports/visual/0292-mobile-comeback-production-briefing-393-20260503.png`
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. Queue empty is not a stop condition. Queue가 비면 production game quality WorkUnit intake로 이어져야 한다.
-3. `npm run studio:v3:operate`는 `$seed-ops`를 호출하거나 안내하지 않아야 한다.
-4. Browser Use iab는 visible gameplay WorkUnit의 hands-on QA gate이며, CLI에서는 `node_repl` MCP `js` readiness를 doctor가 점검한다.
-5. v3 operator가 다음 게임 WorkUnit을 만들거나 선택할 때는 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
-6. 다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 #292 stash 복구 또는 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+2. Browser Use iab를 우선하되, 현재 Codex CLI 세션은 `node_repl` MCP를 hot reload하지 못한 blocker를 기록했다. 다음 CLI 세션은 `codex mcp get node_repl` doctor를 먼저 확인한다.
+3. 게임 WorkUnit 선택은 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+4. `npm run check:visual` 55 passed와 `npm run check:ci` passed를 PR 본문에 merge-blocking evidence로 포함한다.
+5. 다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 
 ## Local state
 
-- Branch: codex/0293-studio-v3-foreground-operator-entrypoint
-- Latest commit: 983c773 #290 Studio Harness v3 24h live runner 진입점을 만든다
+- Branch: codex/0292-return-30s-production-briefing
+- Latest commit: de07bf1 Studio v3 live runner가 queue empty를 production-game-intake-required로 판정했으므로, 다음 작업을 실제 게임 복귀 30초 production 품질 개선으로 고정한다.
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T02:11:54.289Z
-- Phase: studio-v3-foreground-operator
-- Issue: 293
+- Timestamp: 2026-05-03T02:25:56.808Z
+- Phase: issue-292-verification
+- Issue: 292
 - PR: 
-- Item: items/0149-studio-v3-foreground-operator-entrypoint.md
-- Next action: PR gate: run check:ci, publish PR, watch checks, merge, resume #292 stash
+- Item: items/0148-return-30s-production-briefing.md
+- Next action: verification gate: run full check:visual and check:ci before PR
 
 ## Open PRs
 
@@ -51,7 +49,6 @@ Generated at: 2026-05-03T02:16:29.473Z
 
 ## Open issues
 
-- #293 Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다 — https://github.com/bborok1234/strange-seed-shop/issues/293
 - #292 복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/292
 
 ## Playable mode
