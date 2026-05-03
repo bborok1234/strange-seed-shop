@@ -3,59 +3,61 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T07:48:29.302Z
+Generated at: 2026-05-03T07:53:37.538Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative WorkUnit #318 **새 기록 후속 재배 성장 중 다음 생명체 수확 예고를 보이게 만든다**의 PR checks gate다. PR #319 draft와 GateEvent 게시까지 완료됐고, 다음 checkpoint는 ready 전환 → GitHub checks watch/repair → merge when green → main CI observation이다.
+현재 작업은 GitHub-authoritative open WorkUnit #320 **새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다**의 plan-first gate다. #318은 PR #319 merge와 main CI `25273528617` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단해 #320을 생성했다.
 
 현재 evidence:
 
-- GitHub issue: #318 `새 기록 후속 재배 성장 중 다음 생명체 수확 예고를 보이게 만든다`
-- Plan artifact: `items/0161-album-record-followup-growth-preview.md`
-- Branch: `codex/0318-album-record-followup-growth-preview`
-- PR: #319 https://github.com/bborok1234/strange-seed-shop/pull/319
-- PR body-file: `reports/operations/github-bodies/pr-318-album-record-followup-growth-preview-20260503.md`
-- GateEvent body-file: `reports/operations/gate-event-0318-album-record-followup-growth-preview-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0318-20260503.md`
-- Screenshot: `reports/visual/issue-318-album-record-followup-growth-preview-393.png`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest` + `game-studio:phaser-2d-game`; 신규 manifest asset 없음, existing visuals + playfield feedback + HUD affordance + reward motion
-- Focused verification: `npm run build && npx playwright test --config playwright.config.ts --grep "새 기록 후속 성장|후속 재배 성장|수확 예고"` — 2 passed
-- Full verification: `npm run check:visual` — 62 passed; `npm run check:ci` — pass
+- GitHub issue: #320 `새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다`
+- Plan artifact: `items/0162-album-record-followup-harvest-reveal.md`
+- Branch: `codex/0320-album-record-followup-harvest-reveal`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-album-record-followup-harvest-reveal-20260503.md`
+- Runner dry-run: `npm run studio:v3:runner -- --once --dry-run` → `production-game-intake-required`, main CI `25273528617` success observed
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest` + 필요 시 `game-studio:phaser-2d-game`; 신규 manifest asset 없음, existing visuals + playfield feedback + reveal affordance + reward motion
+- Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
+- Player verb: `새 기록 후속 씨앗 수확하기`
+- Production role: 후속 재배 성장 완료 → ready 밭 수확 → 새 생명체 발견 → 도감 저장
+- Screen moment: #318 garden `새 기록 후속 재배` 성장 예고 상태에서 ready plot의 수확 버튼을 누른 직후
+- Concrete payoff: `새 기록 후속 수확` playfield feedback/reward motion, next creature reveal, 도감 저장 CTA, bottom-tab/overflow-safe mobile screenshot
+- Competition production gap: collection idle games는 target planting/growth preview 이후 실제 harvest/reveal 순간에 target reward를 크게 확인시킨다.
 
 즉시 적용할 gate:
 
-1. PR #319를 ready로 전환한다.
-2. GitHub checks를 관찰하고 실패 시 같은 branch에서 수리한다.
-3. Required checks green이면 branch protection 우회 없이 merge하고 main CI를 observation-only로 확인한다.
-4. Stop rule이 없으므로 merge 후 runner dry-run으로 다음 GitHub-authoritative WorkUnit을 선택해 plan-first로 계속한다.
-5. Studio Campaign Gate는 `P0.5 Idle Core + Creative Rescue` 기준으로 유지하고, 다음 WorkUnit도 경쟁작 production gap과 concrete visual/game-feel payoff를 plan-first에 기록한다.
-6. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #318은 단일 React/CSS/playfield feedback/visual regression tranche라 미사용했다.
-7. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
+2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
+3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
+4. 393px 모바일 visual regression은 ready plot harvest, reveal/action surface, 도감 저장 CTA, bottom-tab overlap을 함께 검증한다.
+5. 남은 checkpoint는 plan-first commit, implementation, focused/full checks, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
+7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #320은 단일 React/CSS/playfield feedback/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
+8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0318-album-record-followup-growth-preview
-- Latest commit: 6adbe88 새 기록 후속 성장을 다음 수확 기대에 묶는다
+- Branch: codex/0320-album-record-followup-harvest-reveal
+- Latest commit: 0884f76 Merge pull request #319 from bborok1234/codex/0318-album-record-followup-growth-preview
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T07:48:08.807Z
-- Phase: issue-318-pr-checks
-- Issue: 318
-- PR: 319
-- Item: items/0161-album-record-followup-growth-preview.md
-- Next action: PR checks gate: ready PR #319, watch required checks, merge when green
+- Timestamp: 2026-05-03T07:53:27.142Z
+- Phase: issue-320-plan-first
+- Issue: 320
+- PR: 
+- Item: items/0162-album-record-followup-harvest-reveal.md
+- Next action: plan-first gate: commit #320 plan artifact, then inspect harvest reveal implementation
 
 ## Open PRs
 
-- #319 draft #318 새 기록 후속 성장 중 다음 생명체 수확 예고를 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/pull/319
+- unavailable or none
 
 ## Open issues
 
-- #318 새 기록 후속 재배 성장 중 다음 생명체 수확 예고를 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/318
+- #320 새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/320
 
 ## Playable mode
 
