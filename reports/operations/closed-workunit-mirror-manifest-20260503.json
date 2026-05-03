@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T03:40:00.000Z",
-  "source": "GitHub CLI observation after #296/#297 merge and active #298 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T03:49:00.000Z",
+  "source": "GitHub CLI observation after #298/#299 merge and active #300 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 298,
-    "title": "정원에서 생산 잎을 수령할 때 포리 작업 FX를 보이게 만든다",
-    "item": "items/0151-production-tick-worker-fx.md",
-    "branch": "codex/0298-production-tick-worker-fx"
+    "issue": 300,
+    "title": "작업 간식 강화가 포리 버프와 생산 속도 상승으로 보이게 만든다",
+    "item": "items/0152-snack-upgrade-worker-payoff.md",
+    "branch": "codex/0300-snack-upgrade-worker-payoff"
   },
   "workUnits": [
     {
@@ -181,6 +181,31 @@
         "GitHub-authoritative open WorkUnit #296",
         "Branch: `codex/0296-order-crate-dispatch-reward-motion`",
         "Branch: codex/0296-order-crate-dispatch-reward-motion"
+      ]
+    },
+    {
+      "issue": 298,
+      "issueTitle": "정원에서 생산 잎을 수령할 때 포리 작업 FX를 보이게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T03:46:34Z",
+      "pr": 299,
+      "prTitle": "#298 생산 잎 수령을 포리 작업 보상으로 읽히게 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T03:46:33Z",
+      "mergeCommit": "f1772d3237afe480be904ff6f64653ddac985049",
+      "mainCiRun": 25269100475,
+      "mainCiConclusion": "success",
+      "roadmapStep": "생산 잎 수령 포리 작업 FX / 주문 progress reward motion",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #298",
+        "PR #299",
+        "main CI `25269100475`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #298",
+        "Branch: `codex/0298-production-tick-worker-fx`",
+        "Branch: codex/0298-production-tick-worker-fx"
       ]
     }
   ]
