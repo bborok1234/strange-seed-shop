@@ -2,7 +2,7 @@
 
 - GitHub issue: #324 https://github.com/bborok1234/strange-seed-shop/issues/324
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: review
 - Branch: `codex/0324-album-record-loop-rami-harvest-payoff`
 - Created: 2026-05-03
 
@@ -16,13 +16,13 @@
 
 ## 수용 기준
 
-- [ ] #322 후속 기록 저장 이후 `방울새싹 씨앗 → 이슬연금 라미` target row에서 구매/심기를 할 수 있다.
-- [ ] 심은 plot/action feedback/next creature card가 `이슬연금 라미` 수확 예고와 `후속 성장 중` 또는 동등한 재순환 상태를 보여준다.
-- [ ] 수확 reveal이 `이슬연금 라미`와 새 기록 재순환 수확 receipt를 보여주고 도감 저장 CTA로 이어진다.
-- [ ] reward motion telemetry 또는 plot state evidence가 `album_record_next_seed` 재순환임을 남긴다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 playfield/action surface/reveal/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] #322 후속 기록 저장 이후 `방울새싹 씨앗 → 이슬연금 라미` target row에서 구매/심기를 할 수 있다.
+- [x] 심은 plot/action feedback/next creature card가 `이슬연금 라미` 수확 예고와 `후속 성장 중` 또는 동등한 재순환 상태를 보여준다.
+- [x] 수확 reveal이 `이슬연금 라미`와 새 기록 재순환 수확 receipt를 보여주고 도감 저장 CTA로 이어진다.
+- [x] reward motion telemetry 또는 plot state evidence가 `album_record_next_seed` 재순환임을 남긴다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 playfield/action surface/reveal/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session blocker, focused Playwright screenshot, `npm run check:visual` evidence가 남았다. `npm run check:ci`까지 통과했다.
 
 ## 검증 명령
 
@@ -81,3 +81,19 @@
 
 - 현재는 단일 React/game-state/visual regression tranche이므로 Codex native subagents/team mode는 사용하지 않는다.
 - 필요 시 분리 기준: playfield telemetry mapping이 불명확하면 explorer/verifier subtask, 신규 FX asset이 필요하면 asset pipeline subtask로 분리한다.
+
+## 구현 결과
+
+- `AlbumRecordHarvestReceipt.actionLabel`을 추가해 두 번째 후속 기록 루프 수확을 `새 기록 재순환 수확`으로 구분했다.
+- harvest reveal aria/kicker/receipt가 `새 기록 재순환 생명체 발견` / `새 기록 재순환 수확`을 표시한다.
+- Phaser scene 및 DOM overlay playfield telemetry에 `plotSource`, `plotLabel`, `growthPreviewLabel`을 포함해 `album_record_next_seed` reward motion source를 검증할 수 있게 했다.
+- #322 target row 이후 방울새싹 씨앗 구매/심기/성장/수확이 `이슬연금 라미` named reveal로 닫히는 393px visual regression을 추가했다.
+
+## 검증 결과
+
+- Browser Use iab: `reports/visual/browser-use-blocker-0324-20260503.md` — 현재 세션 iab backend discovery 실패를 issue 전용 blocker로 기록.
+- Screenshot: `reports/visual/issue-324-album-record-loop-rami-harvest-payoff-393.png`
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "이슬연금 라미 수확 payoff"` — 1 passed
+- `npm run check:visual` — 65 passed
+- `npm run check:ci` — pass

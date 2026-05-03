@@ -52,13 +52,13 @@
 
 ## 수용 기준
 
-- [ ] #322 후속 기록 저장 이후 `방울새싹 씨앗 → 이슬연금 라미` target row에서 구매/심기를 할 수 있다.
-- [ ] 심은 plot/action feedback/next creature card가 `이슬연금 라미` 수확 예고와 `후속 성장 중` 또는 동등한 재순환 상태를 보여준다.
-- [ ] 수확 reveal이 `이슬연금 라미`와 새 기록 재순환 수확 receipt를 보여주고 도감 저장 CTA로 이어진다.
-- [ ] reward motion telemetry 또는 plot state evidence가 `album_record_next_seed` 재순환임을 남긴다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 playfield/action surface/reveal/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] #322 후속 기록 저장 이후 `방울새싹 씨앗 → 이슬연금 라미` target row에서 구매/심기를 할 수 있다.
+- [x] 심은 plot/action feedback/next creature card가 `이슬연금 라미` 수확 예고와 `후속 성장 중` 또는 동등한 재순환 상태를 보여준다.
+- [x] 수확 reveal이 `이슬연금 라미`와 새 기록 재순환 수확 receipt를 보여주고 도감 저장 CTA로 이어진다.
+- [x] reward motion telemetry 또는 plot state evidence가 `album_record_next_seed` 재순환임을 남긴다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 playfield/action surface/reveal/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session blocker, focused Playwright screenshot, `npm run check:visual` evidence가 남았다. `npm run check:ci`까지 통과했다.
 
 ## Visual evidence 계획
 
@@ -91,3 +91,14 @@
 - `npm run check:github-metadata`
 - `npm run check:seed-ops-queue`
 - `npm run check:closed-workunit-mirrors`
+
+## 구현 / 검증 evidence
+
+- Plan artifact: `items/0164-album-record-loop-rami-harvest-payoff.md`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0324-20260503.md`
+- Screenshot: `reports/visual/issue-324-album-record-loop-rami-harvest-payoff-393.png`
+- 구현 파일: `src/App.tsx`, `src/game/playfield/GardenPlayfieldHost.tsx`, `src/game/playfield/GardenScene.ts`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "이슬연금 라미 수확 payoff"` — 1 passed
+- `npm run check:visual` — 65 passed
+- `npm run check:ci` — pass

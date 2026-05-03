@@ -131,6 +131,7 @@ interface AlbumRecordHarvestReceipt {
   seedName: string;
   creatureName: string;
   clueLabel: string;
+  actionLabel: "새 기록 후속 수확" | "새 기록 재순환 수확";
 }
 
 interface OrderDeliveryReceipt {
@@ -954,13 +955,15 @@ export default function App() {
         currentSeed.id === nextCreatureGoal.seed.id &&
         harvestedCreature.id === nextCreatureGoal.creature.id
     );
+    const isAlbumRecordLoopHarvest = Boolean(isAlbumRecordFollowupHarvest && researchAlbumRecord?.source === "album_record_followup");
     const albumRecordHarvest: AlbumRecordHarvestReceipt | null =
       isAlbumRecordFollowupHarvest && currentSeed && harvestedCreature
         ? {
             id: Date.now(),
             seedName: currentSeed.name,
             creatureName: harvestedCreature.name,
-            clueLabel: `${currentSeed.name} 후속 재배에서 ${harvestedCreature.name} 발견`
+            clueLabel: `${currentSeed.name} 후속 재배에서 ${harvestedCreature.name} 발견`,
+            actionLabel: isAlbumRecordLoopHarvest ? "새 기록 재순환 수확" : "새 기록 후속 수확"
           }
         : null;
 
@@ -2694,7 +2697,9 @@ export default function App() {
             researchHarvestReceipt
               ? "단서 생명체 발견"
               : albumRecordHarvestReceipt
-                ? "새 기록 후속 생명체 발견"
+                ? albumRecordHarvestReceipt.actionLabel === "새 기록 재순환 수확"
+                  ? "새 기록 재순환 생명체 발견"
+                  : "새 기록 후속 생명체 발견"
                 : "첫 생명체 획득"
           }
         >
@@ -2709,7 +2714,13 @@ export default function App() {
               <span>✦</span>
             </div>
             <p className="reveal-kicker">
-              {researchHarvestReceipt ? "단서 생명체 발견" : albumRecordHarvestReceipt ? "새 기록 후속 발견" : "도감 첫 발견"}
+              {researchHarvestReceipt
+                ? "단서 생명체 발견"
+                : albumRecordHarvestReceipt
+                  ? albumRecordHarvestReceipt.actionLabel === "새 기록 재순환 수확"
+                    ? "새 기록 재순환 발견"
+                    : "새 기록 후속 발견"
+                  : "도감 첫 발견"}
             </p>
             <div className="harvest-portrait-frame">{renderAsset(harvestReveal.assetId, "생명체")}</div>
             <p className="panel-label reveal-label">
@@ -2735,8 +2746,8 @@ export default function App() {
               </article>
             )}
             {albumRecordHarvestReceipt && (
-              <article className="reveal-next-goal album-record-harvest-receipt" aria-label="새 기록 후속 수확">
-                <p className="panel-label">새 기록 후속 수확</p>
+              <article className="reveal-next-goal album-record-harvest-receipt" aria-label={albumRecordHarvestReceipt.actionLabel}>
+                <p className="panel-label">{albumRecordHarvestReceipt.actionLabel}</p>
                 <strong>{albumRecordHarvestReceipt.seedName} → {albumRecordHarvestReceipt.creatureName}</strong>
                 <span>예고했던 아이를 수확했어요 · 도감에 기록해 다음 목표를 열어요</span>
               </article>
@@ -3116,7 +3127,7 @@ function buildGardenPlayfieldViewModel(
                 : researchHarvestActive
                   ? `단서 생명체 발견 · ${researchHarvestReceipt?.creatureName ?? "새 생명체"} 도감 기록`
                   : albumRecordHarvestActive
-                    ? `새 기록 후속 수확 · ${albumRecordHarvestReceipt?.creatureName ?? "새 생명체"} 도감 기록`
+                    ? `${albumRecordHarvestReceipt?.actionLabel ?? "새 기록 후속 수확"} · ${albumRecordHarvestReceipt?.creatureName ?? "새 생명체"} 도감 기록`
                   : albumRecordPlantActive
                     ? `새 기록 후속 재배 · ${albumRecordPlantSeedName} 시작`
                   : researchSeedPlantedActive

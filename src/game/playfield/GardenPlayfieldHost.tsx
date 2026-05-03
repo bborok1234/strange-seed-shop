@@ -54,7 +54,16 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
       return;
     }
 
-    const event = { action: actionType, plotIndex, source: "procedural" as const, timestamp: Date.now() };
+    const plot = viewModelRef.current.plots.find((item) => item.index === plotIndex);
+    const event = {
+      action: actionType,
+      plotIndex,
+      source: "procedural" as const,
+      plotSource: plot?.source,
+      plotLabel: plot?.label,
+      growthPreviewLabel: plot?.growthPreviewLabel,
+      timestamp: Date.now()
+    };
     const qaWindow = window as unknown as {
       __gardenPlayfieldFxEvents?: Array<typeof event>;
     };
