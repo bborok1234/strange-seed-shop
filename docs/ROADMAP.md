@@ -317,6 +317,8 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 현재 evidence:
 
 - GitHub issue: #284 `정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다`
+- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
+- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
 - Plan artifact: `items/0144-first-screen-production-engine-layout.md`
 - Branch: `codex/0284-first-screen-production-engine-layout`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `browser-use:browser`
@@ -336,7 +338,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 5. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
 6. 다음 queue gate는 계속 `Codex native subagents` 또는 `team mode` 사용 여부를 명시한다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff와 vertical slice blocker 제거를 동반할 때만 고른다.
 
-다음 checkpoint는 issue body acceptance checkbox publication, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
+다음 checkpoint는 GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
 ## Previous Next Action History
 
 

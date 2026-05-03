@@ -1,7 +1,8 @@
 # #284 정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다
 
-- 상태: `ready-for-pr`
+- 상태: `pr-open`
 - GitHub issue: #284 `정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다`
+- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
 - Branch: `codex/0284-first-screen-production-engine-layout`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend`, `game-studio:game-playtest`, `browser-use:browser`
 - WorkUnit authority: GitHub issue/PR/GateEvent. local campaign ledger, stash, `.omx` state는 권한이 아니라 evidence/cache로만 사용한다.
