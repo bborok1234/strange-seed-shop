@@ -82,7 +82,8 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 새 기록 후속 수확 다음 목표 재순환 | done | Issue #322, PR #323 merged, main CI `25274789570`, `items/0163-album-record-followup-next-goal-loop.md`, `reports/visual/browser-use-blocker-0322-20260503.md`, `reports/visual/issue-322-album-record-followup-next-goal-loop-393.png`, `reports/operations/github-bodies/pr-322-album-record-followup-next-goal-loop-20260503.md`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 새 기록 후속 수확 도감 저장 직후 `다음 기록으로 이어가기`, `방울새싹 씨앗 → 이슬연금 라미` next target, seeds target row 재순환이 보이고 PR checks와 main CI로 닫힘 |
 | 다음 기록 목표 이슬연금 라미 수확 payoff | done | Issue #324, PR #325 merged, main CI `25275564341`, `items/0164-album-record-loop-rami-harvest-payoff.md`, `reports/visual/browser-use-blocker-0324-20260503.md`, `reports/visual/issue-324-album-record-loop-rami-harvest-payoff-393.png`, `reports/operations/github-bodies/pr-324-album-record-loop-rami-harvest-payoff-20260503.md`, `src/App.tsx`, `src/game/playfield/GardenPlayfieldHost.tsx`, `src/game/playfield/GardenScene.ts`, `tests/visual/p0-mobile-game-shell.spec.ts` | #322 다음 기록 target row에서 방울새싹 씨앗을 심고 이슬연금 라미 성장/수확/reveal payoff와 `album_record_next_seed` telemetry가 보이며 PR checks와 main CI로 닫힘 |
 | 라미 저장 다음 포장잎 상인 목표 재순환 | done | Issue #326, PR #327 merged, main CI `25277919013`, `items/0165-rami-record-next-merchant-goal.md`, `reports/visual/browser-use-blocker-0326-20260503.md`, `reports/visual/issue-326-rami-record-next-merchant-goal-393.png`, `reports/operations/gate-event-0326-rami-record-next-merchant-goal-20260503.md`, `reports/operations/github-bodies/pr-326-rami-record-next-merchant-goal-20260503.md`, `src/App.tsx`, `tests/visual/p0-mobile-game-shell.spec.ts` | 라미 도감 저장 직후 포장잎 상인 다음 목표 CTA와 젤리콩 씨앗 target row 재진입이 보이고 PR checks와 main CI로 닫힘 |
-| 포장잎 상인 수확 주문상자 payoff | review | Issue #328, `items/0166-merchant-record-harvest-crate-payoff.md`, `reports/visual/browser-use-blocker-0328-20260503.md`, `reports/visual/issue-328-merchant-record-harvest-crate-payoff-393.png`, `reports/operations/gate-event-0328-merchant-record-harvest-crate-payoff-20260503.md`, `reports/operations/github-bodies/pr-328-merchant-record-harvest-crate-payoff-20260503.md`, branch `codex/0328-merchant-harvest-crate-payoff`, `npm run check:visual` 67 passed, `npm run check:ci` pass | #326 target row에서 젤리콩 씨앗을 심고 포장잎 상인을 실제 수확한 뒤 merchant/order crate visual state와 reward motion이 검증되어 PR publication/check/merge gate로 이동 |
+| 포장잎 상인 수확 주문상자 payoff | done | Issue #328, PR #329 merged, main CI `25279311165`, `items/0166-merchant-record-harvest-crate-payoff.md`, `reports/visual/browser-use-blocker-0328-20260503.md`, `reports/visual/issue-328-merchant-record-harvest-crate-payoff-393.png`, `reports/operations/gate-event-0328-merchant-record-harvest-crate-payoff-20260503.md`, `reports/operations/github-bodies/pr-328-merchant-record-harvest-crate-payoff-20260503.md`, `npm run check:visual` 67 passed, `npm run check:ci` pass | #326 target row에서 젤리콩 씨앗을 심고 포장잎 상인을 실제 수확한 뒤 merchant/order crate visual state와 reward motion이 검증되어 PR checks, merge, main CI로 닫힘 |
+| 상인 주문상자 보상 수령 HUD FX | planned | Issue #330, `items/0167-merchant-crate-claim-fx.md`, branch `codex/0330-merchant-crate-claim-fx`, body-file `reports/operations/github-bodies/issue-merchant-crate-claim-fx-20260503.md` | 포장잎 상인 수확 직후 상인 주문상자 보상 수령 CTA, crate open/claimed state, HUD resource delta, reward flyout, 다음 납품/생산 목표를 393px visual QA와 PR/CI evidence로 검증한다 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Routine GitHub publication no-final harness | done | Issue #286, PR #287, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `npm run check:ci` pass, main CI `25266229841` | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
 | Closed WorkUnit mirror consistency gate | done | Issue #288, PR #289, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs`, main CI `25266430855` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
@@ -334,31 +335,27 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #328 **포장잎 상인 수확을 주문상자 payoff로 닫는다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
+현재 작업은 GitHub-authoritative open WorkUnit #330 **상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다**의 plan-first gate다. #328 → PR #329는 merge됐고 main CI `25279311165`가 성공했으므로, queue empty를 종료하지 않고 P0.5 Idle Core + Creative Rescue의 다음 reward-claim vertical slice로 이어간다.
 
 현재 evidence:
 
-- GitHub issue: #328 `포장잎 상인 수확을 주문상자 payoff로 닫는다`
-- Plan artifact: `items/0166-merchant-record-harvest-crate-payoff.md`
-- Branch: `codex/0328-merchant-harvest-crate-payoff`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-record-harvest-crate-payoff-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-328-merchant-record-harvest-crate-payoff-20260503.md`
-- GateEvent: `reports/operations/gate-event-0328-merchant-record-harvest-crate-payoff-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0328-20260503.md`
-- Screenshot: `reports/visual/issue-328-merchant-record-harvest-crate-payoff-393.png`
-- Implementation: `src/App.tsx`, `src/game/playfield/types.ts`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Validation: `npm run build` pass, focused Playwright 1 passed + 2 passed, `npm run check:visual` 67 passed, `npm run check:ci` pass
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing `포장잎 상인` portrait + DOM/CSS order crate visual state + reward motion + HUD affordance
+- GitHub issue: #330 `상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다`
+- Plan artifact: `items/0167-merchant-crate-claim-fx.md`
+- Branch: `codex/0330-merchant-crate-claim-fx`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-crate-claim-fx-20260503.md`
+- Prior closed WorkUnit: #328 / PR #329 / main CI `25279311165`
 - Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `젤리콩 씨앗을 심어 포장잎 상인을 수확하고 상인 주문상자를 확인하기`
-- Concrete payoff: `포장잎 상인` harvest reveal, `상인 주문상자`, `보상 포장 완료`, `다음 납품 준비`, playfield `order-variant-merchant-record`, bottom-tab/overflow-safe 393px screenshot
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`
+- Player verb: `포장잎 상인 주문상자를 눌러 보상을 받고 다음 납품 목표 확인하기`
+- Concrete payoff: order crate claim CTA, crate open/claimed state, reward flyout, HUD resource delta, next production/order affordance
 
 즉시 적용할 gate:
 
-1. `gh issue edit 328 --body-file reports/operations/github-bodies/issue-merchant-record-harvest-crate-payoff-20260503.md`.
-2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-328-merchant-record-harvest-crate-payoff-20260503.md`.
-3. GateEvent comment body-file publication, PR checks watch/repair, ready/merge when green.
-4. Post-merge main CI는 observation-only로 기록한다. 닫힌 PR/issue에 누락 evidence backfill을 위한 main closeout commit은 만들지 않는다.
-5. Stop rule이 없으므로 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
-6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
-7. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용한다. 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+1. `gh issue edit 330 --body-file reports/operations/github-bodies/issue-merchant-crate-claim-fx-20260503.md`로 issue projection을 plan artifact와 동기화한다.
+2. Plan-first mirror commit을 push한다.
+3. #330 scope 안에서 merchant crate claim state/UI/CSS/test를 구현한다.
+4. Browser Use iab current-session 시도 또는 blocker를 남기고 focused Playwright, `npm run check:visual`, `npm run check:ci`를 통과시킨다.
+5. PR body-file/GateEvent/evidence mirror를 작성하고 branch push → draft PR → checks watch/repair → green merge → main CI observation을 수행한다.
+6. Stop rule이 없으면 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
+7. Studio Campaign Gate: 다음 게임 WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+8. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence를 빠르게 만들 때만 사용한다. #330은 좁은 React/CSS/visual regression tranche라 solo execution으로 시작한다.

@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T11:31:50Z",
-  "source": "GitHub CLI observation after #326/#327 merge and active #328 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T12:40:00Z",
+  "source": "GitHub CLI observation after #328/#329 merge, main CI 25279311165 success, and active #330 intake; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 328,
-    "title": "포장잎 상인 수확을 주문상자 payoff로 닫는다",
-    "item": "items/0166-merchant-record-harvest-crate-payoff.md",
-    "branch": "codex/0328-merchant-harvest-crate-payoff"
+    "issue": 330,
+    "title": "상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다",
+    "item": "items/0167-merchant-crate-claim-fx.md",
+    "branch": "codex/0330-merchant-crate-claim-fx"
   },
   "workUnits": [
     {
@@ -556,6 +556,31 @@
         "GitHub-authoritative open WorkUnit #326",
         "Branch: `codex/0326-rami-record-next-merchant-goal`",
         "Branch: codex/0326-rami-record-next-merchant-goal"
+      ]
+    },
+    {
+      "issue": 328,
+      "issueTitle": "포장잎 상인 수확을 주문상자 payoff로 닫는다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T12:34:53Z",
+      "pr": 329,
+      "prTitle": "포장잎 상인 수확을 주문상자 payoff로 닫는다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T12:34:52Z",
+      "mergeCommit": "221b24feeb0081af692ae2444d88e50898b20739",
+      "mainCiRun": 25279311165,
+      "mainCiConclusion": "success",
+      "roadmapStep": "포장잎 상인 수확 주문상자 payoff",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #328",
+        "PR #329",
+        "main CI `25279311165`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #328",
+        "Branch: `codex/0328-merchant-harvest-crate-payoff`",
+        "Branch: codex/0328-merchant-harvest-crate-payoff"
       ]
     }
   ]
