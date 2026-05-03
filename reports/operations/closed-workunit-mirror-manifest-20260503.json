@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T04:07:00.000Z",
-  "source": "GitHub CLI observation after #300/#301 merge and active #302 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T04:26:00.000Z",
+  "source": "GitHub CLI observation after #302/#303 merge and active #304 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 302,
-    "title": "두 번째 주문 보상이 연구 노트 unlock payoff로 이어지게 만든다",
-    "item": "items/0153-research-unlock-note-payoff.md",
-    "branch": "codex/0302-research-unlock-note-payoff"
+    "issue": 304,
+    "title": "연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다",
+    "item": "items/0154-research-complete-clue-motion.md",
+    "branch": "codex/0304-research-complete-clue-motion"
   },
   "workUnits": [
     {
@@ -231,6 +231,31 @@
         "GitHub-authoritative open WorkUnit #300",
         "Branch: `codex/0300-snack-upgrade-worker-payoff`",
         "Branch: codex/0300-snack-upgrade-worker-payoff"
+      ]
+    },
+    {
+      "issue": 302,
+      "issueTitle": "두 번째 주문 보상이 연구 노트 unlock payoff로 이어지게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T04:21:56Z",
+      "pr": 303,
+      "prTitle": "#302 두 번째 주문 보상을 연구 노트 unlock으로 보이게 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T04:21:55Z",
+      "mergeCommit": "304331580223b0bdff860feea9ade47a7de50c39",
+      "mainCiRun": 25269728128,
+      "mainCiConclusion": "success",
+      "roadmapStep": "두 번째 주문 연구 노트 unlock payoff",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #302",
+        "PR #303",
+        "main CI `25269728128`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #302",
+        "Branch: `codex/0302-research-unlock-note-payoff`",
+        "Branch: codex/0302-research-unlock-note-payoff"
       ]
     }
   ]
