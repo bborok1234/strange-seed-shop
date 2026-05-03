@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T07:16:32Z",
-  "source": "GitHub CLI observation after #316/#317 merge and active #318 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T07:53:00Z",
+  "source": "GitHub CLI observation after #318/#319 merge and active #320 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 318,
-    "title": "새 기록 후속 재배 성장 중 다음 생명체 수확 예고를 보이게 만든다",
-    "item": "items/0161-album-record-followup-growth-preview.md",
-    "branch": "codex/0318-album-record-followup-growth-preview"
+    "issue": 320,
+    "title": "새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다",
+    "item": "items/0162-album-record-followup-harvest-reveal.md",
+    "branch": "codex/0320-album-record-followup-harvest-reveal"
   },
   "workUnits": [
     {
@@ -431,6 +431,31 @@
         "GitHub-authoritative open WorkUnit #316",
         "Branch: `codex/0316-album-record-next-seed-planting-payoff`",
         "Branch: codex/0316-album-record-next-seed-planting-payoff"
+      ]
+    },
+    {
+      "issue": 318,
+      "issueTitle": "새 기록 후속 재배 성장 중 다음 생명체 수확 예고를 보이게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T07:49:53Z",
+      "pr": 319,
+      "prTitle": "#318 새 기록 후속 성장 중 다음 생명체 수확 예고를 보이게 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T07:49:53Z",
+      "mergeCommit": "0884f7687579e3a5efd41d0e97f8ceaf6932e502",
+      "mainCiRun": 25273528617,
+      "mainCiConclusion": "success",
+      "roadmapStep": "새 기록 후속 재배 성장/수확 예고",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #318",
+        "PR #319",
+        "main CI `25273528617`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #318",
+        "Branch: `codex/0318-album-record-followup-growth-preview`",
+        "Branch: codex/0318-album-record-followup-growth-preview"
       ]
     }
   ]
