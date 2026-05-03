@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T11:24:37.973Z
+Generated at: 2026-05-03T11:26:00.406Z
 
 ## Current mission
 
@@ -39,22 +39,22 @@ Generated at: 2026-05-03T11:24:37.973Z
 ## Local state
 
 - Branch: codex/0326-rami-record-next-merchant-goal
-- Latest commit: 09e4865 포장잎 상인 다음 목표 WorkUnit을 plan-first로 고정한다
+- Latest commit: b47c9bd 라미 저장 후 포장잎 상인 목표를 보존한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T11:24:08.045Z
-- Phase: issue-326-pr-publication
+- Timestamp: 2026-05-03T11:25:57.741Z
+- Phase: issue-326-pr-checks
 - Issue: 326
-- PR: 
+- PR: 327
 - Item: items/0165-rami-record-next-merchant-goal.md
-- Next action: gate: publish #326 issue/PR body files, watch PR checks, merge when green
+- Next action: watch PR #327 checks, repair if needed, mark ready and merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #327 draft 라미 저장 후 포장잎 상인 목표를 보존한다 — https://github.com/bborok1234/strange-seed-shop/pull/327
 
 ## Open issues
 
