@@ -1,9 +1,9 @@
 # Studio Harness v3 Foreground Operator Entry
 
-- Updated: 2026-05-03T02:10:49.268Z
+- Updated: 2026-05-03T02:59:04.244Z
 - Backend: omx
 - Worktree: `/Users/mirlim/Documents/strange-seed-shop`
-- Initial issue: #293
+- Initial issue: #296
 - Prompt: `.omx/state/studio-v3-operator-prompt.md`
 - State: `.omx/state/studio-v3-operator.json`
 
@@ -27,13 +27,13 @@
 ## Foreground command
 
 ```bash
-omx 'exec' '-C' '/Users/mirlim/Documents/strange-seed-shop' '--ask-for-approval' 'never' '--sandbox' 'danger-full-access' '-' < '.omx/state/studio-v3-operator-prompt.md'
+omx 'exec' '-C' '/Users/mirlim/Documents/strange-seed-shop' '-c' 'approval_policy="never"' '--sandbox' 'danger-full-access' '-' < '.omx/state/studio-v3-operator-prompt.md'
 ```
 
 ## Detached command
 
 ```bash
 mkdir -p '.omx/logs' '.omx/state'
-nohup '/Users/mirlim/.nvm/versions/node/v24.12.0/bin/node' '/Users/mirlim/Documents/strange-seed-shop/scripts/studio-v3-operator.mjs' '--supervisor' '--duration-hours' '24' '--interval-seconds' '300' '--max-iterations' '0' '--worktree' '/Users/mirlim/Documents/strange-seed-shop' '--backend' 'omx' '--prompt' '.omx/state/studio-v3-operator-prompt.md' '--state' '.omx/state/studio-v3-operator.json' '--report' 'reports/operations/studio-v3-operator-20260503.md' '--issue' '293' > '.omx/logs/studio-v3-operator-20260503T021047Z.log' 2>&1 &
+nohup '/Users/mirlim/.nvm/versions/node/v24.12.0/bin/node' '/Users/mirlim/Documents/strange-seed-shop/scripts/studio-v3-operator.mjs' '--supervisor' '--duration-hours' '24' '--interval-seconds' '300' '--max-iterations' '0' '--worktree' '/Users/mirlim/Documents/strange-seed-shop' '--backend' 'omx' '--prompt' '.omx/state/studio-v3-operator-prompt.md' '--state' '.omx/state/studio-v3-operator.json' '--report' 'reports/operations/studio-v3-operator-20260503.md' '--issue' '296' > '.omx/logs/studio-v3-operator-20260503T025902Z.log' 2>&1 &
 echo $! > '.omx/state/studio-v3-operator.pid'
 ```

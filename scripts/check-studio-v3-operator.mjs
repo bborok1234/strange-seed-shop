@@ -113,6 +113,12 @@ const doctor = runNode([
 for (const phrase of ["\"checks\"", "# foreground", "# detached", "codex", "studio-v3-operator-prompt"]) {
   if (!doctor.includes(phrase) && !doctor.includes(path.basename(promptPath))) failures.push(`doctor output missing phrase: ${phrase}`);
 }
+if (doctor.includes("--ask-for-approval")) {
+  failures.push("doctor command still emits unsupported --ask-for-approval flag");
+}
+for (const phrase of ['-c', 'approval_policy="never"', "--sandbox", "danger-full-access"]) {
+  if (!doctor.includes(phrase)) failures.push(`doctor command missing current Codex CLI flag: ${phrase}`);
+}
 
 const promptOnly = runNode([
   "scripts/studio-v3-operator.mjs",

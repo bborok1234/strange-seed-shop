@@ -3,45 +3,48 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T02:33:23.781Z
+Generated at: 2026-05-03T03:16:36.548Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #292 **복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다**이다. #293에서 v3 foreground operator entrypoint를 복구했으므로, 지금은 그 GitHub-authoritative queue의 게임 WorkUnit을 이어서 PR/merge gate까지 진행한다.
+현재 작업은 GitHub-authoritative open WorkUnit #296 **첫 주문 납품을 상자 출하 상태와 보상 흐름으로 production화한다**이다. #292는 main commit `234ea5f`와 main CI `25267928815`로 닫혔고, 지금은 #296 PR/merge gate를 진행한다.
 
 현재 evidence:
 
-- GitHub issue: #292 `복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다`
-- Plan artifact: `items/0148-return-30s-production-briefing.md`
-- Branch: `codex/0292-return-30s-production-briefing`
+- GitHub issue: #296 `첫 주문 납품을 상자 출하 상태와 보상 흐름으로 production화한다`
+- Plan artifact: `items/0150-order-crate-dispatch-reward-motion.md`
+- Branch: `codex/0296-order-crate-dispatch-reward-motion`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`
-- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Browser Use current-session blocker/fix: `reports/visual/browser-use-blocker-0292-20260503.md`, `reports/operations/codex-cli-browser-use-node-repl-fix-20260503.md`
-- Visual evidence: `reports/visual/0292-mobile-comeback-production-briefing-393-20260503.png`
+- Implementation: `src/App.tsx`, `src/game/playfield/types.ts`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Harness sidecar: `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs` — 현재 Codex CLI foreground command가 unsupported `--ask-for-approval`을 내보내지 않도록 `-c approval_policy="never"` gate를 고정한다.
+- Browser Use current-session blocker: `reports/visual/browser-use-blocker-0296-20260503.md`
+- Visual evidence: `reports/visual/issue-296-order-crate-dispatch-reward-motion-393.png`
+- Verification: `npm run build` pass, focused Playwright 8 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. Browser Use iab를 우선하되, 현재 Codex CLI 세션은 `node_repl` MCP를 hot reload하지 못한 blocker를 기록했다. 다음 CLI 세션은 `codex mcp get node_repl` doctor를 먼저 확인한다.
-3. 게임 WorkUnit 선택은 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
-4. `npm run check:visual` 55 passed와 `npm run check:ci` passed를 PR 본문에 merge-blocking evidence로 포함한다.
-5. 다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+2. Browser Use iab current-session blocker를 PR에 명시하고, Playwright fallback screenshot/regression을 merge-blocking visual evidence로 연결한다.
+3. #296의 “출하 준비/봉인 완료” copy는 첫 주문 ready 상태에만 제한되어야 한다. 온실 후속 주문의 기존 `납품 준비` 회귀는 focused 8개와 full visual gate로 검증했다.
+4. PR body-file에 `요약`, `Small win`, `사용자/운영자 가치`, `Before / After 또는 Visual evidence`, `Playable mode`, `검증`, `안전 범위`, `남은 위험`, `연결된 issue`, `작업 checklist`를 유지한다.
+5. 다음 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+6. 다음 게임 WorkUnit 선택도 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0292-return-30s-production-briefing
-- Latest commit: de07bf1 Studio v3 live runner가 queue empty를 production-game-intake-required로 판정했으므로, 다음 작업을 실제 게임 복귀 30초 production 품질 개선으로 고정한다.
+- Branch: codex/0296-order-crate-dispatch-reward-motion
+- Latest commit: 234ea5f #292 복귀 첫 30초 생산 목표를 보상 CTA에 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T02:25:56.808Z
-- Phase: issue-292-verification
-- Issue: 292
+- Timestamp: 2026-05-03T03:02:30.867Z
+- Phase: studio-v3-live-runner
+- Issue: 296
 - PR: 
-- Item: items/0148-return-30s-production-briefing.md
-- Next action: verification gate: run full check:visual and check:ci before PR
+- Item: items/0150-order-crate-dispatch-reward-motion.md
+- Next action: implementation gate: plan-first for GitHub issue #296
 
 ## Open PRs
 
@@ -49,7 +52,7 @@ Generated at: 2026-05-03T02:33:23.781Z
 
 ## Open issues
 
-- #292 복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/292
+- #296 첫 주문 납품을 상자 출하 상태와 보상 흐름으로 production화한다 — https://github.com/bborok1234/strange-seed-shop/issues/296
 
 ## Playable mode
 
