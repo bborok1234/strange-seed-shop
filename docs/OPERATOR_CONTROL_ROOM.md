@@ -3,62 +3,58 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T14:15:17.128Z
+Generated at: 2026-05-03T14:20:00.942Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #330 **상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
+현재 작업은 GitHub-authoritative open WorkUnit #332 **포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다**의 plan-first gate다. #330 → PR #331는 merge됐고 main CI `25281550163`가 성공했으므로, queue empty를 종료하지 않고 P0.5 Idle Core + Creative Rescue의 merchant follow-up order vertical slice로 이어간다.
 
 현재 evidence:
 
-- GitHub issue: #330 `상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다`
-- Plan artifact: `items/0167-merchant-crate-claim-fx.md`
-- Branch: `codex/0330-merchant-crate-claim-fx`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-crate-claim-fx-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-330-merchant-crate-claim-fx-20260503.md`
-- GateEvent: `reports/operations/gate-event-0330-merchant-crate-claim-fx-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0330-20260503.md`
-- Screenshot: `reports/visual/issue-330-merchant-crate-claim-fx-393.png`
-- Implementation: `src/App.tsx`, `src/types/game.ts`, `src/lib/persistence.ts`, `src/game/playfield/types.ts`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Validation: `npm run build` pass, focused Playwright 1 passed + 2 passed, `npm run check:visual` 68 passed, `npm run check:ci` pass
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing `포장잎 상인` portrait + DOM/CSS order crate claim/open state + reward flyout + HUD delta
+- GitHub issue: #332 `포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다`
+- Plan artifact: `items/0168-merchant-followup-order.md`
+- Branch: `codex/0332-merchant-followup-order`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-followup-order-20260503.md`
+- Prior closed WorkUnit: #330 / PR #331 / main CI `25281550163`
 - Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `포장잎 상인 주문상자를 눌러 보상을 받고 다음 납품 목표 확인하기`
-- Concrete payoff: `상인 주문상자 보상 받기`, `상자 열림`, `+36 잎 · +1 꽃가루`, `HUD 보상 이동`, playfield `order-variant-merchant-claimed`, bottom-tab/overflow-safe 393px screenshot
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`
+- Player verb: `상인 주문상자 보상을 받은 뒤 단골 납품 주문을 채워 보내기`
+- Concrete payoff: merchant follow-up order crate visual state, progress HUD affordance, delivery reward motion, claimed/delivered crate state
 
 즉시 적용할 gate:
 
-1. `gh issue edit 330 --body-file reports/operations/github-bodies/issue-merchant-crate-claim-fx-20260503.md`.
-2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-330-merchant-crate-claim-fx-20260503.md`.
-3. GateEvent comment body-file publication, PR checks watch/repair, ready/merge when green.
-4. Post-merge main CI는 observation-only로 기록한다. 닫힌 PR/issue에 누락 evidence backfill을 위한 main closeout commit은 만들지 않는다.
-5. Stop rule이 없으므로 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
-6. Studio Campaign Gate: 다음 게임 WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
-7. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용한다.
+1. `gh issue edit 332 --body-file reports/operations/github-bodies/issue-merchant-followup-order-20260503.md`로 issue projection을 plan artifact와 동기화한다.
+2. Plan-first mirror commit을 push한다.
+3. #332 scope 안에서 merchant follow-up order/progress/delivery payoff를 구현한다.
+4. Browser Use iab current-session 시도 또는 blocker를 남기고 focused Playwright, `npm run check:visual`, `npm run check:ci`를 통과시킨다.
+5. PR body-file/GateEvent/evidence mirror를 작성하고 branch push → draft PR → checks watch/repair → green merge → main CI observation을 수행한다.
+6. Stop rule이 없으면 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
+7. Studio Campaign Gate: 다음 게임 WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+8. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence를 빠르게 만들 때만 사용한다. #332는 좁은 order-selection/React/CSS/visual regression tranche라 solo execution으로 시작한다.
 
 ## Local state
 
-- Branch: codex/0330-merchant-crate-claim-fx
-- Latest commit: d723b70 상인 주문상자 수령을 HUD 보상 이동으로 닫는다
+- Branch: codex/0332-merchant-followup-order
+- Latest commit: f0b7b9b 상인 주문상자 수령을 HUD 보상 이동으로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T14:15:14.925Z
-- Phase: issue-330-pr-checks
-- Issue: 330
-- PR: 331
-- Item: items/0167-merchant-crate-claim-fx.md
-- Next action: gate: watch PR #331 checks, repair if needed, mark ready and merge when green
+- Timestamp: 2026-05-03T14:19:58.603Z
+- Phase: issue-332-plan-first
+- Issue: 332
+- PR: 
+- Item: items/0168-merchant-followup-order.md
+- Next action: gate: sync issue #332 body, commit plan-first mirror, implement merchant follow-up order
 
 ## Open PRs
 
-- #331 draft 상인 주문상자 수령을 HUD 보상 이동으로 닫는다 — https://github.com/bborok1234/strange-seed-shop/pull/331
+- unavailable or none
 
 ## Open issues
 
-- #330 상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/330
+- #332 포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다 — https://github.com/bborok1234/strange-seed-shop/issues/332
 
 ## Playable mode
 

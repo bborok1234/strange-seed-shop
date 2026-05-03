@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T12:40:00Z",
-  "source": "GitHub CLI observation after #328/#329 merge, main CI 25279311165 success, and active #330 intake; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T14:23:00Z",
+  "source": "GitHub CLI observation after #330/#331 merge, main CI 25281550163 success, and active #332 intake; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 330,
-    "title": "상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다",
-    "item": "items/0167-merchant-crate-claim-fx.md",
-    "branch": "codex/0330-merchant-crate-claim-fx"
+    "issue": 332,
+    "title": "포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다",
+    "item": "items/0168-merchant-followup-order.md",
+    "branch": "codex/0332-merchant-followup-order"
   },
   "workUnits": [
     {
@@ -581,6 +581,31 @@
         "GitHub-authoritative open WorkUnit #328",
         "Branch: `codex/0328-merchant-harvest-crate-payoff`",
         "Branch: codex/0328-merchant-harvest-crate-payoff"
+      ]
+    },
+    {
+      "issue": 330,
+      "issueTitle": "상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T14:17:00Z",
+      "pr": 331,
+      "prTitle": "상인 주문상자 수령을 HUD 보상 이동으로 닫는다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T14:16:59Z",
+      "mergeCommit": "f0b7b9b8c19ac311504b9fafd3104568ed28dd25",
+      "mainCiRun": 25281550163,
+      "mainCiConclusion": "success",
+      "roadmapStep": "상인 주문상자 보상 수령 HUD FX",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #330",
+        "PR #331",
+        "main CI `25281550163`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #330",
+        "Branch: `codex/0330-merchant-crate-claim-fx`",
+        "Branch: codex/0330-merchant-crate-claim-fx"
       ]
     }
   ]
