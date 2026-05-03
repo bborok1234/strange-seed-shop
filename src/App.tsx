@@ -79,6 +79,13 @@ interface ProductionBoostReceipt {
   bonusPercent: number;
 }
 
+interface ResearchUnlockReceipt {
+  id: number;
+  orderTitle: string;
+  rewardLabel: string;
+  researchTitle: string;
+}
+
 interface OrderDeliveryReceipt {
   id: number;
   orderId: string;
@@ -256,6 +263,7 @@ export default function App() {
   const [productionFx, setProductionFx] = useState<ProductionFxState | null>(null);
   const [productionClaimReceipt, setProductionClaimReceipt] = useState<ProductionClaimReceipt | null>(null);
   const [productionBoostReceipt, setProductionBoostReceipt] = useState<ProductionBoostReceipt | null>(null);
+  const [researchUnlockReceipt, setResearchUnlockReceipt] = useState<ResearchUnlockReceipt | null>(null);
   const [orderDeliveryReceipt, setOrderDeliveryReceipt] = useState<OrderDeliveryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
@@ -508,6 +516,7 @@ export default function App() {
     lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
     productionClaimReceipt ? "has-production-claim-receipt" : "",
     productionBoostReceipt ? "has-production-boost-receipt" : "",
+    researchUnlockReceipt ? "has-research-unlock-receipt" : "",
     orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
     firstOrderDispatchReceiptActive ? "has-first-order-dispatch-receipt" : "",
     save &&
@@ -564,8 +573,8 @@ export default function App() {
     : visibleSeedInventorySeeds;
   const totalOwnedSeeds = save ? Object.values(save.seedInventory).reduce((total, count) => total + count, 0) : 0;
   const gardenViewModel = useMemo(
-    () => buildGardenPlayfieldViewModel(save, now, manifest, orderDeliveryReceipt, productionClaimReceipt, productionBoostReceipt),
-    [save, now, manifest, orderDeliveryReceipt, productionClaimReceipt, productionBoostReceipt]
+    () => buildGardenPlayfieldViewModel(save, now, manifest, orderDeliveryReceipt, productionClaimReceipt, productionBoostReceipt, researchUnlockReceipt),
+    [save, now, manifest, orderDeliveryReceipt, productionClaimReceipt, productionBoostReceipt, researchUnlockReceipt]
   );
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
   const showDebugPanel = getLocalDebugMode();
@@ -829,6 +838,7 @@ export default function App() {
 
     setOrderDeliveryReceipt(null);
     setProductionClaimReceipt(null);
+    setResearchUnlockReceipt(null);
     commit((draft) => {
       draft.leaves -= PRODUCTION_BOOST_COST_LEAVES;
       draft.pollen -= PRODUCTION_BOOST_COST_POLLEN;
@@ -990,6 +1000,7 @@ export default function App() {
   }
 
   function buyFirstResearch() {
+    setResearchUnlockReceipt(null);
     commit((draft) => {
       if (
         draft.researchLevel >= FIRST_RESEARCH_MAX_LEVEL ||
@@ -1108,6 +1119,7 @@ export default function App() {
     };
 
     setOrderDeliveryReceipt(null);
+    setResearchUnlockReceipt(null);
     commit((draft) => {
       draft.leaves += pendingLeaves;
       draft.idleProduction.pendingLeaves = 0;
@@ -1145,6 +1157,7 @@ export default function App() {
     }
 
     setProductionClaimReceipt(null);
+    setProductionBoostReceipt(null);
 
     const orderFxAssetId = getProductionFxAssetId("order", orderBeforeDelivery);
     const deliveryReceipt: OrderDeliveryReceipt = {
@@ -1154,6 +1167,16 @@ export default function App() {
       rewardLabel: formatOrderReward(orderBeforeDelivery),
       nextOrderTitle: getOrderAfterCompleting(save, orderBeforeDelivery).title
     };
+    const researchReceipt: ResearchUnlockReceipt | null =
+      orderBeforeDelivery.id === SECOND_ORDER.id
+        ? {
+            id: Date.now(),
+            orderTitle: orderBeforeDelivery.title,
+            rewardLabel: formatOrderReward(orderBeforeDelivery),
+            researchTitle: "새싹 기록법 연구"
+          }
+        : null;
+
     commit((draft) => {
       const currentOrder = getCurrentOrder(draft);
       const progress = draft.idleProduction.orderProgress[currentOrder.id] ?? 0;
@@ -1170,13 +1193,31 @@ export default function App() {
         rewardLeaves: currentOrder.rewardLeaves,
         rewardPollen: currentOrder.rewardPollen,
         rewardMaterials: currentOrder.rewardMaterials ?? 0,
-        dispatchState: "crate_dispatched"
+        dispatchState: "crate_dispatched",
+        researchUnlock: currentOrder.id === SECOND_ORDER.id
       });
+      if (currentOrder.id === SECOND_ORDER.id) {
+        trackEvent("research_unlocked", {
+          orderId: currentOrder.id,
+          researchId: "seed_log_1",
+          rewardMotion: "research_note_unlock"
+        });
+      }
     });
-    setOrderDeliveryReceipt(deliveryReceipt);
-    window.setTimeout(() => {
-      setOrderDeliveryReceipt((current) => (current?.id === deliveryReceipt.id ? null : current));
-    }, 1_800);
+    if (orderBeforeDelivery.id === FIRST_ORDER.id) {
+      setOrderDeliveryReceipt(deliveryReceipt);
+      window.setTimeout(() => {
+        setOrderDeliveryReceipt((current) => (current?.id === deliveryReceipt.id ? null : current));
+      }, 1_800);
+    } else {
+      setOrderDeliveryReceipt(null);
+    }
+    if (researchReceipt) {
+      setResearchUnlockReceipt(researchReceipt);
+      window.setTimeout(() => {
+        setResearchUnlockReceipt((current) => (current?.id === researchReceipt.id ? null : current));
+      }, 2_000);
+    }
     triggerProductionFx("order", orderFxAssetId);
     triggerRewardPulse();
   }
@@ -1459,6 +1500,7 @@ export default function App() {
                   lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
                   productionClaimReceipt ? "has-production-claim-receipt" : "",
                   productionBoostReceipt ? "has-production-boost-receipt" : "",
+                  researchUnlockReceipt ? "has-research-unlock-receipt" : "",
                   orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
                   firstOrderDispatchReady ? "has-order-ready" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
@@ -1526,6 +1568,14 @@ export default function App() {
                     <strong>생산 +{productionBoostReceipt.bonusPercent}%</strong>
                     <span>분당 {formatRatePerMinute(productionBoostReceipt.previousRatePerMinute)} → {formatRatePerMinute(productionBoostReceipt.nextRatePerMinute)} 잎</span>
                     <small>다음 주문을 더 빨리 채워요</small>
+                  </div>
+                )}
+                {researchUnlockReceipt && (
+                  <div className="research-unlock-receipt" aria-label="연구 노트 열림">
+                    <span className="research-unlock-chip">연구 노트 열림</span>
+                    <strong>{researchUnlockReceipt.researchTitle}</strong>
+                    <span>{researchUnlockReceipt.orderTitle} · {researchUnlockReceipt.rewardLabel}</span>
+                    <small>다음 생명체 단서를 기록할 수 있어요</small>
                   </div>
                 )}
                 {orderDeliveryReceipt && (
@@ -2487,7 +2537,8 @@ function buildGardenPlayfieldViewModel(
   manifest: AssetManifest | null,
   orderDeliveryReceipt: OrderDeliveryReceipt | null,
   productionClaimReceipt: ProductionClaimReceipt | null,
-  productionBoostReceipt: ProductionBoostReceipt | null
+  productionBoostReceipt: ProductionBoostReceipt | null,
+  researchUnlockReceipt: ResearchUnlockReceipt | null
 ): GardenPlayfieldViewModel {
   if (!save) {
     return {
@@ -2557,6 +2608,7 @@ function buildGardenPlayfieldViewModel(
   const firstOrderDispatchReceiptActive = orderDeliveryReceipt?.orderId === FIRST_ORDER.id;
   const productionClaimActive = Boolean(productionClaimReceipt);
   const productionBoostActive = Boolean(productionBoostReceipt);
+  const researchUnlockActive = Boolean(researchUnlockReceipt);
   const productionScene =
     productionStatus.ratePerMinute > 0
       ? {
@@ -2567,14 +2619,18 @@ function buildGardenPlayfieldViewModel(
               ? `+${productionClaimReceipt?.leaves ?? 0} 잎 수령 · 주문 상자에 반짝임 전달`
               : productionBoostActive
                 ? `작업 간식 충전 · 분당 ${formatRatePerMinute(productionBoostReceipt?.nextRatePerMinute ?? productionStatus.ratePerMinute)} 잎`
-                : productionStatus.orderCompleted
+                : researchUnlockActive
+                  ? "연구 노트 발견 · 새싹 기록법 열림"
+                  : productionStatus.orderCompleted
               ? `${productionStatus.workerDetail} · 납품을 마치고 쉬는 중`
               : productionStatus.workerDetail,
           rateLabel: `분당 ${formatRatePerMinute(productionStatus.ratePerMinute)} 잎`,
           pendingLabel: `대기 ${productionStatus.pendingLeaves} 잎`,
           orderTitle: firstOrderDispatchReceiptActive
             ? "첫 주문 상자 출하"
-            : mistCondenserPayoffActive
+            : researchUnlockActive
+              ? "연구 노트 개방"
+              : mistCondenserPayoffActive
             ? "물안개 응축 완료"
             : productionStatus.orderCompleted
               ? `${productionStatus.order.title} 완료`
@@ -2583,11 +2639,13 @@ function buildGardenPlayfieldViewModel(
             ? "보상 수거 완료"
             : productionClaimActive
               ? `${productionClaimReceipt?.orderProgress ?? productionStatus.orderProgress}/${productionClaimReceipt?.orderRequired ?? productionStatus.order.requiredLeaves} 잎`
-              : mistCondenserPayoffActive
+              : researchUnlockActive
+                ? "새싹 기록법 연구"
+                : mistCondenserPayoffActive
             ? "응축기 가동"
             : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
-          orderReady: productionStatus.orderReady || firstOrderDispatchReceiptActive,
-          orderCompleted: productionStatus.orderCompleted || firstOrderDispatchReceiptActive,
+          orderReady: productionStatus.orderReady || firstOrderDispatchReceiptActive || researchUnlockActive,
+          orderCompleted: productionStatus.orderCompleted || firstOrderDispatchReceiptActive || researchUnlockActive,
           orderVariant: firstOrderDispatchReceiptActive
             ? ("first-dispatched" as const)
             : lunarGuardianOrderActive
@@ -2601,7 +2659,9 @@ function buildGardenPlayfieldViewModel(
               ? `+${productionClaimReceipt?.leaves ?? 0} 잎 이동`
               : productionBoostActive
                 ? `생산 +${productionBoostReceipt?.bonusPercent ?? Math.round(PRODUCTION_BOOST_RATE_BONUS * 100)}%`
-                : mistCondenserPayoffActive
+                : researchUnlockActive
+                  ? "연구 열림"
+                  : mistCondenserPayoffActive
             ? "달빛 온실 단서 +1"
             : lunarGuardianOrderActive
               ? productionStatus.orderCompleted

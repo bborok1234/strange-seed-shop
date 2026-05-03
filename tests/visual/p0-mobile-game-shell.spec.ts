@@ -359,8 +359,35 @@ test("모바일 연구 unlock은 두 번째 주문 보상에서 연구 완료로
     return events.some((event) => event.kind === "order");
   });
 
-  await expect(page.getByText("새싹 기록법 연구", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("연구 노트 열림")).toBeVisible();
+  await expect(page.getByLabel("연구 노트 열림")).toContainText("새싹 기록법 연구");
+  await expect(page.getByLabel("연구 노트 열림")).toContainText("연구 준비 잎 묶음");
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("연구 노트 발견 · 새싹 기록법 열림", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("연구 열림", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: /새싹 기록법 연구/ })).toBeEnabled();
+  const researchUnlockMetrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".starter-panel");
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const receipt = document.querySelector<HTMLElement>(".research-unlock-receipt")?.getBoundingClientRect();
+    const researchChoice = document.querySelector<HTMLElement>(".upgrade-choice-seed_research_1")?.getBoundingClientRect();
+    return {
+      panelClientHeight: panel?.clientHeight ?? 0,
+      panelScrollHeight: panel?.scrollHeight ?? 0,
+      tabs: tabs ? { top: tabs.top } : null,
+      receipt: receipt ? { bottom: receipt.bottom } : null,
+      researchChoice: researchChoice ? { bottom: researchChoice.bottom } : null
+    };
+  });
+  expect(researchUnlockMetrics.receipt).not.toBeNull();
+  expect(researchUnlockMetrics.researchChoice).not.toBeNull();
+  expect(researchUnlockMetrics.panelScrollHeight).toBeLessThanOrEqual(researchUnlockMetrics.panelClientHeight + 1);
+  expect(researchUnlockMetrics.receipt!.bottom).toBeLessThanOrEqual(researchUnlockMetrics.tabs!.top - 4);
+  expect(researchUnlockMetrics.researchChoice!.bottom).toBeLessThanOrEqual(researchUnlockMetrics.tabs!.top - 4);
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-research-unlock-note-payoff-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
   await page.getByRole("button", { name: /새싹 기록법 연구/ }).click();
   await expect(page.getByText("연구 완료", { exact: true })).toBeVisible();
   await expect

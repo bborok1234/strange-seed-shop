@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T04:07:38.113Z
+Generated at: 2026-05-03T04:18:27.748Z
 
 ## Current mission
 
@@ -19,7 +19,9 @@ Generated at: 2026-05-03T04:07:38.113Z
 - Player verb: `연구 준비 잎 묶음 납품하기`
 - Production role: 반복 주문 완료 → 연구 unlock → 다음 생명체/원정 단서
 - Screen moment: 생산 속도 강화 후 두 번째 주문을 채우고 납품하는 순간
-- Planned payoff: research note receipt, playfield order crate state, HUD affordance, reward motion
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Visual evidence: `reports/visual/browser-use-blocker-0302-20260503.md`, `reports/visual/issue-302-research-unlock-note-payoff-393.png`
+- Verification: `npm run build` pass, focused Playwright `연구 unlock` 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
@@ -27,24 +29,24 @@ Generated at: 2026-05-03T04:07:38.113Z
 2. 구현 전 plan artifact의 수용 기준과 Game Studio route를 유지한다.
 3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
 4. 393px 모바일 visual regression은 research note unlock, research CTA, action-surface overflow, bottom-tab overlap을 함께 검증한다.
-5. 남은 checkpoint는 implementation, focused visual, `npm run check:visual`, `npm run check:ci`, branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+5. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. 다음 게임 WorkUnit 선택도 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
 - Branch: codex/0302-research-unlock-note-payoff
-- Latest commit: c5afae7 #300 작업 간식 강화를 포리 생산 버프로 보이게 만든다
+- Latest commit: ff6c919 #302 연구 노트 unlock payoff를 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T04:07:34Z
-- Phase: issue-302-plan-first
+- Timestamp: 2026-05-03T04:18:24Z
+- Phase: issue-302-pr-publication
 - Issue: 302
 - PR: 
 - Item: items/0153-research-unlock-note-payoff.md
-- Next action: implementation gate: map research unlock flow, implement note payoff, verify visual/ci, publish PR
+- Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
 

@@ -2,7 +2,7 @@
 
 ## 상태
 
-- 상태: plan-ready
+- 상태: verification-ready
 - GitHub issue: #302 `두 번째 주문 보상이 연구 노트 unlock payoff로 이어지게 만든다`
 - Branch: `codex/0302-research-unlock-note-payoff`
 - Studio Harness v3 route: GitHub-authoritative WorkUnit intake. `$seed-ops` 사용 안 함.
@@ -12,19 +12,19 @@
 
 ## Plan
 
-1. 현재 second order delivery, research unlock, first research purchase flow, playfield/order copy를 매핑한다.
-2. second order delivery 직후 research note receipt/playfield order state/research CTA glow를 설계한다.
-3. 모바일 393px visual regression에 두 번째 주문 납품 후 research unlock, overflow/bottom-tab invariant, screenshot을 추가한다.
-4. Browser Use iab 우선 QA를 현재 세션에서 다시 시도하고, blocker면 `reports/visual/browser-use-blocker-0302-20260503.md`와 Playwright screenshot fallback을 남긴다.
-5. `docs/ROADMAP.md`, `docs/DASHBOARD.md`, `docs/OPERATOR_CONTROL_ROOM.md`, closed WorkUnit mirror, PR/issue body-file evidence를 갱신한다.
+1. ✅ 현재 second order delivery, research unlock, first research purchase flow, playfield/order copy를 매핑한다.
+2. ✅ second order delivery 직후 research note receipt/playfield order state/research CTA glow를 설계한다.
+3. ✅ 모바일 393px visual regression에 두 번째 주문 납품 후 research unlock, overflow/bottom-tab invariant, screenshot을 추가한다.
+4. ✅ Browser Use iab 우선 QA를 현재 세션에서 다시 시도하고, blocker면 `reports/visual/browser-use-blocker-0302-20260503.md`와 Playwright screenshot fallback을 남긴다.
+5. ✅ `docs/ROADMAP.md`, `docs/DASHBOARD.md`, `docs/OPERATOR_CONTROL_ROOM.md`, closed WorkUnit mirror, PR/issue body-file evidence를 갱신한다.
 
 ## 수용 기준
 
-- [ ] 두 번째 주문 납품 직후 research note/unlock payoff가 action surface 또는 playfield에서 보인다.
-- [ ] 연구 CTA가 다음 actionable verb로 명확하게 이어진다.
-- [ ] 모바일 393px에서 body scroll, panel overflow, bottom-tab overlap 회귀가 없다.
-- [ ] Browser Use `iab` current-session evidence 또는 current-session blocker + Playwright fallback screenshot을 남긴다.
-- [ ] `npm run check:visual`과 `npm run check:ci`가 통과한다.
+- [x] 두 번째 주문 납품 직후 research note/unlock payoff가 action surface 또는 playfield에서 보인다.
+- [x] 연구 CTA가 다음 actionable verb로 명확하게 이어진다.
+- [x] 모바일 393px에서 body scroll, panel overflow, bottom-tab overlap 회귀가 없다.
+- [x] Browser Use `iab` current-session evidence 또는 current-session blocker + Playwright fallback screenshot을 남긴다.
+- [x] `npm run check:visual`과 `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -71,7 +71,10 @@
 - 사용하지 않음: 초기 scope가 order delivery → research unlock UI/test에 강하게 결합되어 단일 agent가 안전하다.
 - 새 asset lane이 필요해지면 Codex native subagent/skill로 분리하고 runtime implementation과 write scope를 나눈다.
 
-## QA/playtest plan
+## QA/playtest evidence
 
-- Browser Use `iab` current-session 시도 → blocker면 `reports/visual/`에 신규 blocker와 Playwright fallback screenshot 저장.
-- 모바일 393px에서 second order delivery 후 research note unlock receipt, research CTA, body scroll/panel overflow/bottom-tab overlap invariant를 확인한다.
+- Browser Use blocker: `reports/visual/browser-use-blocker-0302-20260503.md`
+- Playwright screenshot: `reports/visual/issue-302-research-unlock-note-payoff-393.png`
+- Focused regression: `npx playwright test --config playwright.config.ts --grep "연구 unlock"` → 1 passed
+- Full visual regression: `npm run check:visual` → 55 passed
+- Full CI: `npm run check:ci` → pass

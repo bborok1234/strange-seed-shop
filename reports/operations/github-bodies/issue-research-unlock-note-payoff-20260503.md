@@ -84,11 +84,11 @@ Studio Harness v3 queue가 비었으므로 local ledger가 아니라 GitHub issu
 
 ## 수용 기준
 
-- [ ] 두 번째 주문 납품 직후 research note/unlock payoff가 action surface 또는 playfield에서 보인다.
-- [ ] 연구 CTA가 다음 actionable verb로 명확하게 이어진다.
-- [ ] 모바일 393px에서 body scroll, panel overflow, bottom-tab overlap 회귀가 없다.
-- [ ] Browser Use `iab` current-session evidence 또는 current-session blocker + Playwright fallback screenshot을 남긴다.
-- [ ] `npm run check:visual`과 `npm run check:ci`가 통과한다.
+- [x] 두 번째 주문 납품 직후 research note/unlock payoff가 action surface 또는 playfield에서 보인다.
+- [x] 연구 CTA가 다음 actionable verb로 명확하게 이어진다.
+- [x] 모바일 393px에서 body scroll, panel overflow, bottom-tab overlap 회귀가 없다.
+- [x] Browser Use `iab` current-session evidence 또는 current-session blocker + Playwright fallback screenshot을 남긴다.
+- [x] `npm run check:visual`과 `npm run check:ci`가 통과한다.
 
 ## Visual evidence 계획
 
@@ -105,3 +105,10 @@ Studio Harness v3 queue가 비었으므로 local ledger가 아니라 GitHub issu
 - 실제 결제, 로그인/account, ads SDK, 외부 배포, 고객 데이터, credential, 실채널 GTM 없음.
 - 런타임 이미지 생성 없음.
 - SVG/vector/code-native accepted game graphics 추가 없음.
+
+
+## 구현 evidence
+
+- Browser Use blocker: `reports/visual/browser-use-blocker-0302-20260503.md`
+- Playwright screenshot: `reports/visual/issue-302-research-unlock-note-payoff-393.png`
+- Verification: `npm run build`, focused Playwright 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
