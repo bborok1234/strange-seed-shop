@@ -534,6 +534,84 @@ test("모바일 연구 단서 성장 중에는 다음 생명체 수확 예고가
   });
 });
 
+test("모바일 연구 단서 수확은 다음 생명체 발견 receipt로 이어진다", async ({ page }, testInfo) => {
+  test.setTimeout(60_000);
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1&qaTab=seeds&qaFxTelemetry=1");
+
+  const targetRow = page.locator(".seed-inventory-row-target").first();
+  await targetRow.getByRole("button", { name: /구매/ }).click();
+  await targetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
+
+  for (let tapCount = 0; tapCount < 32; tapCount += 1) {
+    if ((await page.getByRole("button", { name: /방울새싹 씨앗 수확/ }).count()) > 0) {
+      break;
+    }
+    await page.getByRole("button", { name: /방울새싹 씨앗 성장시키기/ }).click();
+  }
+
+  await expect(page.getByRole("button", { name: /방울새싹 씨앗 수확/ })).toBeVisible();
+  await page.getByRole("button", { name: /방울새싹 씨앗 수확/ }).click();
+  await page.waitForFunction(() => {
+    const events = (window as unknown as { __gardenPlayfieldFxEvents?: Array<{ action: string }> }).__gardenPlayfieldFxEvents ?? [];
+    return events.some((event) => event.action === "harvest_plot");
+  });
+
+  await expect(page.getByLabel("단서 생명체 발견")).toContainText("방패새싹 모모");
+  await expect(page.getByLabel("단서 생명체 발견")).toContainText("도감 단서 기록");
+  await expect(page.getByLabel("도감 단서 기록")).toContainText("연구 단서 수확");
+  await expect(page.getByLabel("수확 후 다음 목표")).not.toContainText("방패새싹 모모");
+  await expect(page.getByLabel("수확 후 다음 목표")).toContainText("젤리콩 통통");
+
+  const revealMetrics = await page.evaluate(() => {
+    const card = document.querySelector<HTMLElement>(".harvest-reveal-card.is-research-reveal")?.getBoundingClientRect();
+    const receipt = document.querySelector<HTMLElement>(".research-harvest-receipt")?.getBoundingClientRect();
+    const cta = document.querySelector<HTMLElement>(".reveal-cta")?.getBoundingClientRect();
+    const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    return {
+      innerHeight: window.innerHeight,
+      bodyScrollHeight,
+      card: card ? { top: card.top, bottom: card.bottom } : null,
+      receipt: receipt ? { bottom: receipt.bottom } : null,
+      cta: cta ? { bottom: cta.bottom } : null
+    };
+  });
+  expect(revealMetrics.bodyScrollHeight).toBeLessThanOrEqual(revealMetrics.innerHeight + 2);
+  expect(revealMetrics.card).not.toBeNull();
+  expect(revealMetrics.receipt).not.toBeNull();
+  expect(revealMetrics.cta).not.toBeNull();
+  expect(revealMetrics.card!.top).toBeGreaterThanOrEqual(8);
+  expect(revealMetrics.card!.bottom).toBeLessThanOrEqual(revealMetrics.innerHeight - 8);
+  expect(revealMetrics.cta!.bottom).toBeLessThanOrEqual(revealMetrics.innerHeight - 16);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-research-clue-harvest-reveal-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("단서 생명체 발견", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("도감 단서 기록", { exact: true })).toBeVisible();
+
+  const panelMetrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".starter-panel");
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const nextCreature = document.querySelector<HTMLElement>(".next-creature-compact")?.getBoundingClientRect();
+    return {
+      panelClientHeight: panel?.clientHeight ?? 0,
+      panelScrollHeight: panel?.scrollHeight ?? 0,
+      tabs: tabs ? { top: tabs.top } : null,
+      nextCreature: nextCreature ? { bottom: nextCreature.bottom } : null
+    };
+  });
+  expect(panelMetrics.nextCreature).not.toBeNull();
+  expect(panelMetrics.panelScrollHeight).toBeLessThanOrEqual(panelMetrics.panelClientHeight + 1);
+  expect(panelMetrics.nextCreature!.bottom).toBeLessThanOrEqual(panelMetrics.tabs!.top - 4);
+});
+
 test("모바일 연구 완료 후 원정 탭은 장기 메타 단서를 보여준다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaResearchComplete=1");
