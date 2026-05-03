@@ -1550,6 +1550,15 @@ h1 {
   animation: research-cta-glow 1.2s ease-in-out both;
 }
 
+.starter-panel.has-production.has-research-complete-receipt .next-creature-compact {
+  border-color: rgba(83, 151, 115, 0.38);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.86), transparent 34%),
+    linear-gradient(135deg, rgba(239, 255, 242, 0.98), rgba(226, 249, 255, 0.94));
+  box-shadow: 0 8px 18px rgba(49, 121, 82, 0.12);
+  animation: research-cta-glow 1.2s ease-in-out both;
+}
+
 .research-unlock-receipt {
   display: grid;
   position: relative;
@@ -1627,9 +1636,92 @@ h1 {
   font-weight: 900;
 }
 
+.research-complete-receipt {
+  display: grid;
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px 7px;
+  min-height: 54px;
+  padding: 7px 50px 7px 8px;
+  overflow: hidden;
+  border: 1px solid rgba(83, 151, 115, 0.3);
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(circle at 15% 16%, rgba(255, 255, 255, 0.9), transparent 34%),
+    linear-gradient(135deg, rgba(240, 255, 237, 0.98), rgba(222, 247, 255, 0.92));
+  box-shadow:
+    0 8px 16px rgba(53, 111, 78, 0.11),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.56);
+}
+
+.research-complete-receipt::after {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 32px;
+  height: 26px;
+  border-radius: 7px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0 44%, rgba(83, 151, 115, 0.22) 45% 50%, rgba(255, 255, 255, 0.78) 51% 100%);
+  box-shadow:
+    -8px -6px 0 -5px rgba(129, 211, 139, 0.9),
+    -18px 5px 0 -6px rgba(89, 167, 196, 0.7),
+    inset 0 -8px 0 -6px rgba(83, 151, 115, 0.36),
+    0 0 14px rgba(83, 151, 115, 0.3);
+  content: "";
+  animation: research-clue-record 1.25s ease-in-out infinite;
+}
+
+.research-complete-chip {
+  display: inline-grid;
+  min-height: 19px;
+  place-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(83, 151, 115, 0.16);
+  color: #3f7c57;
+  font-size: 9px;
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.research-complete-receipt strong,
+.research-complete-receipt span,
+.research-complete-receipt small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.research-complete-receipt strong {
+  color: #3f7c57;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.research-complete-receipt > span:not(.research-complete-chip) {
+  color: #526f7a;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.research-complete-receipt small {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 900;
+}
+
 @keyframes research-note-pop {
   0%, 100% { opacity: 0.65; transform: translate(0, -50%) rotate(-3deg); }
   50% { opacity: 1; transform: translate(3px, -55%) rotate(4deg); }
+}
+
+@keyframes research-clue-record {
+  0%, 100% { opacity: 0.68; transform: translate(0, -50%) rotate(-4deg) scale(0.98); }
+  50% { opacity: 1; transform: translate(3px, -56%) rotate(4deg) scale(1.04); }
 }
 
 @keyframes research-cta-glow {
@@ -4400,6 +4492,20 @@ h1 {
     display: none;
   }
 
+  .starter-panel.has-production.has-research-complete-receipt .production-meter-row,
+  .starter-panel.has-production.has-research-complete-receipt .order-progress-card,
+  .starter-panel.has-production.has-research-complete-receipt .upgrade-choice-card {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-research-complete-receipt .production-action-card {
+    overflow: visible;
+  }
+
+  .starter-panel.has-production.has-research-complete-receipt .next-creature-compact {
+    padding: 7px;
+  }
+
   .research-unlock-receipt {
     min-height: 44px;
     padding: 6px 42px 6px 7px;
@@ -4411,6 +4517,20 @@ h1 {
 
   .research-unlock-receipt > span:not(.research-unlock-chip),
   .research-unlock-receipt small {
+    font-size: 9px;
+  }
+
+  .research-complete-receipt {
+    min-height: 45px;
+    padding: 6px 42px 6px 7px;
+  }
+
+  .research-complete-receipt strong {
+    font-size: 11px;
+  }
+
+  .research-complete-receipt > span:not(.research-complete-chip),
+  .research-complete-receipt small {
     font-size: 9px;
   }
 

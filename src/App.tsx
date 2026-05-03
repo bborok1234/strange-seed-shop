@@ -86,6 +86,14 @@ interface ResearchUnlockReceipt {
   researchTitle: string;
 }
 
+interface ResearchCompleteReceipt {
+  id: number;
+  researchTitle: string;
+  clueLabel: string;
+  seedName: string;
+  creatureName: string;
+}
+
 interface OrderDeliveryReceipt {
   id: number;
   orderId: string;
@@ -264,6 +272,7 @@ export default function App() {
   const [productionClaimReceipt, setProductionClaimReceipt] = useState<ProductionClaimReceipt | null>(null);
   const [productionBoostReceipt, setProductionBoostReceipt] = useState<ProductionBoostReceipt | null>(null);
   const [researchUnlockReceipt, setResearchUnlockReceipt] = useState<ResearchUnlockReceipt | null>(null);
+  const [researchCompleteReceipt, setResearchCompleteReceipt] = useState<ResearchCompleteReceipt | null>(null);
   const [orderDeliveryReceipt, setOrderDeliveryReceipt] = useState<OrderDeliveryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
@@ -517,6 +526,7 @@ export default function App() {
     productionClaimReceipt ? "has-production-claim-receipt" : "",
     productionBoostReceipt ? "has-production-boost-receipt" : "",
     researchUnlockReceipt ? "has-research-unlock-receipt" : "",
+    researchCompleteReceipt ? "has-research-complete-receipt" : "",
     orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
     firstOrderDispatchReceiptActive ? "has-first-order-dispatch-receipt" : "",
     save &&
@@ -573,8 +583,18 @@ export default function App() {
     : visibleSeedInventorySeeds;
   const totalOwnedSeeds = save ? Object.values(save.seedInventory).reduce((total, count) => total + count, 0) : 0;
   const gardenViewModel = useMemo(
-    () => buildGardenPlayfieldViewModel(save, now, manifest, orderDeliveryReceipt, productionClaimReceipt, productionBoostReceipt, researchUnlockReceipt),
-    [save, now, manifest, orderDeliveryReceipt, productionClaimReceipt, productionBoostReceipt, researchUnlockReceipt]
+    () =>
+      buildGardenPlayfieldViewModel(
+        save,
+        now,
+        manifest,
+        orderDeliveryReceipt,
+        productionClaimReceipt,
+        productionBoostReceipt,
+        researchUnlockReceipt,
+        researchCompleteReceipt
+      ),
+    [save, now, manifest, orderDeliveryReceipt, productionClaimReceipt, productionBoostReceipt, researchUnlockReceipt, researchCompleteReceipt]
   );
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
   const showDebugPanel = getLocalDebugMode();
@@ -839,6 +859,7 @@ export default function App() {
     setOrderDeliveryReceipt(null);
     setProductionClaimReceipt(null);
     setResearchUnlockReceipt(null);
+    setResearchCompleteReceipt(null);
     commit((draft) => {
       draft.leaves -= PRODUCTION_BOOST_COST_LEAVES;
       draft.pollen -= PRODUCTION_BOOST_COST_POLLEN;
@@ -1000,7 +1021,32 @@ export default function App() {
   }
 
   function buyFirstResearch() {
+    if (
+      !save ||
+      save.researchLevel >= FIRST_RESEARCH_MAX_LEVEL ||
+      save.leaves < FIRST_RESEARCH_COST_LEAVES ||
+      save.pollen < FIRST_RESEARCH_COST_POLLEN ||
+      !save.idleProduction.completedOrderIds.includes(SECOND_ORDER.id)
+    ) {
+      return;
+    }
+
+    const clueLabel = nextCreatureGoal
+      ? `${nextCreatureGoal.seed.name}에서 ${nextCreatureGoal.creature.albumHint}`
+      : "다음 씨앗 목표를 도감에 기록";
+    const researchReceipt: ResearchCompleteReceipt = {
+      id: Date.now(),
+      researchTitle: "새싹 기록법 연구",
+      clueLabel,
+      seedName: nextCreatureGoal?.seed.name ?? "다음 씨앗",
+      creatureName: nextCreatureGoal?.creature.name ?? "다음 생명체"
+    };
+
+    setOrderDeliveryReceipt(null);
+    setProductionClaimReceipt(null);
+    setProductionBoostReceipt(null);
     setResearchUnlockReceipt(null);
+    setResearchCompleteReceipt(researchReceipt);
     commit((draft) => {
       if (
         draft.researchLevel >= FIRST_RESEARCH_MAX_LEVEL ||
@@ -1018,9 +1064,14 @@ export default function App() {
         researchId: "seed_log_1",
         costLeaves: FIRST_RESEARCH_COST_LEAVES,
         costPollen: FIRST_RESEARCH_COST_POLLEN,
-        researchLevel: draft.researchLevel
+        researchLevel: draft.researchLevel,
+        rewardMotion: "research_clue_recorded",
+        clueLabel
       });
     });
+    window.setTimeout(() => {
+      setResearchCompleteReceipt((current) => (current?.id === researchReceipt.id ? null : current));
+    }, 2_200);
     triggerRewardPulse();
   }
 
@@ -1120,6 +1171,7 @@ export default function App() {
 
     setOrderDeliveryReceipt(null);
     setResearchUnlockReceipt(null);
+    setResearchCompleteReceipt(null);
     commit((draft) => {
       draft.leaves += pendingLeaves;
       draft.idleProduction.pendingLeaves = 0;
@@ -1158,6 +1210,7 @@ export default function App() {
 
     setProductionClaimReceipt(null);
     setProductionBoostReceipt(null);
+    setResearchCompleteReceipt(null);
 
     const orderFxAssetId = getProductionFxAssetId("order", orderBeforeDelivery);
     const deliveryReceipt: OrderDeliveryReceipt = {
@@ -1501,6 +1554,7 @@ export default function App() {
                   productionClaimReceipt ? "has-production-claim-receipt" : "",
                   productionBoostReceipt ? "has-production-boost-receipt" : "",
                   researchUnlockReceipt ? "has-research-unlock-receipt" : "",
+                  researchCompleteReceipt ? "has-research-complete-receipt" : "",
                   orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
                   firstOrderDispatchReady ? "has-order-ready" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
@@ -1576,6 +1630,14 @@ export default function App() {
                     <strong>{researchUnlockReceipt.researchTitle}</strong>
                     <span>{researchUnlockReceipt.orderTitle} · {researchUnlockReceipt.rewardLabel}</span>
                     <small>다음 생명체 단서를 기록할 수 있어요</small>
+                  </div>
+                )}
+                {researchCompleteReceipt && (
+                  <div className="research-complete-receipt" aria-label="도감 단서 기록">
+                    <span className="research-complete-chip">연구 완료</span>
+                    <strong>{researchCompleteReceipt.seedName} 단서 저장</strong>
+                    <span>{researchCompleteReceipt.clueLabel}</span>
+                    <small>{researchCompleteReceipt.creatureName} 목표가 도감과 씨앗 탭에 연결됐어요</small>
                   </div>
                 )}
                 {orderDeliveryReceipt && (
@@ -2538,7 +2600,8 @@ function buildGardenPlayfieldViewModel(
   orderDeliveryReceipt: OrderDeliveryReceipt | null,
   productionClaimReceipt: ProductionClaimReceipt | null,
   productionBoostReceipt: ProductionBoostReceipt | null,
-  researchUnlockReceipt: ResearchUnlockReceipt | null
+  researchUnlockReceipt: ResearchUnlockReceipt | null,
+  researchCompleteReceipt: ResearchCompleteReceipt | null
 ): GardenPlayfieldViewModel {
   if (!save) {
     return {
@@ -2609,6 +2672,7 @@ function buildGardenPlayfieldViewModel(
   const productionClaimActive = Boolean(productionClaimReceipt);
   const productionBoostActive = Boolean(productionBoostReceipt);
   const researchUnlockActive = Boolean(researchUnlockReceipt);
+  const researchCompleteActive = Boolean(researchCompleteReceipt);
   const productionScene =
     productionStatus.ratePerMinute > 0
       ? {
@@ -2621,6 +2685,8 @@ function buildGardenPlayfieldViewModel(
                 ? `작업 간식 충전 · 분당 ${formatRatePerMinute(productionBoostReceipt?.nextRatePerMinute ?? productionStatus.ratePerMinute)} 잎`
                 : researchUnlockActive
                   ? "연구 노트 발견 · 새싹 기록법 열림"
+                  : researchCompleteActive
+                    ? "도감 단서 기록 · 다음 씨앗 목표 표시"
                   : productionStatus.orderCompleted
               ? `${productionStatus.workerDetail} · 납품을 마치고 쉬는 중`
               : productionStatus.workerDetail,
@@ -2630,6 +2696,8 @@ function buildGardenPlayfieldViewModel(
             ? "첫 주문 상자 출하"
             : researchUnlockActive
               ? "연구 노트 개방"
+              : researchCompleteActive
+                ? "연구 노트 저장"
               : mistCondenserPayoffActive
             ? "물안개 응축 완료"
             : productionStatus.orderCompleted
@@ -2641,11 +2709,13 @@ function buildGardenPlayfieldViewModel(
               ? `${productionClaimReceipt?.orderProgress ?? productionStatus.orderProgress}/${productionClaimReceipt?.orderRequired ?? productionStatus.order.requiredLeaves} 잎`
               : researchUnlockActive
                 ? "새싹 기록법 연구"
+                : researchCompleteActive
+                  ? researchCompleteReceipt?.seedName ?? "다음 씨앗 목표"
                 : mistCondenserPayoffActive
             ? "응축기 가동"
             : `${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves} 잎`,
-          orderReady: productionStatus.orderReady || firstOrderDispatchReceiptActive || researchUnlockActive,
-          orderCompleted: productionStatus.orderCompleted || firstOrderDispatchReceiptActive || researchUnlockActive,
+          orderReady: productionStatus.orderReady || firstOrderDispatchReceiptActive || researchUnlockActive || researchCompleteActive,
+          orderCompleted: productionStatus.orderCompleted || firstOrderDispatchReceiptActive || researchUnlockActive || researchCompleteActive,
           orderVariant: firstOrderDispatchReceiptActive
             ? ("first-dispatched" as const)
             : lunarGuardianOrderActive
@@ -2661,6 +2731,8 @@ function buildGardenPlayfieldViewModel(
                 ? `생산 +${productionBoostReceipt?.bonusPercent ?? Math.round(PRODUCTION_BOOST_RATE_BONUS * 100)}%`
                 : researchUnlockActive
                   ? "연구 열림"
+                  : researchCompleteActive
+                    ? "단서 기록"
                   : mistCondenserPayoffActive
             ? "달빛 온실 단서 +1"
             : lunarGuardianOrderActive

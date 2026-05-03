@@ -389,7 +389,14 @@ test("모바일 연구 unlock은 두 번째 주문 보상에서 연구 완료로
     animations: "disabled"
   });
   await page.getByRole("button", { name: /새싹 기록법 연구/ }).click();
-  await expect(page.getByText("연구 완료", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("도감 단서 기록")).toBeVisible();
+  await expect(page.getByLabel("도감 단서 기록")).toContainText("연구 완료");
+  await expect(page.getByLabel("도감 단서 기록")).toContainText("단서 저장");
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("도감 단서 기록 · 다음 씨앗 목표 표시", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("연구 노트 저장", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("단서 기록", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("다음 생명체 수집 목표")).toBeVisible();
+  await expect(page.getByLabel("다음 생명체 수집 목표")).toContainText("연구 단서:");
   await expect
     .poll(async () =>
       page.evaluate(() => {
@@ -402,11 +409,13 @@ test("모바일 연구 unlock은 두 번째 주문 보상에서 연구 완료로
   const metrics = await page.evaluate(() => {
     const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
     const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
-    const upgradeChoice = document.querySelector<HTMLElement>(".upgrade-choice-card")?.getBoundingClientRect();
+    const receipt = document.querySelector<HTMLElement>(".research-complete-receipt")?.getBoundingClientRect();
+    const nextCreature = document.querySelector<HTMLElement>(".next-creature-compact")?.getBoundingClientRect();
     return {
       panel: panel ? { bottom: panel.bottom } : null,
       tabs: tabs ? { top: tabs.top } : null,
-      upgradeChoice: upgradeChoice ? { bottom: upgradeChoice.bottom } : null,
+      receipt: receipt ? { bottom: receipt.bottom } : null,
+      nextCreature: nextCreature ? { bottom: nextCreature.bottom } : null,
       panelClientHeight: document.querySelector<HTMLElement>(".starter-panel")?.clientHeight ?? 0,
       panelScrollHeight: document.querySelector<HTMLElement>(".starter-panel")?.scrollHeight ?? 0
     };
@@ -414,12 +423,14 @@ test("모바일 연구 unlock은 두 번째 주문 보상에서 연구 완료로
 
   expect(metrics.panel).not.toBeNull();
   expect(metrics.tabs).not.toBeNull();
-  expect(metrics.upgradeChoice).not.toBeNull();
+  expect(metrics.receipt).not.toBeNull();
+  expect(metrics.nextCreature).not.toBeNull();
   expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
-  expect(metrics.upgradeChoice!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.receipt!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.nextCreature!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
 
-  await page.screenshot({ path: testInfo.outputPath("mobile-research-unlock-v0-393.png"), fullPage: false });
+  await page.screenshot({ path: testInfo.outputPath("mobile-research-complete-clue-motion-393.png"), fullPage: false });
 });
 
 test("모바일 연구 단서는 정원과 씨앗 탭에서 다음 수집 목표를 설명한다", async ({ page }, testInfo) => {

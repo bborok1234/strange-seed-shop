@@ -3,49 +3,51 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T04:18:27.748Z
+Generated at: 2026-05-03T04:37:56.141Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #302 **두 번째 주문 보상이 연구 노트 unlock payoff로 이어지게 만든다**이다. #300은 PR #301 merge와 main CI `25269424020` success로 닫혔고, queue-empty 후 생성한 #302는 P0.5 Idle Core + Creative Rescue production game quality intake다. 지금은 #302 plan-first/implementation gate다.
+현재 작업은 GitHub-authoritative open WorkUnit #304 **연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다**이다. #302는 PR #303 merge와 main CI `25269728128` success로 닫혔고, #304는 plan-first와 구현/로컬 검증을 완료했다. 지금은 #304 PR publication gate다.
 
 현재 evidence:
 
-- GitHub issue: #302 `두 번째 주문 보상이 연구 노트 unlock payoff로 이어지게 만든다`
-- Plan artifact: `items/0153-research-unlock-note-payoff.md`
-- Branch: `codex/0302-research-unlock-note-payoff`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; asset lane 확장 시 `game-studio:sprite-pipeline`
+- GitHub issue: #304 `연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다`
+- Plan artifact: `items/0154-research-complete-clue-motion.md`
+- Branch: `codex/0304-research-complete-clue-motion`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS reward motion + HUD affordance
 - Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `연구 준비 잎 묶음 납품하기`
-- Production role: 반복 주문 완료 → 연구 unlock → 다음 생명체/원정 단서
-- Screen moment: 생산 속도 강화 후 두 번째 주문을 채우고 납품하는 순간
+- Player verb: `새싹 기록법 연구 완료하기`
+- Production role: 두 번째 주문 보상 → 연구 완료 → 도감 단서/다음 씨앗 목표
+- Screen moment: research CTA를 누른 직후 393px 정원 첫 화면
 - Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Visual evidence: `reports/visual/browser-use-blocker-0302-20260503.md`, `reports/visual/issue-302-research-unlock-note-payoff-393.png`
+- Visual evidence: `reports/visual/browser-use-blocker-0304-20260503.md`, `reports/visual/issue-304-research-complete-clue-motion-393.png`
 - Verification: `npm run build` pass, focused Playwright `연구 unlock` 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. 구현 전 plan artifact의 수용 기준과 Game Studio route를 유지한다.
-3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
-4. 393px 모바일 visual regression은 research note unlock, research CTA, action-surface overflow, bottom-tab overlap을 함께 검증한다.
+2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
+3. Browser Use iab current-session 시도는 `reports/visual/browser-use-blocker-0304-20260503.md`에 기록했고, Playwright screenshot은 regression gate로만 사용한다.
+4. 393px 모바일 visual regression은 research completion receipt, next seed/research CTA, action-surface overflow, bottom-tab overlap을 함께 검증했다.
 5. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
-6. 다음 게임 WorkUnit 선택도 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
+7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓴다.
+8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0302-research-unlock-note-payoff
-- Latest commit: ff6c919 #302 연구 노트 unlock payoff를 plan-first로 고정한다
+- Branch: codex/0304-research-complete-clue-motion
+- Latest commit: 7ebff04 #304 연구 완료 단서 motion을 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T04:18:24Z
-- Phase: issue-302-pr-publication
-- Issue: 302
+- Timestamp: 2026-05-03T04:38:00Z
+- Phase: issue-304-pr-publication
+- Issue: 304
 - PR: 
-- Item: items/0153-research-unlock-note-payoff.md
+- Item: items/0154-research-complete-clue-motion.md
 - Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
@@ -54,7 +56,7 @@ Generated at: 2026-05-03T04:18:27.748Z
 
 ## Open issues
 
-- #302 두 번째 주문 보상이 연구 노트 unlock payoff로 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/302
+- #304 연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/304
 
 ## Playable mode
 
