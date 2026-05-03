@@ -3,33 +3,33 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T11:27:09.832Z
+Generated at: 2026-05-03T12:33:09.497Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #326 **라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
+현재 작업은 GitHub-authoritative open WorkUnit #328 **포장잎 상인 수확을 주문상자 payoff로 닫는다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
 
 현재 evidence:
 
-- GitHub issue: #326 `라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다`
-- Plan artifact: `items/0165-rami-record-next-merchant-goal.md`
-- Branch: `codex/0326-rami-record-next-merchant-goal`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-rami-record-next-merchant-goal-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-326-rami-record-next-merchant-goal-20260503.md`
-- GateEvent: `reports/operations/gate-event-0326-rami-record-next-merchant-goal-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0326-20260503.md`
-- Screenshot: `reports/visual/issue-326-rami-record-next-merchant-goal-393.png`
-- Implementation: `src/App.tsx`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Validation: `npm run build` pass, focused Playwright 3 passed + 1 passed, `npm run check:visual` 66 passed, `npm run check:ci` pass
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing `포장잎 상인`/`젤리콩 씨앗` visuals + DOM/CTA + target row highlight
+- GitHub issue: #328 `포장잎 상인 수확을 주문상자 payoff로 닫는다`
+- Plan artifact: `items/0166-merchant-record-harvest-crate-payoff.md`
+- Branch: `codex/0328-merchant-harvest-crate-payoff`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-record-harvest-crate-payoff-20260503.md`
+- PR body-file: `reports/operations/github-bodies/pr-328-merchant-record-harvest-crate-payoff-20260503.md`
+- GateEvent: `reports/operations/gate-event-0328-merchant-record-harvest-crate-payoff-20260503.md`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0328-20260503.md`
+- Screenshot: `reports/visual/issue-328-merchant-record-harvest-crate-payoff-393.png`
+- Implementation: `src/App.tsx`, `src/game/playfield/types.ts`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Validation: `npm run build` pass, focused Playwright 1 passed + 2 passed, `npm run check:visual` 67 passed, `npm run check:ci` pass
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing `포장잎 상인` portrait + DOM/CSS order crate visual state + reward motion + HUD affordance
 - Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `이슬연금 라미를 도감에 저장하고 포장잎 상인 목표로 이동하기`
-- Concrete payoff: `다음 기록 목표: 포장잎 상인`, `다음 기록으로 이어가기: 젤리콩 씨앗`, seeds target row `다음 기록 재순환 · 포장잎 상인 준비`, bottom-tab/overflow-safe 393px screenshot
+- Player verb: `젤리콩 씨앗을 심어 포장잎 상인을 수확하고 상인 주문상자를 확인하기`
+- Concrete payoff: `포장잎 상인` harvest reveal, `상인 주문상자`, `보상 포장 완료`, `다음 납품 준비`, playfield `order-variant-merchant-record`, bottom-tab/overflow-safe 393px screenshot
 
 즉시 적용할 gate:
 
-1. `gh issue edit 326 --body-file reports/operations/github-bodies/issue-rami-record-next-merchant-goal-20260503.md`.
-2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-326-rami-record-next-merchant-goal-20260503.md`.
+1. `gh issue edit 328 --body-file reports/operations/github-bodies/issue-merchant-record-harvest-crate-payoff-20260503.md`.
+2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-328-merchant-record-harvest-crate-payoff-20260503.md`.
 3. GateEvent comment body-file publication, PR checks watch/repair, ready/merge when green.
 4. Post-merge main CI는 observation-only로 기록한다. 닫힌 PR/issue에 누락 evidence backfill을 위한 main closeout commit은 만들지 않는다.
 5. Stop rule이 없으므로 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
@@ -38,27 +38,27 @@ Generated at: 2026-05-03T11:27:09.832Z
 
 ## Local state
 
-- Branch: codex/0326-rami-record-next-merchant-goal
-- Latest commit: b1c6851 PR 점검 게이트에 #326 heartbeat를 맞춘다
+- Branch: codex/0328-merchant-harvest-crate-payoff
+- Latest commit: 3f79e10 포장잎 상인 수확을 주문상자 payoff로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T11:27:07.731Z
-- Phase: issue-326-pr-checks
-- Issue: 326
-- PR: 327
-- Item: items/0165-rami-record-next-merchant-goal.md
-- Next action: gate: watch PR #327 checks, repair if needed, mark ready and merge when green
+- Timestamp: 2026-05-03T12:33:07.361Z
+- Phase: issue-328-pr-checks
+- Issue: 328
+- PR: 329
+- Item: items/0166-merchant-record-harvest-crate-payoff.md
+- Next action: gate: watch PR #329 checks, repair if needed, mark ready and merge when green
 
 ## Open PRs
 
-- #327 draft 라미 저장 후 포장잎 상인 목표를 보존한다 — https://github.com/bborok1234/strange-seed-shop/pull/327
+- #329 draft 포장잎 상인 수확을 주문상자 payoff로 닫는다 — https://github.com/bborok1234/strange-seed-shop/pull/329
 
 ## Open issues
 
-- #326 라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/326
+- #328 포장잎 상인 수확을 주문상자 payoff로 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/328
 
 ## Playable mode
 

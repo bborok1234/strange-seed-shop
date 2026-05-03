@@ -36,7 +36,7 @@ export interface GardenPlayfieldViewModel {
     orderProgressLabel: string;
     orderReady: boolean;
     orderCompleted: boolean;
-    orderVariant?: "first-dispatched" | "mist-condenser-complete" | "lunar-guardian";
+    orderVariant?: "first-dispatched" | "mist-condenser-complete" | "lunar-guardian" | "merchant-record";
     orderStatusLabel?: string;
     actorFamily?: "herb" | "candy" | "lunar";
     workAssetPath?: string;
