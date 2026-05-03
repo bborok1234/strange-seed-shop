@@ -3,64 +3,61 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T08:53:11.525Z
+Generated at: 2026-05-03T08:58:07.056Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #322 **새 기록 후속 수확 도감 저장을 다음 씨앗 목표 재순환으로 이어지게 만든다**의 PR publication gate다. #320은 PR #321 merge와 main CI `25274149549` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단해 #322를 생성했다. #322 구현은 local visual gate를 통과했고, 남은 작업은 GitHub issue body 갱신, branch push, PR 생성/체크/merge/main CI 관찰이다.
+현재 작업은 GitHub-authoritative open WorkUnit #324 **다음 기록 목표 씨앗을 이슬연금 라미 수확 payoff로 닫는다**의 plan-first gate다. #322는 PR #323 merge와 main CI `25274789570` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단해 #324를 생성했다.
 
 현재 evidence:
 
-- GitHub issue: #322 `새 기록 후속 수확 도감 저장을 다음 씨앗 목표 재순환으로 이어지게 만든다`
-- Plan artifact: `items/0163-album-record-followup-next-goal-loop.md`
-- Branch: `codex/0322-album-record-followup-next-goal-loop`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-album-record-followup-next-goal-loop-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-322-album-record-followup-next-goal-loop-20260503.md`
-- GateEvent: `reports/operations/gate-event-0322-album-record-followup-next-goal-loop-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0322-20260503.md` — 현재 세션 iab backend discovery 실패
-- Screenshot: `reports/visual/issue-322-album-record-followup-next-goal-loop-393.png`
-- Verification: `npm run build` pass; focused Playwright `후속 저장은 다음 기록 목표 재순환|후속 수확은 예고했던` 2 passed; `npm run check:visual` 64 passed; `npm run check:ci` pass
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing visuals + DOM/CSS CTA + target row reward motion
+- GitHub issue: #324 `다음 기록 목표 씨앗을 이슬연금 라미 수확 payoff로 닫는다`
+- Plan artifact: `items/0164-album-record-loop-rami-harvest-payoff.md`
+- Branch: `codex/0324-album-record-loop-rami-harvest-payoff`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-album-record-loop-rami-harvest-payoff-20260503.md`
+- Runner dry-run: `npm run studio:v3:runner -- --once --dry-run` → `production-game-intake-required`, main CI `25274789570` success observed
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest` + 필요 시 `game-studio:phaser-2d-game`; 신규 manifest asset 없음, existing `이슬연금 라미` portrait + playfield plot state + reward motion/telemetry
 - Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `새 기록 후속 수확을 도감에 저장하고 다음 씨앗 목표 선택하기`
-- Production role: 후속 수확 발견 → 도감 저장 → 다음 생명체 목표 확인 → seeds tab target row 재진입
-- Screen moment: #320 reveal의 `도감에 기록하기` 직후 album 화면
-- Concrete payoff: `다음 기록으로 이어가기` HUD affordance, `방울새싹 씨앗 → 이슬연금 라미` next target, target row highlight/reward motion, bottom-tab/overflow-safe mobile screenshot
-- Competition production gap: collection idle games는 새 도감 기록 저장 직후 다음 collection target을 즉시 보여주고 다음 acquisition screen으로 이동할 CTA를 제공한다.
+- Player verb: `다음 기록 목표 씨앗을 심고 이슬연금 라미를 수확하기`
+- Production role: 후속 기록 저장 → next seed target row → planting → growth preview → named creature reveal
+- Screen moment: #322 seeds target row에서 `방울새싹 씨앗`을 심은 뒤 정원 성장/수확 화면
+- Concrete payoff: `album_record_next_seed` plot state, `이슬연금 라미 수확 예고` growth feedback, target creature reveal receipt, reward motion telemetry, bottom-tab/overflow-safe 393px screenshot
+- Competition production gap: collection idle games는 next target CTA가 실제 다음 collectible reveal로 이어져야 신뢰가 생긴다.
 
 즉시 적용할 gate:
 
-1. GitHub issue #322 body를 body-file로 갱신한다.
-2. Branch push, draft PR create/update, GateEvent comment, ready for review, checks watch/repair, merge when green, main CI observation을 수행한다.
-3. all merge-blocking evidence는 original PR에 포함한다. merge 후 main CI는 observation-only이며 post-merge closeout PR/main-targeted closeout commit을 만들지 않는다.
-4. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
-5. 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth와 Studio Campaign Gate에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
-6. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 사용하고, 미사용 시 plan artifact에 이유를 남긴다.
-7. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
+2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
+3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
+4. 393px 모바일 visual regression은 playfield/action surface/reveal, 다음 목표 named creature, reward telemetry, bottom-tab overlap을 함께 검증한다.
+5. 남은 checkpoint는 plan-first commit, implementation, focused/full checks, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
+7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 사용하고, 미사용 시 plan artifact에 이유를 남긴다.
+8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0322-album-record-followup-next-goal-loop
-- Latest commit: c923e8c 후속 도감 저장을 다음 기록 목표로 재순환시킨다
+- Branch: codex/0324-album-record-loop-rami-harvest-payoff
+- Latest commit: 8f074cc 후속 도감 저장을 다음 기록 목표로 재순환
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T08:53:08.145Z
-- Phase: issue-322-pr-checks
-- Issue: 322
-- PR: 323
-- Item: items/0163-album-record-followup-next-goal-loop.md
-- Next action: gate: mark PR #323 ready, watch required checks, merge when green
+- Timestamp: 2026-05-03T08:57:14.063Z
+- Phase: issue-324-plan-first
+- Issue: 324
+- PR: 
+- Item: items/0164-album-record-loop-rami-harvest-payoff.md
+- Next action: plan gate: commit #324 plan artifact, then inspect rami harvest payoff
 
 ## Open PRs
 
-- #323 draft 후속 도감 저장을 다음 기록 목표로 재순환 — https://github.com/bborok1234/strange-seed-shop/pull/323
+- unavailable or none
 
 ## Open issues
 
-- #322 새 기록 후속 수확 도감 저장을 다음 씨앗 목표 재순환으로 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/322
+- #324 다음 기록 목표 씨앗을 이슬연금 라미 수확 payoff로 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/324
 
 ## Playable mode
 
