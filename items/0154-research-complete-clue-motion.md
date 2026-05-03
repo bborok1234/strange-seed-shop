@@ -2,7 +2,7 @@
 
 - GitHub issue: #304 https://github.com/bborok1234/strange-seed-shop/issues/304
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: verification-ready
 - Branch: `codex/0304-research-complete-clue-motion`
 - Created: 2026-05-03
 
@@ -16,12 +16,12 @@
 
 ## 수용 기준
 
-- [ ] `새싹 기록법 연구` 완료 직후 `도감 단서 기록`/`다음 씨앗 목표` 보상이 action surface에서 visible하다.
-- [ ] garden playfield가 연구 완료 payoff를 `연구 노트 저장` 또는 동등한 actor/order state로 보여준다.
-- [ ] 보상 motion은 새 manifest asset 없이 DOM/CSS reward motion/HUD affordance로 구현하며, runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 receipt와 research/seed CTA가 bottom tab과 겹치지 않고 action surface overflow를 만들지 않는다.
-- [ ] focused Playwright screenshot과 `npm run check:visual`, `npm run check:ci`가 통과한다.
-- [ ] PR body와 GateEvent에 Browser Use evidence 또는 current-session blocker, screenshot, verification commands가 들어간다.
+- [x] `새싹 기록법 연구` 완료 직후 `도감 단서 기록`/`다음 씨앗 목표` 보상이 action surface에서 visible하다.
+- [x] garden playfield가 연구 완료 payoff를 `연구 노트 저장` 또는 동등한 actor/order state로 보여준다.
+- [x] 보상 motion은 새 manifest asset 없이 DOM/CSS reward motion/HUD affordance로 구현하며, runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 receipt와 research/seed CTA가 bottom tab과 겹치지 않고 action surface overflow를 만들지 않는다.
+- [x] focused Playwright screenshot과 `npm run check:visual`, `npm run check:ci`가 통과한다.
+- [x] PR body와 GateEvent에 Browser Use evidence 또는 current-session blocker, screenshot, verification commands가 들어간다.
 
 ## 검증 명령
 
@@ -79,3 +79,18 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이고 즉시 implementation path가 명확하므로 native subagent/team은 사용하지 않는다.
 - 병렬화가 필요한 경우만 확대한다: asset 생성이 필요해지면 asset pipeline subtask, Browser Use 복구가 필요하면 QA/verifier subtask로 분리한다.
+
+## 구현 evidence
+
+- `src/App.tsx`: `ResearchCompleteReceipt` state를 추가하고 `buyFirstResearch()` 완료 직후 도감 단서 기록 receipt, telemetry `rewardMotion: research_clue_recorded`, playfield `연구 노트 저장`/`단서 기록` 상태를 연결했다.
+- `src/styles.css`: 신규 manifest asset 없이 CSS/DOM note-card reward motion, next creature compact glow, 393px 모바일 overflow 방지 규칙을 추가했다.
+- `tests/visual/p0-mobile-game-shell.spec.ts`: 연구 완료 직후 receipt/playfield/next creature card/bottom-tab invariant와 screenshot `mobile-research-complete-clue-motion-393.png`를 검증한다.
+
+## QA/playtest evidence
+
+- Browser Use blocker: `reports/visual/browser-use-blocker-0304-20260503.md`
+- Playwright screenshot: `reports/visual/issue-304-research-complete-clue-motion-393.png`
+- `npm run build` → pass
+- `npx playwright test --config playwright.config.ts --grep "연구 unlock"` → 1 passed
+- `npm run check:visual` → 55 passed
+- `npm run check:ci` → pass

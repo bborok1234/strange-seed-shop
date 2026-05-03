@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T04:26:06.605Z
+Generated at: 2026-05-03T04:37:56.141Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #304 **연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다**이다. #302는 PR #303 merge와 main CI `25269728128` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단했다. 지금은 #304 plan-first gate다.
+현재 작업은 GitHub-authoritative open WorkUnit #304 **연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다**이다. #302는 PR #303 merge와 main CI `25269728128` success로 닫혔고, #304는 plan-first와 구현/로컬 검증을 완료했다. 지금은 #304 PR publication gate다.
 
 현재 evidence:
 
@@ -19,35 +19,36 @@ Generated at: 2026-05-03T04:26:06.605Z
 - Player verb: `새싹 기록법 연구 완료하기`
 - Production role: 두 번째 주문 보상 → 연구 완료 → 도감 단서/다음 씨앗 목표
 - Screen moment: research CTA를 누른 직후 393px 정원 첫 화면
-- Concrete payoff: `도감 단서 기록` receipt, playfield `연구 노트 저장` state, seed/research CTA glow, reward motion
-- Competition production gap: Cell to Singularity식 연구/해금 feedback처럼 메타 진행이 즉시 보이고, Idle Miner/Egg식 보상 수령 motion처럼 다음 행동이 명확해야 함
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Visual evidence: `reports/visual/browser-use-blocker-0304-20260503.md`, `reports/visual/issue-304-research-complete-clue-motion-393.png`
+- Verification: `npm run build` pass, focused Playwright `연구 unlock` 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
 2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
-3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
-4. 393px 모바일 visual regression은 research completion receipt, next seed/research CTA, action-surface overflow, bottom-tab overlap을 함께 검증한다.
-5. 남은 checkpoint는 plan-first commit, implementation, focused/full checks, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+3. Browser Use iab current-session 시도는 `reports/visual/browser-use-blocker-0304-20260503.md`에 기록했고, Playwright screenshot은 regression gate로만 사용한다.
+4. 393px 모바일 visual regression은 research completion receipt, next seed/research CTA, action-surface overflow, bottom-tab overlap을 함께 검증했다.
+5. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
-7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #304는 단일 React/CSS/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
+7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓴다.
 8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
 - Branch: codex/0304-research-complete-clue-motion
-- Latest commit: 3043315 #302 두 번째 주문 보상을 연구 노트 unlock으로 보이게 만든다
+- Latest commit: 7ebff04 #304 연구 완료 단서 motion을 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T04:25:30Z
-- Phase: issue-304-plan-first
+- Timestamp: 2026-05-03T04:38:00Z
+- Phase: issue-304-pr-publication
 - Issue: 304
 - PR: 
 - Item: items/0154-research-complete-clue-motion.md
-- Next action: implementation gate: inspect research completion flow, implement clue reward motion, verify visual/ci, publish PR
+- Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
 
