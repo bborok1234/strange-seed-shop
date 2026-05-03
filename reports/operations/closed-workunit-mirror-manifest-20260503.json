@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T04:26:00.000Z",
-  "source": "GitHub CLI observation after #302/#303 merge and active #304 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T04:43:00.000Z",
+  "source": "GitHub CLI observation after #304/#305 merge and active #306 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 304,
-    "title": "연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다",
-    "item": "items/0154-research-complete-clue-motion.md",
-    "branch": "codex/0304-research-complete-clue-motion"
+    "issue": 306,
+    "title": "연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다",
+    "item": "items/0155-research-clue-seed-planting-payoff.md",
+    "branch": "codex/0306-research-clue-seed-planting-payoff"
   },
   "workUnits": [
     {
@@ -256,6 +256,31 @@
         "GitHub-authoritative open WorkUnit #302",
         "Branch: `codex/0302-research-unlock-note-payoff`",
         "Branch: codex/0302-research-unlock-note-payoff"
+      ]
+    },
+    {
+      "issue": 304,
+      "issueTitle": "연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T04:39:55Z",
+      "pr": 305,
+      "prTitle": "#304 연구 완료 보상을 도감 단서 motion으로 보이게 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T04:39:54Z",
+      "mergeCommit": "48e3d7bf2471c0dc7aa4dc646ae8f50ca9ac9e94",
+      "mainCiRun": 25270047931,
+      "mainCiConclusion": "success",
+      "roadmapStep": "연구 완료 도감 단서 기록 motion",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #304",
+        "PR #305",
+        "main CI `25270047931`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #304",
+        "Branch: `codex/0304-research-complete-clue-motion`",
+        "Branch: codex/0304-research-complete-clue-motion"
       ]
     }
   ]

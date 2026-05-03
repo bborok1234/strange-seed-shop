@@ -3,51 +3,46 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T04:37:56.141Z
+Generated at: 2026-05-03T05:09:12.751Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #304 **연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다**이다. #302는 PR #303 merge와 main CI `25269728128` success로 닫혔고, #304는 plan-first와 구현/로컬 검증을 완료했다. 지금은 #304 PR publication gate다.
+현재 작업은 GitHub-authoritative open WorkUnit #306 **연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다**이다. #304는 PR #305 merge와 main CI `25270047931` success로 닫혔고, #306은 plan-first와 구현/로컬 검증을 완료했다. 지금은 #306 PR publication gate다.
 
 현재 evidence:
 
-- GitHub issue: #304 `연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다`
-- Plan artifact: `items/0154-research-complete-clue-motion.md`
-- Branch: `codex/0304-research-complete-clue-motion`
+- GitHub issue: #306 `연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다`
+- Plan artifact: `items/0155-research-clue-seed-planting-payoff.md`
+- Branch: `codex/0306-research-clue-seed-planting-payoff`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS reward motion + HUD affordance
-- Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `새싹 기록법 연구 완료하기`
-- Production role: 두 번째 주문 보상 → 연구 완료 → 도감 단서/다음 씨앗 목표
-- Screen moment: research CTA를 누른 직후 393px 정원 첫 화면
 - Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Visual evidence: `reports/visual/browser-use-blocker-0304-20260503.md`, `reports/visual/issue-304-research-complete-clue-motion-393.png`
-- Verification: `npm run build` pass, focused Playwright `연구 unlock` 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
+- Visual evidence: `reports/visual/browser-use-blocker-0306-20260503.md`, `reports/visual/issue-306-research-clue-seed-planting-payoff-393.png`
+- Verification: `npm run build` pass, focused Playwright `연구 단서 씨앗` 1 passed, lunar seed regression pair 2 passed, `npm run check:visual` 56 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
-3. Browser Use iab current-session 시도는 `reports/visual/browser-use-blocker-0304-20260503.md`에 기록했고, Playwright screenshot은 regression gate로만 사용한다.
-4. 393px 모바일 visual regression은 research completion receipt, next seed/research CTA, action-surface overflow, bottom-tab overlap을 함께 검증했다.
-5. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
-6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
-7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓴다.
-8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+2. Browser Use iab current-session 시도는 `reports/visual/browser-use-blocker-0306-20260503.md`에 기록했고, Playwright screenshot은 regression gate로만 사용한다.
+3. 393px 모바일 visual regression은 target seed row, purchase/plant receipt, playfield state, action-surface overflow, bottom-tab overlap을 검증했다.
+4. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+5. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
+6. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓴다.
+7. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0304-research-complete-clue-motion
-- Latest commit: 7ebff04 #304 연구 완료 단서 motion을 plan-first로 고정한다
+- Branch: codex/0306-research-clue-seed-planting-payoff
+- Latest commit: 78a0d45 #306 연구 단서 씨앗 심기 payoff를 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T04:38:00Z
-- Phase: issue-304-pr-publication
-- Issue: 304
+- Timestamp: 2026-05-03T05:03:00Z
+- Phase: issue-306-pr-publication
+- Issue: 306
 - PR: 
-- Item: items/0154-research-complete-clue-motion.md
+- Item: items/0155-research-clue-seed-planting-payoff.md
 - Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
@@ -56,7 +51,7 @@ Generated at: 2026-05-03T04:37:56.141Z
 
 ## Open issues
 
-- #304 연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/304
+- #306 연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/306
 
 ## Playable mode
 

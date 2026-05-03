@@ -70,7 +70,8 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 생산 잎 수령 포리 작업 FX / 주문 progress reward motion | done | Issue #298, PR #299 merged, main CI `25269100475`, `items/0151-production-tick-worker-fx.md`, `reports/visual/browser-use-blocker-0298-20260503.md`, `reports/visual/issue-298-production-claim-worker-fx-393.png`, `reports/visual/issue-298-order-dispatch-after-production-claim-393.png`, accepted raster FX `fx_production_tick_leaf_001`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | `생산 잎 수령` 직후 포리 작업 완료 receipt, leaf reward motion, playfield `+n 잎 이동`, 주문 progress 증가가 한 장면에 보이고 PR checks와 main CI로 닫힘 |
 | 작업 간식 강화 포리 버프 / 생산 속도 상승 payoff | done | Issue #300, PR #301 merged, main CI `25269424020`, `items/0152-snack-upgrade-worker-payoff.md`, `reports/visual/browser-use-blocker-0300-20260503.md`, `reports/visual/issue-300-snack-upgrade-worker-payoff-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 첫 주문 보상 이후 `작업 간식 강화`가 포리 간식 충전 receipt, playfield actor buff, 생산 +25%/분당 9.0 잎 HUD affordance로 읽히고 PR checks와 main CI로 닫힘 |
 | 두 번째 주문 연구 노트 unlock payoff | done | Issue #302, PR #303 merged, main CI `25269728128`, `items/0153-research-unlock-note-payoff.md`, `reports/visual/browser-use-blocker-0302-20260503.md`, `reports/visual/issue-302-research-unlock-note-payoff-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 두 번째 주문 납품이 research note unlock receipt, research CTA, playfield/order state로 이어지고 PR checks와 main CI로 닫힘 |
-| 연구 완료 도감 단서 기록 motion | review | Issue #304, `items/0154-research-complete-clue-motion.md`, `reports/visual/browser-use-blocker-0304-20260503.md`, `reports/visual/issue-304-research-complete-clue-motion-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | `새싹 기록법 연구` 완료가 도감 단서 기록 receipt, playfield `연구 노트 저장`/`단서 기록` state, 다음 씨앗 목표 CTA로 이어지고 `npm run check:visual` 55 passed와 `npm run check:ci`로 검증됨 |
+| 연구 완료 도감 단서 기록 motion | done | Issue #304, PR #305 merged, main CI `25270047931`, `items/0154-research-complete-clue-motion.md`, `reports/visual/browser-use-blocker-0304-20260503.md`, `reports/visual/issue-304-research-complete-clue-motion-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | `새싹 기록법 연구` 완료가 도감 단서 기록 receipt, playfield `연구 노트 저장`/`단서 기록` state, 다음 씨앗 목표 CTA로 이어지고 PR checks와 main CI로 닫힘 |
+| 연구 단서 씨앗 구매/심기 payoff | review | Issue #306, `items/0155-research-clue-seed-planting-payoff.md`, `reports/visual/browser-use-blocker-0306-20260503.md`, `reports/visual/issue-306-research-clue-seed-planting-payoff-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 연구 완료 후 목표 씨앗 구매/심기가 `연구 단서 씨앗` receipt, playfield `도감 목표 심기`/`연구 단서` state, 다음 생명체 목표 CTA로 이어지고 `npm run check:visual` 56 passed와 `npm run check:ci`로 검증됨 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Routine GitHub publication no-final harness | done | Issue #286, PR #287, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `npm run check:ci` pass, main CI `25266229841` | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
 | Closed WorkUnit mirror consistency gate | done | Issue #288, PR #289, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs`, main CI `25266430855` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
@@ -322,32 +323,27 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #304 **연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다**이다. #302는 PR #303 merge와 main CI `25269728128` success로 닫혔고, #304는 plan-first와 구현/로컬 검증을 완료했다. 지금은 #304 PR publication gate다.
+현재 작업은 GitHub-authoritative open WorkUnit #306 **연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다**이다. #304는 PR #305 merge와 main CI `25270047931` success로 닫혔고, #306은 plan-first와 구현/로컬 검증을 완료했다. 지금은 #306 PR publication gate다.
 
 현재 evidence:
 
-- GitHub issue: #304 `연구 완료 보상이 도감 단서 기록 motion으로 다음 씨앗 목표까지 이어지게 만든다`
-- Plan artifact: `items/0154-research-complete-clue-motion.md`
-- Branch: `codex/0304-research-complete-clue-motion`
+- GitHub issue: #306 `연구 단서 씨앗 구매가 도감 목표 심기 payoff로 이어지게 만든다`
+- Plan artifact: `items/0155-research-clue-seed-planting-payoff.md`
+- Branch: `codex/0306-research-clue-seed-planting-payoff`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS reward motion + HUD affordance
-- Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `새싹 기록법 연구 완료하기`
-- Production role: 두 번째 주문 보상 → 연구 완료 → 도감 단서/다음 씨앗 목표
-- Screen moment: research CTA를 누른 직후 393px 정원 첫 화면
 - Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Visual evidence: `reports/visual/browser-use-blocker-0304-20260503.md`, `reports/visual/issue-304-research-complete-clue-motion-393.png`
-- Verification: `npm run build` pass, focused Playwright `연구 unlock` 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
+- Visual evidence: `reports/visual/browser-use-blocker-0306-20260503.md`, `reports/visual/issue-306-research-clue-seed-planting-payoff-393.png`
+- Verification: `npm run build` pass, focused Playwright `연구 단서 씨앗` 1 passed, lunar seed regression pair 2 passed, `npm run check:visual` 56 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
-3. Browser Use iab current-session 시도는 `reports/visual/browser-use-blocker-0304-20260503.md`에 기록했고, Playwright screenshot은 regression gate로만 사용한다.
-4. 393px 모바일 visual regression은 research completion receipt, next seed/research CTA, action-surface overflow, bottom-tab overlap을 함께 검증했다.
-5. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
-6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
-7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓴다.
-8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+2. Browser Use iab current-session 시도는 `reports/visual/browser-use-blocker-0306-20260503.md`에 기록했고, Playwright screenshot은 regression gate로만 사용한다.
+3. 393px 모바일 visual regression은 target seed row, purchase/plant receipt, playfield state, action-surface overflow, bottom-tab overlap을 검증했다.
+4. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+5. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
+6. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓴다.
+7. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Previous Next Action History
 
