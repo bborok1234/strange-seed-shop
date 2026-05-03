@@ -616,6 +616,7 @@ export default function App() {
   const researchGrowthPreview = hasResearchSeedPlot && nextCreatureGoal
     ? `${nextCreatureGoal.seed.name} 수확 예고 · ${nextCreatureGoal.creature.name} 단서 추적 중`
     : null;
+  const albumRecordNextSeedActive = Boolean(researchAlbumRecord && activeTab === "seeds" && nextCreatureGoal);
   const gardenViewModel = useMemo(
     () =>
       buildGardenPlayfieldViewModel(
@@ -2049,15 +2050,21 @@ export default function App() {
                 <span className="tab-section-chip">보유 {totalOwnedSeeds}개</span>
               </header>
               {nextCreatureGoal && (
-                <article className="seed-goal-banner" aria-label="다음 도감 목표 씨앗">
+                <article
+                  className={albumRecordNextSeedActive ? "seed-goal-banner seed-goal-banner-record-next" : "seed-goal-banner"}
+                  aria-label="다음 도감 목표 씨앗"
+                >
                   {renderAsset(getSeedIconAssetId(nextCreatureGoal.seed, save), "씨앗")}
                   <div>
-                    <p className="panel-label">도감 목표 씨앗</p>
+                    <p className="panel-label">{albumRecordNextSeedActive ? "새 기록 다음 목표" : "도감 목표 씨앗"}</p>
                     <strong>{nextCreatureGoal.seed.name}</strong>
                     <span>
                       {getRarityLabel(nextCreatureGoal.creature.rarity)} · {nextCreatureGoal.creature.name}
                       {getObjectParticle(nextCreatureGoal.creature.name)} 만날 차례예요.
                     </span>
+                    {albumRecordNextSeedActive && (
+                      <span className="album-record-next-seed-line">도감 기록 다음 씨앗: {nextCreatureGoal.seed.name}</span>
+                    )}
                     {lunarRewardSourceLabel && nextCreatureGoal.seed.id === LUNAR_REWARD_SEED_ID && (
                       <span className="lunar-source-line">온실 단서 source: {lunarRewardSourceLabel}</span>
                     )}
@@ -2077,15 +2084,26 @@ export default function App() {
                   const previewCreature = getDeterministicCreatureForSeed(seed);
                   const previewDiscovered = previewCreature ? (save?.discoveredCreatureIds.includes(previewCreature.id) ?? false) : false;
                   const targetSeed = seed.id === nextCreatureGoal?.seed.id;
+                  const albumRecordTargetSeed = albumRecordNextSeedActive && targetSeed;
                   const targetSeedStatus = targetSeed ? getTargetSeedStatus(seed, owned, hasOpenPlot, leafShortfall) : null;
 
                   return (
-                    <article className={targetSeed ? "seed-inventory-row seed-inventory-row-target seed-shop-row-target" : "seed-inventory-row"} key={seed.id}>
+                    <article
+                      className={[
+                        "seed-inventory-row",
+                        targetSeed ? "seed-inventory-row-target seed-shop-row-target" : "",
+                        albumRecordTargetSeed ? "seed-inventory-row-record-next" : ""
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      key={seed.id}
+                    >
                       {renderAsset(getSeedIconAssetId(seed, save), "씨앗")}
                       <div>
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개 · {getSeedHarvestSummary(seed)}</span>
-                        {targetSeed && <span className="seed-target-badge">다음 발견</span>}
+                        {targetSeed && <span className="seed-target-badge">{albumRecordTargetSeed ? "새 기록 다음 목표" : "다음 발견"}</span>}
+                        {albumRecordTargetSeed && <span className="album-record-next-seed-line">도감 기록 다음 씨앗 · 구매/심기 준비</span>}
                         {targetSeedStatus && <span className="seed-target-status-line">{targetSeedStatus}</span>}
                         {targetSeed && researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
                         {leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}

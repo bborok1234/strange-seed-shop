@@ -2,7 +2,7 @@
 
 - GitHub issue: #314 https://github.com/bborok1234/strange-seed-shop/issues/314
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: PR publication ready
 - Branch: `codex/0314-album-record-next-seed-cta`
 - Created: 2026-05-03
 
@@ -16,11 +16,11 @@
 
 ## 수용 기준
 
-- [ ] `새 단서 기록`의 다음 씨앗 목표 CTA를 누르면 씨앗 탭 target row가 `새 기록 다음 목표`/`도감 기록 다음 씨앗` 상태를 보여준다.
-- [ ] target row가 다음 생명체/씨앗 이름과 구매/심기 가능성을 한 화면에서 설명한다.
-- [ ] 신규 accepted manifest asset 없이 DOM/CSS row highlight/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 target row/action buttons가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] `새 단서 기록`의 다음 씨앗 목표 CTA를 누르면 씨앗 탭 target row가 `새 기록 다음 목표`/`도감 기록 다음 씨앗` 상태를 보여준다.
+- [x] target row가 다음 생명체/씨앗 이름과 구매/심기 가능성을 한 화면에서 설명한다.
+- [x] 신규 accepted manifest asset 없이 DOM/CSS row highlight/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 target row/action buttons가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## 검증 명령
 
@@ -79,3 +79,20 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이므로 Codex native subagents/team mode는 사용하지 않는다.
 - 필요 시 분리 기준: asset generation이 필요해지면 asset pipeline subtask, Browser Use 복구가 필요하면 QA/verifier subtask로 분리한다.
+
+## 구현 결과
+
+- `src/App.tsx`: 새 단서 기록 card CTA를 통해 seeds tab에 도착한 상태를 `albumRecordNextSeedActive`로 판정하고, 목표 banner/seed row에 `새 기록 다음 목표`와 `도감 기록 다음 씨앗` copy를 추가했다.
+- `src/styles.css`: `seed-goal-banner-record-next`, `seed-inventory-row-record-next`, `album-record-next-seed-line` highlight를 추가해 구매/심기 target row가 한 화면에서 읽히게 했다.
+- `tests/visual/p0-mobile-game-shell.spec.ts`: 393px 모바일에서 연구 단서 수확 → 도감 기록 → 다음 씨앗 CTA → seeds target row 강조와 bottom-tab overlap/layout invariant를 검증한다.
+- Browser Use iab는 현재 세션 backend discovery 실패로 막혀 `reports/visual/browser-use-blocker-0314-20260503.md`에 blocker를 남겼다.
+- Playwright evidence screenshot: `reports/visual/issue-314-album-record-next-seed-cta-393.png`.
+
+## 검증 결과
+
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "새 단서 기록 다음 씨앗|도감 기록 다음 씨앗"` — 1 passed
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장|연구 단서 수확|단서 생명체|연구 단서 도감|새 단서 기록|새 단서 기록 다음 씨앗|도감 기록 다음 씨앗"` — 5 passed
+- `npm run check:visual` — 60 passed
+- `npm run check:ci` — pass
+

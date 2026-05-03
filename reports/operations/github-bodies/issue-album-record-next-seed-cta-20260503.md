@@ -37,11 +37,11 @@
 
 ## 수용 기준
 
-- [ ] `새 단서 기록`의 다음 씨앗 목표 CTA를 누르면 씨앗 탭 target row가 `새 기록 다음 목표`/`도감 기록 다음 씨앗` 상태를 보여준다.
-- [ ] target row가 다음 생명체/씨앗 이름과 구매/심기 가능성을 한 화면에서 설명한다.
-- [ ] 신규 accepted manifest asset 없이 DOM/CSS row highlight/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 target row/action buttons가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] `새 단서 기록`의 다음 씨앗 목표 CTA를 누르면 씨앗 탭 target row가 `새 기록 다음 목표`/`도감 기록 다음 씨앗` 상태를 보여준다.
+- [x] target row가 다음 생명체/씨앗 이름과 구매/심기 가능성을 한 화면에서 설명한다.
+- [x] 신규 accepted manifest asset 없이 DOM/CSS row highlight/HUD affordance로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 target row/action buttons가 bottom tab과 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## Visual evidence 계획
 
@@ -74,3 +74,14 @@
 - `npm run check:github-metadata`
 - `npm run check:seed-ops-queue`
 - `npm run check:closed-workunit-mirrors`
+
+
+## 구현 / 검증 evidence
+
+- 구현: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0314-20260503.md`
+- Screenshot: `reports/visual/issue-314-album-record-next-seed-cta-393.png`
+- Focused: `npx playwright test --config playwright.config.ts --grep "새 단서 기록 다음 씨앗|도감 기록 다음 씨앗"` — 1 passed
+- Research clue chain regression: `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장|연구 단서 수확|단서 생명체|연구 단서 도감|새 단서 기록|새 단서 기록 다음 씨앗|도감 기록 다음 씨앗"` — 5 passed
+- Full visual: `npm run check:visual` — 60 passed
+- Full CI: `npm run check:ci` — pass
