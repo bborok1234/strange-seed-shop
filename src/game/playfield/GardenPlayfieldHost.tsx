@@ -35,7 +35,9 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
         ? Math.max(0, Math.ceil(Math.max(0, plot.secondsRemaining - plot.tapReductionSeconds) / plot.tapReductionSeconds))
         : null;
     const growthDetail =
-      tapsRemainingAfter !== null
+      plot?.growthPreviewLabel
+        ? `${plot.growthPreviewLabel} · ${plot.tapReductionLabel ?? "성장 시간"} 단축`
+        : tapsRemainingAfter !== null
         ? `${plot?.tapReductionLabel ?? "성장 시간"} 단축 · 약 ${tapsRemainingAfter}번 남음`
         : `${plot?.tapReductionLabel ?? "성장 시간"} 단축 · ${plotIndex + 1}번 밭이 반응했어요`;
     setActionFeedback({
@@ -44,7 +46,7 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
       label: actionType === "harvest_plot" ? "수확!" : "쑥! +성장",
       detail: actionType === "harvest_plot" ? "도감 보상으로 이어져요" : growthDetail
     });
-    feedbackTimerRef.current = window.setTimeout(() => setActionFeedback(null), 1_800);
+    feedbackTimerRef.current = window.setTimeout(() => setActionFeedback(null), 6_000);
   }
 
   function recordOverlayFxTelemetry(actionType: "tap_growth" | "harvest_plot", plotIndex: number) {

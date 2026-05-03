@@ -162,4 +162,4 @@ export interface ExpeditionState {
   claimed: boolean;
 }
 
-export type ExpeditionRewardSource = "research" | "greenhouse_mist";
+export type ExpeditionRewardSource = "research" | "greenhouse_mist" | "album_record_next_seed";

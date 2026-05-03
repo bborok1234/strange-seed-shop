@@ -43,17 +43,18 @@
 
 ## 수용 기준
 
-- [ ] `새 기록 후속 재배` 씨앗을 한 번 이상 성장시키면 action feedback 또는 action surface가 다음 생명체/씨앗 이름과 수확 예고를 보여준다.
-- [ ] next creature card 또는 동등한 HUD가 후속 재배 성장 중 상태를 `수확 예고`/`후속 성장 중`으로 설명한다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield feedback/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 playfield/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] `새 기록 후속 재배` 씨앗을 한 번 이상 성장시키면 action feedback 또는 action surface가 다음 생명체/씨앗 이름과 수확 예고를 보여준다.
+- [x] next creature card 또는 동등한 HUD가 후속 재배 성장 중 상태를 `수확 예고`/`후속 성장 중`으로 설명한다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield feedback/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 playfield/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
-## Visual evidence 계획
+## Visual evidence
 
 - Browser Use iab target: 연구 단서 수확 → 도감 기록 CTA → 다음 씨앗 CTA → 구매/심기 → 정원 `새 기록 후속 재배` → 성장 탭 → 수확 예고.
+- Browser Use blocker: `reports/visual/browser-use-blocker-0318-20260503.md` — 현재 세션 iab backend discovery 실패.
 - Fallback screenshot: `reports/visual/issue-318-album-record-followup-growth-preview-393.png`.
-- Layout invariant: playfield/action surface vs `.bottom-tabs`, no body scroll, no masked overflow.
+- Layout invariant: 393px 모바일에서 body scroll 없음, starter panel overflow 없음, playfield feedback/next creature card bottom-tab 미겹침.
 
 ## Playable mode 영향
 
@@ -68,10 +69,10 @@
 
 ## 검증 명령
 
-- `npm run build`
-- focused Playwright: 새 기록 후속 성장/수확 예고
-- `npm run check:visual`
-- `npm run check:ci`
+- `npm run build` — pass
+- focused Playwright: `npx playwright test --config playwright.config.ts --grep "새 기록 후속 성장|후속 재배 성장|수확 예고"` — 2 passed
+- `npm run check:visual` — 62 passed
+- `npm run check:ci` — pass
 - `npm run update:dashboard`
 - `npm run operator:control-room -- --output docs/OPERATOR_CONTROL_ROOM.md`
 - `npm run check:dashboard`
@@ -80,3 +81,10 @@
 - `npm run check:github-metadata`
 - `npm run check:seed-ops-queue`
 - `npm run check:closed-workunit-mirrors`
+
+## Implementation result
+
+- `PlotState.source`에 `album_record_next_seed`를 추가해 후속 재배 성장 상태를 receipt TTL이 아니라 실제 planted plot state로 판정한다.
+- Garden playfield feedback은 `growthPreviewLabel`을 우선 표시해 성장 탭 즉시 `젤리콩 통통 수확 예고 · 후속 성장 중`을 보여준다.
+- Mobile production action surface는 `has-album-record-growth-preview` 상태에서 secondary 성장 선택을 접고 next creature 수확 예고 칩을 보여준다.
+- Action feedback 지속 시간을 6초로 늘려 모바일 플레이어가 성장 payoff를 읽을 수 있게 했다.

@@ -11,13 +11,14 @@ export interface GardenPlotView {
   label: string;
   seedId?: string;
   family?: "herb" | "candy" | "lunar";
-  source?: "research" | "greenhouse_mist";
+  source?: "research" | "greenhouse_mist" | "album_record_next_seed";
   sourceLabel?: string;
   sourceAssetPath?: string;
   progressPercent: number;
   secondsRemaining?: number;
   tapReductionLabel?: string;
   tapReductionSeconds?: number;
+  growthPreviewLabel?: string;
 }
 
 export interface GardenPlayfieldViewModel {

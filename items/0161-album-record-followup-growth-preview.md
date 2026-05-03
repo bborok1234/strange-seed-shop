@@ -2,7 +2,7 @@
 
 - GitHub issue: #318 https://github.com/bborok1234/strange-seed-shop/issues/318
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: review
 - Branch: `codex/0318-album-record-followup-growth-preview`
 - Created: 2026-05-03
 
@@ -16,11 +16,11 @@
 
 ## 수용 기준
 
-- [ ] `새 기록 후속 재배` 씨앗을 한 번 이상 성장시키면 action feedback 또는 action surface가 다음 생명체/씨앗 이름과 수확 예고를 보여준다.
-- [ ] next creature card 또는 동등한 HUD가 후속 재배 성장 중 상태를 `수확 예고`/`후속 성장 중`으로 설명한다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield feedback/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 playfield/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] `새 기록 후속 재배` 씨앗을 한 번 이상 성장시키면 action feedback 또는 action surface가 다음 생명체/씨앗 이름과 수확 예고를 보여준다.
+- [x] next creature card 또는 동등한 HUD가 후속 재배 성장 중 상태를 `수확 예고`/`후속 성장 중`으로 설명한다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield feedback/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 playfield/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## 검증 명령
 
@@ -79,3 +79,15 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이므로 Codex native subagents/team mode는 사용하지 않는다.
 - 필요 시 분리 기준: Phaser feedback 구현이 커지면 runtime worker, asset generation이 필요해지면 asset pipeline subtask, Browser Use 복구가 필요하면 QA/verifier subtask로 분리한다.
+
+
+## Implementation evidence
+
+- 변경: `PlotState.source`에 `album_record_next_seed` 출처를 남겨 새 기록 후속 재배 성장 중 판정을 transient receipt가 아니라 planted plot state에 묶었다.
+- 변경: Garden playfield feedback이 `growthPreviewLabel`을 우선 사용해 `젤리콩 통통 수확 예고 · 후속 성장 중`을 성장 탭 즉시 보여준다.
+- 변경: production/mobile action surface에서 `has-album-record-growth-preview` 상태는 secondary 성장 선택을 접고 next creature card의 수확 예고 칩을 보여준다.
+- 변경: playfield action feedback 지속 시간을 6초로 늘려 모바일 사용자가 성장 payoff를 읽을 수 있게 했다.
+- Browser Use blocker: `reports/visual/browser-use-blocker-0318-20260503.md` — 현재 세션 iab backend discovery 실패.
+- Screenshot: `reports/visual/issue-318-album-record-followup-growth-preview-393.png`
+- Focused verification: `npm run build && npx playwright test --config playwright.config.ts --grep "새 기록 후속 성장|후속 재배 성장|수확 예고"` — 2 passed.
+- Full verification: `npm run check:visual` — 62 passed; `npm run check:ci` — pass.
