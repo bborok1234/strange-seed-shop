@@ -1,4 +1,4 @@
-import { execFileSync, spawn, spawnSync } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -75,17 +75,20 @@ Options:
   --max-iterations N    Maximum Codex passes. 0 means until duration expires. Default: 0.
   --issue N             Initial GitHub WorkUnit issue number to prioritize.
   --worktree PATH       Repo path for Codex/OMX execution. Default: current directory.
-  --backend omx|codex   Execution backend. Default: omx if installed, otherwise codex.
+  --backend omx|codex|claude  Execution backend. Default: omx if installed, otherwise codex. Use claude to skip Codex entirely.
+  --fallback claude|none  Fallback backend when Codex hits a usage/rate limit or stalls. Default: claude if installed, otherwise none.
+  --idle-timeout-minutes N  Kill the active Codex pass if no stdout/stderr for N minutes. Default: 10.
+  --codex-cooldown-minutes N  After a Codex limit/stall, route to fallback for N minutes before retrying Codex. Default: 60.
   --prompt PATH         Prompt output path. Default: .omx/state/studio-v3-operator-prompt.md.
   --state PATH          State output path. Default: .omx/state/studio-v3-operator.json.
   --report PATH         Report output path. Default: reports/operations/studio-v3-operator-YYYYMMDD.md.
   --log PATH            Detached log path. Default: .omx/logs/studio-v3-operator-TIMESTAMP.log.
   --pid PATH            Detached pid path. Default: .omx/state/studio-v3-operator.pid.
-  --yolo                Use Codex bypass flag instead of config/sandbox flags.
+  --yolo                Use Codex bypass flag instead of config/sandbox flags. Also enables claude --dangerously-skip-permissions on fallback.
 `;
 }
 
-function doctorChecks(worktree, backend) {
+function doctorChecks(worktree, backend, fallback) {
   const checks = [];
   const add = (name, ok, required, details = "") => checks.push({ name, ok: Boolean(ok), required: Boolean(required), details });
 
@@ -93,8 +96,9 @@ function doctorChecks(worktree, backend) {
   add("inside git worktree", run("git", ["-C", worktree, "rev-parse", "--is-inside-work-tree"], "") === "true", true, worktree);
   add("gh command", commandExists("gh"), true, run("sh", ["-lc", "command -v gh"], "not found"));
   add("gh auth", run("gh", ["auth", "status"], "").length > 0, false, "needed for issue/PR/comment/check/merge mutation");
-  add("codex command", commandExists("codex"), true, run("sh", ["-lc", "command -v codex"], "not found"));
+  add("codex command", commandExists("codex"), backend !== "claude", run("sh", ["-lc", "command -v codex"], "not found"));
   add("omx command", commandExists("omx"), backend === "omx", run("sh", ["-lc", "command -v omx"], "not found"));
+  add("claude command", commandExists("claude"), backend === "claude" || fallback === "claude", run("sh", ["-lc", "command -v claude"], "not found"));
 
   const mcp = run("codex", ["mcp", "get", "node_repl"], "");
   add("Browser Use Node REPL MCP", mcp.includes("node_repl") || mcp.includes("command"), false, mcp ? "node_repl configured" : "run: codex mcp add node_repl -- /Applications/Codex.app/Contents/Resources/node_repl");
@@ -153,12 +157,15 @@ ${initialIssue}
 `;
 }
 
-function writeReport({ reportPath, promptPath, statePath, checks, commandText, detachedCommandText, issue, backend, worktree }) {
+function writeReport({ reportPath, promptPath, statePath, checks, commandText, detachedCommandText, issue, backend, worktree, fallback, idleTimeoutMinutes, codexCooldownMinutes }) {
   ensureDir(reportPath);
   const report = `# Studio Harness v3 Foreground Operator Entry
 
 - Updated: ${new Date().toISOString()}
 - Backend: ${backend}
+- Fallback: ${fallback}
+- Idle timeout: ${idleTimeoutMinutes} min (per pass, kills on no stdio)
+- Codex cooldown: ${codexCooldownMinutes} min (after limit/idle, route to fallback)
 - Worktree: \`${worktree}\`
 - Initial issue: ${issue ? `#${issue}` : "auto from GitHub queue"}
 - Prompt: \`${promptPath}\`
@@ -196,12 +203,18 @@ function buildExecArgs({ backend, worktree, yolo }) {
 }
 
 function buildCommandText({ backend, worktree, promptPath, yolo }) {
+  if (backend === "claude") {
+    const args = ["-p", "--add-dir", worktree];
+    if (yolo) args.push("--dangerously-skip-permissions");
+    const argsText = args.map(shellQuote).join(" ");
+    return `(cd ${shellQuote(worktree)} && claude ${argsText} < ${shellQuote(promptPath)})`;
+  }
   const command = backend === "omx" ? "omx" : "codex";
   const argsText = buildExecArgs({ backend, worktree, yolo }).map(shellQuote).join(" ");
   return `${command} ${argsText} < ${shellQuote(promptPath)}`;
 }
 
-function buildDetachedCommandText({ durationHours, intervalSeconds, maxIterations, issue, worktree, backend, promptPath, statePath, reportPath, logPath, pidPath, yolo }) {
+function buildDetachedCommandText({ durationHours, intervalSeconds, maxIterations, issue, worktree, backend, promptPath, statePath, reportPath, logPath, pidPath, yolo, fallback, idleTimeoutMinutes, codexCooldownMinutes }) {
   const scriptArgs = [
     scriptPath,
     "--supervisor",
@@ -210,6 +223,9 @@ function buildDetachedCommandText({ durationHours, intervalSeconds, maxIteration
     "--max-iterations", String(maxIterations),
     "--worktree", worktree,
     "--backend", backend,
+    "--fallback", fallback,
+    "--idle-timeout-minutes", String(idleTimeoutMinutes),
+    "--codex-cooldown-minutes", String(codexCooldownMinutes),
     "--prompt", promptPath,
     "--state", statePath,
     "--report", reportPath
@@ -225,59 +241,203 @@ function writeState(statePath, state) {
   fs.writeFileSync(statePath, `${JSON.stringify(state, null, 2)}\n`);
 }
 
-function runExecPass({ backend, worktree, prompt, yolo }) {
-  const command = backend === "omx" ? "omx" : "codex";
-  const result = spawnSync(command, buildExecArgs({ backend, worktree, yolo }), {
-    input: prompt,
-    encoding: "utf8",
-    stdio: ["pipe", "inherit", "inherit"]
+const CODEX_LIMIT_PATTERNS = [
+  /rate[- ]?limit(?:ed|ing|\s*exceeded|\s*reached|\s*hit)?/i,
+  /usage limit/i,
+  /quota exceeded/i,
+  /too many requests/i,
+  /you[' ]?ve hit (?:your |the )?(?:rate |usage )?limit/i,
+  /\bratelimited\b/i,
+  /\bstatus[: ]+429\b/i,
+  /limit resets? in \d/i,
+  /please try again (?:in|after) \d/i,
+];
+
+function detectLimit(text) {
+  for (const pattern of CODEX_LIMIT_PATTERNS) {
+    if (pattern.test(text)) return pattern.source;
+  }
+  return null;
+}
+
+function runMonitoredPass({ command, args, prompt, worktree, idleTimeoutMs }) {
+  return new Promise((resolve) => {
+    let child;
+    try {
+      child = spawn(command, args, { cwd: worktree, stdio: ["pipe", "pipe", "pipe"] });
+    } catch (err) {
+      resolve({ status: 1, signal: null, error: err.message, limitMatch: null, killedReason: null, command });
+      return;
+    }
+    let limitMatch = null;
+    let killedReason = null;
+    let lastOutputAt = Date.now();
+    const killChild = (reason) => {
+      if (killedReason) return;
+      killedReason = reason;
+      try { child.kill("SIGTERM"); } catch {}
+      const fallbackKill = setTimeout(() => { try { child.kill("SIGKILL"); } catch {} }, 5000);
+      fallbackKill.unref?.();
+    };
+    const onChunk = (chunk, sink) => {
+      sink.write(chunk);
+      lastOutputAt = Date.now();
+      if (limitMatch) return;
+      const match = detectLimit(chunk.toString());
+      if (match) {
+        limitMatch = match;
+        killChild("limit-detected");
+      }
+    };
+    child.stdout.on("data", (chunk) => onChunk(chunk, process.stdout));
+    child.stderr.on("data", (chunk) => onChunk(chunk, process.stderr));
+    const interval = Math.max(5000, Math.min(30000, Math.floor(idleTimeoutMs / 4)));
+    const idleTimer = setInterval(() => {
+      if (Date.now() - lastOutputAt > idleTimeoutMs) killChild("idle-timeout");
+    }, interval);
+    idleTimer.unref?.();
+    child.on("error", (err) => {
+      clearInterval(idleTimer);
+      resolve({ status: 1, signal: null, error: err.message, limitMatch, killedReason, command });
+    });
+    child.on("exit", (status, signal) => {
+      clearInterval(idleTimer);
+      resolve({
+        status: status ?? (signal ? 1 : 0),
+        signal: signal ?? null,
+        error: null,
+        limitMatch,
+        killedReason,
+        command,
+      });
+    });
+    try {
+      child.stdin.end(prompt);
+    } catch (err) {
+      clearInterval(idleTimer);
+      resolve({ status: 1, signal: null, error: err.message, limitMatch, killedReason, command });
+    }
   });
-  return { status: result.status ?? 1, signal: result.signal ?? null, error: result.error?.message ?? null };
+}
+
+async function runCodexPass({ backend, worktree, prompt, yolo, idleTimeoutMs }) {
+  const command = backend === "omx" ? "omx" : "codex";
+  return runMonitoredPass({
+    command,
+    args: buildExecArgs({ backend, worktree, yolo }),
+    prompt,
+    worktree,
+    idleTimeoutMs,
+  });
+}
+
+async function runClaudePass({ worktree, prompt, yolo, idleTimeoutMs }) {
+  const args = ["-p", "--add-dir", worktree];
+  if (yolo) args.push("--dangerously-skip-permissions");
+  return runMonitoredPass({
+    command: "claude",
+    args,
+    prompt,
+    worktree,
+    idleTimeoutMs,
+  });
+}
+
+async function runExecPass({ backend, worktree, prompt, yolo, fallback, idleTimeoutMs, cooldownState }) {
+  if (backend === "claude") {
+    const result = await runClaudePass({ worktree, prompt, yolo, idleTimeoutMs });
+    return { ...result, backend_used: "claude", via: "primary" };
+  }
+
+  const fallbackEnabled = fallback === "claude" && commandExists("claude");
+  const inCooldown = cooldownState.codexCooldownUntil > Date.now();
+
+  if (inCooldown && fallbackEnabled) {
+    const result = await runClaudePass({ worktree, prompt, yolo, idleTimeoutMs });
+    return {
+      ...result,
+      backend_used: "claude",
+      via: "cooldown",
+      codex_cooldown_until: new Date(cooldownState.codexCooldownUntil).toISOString(),
+    };
+  }
+
+  const codexResult = await runCodexPass({ backend, worktree, prompt, yolo, idleTimeoutMs });
+  const limitTriggered = Boolean(codexResult.limitMatch) || codexResult.killedReason === "idle-timeout";
+  if (limitTriggered) {
+    cooldownState.codexCooldownUntil = Date.now() + cooldownState.cooldownMs;
+    cooldownState.lastTrigger = codexResult.limitMatch ?? codexResult.killedReason;
+    cooldownState.lastTriggerAt = new Date().toISOString();
+    if (fallbackEnabled) {
+      const fallbackResult = await runClaudePass({ worktree, prompt, yolo, idleTimeoutMs });
+      return {
+        ...fallbackResult,
+        backend_used: "claude",
+        via: "fallback",
+        codex_result: codexResult,
+        codex_cooldown_until: new Date(cooldownState.codexCooldownUntil).toISOString(),
+      };
+    }
+  }
+  return { ...codexResult, backend_used: backend };
 }
 
 async function sleep(ms) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo }) {
+async function supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo, fallback, idleTimeoutMs, cooldownMs }) {
   const startedAt = new Date();
   const deadlineMs = startedAt.getTime() + durationHours * 60 * 60 * 1000;
+  const cooldownState = { codexCooldownUntil: 0, cooldownMs, lastTrigger: null, lastTriggerAt: null };
   let iteration = 0;
   writeState(statePath, {
     schemaVersion: 1,
     kind: "studio-v3-foreground-operator-state",
     status: "running",
     backend,
+    fallback,
     worktree,
     started_at: startedAt.toISOString(),
     updated_at: new Date().toISOString(),
     duration_hours: durationHours,
     interval_seconds: intervalSeconds,
+    idle_timeout_ms: idleTimeoutMs,
+    codex_cooldown_ms: cooldownMs,
     max_iterations: maxIterations,
     seed_ops_entrypoint: false
   });
 
   while (Date.now() < deadlineMs && (maxIterations === 0 || iteration < maxIterations)) {
     iteration += 1;
+    const inCooldown = cooldownState.codexCooldownUntil > Date.now();
+    const passLabel = backend === "claude"
+      ? "running-claude-pass"
+      : (inCooldown && fallback === "claude" ? "running-fallback-pass" : "running-codex-pass");
     writeState(statePath, {
       schemaVersion: 1,
       kind: "studio-v3-foreground-operator-state",
-      status: "running-codex-pass",
+      status: passLabel,
       backend,
+      fallback,
       worktree,
       started_at: startedAt.toISOString(),
       updated_at: new Date().toISOString(),
       duration_hours: durationHours,
       interval_seconds: intervalSeconds,
       iteration,
+      codex_cooldown_until: cooldownState.codexCooldownUntil > 0 ? new Date(cooldownState.codexCooldownUntil).toISOString() : null,
+      last_trigger: cooldownState.lastTrigger,
+      last_trigger_at: cooldownState.lastTriggerAt,
       seed_ops_entrypoint: false
     });
-    const result = runExecPass({ backend, worktree, prompt, yolo });
+    const result = await runExecPass({ backend, worktree, prompt, yolo, fallback, idleTimeoutMs, cooldownState });
     writeState(statePath, {
       schemaVersion: 1,
       kind: "studio-v3-foreground-operator-state",
-      status: result.status === 0 ? "codex-pass-completed" : "codex-pass-failed",
+      status: result.status === 0 ? "pass-completed" : "pass-failed",
       backend,
+      fallback,
       worktree,
       started_at: startedAt.toISOString(),
       updated_at: new Date().toISOString(),
@@ -285,6 +445,9 @@ async function supervise({ backend, worktree, prompt, statePath, durationHours, 
       interval_seconds: intervalSeconds,
       iteration,
       last_result: result,
+      codex_cooldown_until: cooldownState.codexCooldownUntil > 0 ? new Date(cooldownState.codexCooldownUntil).toISOString() : null,
+      last_trigger: cooldownState.lastTrigger,
+      last_trigger_at: cooldownState.lastTriggerAt,
       seed_ops_entrypoint: false
     });
     if (Date.now() >= deadlineMs || (maxIterations > 0 && iteration >= maxIterations)) break;
@@ -296,12 +459,16 @@ async function supervise({ backend, worktree, prompt, statePath, durationHours, 
     kind: "studio-v3-foreground-operator-state",
     status: "duration-complete",
     backend,
+    fallback,
     worktree,
     started_at: startedAt.toISOString(),
     updated_at: new Date().toISOString(),
     duration_hours: durationHours,
     interval_seconds: intervalSeconds,
     iterations: iteration,
+    codex_cooldown_until: cooldownState.codexCooldownUntil > 0 ? new Date(cooldownState.codexCooldownUntil).toISOString() : null,
+    last_trigger: cooldownState.lastTrigger,
+    last_trigger_at: cooldownState.lastTriggerAt,
     seed_ops_entrypoint: false
   });
 }
@@ -314,10 +481,15 @@ if (help) {
 
 const worktree = path.resolve(readArg("worktree", process.cwd()));
 const backend = readArg("backend", commandExists("omx") ? "omx" : "codex");
+const fallback = readArg("fallback", commandExists("claude") ? "claude" : "none");
 const issue = readArg("issue", "");
 const durationHours = Number(readArg("duration-hours", "24"));
 const intervalSeconds = Math.max(1, Number(readArg("interval-seconds", "300")));
 const maxIterations = Math.max(0, Number(readArg("max-iterations", "0")));
+const idleTimeoutMinutes = Math.max(1, Number(readArg("idle-timeout-minutes", "10")));
+const codexCooldownMinutes = Math.max(1, Number(readArg("codex-cooldown-minutes", "60")));
+const idleTimeoutMs = idleTimeoutMinutes * 60 * 1000;
+const cooldownMs = codexCooldownMinutes * 60 * 1000;
 const promptPath = readArg("prompt", ".omx/state/studio-v3-operator-prompt.md");
 const statePath = readArg("state", ".omx/state/studio-v3-operator.json");
 const reportPath = readArg("report", `reports/operations/studio-v3-operator-${todayCompact()}.md`);
@@ -325,14 +497,14 @@ const logPath = readArg("log", `.omx/logs/studio-v3-operator-${timestampCompact(
 const pidPath = readArg("pid", ".omx/state/studio-v3-operator.pid");
 const yolo = hasFlag("yolo");
 const prompt = buildPrompt({ issue, durationHours, intervalSeconds, worktree });
-const checks = doctorChecks(worktree, backend);
+const checks = doctorChecks(worktree, backend, fallback);
 
 ensureDir(promptPath);
 fs.writeFileSync(promptPath, prompt);
 
 const commandText = buildCommandText({ backend, worktree, promptPath, yolo });
-const detachedCommandText = buildDetachedCommandText({ durationHours, intervalSeconds, maxIterations, issue, worktree, backend, promptPath, statePath, reportPath, logPath, pidPath, yolo });
-writeReport({ reportPath, promptPath, statePath, checks, commandText, detachedCommandText, issue, backend, worktree });
+const detachedCommandText = buildDetachedCommandText({ durationHours, intervalSeconds, maxIterations, issue, worktree, backend, promptPath, statePath, reportPath, logPath, pidPath, yolo, fallback, idleTimeoutMinutes, codexCooldownMinutes });
+writeReport({ reportPath, promptPath, statePath, checks, commandText, detachedCommandText, issue, backend, worktree, fallback, idleTimeoutMinutes, codexCooldownMinutes });
 
 const strictDoctor = hasFlag("strict-doctor");
 const doctor = hasFlag("doctor");
@@ -343,7 +515,7 @@ const supervisor = hasFlag("supervisor");
 
 if (doctor) {
   const failedRequired = checks.filter((check) => check.required && !check.ok);
-  console.log(JSON.stringify({ ok: failedRequired.length === 0, backend, worktree, prompt: promptPath, report: reportPath, checks }, null, 2));
+  console.log(JSON.stringify({ ok: failedRequired.length === 0, backend, fallback, idle_timeout_minutes: idleTimeoutMinutes, codex_cooldown_minutes: codexCooldownMinutes, worktree, prompt: promptPath, report: reportPath, checks }, null, 2));
   if (printCommand) {
     console.log("\n# foreground");
     console.log(commandText);
@@ -375,6 +547,9 @@ if (detached) {
     "--max-iterations", String(maxIterations),
     "--worktree", worktree,
     "--backend", backend,
+    "--fallback", fallback,
+    "--idle-timeout-minutes", String(idleTimeoutMinutes),
+    "--codex-cooldown-minutes", String(codexCooldownMinutes),
     "--prompt", promptPath,
     "--state", statePath,
     "--report", reportPath
@@ -403,7 +578,7 @@ if (detached) {
 }
 
 if (supervisor) {
-  await supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo });
+  await supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo, fallback, idleTimeoutMs, cooldownMs });
   process.exit(0);
 }
 
