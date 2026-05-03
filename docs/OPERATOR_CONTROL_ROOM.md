@@ -3,59 +3,51 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T05:53:44.802Z
+Generated at: 2026-05-03T05:59:19.945Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #310 **연구 단서 씨앗 수확 순간 다음 생명체 발견 연출을 보이게 만든다**의 PR publication gate다. 구현/검증은 완료되었고, routine GitHub publication은 agent responsibility이므로 issue body update, branch push, draft PR create, PR checks watch/repair, ready/merge, main CI observation까지 이어간다.
+현재 작업은 GitHub-authoritative open WorkUnit #312 **연구 단서 발견 후 도감에 새 기록 저장 payoff를 보이게 만든다**의 plan-first gate다. #310은 PR #311 merge와 main CI `25271376407` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단했다.
 
 현재 evidence:
 
-- GitHub issue: #310 `연구 단서 씨앗 수확 순간 다음 생명체 발견 연출을 보이게 만든다`
-- Plan artifact: `items/0157-research-clue-harvest-reveal.md` — 수용 기준 모두 충족, status `verification-ready`
-- Branch: `codex/0310-research-clue-harvest-reveal`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS reward motion + HUD affordance
-- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0310-20260503.md`
-- Screenshot: `reports/visual/issue-310-research-clue-harvest-reveal-393.png`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-research-clue-harvest-reveal-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-310-research-clue-harvest-reveal-20260503.md`
-- GateEvent body-file: `reports/operations/gate-event-0310-research-clue-harvest-reveal-20260503.md`
+- GitHub issue: #312 `연구 단서 발견 후 도감에 새 기록 저장 payoff를 보이게 만든다`
+- Plan artifact: `items/0158-research-clue-album-record.md`
+- Branch: `codex/0312-research-clue-album-record`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS album highlight + HUD affordance
+- Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
+- Player verb: `도감에 연구 단서 기록하기`
+- Production role: 생명체 발견 → 도감 기억 저장 → 다음 씨앗 목표 전환
+- Screen moment: #310 reveal CTA `도감에 기록하기`를 누른 직후 도감/정원 화면
+- Concrete payoff: `새 단서 기록` album highlight, `도감 기록 저장` HUD affordance, next goal transition
+- Competition production gap: Cell to Singularity는 unlock 이후 node가 tree에 남고 다음 branch가 보인다.
 
-검증 evidence:
+즉시 적용할 gate:
 
-- `npm run build` — pass
-- `npx playwright test --config playwright.config.ts --grep "연구 단서 수확|단서 생명체"` — 1 passed
-- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장|연구 단서 수확|단서 생명체"` — 3 passed
-- `npm run check:visual` — 58 passed
-- `npm run check:ci` — pass
-
-즉시 다음 gate:
-
-1. `gh issue edit 310 --body-file reports/operations/github-bodies/issue-research-clue-harvest-reveal-20260503.md`
-2. branch push와 draft PR create/update를 body-file로 수행한다.
-3. PR required checks를 watch/repair하고 green이면 ready/merge한다.
-4. merge 후 main CI를 GitHub run으로 관찰한다. post-merge closeout commit/PR은 만들지 않는다.
-5. Stop rule이 없으면 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub-authoritative WorkUnit을 선택하고 plan-first로 계속한다.
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
+2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
+3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
+4. 393px 모바일 visual regression은 album highlight, action-surface overflow, bottom-tab overlap을 함께 검증한다.
+5. 남은 checkpoint는 plan-first commit, implementation, focused/full checks, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
-7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #310은 단일 React/CSS/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
+7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #312은 단일 React/CSS/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
 8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0310-research-clue-harvest-reveal
-- Latest commit: 09b1a73 #310 연구 단서 수확 발견 연출을 plan-first로 고정한다
+- Branch: codex/0312-research-clue-album-record
+- Latest commit: a05a512 #310 연구 단서 수확을 생명체 발견 payoff로 보이게 만든다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T05:53:41Z
-- Phase: issue-310-pr-publication
-- Issue: 310
+- Timestamp: 2026-05-03T05:59:16Z
+- Phase: issue-312-plan-first
+- Issue: 312
 - PR: 
-- Item: items/0157-research-clue-harvest-reveal.md
-- Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
+- Item: items/0158-research-clue-album-record.md
+- Next action: implementation gate: inspect research clue reveal CTA and album flow, implement record payoff, verify visual/ci, publish PR
 
 ## Open PRs
 
@@ -63,7 +55,7 @@ Generated at: 2026-05-03T05:53:44.802Z
 
 ## Open issues
 
-- #310 연구 단서 씨앗 수확 순간 다음 생명체 발견 연출을 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/310
+- #312 연구 단서 발견 후 도감에 새 기록 저장 payoff를 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/312
 
 ## Playable mode
 

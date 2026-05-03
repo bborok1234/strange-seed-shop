@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T05:36:29Z",
-  "source": "GitHub CLI observation after #308/#309 merge and active #310 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T05:59:16Z",
+  "source": "GitHub CLI observation after #310/#311 merge and active #312 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 310,
-    "title": "연구 단서 씨앗 수확 순간 다음 생명체 발견 연출을 보이게 만든다",
-    "item": "items/0157-research-clue-harvest-reveal.md",
-    "branch": "codex/0310-research-clue-harvest-reveal"
+    "issue": 312,
+    "title": "연구 단서 발견 후 도감에 새 기록 저장 payoff를 보이게 만든다",
+    "item": "items/0158-research-clue-album-record.md",
+    "branch": "codex/0312-research-clue-album-record"
   },
   "workUnits": [
     {
@@ -331,6 +331,31 @@
         "GitHub-authoritative open WorkUnit #308",
         "Branch: `codex/0308-research-clue-seed-growth-preview`",
         "Branch: codex/0308-research-clue-seed-growth-preview"
+      ]
+    },
+    {
+      "issue": 310,
+      "issueTitle": "연구 단서 씨앗 수확 순간 다음 생명체 발견 연출을 보이게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T05:56:20Z",
+      "pr": 311,
+      "prTitle": "#310 연구 단서 수확을 생명체 발견 payoff로 보이게 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T05:56:19Z",
+      "mergeCommit": "a05a5122394ed44e64f115e2aef44bf02186a337",
+      "mainCiRun": 25271376407,
+      "mainCiConclusion": "success",
+      "roadmapStep": "연구 단서 씨앗 수확 발견 연출",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #310",
+        "PR #311",
+        "main CI `25271376407`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #310",
+        "Branch: `codex/0310-research-clue-harvest-reveal`",
+        "Branch: codex/0310-research-clue-harvest-reveal"
       ]
     }
   ]
