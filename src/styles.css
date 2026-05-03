@@ -5989,6 +5989,49 @@ h1 {
   }
 }
 
+
+.playfield-order-crate.order-variant-merchant-record {
+  position: relative;
+  border-color: rgba(153, 96, 44, 0.46);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.82), transparent 32%),
+    radial-gradient(circle at 76% 66%, rgba(255, 198, 122, 0.58), transparent 36%),
+    linear-gradient(135deg, rgba(255, 244, 206, 0.98), rgba(255, 224, 165, 0.9));
+  box-shadow:
+    0 5px 12px rgba(153, 96, 44, 0.17),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.48);
+}
+
+.playfield-order-crate.order-variant-merchant-record::after {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  width: 24px;
+  height: 15px;
+  border: 2px solid rgba(153, 96, 44, 0.5);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.56);
+  box-shadow:
+    -9px 8px 0 -5px rgba(255, 198, 122, 0.94),
+    -19px 1px 0 -6px rgba(92, 150, 83, 0.72),
+    0 0 10px rgba(153, 96, 44, 0.32);
+  content: "";
+  animation: merchant-crate-pack 1.45s ease-in-out infinite;
+}
+
+@keyframes merchant-crate-pack {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: translateY(0) rotate(-1deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(2px) rotate(1deg);
+  }
+}
+
 .playfield-production-actor img,
 .playfield-order-crate img,
 .playfield-scene-fallback {

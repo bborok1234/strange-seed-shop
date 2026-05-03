@@ -44,12 +44,12 @@
 
 ## 수용 기준
 
-- [ ] #326 라미 저장 후 `젤리콩 씨앗 → 포장잎 상인` target row에서 구매/심기/성장/수확 flow가 재현된다.
-- [ ] 수확 reveal이 `포장잎 상인`을 명확히 보여주고 `새 기록 재순환` 또는 동등한 record-loop source를 설명한다.
-- [ ] reveal/receipt 또는 정원 HUD가 merchant/order crate visual state와 reward motion/다음 행동을 보여준다.
-- [ ] 신규 accepted manifest asset 없이 existing portrait + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 reveal/receipt/order crate/하단 탭이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] #326 라미 저장 후 `젤리콩 씨앗 → 포장잎 상인` target row에서 구매/심기/성장/수확 flow가 재현된다.
+- [x] 수확 reveal이 `포장잎 상인`을 명확히 보여주고 `새 기록 재순환` 또는 동등한 record-loop source를 설명한다.
+- [x] reveal/receipt 또는 정원 HUD가 merchant/order crate visual state와 reward motion/다음 행동을 보여준다.
+- [x] 신규 accepted manifest asset 없이 existing portrait + DOM/CSS HUD/CTA/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 reveal/receipt/order crate/하단 탭이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## Visual evidence 계획
 
@@ -87,3 +87,22 @@
 
 - 단일 React/CSS/visual regression tranche라 기본은 solo execution.
 - Codex native subagents/team mode는 order crate visual state와 harvest state 설계가 분리될 때만 사용한다.
+
+
+## 구현 결과
+
+- `src/App.tsx`: 포장잎 상인 재순환 수확을 `상인 주문상자`, `보상 포장 완료`, `다음 납품 준비` payoff로 표시하도록 album record harvest receipt와 playfield production scene 상태를 확장했다.
+- `src/game/playfield/types.ts`: production scene order variant에 `merchant-record`를 추가했다.
+- `src/styles.css`: `order-variant-merchant-record` crate visual state와 `merchant-crate-pack` reward motion을 추가했다.
+- `tests/visual/p0-mobile-game-shell.spec.ts`: #326 target row에서 젤리콩 씨앗을 심어 `포장잎 상인` 수확 reveal/order crate payoff를 검증하는 모바일 393px regression을 추가했다.
+- 신규 accepted manifest asset, runtime image generation/API 호출, 결제/외부 배포/고객 데이터 변경 없음.
+
+## 검증 결과
+
+- Browser Use iab current-session 시도: blocked, `reports/visual/browser-use-blocker-0328-20260503.md`.
+- Screenshot: `reports/visual/issue-328-merchant-record-harvest-crate-payoff-393.png`.
+- `npm run build` — pass.
+- `npx playwright test --config playwright.config.ts --grep "포장잎 상인 수확"` — 1 passed.
+- `npx playwright test --config playwright.config.ts --grep "이슬연금 라미 수확 payoff|포장잎 상인 수확"` — 2 passed.
+- `npm run check:visual` — 67 passed.
+- `npm run check:ci` — pass.

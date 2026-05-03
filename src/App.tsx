@@ -132,6 +132,9 @@ interface AlbumRecordHarvestReceipt {
   creatureName: string;
   clueLabel: string;
   actionLabel: "새 기록 후속 수확" | "새 기록 재순환 수확";
+  orderCrateLabel?: string;
+  orderCrateStatusLabel?: string;
+  orderCrateNextActionLabel?: string;
 }
 
 interface OrderDeliveryReceipt {
@@ -201,6 +204,7 @@ const FIRST_EXPEDITION_ID = "quick_scout";
 const RESEARCH_EXPEDITION_ID = "moon_hint";
 const LUNAR_REWARD_SEED_ID = "seed_lunar_001";
 const LUNAR_REWARD_CREATURE_ID = "creature_lunar_common_001";
+const MERCHANT_RECORD_CREATURE_ID = "creature_candy_common_002";
 const LUNAR_CARE_MEMORY_ID = "care_lunar_nunu_001";
 const LUNAR_CARE_REWARD_LEAVES = 18;
 const GUARDIAN_OFFLINE_BONUS = 0.2;
@@ -957,14 +961,20 @@ export default function App() {
         harvestedCreature.id === nextCreatureGoal.creature.id
     );
     const isAlbumRecordLoopHarvest = Boolean(isAlbumRecordFollowupHarvest && researchAlbumRecord?.source === "album_record_followup");
+    const isMerchantRecordHarvest = Boolean(isAlbumRecordLoopHarvest && harvestedCreature?.id === MERCHANT_RECORD_CREATURE_ID);
     const albumRecordHarvest: AlbumRecordHarvestReceipt | null =
       isAlbumRecordFollowupHarvest && currentSeed && harvestedCreature
         ? {
             id: Date.now(),
             seedName: currentSeed.name,
             creatureName: harvestedCreature.name,
-            clueLabel: `${currentSeed.name} 후속 재배에서 ${harvestedCreature.name} 발견`,
-            actionLabel: isAlbumRecordLoopHarvest ? "새 기록 재순환 수확" : "새 기록 후속 수확"
+            clueLabel: isMerchantRecordHarvest
+              ? `${harvestedCreature.name}이 주문상자를 포장해 다음 납품을 준비했어요`
+              : `${currentSeed.name} 후속 재배에서 ${harvestedCreature.name} 발견`,
+            actionLabel: isAlbumRecordLoopHarvest ? "새 기록 재순환 수확" : "새 기록 후속 수확",
+            orderCrateLabel: isMerchantRecordHarvest ? "상인 주문상자" : undefined,
+            orderCrateStatusLabel: isMerchantRecordHarvest ? "보상 포장 완료" : undefined,
+            orderCrateNextActionLabel: isMerchantRecordHarvest ? "다음 납품 준비" : undefined
           }
         : null;
 
@@ -2750,7 +2760,14 @@ export default function App() {
               <article className="reveal-next-goal album-record-harvest-receipt" aria-label={albumRecordHarvestReceipt.actionLabel}>
                 <p className="panel-label">{albumRecordHarvestReceipt.actionLabel}</p>
                 <strong>{albumRecordHarvestReceipt.seedName} → {albumRecordHarvestReceipt.creatureName}</strong>
-                <span>예고했던 아이를 수확했어요 · 도감에 기록해 다음 목표를 열어요</span>
+                <span>{albumRecordHarvestReceipt.clueLabel}</span>
+              </article>
+            )}
+            {albumRecordHarvestReceipt?.orderCrateLabel && (
+              <article className="reveal-next-goal merchant-order-crate-payoff" aria-label="포장잎 상인 주문상자 payoff">
+                <p className="panel-label">{albumRecordHarvestReceipt.orderCrateLabel}</p>
+                <strong>{albumRecordHarvestReceipt.orderCrateStatusLabel}</strong>
+                <span>{albumRecordHarvestReceipt.creatureName} · {albumRecordHarvestReceipt.orderCrateNextActionLabel}</span>
               </article>
             )}
             {harvestReveal.id === LUNAR_REWARD_CREATURE_ID && (
@@ -3128,7 +3145,9 @@ function buildGardenPlayfieldViewModel(
                 : researchHarvestActive
                   ? `단서 생명체 발견 · ${researchHarvestReceipt?.creatureName ?? "새 생명체"} 도감 기록`
                   : albumRecordHarvestActive
-                    ? `${albumRecordHarvestReceipt?.actionLabel ?? "새 기록 후속 수확"} · ${albumRecordHarvestReceipt?.creatureName ?? "새 생명체"} 도감 기록`
+                    ? albumRecordHarvestReceipt?.orderCrateLabel
+                      ? `${albumRecordHarvestReceipt.creatureName} 주문상자 포장 완료 · 다음 납품 준비`
+                      : `${albumRecordHarvestReceipt?.actionLabel ?? "새 기록 후속 수확"} · ${albumRecordHarvestReceipt?.creatureName ?? "새 생명체"} 도감 기록`
                   : albumRecordPlantActive
                     ? `새 기록 후속 재배 · ${albumRecordPlantSeedName} 시작`
                   : researchSeedPlantedActive
@@ -3147,7 +3166,7 @@ function buildGardenPlayfieldViewModel(
                 : researchHarvestActive
                   ? "단서 생명체 발견"
                   : albumRecordHarvestActive
-                    ? "새 기록 후속 수확"
+                    ? albumRecordHarvestReceipt?.orderCrateLabel ?? "새 기록 후속 수확"
                   : albumRecordPlantActive
                     ? "새 기록 후속 재배"
                 : researchSeedPlantedActive
@@ -3168,7 +3187,7 @@ function buildGardenPlayfieldViewModel(
                 : researchHarvestActive
                   ? researchHarvestReceipt?.creatureName ?? "새 생명체"
                   : albumRecordHarvestActive
-                    ? albumRecordHarvestReceipt?.creatureName ?? "새 생명체"
+                    ? albumRecordHarvestReceipt?.orderCrateStatusLabel ?? albumRecordHarvestReceipt?.creatureName ?? "새 생명체"
                   : albumRecordPlantActive
                     ? albumRecordPlantReceipt?.creatureName ?? albumRecordPlantSeedName
                 : researchSeedPlantedActive
@@ -3196,7 +3215,9 @@ function buildGardenPlayfieldViewModel(
             researchSeedPlantedActive,
           orderVariant: firstOrderDispatchReceiptActive
             ? ("first-dispatched" as const)
-            : lunarGuardianOrderActive
+            : albumRecordHarvestReceipt?.orderCrateLabel
+              ? ("merchant-record" as const)
+              : lunarGuardianOrderActive
             ? ("lunar-guardian" as const)
             : mistCondenserPayoffActive
               ? ("mist-condenser-complete" as const)
@@ -3214,7 +3235,7 @@ function buildGardenPlayfieldViewModel(
                   : researchHarvestActive
                     ? "도감 단서 기록"
                     : albumRecordHarvestActive
-                      ? "도감 기록 대기"
+                      ? albumRecordHarvestReceipt?.orderCrateNextActionLabel ?? "도감 기록 대기"
                     : albumRecordPlantActive
                       ? albumRecordPlantReceipt?.actionLabel ?? "후속 재배"
                     : researchSeedPlantedActive
