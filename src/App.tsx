@@ -82,6 +82,13 @@ interface OfflineRewardResult {
   shelfBonusLabel?: string;
 }
 
+interface ComebackProductionTarget {
+  title: string;
+  detail: string;
+  ctaLabel: string;
+  action: "claim_production" | "deliver_order" | "view_goal";
+}
+
 const FIRST_UPGRADE_COST = 25;
 const PRODUCTION_BOOST_COST_LEAVES = 40;
 const PRODUCTION_BOOST_COST_POLLEN = 1;
@@ -447,6 +454,7 @@ export default function App() {
     return ordered.slice(0, 3);
   }, [nextCreatureGoal, save]);
   const productionStatus = useMemo(() => (save ? getProductionStatus(save, now) : null), [save, now]);
+  const comebackProductionTarget = productionStatus ? getComebackProductionTarget(productionStatus) : null;
   const mistCondenserPayoffActive = Boolean(
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && productionStatus.orderCompleted
   );
@@ -461,6 +469,9 @@ export default function App() {
     productionStatus?.order.id === GREENHOUSE_ORDER.id && !productionStatus.orderCompleted ? "has-open-greenhouse-order" : "",
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id ? "has-mist-return-order" : "",
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && !productionStatus.orderCompleted ? "has-open-mist-return-order" : "",
+    productionStatus?.order.id === FIRST_ORDER.id && productionStatus.workerCreatures.length > 1 && !productionStatus.orderCompleted
+      ? "has-first-order-return-briefing"
+      : "",
     productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id ? "has-lunar-guardian-order" : "",
     productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id && !productionStatus.orderCompleted ? "has-open-lunar-guardian-order" : "",
     mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
@@ -566,6 +577,38 @@ export default function App() {
     buySeed(seed);
     setOfflineRewardSummary(null);
     setActiveTab("seeds");
+  }
+
+  function continueComebackProductionTarget() {
+    if (!productionStatus || !comebackProductionTarget) {
+      setOfflineRewardSummary(null);
+      setActiveTab("garden");
+      return;
+    }
+
+    setOfflineRewardSummary(null);
+    setActiveTab("garden");
+
+    if (comebackProductionTarget.action === "claim_production") {
+      claimProductionLeaves();
+      setOfflineMessage(
+        `${offlineRewardSummary?.leaves ?? 0} 잎 복귀 보상을 받고 ${productionStatus.pendingLeaves} 잎을 주문 상자에 채웠어요.`
+      );
+    } else if (comebackProductionTarget.action === "deliver_order") {
+      deliverFirstOrder();
+      setOfflineMessage(`${productionStatus.order.title}까지 이어서 납품했어요.`);
+    } else {
+      setOfflineMessage(`복귀 보상 수령 완료. 다음 생산 목표는 ${productionStatus.order.title}입니다.`);
+      triggerProductionFx("production");
+      triggerRewardPulse();
+    }
+
+    trackEvent("comeback_production_target_selected", {
+      action: comebackProductionTarget.action,
+      orderId: productionStatus.order.id,
+      pendingLeaves: productionStatus.pendingLeaves,
+      orderProgress: productionStatus.orderProgress
+    });
   }
 
   function buyAndPlantComebackGoalSeed(seed: SeedDefinition) {
@@ -1169,7 +1212,19 @@ export default function App() {
               ) : (
                 <p className="comeback-next-copy">씨앗을 심고 생명체를 더 모으면 복귀 보상이 커집니다.</p>
               )}
+              {comebackProductionTarget && (
+                <article className="comeback-production-target" aria-label="복귀 다음 생산 목표">
+                  <span>다음 생산 목표</span>
+                  <strong>{comebackProductionTarget.title}</strong>
+                  <small>{comebackProductionTarget.detail}</small>
+                </article>
+              )}
               <div className="comeback-reward-actions">
+                {comebackProductionTarget && (
+                  <button className="primary-action comeback-production-button" onClick={continueComebackProductionTarget} type="button">
+                    보상 받고 {comebackProductionTarget.ctaLabel}
+                  </button>
+                )}
                 {nextCreatureGoal && canBuyAndPlantComebackGoalSeed && (
                   <button className="primary-action" onClick={() => buyAndPlantComebackGoalSeed(nextCreatureGoal.seed)} type="button">
                     {nextCreatureGoal.seed.name} 구매하고 심기
@@ -2464,6 +2519,46 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
         : workerCreatures[0]
           ? `${getCreatureRoleLabel(workerCreatures[0].role)} 역할`
           : "첫 생명체를 수확하면 생산을 시작해요"
+  };
+}
+
+function getComebackProductionTarget(productionStatus: ProductionStatus): ComebackProductionTarget {
+  if (!productionStatus.orderCompleted && productionStatus.orderReady) {
+    return {
+      title: `${productionStatus.order.title} 납품 가능`,
+      detail: `${formatOrderReward(productionStatus.order)} 보상이 다음 성장 선택으로 이어집니다.`,
+      ctaLabel: getOrderDeliveryCta(productionStatus.order),
+      action: "deliver_order"
+    };
+  }
+
+  const remainingLeaves = Math.max(productionStatus.order.requiredLeaves - productionStatus.orderProgress, 0);
+  if (!productionStatus.orderCompleted && productionStatus.pendingLeaves > 0) {
+    const completesOrder = productionStatus.pendingLeaves >= remainingLeaves;
+    return {
+      title: `${productionStatus.pendingLeaves} 잎 생산 대기`,
+      detail: completesOrder
+        ? `${productionStatus.order.title} 주문 상자를 바로 채울 수 있어요.`
+        : `${remainingLeaves} 잎 중 ${productionStatus.pendingLeaves} 잎을 먼저 상자에 넣어요.`,
+      ctaLabel: "생산 잎 수령",
+      action: "claim_production"
+    };
+  }
+
+  if (productionStatus.orderCompleted) {
+    return {
+      title: `${productionStatus.order.title} 완료`,
+      detail: "아래 성장 선택에서 복귀 보상을 다음 설비나 연구로 바꿀 차례예요.",
+      ctaLabel: "정원 목표 보기",
+      action: "view_goal"
+    };
+  }
+
+  return {
+    title: `${productionStatus.order.title} 준비 중`,
+    detail: `${remainingLeaves} 잎을 더 모으면 ${formatOrderReward(productionStatus.order)} 보상이 열립니다.`,
+    ctaLabel: "정원 목표 보기",
+    action: "view_goal"
   };
 }
 

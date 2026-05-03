@@ -1,6 +1,6 @@
 # #292 복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다
 
-- 상태: `planning`
+- 상태: `ready-for-pr`
 - GitHub issue: #292 `복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다`
 - Branch: `codex/0292-return-30s-production-briefing`
 - WorkUnit authority: GitHub issue/PR/GateEvent. local docs/reports는 evidence mirror다.
@@ -59,12 +59,12 @@
 
 ## 수용 기준
 
-- [ ] 복귀/오프라인 보상 상태가 정원 첫 화면에서 production engine 장면으로 읽힌다.
-- [ ] 보상 수령 CTA가 다음 주문/강화/생산 목표와 연결된다.
-- [ ] 수령 후 reward motion 또는 HUD affordance가 보인다.
-- [ ] 모바일 visual regression이 body scroll, bottom-tab overlap, visible overflow를 막는다.
-- [ ] Browser Use current-session QA evidence 또는 blocker + Playwright fallback screenshot/report가 남는다.
-- [ ] `npm run check:visual`과 `npm run check:ci`가 통과한다.
+- [x] 복귀/오프라인 보상 상태가 정원 첫 화면에서 production engine 장면으로 읽힌다.
+- [x] 보상 수령 CTA가 다음 주문/강화/생산 목표와 연결된다.
+- [x] 수령 후 reward motion 또는 HUD affordance가 보인다.
+- [x] 모바일 visual regression이 body scroll, bottom-tab overlap, visible overflow를 막는다.
+- [x] Browser Use current-session QA evidence 또는 blocker + Playwright fallback screenshot/report가 남는다.
+- [x] `npm run check:visual`과 `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -81,3 +81,16 @@
 ## Subagent/Team Routing
 
 - 아직 사용하지 않음. 첫 단계는 local code mapping이 blocker라 leader가 직접 확인한다. 구현 중 QA/test 작성이 독립 가능해지면 Codex native subagent를 검수 보조로 쓴다.
+
+
+## 구현/검증 메모 — 2026-05-03
+
+- `src/App.tsx`: 복귀 보상 modal에 `복귀 다음 생산 목표` briefing을 추가하고, `보상 받고 생산 잎 수령` CTA가 `claimProductionLeaves()`로 바로 이어지게 했다. 주문 준비/납품 가능/완료 상태는 `getComebackProductionTarget()`에서 한곳에 모은다.
+- `src/styles.css`: 복귀 production target 카드와 모바일 first-order return briefing 압축 레이아웃을 추가했다. 첫 주문 복귀 상태에서는 roster/upgrade/next-creature 보조면을 접어 하단 탭 겹침과 내부 clipping을 막는다.
+- `tests/visual/p0-mobile-game-shell.spec.ts`: `모바일 복귀 첫 30초는 보상 수령을 생산 주문 목표로 바로 잇는다` 회귀를 추가했다. modal card `scrollHeight <= clientHeight`, body scroll, bottom-tab overlap, production card overflow, production FX telemetry를 함께 검증한다.
+- Browser Use CLI 결함: 현재 Codex CLI config에 `node_repl` MCP가 없어 Browser Use 실행 tool이 노출되지 않는 root cause를 확인했고, `/Applications/Codex.app/Contents/Resources/node_repl`를 `codex mcp add node_repl -- ...`로 등록했다. 현재 세션은 tool palette hot reload가 되지 않아 `reports/visual/browser-use-blocker-0292-20260503.md`에 blocker+fix evidence를 남겼다.
+- Playwright fallback screenshot: `reports/visual/0292-mobile-comeback-production-briefing-393-20260503.png`
+- Focused verification: `npm run build` pass, `npx playwright test --config playwright.config.ts --grep "모바일 복귀 첫 30초|모바일 복귀 보상은 달빛|모바일 복귀 보상은 온실 선반|모바일 복귀 후 온실 선반"` 4 passed.
+
+- Full visual verification: `npm run check:visual` 55 passed.
+- Full CI verification: `npm run check:ci` passed.

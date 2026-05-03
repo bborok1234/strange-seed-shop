@@ -1909,9 +1909,49 @@ h1 {
   color: var(--action-primary-strong);
 }
 
+.comeback-production-target {
+  display: grid;
+  gap: 3px;
+  padding: 9px 10px;
+  border: 1px solid rgba(39, 86, 64, 0.22);
+  border-radius: calc(var(--radius-control) + 3px);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.7), transparent 35%),
+    linear-gradient(135deg, rgba(226, 246, 205, 0.94), rgba(255, 246, 196, 0.88));
+  text-align: left;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.46);
+}
+
+.comeback-production-target span {
+  color: #4f7a48;
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.02em;
+}
+
+.comeback-production-target strong {
+  color: var(--action-primary-strong);
+  font-size: 15px;
+  line-height: 1.08;
+}
+
+.comeback-production-target small {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
 .comeback-reward-actions {
   display: grid;
   gap: 7px;
+}
+
+.comeback-production-button {
+  min-height: 41px;
+  box-shadow:
+    0 10px 18px rgba(73, 112, 51, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
 }
 
 .comeback-dismiss-button {
@@ -3930,6 +3970,21 @@ h1 {
 
   .starter-panel.has-production.has-open-mist-return-order .production-roster {
     display: none;
+  }
+
+  .starter-panel.has-production.has-first-order-return-briefing .production-action-card {
+    overflow: visible;
+  }
+
+  .starter-panel.has-production.has-first-order-return-briefing .production-roster,
+  .starter-panel.has-production.has-first-order-return-briefing .production-meter-row,
+  .starter-panel.has-production.has-first-order-return-briefing .upgrade-choice-card,
+  .starter-panel.has-production.has-first-order-return-briefing .next-creature-compact {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-first-order-return-briefing .order-progress-card {
+    grid-template-columns: minmax(0, 1fr) minmax(120px, auto);
   }
 
   .starter-panel.has-production.has-greenhouse-route-choice .upgrade-choice-plot_2,

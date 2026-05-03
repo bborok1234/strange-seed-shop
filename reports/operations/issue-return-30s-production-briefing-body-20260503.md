@@ -36,12 +36,12 @@ AI 네이티브 운영사의 다음 WorkUnit은 `이상한 씨앗상회` product
 
 ## 수용 기준
 
-- [ ] 복귀/오프라인 보상 상태가 정원 첫 화면에서 production engine 장면으로 읽힌다.
-- [ ] 보상 수령 CTA가 다음 주문/강화/생산 목표와 연결된다.
-- [ ] 수령 후 reward motion 또는 HUD affordance가 보인다.
-- [ ] 모바일 visual regression이 body scroll, bottom-tab overlap, visible overflow를 막는다.
-- [ ] Browser Use current-session QA evidence 또는 blocker + Playwright fallback screenshot/report가 남는다.
-- [ ] `npm run check:visual`과 `npm run check:ci`가 통과한다.
+- [x] 복귀/오프라인 보상 상태가 정원 첫 화면에서 production engine 장면으로 읽힌다.
+- [x] 보상 수령 CTA가 다음 주문/강화/생산 목표와 연결된다.
+- [x] 수령 후 reward motion 또는 HUD affordance가 보인다.
+- [x] 모바일 visual regression이 body scroll, bottom-tab overlap, visible overflow를 막는다.
+- [x] Browser Use current-session QA evidence 또는 blocker + Playwright fallback screenshot/report가 남는다.
+- [x] `npm run check:visual`과 `npm run check:ci`가 통과한다.
 
 ## Visual evidence 계획
 
@@ -63,3 +63,13 @@ AI 네이티브 운영사의 다음 WorkUnit은 `이상한 씨앗상회` product
 - `npm run check:visual -- --grep "복귀|보상|production"`
 - `npm run check:visual`
 - `npm run check:ci`
+
+
+## 검증 결과
+
+- `npm run build` → passed
+- `npx playwright test --config playwright.config.ts --grep "모바일 복귀 첫 30초|모바일 복귀 보상은 달빛|모바일 복귀 보상은 온실 선반|모바일 복귀 후 온실 선반"` → 4 passed
+- `npm run check:visual` → 55 passed
+- `npm run check:ci` → passed
+- Browser Use current-session blocker/fix evidence: `reports/visual/browser-use-blocker-0292-20260503.md`
+- Playwright fallback screenshot: `reports/visual/0292-mobile-comeback-production-briefing-393-20260503.png`

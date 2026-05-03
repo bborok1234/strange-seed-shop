@@ -1,20 +1,20 @@
 # Studio Harness v3 Live Runner Report
 
-- Runner: `studio-v3-1777771296170`
+- Runner: `studio-v3-1777773112786`
 - Iteration: 1
-- Updated: 2026-05-03T01:21:39.892Z
+- Updated: 2026-05-03T01:51:55.606Z
 - Source of truth: github-authoritative
 - Dry run: true
 - Queue empty is stop: false
 - Decision: `select-github-workunit`
-- Target: Issue #290
-- Next action: implementation gate: plan-first for GitHub issue #290
+- Target: Issue #292
+- Next action: implementation gate: plan-first for GitHub issue #292
 
 ## Open GitHub issues
 
 | Issue | Title | Labels | URL |
 | --- | --- | --- | --- |
-| #290 | Studio Harness v3 24h live runner 진입점을 만든다 |  | https://github.com/bborok1234/strange-seed-shop/issues/290 |
+| #292 | 복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다 |  | https://github.com/bborok1234/strange-seed-shop/issues/292 |
 
 ## Open GitHub PRs
 
@@ -26,11 +26,11 @@
 
 | Run | Workflow | Status | Conclusion | URL |
 | --- | --- | --- | --- | --- |
+| 25266675744 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25266675744 |
 | 25266430855 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25266430855 |
 | 25266229841 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25266229841 |
 | 25265967477 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25265967477 |
 | 25258388344 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25258388344 |
-| 25257945257 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25257945257 |
 
 ## Production game quality intake rule
 

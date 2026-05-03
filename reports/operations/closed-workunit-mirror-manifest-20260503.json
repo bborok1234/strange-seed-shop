@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T02:15:00.000Z",
-  "source": "GitHub CLI observation after #290/#291 merge and #293 intake; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T02:25:00.000Z",
+  "source": "GitHub CLI observation after #293/#294 merge and active #292 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 293,
-    "title": "Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다",
-    "item": "items/0149-studio-v3-foreground-operator-entrypoint.md",
-    "branch": "codex/0293-studio-v3-foreground-operator-entrypoint"
+    "issue": 292,
+    "title": "복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다",
+    "item": "items/0148-return-30s-production-briefing.md",
+    "branch": "codex/0292-return-30s-production-briefing"
   },
   "workUnits": [
     {
@@ -107,6 +107,31 @@
         "GitHub-authoritative open WorkUnit #290",
         "Branch: `codex/0290-studio-v3-24h-live-runner`",
         "Branch: codex/0290-studio-v3-24h-live-runner"
+      ]
+    },
+    {
+      "issue": 293,
+      "issueTitle": "Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T02:21:35Z",
+      "pr": 294,
+      "prTitle": "#293 Studio Harness v3 foreground operator를 seed-ops 없이 시작한다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T02:21:34Z",
+      "mergeCommit": "e2640ced897342629ff151c0e6e32b51026e572d",
+      "mainCiRun": 25267635921,
+      "mainCiConclusion": "success",
+      "roadmapStep": "Studio Harness v3 foreground operator entrypoint",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #293",
+        "PR #294",
+        "main CI `25267635921`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #293",
+        "Branch: `codex/0293-studio-v3-foreground-operator-entrypoint`",
+        "Branch: codex/0293-studio-v3-foreground-operator-entrypoint"
       ]
     }
   ]
