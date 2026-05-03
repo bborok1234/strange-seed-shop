@@ -3,47 +3,47 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T01:23:55.090Z
+Generated at: 2026-05-03T02:16:29.473Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #290 **Studio Harness v3 24h live runner 진입점을 만든다**이다. 방향을 보정한다: #276 같은 fixture checker는 보조 안전장치였고, 지금 1차 목표는 AI 네이티브 게임 운영사가 24시간 돌아가며 `이상한 씨앗상회`를 production 게임 품질로 끌어올리는 runnable runner다.
+현재 작업은 GitHub-authoritative open WorkUnit #293 **Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다**이다. #290 runner는 watcher/decision/heartbeat 진입점이었고, 이번 작업은 사용자가 실제로 foreground Codex/OMX 운영 루프를 시작할 수 있는 v3 native entrypoint를 만든다. `$seed-ops`는 v3 entrypoint가 아니라 deprecated adapter로 격리한다.
 
 현재 evidence:
 
-- GitHub issue: #290 `Studio Harness v3 24h live runner 진입점을 만든다`
-- Plan artifact: `items/0147-studio-v3-24h-live-runner.md`
-- Branch: `codex/0290-studio-v3-24h-live-runner`
-- Runner entrypoint: `scripts/studio-v3-live-runner.mjs`
+- GitHub issue: #293 `Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다`
+- Plan artifact: `items/0149-studio-v3-foreground-operator-entrypoint.md`
+- Branch: `codex/0293-studio-v3-foreground-operator-entrypoint`
+- Operator entrypoint: `scripts/studio-v3-operator.mjs` / `npm run studio:v3:operate`
+- Checker: `scripts/check-studio-v3-operator.mjs` / `npm run check:studio-v3-operator`
 - Usage doc: `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`
-- Smoke report: `reports/operations/studio-v3-live-runner-20260503.md`
-- Game Studio route: N/A — 운영사 runner/workflow 작업. 단, runner가 만드는 visible gameplay WorkUnit은 Game Studio route와 Browser Use evidence를 요구한다.
+- Readiness report: `reports/operations/studio-v3-operator-20260503.md`
+- Game Studio route: N/A — 운영사 하네스/runner 작업. 단 v3 operator가 만드는 visible gameplay WorkUnit은 Game Studio route와 Browser Use evidence를 요구한다.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
 2. Queue empty is not a stop condition. Queue가 비면 production game quality WorkUnit intake로 이어져야 한다.
-3. Runner의 다음 action은 `P0.5 Idle Core + Creative Rescue`와 `이상한 씨앗상회` production 품질 개선을 우선해야 한다.
-4. `npm run studio:v3:runner -- --once --dry-run`과 `npm run check:studio-v3-live-runner`가 실제 사용법과 checker를 증명해야 한다.
-5. Runner가 다음 게임 WorkUnit을 만들거나 선택할 때는 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
-
-다음 checkpoint는 full `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
+3. `npm run studio:v3:operate`는 `$seed-ops`를 호출하거나 안내하지 않아야 한다.
+4. Browser Use iab는 visible gameplay WorkUnit의 hands-on QA gate이며, CLI에서는 `node_repl` MCP `js` readiness를 doctor가 점검한다.
+5. v3 operator가 다음 게임 WorkUnit을 만들거나 선택할 때는 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+6. 다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 #292 stash 복구 또는 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 
 ## Local state
 
-- Branch: codex/0290-studio-v3-24h-live-runner
-- Latest commit: 98dea3f #290 24h live runner 작업을 plan-first로 고정한다
+- Branch: codex/0293-studio-v3-foreground-operator-entrypoint
+- Latest commit: 983c773 #290 Studio Harness v3 24h live runner 진입점을 만든다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T01:21:40.015Z
-- Phase: studio-v3-live-runner
-- Issue: 290
+- Timestamp: 2026-05-03T02:11:54.289Z
+- Phase: studio-v3-foreground-operator
+- Issue: 293
 - PR: 
-- Item: items/0147-studio-v3-24h-live-runner.md
-- Next action: implementation gate: plan-first for GitHub issue #290
+- Item: items/0149-studio-v3-foreground-operator-entrypoint.md
+- Next action: PR gate: run check:ci, publish PR, watch checks, merge, resume #292 stash
 
 ## Open PRs
 
@@ -51,7 +51,8 @@ Generated at: 2026-05-03T01:23:55.090Z
 
 ## Open issues
 
-- #290 Studio Harness v3 24h live runner 진입점을 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/290
+- #293 Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다 — https://github.com/bborok1234/strange-seed-shop/issues/293
+- #292 복귀 첫 30초에 보상 수령과 다음 생산 목표를 한 화면에서 실행하게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/292
 
 ## Playable mode
 
@@ -98,17 +99,17 @@ Asset/FX work follows gastory-style style state, prompt/model sidecar, reference
 
 ## Goal-bounded stop condition
 
-For the current seed-ops issue run, stop only after the plan acceptance criteria, local verification, PR required checks, merge, and main CI are green, or after a written blocker report.
+For the current Studio Harness v3 foreground operator issue run, stop only after the plan acceptance criteria, local verification, PR required checks, merge, and main CI are green, or after a written blocker report.
 
 ## Next queue quality gate
 
-The next seed-ops issue must name at least one 경쟁작 production gap (competition-inspired production gap) and at least one asset/FX or sprite-animation decision that creates a concrete visual/game-feel payoff. The asset/FX axis 기존 asset 재사용만으로는 통과하지 않는다; it must commit to at least one of playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion. New accepted manifest game asset work must use Codex native image generation or gpt-image-2 provenance, never SVG/vector/code-native game graphics, and must pass npm run check:asset-provenance and npm run check:asset-style. GPT image/API generation requires OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL. Sprite/FX payoff must name animation.binding plus frame count, frame size, and intended frame rate. 단순 주문 추가, copy tweak, spacing tweak, or test-only work fails unless it is paired with that payoff and unblocks the vertical slice.
+The next Studio Harness v3 foreground operator issue must name at least one 경쟁작 production gap (competition-inspired production gap) and at least one asset/FX or sprite-animation decision that creates a concrete visual/game-feel payoff. The asset/FX axis 기존 asset 재사용만으로는 통과하지 않는다; it must commit to at least one of playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion. New accepted manifest game asset work must use Codex native image generation or gpt-image-2 provenance, never SVG/vector/code-native game graphics, and must pass npm run check:asset-provenance and npm run check:asset-style. GPT image/API generation requires OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL. Sprite/FX payoff must name animation.binding plus frame count, frame size, and intended frame rate. 단순 주문 추가, copy tweak, spacing tweak, or test-only work fails unless it is paired with that payoff and unblocks the vertical slice.
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:END -->
 
 Status: v1-live-control-room
 Owner: agent
 Last updated: 2026-05-01
-Applies to: 모든 장시간 `$ralph`, issue-to-PR loop, 24h dry run 전 운영
+Applies to: 모든 장시간 `$ralph`, Studio Harness v3 foreground operator issue-to-PR loop, 24h dry run 전 운영
 
 ## 왜 필요한가
 

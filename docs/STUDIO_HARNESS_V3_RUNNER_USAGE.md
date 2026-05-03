@@ -11,6 +11,59 @@
 - PublicationBoundary는 실제 credential/tool/runtime/destructive/external-production/payment/customer-data blocker가 있을 때만 기록한다.
 - Visible gameplay WorkUnit은 Game Studio route와 Browser Use evidence를 요구한다.
 
+
+## v3 운영 루프 진입점 상태
+
+`$seed-ops`는 Studio Harness v3의 실행 진입점이 아니다. `$seed-ops`는 과거 운영 프롬프트이며, v3 전환의 목적은 그 피상적인 issue 처리 루프를 GitHub-authoritative WorkUnit/GateEvent/PR/CI/Browser Use evidence 기반의 새 하네스로 대체하는 것이다.
+
+현재 올바른 구분은 아래와 같다.
+
+- 현재 사용 가능: `npm run studio:v3:runner` — GitHub queue/PR/CI 상태를 읽고 다음 action, heartbeat, report를 남기는 watcher/decision runner.
+- 현재 사용 가능: `npm run studio:v3:operate` — foreground Codex/OMX operator prompt를 준비하고 실행하는 v3 native entrypoint. 기획/아트 판단/구현/Browser Use QA/PR/check/merge/다음 WorkUnit 루프를 `$seed-ops` 없이 시작한다.
+- 금지/회귀: v3 사용법을 `$seed-ops`로 안내하거나, `$seed-ops`가 실제 v3 foreground operator라고 주장하는 것.
+
+## 실제 foreground 운영사 시작
+
+먼저 doctor와 실제 실행 명령을 확인한다.
+
+```bash
+npm run studio:v3:operate -- --doctor --print-command
+```
+
+24시간 foreground 운영 루프를 시작한다.
+
+```bash
+npm run studio:v3:operate -- --duration-hours 24
+```
+
+특정 GitHub WorkUnit부터 시작하려면 issue를 지정한다.
+
+```bash
+npm run studio:v3:operate -- --duration-hours 24 --issue 293
+```
+
+이 명령은 `omx exec`가 있으면 OMX overlay로, 없으면 `codex exec`로 v3 operator prompt를 실행한다. prompt에는 GitHub issue/PR/GateEvent authoritative, plan-first, branch/implementation/focused checks, Browser Use iab gate, PR/check/merge/main CI observation, queue-empty non-stop, no-final continuation 계약이 포함된다.
+
+## 실제 detached 24시간 운영사 시작
+
+```bash
+npm run studio:v3:operate -- --detached --duration-hours 24 --interval-seconds 300
+```
+
+관찰 파일:
+
+- `.omx/state/studio-v3-operator.json`
+- `.omx/state/studio-v3-operator.pid`
+- `.omx/state/studio-v3-operator-prompt.md`
+- `.omx/logs/studio-v3-operator-*.log`
+- `reports/operations/studio-v3-operator-YYYYMMDD.md`
+
+중단:
+
+```bash
+kill $(cat .omx/state/studio-v3-operator.pid)
+```
+
 ## 1회 smoke 실행
 
 ```bash
@@ -31,7 +84,7 @@ npm run studio:v3:runner -- --once --dry-run \
 - `.omx/state/operator-heartbeat.json`
 - `reports/operations/studio-v3-live-runner-YYYYMMDD.md`
 
-## 24시간 foreground 실행
+## watcher/decision runner 24시간 실행
 
 ```bash
 npm run studio:v3:runner -- \
@@ -42,7 +95,7 @@ npm run studio:v3:runner -- \
   --item items/0147-studio-v3-24h-live-runner.md
 ```
 
-`--dry-run`은 GitHub mutation 없이 queue/PR/CI 상태와 다음 action을 기록한다. 실제 issue intake 생성을 허용하려면 dry-run을 끄고 명시적으로 `--allow-create-issue`를 붙인다.
+`studio:v3:runner`의 `--dry-run`은 GitHub mutation 없이 queue/PR/CI 상태와 다음 action을 기록한다. 실제 issue intake 생성을 허용하려면 dry-run을 끄고 명시적으로 `--allow-create-issue`를 붙인다.
 
 ```bash
 npm run studio:v3:runner -- \
@@ -52,7 +105,7 @@ npm run studio:v3:runner -- \
   --allow-create-issue
 ```
 
-## detached 24시간 실행
+## watcher/decision runner detached 24시간 실행
 
 ```bash
 mkdir -p .omx/logs .omx/state
@@ -100,5 +153,6 @@ Runner decision이 `production-game-intake-required`이면 종료가 아니다. 
 
 ```bash
 npm run check:studio-v3-live-runner
+npm run check:studio-v3-operator
 npm run check:ci
 ```

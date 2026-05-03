@@ -103,7 +103,7 @@ const strategicSelectionPhrases = [
 ];
 
 const publicationBoundaryPhrases = [
-  "PR/issue creation is normal seed-ops work",
+  "PR/issue creation is normal v3 operator work",
   "Publication gate de-duplication",
   "publication_gate.dedupe_key",
   "repeat_policy: do_not_repeat_final_ask",

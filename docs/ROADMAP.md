@@ -285,7 +285,8 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Seed ops PR publication confirmation boundary | done | Draft PR #265, `items/0133-seed-ops-pr-publication-confirmation-boundary.md`, `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`, `scripts/check-seed-ops-queue-gate.mjs`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-ops/SKILL.md`, `npm run check:ci` pass, PR checks pass | Codex App action-time confirmation이 필요한 PR 생성/수정, issue 수정, comment 게시를 `This is not a terminal stop`으로 고정하고, `do not send final just to ask for PR creation`, `pending external-publication gate`, `next local safe work`를 검사한다 |
 | Game studio department harness | done | Issue #257, PR #258, main CI `25217147915`, `items/0129-game-studio-ops-harness.md`, `reports/operations/game-studio-harness-reference-review-20260501.md`, `.codex/skills/seed-ops/SKILL.md`, `scripts/check-seed-ops-queue-gate.mjs`, `scripts/check-ops-live.mjs` | `P0.5 Idle Core + Creative Rescue`를 active campaign source of truth로 고정하고, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, Subagent/Team Routing, gastory style state/prompt/model sidecar/reference image consistency/animation camera/composition lock/frame/GIF/spritesheet extraction gate를 요구함 |
 | Studio Harness v3 bot runner deterministic gate | review | Issue #276, `items/0140-studio-v3-bot-runner-checker.md`, `scripts/studio-v3-bot-runner.mjs`, `scripts/check-studio-v3-bot-runner.mjs`, `reports/operations/fixtures/studio-v3-bot-runner-*.json` | GitHub issue/PR/GateEvent fixture로 WorkUnit을 복원하고, local campaign ledger authority, routine GitHub human handoff, stale branch/dirty work, GateEvent hash mismatch 회귀를 `npm run check:studio-v3-bot-runner`와 `npm run check:ci`에서 차단함 |
-| Studio Harness v3 24h live runner entrypoint | active | Issue #290, `items/0147-studio-v3-24h-live-runner.md`, `scripts/studio-v3-live-runner.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-live-runner-20260503.md` | `npm run studio:v3:runner -- --once --dry-run`으로 GitHub queue/PR/main 상태를 읽고, queue empty를 production game quality WorkUnit intake로 분류하는 실제 runner 진입점을 만든다 |
+| Studio Harness v3 24h live runner entrypoint | done | Issue #290, PR #291, `items/0147-studio-v3-24h-live-runner.md`, `scripts/studio-v3-live-runner.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-live-runner-20260503.md`, main CI `25266675744` | `npm run studio:v3:runner -- --once --dry-run`으로 GitHub queue/PR/main 상태를 읽고, queue empty를 production game quality WorkUnit intake로 분류하는 watcher/decision runner 진입점을 만들었다 |
+| Studio Harness v3 foreground operator entrypoint | review | Issue #293, `items/0149-studio-v3-foreground-operator-entrypoint.md`, `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-operator-20260503.md` | `npm run studio:v3:operate -- --doctor --print-command`와 `npm run studio:v3:operate -- --duration-hours 24`로 `$seed-ops` 없이 v3 native foreground operator를 시작하고, GitHub WorkUnit/plan-first/Browser Use iab/PR/check/merge/main CI/next WorkUnit 계약을 prompt+checker로 고정함 |
 | Studio Harness v3 migration backfill gate | review | Issue #274, `items/0141-v2-ledger-quarantine-backfill.md`, `reports/operations/studio-v3-migration-backfill-20260503.md`, `reports/operations/studio-v3-migration-backfill-20260503.json`, `scripts/check-studio-v3-migration-backfill.mjs` | v2 local campaign ledger/prototype/visual/asset prep 산출물을 `quarantined` 또는 `migration-backfill` evidence로 분류하고, local ledger가 work authorization source가 아님을 `npm run check:studio-v3-migration-backfill`과 `npm run check:ci`에서 검증함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
@@ -315,27 +316,27 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #290 **Studio Harness v3 24h live runner 진입점을 만든다**이다. 방향을 보정한다: #276 같은 fixture checker는 보조 안전장치였고, 지금 1차 목표는 AI 네이티브 게임 운영사가 24시간 돌아가며 `이상한 씨앗상회`를 production 게임 품질로 끌어올리는 runnable runner다.
+현재 작업은 GitHub-authoritative open WorkUnit #293 **Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다**이다. #290 runner는 watcher/decision/heartbeat 진입점이었고, 이번 작업은 사용자가 실제로 foreground Codex/OMX 운영 루프를 시작할 수 있는 v3 native entrypoint를 만든다. `$seed-ops`는 v3 entrypoint가 아니라 deprecated adapter로 격리한다.
 
 현재 evidence:
 
-- GitHub issue: #290 `Studio Harness v3 24h live runner 진입점을 만든다`
-- Plan artifact: `items/0147-studio-v3-24h-live-runner.md`
-- Branch: `codex/0290-studio-v3-24h-live-runner`
-- Runner entrypoint: `scripts/studio-v3-live-runner.mjs`
+- GitHub issue: #293 `Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다`
+- Plan artifact: `items/0149-studio-v3-foreground-operator-entrypoint.md`
+- Branch: `codex/0293-studio-v3-foreground-operator-entrypoint`
+- Operator entrypoint: `scripts/studio-v3-operator.mjs` / `npm run studio:v3:operate`
+- Checker: `scripts/check-studio-v3-operator.mjs` / `npm run check:studio-v3-operator`
 - Usage doc: `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`
-- Smoke report: `reports/operations/studio-v3-live-runner-20260503.md`
-- Game Studio route: N/A — 운영사 runner/workflow 작업. 단, runner가 만드는 visible gameplay WorkUnit은 Game Studio route와 Browser Use evidence를 요구한다.
+- Readiness report: `reports/operations/studio-v3-operator-20260503.md`
+- Game Studio route: N/A — 운영사 하네스/runner 작업. 단 v3 operator가 만드는 visible gameplay WorkUnit은 Game Studio route와 Browser Use evidence를 요구한다.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
 2. Queue empty is not a stop condition. Queue가 비면 production game quality WorkUnit intake로 이어져야 한다.
-3. Runner의 다음 action은 `P0.5 Idle Core + Creative Rescue`와 `이상한 씨앗상회` production 품질 개선을 우선해야 한다.
-4. `npm run studio:v3:runner -- --once --dry-run`과 `npm run check:studio-v3-live-runner`가 실제 사용법과 checker를 증명해야 한다.
-5. Runner가 다음 게임 WorkUnit을 만들거나 선택할 때는 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
-
-다음 checkpoint는 full `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
+3. `npm run studio:v3:operate`는 `$seed-ops`를 호출하거나 안내하지 않아야 한다.
+4. Browser Use iab는 visible gameplay WorkUnit의 hands-on QA gate이며, CLI에서는 `node_repl` MCP `js` readiness를 doctor가 점검한다.
+5. v3 operator가 다음 게임 WorkUnit을 만들거나 선택할 때는 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+6. 다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 #292 stash 복구 또는 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 
 ## Previous Next Action History
 

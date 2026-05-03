@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T01:05:00.000Z",
-  "source": "GitHub CLI observation after #284/#285 and #286/#287 merge; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T02:15:00.000Z",
+  "source": "GitHub CLI observation after #290/#291 merge and #293 intake; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 290,
-    "title": "Studio Harness v3 24h live runner 진입점을 만든다",
-    "item": "items/0147-studio-v3-24h-live-runner.md",
-    "branch": "codex/0290-studio-v3-24h-live-runner"
+    "issue": 293,
+    "title": "Studio Harness v3 foreground operator entrypoint를 seed-ops 없이 구현한다",
+    "item": "items/0149-studio-v3-foreground-operator-entrypoint.md",
+    "branch": "codex/0293-studio-v3-foreground-operator-entrypoint"
   },
   "workUnits": [
     {
@@ -82,6 +82,31 @@
         "GitHub-authoritative open WorkUnit #288",
         "Branch: `codex/0288-closed-workunit-mirror-consistency`",
         "Branch: codex/0288-closed-workunit-mirror-consistency"
+      ]
+    },
+    {
+      "issue": 290,
+      "issueTitle": "Studio Harness v3 24h live runner 진입점을 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T01:27:40Z",
+      "pr": 291,
+      "prTitle": "#290 Studio Harness v3 24h live runner 진입점을 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T01:27:39Z",
+      "mergeCommit": "983c773b5488fb26f45e865702de30d993e89c5a",
+      "mainCiRun": 25266675744,
+      "mainCiConclusion": "success",
+      "roadmapStep": "Studio Harness v3 24h live runner entrypoint",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #290",
+        "PR #291",
+        "main CI `25266675744`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #290",
+        "Branch: `codex/0290-studio-v3-24h-live-runner`",
+        "Branch: codex/0290-studio-v3-24h-live-runner"
       ]
     }
   ]

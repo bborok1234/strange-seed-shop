@@ -1,15 +1,17 @@
 ---
 name: seed-ops
-description: 이상한 씨앗상회 프로젝트 전용 무한 운영모드. 사용자가 `$seed-ops`, 계속 운영, 게임사 운영모드, 북극성까지 계속 달려, 밤새/장시간 돌아가라고 말할 때 사용한다. issue intake -> plan-first -> 구현 -> 검증 -> PR -> CI -> merge -> 다음 issue 반복을 수행한다.
+description: Deprecated adapter for pre-v3 이상한 씨앗상회 Productionization support. Studio Harness v3 entrypoint가 아니다. 새 무한 운영/계속 운영/북극성 실행은 `npm run studio:v3:operate`를 사용한다.
 ---
 
 # Seed Ops
 
-이 skill은 `$ralph` 같은 범용 지속 실행 엔진 위에 이 프로젝트의 운영사 계약을 얹는다.
+> Deprecated adapter: 이 skill은 Studio Harness v3 entrypoint가 아니다. 새 무한 운영, 계속 운영, 북극성 실행, 24h foreground operator는 `npm run studio:v3:operate`로 시작한다. `$seed-ops`는 v3 이전 Productionization 보조 표면으로만 남긴다.
+
+이 skill은 `$ralph` 같은 범용 지속 실행 엔진 위에 이 프로젝트의 운영사 계약을 얹던 과거 표면이다.
 
 ## Mode contract
 
-- 목표: 게임 북극성과 에이전트 네이티브 운영사 북극성을 향해 계속 진행한다.
+- 목표: deprecated adapter 상태에서 이미 승인된 Productionization 보조 작업만 지원한다. 새 v3 운영 목표는 `npm run studio:v3:operate`가 소유한다.
 - 기본 루프: issue 선택/생성 -> `## Plan` artifact -> branch -> 구현 -> 로컬 검증 -> PR -> GitHub checks -> merge -> main CI -> 다음 issue.
 - 완료 보고는 중단 조건이 아니라 checkpoint다.
 - 원격 게시 기본값: `$seed-ops`로 시작한 issue loop에서는 사용자가 별도로 "push/PR/merge 해도 돼?"라고 말하지 않아도 branch push, draft PR 생성/갱신, GitHub checks 확인, main merge, main CI 확인까지가 완료 조건이다. 단, credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary는 Stop rules를 우선한다.
@@ -51,7 +53,7 @@ Routine GitHub issue/PR/comment publication is a Studio Harness v3 runner respon
 - PublicationBoundary는 credential, tool/runtime block, destructive/external-production/payment/customer-data boundary가 실제로 막을 때만 기록한다. 단순 GitHub issue/PR/comment 게시 자체는 boundary가 아니다.
 - If a real tool/runtime blocker occurs, write heartbeat before any blocker report and leave a same-turn local continuation action in heartbeat/control room/report/checker/next plan. The heartbeat should distinguish `confirmation.channel: preapproved` routine GitHub publication from actual blocked publication.
 - 같은 final publication ask가 반복되면 open a harness-defect fix instead of stopping: 외부 게시 재시도보다 먼저 docs/checker hardening item을 만들고 검증한다.
-- PR/issue creation is normal seed-ops work: 이 프로젝트에서 issue/PR 생성은 운영 루프의 정상 단계이며 anti-pattern이 아니다.
+- PR/issue creation is normal v3 operator work: 이 프로젝트에서 issue/PR 생성은 운영 루프의 정상 단계이며 anti-pattern이 아니다.
 - Publication gate de-duplication: `publication_gate.dedupe_key`는 target, branch, commit, body_file, pending_command 조합으로 안정적으로 남긴다. 같은 dedupe key에서 이미 `repeat_policy: do_not_repeat_final_ask`가 기록되었으면 같은 PR/issue 게시 확인을 다시 묻거나 같은 CI/검증 prep loop를 반복하지 않는다.
 - `fresh evidence 재수집`, `main CI 반복`, PR body 재생성만 하며 GitHub 게시를 미루는 것은 routine publication harness failure다.
 - Routine GitHub publication의 continuation action은 `execute GitHub publication`, `watch checks`, `merge gate`처럼 다음 agent action이어야 한다. `await action-time confirmation without repeated ask`는 routine GitHub publication에서 harness failure다.
