@@ -125,6 +125,13 @@ interface AlbumRecordPlantReceipt {
   actionLabel: string;
 }
 
+interface AlbumRecordHarvestReceipt {
+  id: number;
+  seedName: string;
+  creatureName: string;
+  clueLabel: string;
+}
+
 interface OrderDeliveryReceipt {
   id: number;
   orderId: string;
@@ -308,6 +315,7 @@ export default function App() {
   const [researchHarvestReceipt, setResearchHarvestReceipt] = useState<ResearchHarvestReceipt | null>(null);
   const [researchAlbumRecord, setResearchAlbumRecord] = useState<ResearchAlbumRecord | null>(null);
   const [albumRecordPlantReceipt, setAlbumRecordPlantReceipt] = useState<AlbumRecordPlantReceipt | null>(null);
+  const [albumRecordHarvestReceipt, setAlbumRecordHarvestReceipt] = useState<AlbumRecordHarvestReceipt | null>(null);
   const [orderDeliveryReceipt, setOrderDeliveryReceipt] = useState<OrderDeliveryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
@@ -573,6 +581,7 @@ export default function App() {
     researchCompleteReceipt ? "has-research-complete-receipt" : "",
     researchHarvestReceipt ? "has-research-harvest-receipt" : "",
     albumRecordPlantReceipt ? "has-album-record-plant-receipt" : "",
+    albumRecordHarvestReceipt ? "has-album-record-harvest-receipt" : "",
     hasAlbumRecordFollowupPlot ? "has-album-record-growth-preview" : "",
     orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
     firstOrderDispatchReceiptActive ? "has-first-order-dispatch-receipt" : "",
@@ -652,6 +661,7 @@ export default function App() {
         researchSeedReceipt,
         researchHarvestReceipt,
         albumRecordPlantReceipt,
+        albumRecordHarvestReceipt,
         nextCreatureGoal
       ),
     [
@@ -666,6 +676,7 @@ export default function App() {
       researchSeedReceipt,
       researchHarvestReceipt,
       albumRecordPlantReceipt,
+      albumRecordHarvestReceipt,
       nextCreatureGoal
     ]
   );
@@ -707,6 +718,7 @@ export default function App() {
     setResearchUnlockReceipt(null);
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
+    setAlbumRecordHarvestReceipt(null);
     setAlbumRecordPlantReceipt(null);
     setResearchAlbumRecord(null);
     setResearchSeedReceipt(receipt);
@@ -931,6 +943,23 @@ export default function App() {
             clueLabel: researchClue ?? `${currentSeed.name}에서 ${harvestedCreature.name} 단서 발견`
           }
         : null;
+    const isAlbumRecordFollowupHarvest = Boolean(
+      currentPlot?.source === "album_record_next_seed" &&
+        currentSeed &&
+        harvestedCreature &&
+        nextCreatureGoal &&
+        currentSeed.id === nextCreatureGoal.seed.id &&
+        harvestedCreature.id === nextCreatureGoal.creature.id
+    );
+    const albumRecordHarvest: AlbumRecordHarvestReceipt | null =
+      isAlbumRecordFollowupHarvest && currentSeed && harvestedCreature
+        ? {
+            id: Date.now(),
+            seedName: currentSeed.name,
+            creatureName: harvestedCreature.name,
+            clueLabel: `${currentSeed.name} 후속 재배에서 ${harvestedCreature.name} 발견`
+          }
+        : null;
 
     commit((draft) => {
       const plot = draft.plots[plotIndex];
@@ -964,6 +993,14 @@ export default function App() {
               source: "research_clue",
               rewardMotion: "research_clue_creature_reveal"
             }
+          : isAlbumRecordFollowupHarvest
+            ? {
+                seedId: seed.id,
+                creatureId,
+                leaves: seed.baseHarvestLeaves,
+                source: "album_record_next_seed",
+                rewardMotion: "album_record_followup_creature_reveal"
+              }
           : { seedId: seed.id, creatureId, leaves: seed.baseHarvestLeaves }
       );
     });
@@ -975,6 +1012,7 @@ export default function App() {
       setResearchCompleteReceipt(null);
       setResearchSeedReceipt(null);
       setResearchHarvestReceipt(researchHarvest);
+      setAlbumRecordHarvestReceipt(albumRecordHarvest);
       setResearchAlbumRecord(null);
       setHarvestReveal(harvestedCreature);
     }
@@ -982,13 +1020,14 @@ export default function App() {
   }
 
   function recordHarvestRevealToAlbum() {
-    if (researchHarvestReceipt && harvestReveal) {
+    const albumRecordHarvest = researchHarvestReceipt ?? albumRecordHarvestReceipt;
+    if (albumRecordHarvest && harvestReveal) {
       setResearchAlbumRecord({
         id: Date.now(),
         creatureId: harvestReveal.id,
-        creatureName: researchHarvestReceipt.creatureName,
-        seedName: researchHarvestReceipt.seedName,
-        clueLabel: researchHarvestReceipt.clueLabel
+        creatureName: albumRecordHarvest.creatureName,
+        seedName: albumRecordHarvest.seedName,
+        clueLabel: albumRecordHarvest.clueLabel
       });
       setActiveTab("album");
     }
@@ -1079,6 +1118,7 @@ export default function App() {
     setResearchUnlockReceipt(null);
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
+    setAlbumRecordHarvestReceipt(null);
     setResearchAlbumRecord(null);
     setResearchSeedReceipt(null);
     commit((draft) => {
@@ -1394,6 +1434,7 @@ export default function App() {
     setResearchUnlockReceipt(null);
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
+    setAlbumRecordHarvestReceipt(null);
     setResearchAlbumRecord(null);
     setResearchSeedReceipt(null);
     commit((draft) => {
@@ -1436,6 +1477,7 @@ export default function App() {
     setProductionBoostReceipt(null);
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
+    setAlbumRecordHarvestReceipt(null);
     setResearchAlbumRecord(null);
     setResearchSeedReceipt(null);
 
@@ -2622,18 +2664,34 @@ export default function App() {
         <section
           className="harvest-reveal"
           aria-live="polite"
-          aria-label={researchHarvestReceipt ? "단서 생명체 발견" : "첫 생명체 획득"}
+          aria-label={
+            researchHarvestReceipt
+              ? "단서 생명체 발견"
+              : albumRecordHarvestReceipt
+                ? "새 기록 후속 생명체 발견"
+                : "첫 생명체 획득"
+          }
         >
-          <div className={`harvest-reveal-card${researchHarvestReceipt ? " is-research-reveal" : ""}`}>
+          <div
+            className={`harvest-reveal-card${researchHarvestReceipt ? " is-research-reveal" : ""}${
+              albumRecordHarvestReceipt ? " is-album-record-reveal" : ""
+            }`}
+          >
             <div className="reveal-sparkles" aria-hidden="true">
               <span>✦</span>
               <span>✧</span>
               <span>✦</span>
             </div>
-            <p className="reveal-kicker">{researchHarvestReceipt ? "단서 생명체 발견" : "도감 첫 발견"}</p>
+            <p className="reveal-kicker">
+              {researchHarvestReceipt ? "단서 생명체 발견" : albumRecordHarvestReceipt ? "새 기록 후속 발견" : "도감 첫 발견"}
+            </p>
             <div className="harvest-portrait-frame">{renderAsset(harvestReveal.assetId, "생명체")}</div>
             <p className="panel-label reveal-label">
-              {researchHarvestReceipt ? "도감 단서 기록" : "새 생명체가 찾아왔어요"}
+              {researchHarvestReceipt
+                ? "도감 단서 기록"
+                : albumRecordHarvestReceipt
+                  ? "예고했던 새 생명체 수확"
+                  : "새 생명체가 찾아왔어요"}
             </p>
             <h2>{harvestReveal.name}</h2>
             <div className="reveal-trait-row" aria-label="생명체 특징">
@@ -2648,6 +2706,13 @@ export default function App() {
                 <p className="panel-label">연구 단서 수확</p>
                 <strong>{researchHarvestReceipt.seedName} → {researchHarvestReceipt.creatureName}</strong>
                 <span>{researchHarvestReceipt.clueLabel}</span>
+              </article>
+            )}
+            {albumRecordHarvestReceipt && (
+              <article className="reveal-next-goal album-record-harvest-receipt" aria-label="새 기록 후속 수확">
+                <p className="panel-label">새 기록 후속 수확</p>
+                <strong>{albumRecordHarvestReceipt.seedName} → {albumRecordHarvestReceipt.creatureName}</strong>
+                <span>예고했던 아이를 수확했어요 · 도감에 기록해 다음 목표를 열어요</span>
               </article>
             )}
             {harvestReveal.id === LUNAR_REWARD_CREATURE_ID && (
@@ -2903,6 +2968,7 @@ function buildGardenPlayfieldViewModel(
   researchSeedReceipt: ResearchSeedReceipt | null,
   researchHarvestReceipt: ResearchHarvestReceipt | null,
   albumRecordPlantReceipt: AlbumRecordPlantReceipt | null,
+  albumRecordHarvestReceipt: AlbumRecordHarvestReceipt | null,
   nextCreatureGoal: NextCreatureGoal | null
 ): GardenPlayfieldViewModel {
   if (!save) {
@@ -2984,6 +3050,7 @@ function buildGardenPlayfieldViewModel(
   const researchCompleteActive = Boolean(researchCompleteReceipt);
   const researchSeedActive = Boolean(researchSeedReceipt);
   const researchHarvestActive = Boolean(researchHarvestReceipt);
+  const albumRecordHarvestActive = Boolean(albumRecordHarvestReceipt);
   const albumRecordPlantActive = Boolean(albumRecordPlantReceipt);
   const researchSourcePlot = plots.find((plot) => plot.source === "research" && plot.state === "growing");
   const albumRecordPlantPlot = albumRecordPlantReceipt
@@ -3008,6 +3075,8 @@ function buildGardenPlayfieldViewModel(
                   ? "도감 단서 기록 · 다음 씨앗 목표 표시"
                 : researchHarvestActive
                   ? `단서 생명체 발견 · ${researchHarvestReceipt?.creatureName ?? "새 생명체"} 도감 기록`
+                  : albumRecordHarvestActive
+                    ? `새 기록 후속 수확 · ${albumRecordHarvestReceipt?.creatureName ?? "새 생명체"} 도감 기록`
                   : albumRecordPlantActive
                     ? `새 기록 후속 재배 · ${albumRecordPlantSeedName} 시작`
                   : researchSeedPlantedActive
@@ -3025,6 +3094,8 @@ function buildGardenPlayfieldViewModel(
                 ? "연구 노트 저장"
                 : researchHarvestActive
                   ? "단서 생명체 발견"
+                  : albumRecordHarvestActive
+                    ? "새 기록 후속 수확"
                   : albumRecordPlantActive
                     ? "새 기록 후속 재배"
                 : researchSeedPlantedActive
@@ -3044,6 +3115,8 @@ function buildGardenPlayfieldViewModel(
                 ? researchCompleteReceipt?.seedName ?? "다음 씨앗 목표"
                 : researchHarvestActive
                   ? researchHarvestReceipt?.creatureName ?? "새 생명체"
+                  : albumRecordHarvestActive
+                    ? albumRecordHarvestReceipt?.creatureName ?? "새 생명체"
                   : albumRecordPlantActive
                     ? albumRecordPlantReceipt?.creatureName ?? albumRecordPlantSeedName
                 : researchSeedPlantedActive
@@ -3057,6 +3130,7 @@ function buildGardenPlayfieldViewModel(
             researchUnlockActive ||
             researchCompleteActive ||
             researchHarvestActive ||
+            albumRecordHarvestActive ||
             albumRecordPlantActive ||
             researchSeedPlantedActive,
           orderCompleted:
@@ -3065,6 +3139,7 @@ function buildGardenPlayfieldViewModel(
             researchUnlockActive ||
             researchCompleteActive ||
             researchHarvestActive ||
+            albumRecordHarvestActive ||
             albumRecordPlantActive ||
             researchSeedPlantedActive,
           orderVariant: firstOrderDispatchReceiptActive
@@ -3086,6 +3161,8 @@ function buildGardenPlayfieldViewModel(
                     ? "단서 기록"
                   : researchHarvestActive
                     ? "도감 단서 기록"
+                    : albumRecordHarvestActive
+                      ? "도감 기록 대기"
                     : albumRecordPlantActive
                       ? albumRecordPlantReceipt?.actionLabel ?? "후속 재배"
                     : researchSeedPlantedActive

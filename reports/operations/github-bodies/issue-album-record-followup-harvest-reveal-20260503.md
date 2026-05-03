@@ -52,17 +52,18 @@
 
 ## 수용 기준
 
-- [ ] `album_record_next_seed` source plot을 ready 상태로 만든 뒤 수확하면 reveal/action feedback이 다음 생명체 이름과 `새 기록 후속 수확` 또는 동등한 payoff copy를 보여준다.
-- [ ] reveal 또는 action surface가 도감 저장 CTA를 명확히 보여주며, 성장 예고와 같은 target creature 이름이 유지된다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield feedback/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 reveal/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] `album_record_next_seed` source plot을 ready 상태로 만든 뒤 수확하면 reveal/action feedback이 다음 생명체 이름과 `새 기록 후속 수확` 또는 동등한 payoff copy를 보여준다.
+- [x] reveal 또는 action surface가 도감 저장 CTA를 명확히 보여주며, 성장 예고와 같은 target creature 이름이 유지된다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield feedback/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 reveal/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
-## Visual evidence 계획
+## Visual evidence
 
 - Browser Use iab target: 연구 단서 수확 → 도감 기록 CTA → 다음 씨앗 CTA → 구매/심기 → 정원 `새 기록 후속 재배` → 성장 완료 → 수확 → reveal/도감 저장 CTA.
+- Browser Use blocker: `reports/visual/browser-use-blocker-0320-20260503.md` — 현재 세션 iab backend discovery 실패.
 - Fallback screenshot: `reports/visual/issue-320-album-record-followup-harvest-reveal-393.png`.
-- Layout invariant: reveal/action surface vs `.bottom-tabs`, no body scroll, no masked overflow.
+- Layout invariant: 393px 모바일에서 reveal/action surface가 viewport 안에 들어오고, 도감 저장 후 garden production scene과 bottom tab이 겹치지 않음.
 
 ## Playable mode 영향
 
@@ -77,10 +78,10 @@
 
 ## 검증 명령
 
-- `npm run build`
-- focused Playwright: 새 기록 후속 수확/reveal payoff
-- `npm run check:visual`
-- `npm run check:ci`
+- `npm run build` — pass
+- focused Playwright: `npx playwright test --config playwright.config.ts --grep "새 기록 후속 수확|후속 재배 수확|새 생명체 발견"` — 1 passed
+- `npm run check:visual` — 63 passed
+- `npm run check:ci` — pass
 - `npm run update:dashboard`
 - `npm run operator:control-room -- --output docs/OPERATOR_CONTROL_ROOM.md`
 - `npm run check:dashboard`
@@ -89,3 +90,9 @@
 - `npm run check:github-metadata`
 - `npm run check:seed-ops-queue`
 - `npm run check:closed-workunit-mirrors`
+
+## Implementation result
+
+- `AlbumRecordHarvestReceipt`가 후속 재배 수확 직전 seed/creature snapshot을 보존한다.
+- Harvest reveal은 `새 기록 후속 생명체 발견`, `예고했던 새 생명체 수확`, `새 기록 후속 수확` receipt, `도감에 기록하기` CTA를 보여준다.
+- 도감 저장 뒤 garden production scene은 `새 기록 후속 수확 · 젤리콩 통통 도감 기록`으로 예고와 실제 발견을 이어준다.
