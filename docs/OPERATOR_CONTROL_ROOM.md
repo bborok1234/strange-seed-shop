@@ -3,46 +3,47 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T01:10:04.541Z
+Generated at: 2026-05-03T01:23:55.090Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #288 **닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다**이다. #284/#285와 #286/#287은 GitHub에서 CLOSED/MERGED이고 main CI `25265967477`, `25266229841` 관찰도 완료했지만, local mirror가 `review`/active mission으로 남는 회귀가 발생했다. 이 작업은 닫힌 PR 뒤 main closeout commit을 만들지 않고, 새 plan-first harness defect로 stale mirror를 정리하고 checker를 추가한다.
+현재 작업은 GitHub-authoritative open WorkUnit #290 **Studio Harness v3 24h live runner 진입점을 만든다**이다. 방향을 보정한다: #276 같은 fixture checker는 보조 안전장치였고, 지금 1차 목표는 AI 네이티브 게임 운영사가 24시간 돌아가며 `이상한 씨앗상회`를 production 게임 품질로 끌어올리는 runnable runner다.
 
 현재 evidence:
 
-- GitHub issue: #288 `닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다`
-- Plan artifact: `items/0146-closed-workunit-mirror-consistency.md`
-- Branch: `codex/0288-closed-workunit-mirror-consistency`
-- Closed WorkUnit evidence manifest: `reports/operations/closed-workunit-mirror-manifest-20260503.json`
-- GitHub truth: #284/#285 main CI `25265967477`, #286/#287 main CI `25266229841`
-- Game Studio route: N/A — 운영사 하네스/문서/체커 작업
+- GitHub issue: #290 `Studio Harness v3 24h live runner 진입점을 만든다`
+- Plan artifact: `items/0147-studio-v3-24h-live-runner.md`
+- Branch: `codex/0290-studio-v3-24h-live-runner`
+- Runner entrypoint: `scripts/studio-v3-live-runner.mjs`
+- Usage doc: `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`
+- Smoke report: `reports/operations/studio-v3-live-runner-20260503.md`
+- Game Studio route: N/A — 운영사 runner/workflow 작업. 단, runner가 만드는 visible gameplay WorkUnit은 Game Studio route와 Browser Use evidence를 요구한다.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. 닫힌 PR/issue evidence 누락은 post-merge closeout commit이 아니라 새 plan-first harness defect로 처리한다.
-3. `docs/ROADMAP.md`, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/DASHBOARD.md`는 GitHub truth와 동기화된 mirror여야 한다.
-4. `npm run check:closed-workunit-mirrors`가 stale `review` row와 stale active mission phrase를 실패시켜야 한다.
-5. 다음 게임 WorkUnit 선택으로 넘어갈 때는 `Studio Campaign Gate`를 다시 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff와 vertical slice blocker 제거를 동반할 때만 고른다.
+2. Queue empty is not a stop condition. Queue가 비면 production game quality WorkUnit intake로 이어져야 한다.
+3. Runner의 다음 action은 `P0.5 Idle Core + Creative Rescue`와 `이상한 씨앗상회` production 품질 개선을 우선해야 한다.
+4. `npm run studio:v3:runner -- --once --dry-run`과 `npm run check:studio-v3-live-runner`가 실제 사용법과 checker를 증명해야 한다.
+5. Runner가 다음 게임 WorkUnit을 만들거나 선택할 때는 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
-다음 checkpoint는 구현, focused checks, `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
+다음 checkpoint는 full `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
 
 ## Local state
 
-- Branch: codex/0288-closed-workunit-mirror-consistency
-- Latest commit: 066112f #288 닫힌 WorkUnit mirror 회귀를 plan-first로 고정한다
+- Branch: codex/0290-studio-v3-24h-live-runner
+- Latest commit: 98dea3f #290 24h live runner 작업을 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T01:09:02.755Z
-- Phase: implementing
-- Issue: 288
+- Timestamp: 2026-05-03T01:21:40.015Z
+- Phase: studio-v3-live-runner
+- Issue: 290
 - PR: 
-- Item: items/0146-closed-workunit-mirror-consistency.md
-- Next action: verification gate: run closed mirror checker, ops-live, dashboard, check:ci
+- Item: items/0147-studio-v3-24h-live-runner.md
+- Next action: implementation gate: plan-first for GitHub issue #290
 
 ## Open PRs
 
@@ -50,7 +51,7 @@ Generated at: 2026-05-03T01:10:04.541Z
 
 ## Open issues
 
-- #288 닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다 — https://github.com/bborok1234/strange-seed-shop/issues/288
+- #290 Studio Harness v3 24h live runner 진입점을 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/290
 
 ## Playable mode
 

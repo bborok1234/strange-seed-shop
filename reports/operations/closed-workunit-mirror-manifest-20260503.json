@@ -3,10 +3,10 @@
   "generatedAt": "2026-05-03T01:05:00.000Z",
   "source": "GitHub CLI observation after #284/#285 and #286/#287 merge; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 288,
-    "title": "닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다",
-    "item": "items/0146-closed-workunit-mirror-consistency.md",
-    "branch": "codex/0288-closed-workunit-mirror-consistency"
+    "issue": 290,
+    "title": "Studio Harness v3 24h live runner 진입점을 만든다",
+    "item": "items/0147-studio-v3-24h-live-runner.md",
+    "branch": "codex/0290-studio-v3-24h-live-runner"
   },
   "workUnits": [
     {
@@ -23,7 +23,11 @@
       "mainCiConclusion": "success",
       "roadmapStep": "정원 첫 화면 production engine layout",
       "expectedRoadmapStatus": "done",
-      "requiredRoadmapEvidence": ["Issue #284", "PR #285", "main CI `25265967477`"],
+      "requiredRoadmapEvidence": [
+        "Issue #284",
+        "PR #285",
+        "main CI `25265967477`"
+      ],
       "forbiddenActivePhrases": [
         "GitHub-authoritative open WorkUnit #284",
         "Branch: `codex/0284-first-screen-production-engine-layout`",
@@ -44,11 +48,40 @@
       "mainCiConclusion": "success",
       "roadmapStep": "Routine GitHub publication no-final harness",
       "expectedRoadmapStatus": "done",
-      "requiredRoadmapEvidence": ["Issue #286", "PR #287", "main CI `25266229841`"],
+      "requiredRoadmapEvidence": [
+        "Issue #286",
+        "PR #287",
+        "main CI `25266229841`"
+      ],
       "forbiddenActivePhrases": [
         "GitHub-authoritative open WorkUnit #286",
         "Branch: `codex/0286-routine-github-publication-no-final`",
         "Branch: codex/0286-routine-github-publication-no-final"
+      ]
+    },
+    {
+      "issue": 288,
+      "issueTitle": "닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T01:14:07Z",
+      "pr": 289,
+      "prTitle": "#288 닫힌 WorkUnit mirror 회귀를 checker로 막는다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T01:14:06Z",
+      "mergeCommit": "3a6c3aa5f78fc4902bdf297714531efd549d5e5c",
+      "mainCiRun": 25266430855,
+      "mainCiConclusion": "success",
+      "roadmapStep": "Closed WorkUnit mirror consistency gate",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #288",
+        "PR #289",
+        "main CI `25266430855`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #288",
+        "Branch: `codex/0288-closed-workunit-mirror-consistency`",
+        "Branch: codex/0288-closed-workunit-mirror-consistency"
       ]
     }
   ]
