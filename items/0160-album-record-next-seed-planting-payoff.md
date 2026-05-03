@@ -2,7 +2,7 @@
 
 - GitHub issue: #316 https://github.com/bborok1234/strange-seed-shop/issues/316
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: PR publication ready
 - Branch: `codex/0316-album-record-next-seed-planting-payoff`
 - Created: 2026-05-03
 
@@ -16,11 +16,11 @@
 
 ## 수용 기준
 
-- [ ] `새 기록 다음 목표` target row에서 구매 후 심기를 누르면 정원 탭으로 이동하거나 정원 상태가 명확히 열리고, 후속 재배 상태가 보인다.
-- [ ] 정원 playfield/다음 행동 패널이 `새 기록 후속 재배` 또는 동등한 copy, 다음 씨앗/생명체 이름, 성장 시작 행동을 보여준다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield state/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 playfield/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] `새 기록 다음 목표` target row에서 구매 후 심기를 누르면 정원 탭으로 이동하거나 정원 상태가 명확히 열리고, 후속 재배 상태가 보인다.
+- [x] 정원 playfield/다음 행동 패널이 `새 기록 후속 재배` 또는 동등한 copy, 다음 씨앗/생명체 이름, 성장 시작 행동을 보여준다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield state/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 playfield/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## 검증 명령
 
@@ -79,3 +79,19 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이므로 Codex native subagents/team mode는 사용하지 않는다.
 - 필요 시 분리 기준: Phaser view-state 구현이 커지면 runtime worker, asset generation이 필요해지면 asset pipeline subtask, Browser Use 복구가 필요하면 QA/verifier subtask로 분리한다.
+
+
+## 구현 결과
+
+- `src/App.tsx`: `albumRecordPlantReceipt`를 추가해 새 기록 다음 목표 seed row의 심기 완료를 정원 receipt, production scene, playfield source label로 연결했다. `qaResearchComplete` visual seed에는 후속 목표 구매/심기 검증이 가능하도록 충분한 잎을 제공한다.
+- `src/styles.css`: `album-record-plant-receipt`, `album-record-plant-chip`, `has-album-record-plant-receipt` compact layout을 추가했다.
+- `tests/visual/p0-mobile-game-shell.spec.ts`: 393px 모바일에서 연구 단서 수확 → 도감 기록 → 다음 씨앗 CTA → 구매/심기 → 정원 `새 기록 후속 재배` receipt/source label/layout invariant를 검증한다.
+- Browser Use iab는 현재 세션 backend discovery 실패로 막혀 `reports/visual/browser-use-blocker-0316-20260503.md`에 blocker를 남겼다.
+- Playwright evidence screenshot: `reports/visual/issue-316-album-record-next-seed-planting-payoff-393.png`.
+
+## 검증 결과
+
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "새 기록 다음 씨앗 심기|후속 재배|정원 재성장"` — 2 passed
+- `npm run check:visual` — 61 passed
+- `npm run check:ci` — pass

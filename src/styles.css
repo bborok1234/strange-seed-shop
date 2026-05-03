@@ -1560,6 +1560,7 @@ h1 {
 }
 
 .starter-panel.has-production.has-research-seed-receipt .next-creature-compact,
+.starter-panel.has-production.has-album-record-plant-receipt .next-creature-compact,
 .seed-inventory-row-target {
   border-color: rgba(83, 151, 115, 0.38);
   box-shadow: 0 8px 18px rgba(49, 121, 82, 0.12);
@@ -1811,6 +1812,84 @@ h1 {
 }
 
 .research-seed-receipt small {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.album-record-plant-receipt {
+  display: grid;
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px 7px;
+  min-height: 54px;
+  padding: 7px 50px 7px 8px;
+  overflow: hidden;
+  border: 1px solid rgba(83, 151, 115, 0.34);
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(circle at 15% 16%, rgba(255, 255, 255, 0.9), transparent 34%),
+    linear-gradient(135deg, rgba(233, 250, 205, 0.98), rgba(255, 245, 194, 0.92));
+  box-shadow:
+    0 8px 16px rgba(61, 126, 83, 0.13),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.58);
+}
+
+.album-record-plant-receipt::after {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 70% 30% 68% 32%;
+  background:
+    radial-gradient(circle at 42% 38%, rgba(255, 255, 255, 0.76), transparent 30%),
+    linear-gradient(135deg, rgba(255, 219, 116, 0.94), rgba(83, 151, 115, 0.82));
+  box-shadow:
+    -10px -7px 0 -6px rgba(233, 250, 205, 0.96),
+    -19px 5px 0 -7px rgba(255, 194, 126, 0.72),
+    0 0 14px rgba(83, 151, 115, 0.3);
+  content: "";
+  animation: research-seed-hop 1.2s ease-in-out infinite;
+}
+
+.album-record-plant-chip {
+  display: inline-grid;
+  min-height: 19px;
+  place-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(83, 151, 115, 0.16);
+  color: #3f7c57;
+  font-size: 9px;
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.album-record-plant-receipt strong,
+.album-record-plant-receipt span,
+.album-record-plant-receipt small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-record-plant-receipt strong {
+  color: #3f7c57;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.album-record-plant-receipt > span:not(.album-record-plant-chip) {
+  color: #526f7a;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.album-record-plant-receipt small {
   grid-column: 1 / -1;
   color: var(--text-muted);
   font-size: 9px;
@@ -4776,16 +4855,21 @@ h1 {
   }
 
   .starter-panel.has-production.has-research-seed-receipt .production-meter-row,
+  .starter-panel.has-production.has-album-record-plant-receipt .production-meter-row,
   .starter-panel.has-production.has-research-seed-receipt .order-progress-card,
-  .starter-panel.has-production.has-research-seed-receipt .upgrade-choice-card {
+  .starter-panel.has-production.has-album-record-plant-receipt .order-progress-card,
+  .starter-panel.has-production.has-research-seed-receipt .upgrade-choice-card,
+  .starter-panel.has-production.has-album-record-plant-receipt .upgrade-choice-card {
     display: none;
   }
 
-  .starter-panel.has-production.has-research-seed-receipt .production-action-card {
+  .starter-panel.has-production.has-research-seed-receipt .production-action-card,
+  .starter-panel.has-production.has-album-record-plant-receipt .production-action-card {
     overflow: visible;
   }
 
-  .starter-panel.has-production.has-research-seed-receipt .next-creature-compact {
+  .starter-panel.has-production.has-research-seed-receipt .next-creature-compact,
+  .starter-panel.has-production.has-album-record-plant-receipt .next-creature-compact {
     padding: 7px;
   }
 
@@ -4822,12 +4906,20 @@ h1 {
     padding: 6px 42px 6px 7px;
   }
 
-  .research-seed-receipt strong {
+  .album-record-plant-receipt {
+    min-height: 45px;
+    padding: 6px 42px 6px 7px;
+  }
+
+  .research-seed-receipt strong,
+  .album-record-plant-receipt strong {
     font-size: 11px;
   }
 
   .research-seed-receipt > span:not(.research-seed-chip),
-  .research-seed-receipt small {
+  .research-seed-receipt small,
+  .album-record-plant-receipt > span:not(.album-record-plant-chip),
+  .album-record-plant-receipt small {
     font-size: 9px;
   }
 

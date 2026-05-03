@@ -43,11 +43,11 @@
 
 ## 수용 기준
 
-- [ ] `새 기록 다음 목표` target row에서 구매 후 심기를 누르면 정원 탭으로 이동하거나 정원 상태가 명확히 열리고, 후속 재배 상태가 보인다.
-- [ ] 정원 playfield/다음 행동 패널이 `새 기록 후속 재배` 또는 동등한 copy, 다음 씨앗/생명체 이름, 성장 시작 행동을 보여준다.
-- [ ] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield state/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 playfield/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] `새 기록 다음 목표` target row에서 구매 후 심기를 누르면 정원 탭으로 이동하거나 정원 상태가 명확히 열리고, 후속 재배 상태가 보인다.
+- [x] 정원 playfield/다음 행동 패널이 `새 기록 후속 재배` 또는 동등한 copy, 다음 씨앗/생명체 이름, 성장 시작 행동을 보여준다.
+- [x] 신규 accepted manifest asset 없이 existing visuals + DOM/CSS/playfield state/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 playfield/action surface/bottom tab이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## Visual evidence 계획
 
@@ -80,3 +80,13 @@
 - `npm run check:github-metadata`
 - `npm run check:seed-ops-queue`
 - `npm run check:closed-workunit-mirrors`
+
+
+## 구현 / 검증 evidence
+
+- 구현: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0316-20260503.md`
+- Screenshot: `reports/visual/issue-316-album-record-next-seed-planting-payoff-393.png`
+- Focused: `npx playwright test --config playwright.config.ts --grep "새 기록 다음 씨앗 심기|후속 재배|정원 재성장"` — 2 passed
+- Full visual: `npm run check:visual` — 61 passed
+- Full CI: `npm run check:ci` — pass

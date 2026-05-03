@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T06:50:04.535Z
+Generated at: 2026-05-03T07:11:11.540Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #316 **새 기록 다음 씨앗 심기가 정원 재성장 payoff로 이어지게 만든다**의 plan-first gate다. #314는 PR #315 merge와 main CI `25272288285` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단했다.
+현재 작업은 GitHub-authoritative open WorkUnit #316 **새 기록 다음 씨앗 심기가 정원 재성장 payoff로 이어지게 만든다**의 PR publication gate다. 구현과 focused/full verification은 통과했고, 남은 checkpoint는 issue body 갱신, branch push, draft PR 생성, GitHub checks watch/repair, merge, main CI 관찰이다.
 
 현재 evidence:
 
@@ -20,6 +20,9 @@ Generated at: 2026-05-03T06:50:04.535Z
 - Production role: 도감 기억 저장 → 다음 씨앗 구매/심기 → 정원 재성장 시작
 - Screen moment: #314 seeds target row의 구매/심기 직후 garden tab/playfield
 - Concrete payoff: `새 기록 후속 재배` playfield/HUD state, 다음 생명체/씨앗 이름, 성장 시작 affordance, planting reward motion
+- Browser Use blocker: `reports/visual/browser-use-blocker-0316-20260503.md`
+- Screenshot: `reports/visual/issue-316-album-record-next-seed-planting-payoff-393.png`
+- Verification: `npm run build` pass, focused Playwright 2 passed, `npm run check:visual` 61 passed, `npm run check:ci` pass
 - Competition production gap: collection idle games는 새 발견 뒤 다음 target을 심으면 playfield가 후속 성장 상태로 즉시 전환된다.
 
 즉시 적용할 gate:
@@ -28,7 +31,7 @@ Generated at: 2026-05-03T06:50:04.535Z
 2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
 3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
 4. 393px 모바일 visual regression은 garden playfield, action surface, bottom-tab overlap을 함께 검증한다.
-5. 남은 checkpoint는 plan-first commit, implementation, focused/full checks, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+5. 남은 checkpoint는 issue body-file publication, branch push, draft PR create/update, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
 7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #316은 단일 React/Phaser view-state/CSS/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
 8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
@@ -36,18 +39,18 @@ Generated at: 2026-05-03T06:50:04.535Z
 ## Local state
 
 - Branch: codex/0316-album-record-next-seed-planting-payoff
-- Latest commit: 6c77d8f #314 새 도감 기록 다음 씨앗 CTA를 구매/심기 준비로 보이게 만든다 (#315)
+- Latest commit: 7e3cb5a 새 기록 다음 씨앗 심기 payoff를 GitHub WorkUnit으로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T06:50:01Z
-- Phase: issue-316-plan-first
+- Timestamp: 2026-05-03T07:11:08Z
+- Phase: issue-316-pr-publication
 - Issue: 316
 - PR: 
 - Item: items/0160-album-record-next-seed-planting-payoff.md
-- Next action: implementation gate: inspect #314 target row purchase/plant to garden flow, implement follow-up growth payoff, verify visual/ci, publish PR
+- Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
 

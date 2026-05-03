@@ -719,6 +719,73 @@ test("모바일 새 단서 기록 다음 씨앗 CTA는 구매와 심기 target r
   });
 });
 
+test("모바일 새 기록 다음 씨앗 심기는 정원 재성장 payoff로 이어진다", async ({ page }, testInfo) => {
+  test.setTimeout(70_000);
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1&qaTab=seeds");
+
+  const researchTargetRow = page.locator(".seed-inventory-row-target").first();
+  await researchTargetRow.getByRole("button", { name: /구매/ }).click();
+  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  for (let tapCount = 0; tapCount < 32; tapCount += 1) {
+    if ((await page.getByRole("button", { name: /방울새싹 씨앗 수확/ }).count()) > 0) {
+      break;
+    }
+    await page.getByRole("button", { name: /방울새싹 씨앗 성장시키기/ }).click();
+  }
+
+  await page.getByRole("button", { name: /방울새싹 씨앗 수확/ }).click();
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 씨앗 목표: 젤리콩 통통" }).click();
+
+  const albumTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await expect(albumTargetRow).toContainText("도감 기록 다음 씨앗 · 구매/심기 준비");
+  await albumTargetRow.getByRole("button", { name: /구매/ }).click();
+  await expect(albumTargetRow).toContainText("보유 1개");
+  await albumTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
+  await expect(page.getByLabel("새 기록 후속 재배")).toContainText("젤리콩 씨앗 심기 완료");
+  await expect(page.getByLabel("새 기록 후속 재배")).toContainText("젤리콩 통통");
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("새 기록 후속 재배", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("젤리콩 통통", { exact: true })).toBeVisible();
+  await expect(page.locator(".playfield-plot-source-label", { hasText: "새 기록 후속 재배" })).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    const panel = document.querySelector<HTMLElement>(".starter-panel");
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
+    const receipt = document.querySelector<HTMLElement>(".album-record-plant-receipt")?.getBoundingClientRect();
+    const nextCreature = document.querySelector<HTMLElement>(".next-creature-compact")?.getBoundingClientRect();
+    return {
+      innerHeight: window.innerHeight,
+      bodyScrollHeight,
+      panelClientHeight: panel?.clientHeight ?? 0,
+      panelScrollHeight: panel?.scrollHeight ?? 0,
+      tabs: tabs ? { top: tabs.top } : null,
+      playfield: playfield ? { top: playfield.top, bottom: playfield.bottom, height: playfield.height } : null,
+      receipt: receipt ? { bottom: receipt.bottom } : null,
+      nextCreature: nextCreature ? { bottom: nextCreature.bottom } : null
+    };
+  });
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.playfield).not.toBeNull();
+  expect(metrics.receipt).not.toBeNull();
+  expect(metrics.nextCreature).not.toBeNull();
+  expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
+  expect(metrics.playfield!.height).toBeGreaterThan(220);
+  expect(metrics.receipt!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.nextCreature!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-album-record-next-seed-planting-payoff-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
+
 test("모바일 연구 완료 후 원정 탭은 장기 메타 단서를 보여준다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaResearchComplete=1");

@@ -76,7 +76,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 연구 단서 씨앗 수확 발견 연출 | done | Issue #310, PR #311 merged, main CI `25271376407`, `items/0157-research-clue-harvest-reveal.md`, `reports/visual/browser-use-blocker-0310-20260503.md`, `reports/visual/issue-310-research-clue-harvest-reveal-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 연구 단서 source plot 수확 순간이 `단서 생명체 발견` receipt, `도감 단서 기록` HUD affordance, playfield reward motion으로 이어지고 PR checks와 main CI로 닫힘 |
 | 연구 단서 도감 새 기록 저장 payoff | done | Issue #312, PR #313 merged, main CI `25271819792`, `items/0158-research-clue-album-record.md`, `reports/visual/browser-use-blocker-0312-20260503.md`, `reports/visual/issue-312-research-clue-album-record-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 연구 단서 발견 reveal 이후 `도감에 기록하기`가 `새 단서 기록` album highlight, `도감 기록 저장` HUD affordance, 다음 목표 전환으로 이어지고 PR checks와 main CI로 닫힘 |
 | 새 도감 기록 다음 씨앗 CTA | done | Issue #314, PR #315 merged, main CI `25272288285`, `items/0159-album-record-next-seed-cta.md`, `reports/visual/browser-use-blocker-0314-20260503.md`, `reports/visual/issue-314-album-record-next-seed-cta-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 새 단서 기록 card의 다음 씨앗 목표 CTA가 seeds tab target row `새 기록 다음 목표`/`도감 기록 다음 씨앗` HUD affordance와 구매/심기 준비로 이어지고 PR checks와 main CI로 닫힘 |
-| 새 기록 다음 씨앗 심기 정원 재성장 payoff | active | Issue #316, `items/0160-album-record-next-seed-planting-payoff.md`, GitHub intake body `reports/operations/github-bodies/issue-album-record-next-seed-planting-payoff-20260503.md`, branch `codex/0316-album-record-next-seed-planting-payoff` | 새 기록 다음 목표 target row의 구매/심기가 정원 playfield `새 기록 후속 재배` state, 다음 생명체/씨앗 이름, 성장 시작 affordance로 이어지고 Browser Use/visual regression evidence를 남김 |
+| 새 기록 다음 씨앗 심기 정원 재성장 payoff | review | Issue #316, `items/0160-album-record-next-seed-planting-payoff.md`, `reports/visual/browser-use-blocker-0316-20260503.md`, `reports/visual/issue-316-album-record-next-seed-planting-payoff-393.png`, `reports/operations/github-bodies/pr-316-album-record-next-seed-planting-payoff-20260503.md`, `reports/operations/gate-event-0316-album-record-next-seed-planting-payoff-20260503.md`, branch `codex/0316-album-record-next-seed-planting-payoff` | 새 기록 다음 목표 target row의 구매/심기가 정원 playfield `새 기록 후속 재배` state, 다음 생명체/씨앗 이름, 성장 시작 affordance로 이어지고 `npm run check:visual` 61 passed, `npm run check:ci` pass로 PR publication gate 진입 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Routine GitHub publication no-final harness | done | Issue #286, PR #287, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `npm run check:ci` pass, main CI `25266229841` | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
 | Closed WorkUnit mirror consistency gate | done | Issue #288, PR #289, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs`, main CI `25266430855` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
@@ -328,7 +328,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #316 **새 기록 다음 씨앗 심기가 정원 재성장 payoff로 이어지게 만든다**의 plan-first gate다. #314는 PR #315 merge와 main CI `25272288285` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단했다.
+현재 작업은 GitHub-authoritative open WorkUnit #316 **새 기록 다음 씨앗 심기가 정원 재성장 payoff로 이어지게 만든다**의 PR publication gate다. 구현과 focused/full verification은 통과했고, 남은 checkpoint는 issue body 갱신, branch push, draft PR 생성, GitHub checks watch/repair, merge, main CI 관찰이다.
 
 현재 evidence:
 
@@ -341,6 +341,9 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Production role: 도감 기억 저장 → 다음 씨앗 구매/심기 → 정원 재성장 시작
 - Screen moment: #314 seeds target row의 구매/심기 직후 garden tab/playfield
 - Concrete payoff: `새 기록 후속 재배` playfield/HUD state, 다음 생명체/씨앗 이름, 성장 시작 affordance, planting reward motion
+- Browser Use blocker: `reports/visual/browser-use-blocker-0316-20260503.md`
+- Screenshot: `reports/visual/issue-316-album-record-next-seed-planting-payoff-393.png`
+- Verification: `npm run build` pass, focused Playwright 2 passed, `npm run check:visual` 61 passed, `npm run check:ci` pass
 - Competition production gap: collection idle games는 새 발견 뒤 다음 target을 심으면 playfield가 후속 성장 상태로 즉시 전환된다.
 
 즉시 적용할 gate:
@@ -349,7 +352,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
 3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
 4. 393px 모바일 visual regression은 garden playfield, action surface, bottom-tab overlap을 함께 검증한다.
-5. 남은 checkpoint는 plan-first commit, implementation, focused/full checks, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+5. 남은 checkpoint는 issue body-file publication, branch push, draft PR create/update, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
 7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #316은 단일 React/Phaser view-state/CSS/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
 8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
