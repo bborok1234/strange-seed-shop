@@ -137,6 +137,15 @@ interface AlbumRecordHarvestReceipt {
   orderCrateNextActionLabel?: string;
 }
 
+interface MerchantCrateClaimReceipt {
+  id: number;
+  rewardId: string;
+  creatureName: string;
+  rewardLeaves: number;
+  rewardPollen: number;
+  nextActionLabel: string;
+}
+
 interface OrderDeliveryReceipt {
   id: number;
   orderId: string;
@@ -205,6 +214,8 @@ const RESEARCH_EXPEDITION_ID = "moon_hint";
 const LUNAR_REWARD_SEED_ID = "seed_lunar_001";
 const LUNAR_REWARD_CREATURE_ID = "creature_lunar_common_001";
 const MERCHANT_RECORD_CREATURE_ID = "creature_candy_common_002";
+const MERCHANT_CRATE_REWARD_LEAVES = 36;
+const MERCHANT_CRATE_REWARD_POLLEN = 1;
 const LUNAR_CARE_MEMORY_ID = "care_lunar_nunu_001";
 const LUNAR_CARE_REWARD_LEAVES = 18;
 const GUARDIAN_OFFLINE_BONUS = 0.2;
@@ -322,6 +333,7 @@ export default function App() {
   const [researchAlbumRecord, setResearchAlbumRecord] = useState<ResearchAlbumRecord | null>(null);
   const [albumRecordPlantReceipt, setAlbumRecordPlantReceipt] = useState<AlbumRecordPlantReceipt | null>(null);
   const [albumRecordHarvestReceipt, setAlbumRecordHarvestReceipt] = useState<AlbumRecordHarvestReceipt | null>(null);
+  const [merchantCrateClaimReceipt, setMerchantCrateClaimReceipt] = useState<MerchantCrateClaimReceipt | null>(null);
   const [orderDeliveryReceipt, setOrderDeliveryReceipt] = useState<OrderDeliveryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
@@ -588,6 +600,7 @@ export default function App() {
     researchHarvestReceipt ? "has-research-harvest-receipt" : "",
     albumRecordPlantReceipt ? "has-album-record-plant-receipt" : "",
     albumRecordHarvestReceipt ? "has-album-record-harvest-receipt" : "",
+    merchantCrateClaimReceipt ? "has-merchant-crate-claim-receipt" : "",
     hasAlbumRecordFollowupPlot ? "has-album-record-growth-preview" : "",
     orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
     firstOrderDispatchReceiptActive ? "has-first-order-dispatch-receipt" : "",
@@ -670,6 +683,7 @@ export default function App() {
         researchHarvestReceipt,
         albumRecordPlantReceipt,
         albumRecordHarvestReceipt,
+        merchantCrateClaimReceipt,
         nextCreatureGoal
       ),
     [
@@ -685,6 +699,7 @@ export default function App() {
       researchHarvestReceipt,
       albumRecordPlantReceipt,
       albumRecordHarvestReceipt,
+      merchantCrateClaimReceipt,
       nextCreatureGoal
     ]
   );
@@ -707,6 +722,16 @@ export default function App() {
     });
   }
 
+  const merchantCrateRewardId =
+    harvestReveal?.id === MERCHANT_RECORD_CREATURE_ID && albumRecordHarvestReceipt?.orderCrateLabel
+      ? getMerchantCrateRewardId(harvestReveal.id)
+      : null;
+  const merchantCrateClaimed = Boolean(
+    merchantCrateRewardId &&
+      (merchantCrateClaimReceipt?.rewardId === merchantCrateRewardId ||
+        save?.claimedMerchantCrateRewardIds.includes(merchantCrateRewardId))
+  );
+
   function showResearchSeedReceipt(seed: SeedDefinition, actionLabel: string) {
     if (!nextCreatureGoal || seed.id !== researchClueTargetSeedId || seed.id === LUNAR_REWARD_SEED_ID) {
       return;
@@ -727,6 +752,7 @@ export default function App() {
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
     setAlbumRecordHarvestReceipt(null);
+    setMerchantCrateClaimReceipt(null);
     setAlbumRecordPlantReceipt(null);
     setResearchAlbumRecord(null);
     setResearchSeedReceipt(receipt);
@@ -1052,6 +1078,53 @@ export default function App() {
     setHarvestReveal(null);
   }
 
+  function claimMerchantCrateReward() {
+    if (
+      !save ||
+      !harvestReveal ||
+      harvestReveal.id !== MERCHANT_RECORD_CREATURE_ID ||
+      !albumRecordHarvestReceipt?.orderCrateLabel ||
+      !merchantCrateRewardId ||
+      merchantCrateClaimed
+    ) {
+      return;
+    }
+
+    const receipt: MerchantCrateClaimReceipt = {
+      id: Date.now(),
+      rewardId: merchantCrateRewardId,
+      creatureName: harvestReveal.name,
+      rewardLeaves: MERCHANT_CRATE_REWARD_LEAVES,
+      rewardPollen: MERCHANT_CRATE_REWARD_POLLEN,
+      nextActionLabel: "다음 납품 목표 확인"
+    };
+
+    commit((draft) => {
+      if (draft.claimedMerchantCrateRewardIds.includes(merchantCrateRewardId)) {
+        return;
+      }
+
+      draft.claimedMerchantCrateRewardIds.push(merchantCrateRewardId);
+      draft.leaves += MERCHANT_CRATE_REWARD_LEAVES;
+      draft.pollen += MERCHANT_CRATE_REWARD_POLLEN;
+      draft.idleProduction.pendingLeaves = Math.max(
+        getPendingProductionLeaves(draft, now),
+        draft.idleProduction.pendingLeaves
+      );
+      draft.idleProduction.lastTickAt = new Date(now).toISOString();
+      trackEvent("merchant_crate_reward_claimed", {
+        rewardId: merchantCrateRewardId,
+        creatureId: harvestReveal.id,
+        rewardLeaves: MERCHANT_CRATE_REWARD_LEAVES,
+        rewardPollen: MERCHANT_CRATE_REWARD_POLLEN,
+        rewardMotion: "merchant_crate_hud_flyout"
+      });
+    });
+    setMerchantCrateClaimReceipt(receipt);
+    triggerProductionFx("order");
+    triggerRewardPulse();
+  }
+
   function claimAlbumReward() {
     commit((draft) => {
       if (draft.claimedAlbumMilestoneIds.includes("album_1") || draft.discoveredCreatureIds.length === 0) {
@@ -1137,6 +1210,7 @@ export default function App() {
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
     setAlbumRecordHarvestReceipt(null);
+    setMerchantCrateClaimReceipt(null);
     setResearchAlbumRecord(null);
     setResearchSeedReceipt(null);
     commit((draft) => {
@@ -1453,6 +1527,7 @@ export default function App() {
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
     setAlbumRecordHarvestReceipt(null);
+    setMerchantCrateClaimReceipt(null);
     setResearchAlbumRecord(null);
     setResearchSeedReceipt(null);
     commit((draft) => {
@@ -1496,6 +1571,7 @@ export default function App() {
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
     setAlbumRecordHarvestReceipt(null);
+    setMerchantCrateClaimReceipt(null);
     setResearchAlbumRecord(null);
     setResearchSeedReceipt(null);
 
@@ -1844,6 +1920,7 @@ export default function App() {
                 researchCompleteReceipt ? "has-research-complete-receipt" : "",
                 researchSeedReceipt ? "has-research-seed-receipt" : "",
                 albumRecordPlantReceipt ? "has-album-record-plant-receipt" : "",
+                merchantCrateClaimReceipt ? "has-merchant-crate-claim-receipt" : "",
                 orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
                   firstOrderDispatchReady ? "has-order-ready" : "",
                   save?.materialWorkbenchLevel ? "has-material-workbench" : ""
@@ -1943,6 +2020,16 @@ export default function App() {
                     <strong>{albumRecordPlantReceipt.seedName} {albumRecordPlantReceipt.actionLabel}</strong>
                     <span>{albumRecordPlantReceipt.creatureName}을 다시 정원에서 키우기 시작했어요</span>
                     <small>밭을 톡톡 두드려 다음 도감 기록으로 이어가세요</small>
+                  </div>
+                )}
+                {merchantCrateClaimReceipt && (
+                  <div className="merchant-crate-hud-receipt" aria-label="상인 주문상자 HUD 보상 이동">
+                    <span className="merchant-crate-hud-chip">상인 보상 이동</span>
+                    <strong>
+                      +{merchantCrateClaimReceipt.rewardLeaves} 잎 · +{merchantCrateClaimReceipt.rewardPollen} 꽃가루
+                    </strong>
+                    <span>{merchantCrateClaimReceipt.creatureName} 주문상자 열림</span>
+                    <small>{merchantCrateClaimReceipt.nextActionLabel}</small>
                   </div>
                 )}
                 {orderDeliveryReceipt && (
@@ -2764,10 +2851,39 @@ export default function App() {
               </article>
             )}
             {albumRecordHarvestReceipt?.orderCrateLabel && (
-              <article className="reveal-next-goal merchant-order-crate-payoff" aria-label="포장잎 상인 주문상자 payoff">
+              <article
+                className={[
+                  "reveal-next-goal merchant-order-crate-payoff",
+                  merchantCrateClaimed ? "is-claimed" : "",
+                  merchantCrateClaimReceipt ? "has-claim-receipt" : ""
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-label="포장잎 상인 주문상자 payoff"
+              >
                 <p className="panel-label">{albumRecordHarvestReceipt.orderCrateLabel}</p>
-                <strong>{albumRecordHarvestReceipt.orderCrateStatusLabel}</strong>
-                <span>{albumRecordHarvestReceipt.creatureName} · {albumRecordHarvestReceipt.orderCrateNextActionLabel}</span>
+                <strong>{merchantCrateClaimed ? "보상 수령 완료" : albumRecordHarvestReceipt.orderCrateStatusLabel}</strong>
+                <span>
+                  {albumRecordHarvestReceipt.creatureName} ·{" "}
+                  {merchantCrateClaimed ? "잎/꽃가루 HUD로 이동" : albumRecordHarvestReceipt.orderCrateNextActionLabel}
+                </span>
+                {merchantCrateClaimReceipt && (
+                  <div className="merchant-crate-claim-receipt" aria-label="상인 주문상자 보상 수령 완료">
+                    <span className="merchant-crate-claim-chip">상자 열림</span>
+                    <strong>
+                      +{merchantCrateClaimReceipt.rewardLeaves} 잎 · +{merchantCrateClaimReceipt.rewardPollen} 꽃가루
+                    </strong>
+                    <small>{merchantCrateClaimReceipt.nextActionLabel}</small>
+                  </div>
+                )}
+                <button
+                  className="merchant-crate-claim-button"
+                  disabled={merchantCrateClaimed}
+                  onClick={claimMerchantCrateReward}
+                  type="button"
+                >
+                  {merchantCrateClaimed ? "상인 주문상자 수령 완료" : "상인 주문상자 보상 받기"}
+                </button>
               </article>
             )}
             {harvestReveal.id === LUNAR_REWARD_CREATURE_ID && (
@@ -2841,6 +2957,10 @@ function getNextCreatureGoal(save: PlayerSave | null): NextCreatureGoal | null {
     discoveredCount: save.discoveredCreatureIds.length,
     totalCount: content.creatures.length
   };
+}
+
+function getMerchantCrateRewardId(creatureId: string): string {
+  return `merchant_crate_${creatureId}`;
 }
 
 function getStageHeroCreature(
@@ -3038,6 +3158,7 @@ function buildGardenPlayfieldViewModel(
   researchHarvestReceipt: ResearchHarvestReceipt | null,
   albumRecordPlantReceipt: AlbumRecordPlantReceipt | null,
   albumRecordHarvestReceipt: AlbumRecordHarvestReceipt | null,
+  merchantCrateClaimReceipt: MerchantCrateClaimReceipt | null,
   nextCreatureGoal: NextCreatureGoal | null
 ): GardenPlayfieldViewModel {
   if (!save) {
@@ -3121,6 +3242,7 @@ function buildGardenPlayfieldViewModel(
   const researchHarvestActive = Boolean(researchHarvestReceipt);
   const albumRecordHarvestActive = Boolean(albumRecordHarvestReceipt);
   const albumRecordPlantActive = Boolean(albumRecordPlantReceipt);
+  const merchantCrateClaimActive = Boolean(merchantCrateClaimReceipt);
   const researchSourcePlot = plots.find((plot) => plot.source === "research" && plot.state === "growing");
   const albumRecordPlantPlot = albumRecordPlantReceipt
     ? plots.find((plot) => plot.seedId === albumRecordPlantReceipt.seedId && plot.state === "growing")
@@ -3136,6 +3258,8 @@ function buildGardenPlayfieldViewModel(
             ? `${orderDeliveryReceipt.title} 출하 완료 · 다음 주문 준비`
             : productionClaimActive
               ? `+${productionClaimReceipt?.leaves ?? 0} 잎 수령 · 주문 상자에 반짝임 전달`
+              : merchantCrateClaimActive
+                ? `${merchantCrateClaimReceipt?.creatureName ?? "상인"} 주문상자 열림 · HUD 보상 이동`
               : productionBoostActive
                 ? `작업 간식 충전 · 분당 ${formatRatePerMinute(productionBoostReceipt?.nextRatePerMinute ?? productionStatus.ratePerMinute)} 잎`
                 : researchUnlockActive
@@ -3159,6 +3283,8 @@ function buildGardenPlayfieldViewModel(
           pendingLabel: `대기 ${productionStatus.pendingLeaves} 잎`,
           orderTitle: firstOrderDispatchReceiptActive
             ? "첫 주문 상자 출하"
+            : merchantCrateClaimActive
+              ? "상인 주문상자 수령"
             : researchUnlockActive
               ? "연구 노트 개방"
               : researchCompleteActive
@@ -3178,6 +3304,10 @@ function buildGardenPlayfieldViewModel(
               : productionStatus.order.title,
           orderProgressLabel: firstOrderDispatchReceiptActive
             ? "보상 수거 완료"
+            : merchantCrateClaimActive
+              ? `+${merchantCrateClaimReceipt?.rewardLeaves ?? MERCHANT_CRATE_REWARD_LEAVES} 잎 · +${
+                  merchantCrateClaimReceipt?.rewardPollen ?? MERCHANT_CRATE_REWARD_POLLEN
+                } 꽃가루`
             : productionClaimActive
               ? `${productionClaimReceipt?.orderProgress ?? productionStatus.orderProgress}/${productionClaimReceipt?.orderRequired ?? productionStatus.order.requiredLeaves} 잎`
               : researchUnlockActive
@@ -3198,6 +3328,7 @@ function buildGardenPlayfieldViewModel(
           orderReady:
             productionStatus.orderReady ||
             firstOrderDispatchReceiptActive ||
+            merchantCrateClaimActive ||
             researchUnlockActive ||
             researchCompleteActive ||
             researchHarvestActive ||
@@ -3207,6 +3338,7 @@ function buildGardenPlayfieldViewModel(
           orderCompleted:
             productionStatus.orderCompleted ||
             firstOrderDispatchReceiptActive ||
+            merchantCrateClaimActive ||
             researchUnlockActive ||
             researchCompleteActive ||
             researchHarvestActive ||
@@ -3215,6 +3347,8 @@ function buildGardenPlayfieldViewModel(
             researchSeedPlantedActive,
           orderVariant: firstOrderDispatchReceiptActive
             ? ("first-dispatched" as const)
+            : merchantCrateClaimActive
+              ? ("merchant-claimed" as const)
             : albumRecordHarvestReceipt?.orderCrateLabel
               ? ("merchant-record" as const)
               : lunarGuardianOrderActive
@@ -3224,6 +3358,8 @@ function buildGardenPlayfieldViewModel(
               : undefined,
           orderStatusLabel: firstOrderDispatchReceiptActive
             ? `${orderDeliveryReceipt.rewardLabel} 수거`
+            : merchantCrateClaimActive
+              ? "HUD 보상 이동"
             : productionClaimActive
               ? `+${productionClaimReceipt?.leaves ?? 0} 잎 이동`
               : productionBoostActive

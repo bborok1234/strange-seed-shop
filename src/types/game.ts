@@ -116,6 +116,7 @@ export interface PlayerSave {
   discoveredCreatureIds: string[];
   claimedAlbumMilestoneIds: string[];
   claimedCareMemoryIds: string[];
+  claimedMerchantCrateRewardIds: string[];
   seedInventory: Record<string, number>;
   missionProgress: Record<string, number>;
   claimedMissionIds: string[];
