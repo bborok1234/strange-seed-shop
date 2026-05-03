@@ -109,6 +109,14 @@ interface ResearchHarvestReceipt {
   clueLabel: string;
 }
 
+interface ResearchAlbumRecord {
+  id: number;
+  creatureId: string;
+  creatureName: string;
+  seedName: string;
+  clueLabel: string;
+}
+
 interface OrderDeliveryReceipt {
   id: number;
   orderId: string;
@@ -290,6 +298,7 @@ export default function App() {
   const [researchCompleteReceipt, setResearchCompleteReceipt] = useState<ResearchCompleteReceipt | null>(null);
   const [researchSeedReceipt, setResearchSeedReceipt] = useState<ResearchSeedReceipt | null>(null);
   const [researchHarvestReceipt, setResearchHarvestReceipt] = useState<ResearchHarvestReceipt | null>(null);
+  const [researchAlbumRecord, setResearchAlbumRecord] = useState<ResearchAlbumRecord | null>(null);
   const [orderDeliveryReceipt, setOrderDeliveryReceipt] = useState<OrderDeliveryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
@@ -499,6 +508,7 @@ export default function App() {
       : "";
   const albumCareMemoryActive = Boolean(albumFeaturedCreature?.id === LUNAR_REWARD_CREATURE_ID && lunarCareMemoryClaimed);
   const albumCareMemoryLabel = albumCareMemoryActive ? `누누 돌봄 도장 · +${LUNAR_CARE_REWARD_LEAVES} 잎 기억` : "";
+  const researchAlbumRecordCreature = researchAlbumRecord ? getCreature(researchAlbumRecord.creatureId) : null;
   const albumClueCreatures = useMemo(() => {
     if (!save) {
       return [];
@@ -671,6 +681,7 @@ export default function App() {
     setResearchUnlockReceipt(null);
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
+    setResearchAlbumRecord(null);
     setResearchSeedReceipt(receipt);
     window.setTimeout(() => {
       setResearchSeedReceipt((current) => (current?.id === receipt.id ? null : current));
@@ -895,9 +906,24 @@ export default function App() {
       setResearchCompleteReceipt(null);
       setResearchSeedReceipt(null);
       setResearchHarvestReceipt(researchHarvest);
+      setResearchAlbumRecord(null);
       setHarvestReveal(harvestedCreature);
     }
     triggerRewardPulse();
+  }
+
+  function recordHarvestRevealToAlbum() {
+    if (researchHarvestReceipt && harvestReveal) {
+      setResearchAlbumRecord({
+        id: Date.now(),
+        creatureId: harvestReveal.id,
+        creatureName: researchHarvestReceipt.creatureName,
+        seedName: researchHarvestReceipt.seedName,
+        clueLabel: researchHarvestReceipt.clueLabel
+      });
+      setActiveTab("album");
+    }
+    setHarvestReveal(null);
   }
 
   function claimAlbumReward() {
@@ -984,6 +1010,7 @@ export default function App() {
     setResearchUnlockReceipt(null);
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
+    setResearchAlbumRecord(null);
     setResearchSeedReceipt(null);
     commit((draft) => {
       draft.leaves -= PRODUCTION_BOOST_COST_LEAVES;
@@ -1298,6 +1325,7 @@ export default function App() {
     setResearchUnlockReceipt(null);
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
+    setResearchAlbumRecord(null);
     setResearchSeedReceipt(null);
     commit((draft) => {
       draft.leaves += pendingLeaves;
@@ -1339,6 +1367,7 @@ export default function App() {
     setProductionBoostReceipt(null);
     setResearchCompleteReceipt(null);
     setResearchHarvestReceipt(null);
+    setResearchAlbumRecord(null);
     setResearchSeedReceipt(null);
 
     const orderFxAssetId = getProductionFxAssetId("order", orderBeforeDelivery);
@@ -2083,6 +2112,24 @@ export default function App() {
 
           {activeTab === "album" && (
             <section className="tab-panel album-strip" aria-label="도감">
+              {researchAlbumRecord && researchAlbumRecordCreature && (
+                <article className="album-new-record-card" aria-label="새 단서 기록">
+                  <div className="album-new-record-portrait" aria-hidden="true">
+                    {renderAsset(researchAlbumRecordCreature.assetId, "생명체")}
+                  </div>
+                  <div className="album-new-record-copy">
+                    <p className="panel-label">도감 기록 저장</p>
+                    <h3>{researchAlbumRecord.creatureName}</h3>
+                    <p>{researchAlbumRecord.seedName}에서 찾은 연구 단서가 새 기억으로 붙었어요.</p>
+                    <small>{researchAlbumRecord.clueLabel}</small>
+                    {nextCreatureGoal && (
+                      <button className="album-memory-secondary" onClick={() => setActiveTab("seeds")} type="button">
+                        다음 씨앗 목표: {nextCreatureGoal.creature.name}
+                      </button>
+                    )}
+                  </div>
+                </article>
+              )}
               {albumFeaturedCreature ? (
                 <article
                   className={albumMemoryVariant ? "album-memory-feature is-memory-variant" : "album-memory-feature"}
@@ -2209,7 +2256,8 @@ export default function App() {
                     <figure
                       className={[
                         discovered ? "album-slot" : "album-slot album-slot-locked",
-                        isNextGoal ? "album-slot-next-goal" : ""
+                        isNextGoal ? "album-slot-next-goal" : "",
+                        researchAlbumRecord?.creatureId === creature.id ? "album-slot-new-record" : ""
                       ]
                         .filter(Boolean)
                         .join(" ")}
@@ -2518,7 +2566,7 @@ export default function App() {
                 <span>{nextCreatureGoal.seed.name}을 심으면 만날 수 있어요.</span>
               </article>
             )}
-            <button className="primary-action reveal-cta" onClick={() => setHarvestReveal(null)} type="button">
+            <button className="primary-action reveal-cta" onClick={recordHarvestRevealToAlbum} type="button">
               도감에 기록하기
             </button>
           </div>
