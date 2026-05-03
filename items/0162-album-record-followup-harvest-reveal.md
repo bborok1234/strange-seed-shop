@@ -1,6 +1,7 @@
 # WorkUnit #320 — 새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다
 
 - GitHub issue: #320 https://github.com/bborok1234/strange-seed-shop/issues/320
+- GitHub PR: #321 https://github.com/bborok1234/strange-seed-shop/pull/321
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
 - Status: review
 - Branch: `codex/0320-album-record-followup-harvest-reveal`

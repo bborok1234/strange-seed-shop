@@ -3,17 +3,18 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T08:18:38.841Z
+Generated at: 2026-05-03T08:20:29.331Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative WorkUnit #320 **새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다**의 PR publication gate다. 구현과 local merge-blocking evidence는 완료됐고, 다음 checkpoint는 GitHub issue body 갱신 → branch push → draft PR 생성 → GitHub checks watch/repair → merge when green → main CI observation이다.
+현재 작업은 GitHub-authoritative WorkUnit #320 **새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다**의 PR checks gate다. PR #321 draft와 GateEvent 게시까지 완료됐고, 다음 checkpoint는 ready 전환 → GitHub checks watch/repair → merge when green → main CI observation이다.
 
 현재 evidence:
 
 - GitHub issue: #320 `새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다`
 - Plan artifact: `items/0162-album-record-followup-harvest-reveal.md`
 - Branch: `codex/0320-album-record-followup-harvest-reveal`
+- PR: #321 https://github.com/bborok1234/strange-seed-shop/pull/321
 - PR body-file: `reports/operations/github-bodies/pr-320-album-record-followup-harvest-reveal-20260503.md`
 - GateEvent body-file: `reports/operations/gate-event-0320-album-record-followup-harvest-reveal-20260503.md`
 - Browser Use blocker: `reports/visual/browser-use-blocker-0320-20260503.md`
@@ -24,35 +25,33 @@ Generated at: 2026-05-03T08:18:38.841Z
 
 즉시 적용할 gate:
 
-1. GitHub issue #320 body를 body-file로 갱신한다.
-2. Lore commit으로 implementation/evidence를 묶고 branch를 push한다.
-3. Draft PR을 body-file로 생성하고 GateEvent를 issue comment body-file로 게시한다.
-4. GitHub checks를 관찰하고 실패 시 같은 branch에서 수리한다.
-5. Required checks green이면 branch protection 우회 없이 ready/merge하고 main CI를 observation-only로 확인한다.
-6. Stop rule이 없으므로 merge 후 runner dry-run으로 다음 GitHub-authoritative WorkUnit을 선택해 plan-first로 계속한다.
-7. Studio Campaign Gate는 `P0.5 Idle Core + Creative Rescue` 기준으로 유지하고, 다음 WorkUnit도 경쟁작 production gap과 concrete visual/game-feel payoff를 plan-first에 기록한다.
-8. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #320은 단일 React/CSS/playfield feedback/visual regression tranche라 미사용했다.
-9. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+1. PR #321를 ready로 전환한다.
+2. GitHub checks를 관찰하고 실패 시 같은 branch에서 수리한다.
+3. Required checks green이면 branch protection 우회 없이 merge하고 main CI를 observation-only로 확인한다.
+4. Stop rule이 없으므로 merge 후 runner dry-run으로 다음 GitHub-authoritative WorkUnit을 선택해 plan-first로 계속한다.
+5. Studio Campaign Gate는 `P0.5 Idle Core + Creative Rescue` 기준으로 유지하고, 다음 WorkUnit도 경쟁작 production gap과 concrete visual/game-feel payoff를 plan-first에 기록한다.
+6. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #320은 단일 React/CSS/playfield feedback/visual regression tranche라 미사용했다.
+7. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
 - Branch: codex/0320-album-record-followup-harvest-reveal
-- Latest commit: 6db1b85 새 기록 후속 수확 WorkUnit을 plan-first로 고정한다
+- Latest commit: ee76d79 새 기록 후속 수확을 발견 보상으로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T08:18:28.431Z
-- Phase: issue-320-pr-publication
+- Timestamp: 2026-05-03T08:19:35.972Z
+- Phase: issue-320-pr-checks
 - Issue: 320
-- PR: 
+- PR: 321
 - Item: items/0162-album-record-followup-harvest-reveal.md
-- Next action: PR publication gate: edit issue body, commit, push, create draft PR, post GateEvent, watch checks
+- Next action: PR checks gate: post GateEvent, update PR mirror, mark ready, watch required checks, merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #321 draft #320 새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/pull/321
 
 ## Open issues
 

@@ -78,7 +78,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 새 도감 기록 다음 씨앗 CTA | done | Issue #314, PR #315 merged, main CI `25272288285`, `items/0159-album-record-next-seed-cta.md`, `reports/visual/browser-use-blocker-0314-20260503.md`, `reports/visual/issue-314-album-record-next-seed-cta-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 새 단서 기록 card의 다음 씨앗 목표 CTA가 seeds tab target row `새 기록 다음 목표`/`도감 기록 다음 씨앗` HUD affordance와 구매/심기 준비로 이어지고 PR checks와 main CI로 닫힘 |
 | 새 기록 다음 씨앗 심기 정원 재성장 payoff | done | Issue #316, PR #317 merged, main CI `25272819077`, `items/0160-album-record-next-seed-planting-payoff.md`, `reports/visual/browser-use-blocker-0316-20260503.md`, `reports/visual/issue-316-album-record-next-seed-planting-payoff-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 새 기록 다음 목표 target row의 구매/심기가 정원 playfield `새 기록 후속 재배` state, 다음 생명체/씨앗 이름, 성장 시작 affordance로 이어지고 PR checks와 main CI로 닫힘 |
 | 새 기록 후속 재배 성장/수확 예고 | done | Issue #318, PR #319 merged, main CI `25273528617`, `items/0161-album-record-followup-growth-preview.md`, `reports/visual/browser-use-blocker-0318-20260503.md`, `reports/visual/issue-318-album-record-followup-growth-preview-393.png`, `reports/operations/github-bodies/pr-318-album-record-followup-growth-preview-20260503.md`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenPlayfieldHost.tsx`, `tests/visual/p0-mobile-game-shell.spec.ts` | 새 기록 후속 재배 씨앗 성장 탭이 `후속 성장 중`/`수확 예고` HUD affordance, 다음 생명체/씨앗 이름, playfield action feedback으로 이어지고 PR checks와 main CI로 닫힘 |
-| 새 기록 후속 재배 수확 발견 payoff | review | Issue #320, `items/0162-album-record-followup-harvest-reveal.md`, `reports/visual/browser-use-blocker-0320-20260503.md`, `reports/visual/issue-320-album-record-followup-harvest-reveal-393.png`, `reports/operations/github-bodies/pr-320-album-record-followup-harvest-reveal-20260503.md`, branch `codex/0320-album-record-followup-harvest-reveal`, `npm run check:visual` 63 passed, `npm run check:ci` pass | 새 기록 후속 재배 source plot ready 수확이 다음 생명체 reveal, `새 기록 후속 수확` payoff, 도감 저장 CTA와 Browser Use/visual regression evidence로 이어지고 PR publication gate로 이동 |
+| 새 기록 후속 재배 수확 발견 payoff | review | Issue #320, PR #321 draft, `items/0162-album-record-followup-harvest-reveal.md`, `reports/visual/browser-use-blocker-0320-20260503.md`, `reports/visual/issue-320-album-record-followup-harvest-reveal-393.png`, `reports/operations/github-bodies/pr-320-album-record-followup-harvest-reveal-20260503.md`, branch `codex/0320-album-record-followup-harvest-reveal`, `npm run check:visual` 63 passed, `npm run check:ci` pass | 새 기록 후속 재배 source plot ready 수확이 다음 생명체 reveal, `새 기록 후속 수확` payoff, 도감 저장 CTA와 Browser Use/visual regression evidence로 이어지고 PR publication gate로 이동 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Routine GitHub publication no-final harness | done | Issue #286, PR #287, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `npm run check:ci` pass, main CI `25266229841` | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
 | Closed WorkUnit mirror consistency gate | done | Issue #288, PR #289, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs`, main CI `25266430855` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
@@ -330,13 +330,14 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative WorkUnit #320 **새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다**의 PR publication gate다. 구현과 local merge-blocking evidence는 완료됐고, 다음 checkpoint는 GitHub issue body 갱신 → branch push → draft PR 생성 → GitHub checks watch/repair → merge when green → main CI observation이다.
+현재 작업은 GitHub-authoritative WorkUnit #320 **새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다**의 PR checks gate다. PR #321 draft와 GateEvent 게시까지 완료됐고, 다음 checkpoint는 ready 전환 → GitHub checks watch/repair → merge when green → main CI observation이다.
 
 현재 evidence:
 
 - GitHub issue: #320 `새 기록 후속 재배 수확 순간을 새 생명체 발견 payoff로 보이게 만든다`
 - Plan artifact: `items/0162-album-record-followup-harvest-reveal.md`
 - Branch: `codex/0320-album-record-followup-harvest-reveal`
+- PR: #321 https://github.com/bborok1234/strange-seed-shop/pull/321
 - PR body-file: `reports/operations/github-bodies/pr-320-album-record-followup-harvest-reveal-20260503.md`
 - GateEvent body-file: `reports/operations/gate-event-0320-album-record-followup-harvest-reveal-20260503.md`
 - Browser Use blocker: `reports/visual/browser-use-blocker-0320-20260503.md`
@@ -347,15 +348,13 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 적용할 gate:
 
-1. GitHub issue #320 body를 body-file로 갱신한다.
-2. Lore commit으로 implementation/evidence를 묶고 branch를 push한다.
-3. Draft PR을 body-file로 생성하고 GateEvent를 issue comment body-file로 게시한다.
-4. GitHub checks를 관찰하고 실패 시 같은 branch에서 수리한다.
-5. Required checks green이면 branch protection 우회 없이 ready/merge하고 main CI를 observation-only로 확인한다.
-6. Stop rule이 없으므로 merge 후 runner dry-run으로 다음 GitHub-authoritative WorkUnit을 선택해 plan-first로 계속한다.
-7. Studio Campaign Gate는 `P0.5 Idle Core + Creative Rescue` 기준으로 유지하고, 다음 WorkUnit도 경쟁작 production gap과 concrete visual/game-feel payoff를 plan-first에 기록한다.
-8. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #320은 단일 React/CSS/playfield feedback/visual regression tranche라 미사용했다.
-9. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
+1. PR #321를 ready로 전환한다.
+2. GitHub checks를 관찰하고 실패 시 같은 branch에서 수리한다.
+3. Required checks green이면 branch protection 우회 없이 merge하고 main CI를 observation-only로 확인한다.
+4. Stop rule이 없으므로 merge 후 runner dry-run으로 다음 GitHub-authoritative WorkUnit을 선택해 plan-first로 계속한다.
+5. Studio Campaign Gate는 `P0.5 Idle Core + Creative Rescue` 기준으로 유지하고, 다음 WorkUnit도 경쟁작 production gap과 concrete visual/game-feel payoff를 plan-first에 기록한다.
+6. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #320은 단일 React/CSS/playfield feedback/visual regression tranche라 미사용했다.
+7. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Previous Next Action History
 
