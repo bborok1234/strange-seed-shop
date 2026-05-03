@@ -80,7 +80,8 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 새 기록 후속 재배 성장/수확 예고 | done | Issue #318, PR #319 merged, main CI `25273528617`, `items/0161-album-record-followup-growth-preview.md`, `reports/visual/browser-use-blocker-0318-20260503.md`, `reports/visual/issue-318-album-record-followup-growth-preview-393.png`, `reports/operations/github-bodies/pr-318-album-record-followup-growth-preview-20260503.md`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenPlayfieldHost.tsx`, `tests/visual/p0-mobile-game-shell.spec.ts` | 새 기록 후속 재배 씨앗 성장 탭이 `후속 성장 중`/`수확 예고` HUD affordance, 다음 생명체/씨앗 이름, playfield action feedback으로 이어지고 PR checks와 main CI로 닫힘 |
 | 새 기록 후속 재배 수확 발견 payoff | done | Issue #320, PR #321 merged, main CI `25274149549`, `items/0162-album-record-followup-harvest-reveal.md`, `reports/visual/browser-use-blocker-0320-20260503.md`, `reports/visual/issue-320-album-record-followup-harvest-reveal-393.png`, `reports/operations/github-bodies/pr-320-album-record-followup-harvest-reveal-20260503.md`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 새 기록 후속 재배 source plot ready 수확이 다음 생명체 reveal, `새 기록 후속 수확` payoff, 도감 저장 CTA로 이어지고 PR checks와 main CI로 닫힘 |
 | 새 기록 후속 수확 다음 목표 재순환 | done | Issue #322, PR #323 merged, main CI `25274789570`, `items/0163-album-record-followup-next-goal-loop.md`, `reports/visual/browser-use-blocker-0322-20260503.md`, `reports/visual/issue-322-album-record-followup-next-goal-loop-393.png`, `reports/operations/github-bodies/pr-322-album-record-followup-next-goal-loop-20260503.md`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 새 기록 후속 수확 도감 저장 직후 `다음 기록으로 이어가기`, `방울새싹 씨앗 → 이슬연금 라미` next target, seeds target row 재순환이 보이고 PR checks와 main CI로 닫힘 |
-| 다음 기록 목표 이슬연금 라미 수확 payoff | active | Issue #324, `items/0164-album-record-loop-rami-harvest-payoff.md`, GitHub intake body `reports/operations/github-bodies/issue-album-record-loop-rami-harvest-payoff-20260503.md`, branch `codex/0324-album-record-loop-rami-harvest-payoff` | #322 다음 기록 target row에서 방울새싹 씨앗을 심고 이슬연금 라미 성장/수확/reveal payoff를 검증하는 WorkUnit |
+| 다음 기록 목표 이슬연금 라미 수확 payoff | done | Issue #324, PR #325 merged, main CI `25275564341`, `items/0164-album-record-loop-rami-harvest-payoff.md`, `reports/visual/browser-use-blocker-0324-20260503.md`, `reports/visual/issue-324-album-record-loop-rami-harvest-payoff-393.png`, `reports/operations/github-bodies/pr-324-album-record-loop-rami-harvest-payoff-20260503.md`, `src/App.tsx`, `src/game/playfield/GardenPlayfieldHost.tsx`, `src/game/playfield/GardenScene.ts`, `tests/visual/p0-mobile-game-shell.spec.ts` | #322 다음 기록 target row에서 방울새싹 씨앗을 심고 이슬연금 라미 성장/수확/reveal payoff와 `album_record_next_seed` telemetry가 보이며 PR checks와 main CI로 닫힘 |
+| 라미 저장 다음 포장잎 상인 목표 재순환 | review | Issue #326, `items/0165-rami-record-next-merchant-goal.md`, `reports/visual/browser-use-blocker-0326-20260503.md`, `reports/visual/issue-326-rami-record-next-merchant-goal-393.png`, `reports/operations/gate-event-0326-rami-record-next-merchant-goal-20260503.md`, `reports/operations/github-bodies/pr-326-rami-record-next-merchant-goal-20260503.md`, branch `codex/0326-rami-record-next-merchant-goal`, `npm run check:visual` 66 passed, `npm run check:ci` pass | 라미 도감 저장 직후 포장잎 상인 다음 목표 CTA와 젤리콩 씨앗 target row 재진입이 검증되어 PR publication/check/merge gate로 이동 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Routine GitHub publication no-final harness | done | Issue #286, PR #287, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `npm run check:ci` pass, main CI `25266229841` | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
 | Closed WorkUnit mirror consistency gate | done | Issue #288, PR #289, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs`, main CI `25266430855` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
@@ -332,74 +333,31 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #324 **다음 기록 목표 씨앗을 이슬연금 라미 수확 payoff로 닫는다**의 PR publication gate다. #322는 PR #323 merge와 main CI `25274789570` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단해 #324를 생성했다.
+현재 작업은 GitHub-authoritative open WorkUnit #326 **라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
 
 현재 evidence:
 
-- GitHub issue: #324 `다음 기록 목표 씨앗을 이슬연금 라미 수확 payoff로 닫는다`
-- Plan artifact: `items/0164-album-record-loop-rami-harvest-payoff.md`
-- Branch: `codex/0324-album-record-loop-rami-harvest-payoff`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-album-record-loop-rami-harvest-payoff-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-324-album-record-loop-rami-harvest-payoff-20260503.md`
-- GateEvent: `reports/operations/gate-event-0324-album-record-loop-rami-harvest-payoff-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0324-20260503.md` — 현재 세션 iab backend discovery 실패
-- Screenshot: `reports/visual/issue-324-album-record-loop-rami-harvest-payoff-393.png`
-- Verification: `npm run build` pass; focused Playwright `이슬연금 라미 수확 payoff` 1 passed; `npm run check:visual` 65 passed; `npm run check:ci` pass
-- Runner dry-run: `npm run studio:v3:runner -- --once --dry-run` → `production-game-intake-required`, main CI `25274789570` success observed
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest` + 필요 시 `game-studio:phaser-2d-game`; 신규 manifest asset 없음, existing `이슬연금 라미` portrait + playfield plot state + reward motion/telemetry
+- GitHub issue: #326 `라미 도감 저장을 포장잎 상인 다음 목표로 이어지게 만든다`
+- Plan artifact: `items/0165-rami-record-next-merchant-goal.md`
+- Branch: `codex/0326-rami-record-next-merchant-goal`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-rami-record-next-merchant-goal-20260503.md`
+- PR body-file: `reports/operations/github-bodies/pr-326-rami-record-next-merchant-goal-20260503.md`
+- GateEvent: `reports/operations/gate-event-0326-rami-record-next-merchant-goal-20260503.md`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0326-20260503.md`
+- Screenshot: `reports/visual/issue-326-rami-record-next-merchant-goal-393.png`
+- Implementation: `src/App.tsx`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Validation: `npm run build` pass, focused Playwright 3 passed + 1 passed, `npm run check:visual` 66 passed, `npm run check:ci` pass
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing `포장잎 상인`/`젤리콩 씨앗` visuals + DOM/CTA + target row highlight
 - Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `다음 기록 목표 씨앗을 심고 이슬연금 라미를 수확하기`
-- Production role: 후속 기록 저장 → next seed target row → planting → growth preview → named creature reveal
-- Screen moment: #322 seeds target row에서 `방울새싹 씨앗`을 심은 뒤 정원 성장/수확 화면
-- Concrete payoff: `album_record_next_seed` plot state, `이슬연금 라미 수확 예고` growth feedback, target creature reveal receipt, reward motion telemetry, bottom-tab/overflow-safe 393px screenshot
-- Competition production gap: collection idle games는 next target CTA가 실제 다음 collectible reveal로 이어져야 신뢰가 생긴다.
+- Player verb: `이슬연금 라미를 도감에 저장하고 포장잎 상인 목표로 이동하기`
+- Concrete payoff: `다음 기록 목표: 포장잎 상인`, `다음 기록으로 이어가기: 젤리콩 씨앗`, seeds target row `다음 기록 재순환 · 포장잎 상인 준비`, bottom-tab/overflow-safe 393px screenshot
 
 즉시 적용할 gate:
 
-1. GitHub issue #324 body를 body-file로 갱신한다.
-2. Branch push, draft PR create/update, GateEvent comment, ready for review, checks watch/repair, merge when green, main CI observation을 수행한다.
-3. all merge-blocking evidence는 original PR에 포함한다. merge 후 main CI는 observation-only이며 post-merge closeout PR/main-targeted closeout commit을 만들지 않는다.
-4. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
-5. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
-6. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 사용하고, 미사용 시 plan artifact에 이유를 남긴다.
-7. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
-
-## Previous Next Action History
-
-
-`docs/NORTH_STAR.md`가 게임 프로젝트와 에이전트 네이티브 운영사 프로젝트의 공통 헌장으로 추가되었다. Issue #53의 4h supervised trial report와 Issue #84 heartbeat daemon hardening은 merge 완료되었다. 과거에는 Issue #87 operator control room + playable mode가 다음 운영사 정비 후보였지만, #159 이후 `$seed-ops`의 기본 다음 작업 선택은 경쟁작 기준 production vertical slice로 넘어간다.
-
-1. Starter sprite batch evidence는 `items/0017-starter-seed-sprite-pipeline-first-batch.md`와 `scripts/check-sprite-batch.mjs`에 고정되어 있으며, 게임 작업은 계속 **이름 있는 생명체 수집**과 첫 5분 재미를 우선한다.
-2. Issue #44 / PR #45는 첫 발견 이후 다음 미발견 deterministic creature 목표를 보여줘 “하나만 더” 수집 욕구를 강화했다.
-3. Issue #46 / PR #47은 씨앗 구매/주머니 row에 `seed.creaturePool[0]`의 만날 아이 preview를 붙여 선택 전 수집 기대를 강화했다.
-4. Issue #48 / PR #49는 merge 완료되어 첫 수확 reveal에서 다음 목표 creature/seed hint를 보여줘 “하나만 더” 루프를 강화한다.
-5. 첫 loop는 starter seed -> plant -> tap growth -> harvest -> named creature ownership -> album reward -> second plot/next collection goal 순서를 보존한다.
-6. Issue #25/PR #26, Issue #27/PR #28, Issue #29/PR #30, Issue #31/PR #32, Issue #33/PR #50으로 운영사 루프, watchdog, trial dry-run, readiness gate, 실제 2h trial report가 닫혔다.
-7. Issue #34 / PR #35는 merge 완료되어 생명체의 성격/취향/인사말을 수확 reveal·소유 카드·도감에 노출한다.
-8. Issue #36 / PR #37은 merge 완료되어 실제 고객 데이터나 외부 채널 없이 플레이테스트 신호를 severity/product axis/evidence/duplicate/fun rubric/next item으로 정규화한다.
-9. Issue #38 / PR #39는 merge 완료되어 devlog/release note/community post를 mock proposal로만 남기고, SNS/email/ads/store/community 실채널 action은 명시 승인 전 금지한다.
-10. Issue #21 / PR #40은 merge 완료되어 다음 sprite family/rarity batch를 위해 GardenScene hard-code를 manifest animation binding으로 이동했다.
-11. Issue #22 / PR #41은 merge 완료되어 실제 생성 없이 Codex output -> workspace raw -> normalized strip -> manifest -> checker 경로를 고정했다.
-12. Issue #17 / PR #42는 작업 완료 선언 전 draft PR, 검증 증거, 남은 위험, follow-up issue/audit 링크를 필수 gate로 고정했다.
-13. Issue #18 / PR #43은 Browser Use `iab` 직접 검증의 현재 환경 차단 원인과 CDP fallback evidence를 검증 가능한 상태로 고정했다.
-14. 24시간 봇, 고객 피드백 실채널, GTM 실게시, 광고/결제/계정/credential 사용은 Milestone 6-8의 안전 장치와 명시 승인이 생기기 전까지 금지한다.
-15. 실제 결제, 로그인/account, ads SDK, external navigation, runtime image generation은 계속 제외한다.
-16. Issue #51은 4h/24h 운영 전에 필요한 operator runbook과 daily operating report 템플릿을 만드는 작업이며, 실제 4h/24h 실행은 이 문서/checker PR이 merge되기 전 시작하지 않는다.
-17. Issue #53의 4h supervised trial은 PR #85로 보고서가 merge되어 닫혔고, Issue #84가 24h run 전 heartbeat gap 보강 follow-up으로 열렸다.
-18. Issue #56은 도감 다음 목표 카드에서 씨앗 탭으로 이어지는 CTA를 추가해 Issue #54의 미발견 슬롯 단서를 실제 다음 행동으로 연결한다.
-19. Issue #58은 모바일 도감 첫 화면에서도 다음 발견 생명체와 씨앗 행동이 보이도록 상단 compact CTA chip을 추가한다.
-20. Issue #60은 도감 CTA 이후 씨앗 탭에서 다음 도감 목표 씨앗과 해당 row를 강조해 구매/심기 행동 전환을 돕는다.
-21. Issue #62는 장시간 운영 중 사람이 돌아왔을 때 heartbeat, deadline, 완료 PR, recovery, next action을 한 파일에서 읽을 수 있게 live status report를 생성한다.
-22. Issue #64 / PR #65는 merge 완료되어 실제 구매/심기 버튼이 있는 정원 seed shop에서도 다음 발견 seed row를 강조하고, 씨앗 탭 목표 배너에서 정원 행동으로 돌아가게 한다.
-23. Issue #66 / PR #67은 merge 완료되어 목표 seed row가 보이지만 잎이 부족한 순간 `n 잎 부족`/`n 잎 더 모으면 구매 가능` copy로 다음 행동을 명확히 한다.
-24. Issue #68 / PR #69는 merge 완료되어 하단 `도감` 탭에 발견 수/전체 수 배지를 붙여 어느 화면에서도 수집 진행률을 의식하게 한다.
-25. Issue #70 / PR #71은 merge 완료되어 정원 `다음에 만날 아이` 카드에 희귀도·계열 단서를 붙여 수집 카드 감각을 강화한다.
-26. Issue #72 / PR #73은 merge 완료되어 seed shop/씨앗 주머니 row에 성장 시간과 수확 잎 보상 요약을 붙여 구매·심기 판단을 명확히 한다.
-27. Issue #74 / PR #75는 merge 완료되어 도감 화면에 다음 album milestone 보상과 남은 발견 수를 보여 수집 동기를 강화한다.
-28. Issue #76 / PR #77은 merge 완료되어 원정 탭에서 첫 원정의 시간·필요 생명체·보상 요약을 보여 원정 루프 동기를 명확히 한다.
-29. Issue #78 / PR #79는 merge 완료되어 원정 시작 전 필요한 생명체 수와 시작 가능 상태를 보여 첫 수확 후 원정 전환 마찰을 줄인다.
-30. Issue #80 / PR #81은 merge 완료되어 진행 중인 원정의 남은 시간과 완료 보상 상태를 보여 idle comeback 루프를 명확히 한다.
-31. Issue #82 / PR #83은 merge 완료되어 하단 원정 탭에 진행/완료 배지를 붙여 다른 탭에서도 복귀·수령 신호를 놓치지 않게 한다.
-32. Issue #53의 4h supervised trial report는 `reports/operations/operator-trial-20260428T053230Z.md`로 작성되었고, PR #85로 merge되어 닫혔다.
-33. Issue #84는 24h run 전 heartbeat daemon hardening 작업으로, 4h trial에서 드러난 702.5초 gap을 dry-run failure와 watchdog stuck report로 고정한다.
-34. Issue #87은 24h dry run 전 operator control room과 playable mode를 고정해 사람이 중간에 현재 mission, small win, evidence, 게임 실행법을 즉시 파악하게 한다.
+1. `gh issue edit 326 --body-file reports/operations/github-bodies/issue-rami-record-next-merchant-goal-20260503.md`.
+2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-326-rami-record-next-merchant-goal-20260503.md`.
+3. GateEvent comment body-file publication, PR checks watch/repair, ready/merge when green.
+4. Post-merge main CI는 observation-only로 기록한다. 닫힌 PR/issue에 누락 evidence backfill을 위한 main closeout commit은 만들지 않는다.
+5. Stop rule이 없으므로 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
+6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
+7. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용한다. 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
