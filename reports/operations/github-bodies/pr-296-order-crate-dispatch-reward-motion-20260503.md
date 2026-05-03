@@ -50,6 +50,11 @@
 - `orderDeliveryReceipt`는 1.8초 transient state다. Playwright regression이 receipt 표시와 자동 제거를 고정한다.
 - v3 operator CLI flag 보정은 #296 sidecar harness fix다. 별도 사용자-visible gameplay 변화는 없지만 `check:studio-v3-operator`의 현재 CLI 계약을 맞춘다.
 
+## GateEvent
+
+- GateEvent body file: `reports/operations/gate-event-0296-order-dispatch-20260503.md`
+- GitHub issue comment: pending publication in the same PR gate.
+
 ## 연결된 issue
 
 Closes #296
