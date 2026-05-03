@@ -38,6 +38,9 @@ requirePhrases("docs/PROJECT_COMMANDS.md", [
   "완료 보고는 중단 조건이 아니라 checkpoint",
   "원격 게시 기본값",
   "issue -> `## Plan` -> 구현 -> 검증 -> PR -> CI -> merge -> 다음 issue",
+  "Studio Harness v3 foreground operator",
+  "npm run studio:v3:operate",
+  "`$seed-ops`는 Studio Harness v3 entrypoint가 아니다",
   "GitHub metadata 품질 규칙",
   "--body-file",
   "literal `\\n`",
@@ -109,7 +112,9 @@ for (const command of ["seed-ops", "seed-brief", "seed-design", "seed-qa", "seed
 }
 
 requirePhrases(".codex/skills/seed-ops/SKILL.md", [
-  "무한 운영모드",
+  "deprecated adapter",
+  "Studio Harness v3 entrypoint가 아니다",
+  "npm run studio:v3:operate",
   "issue 선택/생성 -> `## Plan` artifact",
   "완료 보고는 중단 조건이 아니라 checkpoint",
   "원격 게시 기본값",

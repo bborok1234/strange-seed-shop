@@ -16,7 +16,7 @@ Studio Harness v2 기준의 현재 최상위 source of truth는 repo root의 `RE
 | `../campaigns/active.json` | Single active campaign registry | Before `seed-studio` gate transitions |
 | `NORTH_STAR.md` | Dual north star for the game and the agent-native studio/operator | Before choosing strategy or roadmap work |
 | `ROADMAP.md` | Milestone tracking, next tasks, current status | Before deciding what to do next |
-| `PROJECT_COMMANDS.md` | 프로젝트 전용 명령어: `$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play` | Before choosing operating/report/design/QA/playable mode |
+| `PROJECT_COMMANDS.md` | 프로젝트 전용 명령어와 v3 운영 진입점: `npm run studio:v3:operate`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`; `$seed-ops`는 deprecated adapter | Before choosing operating/report/design/QA/playable mode |
 | `PRD_PHASE0.md` | Phase 0 product requirements and UX contract | Before product or UI work |
 | `ECONOMY_PHASE0.md` | Phase 0 economy tables, formulas, tuning levers | Before economy/config work |
 | `DESIGN_SYSTEM.md` | Phase 0 UI usage rules, token draft, and visual QA contract | Before UI or visual hierarchy work |
@@ -48,7 +48,7 @@ The first asset-production workflow is stored under `.codex/skills/`.
 | `gpt-game-asset-generate` | Uses Codex native image generation one asset at a time |
 | `gpt-game-asset-review` | Reviews assets and prepares `assetManifest.json` |
 | `seed-studio` | `$seed-studio`: Studio Harness v2 gate graph and Keep/Kill/Pivot workflow |
-| `seed-ops` | `$seed-ops`: deprecated adapter for approved Productionization tasks only |
+| `seed-ops` | `$seed-ops`: deprecated adapter for approved Productionization tasks only; not the Studio Harness v3 entrypoint |
 | `seed-brief` | `$seed-brief`: evidence-backed status/reporting mode |
 | `seed-design` | `$seed-design`: design/product/operator conversation mode |
 | `seed-qa` | `$seed-qa`: practical browser/visual QA mode |
@@ -93,4 +93,4 @@ The shared charter is `NORTH_STAR.md`. Until the richer item system exists, `ROA
 
 Current PR automation audit evidence is stored in `reports/audits/pr_automation_20260427.md`.
 
-For Studio Harness v2, use `seed-studio` and the active campaign ledger before using Ralph/OMX. `$seed-ops` cannot choose the next issue or cite `.omx` as product truth.
+For Studio Harness v3, use `npm run studio:v3:operate` for foreground operation and `npm run studio:v3:runner` for watcher/decision heartbeat. For Studio Harness v2, use `seed-studio` and the active campaign ledger before using Ralph/OMX. `$seed-ops` cannot choose the next issue, cannot serve as the v3 entrypoint, and cannot cite `.omx` as product truth.
