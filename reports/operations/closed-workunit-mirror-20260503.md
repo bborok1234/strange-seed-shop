@@ -23,3 +23,11 @@
 - PR #299: MERGED, merge commit `f1772d3237afe480be904ff6f64653ddac985049`.
 - Main CI: `25269100475` success.
 - Active WorkUnit mirror moved to #300 / `items/0152-snack-upgrade-worker-payoff.md`.
+
+
+## #300 closed mirror update
+
+- GitHub issue #300: CLOSED after PR #301 merge on 2026-05-03T04:04:35Z.
+- PR #301: MERGED, merge commit `c5afae71836a13f10d3fe40299ebeb44592330fa`.
+- Main CI: `25269424020` success.
+- Active WorkUnit mirror moved to #302 / `items/0153-research-unlock-note-payoff.md`.
