@@ -10,6 +10,7 @@ GitHub issue/PR/main CI state is authoritative. This report only mirrors evidenc
 | --- | --- | --- | --- | --- |
 | #284 | #285 | CLOSED / MERGED at 2026-05-03T00:48:04Z | `a4633599d90f7adad1844cd8f3ce8cb5dabf8d35` | `25265967477` success |
 | #286 | #287 | CLOSED / MERGED at 2026-05-03T01:03:06Z | `dc7fa42514146291a67f8ce0294d2150da535ee1` | `25266229841` success |
+| #288 | #289 | CLOSED / MERGED at 2026-05-03T01:14:06Z | `3a6c3aa5f78fc4902bdf297714531efd549d5e5c` | `25266430855` success |
 
 ## Regression
 

@@ -1,0 +1,17 @@
+{
+  "openIssues": [],
+  "openPrs": [],
+  "mainCommit": "fixture-main-sha",
+  "mainRuns": [
+    {
+      "databaseId": 9001,
+      "name": "CI",
+      "workflowName": "CI",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "fixture-main-sha",
+      "url": "https://github.com/bborok1234/strange-seed-shop/actions/runs/9001",
+      "createdAt": "2026-05-03T00:00:00Z"
+    }
+  ]
+}

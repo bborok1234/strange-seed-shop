@@ -67,7 +67,7 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 정원 첫 화면 production engine layout | done | Issue #284, PR #285, `items/0144-first-screen-production-engine-layout.md`, `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`, `reports/visual/first-screen-production-engine-one-scene-20260503.png`, Browser Use blocker, `npm run check:visual` 54 passed, main CI `25265967477` | 첫 정원 화면에서 달빛 resident, playfield, 자동 생산, 주문 crate/progress, primary verbs가 한 장면의 production engine으로 읽히게 재배치 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Routine GitHub publication no-final harness | done | Issue #286, PR #287, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `npm run check:ci` pass, main CI `25266229841` | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
-| Closed WorkUnit mirror consistency gate | active | Issue #288, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
+| Closed WorkUnit mirror consistency gate | done | Issue #288, PR #289, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs`, main CI `25266430855` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
 | Seed ops Ralph runner bridge | done | `items/0135-seed-ops-ralph-runner-bridge.md`, `scripts/check-ralph-runner-bridge.mjs`, `.codex/skills/seed-ops/SKILL.md`, `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_RUNBOOK.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `npm run check:ci` pass | Codex App prompt-side `$ralph` activation을 실제 detached `omx ralph`/`omx exec` long runner와 분리하고, lifecycle 판단을 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact 기준으로 고정한다 |
 | Seed ops no post-merge closeout gate | active | `items/0136-no-post-merge-closeout.md`, `scripts/check-no-post-merge-closeout.mjs`, `.github/pull_request_template.md`, `npm run check:ci` pass | PR merge/close 이후 main 대상 closeout PR/commit으로 evidence를 backfill하지 못하게 하고, merge-blocking evidence는 원 PR이 닫히기 전에 포함하게 고정한다 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
@@ -285,6 +285,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Seed ops PR publication confirmation boundary | done | Draft PR #265, `items/0133-seed-ops-pr-publication-confirmation-boundary.md`, `reports/operations/seed-ops-pr-publication-confirmation-boundary-20260501.md`, `scripts/check-seed-ops-queue-gate.mjs`, `docs/PROJECT_COMMANDS.md`, `.codex/skills/seed-ops/SKILL.md`, `npm run check:ci` pass, PR checks pass | Codex App action-time confirmation이 필요한 PR 생성/수정, issue 수정, comment 게시를 `This is not a terminal stop`으로 고정하고, `do not send final just to ask for PR creation`, `pending external-publication gate`, `next local safe work`를 검사한다 |
 | Game studio department harness | done | Issue #257, PR #258, main CI `25217147915`, `items/0129-game-studio-ops-harness.md`, `reports/operations/game-studio-harness-reference-review-20260501.md`, `.codex/skills/seed-ops/SKILL.md`, `scripts/check-seed-ops-queue-gate.mjs`, `scripts/check-ops-live.mjs` | `P0.5 Idle Core + Creative Rescue`를 active campaign source of truth로 고정하고, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, Subagent/Team Routing, gastory style state/prompt/model sidecar/reference image consistency/animation camera/composition lock/frame/GIF/spritesheet extraction gate를 요구함 |
 | Studio Harness v3 bot runner deterministic gate | review | Issue #276, `items/0140-studio-v3-bot-runner-checker.md`, `scripts/studio-v3-bot-runner.mjs`, `scripts/check-studio-v3-bot-runner.mjs`, `reports/operations/fixtures/studio-v3-bot-runner-*.json` | GitHub issue/PR/GateEvent fixture로 WorkUnit을 복원하고, local campaign ledger authority, routine GitHub human handoff, stale branch/dirty work, GateEvent hash mismatch 회귀를 `npm run check:studio-v3-bot-runner`와 `npm run check:ci`에서 차단함 |
+| Studio Harness v3 24h live runner entrypoint | active | Issue #290, `items/0147-studio-v3-24h-live-runner.md`, `scripts/studio-v3-live-runner.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-live-runner-20260503.md` | `npm run studio:v3:runner -- --once --dry-run`으로 GitHub queue/PR/main 상태를 읽고, queue empty를 production game quality WorkUnit intake로 분류하는 실제 runner 진입점을 만든다 |
 | Studio Harness v3 migration backfill gate | review | Issue #274, `items/0141-v2-ledger-quarantine-backfill.md`, `reports/operations/studio-v3-migration-backfill-20260503.md`, `reports/operations/studio-v3-migration-backfill-20260503.json`, `scripts/check-studio-v3-migration-backfill.mjs` | v2 local campaign ledger/prototype/visual/asset prep 산출물을 `quarantined` 또는 `migration-backfill` evidence로 분류하고, local ledger가 work authorization source가 아님을 `npm run check:studio-v3-migration-backfill`과 `npm run check:ci`에서 검증함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
@@ -314,26 +315,27 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #288 **닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다**이다. #284/#285와 #286/#287은 GitHub에서 CLOSED/MERGED이고 main CI `25265967477`, `25266229841` 관찰도 완료했지만, local mirror가 `review`/active mission으로 남는 회귀가 발생했다. 이 작업은 닫힌 PR 뒤 main closeout commit을 만들지 않고, 새 plan-first harness defect로 stale mirror를 정리하고 checker를 추가한다.
+현재 작업은 GitHub-authoritative open WorkUnit #290 **Studio Harness v3 24h live runner 진입점을 만든다**이다. 방향을 보정한다: #276 같은 fixture checker는 보조 안전장치였고, 지금 1차 목표는 AI 네이티브 게임 운영사가 24시간 돌아가며 `이상한 씨앗상회`를 production 게임 품질로 끌어올리는 runnable runner다.
 
 현재 evidence:
 
-- GitHub issue: #288 `닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다`
-- Plan artifact: `items/0146-closed-workunit-mirror-consistency.md`
-- Branch: `codex/0288-closed-workunit-mirror-consistency`
-- Closed WorkUnit evidence manifest: `reports/operations/closed-workunit-mirror-manifest-20260503.json`
-- GitHub truth: #284/#285 main CI `25265967477`, #286/#287 main CI `25266229841`
-- Game Studio route: N/A — 운영사 하네스/문서/체커 작업
+- GitHub issue: #290 `Studio Harness v3 24h live runner 진입점을 만든다`
+- Plan artifact: `items/0147-studio-v3-24h-live-runner.md`
+- Branch: `codex/0290-studio-v3-24h-live-runner`
+- Runner entrypoint: `scripts/studio-v3-live-runner.mjs`
+- Usage doc: `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`
+- Smoke report: `reports/operations/studio-v3-live-runner-20260503.md`
+- Game Studio route: N/A — 운영사 runner/workflow 작업. 단, runner가 만드는 visible gameplay WorkUnit은 Game Studio route와 Browser Use evidence를 요구한다.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. 닫힌 PR/issue evidence 누락은 post-merge closeout commit이 아니라 새 plan-first harness defect로 처리한다.
-3. `docs/ROADMAP.md`, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/DASHBOARD.md`는 GitHub truth와 동기화된 mirror여야 한다.
-4. `npm run check:closed-workunit-mirrors`가 stale `review` row와 stale active mission phrase를 실패시켜야 한다.
-5. 다음 게임 WorkUnit 선택으로 넘어갈 때는 `Studio Campaign Gate`를 다시 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff와 vertical slice blocker 제거를 동반할 때만 고른다.
+2. Queue empty is not a stop condition. Queue가 비면 production game quality WorkUnit intake로 이어져야 한다.
+3. Runner의 다음 action은 `P0.5 Idle Core + Creative Rescue`와 `이상한 씨앗상회` production 품질 개선을 우선해야 한다.
+4. `npm run studio:v3:runner -- --once --dry-run`과 `npm run check:studio-v3-live-runner`가 실제 사용법과 checker를 증명해야 한다.
+5. Runner가 다음 게임 WorkUnit을 만들거나 선택할 때는 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
-다음 checkpoint는 구현, focused checks, `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
+다음 checkpoint는 full `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
 
 ## Previous Next Action History
 

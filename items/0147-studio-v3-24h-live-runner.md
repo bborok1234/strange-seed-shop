@@ -1,6 +1,7 @@
 # #290 Studio Harness v3 24h live runner 진입점을 만든다
 
-- 상태: `planning`
+- 상태: `ready-for-pr`
+- Issue: #290
 - GitHub issue: #290 `Studio Harness v3 24h live runner 진입점을 만든다`
 - Branch: `codex/0290-studio-v3-24h-live-runner`
 - WorkUnit authority: GitHub issue/PR/GateEvent. local docs/reports는 evidence mirror다.
@@ -22,11 +23,11 @@
 
 ## 수용 기준
 
-- [ ] `npm run studio:v3:runner -- --once --dry-run`이 실행되고 state/report/heartbeat evidence를 남긴다.
-- [ ] runner snapshot이 GitHub open issue, open PR, main commit/check 상태를 포함한다.
-- [ ] queue empty가 `production-game-intake-required` 또는 동등한 non-stop action으로 분류된다.
-- [ ] usage 문서가 24h 실행/관찰/중단/credential boundary를 설명한다.
-- [ ] `npm run check:studio-v3-live-runner`와 `npm run check:ci`가 통과한다.
+- [x] `npm run studio:v3:runner -- --once --dry-run`이 실행되고 state/report/heartbeat evidence를 남긴다.
+- [x] runner snapshot이 GitHub open issue, open PR, main commit/check 상태를 포함한다.
+- [x] queue empty가 `production-game-intake-required` 또는 동등한 non-stop action으로 분류된다.
+- [x] usage 문서가 24h 실행/관찰/중단/credential boundary를 설명한다.
+- [x] `npm run check:studio-v3-live-runner`와 `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -53,3 +54,20 @@
 ## Subagent/Team Routing
 
 - 이번 tranche는 solo execute. write scope가 `scripts/package/docs/items/reports`로 강하게 연결되어 있고, 구현과 checker가 같은 state schema를 공유하므로 분리보다 직접 통합이 빠르다.
+
+## 구현 evidence
+
+- Runner entrypoint: `scripts/studio-v3-live-runner.mjs`
+- Usage doc: `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`
+- Checker: `scripts/check-studio-v3-live-runner.mjs` / `npm run check:studio-v3-live-runner`
+- Offline queue-empty fixture: `reports/operations/fixtures/studio-v3-live-runner-queue-empty.json`
+- Smoke report: `reports/operations/studio-v3-live-runner-20260503.md`
+
+## 검증 evidence
+
+- `npm run studio:v3:runner -- --once --dry-run --issue 290 --item items/0147-studio-v3-24h-live-runner.md` → passed
+- `npm run check:studio-v3-live-runner` → passed
+- `npm run check:studio-v3-bot-runner` → passed
+- `npm run check:ops-live` → passed
+
+- `npm run check:ci` → passed

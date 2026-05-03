@@ -10,6 +10,7 @@ Studio Harness v2 기준의 현재 최상위 source of truth는 repo root의 `RE
 | --- | --- | --- |
 | `../STUDIO.md` | Studio Harness v2 gate graph, source authority, role contract | Before autonomous studio/gate work |
 | `STUDIO_HARNESS_V3_AUTONOMOUS_DESIGN.md` | GitHub-authoritative Studio Harness v3, GateEvent state model, and no-human runner plane execution spec | Before replacing v2 local ledger authority or launching Ralph/Team for v3 |
+| `STUDIO_HARNESS_V3_RUNNER_USAGE.md` | Studio Harness v3 live runner usage: once smoke, 24h run, watchdog, stop/recovery, and production-game intake behavior | Before starting or observing the 24h AI-native game studio runner |
 | `../GAME_BRIEF.md` | Game reboot brief and active campaign direction | Before game reboot planning |
 | `../ROADMAP.md` | Current concise Studio Harness v2 roadmap | Before choosing current next gate |
 | `../campaigns/active.json` | Single active campaign registry | Before `seed-studio` gate transitions |

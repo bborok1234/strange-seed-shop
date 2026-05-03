@@ -31,11 +31,27 @@ Studio Harness v3를 실제 운영 명령으로 시작할 수 있는 live runner
 
 ## 수용 기준
 
-- [ ] `npm run studio:v3:runner -- --once --dry-run` runnable entrypoint가 생긴다.
-- [ ] runner가 GitHub open issues/open PRs/latest main commit/check state를 읽고 state/report artifact를 남긴다.
-- [ ] runner가 queue empty를 stop이 아니라 production game WorkUnit intake/reconcile action으로 분류한다.
-- [ ] `npm run check:studio-v3-live-runner`가 dry-run fixture/smoke를 검증하고 `npm run check:ci`에 포함된다.
-- [ ] `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md` 또는 동등 문서에 24h 실행/중단/관찰 명령이 있다.
+- [x] `npm run studio:v3:runner -- --once --dry-run` runnable entrypoint가 생긴다.
+- [x] runner가 GitHub open issues/open PRs/latest main commit/check state를 읽고 state/report artifact를 남긴다.
+- [x] runner가 queue empty를 stop이 아니라 production game WorkUnit intake/reconcile action으로 분류한다.
+- [x] `npm run check:studio-v3-live-runner`가 dry-run fixture/smoke를 검증하고 `npm run check:ci`에 포함된다.
+- [x] `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`에 24h 실행/중단/관찰 명령이 있다.
+
+## 구현 evidence
+
+- Runner entrypoint: `scripts/studio-v3-live-runner.mjs`
+- Usage doc: `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`
+- Checker: `scripts/check-studio-v3-live-runner.mjs`
+- Smoke report: `reports/operations/studio-v3-live-runner-20260503.md`
+- Offline queue-empty fixture: `reports/operations/fixtures/studio-v3-live-runner-queue-empty.json`
+
+## 검증 evidence
+
+- `npm run studio:v3:runner -- --once --dry-run --issue 290 --item items/0147-studio-v3-24h-live-runner.md` → passed
+- `npm run check:studio-v3-live-runner` → passed
+- `npm run check:studio-v3-bot-runner` → passed
+- `npm run check:ops-live` → passed
+- `npm run check:ci` → passed
 
 ## Visual evidence 계획
 
