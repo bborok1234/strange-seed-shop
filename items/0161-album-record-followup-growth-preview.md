@@ -1,6 +1,7 @@
 # WorkUnit #318 — 새 기록 후속 재배 성장 중 다음 생명체 수확 예고를 보이게 만든다
 
 - GitHub issue: #318 https://github.com/bborok1234/strange-seed-shop/issues/318
+- GitHub PR: #319 https://github.com/bborok1234/strange-seed-shop/pull/319
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
 - Status: review
 - Branch: `codex/0318-album-record-followup-growth-preview`
