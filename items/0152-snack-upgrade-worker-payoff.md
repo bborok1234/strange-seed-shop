@@ -2,7 +2,7 @@
 
 ## 상태
 
-- 상태: plan-ready
+- 상태: verification-ready
 - GitHub issue: #300 `작업 간식 강화가 포리 버프와 생산 속도 상승으로 보이게 만든다`
 - Branch: `codex/0300-snack-upgrade-worker-payoff`
 - Studio Harness v3 route: GitHub-authoritative WorkUnit intake. `$seed-ops` 사용 안 함.
@@ -12,20 +12,20 @@
 
 ## Plan
 
-1. 현재 `작업 간식 강화` purchase flow, first order reward state, production rate calculation, playfield actor copy를 매핑한다.
-2. first order reward 이후 upgrade click 직후 `포리 간식 충전` receipt, playfield actor buff state, rate badge pulse를 action surface와 playfield에 연결한다.
-3. 수령/납품/강화 sequence에서 다음 주문 progress 문맥이 깨지지 않도록 `자동 생산과 첫 주문` regression을 확장한다.
-4. 모바일 393px visual regression에 강화 전/후 worker buff, rate 상승, panel overflow, bottom-tab invariant, screenshot을 추가한다.
-5. Browser Use iab 우선 QA를 현재 세션에서 다시 시도하고, blocker면 `reports/visual/browser-use-blocker-0300-20260503.md`와 Playwright screenshot fallback을 남긴다.
-6. `docs/ROADMAP.md`, `docs/DASHBOARD.md`, `docs/OPERATOR_CONTROL_ROOM.md`, closed WorkUnit mirror, PR/issue body-file evidence를 갱신한다.
+1. 현재 `작업 간식 강화` purchase flow, first order reward state, production rate calculation, playfield actor copy를 매핑한다. ✅
+2. first order reward 이후 upgrade click 직후 `포리 간식 충전` receipt, playfield actor buff state, rate badge pulse를 action surface와 playfield에 연결한다. ✅
+3. 수령/납품/강화 sequence에서 다음 주문 progress 문맥이 깨지지 않도록 `자동 생산과 첫 주문` regression을 확장한다. ✅
+4. 모바일 393px visual regression에 강화 전/후 worker buff, rate 상승, panel overflow, bottom-tab invariant, screenshot을 추가한다. ✅
+5. Browser Use iab 우선 QA를 현재 세션에서 다시 시도하고, blocker면 `reports/visual/browser-use-blocker-0300-20260503.md`와 Playwright screenshot fallback을 남긴다. ✅
+6. `docs/ROADMAP.md`, `docs/DASHBOARD.md`, `docs/OPERATOR_CONTROL_ROOM.md`, closed WorkUnit mirror, PR/issue body-file evidence를 갱신한다. 진행 중
 
 ## 수용 기준
 
-- [ ] `작업 간식 강화` 직후 포리 buff/간식 완료 payoff가 action surface 또는 playfield에서 보인다.
-- [ ] 생산 속도 상승이 rate badge/playfield actor state/다음 주문 progress 문맥으로 연결된다.
-- [ ] 모바일 393px에서 body scroll, panel overflow, bottom-tab overlap 회귀가 없다.
-- [ ] Browser Use `iab` current-session evidence 또는 current-session blocker + Playwright fallback screenshot을 남긴다.
-- [ ] `npm run check:visual`과 `npm run check:ci`가 통과한다.
+- [x] `작업 간식 강화` 직후 포리 buff/간식 완료 payoff가 action surface 또는 playfield에서 보인다.
+- [x] 생산 속도 상승이 rate badge/playfield actor state/다음 주문 progress 문맥으로 연결된다.
+- [x] 모바일 393px에서 body scroll, panel overflow, bottom-tab overlap 회귀가 없다.
+- [x] Browser Use `iab` current-session evidence 또는 current-session blocker + Playwright fallback screenshot을 남긴다.
+- [x] `npm run check:visual`과 `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -72,7 +72,10 @@
 - 사용하지 않음: 초기 scope가 upgrade flow + UI regression에 강하게 결합되어 단일 agent가 안전하다.
 - 새 asset lane이 필요해지면 Codex native subagent/skill로 분리하고 runtime implementation과 write scope를 나눈다.
 
-## QA/playtest plan
+## QA/playtest evidence
 
-- Browser Use `iab` current-session 시도 → blocker면 `reports/visual/`에 신규 blocker와 Playwright fallback screenshot 저장.
-- 모바일 393px에서 first order delivery 후 `작업 간식 강화` 전/후 screenshot, rate 상승, worker buff state, body scroll/panel overflow/bottom-tab overlap invariant를 확인한다.
+- Browser Use blocker: `reports/visual/browser-use-blocker-0300-20260503.md`
+- Playwright screenshot: `reports/visual/issue-300-snack-upgrade-worker-payoff-393.png`
+- Focused regression: `npx playwright test --config playwright.config.ts --grep "자동 생산과 첫 주문"` → 1 passed
+- Full visual regression: `npm run check:visual` → 55 passed
+- Full CI: `npm run check:ci` → pass

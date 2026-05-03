@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T03:49:52.226Z
+Generated at: 2026-05-03T04:02:25.891Z
 
 ## Current mission
 
@@ -19,7 +19,9 @@ Generated at: 2026-05-03T03:49:52.226Z
 - Player verb: `작업 간식 강화하기`
 - Production role: 첫 주문 보상 → 생산 속도 업그레이드 → 다음 주문 반복 속도 증가
 - Screen moment: 첫 주문 납품/보상 수거 직후 강화 버튼을 누르는 순간
-- Planned payoff: 포리 buff receipt, playfield actor state, production rate HUD affordance, reward/upgrade motion
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Visual evidence: `reports/visual/browser-use-blocker-0300-20260503.md`, `reports/visual/issue-300-snack-upgrade-worker-payoff-393.png`
+- Verification: `npm run build` pass, focused Playwright `자동 생산과 첫 주문` 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
@@ -27,23 +29,24 @@ Generated at: 2026-05-03T03:49:52.226Z
 2. 구현 전 plan artifact의 수용 기준과 Game Studio route를 유지한다.
 3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
 4. 393px 모바일 visual regression은 worker buff, rate 상승, action-surface overflow, bottom-tab overlap을 함께 검증한다.
-5. 남은 checkpoint는 implementation, focused visual, `npm run check:visual`, `npm run check:ci`, branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+5. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+6. 다음 게임 WorkUnit 선택도 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
 - Branch: codex/0300-snack-upgrade-worker-payoff
-- Latest commit: f1772d3 #298 생산 잎 수령을 포리 작업 보상으로 읽히게 만든다
+- Latest commit: 0ff27d1 #300 작업 간식 강화 payoff를 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T03:49:12Z
-- Phase: issue-300-plan-first
+- Timestamp: 2026-05-03T04:02:23Z
+- Phase: issue-300-pr-publication
 - Issue: 300
 - PR: 
 - Item: items/0152-snack-upgrade-worker-payoff.md
-- Next action: implementation gate: map snack upgrade flow, implement worker buff payoff, verify visual/ci, publish PR
+- Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
 
