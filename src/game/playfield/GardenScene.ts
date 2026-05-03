@@ -589,7 +589,15 @@ export class GardenScene extends Phaser.Scene {
       return;
     }
 
-    const event = { action, plotIndex: plot.index, source, timestamp: Date.now() };
+    const event = {
+      action,
+      plotIndex: plot.index,
+      source,
+      plotSource: plot.source,
+      plotLabel: plot.label,
+      growthPreviewLabel: plot.growthPreviewLabel,
+      timestamp: Date.now()
+    };
     window.dispatchEvent(new CustomEvent("garden-playfield-fx", { detail: event }));
 
     if (!window.location.search.includes("qaFxTelemetry=1")) {
