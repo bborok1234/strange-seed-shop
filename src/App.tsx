@@ -594,6 +594,9 @@ export default function App() {
       )
     : visibleSeedInventorySeeds;
   const totalOwnedSeeds = save ? Object.values(save.seedInventory).reduce((total, count) => total + count, 0) : 0;
+  const researchGrowthPreview = hasResearchSeedPlot && nextCreatureGoal
+    ? `${nextCreatureGoal.seed.name} 수확 예고 · ${nextCreatureGoal.creature.name} 단서 추적 중`
+    : null;
   const gardenViewModel = useMemo(
     () =>
       buildGardenPlayfieldViewModel(
@@ -1845,6 +1848,7 @@ export default function App() {
                   </div>
                   <span>힌트: {nextCreatureGoal.creature.albumHint}</span>
                   {researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
+                  {researchGrowthPreview && <span className="research-growth-preview-line">수확 예고: {researchGrowthPreview}</span>}
                   <small>
                     {nextCreatureGoal.seed.name}에서 만날 수 있어요 · 도감 {nextCreatureGoal.discoveredCount}/{nextCreatureGoal.totalCount}
                   </small>

@@ -2,7 +2,7 @@
 
 - GitHub issue: #308 https://github.com/bborok1234/strange-seed-shop/issues/308
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: verification-ready
 - Branch: `codex/0308-research-clue-seed-growth-preview`
 - Created: 2026-05-03
 
@@ -16,11 +16,11 @@
 
 ## 수용 기준
 
-- [ ] 연구 단서 source plot이 일반 성장 밭과 구분되는 `연구 단서`/`수확 예고` 상태를 보여준다.
-- [ ] action surface 또는 next creature card가 다음 생명체 목표와 수확 기대를 한 화면에서 설명한다.
-- [ ] 신규 manifest asset 없이 DOM/CSS HUD affordance/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 source plot/CTA가 bottom tab과 겹치지 않고 action surface overflow를 만들지 않는다.
-- [ ] focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 통과한다.
+- [x] 연구 단서 source plot이 일반 성장 밭과 구분되는 `연구 단서`/`수확 예고` 상태를 보여준다.
+- [x] action surface 또는 next creature card가 다음 생명체 목표와 수확 기대를 한 화면에서 설명한다.
+- [x] 신규 manifest asset 없이 DOM/CSS HUD affordance/reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 source plot/CTA가 bottom tab과 겹치지 않고 action surface overflow를 만들지 않는다.
+- [x] focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -79,3 +79,27 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이므로 native subagent/team은 사용하지 않는다.
 - 필요 시 분리 기준: asset generation이 필요해지면 asset pipeline subtask, Browser Use 복구가 필요하면 QA/verifier subtask로 분리한다.
+
+
+## 구현 Evidence
+
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Next creature card: 연구 단서 source plot이 growing 상태일 때 `수확 예고: <씨앗> 수확 예고 · <생명체> 단서 추적 중` pill을 표시한다.
+- Playfield/source state: #306의 `research` source plot 상태와 `연구 단서 씨앗 심기` receipt를 유지하면서 성장 중 다음 수확 기대를 compact card에 연결했다.
+- Asset/FX boundary: 신규 accepted manifest asset 없음. DOM/CSS HUD affordance와 작은 sparkle marker만 사용했고 runtime image generation/API 호출 없음.
+
+## QA / Playtest Evidence
+
+- Browser Use blocker: `reports/visual/browser-use-blocker-0308-20260503.md` — 현 Codex 세션 iab backend discovery 실패를 새로 기록했다.
+- Screenshot: `reports/visual/issue-308-research-clue-seed-growth-preview-393.png`
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장"` — 2 passed
+- `npm run check:visual` — 57 passed
+- `npm run check:ci` — pass
+
+## PR Gate
+
+- Status: PR publication ready
+- Prepared at: 2026-05-03T05:30:21Z
+- Next gate: GitHub issue body update → branch push → draft PR create/update → GitHub checks watch/repair → ready/merge when green → main CI observation → next WorkUnit plan-first.
+- Stop rule: none

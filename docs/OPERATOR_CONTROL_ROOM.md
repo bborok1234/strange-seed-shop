@@ -3,32 +3,39 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T05:14:28.964Z
+Generated at: 2026-05-03T05:30:42.389Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #308 **연구 단서 씨앗 성장 중 다음 생명체 수확 예고가 보이게 만든다**이다. #306은 PR #307 merge와 main CI `25270603561` success로 닫혔고, runner dry-run은 queue-empty를 종료가 아니라 production-game-intake-required로 판단했다. 지금은 #308 plan-first gate다.
+현재 작업은 GitHub-authoritative open WorkUnit #308 **연구 단서 씨앗 성장 중 다음 생명체 수확 예고가 보이게 만든다**의 PR publication gate다. 구현/검증은 완료되었고, routine GitHub publication은 agent responsibility이므로 issue body update, branch push, draft PR create, PR checks watch/repair, ready/merge, main CI observation까지 이어간다.
 
 현재 evidence:
 
 - GitHub issue: #308 `연구 단서 씨앗 성장 중 다음 생명체 수확 예고가 보이게 만든다`
-- Plan artifact: `items/0156-research-clue-seed-growth-preview.md`
+- Plan artifact: `items/0156-research-clue-seed-growth-preview.md` — 수용 기준 모두 충족, status `verification-ready`
 - Branch: `codex/0308-research-clue-seed-growth-preview`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS HUD affordance + reward motion
-- Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `연구 단서 씨앗 성장시키기`
-- Production role: 연구 단서 씨앗 심기 → 성장 추적 → 다음 생명체 수확 기대
-- Screen moment: #306 flow 이후 정원 첫 화면에서 연구 단서 source plot이 성장 중인 순간
-- Concrete payoff: source plot `연구 단서`, next creature 수확 예고, action surface HUD affordance, reward motion
-- Competition production gap: Egg/Idle Miner류는 성장/업그레이드 중에도 다음 보상이 계속 보이고, Cell to Singularity는 다음 node 기대를 잃지 않게 함
+- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0308-20260503.md`
+- Screenshot: `reports/visual/issue-308-research-clue-seed-growth-preview-393.png`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-research-clue-seed-growth-preview-20260503.md`
+- PR body-file: `reports/operations/github-bodies/pr-308-research-clue-seed-growth-preview-20260503.md`
+- GateEvent body-file: `reports/operations/gate-event-0308-research-clue-seed-growth-preview-20260503.md`
 
-즉시 적용할 gate:
+검증 evidence:
 
-1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
-3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
-4. 393px 모바일 visual regression은 source plot, next creature card, action-surface overflow, bottom-tab overlap을 함께 검증한다.
-5. 남은 checkpoint는 plan-first commit, implementation, focused/full checks, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
+- `npm run build` — pass
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장"` — 2 passed
+- `npm run check:visual` — 57 passed
+- `npm run check:ci` — pass
+
+즉시 다음 gate:
+
+1. `gh issue edit 308 --body-file reports/operations/github-bodies/issue-research-clue-seed-growth-preview-20260503.md`
+2. branch push와 draft PR create/update를 body-file로 수행한다.
+3. PR required checks를 watch/repair하고 green이면 ready/merge한다.
+4. merge 후 main CI를 GitHub run으로 관찰한다. post-merge closeout commit/PR은 만들지 않는다.
+5. Stop rule이 없으면 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub-authoritative WorkUnit을 선택하고 plan-first로 계속한다.
 6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
 7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #308은 단일 React/CSS/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
 8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
@@ -36,18 +43,18 @@ Generated at: 2026-05-03T05:14:28.964Z
 ## Local state
 
 - Branch: codex/0308-research-clue-seed-growth-preview
-- Latest commit: 781fcf5 #306 연구 단서 씨앗 심기를 도감 목표 payoff로 보이게 만든다
+- Latest commit: c50cfec #308 연구 단서 성장 예고를 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T05:16:00Z
-- Phase: issue-308-plan-first
+- Timestamp: 2026-05-03T05:30:21Z
+- Phase: issue-308-pr-publication
 - Issue: 308
 - PR: 
 - Item: items/0156-research-clue-seed-growth-preview.md
-- Next action: implementation gate: inspect research clue seed growth state, implement harvest preview payoff, verify visual/ci, publish PR
+- Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
 
