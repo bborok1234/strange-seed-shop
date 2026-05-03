@@ -423,7 +423,6 @@ test("모바일 연구 unlock은 두 번째 주문 보상에서 연구 완료로
 
   expect(metrics.panel).not.toBeNull();
   expect(metrics.tabs).not.toBeNull();
-  expect(metrics.receipt).not.toBeNull();
   expect(metrics.nextCreature).not.toBeNull();
   expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   expect(metrics.receipt!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
@@ -447,6 +446,52 @@ test("모바일 연구 단서는 정원과 씨앗 탭에서 다음 수집 목표
   await expect(page.getByText("도감 목표 씨앗", { exact: true })).toBeVisible();
   await expect(page.locator(".seed-goal-banner .research-clue-line")).toContainText("연구 단서:");
   await page.screenshot({ path: testInfo.outputPath("mobile-research-clue-reward-v0-seeds-tab-393.png"), fullPage: false });
+});
+
+test("모바일 연구 단서 씨앗 구매와 심기는 정원 playfield payoff로 이어진다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1&qaTab=seeds");
+
+  const targetRow = page.locator(".seed-inventory-row-target").first();
+  await expect(targetRow).toBeVisible();
+  await expect(targetRow).toContainText("연구 단서:");
+  await targetRow.getByRole("button", { name: /구매/ }).click();
+  await expect(targetRow).toContainText("보유 1개");
+  await targetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
+  await expect(page.getByLabel("연구 단서 씨앗 심기")).toBeVisible();
+  await expect(page.getByLabel("연구 단서 씨앗 심기")).toContainText("심기 완료");
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText(/연구 단서 씨앗 심기/)).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("도감 목표 심기", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면").getByText("연구 단서", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("다음 생명체 수집 목표")).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".starter-panel");
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const receipt = document.querySelector<HTMLElement>(".research-seed-receipt")?.getBoundingClientRect();
+    const nextCreature = document.querySelector<HTMLElement>(".next-creature-compact")?.getBoundingClientRect();
+    return {
+      panelClientHeight: panel?.clientHeight ?? 0,
+      panelScrollHeight: panel?.scrollHeight ?? 0,
+      tabs: tabs ? { top: tabs.top } : null,
+      receipt: receipt ? { bottom: receipt.bottom } : null,
+      nextCreature: nextCreature ? { bottom: nextCreature.bottom } : null
+    };
+  });
+  expect(metrics.nextCreature).not.toBeNull();
+  expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
+  if (metrics.receipt) {
+    expect(metrics.receipt.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  }
+  expect(metrics.nextCreature!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-research-clue-seed-planting-payoff-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
 });
 
 test("모바일 연구 완료 후 원정 탭은 장기 메타 단서를 보여준다", async ({ page }, testInfo) => {

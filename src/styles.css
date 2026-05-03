@@ -1559,6 +1559,12 @@ h1 {
   animation: research-cta-glow 1.2s ease-in-out both;
 }
 
+.starter-panel.has-production.has-research-seed-receipt .next-creature-compact,
+.seed-inventory-row-target {
+  border-color: rgba(83, 151, 115, 0.38);
+  box-shadow: 0 8px 18px rgba(49, 121, 82, 0.12);
+}
+
 .research-unlock-receipt {
   display: grid;
   position: relative;
@@ -1714,6 +1720,84 @@ h1 {
   font-weight: 900;
 }
 
+.research-seed-receipt {
+  display: grid;
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px 7px;
+  min-height: 54px;
+  padding: 7px 50px 7px 8px;
+  overflow: hidden;
+  border: 1px solid rgba(83, 151, 115, 0.32);
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(circle at 15% 16%, rgba(255, 255, 255, 0.9), transparent 34%),
+    linear-gradient(135deg, rgba(241, 255, 232, 0.98), rgba(222, 247, 255, 0.92));
+  box-shadow:
+    0 8px 16px rgba(53, 111, 78, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.56);
+}
+
+.research-seed-receipt::after {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 70% 30% 68% 32%;
+  background:
+    radial-gradient(circle at 45% 38%, rgba(255, 255, 255, 0.72), transparent 30%),
+    linear-gradient(135deg, rgba(139, 211, 116, 0.9), rgba(83, 151, 115, 0.78));
+  box-shadow:
+    -10px -7px 0 -6px rgba(255, 235, 159, 0.9),
+    -19px 5px 0 -7px rgba(89, 167, 196, 0.72),
+    0 0 14px rgba(83, 151, 115, 0.28);
+  content: "";
+  animation: research-seed-hop 1.2s ease-in-out infinite;
+}
+
+.research-seed-chip {
+  display: inline-grid;
+  min-height: 19px;
+  place-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(83, 151, 115, 0.16);
+  color: #3f7c57;
+  font-size: 9px;
+  font-weight: 1000;
+  white-space: nowrap;
+}
+
+.research-seed-receipt strong,
+.research-seed-receipt span,
+.research-seed-receipt small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.research-seed-receipt strong {
+  color: #3f7c57;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.research-seed-receipt > span:not(.research-seed-chip) {
+  color: #526f7a;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.research-seed-receipt small {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 900;
+}
+
 @keyframes research-note-pop {
   0%, 100% { opacity: 0.65; transform: translate(0, -50%) rotate(-3deg); }
   50% { opacity: 1; transform: translate(3px, -55%) rotate(4deg); }
@@ -1722,6 +1806,11 @@ h1 {
 @keyframes research-clue-record {
   0%, 100% { opacity: 0.68; transform: translate(0, -50%) rotate(-4deg) scale(0.98); }
   50% { opacity: 1; transform: translate(3px, -56%) rotate(4deg) scale(1.04); }
+}
+
+@keyframes research-seed-hop {
+  0%, 100% { opacity: 0.7; transform: translate(0, -50%) rotate(-8deg) scale(0.96); }
+  50% { opacity: 1; transform: translate(4px, -58%) rotate(5deg) scale(1.05); }
 }
 
 @keyframes research-cta-glow {
@@ -4506,6 +4595,20 @@ h1 {
     padding: 7px;
   }
 
+  .starter-panel.has-production.has-research-seed-receipt .production-meter-row,
+  .starter-panel.has-production.has-research-seed-receipt .order-progress-card,
+  .starter-panel.has-production.has-research-seed-receipt .upgrade-choice-card {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-research-seed-receipt .production-action-card {
+    overflow: visible;
+  }
+
+  .starter-panel.has-production.has-research-seed-receipt .next-creature-compact {
+    padding: 7px;
+  }
+
   .research-unlock-receipt {
     min-height: 44px;
     padding: 6px 42px 6px 7px;
@@ -4531,6 +4634,20 @@ h1 {
 
   .research-complete-receipt > span:not(.research-complete-chip),
   .research-complete-receipt small {
+    font-size: 9px;
+  }
+
+  .research-seed-receipt {
+    min-height: 45px;
+    padding: 6px 42px 6px 7px;
+  }
+
+  .research-seed-receipt strong {
+    font-size: 11px;
+  }
+
+  .research-seed-receipt > span:not(.research-seed-chip),
+  .research-seed-receipt small {
     font-size: 9px;
   }
 

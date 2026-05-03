@@ -2,7 +2,7 @@
 
 - GitHub issue: #306 https://github.com/bborok1234/strange-seed-shop/issues/306
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
-- Status: planned
+- Status: verification-ready
 - Branch: `codex/0306-research-clue-seed-planting-payoff`
 - Created: 2026-05-03
 
@@ -16,12 +16,12 @@
 
 ## 수용 기준
 
-- [ ] 연구 완료 후 목표 씨앗 row에서 구매/심기 player verb가 명확하다.
-- [ ] 목표 씨앗 구매 또는 심기 직후 `연구 단서 씨앗` reward motion/HUD affordance가 visible하다.
-- [ ] garden playfield가 연구 단서 씨앗 심기/준비 state를 보여준다.
-- [ ] 신규 manifest asset 없이 DOM/CSS reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 receipt/CTA가 bottom tab과 겹치지 않고 action surface overflow를 만들지 않는다.
-- [ ] focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 통과한다.
+- [x] 연구 완료 후 목표 씨앗 row에서 구매/심기 player verb가 명확하다.
+- [x] 목표 씨앗 구매 또는 심기 직후 `연구 단서 씨앗` reward motion/HUD affordance가 visible하다.
+- [x] garden playfield가 연구 단서 씨앗 심기/준비 state를 보여준다.
+- [x] 신규 manifest asset 없이 DOM/CSS reward motion으로 구현하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 receipt/CTA가 bottom tab과 겹치지 않고 action surface overflow를 만들지 않는다.
+- [x] focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -80,3 +80,19 @@
 
 - 현재는 단일 React/CSS/visual regression tranche이므로 native subagent/team은 사용하지 않는다.
 - 필요 시 분리 기준: asset generation이 필요해지면 asset pipeline subtask, Browser Use 복구가 필요하면 QA/verifier subtask로 분리한다.
+
+## 구현 evidence
+
+- `src/App.tsx`: `ResearchSeedReceipt` state를 추가하고 연구 단서 목표 씨앗 구매/심기 후 receipt, telemetry `research_clue_seed_*`, playfield `도감 목표 심기`/`연구 단서` state를 연결했다.
+- `src/styles.css`: 신규 manifest asset 없이 CSS/DOM seed tag reward motion, next creature compact glow, 393px overflow 방지 규칙을 추가했다.
+- `tests/visual/p0-mobile-game-shell.spec.ts`: 연구 단서 목표 씨앗 구매/심기, playfield state, next creature CTA, bottom-tab invariant, lunar seed regression을 검증한다.
+
+## QA/playtest evidence
+
+- Browser Use blocker: `reports/visual/browser-use-blocker-0306-20260503.md`
+- Playwright screenshot: `reports/visual/issue-306-research-clue-seed-planting-payoff-393.png`
+- `npm run build` → pass
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗"` → 1 passed
+- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|달빛 씨앗은 구매와 심기"` → 2 passed
+- `npm run check:visual` → 56 passed
+- `npm run check:ci` → pass
