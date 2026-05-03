@@ -3,58 +3,53 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T06:17:13.017Z
+Generated at: 2026-05-03T06:43:46.613Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #312 **연구 단서 발견 후 도감에 새 기록 저장 payoff를 보이게 만든다**의 PR publication gate다. 구현/검증은 완료되었고, routine GitHub publication은 agent responsibility이므로 issue body update, branch push, draft PR create, PR checks watch/repair, ready/merge, main CI observation까지 이어간다.
+현재 작업은 GitHub-authoritative open WorkUnit #314 **도감 새 기록 다음 씨앗 목표 CTA가 구매/심기 준비로 이어지게 만든다**의 PR publication gate다. 구현과 focused/full verification은 통과했고, 남은 checkpoint는 issue body 갱신, branch push, draft PR 생성, GitHub checks watch/repair, merge, main CI 관찰이다.
 
 현재 evidence:
 
-- GitHub issue: #312 `연구 단서 발견 후 도감에 새 기록 저장 payoff를 보이게 만든다`
-- Plan artifact: `items/0158-research-clue-album-record.md` — 수용 기준 모두 충족, status `verification-ready`
-- Branch: `codex/0312-research-clue-album-record`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS album highlight + HUD affordance
-- Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0312-20260503.md`
-- Screenshot: `reports/visual/issue-312-research-clue-album-record-393.png`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-research-clue-album-record-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-312-research-clue-album-record-20260503.md`
-- GateEvent body-file: `reports/operations/gate-event-0312-research-clue-album-record-20260503.md`
+- GitHub issue: #314 `도감 새 기록 다음 씨앗 목표 CTA가 구매/심기 준비로 이어지게 만든다`
+- Plan artifact: `items/0159-album-record-next-seed-cta.md`
+- Branch: `codex/0314-album-record-next-seed-cta`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, DOM/CSS row highlight + HUD affordance
+- Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
+- Player verb: `새 기록 다음 씨앗 고르기`
+- Production role: 도감 기억 저장 → 다음 씨앗 목표 구매/심기 준비
+- Screen moment: #312 새 단서 기록 card의 다음 씨앗 목표 CTA를 누른 직후 seeds tab
+- Concrete payoff: `새 기록 다음 목표` row highlight, `도감 기록 다음 씨앗` HUD affordance, 구매/심기 affordance
+- Browser Use blocker: `reports/visual/browser-use-blocker-0314-20260503.md`
+- Screenshot: `reports/visual/issue-314-album-record-next-seed-cta-393.png`
+- Verification: `npm run build` pass, focused Playwright 1 passed, 연구 단서 회귀 5 passed, `npm run check:visual` 60 passed, `npm run check:ci` pass
+- Competition production gap: collection idle games는 새 발견 뒤 다음 target CTA가 shop/inventory row에 연결된다.
 
-검증 evidence:
+즉시 적용할 gate:
 
-- `npm run build` — pass
-- `npx playwright test --config playwright.config.ts --grep "연구 단서 도감|새 단서 기록"` — 1 passed
-- `npx playwright test --config playwright.config.ts --grep "연구 단서 씨앗|연구 단서 성장|연구 단서 수확|단서 생명체|연구 단서 도감|새 단서 기록"` — 4 passed
-- `npm run check:visual` — 59 passed
-- `npm run check:ci` — pass
-
-즉시 다음 gate:
-
-1. `gh issue edit 312 --body-file reports/operations/github-bodies/issue-research-clue-album-record-20260503.md`
-2. branch push와 draft PR create/update를 body-file로 수행한다.
-3. PR required checks를 watch/repair하고 green이면 ready/merge한다.
-4. merge 후 main CI를 GitHub run으로 관찰한다. post-merge closeout commit/PR은 만들지 않는다.
-5. Stop rule이 없으면 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub-authoritative WorkUnit을 선택하고 plan-first로 계속한다.
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
+2. 구현 전 plan artifact의 수용 기준, Game Studio route, Department Signoff, Subagent/Team Routing을 유지한다.
+3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
+4. 393px 모바일 visual regression은 seeds target row, action buttons, bottom-tab overlap을 함께 검증한다.
+5. 남은 checkpoint는 issue body-file publication, branch push, draft PR create/update, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. Studio Campaign Gate: 다음 게임 WorkUnit 선택도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 signoff, role-debate note, reference teardown, creative brief, QA/playtest plan을 plan-first에 남긴다.
-7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #312은 단일 React/CSS/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
+7. Subagent/Team Routing: Codex native subagents 또는 team mode는 독립 evidence가 병렬로 필요할 때만 쓰고, 이번 #314는 단일 React/CSS/visual regression tranche라 plan artifact에 미사용 사유를 기록했다.
 8. 단순 주문 추가, copy tweak, spacing tweak, test-only 작업은 production blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/0312-research-clue-album-record
-- Latest commit: 7eef672 #312 연구 단서 도감 기록 payoff를 plan-first로 고정한다
+- Branch: codex/0314-album-record-next-seed-cta
+- Latest commit: f5c9147 도감 기록 이후 다음 씨앗 행동을 잇기 위해 target row를 강조한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T06:17:10Z
-- Phase: issue-312-pr-publication
-- Issue: 312
+- Timestamp: 2026-05-03T06:43:44Z
+- Phase: issue-314-pr-publication
+- Issue: 314
 - PR: 
-- Item: items/0158-research-clue-album-record.md
+- Item: items/0159-album-record-next-seed-cta.md
 - Next action: publication gate: update issue body-file, push branch, create draft PR, watch checks, merge when green, observe main CI
 
 ## Open PRs
@@ -63,7 +58,7 @@ Generated at: 2026-05-03T06:17:13.017Z
 
 ## Open issues
 
-- #312 연구 단서 발견 후 도감에 새 기록 저장 payoff를 보이게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/312
+- #314 도감 새 기록 다음 씨앗 목표 CTA가 구매/심기 준비로 이어지게 만든다 — https://github.com/bborok1234/strange-seed-shop/issues/314
 
 ## Playable mode
 

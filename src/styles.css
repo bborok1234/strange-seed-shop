@@ -3729,6 +3729,16 @@ h1 {
     0 10px 22px rgba(39, 86, 64, 0.12);
 }
 
+.seed-goal-banner-record-next {
+  border-color: rgba(83, 151, 115, 0.36);
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.8), transparent 32%),
+    linear-gradient(135deg, rgba(233, 250, 205, 0.96), rgba(255, 246, 199, 0.9));
+  box-shadow:
+    inset 0 0 0 2px rgba(136, 196, 96, 0.32),
+    0 11px 22px rgba(39, 86, 64, 0.13);
+}
+
 .seed-goal-banner img,
 .seed-goal-banner .asset-fallback {
   width: 46px;
@@ -3859,6 +3869,17 @@ h1 {
     0 12px 24px rgba(39, 86, 64, 0.14);
 }
 
+.seed-inventory-row-record-next {
+  border-color: rgba(83, 151, 115, 0.46);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.78), transparent 34%),
+    linear-gradient(135deg, rgba(233, 250, 205, 0.98), rgba(255, 245, 194, 0.94)),
+    var(--surface-raised);
+  box-shadow:
+    inset 0 0 0 2px rgba(136, 196, 96, 0.54),
+    0 12px 24px rgba(61, 126, 83, 0.14);
+}
+
 .seed-inventory-row .seed-target-badge,
 .seed-shop-row .seed-target-badge {
   display: inline-flex;
@@ -3870,6 +3891,19 @@ h1 {
   color: #fff8d9;
   font-size: 11px;
   font-weight: 900;
+}
+
+.album-record-next-seed-line {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 3px 0 1px;
+  padding: 3px 7px;
+  border-radius: var(--radius-pill);
+  background: rgba(83, 151, 115, 0.13);
+  color: #3f7c57;
+  font-size: 11px;
+  font-weight: 950;
 }
 
 .seed-inventory-row .seed-target-status-line {
