@@ -545,6 +545,13 @@ export default function App() {
     productionStatus?.order.id === FIRST_ORDER.id && productionStatus.orderReady && !productionStatus.orderCompleted
   );
   const hasResearchSeedPlot = Boolean(save?.plots.some((plot) => plot.source === "research" && plot.seedId));
+  const hasAlbumRecordFollowupPlot = Boolean(
+    save &&
+      nextCreatureGoal &&
+      save.plots.some(
+        (plot) => plot.seedId === nextCreatureGoal.seed.id && plot.source === "album_record_next_seed" && plot.plantedAt
+      )
+  );
   const actionSurfaceClassName = [
     "starter-panel garden-action-surface",
     productionStatus ? "has-production" : "",
@@ -566,6 +573,7 @@ export default function App() {
     researchCompleteReceipt ? "has-research-complete-receipt" : "",
     researchHarvestReceipt ? "has-research-harvest-receipt" : "",
     albumRecordPlantReceipt ? "has-album-record-plant-receipt" : "",
+    hasAlbumRecordFollowupPlot ? "has-album-record-growth-preview" : "",
     orderDeliveryReceipt ? "has-order-dispatch-receipt" : "",
     firstOrderDispatchReceiptActive ? "has-first-order-dispatch-receipt" : "",
     save &&
@@ -626,6 +634,9 @@ export default function App() {
   const researchGrowthPreview = hasResearchSeedPlot && nextCreatureGoal
     ? `${nextCreatureGoal.seed.name} 수확 예고 · ${nextCreatureGoal.creature.name} 단서 추적 중`
     : null;
+  const albumRecordGrowthPreview = hasAlbumRecordFollowupPlot && nextCreatureGoal
+    ? `${nextCreatureGoal.seed.name} 후속 성장 중 · ${nextCreatureGoal.creature.name} 수확 예고`
+    : null;
   const albumRecordNextSeedActive = Boolean(researchAlbumRecord && activeTab === "seeds" && nextCreatureGoal);
   const gardenViewModel = useMemo(
     () =>
@@ -640,7 +651,8 @@ export default function App() {
         researchCompleteReceipt,
         researchSeedReceipt,
         researchHarvestReceipt,
-        albumRecordPlantReceipt
+        albumRecordPlantReceipt,
+        nextCreatureGoal
       ),
     [
       save,
@@ -653,7 +665,8 @@ export default function App() {
       researchCompleteReceipt,
       researchSeedReceipt,
       researchHarvestReceipt,
-      albumRecordPlantReceipt
+      albumRecordPlantReceipt,
+      nextCreatureGoal
     ]
   );
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
@@ -824,8 +837,8 @@ export default function App() {
   }
 
   function plantOwnedSeed(seed: SeedDefinition) {
-    const isResearchClueSeed = seed.id === researchClueTargetSeedId && seed.id !== LUNAR_REWARD_SEED_ID;
     const isAlbumRecordTargetSeed = Boolean(researchAlbumRecord && nextCreatureGoal?.seed.id === seed.id && activeTab === "seeds");
+    const isResearchClueSeed = !isAlbumRecordTargetSeed && seed.id === researchClueTargetSeedId && seed.id !== LUNAR_REWARD_SEED_ID;
     const shouldOpenGardenAfterPlanting =
       save !== null &&
       (save.seedInventory[seed.id] ?? 0) > 0 &&
@@ -847,7 +860,11 @@ export default function App() {
       }
 
       draft.seedInventory[seed.id] -= 1;
-      const seedSource = isResearchClueSeed ? "research" : getSeedPlantingSource(draft, seed);
+      const seedSource = isResearchClueSeed
+        ? "research"
+        : isAlbumRecordTargetSeed
+          ? "album_record_next_seed"
+          : getSeedPlantingSource(draft, seed);
       draft.plots[plot.index] = plantSeedInPlot(plot, seed, seedSource);
       trackEvent(
         "seed_planted",
@@ -1988,6 +2005,9 @@ export default function App() {
                   <span>힌트: {nextCreatureGoal.creature.albumHint}</span>
                   {researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
                   {researchGrowthPreview && <span className="research-growth-preview-line">수확 예고: {researchGrowthPreview}</span>}
+                  {albumRecordGrowthPreview && (
+                    <span className="album-record-growth-preview-line">수확 예고: {albumRecordGrowthPreview}</span>
+                  )}
                   <small>
                     {nextCreatureGoal.seed.name}에서 만날 수 있어요 · 도감 {nextCreatureGoal.discoveredCount}/{nextCreatureGoal.totalCount}
                   </small>
@@ -2882,7 +2902,8 @@ function buildGardenPlayfieldViewModel(
   researchCompleteReceipt: ResearchCompleteReceipt | null,
   researchSeedReceipt: ResearchSeedReceipt | null,
   researchHarvestReceipt: ResearchHarvestReceipt | null,
-  albumRecordPlantReceipt: AlbumRecordPlantReceipt | null
+  albumRecordPlantReceipt: AlbumRecordPlantReceipt | null,
+  nextCreatureGoal: NextCreatureGoal | null
 ): GardenPlayfieldViewModel {
   if (!save) {
     return {
@@ -2925,7 +2946,11 @@ function buildGardenPlayfieldViewModel(
     const tapReductionSeconds = seed.tapSecondsRemoved * (1 + save.tapPowerLevel * 0.12);
     const greenhouseLunarSource = seed.id === LUNAR_REWARD_SEED_ID && plot.source === "greenhouse_mist";
     const researchSeedSource = plot.source === "research";
-    const albumRecordSeedSource = albumRecordPlantReceipt?.seedId === seed.id;
+    const albumRecordSeedSource = plot.source === "album_record_next_seed" || albumRecordPlantReceipt?.seedId === seed.id;
+    const albumRecordGrowthPreviewLabel =
+      albumRecordSeedSource && nextCreatureGoal
+        ? `${nextCreatureGoal.creature.name} 수확 예고 · 후속 성장 중`
+        : undefined;
 
     return {
       index: plot.index,
@@ -2939,7 +2964,8 @@ function buildGardenPlayfieldViewModel(
       progressPercent,
       secondsRemaining,
       tapReductionLabel: getTapReductionLabel(tapReductionSeconds),
-      tapReductionSeconds
+      tapReductionSeconds,
+      growthPreviewLabel: albumRecordGrowthPreviewLabel
     };
   });
 
