@@ -67,7 +67,8 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 정원 첫 화면 production engine layout | done | Issue #284, PR #285, `items/0144-first-screen-production-engine-layout.md`, `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`, `reports/visual/first-screen-production-engine-one-scene-20260503.png`, Browser Use blocker, `npm run check:visual` 54 passed, main CI `25265967477` | 첫 정원 화면에서 달빛 resident, playfield, 자동 생산, 주문 crate/progress, primary verbs가 한 장면의 production engine으로 읽히게 재배치 |
 | 복귀 첫 30초 production briefing | done | Issue #292, main commit `234ea5f`, main CI `25267928815`, `items/0148-return-30s-production-briefing.md`, `reports/visual/0292-mobile-comeback-production-briefing-393-20260503.png` | 복귀 보상 modal이 다음 생산 목표와 `보상 받고 생산 잎 수령` CTA를 한 화면에 보여주고, 수령 후 첫 주문 progress/FX/overflow gate가 `npm run check:visual` 55 passed와 `npm run check:ci`로 검증됨 |
 | 첫 주문 납품 상자 출하 / 보상 흐름 production화 | done | Issue #296, PR #297 merged, main CI `25268693935`, `items/0150-order-crate-dispatch-reward-motion.md`, `reports/visual/browser-use-blocker-0296-20260503.md`, `reports/visual/issue-296-order-crate-dispatch-reward-motion-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`, `scripts/studio-v3-operator.mjs` | 첫 주문 ready 상태가 `출하 준비`와 `상자 봉인 완료`로 읽히고, 납품 직후 `상자 출하 완료` receipt/playfield crate/reward 수거가 한 장면에 보이며 PR checks와 main CI로 닫힘 |
-| 생산 잎 수령 포리 작업 FX / 주문 progress reward motion | review | Issue #298, `items/0151-production-tick-worker-fx.md`, `reports/visual/browser-use-blocker-0298-20260503.md`, `reports/visual/issue-298-production-claim-worker-fx-393.png`, `reports/visual/issue-298-order-dispatch-after-production-claim-393.png`, accepted raster FX `fx_production_tick_leaf_001`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | `생산 잎 수령` 직후 포리 작업 완료 receipt, leaf reward motion, playfield `+n 잎 이동`, 주문 progress 증가가 한 장면에 보이고 393px overflow/bottom-tab invariant와 `npm run check:visual` 55 passed로 검증됨 |
+| 생산 잎 수령 포리 작업 FX / 주문 progress reward motion | done | Issue #298, PR #299 merged, main CI `25269100475`, `items/0151-production-tick-worker-fx.md`, `reports/visual/browser-use-blocker-0298-20260503.md`, `reports/visual/issue-298-production-claim-worker-fx-393.png`, `reports/visual/issue-298-order-dispatch-after-production-claim-393.png`, accepted raster FX `fx_production_tick_leaf_001`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | `생산 잎 수령` 직후 포리 작업 완료 receipt, leaf reward motion, playfield `+n 잎 이동`, 주문 progress 증가가 한 장면에 보이고 PR checks와 main CI로 닫힘 |
+| 작업 간식 강화 포리 버프 / 생산 속도 상승 payoff | review | Issue #300, `items/0152-snack-upgrade-worker-payoff.md`, `reports/visual/browser-use-blocker-0300-20260503.md`, `reports/visual/issue-300-snack-upgrade-worker-payoff-393.png`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts` | 첫 주문 보상 이후 `작업 간식 강화`가 포리 간식 충전 receipt, playfield actor buff, 생산 +25%/분당 9.0 잎 HUD affordance로 읽히고 `npm run check:visual` 55 passed와 `npm run check:ci`로 검증됨 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Routine GitHub publication no-final harness | done | Issue #286, PR #287, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `npm run check:ci` pass, main CI `25266229841` | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
 | Closed WorkUnit mirror consistency gate | done | Issue #288, PR #289, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs`, main CI `25266430855` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
@@ -319,26 +320,28 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #298 **정원에서 생산 잎을 수령할 때 포리 작업 FX를 보이게 만든다**이다. #296은 PR #297 merge와 main CI `25268693935` success로 닫혔고, queue-empty 후 생성한 #298은 P0.5 Idle Core + Creative Rescue production game quality intake다. 지금은 #298 verification/PR gate를 진행한다.
+현재 작업은 GitHub-authoritative open WorkUnit #300 **작업 간식 강화가 포리 버프와 생산 속도 상승으로 보이게 만든다**이다. #298은 PR #299 merge와 main CI `25269100475` success로 닫혔고, queue-empty 후 생성한 #300은 P0.5 Idle Core + Creative Rescue production game quality intake다. 지금은 #300 plan-first/implementation gate다.
 
 현재 evidence:
 
-- GitHub issue: #298 `정원에서 생산 잎을 수령할 때 포리 작업 FX를 보이게 만든다`
-- Plan artifact: `items/0151-production-tick-worker-fx.md`
-- Branch: `codex/0298-production-tick-worker-fx`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:sprite-pipeline` + `game-studio:game-playtest`
+- GitHub issue: #300 `작업 간식 강화가 포리 버프와 생산 속도 상승으로 보이게 만든다`
+- Plan artifact: `items/0152-snack-upgrade-worker-payoff.md`
+- Branch: `codex/0300-snack-upgrade-worker-payoff`
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; asset lane 확장 시 `game-studio:sprite-pipeline`
+- Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
+- Player verb: `작업 간식 강화하기`
+- Production role: 첫 주문 보상 → 생산 속도 업그레이드 → 다음 주문 반복 속도 증가
+- Screen moment: 첫 주문 납품/보상 수거 직후 강화 버튼을 누르는 순간
 - Implementation: `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Asset/FX binding: accepted raster strip `public/assets/game/fx/fx_production_tick_leaf_001_strip.png`, manifest id `fx_production_tick_leaf_001`, 4 frames, 160x160, 10fps, `production_tick_fx` binding. `OPENAI_API_KEY`/`SEED_ASSET_IMAGE_MODEL` 부재로 새 API 생성은 하지 않고, 기존 accepted raster FX를 runtime reward motion/payoff에 연결한다.
-- Browser Use current-session blocker: `reports/visual/browser-use-blocker-0298-20260503.md`
-- Visual evidence: `reports/visual/issue-298-production-claim-worker-fx-393.png`, `reports/visual/issue-298-order-dispatch-after-production-claim-393.png`
+- Visual evidence: `reports/visual/browser-use-blocker-0300-20260503.md`, `reports/visual/issue-300-snack-upgrade-worker-payoff-393.png`
 - Verification: `npm run build` pass, focused Playwright `자동 생산과 첫 주문` 1 passed, `npm run check:visual` 55 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
-2. #298은 기존 asset 재사용만 주장하지 않는다. player verb `생산 잎 수령하기`를 playfield state, reward motion, action-surface receipt, order progress 증가로 묶는 runtime payoff가 merge scope다.
-3. Browser Use iab current-session blocker를 PR에 명시하고, Playwright fallback screenshot/regression을 merge-blocking visual evidence로 연결한다.
-4. PR body-file에 `요약`, `Small win`, `사용자/운영자 가치`, `Before / After 또는 Visual evidence`, `Playable mode`, `검증`, `안전 범위`, `남은 위험`, `연결된 issue`, `작업 checklist`를 유지한다.
+2. 구현 전 plan artifact의 수용 기준과 Game Studio route를 유지한다.
+3. Browser Use iab current-session 시도를 반복하고, blocker면 `reports/visual/`에 이번 issue용 blocker를 새로 남긴다.
+4. 393px 모바일 visual regression은 worker buff, rate 상승, action-surface overflow, bottom-tab overlap을 함께 검증한다.
 5. 남은 checkpoint는 branch push, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 merge 후 GitHub-authoritative 다음 WorkUnit으로 계속 진행한다.
 6. 다음 게임 WorkUnit 선택도 `Studio Campaign Gate`를 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan-first에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 production game quality blocker를 제거하고 concrete visual/game-feel payoff를 동반할 때만 허용한다.
 
