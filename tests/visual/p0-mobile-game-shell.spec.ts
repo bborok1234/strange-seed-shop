@@ -1189,7 +1189,7 @@ test("모바일 라미 도감 저장은 포장잎 상인 다음 기록 목표로
 });
 
 test("모바일 포장잎 상인 수확은 주문상자 payoff로 이어진다", async ({ page }, testInfo) => {
-  test.setTimeout(270_000);
+  test.setTimeout(600_000);
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaResearchComplete=1&qaTab=seeds&qaFxTelemetry=1");
 
@@ -1281,6 +1281,116 @@ test("모바일 포장잎 상인 수확은 주문상자 payoff로 이어진다",
 
   await page.screenshot({
     path: testInfo.outputPath("mobile-merchant-record-harvest-crate-payoff-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
+
+test("모바일 상인 주문상자 보상 수령은 HUD 보상 이동 FX로 이어진다", async ({ page }, testInfo) => {
+  test.setTimeout(600_000);
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1&qaTab=seeds&qaFxTelemetry=1");
+
+  const researchTargetRow = page.locator(".seed-inventory-row-target").first();
+  await researchTargetRow.getByRole("button", { name: /구매/ }).click();
+  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 씨앗 목표: 젤리콩 통통" }).click();
+
+  const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
+  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 기록으로 이어가기: 방울새싹 씨앗" }).click();
+
+  const ramiTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
+  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
+  await expect(page.getByLabel("새 기록 재순환 생명체 발견")).toContainText("이슬연금 라미");
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 기록으로 이어가기: 젤리콩 씨앗" }).click();
+
+  const merchantTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await merchantTargetRow.getByRole("button", { name: /구매/ }).click();
+  await merchantTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
+  await expect(page.getByLabel("포장잎 상인 주문상자 payoff")).toContainText("보상 포장 완료");
+  await expect(page.getByRole("button", { name: "상인 주문상자 보상 받기" })).toBeEnabled();
+
+  const beforeResources = await page.evaluate(() => {
+    const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+    const parsed = raw ? (JSON.parse(raw) as { leaves?: number; pollen?: number; claimedMerchantCrateRewardIds?: string[] }) : {};
+    return {
+      leaves: parsed.leaves ?? 0,
+      pollen: parsed.pollen ?? 0,
+      claimed: parsed.claimedMerchantCrateRewardIds?.includes("merchant_crate_creature_candy_common_002") ?? false
+    };
+  });
+  expect(beforeResources.claimed).toBe(false);
+
+  await page.getByRole("button", { name: "상인 주문상자 보상 받기" }).click();
+
+  await expect(page.getByLabel("포장잎 상인 주문상자 payoff")).toContainText("보상 수령 완료");
+  await expect(page.getByLabel("포장잎 상인 주문상자 payoff")).toContainText("잎/꽃가루 HUD로 이동");
+  await expect(page.getByLabel("상인 주문상자 보상 수령 완료")).toContainText("+36 잎 · +1 꽃가루");
+  await expect(page.getByRole("button", { name: "상인 주문상자 수령 완료" })).toBeDisabled();
+  await expect(page.locator(".playfield-order-crate.order-variant-merchant-claimed")).toContainText("상인 주문상자 수령");
+  await expect(page.locator(".playfield-order-crate.order-variant-merchant-claimed")).toContainText("HUD 보상 이동");
+  await expect(page.getByLabel("상인 주문상자 HUD 보상 이동")).toContainText("포장잎 상인 주문상자 열림");
+  await expect(page.getByLabel("상인 주문상자 HUD 보상 이동")).toContainText("+36 잎 · +1 꽃가루");
+
+  const afterResources = await page.evaluate(() => {
+    const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+    const parsed = raw ? (JSON.parse(raw) as { leaves?: number; pollen?: number; claimedMerchantCrateRewardIds?: string[] }) : {};
+    return {
+      leaves: parsed.leaves ?? 0,
+      pollen: parsed.pollen ?? 0,
+      claimedCount: parsed.claimedMerchantCrateRewardIds?.filter((id) => id === "merchant_crate_creature_candy_common_002").length ?? 0
+    };
+  });
+  expect(afterResources.leaves).toBe(beforeResources.leaves + 36);
+  expect(afterResources.pollen).toBe(beforeResources.pollen + 1);
+  expect(afterResources.claimedCount).toBe(1);
+
+  const metrics = await page.evaluate(() => {
+    const card = document.querySelector<HTMLElement>(".harvest-reveal-card.is-album-record-reveal")?.getBoundingClientRect();
+    const merchantCrate = document.querySelector<HTMLElement>(".merchant-order-crate-payoff")?.getBoundingClientRect();
+    const claimReceipt = document.querySelector<HTMLElement>(".merchant-crate-claim-receipt")?.getBoundingClientRect();
+    const hudReceipt = document.querySelector<HTMLElement>(".merchant-crate-hud-receipt")?.getBoundingClientRect();
+    const playfieldCrate = document.querySelector<HTMLElement>(".playfield-order-crate.order-variant-merchant-claimed")?.getBoundingClientRect();
+    const cta = document.querySelector<HTMLElement>(".reveal-cta")?.getBoundingClientRect();
+    const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    return {
+      innerHeight: window.innerHeight,
+      bodyScrollHeight,
+      card: card ? { top: card.top, bottom: card.bottom } : null,
+      merchantCrate: merchantCrate ? { bottom: merchantCrate.bottom } : null,
+      claimReceipt: claimReceipt ? { bottom: claimReceipt.bottom } : null,
+      hudReceipt: hudReceipt ? { bottom: hudReceipt.bottom } : null,
+      playfieldCrate: playfieldCrate ? { bottom: playfieldCrate.bottom } : null,
+      cta: cta ? { bottom: cta.bottom } : null
+    };
+  });
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.card).not.toBeNull();
+  expect(metrics.merchantCrate).not.toBeNull();
+  expect(metrics.claimReceipt).not.toBeNull();
+  expect(metrics.hudReceipt).not.toBeNull();
+  expect(metrics.playfieldCrate).not.toBeNull();
+  expect(metrics.cta).not.toBeNull();
+  expect(metrics.card!.top).toBeGreaterThanOrEqual(8);
+  expect(metrics.card!.bottom).toBeLessThanOrEqual(metrics.innerHeight - 8);
+  expect(metrics.cta!.bottom).toBeLessThanOrEqual(metrics.innerHeight - 16);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-merchant-crate-claim-hud-fx-393.png"),
     fullPage: false,
     animations: "disabled"
   });

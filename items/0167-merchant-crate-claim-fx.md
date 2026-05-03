@@ -6,7 +6,7 @@
 - Branch: `codex/0330-merchant-crate-claim-fx`
 - Campaign source of truth: P0.5 Idle Core + Creative Rescue
 - Runner decision: `production-game-intake-required` after #329 merge and main CI `25279311165` success
-- Status: plan-first ready
+- Status: PR publication ready
 
 ## 문제 / 배경
 
@@ -57,13 +57,13 @@
 
 ## 수용 기준
 
-- [ ] #328 flow에서 `포장잎 상인` 수확 후 `상인 주문상자 보상 받기` 또는 동등한 CTA가 보인다.
-- [ ] CTA 클릭 후 reveal/receipt 또는 정원 HUD가 crate open/claimed state, reward motion, resource delta를 보여준다.
-- [ ] 수령 상태가 저장되어 새로고침 후 중복 수령되지 않거나, QA 세션 내에서 중복 수령 방지 evidence가 있다.
-- [ ] 다음 납품/생산 목표 affordance가 같은 모바일 화면에서 읽힌다.
-- [ ] 신규 accepted manifest asset 없이 DOM/CSS FX와 기존 portrait만 사용하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 CTA/receipt/HUD delta/order crate/하단 탭이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] #328 flow에서 `포장잎 상인` 수확 후 `상인 주문상자 보상 받기` 또는 동등한 CTA가 보인다.
+- [x] CTA 클릭 후 reveal/receipt 또는 정원 HUD가 crate open/claimed state, reward motion, resource delta를 보여준다.
+- [x] 수령 상태가 저장되어 새로고침 후 중복 수령되지 않거나, QA 세션 내에서 중복 수령 방지 evidence가 있다.
+- [x] 다음 납품/생산 목표 affordance가 같은 모바일 화면에서 읽힌다.
+- [x] 신규 accepted manifest asset 없이 DOM/CSS FX와 기존 portrait만 사용하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 CTA/receipt/HUD delta/order crate/하단 탭이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## 검증 명령
 
@@ -90,3 +90,23 @@
 
 - 기본은 solo execution: 상태 필드, UI, CSS, visual regression이 같은 좁은 파일 집합에 묶여 있어 병렬 worker가 merge conflict를 만들 가능성이 더 크다.
 - Codex native subagent는 Browser Use/QA blocker 조사나 save schema 영향 분석이 분리될 때만 사용한다. 현재 즉시 blocker는 아니므로 spawn하지 않는다.
+
+
+## 구현 결과
+
+- `src/types/game.ts`, `src/lib/persistence.ts`: `claimedMerchantCrateRewardIds`를 저장/정규화해 상인 주문상자 보상 중복 수령을 막았다.
+- `src/App.tsx`: 포장잎 상인 reveal의 `상인 주문상자`를 `상인 주문상자 보상 받기` CTA로 확장하고, 클릭 시 `+36 잎 · +1 꽃가루`, `상자 열림`, `HUD 보상 이동`, playfield `merchant-claimed` state를 표시한다.
+- `src/game/playfield/types.ts`: playfield order variant에 `merchant-claimed`를 추가했다.
+- `src/styles.css`: crate open state, reward flyout, HUD receipt, playfield claimed crate CSS motion을 추가했다.
+- `tests/visual/p0-mobile-game-shell.spec.ts`: #328 flow 뒤 상인 주문상자 보상 수령, localStorage 중복 수령 방지, HUD delta, 393px layout invariant를 검증하는 regression을 추가했다.
+- 신규 accepted manifest asset, runtime image generation/API 호출, 결제/외부 배포/고객 데이터 변경 없음.
+
+## 검증 결과
+
+- Browser Use iab current-session 시도: blocked, `reports/visual/browser-use-blocker-0330-20260503.md`.
+- Screenshot: `reports/visual/issue-330-merchant-crate-claim-fx-393.png`.
+- `npm run build` — pass.
+- `npx playwright test --config playwright.config.ts --grep "상인 주문상자 보상"` — 1 passed.
+- `npx playwright test --config playwright.config.ts --grep "포장잎 상인 수확|상인 주문상자 보상"` — 2 passed.
+- `npm run check:visual` — 68 passed.
+- `npm run check:ci` — pass.

@@ -1417,6 +1417,13 @@ h1 {
   font-weight: 900;
 }
 
+.production-action-card.has-merchant-crate-claim-receipt .order-progress-card {
+  border-color: rgba(153, 96, 44, 0.34);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.84), transparent 34%),
+    linear-gradient(135deg, rgba(255, 244, 206, 0.96), rgba(226, 249, 196, 0.9));
+}
+
 .production-claim-receipt small {
   grid-column: 1 / -1;
   color: var(--text-muted);
@@ -2923,6 +2930,126 @@ h1 {
 .album-record-harvest-receipt .panel-label,
 .album-record-harvest-receipt strong {
   color: #7a5a16;
+}
+
+.merchant-order-crate-payoff {
+  position: relative;
+  overflow: hidden;
+  border-style: solid;
+  border-color: rgba(153, 96, 44, 0.38);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.86), transparent 34%),
+    radial-gradient(circle at 78% 68%, rgba(255, 207, 132, 0.58), transparent 34%),
+    linear-gradient(135deg, rgba(255, 242, 202, 0.98), rgba(231, 247, 207, 0.88));
+  box-shadow:
+    0 10px 20px rgba(153, 96, 44, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.48);
+}
+
+.merchant-order-crate-payoff::after {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  width: 28px;
+  height: 18px;
+  border: 2px solid rgba(153, 96, 44, 0.48);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow:
+    -10px 9px 0 -6px rgba(255, 198, 122, 0.94),
+    -22px 2px 0 -7px rgba(92, 150, 83, 0.78),
+    0 0 12px rgba(153, 96, 44, 0.26);
+  content: "";
+  animation: merchant-crate-pack 1.45s ease-in-out infinite;
+}
+
+.merchant-order-crate-payoff.is-claimed::after {
+  border-top-color: transparent;
+  transform-origin: left top;
+  animation: merchant-crate-open 1.15s ease-out both;
+}
+
+.merchant-crate-claim-button {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 38px;
+  margin-top: 8px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: linear-gradient(135deg, #9b6930, #d49242);
+  color: #fff8df;
+  font-weight: 1000;
+  box-shadow: 0 8px 18px rgba(153, 96, 44, 0.2);
+}
+
+.merchant-crate-claim-button:disabled {
+  background: rgba(128, 111, 74, 0.42);
+  color: rgba(255, 250, 222, 0.86);
+  box-shadow: none;
+}
+
+.merchant-crate-claim-receipt,
+.merchant-crate-hud-receipt {
+  display: grid;
+  position: relative;
+  z-index: 1;
+  gap: 2px;
+  margin-top: 8px;
+  padding: 7px 42px 7px 8px;
+  overflow: hidden;
+  border: 1px solid rgba(153, 96, 44, 0.24);
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.84), transparent 32%),
+    linear-gradient(135deg, rgba(255, 247, 213, 0.96), rgba(226, 249, 196, 0.9));
+  text-align: left;
+}
+
+.merchant-crate-claim-receipt::after,
+.merchant-crate-hud-receipt::after {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  width: 30px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow:
+    -8px -7px 0 -5px rgba(255, 225, 109, 0.96),
+    -18px 3px 0 -6px rgba(86, 151, 75, 0.76),
+    0 0 14px rgba(153, 96, 44, 0.28);
+  content: "";
+  animation: merchant-reward-flyout 1.05s ease-in-out infinite;
+}
+
+.merchant-crate-claim-chip,
+.merchant-crate-hud-chip {
+  display: inline-grid;
+  width: max-content;
+  min-height: 19px;
+  place-items: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(153, 96, 44, 0.14);
+  color: #7a4e1f;
+  font-size: 9px;
+  font-weight: 1000;
+}
+
+.merchant-crate-claim-receipt strong,
+.merchant-crate-hud-receipt strong {
+  color: #7a4e1f;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.merchant-crate-claim-receipt small,
+.merchant-crate-hud-receipt span,
+.merchant-crate-hud-receipt small {
+  color: #5f6d35;
+  font-size: 10px;
+  font-weight: 900;
 }
 
 .harvest-reveal-card .reveal-cta {
@@ -6019,6 +6146,34 @@ h1 {
   animation: merchant-crate-pack 1.45s ease-in-out infinite;
 }
 
+.playfield-order-crate.order-variant-merchant-claimed {
+  position: relative;
+  border-color: rgba(91, 145, 75, 0.46);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.84), transparent 32%),
+    radial-gradient(circle at 76% 66%, rgba(255, 227, 116, 0.56), transparent 36%),
+    linear-gradient(135deg, rgba(236, 255, 205, 0.96), rgba(255, 240, 190, 0.9));
+  box-shadow:
+    0 5px 12px rgba(92, 150, 83, 0.17),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.playfield-order-crate.order-variant-merchant-claimed::after {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  width: 28px;
+  height: 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow:
+    -8px -6px 0 -5px rgba(255, 225, 109, 0.96),
+    -18px 3px 0 -6px rgba(86, 151, 75, 0.76),
+    0 0 14px rgba(92, 150, 83, 0.3);
+  content: "";
+  animation: merchant-reward-flyout 1.05s ease-in-out infinite;
+}
+
 @keyframes merchant-crate-pack {
   0%,
   100% {
@@ -6029,6 +6184,36 @@ h1 {
   50% {
     opacity: 1;
     transform: translateY(2px) rotate(1deg);
+  }
+}
+
+@keyframes merchant-crate-open {
+  0% {
+    opacity: 0.72;
+    transform: rotate(0deg) translateY(0);
+  }
+
+  55% {
+    opacity: 1;
+    transform: rotate(-14deg) translateY(-3px);
+  }
+
+  100% {
+    opacity: 0.86;
+    transform: rotate(-9deg) translateY(-2px);
+  }
+}
+
+@keyframes merchant-reward-flyout {
+  0%,
+  100% {
+    opacity: 0.62;
+    transform: translate(0, -50%) scale(0.96);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-8px, -64%) scale(1.05);
   }
 }
 

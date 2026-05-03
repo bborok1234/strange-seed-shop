@@ -44,13 +44,13 @@
 
 ## 수용 기준
 
-- [ ] #328 flow에서 `포장잎 상인` 수확 후 `상인 주문상자 보상 받기` 또는 동등한 CTA가 보인다.
-- [ ] CTA 클릭 후 reveal/receipt 또는 정원 HUD가 crate open/claimed state, reward motion, resource delta를 보여준다.
-- [ ] 수령 상태가 저장되어 새로고침 후 중복 수령되지 않거나, QA 세션 내에서 중복 수령 방지 evidence가 있다.
-- [ ] 다음 납품/생산 목표 affordance가 같은 모바일 화면에서 읽힌다.
-- [ ] 신규 accepted manifest asset 없이 DOM/CSS FX와 기존 portrait만 사용하고 runtime image generation/API를 호출하지 않는다.
-- [ ] 393px 모바일에서 CTA/receipt/HUD delta/order crate/하단 탭이 겹치지 않고 overflow를 만들지 않는다.
-- [ ] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
+- [x] #328 flow에서 `포장잎 상인` 수확 후 `상인 주문상자 보상 받기` 또는 동등한 CTA가 보인다.
+- [x] CTA 클릭 후 reveal/receipt 또는 정원 HUD가 crate open/claimed state, reward motion, resource delta를 보여준다.
+- [x] 수령 상태가 저장되어 새로고침 후 중복 수령되지 않거나, QA 세션 내에서 중복 수령 방지 evidence가 있다.
+- [x] 다음 납품/생산 목표 affordance가 같은 모바일 화면에서 읽힌다.
+- [x] 신규 accepted manifest asset 없이 DOM/CSS FX와 기존 portrait만 사용하고 runtime image generation/API를 호출하지 않는다.
+- [x] 393px 모바일에서 CTA/receipt/HUD delta/order crate/하단 탭이 겹치지 않고 overflow를 만들지 않는다.
+- [x] Browser Use iab current-session 시도 evidence 또는 blocker, focused Playwright screenshot, `npm run check:visual`, `npm run check:ci`가 남는다.
 
 ## Visual evidence 계획
 
@@ -88,3 +88,22 @@
 
 - 단일 React/CSS/visual regression tranche라 기본은 solo execution.
 - Codex native subagents/team mode는 reward-claim 상태 설계와 visual QA가 분리될 때만 사용한다.
+
+
+## 구현 결과
+
+- `claimedMerchantCrateRewardIds` 저장 필드와 persistence normalization으로 `merchant_crate_creature_candy_common_002` 중복 수령을 막았다.
+- 포장잎 상인 수확 reveal에 `상인 주문상자 보상 받기` CTA, `상자 열림`, `+36 잎 · +1 꽃가루`, `다음 납품 목표 확인` receipt를 추가했다.
+- 정원 production scene/playfield crate는 claimed 후 `상인 주문상자 수령`, `HUD 보상 이동`, `merchant-claimed` visual state로 바뀐다.
+- 393px regression은 localStorage leaves/pollen 증가와 claimed id 1회 저장, reveal card/claim receipt/HUD receipt/playfield crate viewport invariant를 검증한다.
+- 신규 accepted manifest asset, runtime image generation/API 호출, 결제/외부 배포/고객 데이터 변경 없음.
+
+## 검증 결과
+
+- Browser Use iab current-session 시도: blocked, `reports/visual/browser-use-blocker-0330-20260503.md`.
+- Screenshot: `reports/visual/issue-330-merchant-crate-claim-fx-393.png`.
+- `npm run build` — pass.
+- `npx playwright test --config playwright.config.ts --grep "상인 주문상자 보상"` — 1 passed.
+- `npx playwright test --config playwright.config.ts --grep "포장잎 상인 수확|상인 주문상자 보상"` — 2 passed.
+- `npm run check:visual` — 68 passed.
+- `npm run check:ci` — pass.
