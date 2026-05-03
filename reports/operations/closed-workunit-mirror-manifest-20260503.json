@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-03T01:05:00.000Z",
+  "source": "GitHub CLI observation after #284/#285 and #286/#287 merge; local docs/reports are evidence mirrors, not authority.",
+  "activeWorkUnit": {
+    "issue": 288,
+    "title": "닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다",
+    "item": "items/0146-closed-workunit-mirror-consistency.md",
+    "branch": "codex/0288-closed-workunit-mirror-consistency"
+  },
+  "workUnits": [
+    {
+      "issue": 284,
+      "issueTitle": "정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T00:48:05Z",
+      "pr": 285,
+      "prTitle": "#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T00:48:04Z",
+      "mergeCommit": "a4633599d90f7adad1844cd8f3ce8cb5dabf8d35",
+      "mainCiRun": 25265967477,
+      "mainCiConclusion": "success",
+      "roadmapStep": "정원 첫 화면 production engine layout",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": ["Issue #284", "PR #285", "main CI `25265967477`"],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #284",
+        "Branch: `codex/0284-first-screen-production-engine-layout`",
+        "Branch: codex/0284-first-screen-production-engine-layout"
+      ]
+    },
+    {
+      "issue": 286,
+      "issueTitle": "GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T01:03:07Z",
+      "pr": 287,
+      "prTitle": "#286 GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T01:03:06Z",
+      "mergeCommit": "dc7fa42514146291a67f8ce0294d2150da535ee1",
+      "mainCiRun": 25266229841,
+      "mainCiConclusion": "success",
+      "roadmapStep": "Routine GitHub publication no-final harness",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": ["Issue #286", "PR #287", "main CI `25266229841`"],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #286",
+        "Branch: `codex/0286-routine-github-publication-no-final`",
+        "Branch: codex/0286-routine-github-publication-no-final"
+      ]
+    }
+  ]
+}

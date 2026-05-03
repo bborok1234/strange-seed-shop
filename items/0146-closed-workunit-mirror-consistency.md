@@ -1,6 +1,6 @@
 # #288 닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다
 
-- 상태: `planning`
+- 상태: `ready-for-pr`
 - GitHub issue: #288 `닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다`
 - Branch: `codex/0288-closed-workunit-mirror-consistency`
 - WorkUnit authority: GitHub issue/PR/GateEvent. local docs/reports는 evidence mirror다.
@@ -20,11 +20,11 @@
 
 ## 수용 기준
 
-- [ ] #284/#285, #286/#287의 GitHub CLOSED/MERGED/main CI evidence가 manifest/report에 있다.
-- [ ] #284/#286 roadmap row가 `done`이며 main CI evidence를 포함한다.
-- [ ] Current Next Action과 control room은 #286/#284를 active mission으로 표시하지 않는다.
-- [ ] `npm run check:closed-workunit-mirrors`가 stale `review` 또는 active mission 회귀를 실패시킨다.
-- [ ] `npm run check:ops-live`, `npm run check:dashboard`, `npm run check:ci`가 통과한다.
+- [x] #284/#285, #286/#287의 GitHub CLOSED/MERGED/main CI evidence가 manifest/report에 있다.
+- [x] #284/#286 roadmap row가 `done`이며 main CI evidence를 포함한다.
+- [x] Current Next Action과 control room은 #286/#284를 active mission으로 표시하지 않는다.
+- [x] `npm run check:closed-workunit-mirrors`가 stale `review` 또는 active mission 회귀를 실패시킨다.
+- [x] `npm run check:ops-live`, `npm run check:dashboard`, `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -51,3 +51,19 @@
 ## Subagent/Team Routing
 
 - 사용하지 않음. 단일 docs/scripts checker slice라 write scope가 강하게 겹치고, 병렬 subagent가 오히려 stale mirror 충돌을 만들 수 있다.
+
+## 구현 evidence
+
+- GitHub 관찰 manifest: `reports/operations/closed-workunit-mirror-manifest-20260503.json`
+- Human-readable report: `reports/operations/closed-workunit-mirror-report-20260503.md`
+- 신규 checker: `scripts/check-closed-workunit-mirrors.mjs` / `npm run check:closed-workunit-mirrors`
+- `docs/ROADMAP.md`에서 #284/#286 row를 `done` + PR/main CI evidence로 갱신했다.
+- Current Next Action/control room/dashboard를 #288 active WorkUnit으로 갱신했다.
+
+## 검증 evidence
+
+- `npm run check:seed-ops-queue` → passed
+- `npm run check:closed-workunit-mirrors` → passed
+- `npm run check:ops-live` → passed
+- `npm run check:dashboard` → passed
+- `npm run check:ci` → passed

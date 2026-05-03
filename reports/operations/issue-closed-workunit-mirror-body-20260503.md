@@ -2,7 +2,7 @@
 
 ## 문제 / 배경
 
-#284/#285와 #286/#287은 GitHub 기준으로 merge/close와 main CI 관찰까지 끝났지만, local mirror인 `docs/ROADMAP.md`와 control room snapshot에는 `review` 상태와 active mission 문구가 남아 있다. Studio Harness v3에서는 GitHub issue/PR/GateEvent가 authority이고 local docs/reports는 evidence mirror이므로, 닫힌 WorkUnit을 닫힌 PR 이후 main-targeted closeout으로 backfill하지 말고 다음 plan-first harness defect로 처리해야 한다.
+#284/#285와 #286/#287은 GitHub 기준으로 merge/close와 main CI 관찰까지 끝났지만, local mirror인 `docs/ROADMAP.md`와 control room snapshot에는 `review` 상태와 active mission 문구가 남아 있었다. Studio Harness v3에서는 GitHub issue/PR/GateEvent가 authority이고 local docs/reports는 evidence mirror이므로, 닫힌 WorkUnit을 닫힌 PR 이후 main-targeted closeout으로 backfill하지 말고 다음 plan-first harness defect로 처리해야 한다.
 
 ## 목표
 
@@ -30,11 +30,26 @@ GitHub에서 CLOSED/MERGED로 확인된 WorkUnit의 local mirror가 `review` 또
 
 ## 수용 기준
 
-- [ ] #284/#285, #286/#287의 GitHub CLOSED/MERGED/main CI evidence를 manifest/report에 남긴다.
-- [ ] `docs/ROADMAP.md`의 해당 row와 Current Next Action이 GitHub truth와 맞게 갱신된다.
-- [ ] `docs/OPERATOR_CONTROL_ROOM.md`와 `docs/DASHBOARD.md`가 stale active mission/review count를 남기지 않는다.
-- [ ] `npm run check:closed-workunit-mirrors`가 stale `review`/active mission 회귀를 실패시킨다.
-- [ ] `npm run check:ci`가 통과한다.
+- [x] #284/#285, #286/#287의 GitHub CLOSED/MERGED/main CI evidence를 manifest/report에 남긴다.
+- [x] `docs/ROADMAP.md`의 해당 row와 Current Next Action이 GitHub truth와 맞게 갱신된다.
+- [x] `docs/OPERATOR_CONTROL_ROOM.md`와 `docs/DASHBOARD.md`가 stale active mission/review count를 남기지 않는다.
+- [x] `npm run check:closed-workunit-mirrors`가 stale `review`/active mission 회귀를 실패시킨다.
+- [x] `npm run check:ci`가 통과한다.
+
+## 구현 evidence
+
+- Manifest: `reports/operations/closed-workunit-mirror-manifest-20260503.json`
+- Report: `reports/operations/closed-workunit-mirror-report-20260503.md`
+- Checker: `scripts/check-closed-workunit-mirrors.mjs`
+- Package script: `npm run check:closed-workunit-mirrors`, `npm run check:ci` 연결
+
+## 검증 evidence
+
+- `npm run check:seed-ops-queue` → passed
+- `npm run check:closed-workunit-mirrors` → passed
+- `npm run check:ops-live` → passed
+- `npm run check:dashboard` → passed
+- `npm run check:ci` → passed
 
 ## Visual evidence 계획
 

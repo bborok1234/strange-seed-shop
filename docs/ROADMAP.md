@@ -64,9 +64,10 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | 달방울 누누 달빛 보호 주문 + visual QA correction | done | Issue #270, PR #271, `items/0137-lunar-guardian-order-bridge-v0.md`, `reports/operations/seed-ops-issue-pr-title-retrospective-20260502.md`, Browser Use screenshots in `reports/visual/`, main CI `25223907905` | `달방울 누누`가 달빛 보호 주문 납품/payoff로 이어지고, 다음 행동 카드 clipping을 Browser Use + regression gate로 잡는다. 동시에 다음 issue 선택에 `Strategic Jump Check`와 `Title Contract`를 추가한다 |
 | 대표 생명체 stage/care/album production 복구 | done | Issue #275, PR #281, `items/0142-creature-stage-care-album-production.md`, `reports/visual/0275-production-playtest-20260503.md`, main CI `25257945257` | 달방울 누누가 정원 첫 화면 stage, 돌보기 반응, 도감 memory photo/단서 감상면으로 복구됨 |
 | 달방울 누누 돌보기 기억 보상 motion | done | Issue #282, PR #283, `items/0143-lunar-care-memory-reward.md`, `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`, main CI `25258388344` | 정원 `돌보기`가 save-backed 기억 도장/one-time reward와 도감 memory stamp로 이어지고 Browser Use blocker + Playwright fallback evidence를 남김 |
-| 정원 첫 화면 production engine layout | review | Issue #284, `items/0144-first-screen-production-engine-layout.md`, `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`, `reports/visual/first-screen-production-engine-one-scene-20260503.png`, Browser Use blocker, `npm run check:visual` 54 passed | 첫 정원 화면에서 달빛 resident, playfield, 자동 생산, 주문 crate/progress, primary verbs가 한 장면의 production engine으로 읽히게 재배치 |
+| 정원 첫 화면 production engine layout | done | Issue #284, PR #285, `items/0144-first-screen-production-engine-layout.md`, `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`, `reports/visual/first-screen-production-engine-one-scene-20260503.png`, Browser Use blocker, `npm run check:visual` 54 passed, main CI `25265967477` | 첫 정원 화면에서 달빛 resident, playfield, 자동 생산, 주문 crate/progress, primary verbs가 한 장면의 production engine으로 읽히게 재배치 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
-| Routine GitHub publication no-final harness | review | Issue #286, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `npm run check:ci` pass | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
+| Routine GitHub publication no-final harness | done | Issue #286, PR #287, `items/0145-routine-github-publication-no-final.md`, `reports/operations/final-publication-ask-regression-0286-20260503.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `npm run check:ci` pass, main CI `25266229841` | GitHub issue/PR/comment publication을 routine agent responsibility로 고정하고 self-imposed confirmation wait/final ask를 checker가 실패로 잡음 |
+| Closed WorkUnit mirror consistency gate | active | Issue #288, `items/0146-closed-workunit-mirror-consistency.md`, `reports/operations/closed-workunit-mirror-manifest-20260503.json`, `scripts/check-closed-workunit-mirrors.mjs` | GitHub에서 CLOSED/MERGED인 WorkUnit이 ROADMAP/control room에서 `review` 또는 active mission으로 남는 회귀를 checker로 막는다 |
 | Seed ops Ralph runner bridge | done | `items/0135-seed-ops-ralph-runner-bridge.md`, `scripts/check-ralph-runner-bridge.mjs`, `.codex/skills/seed-ops/SKILL.md`, `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_RUNBOOK.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `npm run check:ci` pass | Codex App prompt-side `$ralph` activation을 실제 detached `omx ralph`/`omx exec` long runner와 분리하고, lifecycle 판단을 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact 기준으로 고정한다 |
 | Seed ops no post-merge closeout gate | active | `items/0136-no-post-merge-closeout.md`, `scripts/check-no-post-merge-closeout.mjs`, `.github/pull_request_template.md`, `npm run check:ci` pass | PR merge/close 이후 main 대상 closeout PR/commit으로 evidence를 backfill하지 못하게 하고, merge-blocking evidence는 원 PR이 닫히기 전에 포함하게 고정한다 |
 | Moon expedition reward bridge v0 | done | Issue #164, `items/0092-moon-expedition-reward-bridge-v0.md`, Browser Use QA, `reports/visual/p0-moon-expedition-reward-bridge-v0-20260429.md` | `달빛 흔적 찾기` 보상 수령이 `달방울 씨앗` / `달방울 누누` 다음 수집 목표로 이어짐 |
@@ -313,54 +314,27 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #286 **GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다**이다. #284(PR #285)는 merge 및 main CI `25265967477` 관찰을 완료했다. 사용자가 지적한 #284 publication final ask는 Studio Harness v3 결함으로 처리하며, routine GitHub issue/PR/comment publication이 self-imposed confirmation wait로 멈추지 않도록 문서와 checker를 harden한다.
+현재 작업은 GitHub-authoritative open WorkUnit #288 **닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다**이다. #284/#285와 #286/#287은 GitHub에서 CLOSED/MERGED이고 main CI `25265967477`, `25266229841` 관찰도 완료했지만, local mirror가 `review`/active mission으로 남는 회귀가 발생했다. 이 작업은 닫힌 PR 뒤 main closeout commit을 만들지 않고, 새 plan-first harness defect로 stale mirror를 정리하고 checker를 추가한다.
 
 현재 evidence:
 
-- GitHub issue: #286 `GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다`
-- Plan artifact: `items/0145-routine-github-publication-no-final.md`
-- Branch: `codex/0286-routine-github-publication-no-final`
-- Related regression: #284/#285 publication ask final stop
+- GitHub issue: #288 `닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다`
+- Plan artifact: `items/0146-closed-workunit-mirror-consistency.md`
+- Branch: `codex/0288-closed-workunit-mirror-consistency`
+- Closed WorkUnit evidence manifest: `reports/operations/closed-workunit-mirror-manifest-20260503.json`
+- GitHub truth: #284/#285 main CI `25265967477`, #286/#287 main CI `25266229841`
 - Game Studio route: N/A — 운영사 하네스/문서/체커 작업
 
 즉시 적용할 gate:
 
-1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다.
-2. Routine GitHub issue/PR/comment publication은 agent responsibility이며 checkpoint다.
-3. PublicationBoundary는 credential/tool/runtime이 실제로 막을 때만 적용한다.
-4. `final` 또는 self-imposed confirmation wait로 멈추면 checker 실패로 고정한다.
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
+2. 닫힌 PR/issue evidence 누락은 post-merge closeout commit이 아니라 새 plan-first harness defect로 처리한다.
+3. `docs/ROADMAP.md`, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/DASHBOARD.md`는 GitHub truth와 동기화된 mirror여야 한다.
+4. `npm run check:closed-workunit-mirrors`가 stale `review` row와 stale active mission phrase를 실패시켜야 한다.
+5. 다음 게임 WorkUnit 선택으로 넘어갈 때는 `Studio Campaign Gate`를 다시 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff와 vertical slice blocker 제거를 동반할 때만 고른다.
 
-다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
+다음 checkpoint는 구현, focused checks, `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
 
-
-
-현재 작업은 GitHub-authoritative open WorkUnit #284 **정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다**이다. 구현과 Browser Use current-session blocker/Playwright fallback evidence, focused visual regression, 전체 `npm run check:visual` 54건 통과까지 완료했으며, 다음 gate는 `npm run check:ci`, issue/PR evidence publication, GitHub checks, merge, main CI 관찰이다.
-
-현재 evidence:
-
-- GitHub issue: #284 `정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다`
-- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
-- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
-- Plan artifact: `items/0144-first-screen-production-engine-layout.md`
-- Branch: `codex/0284-first-screen-production-engine-layout`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `browser-use:browser`
-- Explorer recommendation: first-screen production engine layout을 다음 big strategic jump 후보로 추천
-- GitHub issue body file: `reports/operations/issue-284-body-20260503.md`
-- Playtest report: `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`
-- Screenshot: `reports/visual/first-screen-production-engine-one-scene-20260503.png`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0284-20260503.md`
-- Local visual evidence: focused 1/1, regression 4/4, full `npm run check:visual` 54/54 passed, `npm run check:ci` passed
-
-즉시 적용할 gate:
-
-1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local campaign ledger, stash, `.omx`는 권한이 아니라 evidence/cache다.
-2. `Studio Campaign Gate`는 `P0.5 Idle Core + Creative Rescue`이며, 이번 작업은 `production_readability`와 `game_feel` blocker를 다룬다.
-3. 직전 작은 연결 기능이 아니라 큰 방향 점프를 선택했다. player verb + production role + screen moment + playfield/HUD/order crate visual payoff + playtest evidence를 모두 검증해야 한다.
-4. 신규 accepted manifest game asset은 만들지 않는다. 기존 playfield actor/order crate/FX와 CSS/DOM layout을 재배치한다.
-5. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
-6. 다음 queue gate는 계속 `Codex native subagents` 또는 `team mode` 사용 여부를 명시한다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff와 vertical slice blocker 제거를 동반할 때만 고른다.
-
-다음 checkpoint는 GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
 ## Previous Next Action History
 
 

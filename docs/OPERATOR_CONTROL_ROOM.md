@@ -3,74 +3,46 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T00:55:29.632Z
+Generated at: 2026-05-03T01:10:04.541Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #286 **GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다**이다. #284(PR #285)는 merge 및 main CI `25265967477` 관찰을 완료했다. 사용자가 지적한 #284 publication final ask는 Studio Harness v3 결함으로 처리하며, routine GitHub issue/PR/comment publication이 self-imposed confirmation wait로 멈추지 않도록 문서와 checker를 harden한다.
+현재 작업은 GitHub-authoritative open WorkUnit #288 **닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다**이다. #284/#285와 #286/#287은 GitHub에서 CLOSED/MERGED이고 main CI `25265967477`, `25266229841` 관찰도 완료했지만, local mirror가 `review`/active mission으로 남는 회귀가 발생했다. 이 작업은 닫힌 PR 뒤 main closeout commit을 만들지 않고, 새 plan-first harness defect로 stale mirror를 정리하고 checker를 추가한다.
 
 현재 evidence:
 
-- GitHub issue: #286 `GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다`
-- Plan artifact: `items/0145-routine-github-publication-no-final.md`
-- Branch: `codex/0286-routine-github-publication-no-final`
-- Related regression: #284/#285 publication ask final stop
+- GitHub issue: #288 `닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다`
+- Plan artifact: `items/0146-closed-workunit-mirror-consistency.md`
+- Branch: `codex/0288-closed-workunit-mirror-consistency`
+- Closed WorkUnit evidence manifest: `reports/operations/closed-workunit-mirror-manifest-20260503.json`
+- GitHub truth: #284/#285 main CI `25265967477`, #286/#287 main CI `25266229841`
 - Game Studio route: N/A — 운영사 하네스/문서/체커 작업
 
 즉시 적용할 gate:
 
-1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다.
-2. Routine GitHub issue/PR/comment publication은 agent responsibility이며 checkpoint다.
-3. PublicationBoundary는 credential/tool/runtime이 실제로 막을 때만 적용한다.
-4. `final` 또는 self-imposed confirmation wait로 멈추면 checker 실패로 고정한다.
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local docs/reports는 evidence mirror다.
+2. 닫힌 PR/issue evidence 누락은 post-merge closeout commit이 아니라 새 plan-first harness defect로 처리한다.
+3. `docs/ROADMAP.md`, `docs/OPERATOR_CONTROL_ROOM.md`, `docs/DASHBOARD.md`는 GitHub truth와 동기화된 mirror여야 한다.
+4. `npm run check:closed-workunit-mirrors`가 stale `review` row와 stale active mission phrase를 실패시켜야 한다.
+5. 다음 게임 WorkUnit 선택으로 넘어갈 때는 `Studio Campaign Gate`를 다시 적용하고, `Codex native subagents` 또는 `team mode` 사용 여부를 plan에 남긴다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff와 vertical slice blocker 제거를 동반할 때만 고른다.
 
-다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
-
-
-
-현재 작업은 GitHub-authoritative open WorkUnit #284 **정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다**이다. 구현과 Browser Use current-session blocker/Playwright fallback evidence, focused visual regression, 전체 `npm run check:visual` 54건 통과까지 완료했으며, 다음 gate는 `npm run check:ci`, issue/PR evidence publication, GitHub checks, merge, main CI 관찰이다.
-
-현재 evidence:
-
-- GitHub issue: #284 `정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다`
-- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
-- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
-- Plan artifact: `items/0144-first-screen-production-engine-layout.md`
-- Branch: `codex/0284-first-screen-production-engine-layout`
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `browser-use:browser`
-- Explorer recommendation: first-screen production engine layout을 다음 big strategic jump 후보로 추천
-- GitHub issue body file: `reports/operations/issue-284-body-20260503.md`
-- Playtest report: `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`
-- Screenshot: `reports/visual/first-screen-production-engine-one-scene-20260503.png`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0284-20260503.md`
-- Local visual evidence: focused 1/1, regression 4/4, full `npm run check:visual` 54/54 passed, `npm run check:ci` passed
-
-즉시 적용할 gate:
-
-1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local campaign ledger, stash, `.omx`는 권한이 아니라 evidence/cache다.
-2. `Studio Campaign Gate`는 `P0.5 Idle Core + Creative Rescue`이며, 이번 작업은 `production_readability`와 `game_feel` blocker를 다룬다.
-3. 직전 작은 연결 기능이 아니라 큰 방향 점프를 선택했다. player verb + production role + screen moment + playfield/HUD/order crate visual payoff + playtest evidence를 모두 검증해야 한다.
-4. 신규 accepted manifest game asset은 만들지 않는다. 기존 playfield actor/order crate/FX와 CSS/DOM layout을 재배치한다.
-5. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
-6. 다음 queue gate는 계속 `Codex native subagents` 또는 `team mode` 사용 여부를 명시한다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff와 vertical slice blocker 제거를 동반할 때만 고른다.
-
-다음 checkpoint는 GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
+다음 checkpoint는 구현, focused checks, `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
 
 ## Local state
 
-- Branch: codex/0286-routine-github-publication-no-final
-- Latest commit: 76f1cb6 #286 GitHub 게시 멈춤 회귀를 plan-first로 고정한다
+- Branch: codex/0288-closed-workunit-mirror-consistency
+- Latest commit: 066112f #288 닫힌 WorkUnit mirror 회귀를 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T00:55:27.717Z
-- Phase: ready-for-pr
-- Issue: 286
+- Timestamp: 2026-05-03T01:09:02.755Z
+- Phase: implementing
+- Issue: 288
 - PR: 
-- Item: items/0145-routine-github-publication-no-final.md
-- Next action: PR publication gate: publish issue body, create PR, post GateEvent, watch checks
+- Item: items/0146-closed-workunit-mirror-consistency.md
+- Next action: verification gate: run closed mirror checker, ops-live, dashboard, check:ci
 
 ## Open PRs
 
@@ -78,7 +50,7 @@ Generated at: 2026-05-03T00:55:29.632Z
 
 ## Open issues
 
-- #286 GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다 — https://github.com/bborok1234/strange-seed-shop/issues/286
+- #288 닫힌 WorkUnit이 roadmap review 상태로 남는 회귀를 checker로 막는다 — https://github.com/bborok1234/strange-seed-shop/issues/288
 
 ## Playable mode
 
