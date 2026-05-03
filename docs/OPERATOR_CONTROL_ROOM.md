@@ -3,51 +3,46 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-02T18:02:54.100Z
+Generated at: 2026-05-02T18:10:29.477Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #282 **정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다**이다. 지정 queue #276(PR #279), #274(PR #280), #275(PR #281)는 merge 및 main CI 관찰을 완료했고, open issue/PR reconciliation 결과 새 Intake WorkUnit #282를 생성했다.
+현재 작업은 GitHub-authoritative open WorkUnit #284 **정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다**이다. #276(PR #279), #274(PR #280), #275(PR #281), #282(PR #283)는 merge 및 main CI 관찰을 완료했고, GitHub open issue/PR reconciliation 후 P0.5 Production Bar의 big strategic jump 후보로 #284를 생성했다.
 
 현재 evidence:
 
-- GitHub issue: #282 `정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다`
-- Plan artifact: `items/0143-lunar-care-memory-reward.md`
-- Branch: `codex/0282-lunar-care-memory-reward`
+- GitHub issue: #284 `정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다`
+- Plan artifact: `items/0144-first-screen-production-engine-layout.md`
+- Branch: `codex/0284-first-screen-production-engine-layout`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `browser-use:browser`
-- Candidate comparison: plan artifact에 선택 후보, 큰 방향 점프 후보, asset/FX 후보 및 Strategic Jump Check 기록
-- GitHub issue body file: `reports/operations/issue-282-body-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0282-20260503.md`
-- Playtest report: `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`
-- Screenshot evidence: `reports/visual/lunar-care-memory-reward-20260503.png`, `reports/visual/lunar-care-album-stamp-20260503.png`
-- Local verification: focused visual 1 passed, adjacent visual 4 passed, full visual 53 passed, `npm run check:ci` passed
+- Explorer recommendation: first-screen production engine layout을 다음 big strategic jump 후보로 추천
+- GitHub issue body file: `reports/operations/issue-284-body-20260503.md`
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local campaign ledger, stash, `.omx`는 권한이 아니라 evidence/cache다.
-2. `Studio Campaign Gate`는 `P0.5 Idle Core + Creative Rescue`이며, 이 작업은 첫 5분 `attachment`와 `first_5m_clarity` blocker를 다룬다.
-3. `Codex native subagents`/`team mode` 사용 여부는 plan에 기록했다. 현재 구현은 공유 파일 결합도가 높아 본 agent가 직접 수행하고, Browser Use/playtest evidence를 우선한다.
-4. `단순 주문 추가`, `copy tweak`, `test-only` 작업이 아니다. player verb + progression role + screen moment + reward motion + playtest evidence를 충족해야 한다.
-5. 신규 accepted manifest game asset은 만들지 않는다. reward motion/HUD affordance/album stamp는 CSS/DOM으로 구현하고 runtime image generation을 추가하지 않는다.
-6. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
+2. `Studio Campaign Gate`는 `P0.5 Idle Core + Creative Rescue`이며, 이번 작업은 `production_readability`와 `game_feel` blocker를 다룬다.
+3. 직전 작은 연결 기능이 아니라 큰 방향 점프를 선택했다. player verb + production role + screen moment + playfield/HUD/order crate visual payoff + playtest evidence를 모두 검증해야 한다.
+4. 신규 accepted manifest game asset은 만들지 않는다. 기존 playfield actor/order crate/FX와 CSS/DOM layout을 재배치한다.
+5. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
 
-다음 checkpoint는 #282 PR publication, GateEvent 게시, GitHub checks 확인, merge, main CI 관찰이다. Local focused visual, full visual(53 passed), `npm run check:ci`는 통과했다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
+다음 checkpoint는 #284 plan-first commit, implementation, focused visual checks, `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
 
 ## Local state
 
-- Branch: codex/0282-lunar-care-memory-reward
-- Latest commit: ba68833 #282 돌보기 기억 보상 WorkUnit을 plan-first로 고정한다
+- Branch: codex/0284-first-screen-production-engine-layout
+- Latest commit: 1c29781 #282 PR GateEvent를 evidence surface에 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-02T18:02:52.171Z
-- Phase: publication-prep
-- Issue: 282
+- Timestamp: 2026-05-02T18:10:27.985Z
+- Phase: planning
+- Issue: 284
 - PR: 
-- Item: items/0143-lunar-care-memory-reward.md
-- Next action: publication gate prep: push #282 branch create draft PR publish GateEvent then watch GitHub checks
+- Item: items/0144-first-screen-production-engine-layout.md
+- Next action: implementation prep gate: commit #284 plan then redesign first-screen production engine layout
 
 ## Open PRs
 
@@ -55,7 +50,7 @@ Generated at: 2026-05-02T18:02:54.100Z
 
 ## Open issues
 
-- #282 정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다 — https://github.com/bborok1234/strange-seed-shop/issues/282
+- #284 정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다 — https://github.com/bborok1234/strange-seed-shop/issues/284
 
 ## Playable mode
 

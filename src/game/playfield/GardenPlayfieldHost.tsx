@@ -211,6 +211,7 @@ function GardenBoardOverlay({
 
   return (
     <div
+      aria-label={viewModel.productionScene ? "정원 생산 엔진 한 장면" : undefined}
       className={[
         "playfield-board-overlay",
         viewModel.productionScene ? "has-production-scene" : "",
@@ -218,6 +219,7 @@ function GardenBoardOverlay({
       ]
         .filter(Boolean)
         .join(" ")}
+      role={viewModel.productionScene ? "group" : undefined}
     >
       {engineStatus ? <p className="playfield-engine-status">{engineStatus}</p> : null}
       {viewModel.productionScene ? <ProductionScene scene={viewModel.productionScene} /> : null}

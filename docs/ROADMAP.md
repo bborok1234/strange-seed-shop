@@ -63,7 +63,8 @@ Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon v
 | Lunar harvest creature payoff v0 | done | Issue #266, PR #267 merged, `items/0132-lunar-harvest-creature-payoff-v0.md`, `reports/visual/lunar-harvest-creature-payoff-v0-20260501.md`, Browser Use QA screenshots, accepted raster FX reuse binding, local asset/content gates pass | `달방울 씨앗` 수확 뒤 `달방울 누누`가 named reveal에서 끝나지 않고 production card/playfield actor/roster에 lunar work-state로 합류한다 |
 | 달방울 누누 달빛 보호 주문 + visual QA correction | done | Issue #270, PR #271, `items/0137-lunar-guardian-order-bridge-v0.md`, `reports/operations/seed-ops-issue-pr-title-retrospective-20260502.md`, Browser Use screenshots in `reports/visual/`, main CI `25223907905` | `달방울 누누`가 달빛 보호 주문 납품/payoff로 이어지고, 다음 행동 카드 clipping을 Browser Use + regression gate로 잡는다. 동시에 다음 issue 선택에 `Strategic Jump Check`와 `Title Contract`를 추가한다 |
 | 대표 생명체 stage/care/album production 복구 | done | Issue #275, PR #281, `items/0142-creature-stage-care-album-production.md`, `reports/visual/0275-production-playtest-20260503.md`, main CI `25257945257` | 달방울 누누가 정원 첫 화면 stage, 돌보기 반응, 도감 memory photo/단서 감상면으로 복구됨 |
-| 달방울 누누 돌보기 기억 보상 motion | active | Issue #282, `items/0143-lunar-care-memory-reward.md`, `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`, local `npm run check:visual` 53 passed, `npm run check:ci` pass | 정원 `돌보기`가 save-backed 기억 도장/one-time reward와 도감 memory stamp로 이어지고 Browser Use blocker + Playwright fallback evidence를 남김 |
+| 달방울 누누 돌보기 기억 보상 motion | done | Issue #282, PR #283, `items/0143-lunar-care-memory-reward.md`, `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`, main CI `25258388344` | 정원 `돌보기`가 save-backed 기억 도장/one-time reward와 도감 memory stamp로 이어지고 Browser Use blocker + Playwright fallback evidence를 남김 |
+| 정원 첫 화면 production engine layout | review | Issue #284, `items/0144-first-screen-production-engine-layout.md`, `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`, `reports/visual/first-screen-production-engine-one-scene-20260503.png`, Browser Use blocker, `npm run check:visual` 54 passed | 첫 정원 화면에서 달빛 resident, playfield, 자동 생산, 주문 crate/progress, primary verbs가 한 장면의 production engine으로 읽히게 재배치 |
 | Seed ops final publication ask regression | done | Commit `ea782c5`, `items/0134-seed-ops-final-publication-ask-regression.md`, `reports/operations/ralph-state-contract-review-20260502.md`, `scripts/check-seed-ops-publication-gate-state.mjs`, `scripts/check-ops-live.mjs`, `npm run check:ci` pass | GitHub issue/PR 게시 경계에서 `final`로 확인을 묻는 패턴을 하네스 회귀로 고정하고, publication boundary를 `publication_gate`/`confirmation`/`continuation` 구조화 heartbeat로 검증한다 |
 | Seed ops Ralph runner bridge | done | `items/0135-seed-ops-ralph-runner-bridge.md`, `scripts/check-ralph-runner-bridge.mjs`, `.codex/skills/seed-ops/SKILL.md`, `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_RUNBOOK.md`, `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md`, `npm run check:ci` pass | Codex App prompt-side `$ralph` activation을 실제 detached `omx ralph`/`omx exec` long runner와 분리하고, lifecycle 판단을 assistant message 문구가 아니라 structured state, heartbeat, watchdog, runner artifact 기준으로 고정한다 |
 | Seed ops no post-merge closeout gate | active | `items/0136-no-post-merge-closeout.md`, `scripts/check-no-post-merge-closeout.mjs`, `.github/pull_request_template.md`, `npm run check:ci` pass | PR merge/close 이후 main 대상 closeout PR/commit으로 evidence를 backfill하지 못하게 하고, merge-blocking evidence는 원 PR이 닫히기 전에 포함하게 고정한다 |
@@ -311,31 +312,33 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #282 **정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다**이다. 지정 queue #276(PR #279), #274(PR #280), #275(PR #281)는 merge 및 main CI 관찰을 완료했고, open issue/PR reconciliation 결과 새 Intake WorkUnit #282를 생성했다.
+현재 작업은 GitHub-authoritative open WorkUnit #284 **정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다**이다. 구현과 Browser Use current-session blocker/Playwright fallback evidence, focused visual regression, 전체 `npm run check:visual` 54건 통과까지 완료했으며, 다음 gate는 `npm run check:ci`, issue/PR evidence publication, GitHub checks, merge, main CI 관찰이다.
 
 현재 evidence:
 
-- GitHub issue: #282 `정원에서 달방울 누누를 돌보면 도감 기억 보상이 움직인다`
-- Plan artifact: `items/0143-lunar-care-memory-reward.md`
-- Branch: `codex/0282-lunar-care-memory-reward`
+- GitHub issue: #284 `정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다`
+- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
+- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
+- Plan artifact: `items/0144-first-screen-production-engine-layout.md`
+- Branch: `codex/0284-first-screen-production-engine-layout`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `browser-use:browser`
-- Candidate comparison: plan artifact에 선택 후보, 큰 방향 점프 후보, asset/FX 후보 및 Strategic Jump Check 기록
-- GitHub issue body file: `reports/operations/issue-282-body-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0282-20260503.md`
-- Playtest report: `reports/visual/0282-lunar-care-memory-reward-playtest-20260503.md`
-- Screenshot evidence: `reports/visual/lunar-care-memory-reward-20260503.png`, `reports/visual/lunar-care-album-stamp-20260503.png`
-- Local verification: focused visual 1 passed, adjacent visual 4 passed, full visual 53 passed, `npm run check:ci` passed
+- Explorer recommendation: first-screen production engine layout을 다음 big strategic jump 후보로 추천
+- GitHub issue body file: `reports/operations/issue-284-body-20260503.md`
+- Playtest report: `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`
+- Screenshot: `reports/visual/first-screen-production-engine-one-scene-20260503.png`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0284-20260503.md`
+- Local visual evidence: focused 1/1, regression 4/4, full `npm run check:visual` 54/54 passed, `npm run check:ci` passed
 
 즉시 적용할 gate:
 
 1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다. local campaign ledger, stash, `.omx`는 권한이 아니라 evidence/cache다.
-2. `Studio Campaign Gate`는 `P0.5 Idle Core + Creative Rescue`이며, 이 작업은 첫 5분 `attachment`와 `first_5m_clarity` blocker를 다룬다.
-3. `Codex native subagents`/`team mode` 사용 여부는 plan에 기록했다. 현재 구현은 공유 파일 결합도가 높아 본 agent가 직접 수행하고, Browser Use/playtest evidence를 우선한다.
-4. `단순 주문 추가`, `copy tweak`, `test-only` 작업이 아니다. player verb + progression role + screen moment + reward motion + playtest evidence를 충족해야 한다.
-5. 신규 accepted manifest game asset은 만들지 않는다. reward motion/HUD affordance/album stamp는 CSS/DOM으로 구현하고 runtime image generation을 추가하지 않는다.
-6. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
+2. `Studio Campaign Gate`는 `P0.5 Idle Core + Creative Rescue`이며, 이번 작업은 `production_readability`와 `game_feel` blocker를 다룬다.
+3. 직전 작은 연결 기능이 아니라 큰 방향 점프를 선택했다. player verb + production role + screen moment + playfield/HUD/order crate visual payoff + playtest evidence를 모두 검증해야 한다.
+4. 신규 accepted manifest game asset은 만들지 않는다. 기존 playfield actor/order crate/FX와 CSS/DOM layout을 재배치한다.
+5. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
+6. 다음 queue gate는 계속 `Codex native subagents` 또는 `team mode` 사용 여부를 명시한다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff와 vertical slice blocker 제거를 동반할 때만 고른다.
 
-다음 checkpoint는 #282 PR publication, GateEvent 게시, GitHub checks 확인, merge, main CI 관찰이다. Local focused visual, full visual(53 passed), `npm run check:ci`는 통과했다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
+다음 checkpoint는 GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
 ## Previous Next Action History
 
 

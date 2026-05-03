@@ -1,6 +1,6 @@
 # 프로젝트 대시보드
 
-Updated: 2026-05-02
+Updated: 2026-05-03
 
 > 이 파일은 `npm run update:dashboard`로 갱신한다. 수동 편집 후에는 `npm run check:dashboard`가 실패할 수 있다.
 
@@ -38,8 +38,8 @@ Updated: 2026-05-02
 
 | 상태 | 개수 |
 | --- | ---: |
-| done | 101 |
-| review | 65 |
+| done | 102 |
+| review | 66 |
 | todo | 2 |
 | blocked | 0 |
 

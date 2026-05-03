@@ -198,6 +198,54 @@ h1 {
   opacity: 0;
 }
 
+.garden-stage.has-creature-stage.has-lunar-guardian-order .playfield-board-overlay.has-production-scene {
+  overflow: visible;
+  background: transparent;
+  opacity: 1;
+}
+
+.garden-stage.has-creature-stage.has-lunar-guardian-order .playfield-board-overlay.has-production-scene .playfield-engine-status {
+  display: none;
+}
+
+.garden-stage.has-creature-stage.has-lunar-guardian-order .playfield-board-overlay.has-production-scene .playfield-production-lane {
+  position: absolute;
+  right: clamp(10px, 2.4vw, 22px);
+  bottom: 66px;
+  left: clamp(10px, 2.4vw, 22px);
+  z-index: 1;
+  min-height: 0;
+  pointer-events: none;
+}
+
+.garden-stage.has-creature-stage.has-lunar-guardian-order .playfield-board-overlay.has-production-scene .playfield-production-actor,
+.garden-stage.has-creature-stage.has-lunar-guardian-order .playfield-board-overlay.has-production-scene .playfield-order-crate {
+  border-color: rgba(255, 242, 177, 0.36);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.76), transparent 36%),
+    linear-gradient(135deg, rgba(255, 252, 222, 0.94), rgba(217, 239, 174, 0.84));
+  box-shadow:
+    0 0 0 4px rgba(255, 239, 161, 0.1),
+    0 10px 24px rgba(24, 42, 24, 0.18);
+}
+
+.garden-stage.has-creature-stage.has-lunar-guardian-order .playfield-board-overlay.has-production-scene .playfield-order-crate.order-variant-lunar-guardian {
+  border-color: rgba(184, 197, 255, 0.58);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.8), transparent 36%),
+    radial-gradient(circle at 82% 70%, rgba(180, 200, 255, 0.62), transparent 38%),
+    linear-gradient(135deg, rgba(238, 243, 255, 0.94), rgba(255, 247, 196, 0.88));
+}
+
+.garden-stage.has-creature-stage.has-lunar-guardian-order .playfield-board-overlay.has-production-scene .playfield-plot-row {
+  align-self: end;
+  margin-bottom: 118px;
+  opacity: 0.46;
+  pointer-events: auto;
+  transform: scale(0.94);
+  transform-origin: bottom center;
+}
+
 .creature-stage-hero {
   display: grid;
   justify-items: center;
@@ -3481,7 +3529,8 @@ h1 {
     display: none;
   }
 
-  .garden-stage.has-creature-stage .starter-panel.has-production .production-action-card {
+  .garden-stage.has-creature-stage.has-lunar-guardian-order .starter-panel.has-production .production-action-card {
+    display: grid;
     margin: 0;
     padding: 7px;
   }
@@ -3492,26 +3541,44 @@ h1 {
     min-height: 96px;
   }
 
-  .garden-stage.has-creature-stage .starter-panel.has-production .production-card-heading {
+  .garden-stage.has-creature-stage.has-lunar-guardian-order .starter-panel.has-production .production-card-heading {
+    order: 2;
     align-items: center;
   }
 
-  .garden-stage.has-creature-stage .starter-panel.has-production .production-worker-detail {
+  .garden-stage.has-creature-stage.has-lunar-guardian-order .starter-panel.has-production .production-meter-row {
+    order: 1;
+  }
+
+  .garden-stage.has-creature-stage.has-lunar-guardian-order .starter-panel.has-production .order-progress-card {
+    order: 0;
+  }
+
+  .garden-stage.has-creature-stage.has-lunar-guardian-order .starter-panel.has-production .production-worker-detail {
     display: block;
     max-width: 180px;
   }
 
-  .garden-stage.has-creature-stage .starter-panel.has-production .order-progress-card {
+  .garden-stage.has-creature-stage.has-lunar-guardian-order .starter-panel.has-production .order-progress-card {
     gap: 5px;
     padding: 6px;
   }
 
-  .garden-stage.has-creature-stage .starter-panel.has-production .order-progress-card progress {
+  .garden-stage.has-creature-stage.has-lunar-guardian-order .starter-panel.has-production .order-progress-card progress {
     height: 6px;
   }
 
-  .garden-stage.has-creature-stage .starter-panel.has-production .order-progress-card button {
+  .garden-stage.has-creature-stage.has-lunar-guardian-order .starter-panel.has-production .order-progress-card button {
     min-height: 32px;
+  }
+
+  .garden-stage.has-creature-stage.has-lunar-guardian-order
+    .starter-panel.has-production.has-open-lunar-guardian-order
+    .upgrade-choice-card,
+  .garden-stage.has-creature-stage.has-lunar-guardian-order
+    .starter-panel.has-production.has-open-lunar-guardian-order
+    .next-creature-compact {
+    display: none;
   }
 
   .creature-stage-clue-trail {

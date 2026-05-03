@@ -1113,6 +1113,7 @@ export default function App() {
       <section
         className={["garden-stage", isPlayerTabScreen ? "has-player-tab" : "", showDebugPanel ? "debug-mode" : ""]
           .concat(stageHeroCreature ? ["has-creature-stage"] : [])
+          .concat(productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id ? ["has-lunar-guardian-order"] : [])
           .filter(Boolean)
           .join(" ")}
         style={backgroundPath ? { backgroundImage: `url(${backgroundPath})` } : undefined}
