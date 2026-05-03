@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T06:22:11Z",
-  "source": "GitHub CLI observation after #312/#313 merge and active #314 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T06:50:01Z",
+  "source": "GitHub CLI observation after #314/#315 merge and active #316 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 314,
-    "title": "도감 새 기록 다음 씨앗 목표 CTA가 구매/심기 준비로 이어지게 만든다",
-    "item": "items/0159-album-record-next-seed-cta.md",
-    "branch": "codex/0314-album-record-next-seed-cta"
+    "issue": 316,
+    "title": "새 기록 다음 씨앗 심기가 정원 재성장 payoff로 이어지게 만든다",
+    "item": "items/0160-album-record-next-seed-planting-payoff.md",
+    "branch": "codex/0316-album-record-next-seed-planting-payoff"
   },
   "workUnits": [
     {
@@ -381,6 +381,31 @@
         "GitHub-authoritative open WorkUnit #312",
         "Branch: `codex/0312-research-clue-album-record`",
         "Branch: codex/0312-research-clue-album-record"
+      ]
+    },
+    {
+      "issue": 314,
+      "issueTitle": "도감 새 기록 다음 씨앗 목표 CTA가 구매/심기 준비로 이어지게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T06:45:49Z",
+      "pr": 315,
+      "prTitle": "#314 새 도감 기록 다음 씨앗 CTA를 구매/심기 준비로 보이게 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T06:45:48Z",
+      "mergeCommit": "6c77d8f6bfc864c098cd42bfddc2589b386036ae",
+      "mainCiRun": 25272288285,
+      "mainCiConclusion": "success",
+      "roadmapStep": "새 도감 기록 다음 씨앗 CTA",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #314",
+        "PR #315",
+        "main CI `25272288285`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #314",
+        "Branch: `codex/0314-album-record-next-seed-cta`",
+        "Branch: codex/0314-album-record-next-seed-cta"
       ]
     }
   ]
