@@ -3,33 +3,33 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T14:15:17.128Z
+Generated at: 2026-05-03T15:18:47.581Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #330 **상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
+현재 작업은 GitHub-authoritative open WorkUnit #332 **포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
 
 현재 evidence:
 
-- GitHub issue: #330 `상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다`
-- Plan artifact: `items/0167-merchant-crate-claim-fx.md`
-- Branch: `codex/0330-merchant-crate-claim-fx`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-crate-claim-fx-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-330-merchant-crate-claim-fx-20260503.md`
-- GateEvent: `reports/operations/gate-event-0330-merchant-crate-claim-fx-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0330-20260503.md`
-- Screenshot: `reports/visual/issue-330-merchant-crate-claim-fx-393.png`
-- Implementation: `src/App.tsx`, `src/types/game.ts`, `src/lib/persistence.ts`, `src/game/playfield/types.ts`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Validation: `npm run build` pass, focused Playwright 1 passed + 2 passed, `npm run check:visual` 68 passed, `npm run check:ci` pass
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing `포장잎 상인` portrait + DOM/CSS order crate claim/open state + reward flyout + HUD delta
+- GitHub issue: #332 `포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다`
+- Plan artifact: `items/0168-merchant-followup-order.md`
+- Branch: `codex/0332-merchant-followup-order`
+- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-followup-order-20260503.md`
+- PR body-file: `reports/operations/github-bodies/pr-332-merchant-followup-order-20260503.md`
+- GateEvent: `reports/operations/gate-event-0332-merchant-followup-order-20260503.md`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0332-20260503.md`
+- Screenshot: `reports/visual/issue-332-merchant-followup-order-393.png`
+- Implementation: `src/App.tsx`, `src/game/playfield/types.ts`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
+- Validation: `npm run build` pass, focused Playwright 1 passed + 2 passed, `npm run check:visual` 69 passed, `npm run check:ci` pass
+- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing order crate asset + DOM/CSS merchant follow-up/delivered state + reward motion
 - Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `포장잎 상인 주문상자를 눌러 보상을 받고 다음 납품 목표 확인하기`
-- Concrete payoff: `상인 주문상자 보상 받기`, `상자 열림`, `+36 잎 · +1 꽃가루`, `HUD 보상 이동`, playfield `order-variant-merchant-claimed`, bottom-tab/overflow-safe 393px screenshot
+- Player verb: `상인 주문상자 보상을 받은 뒤 단골 납품 주문을 채워 보내기`
+- Concrete payoff: `포장잎 상인 단골 납품`, `0/18 → 18/18`, `상인 단골 납품 +54 잎 · +2 꽃가루 · +1 재료`, playfield `merchant-delivered`, bottom-tab/overflow-safe 393px screenshot
 
 즉시 적용할 gate:
 
-1. `gh issue edit 330 --body-file reports/operations/github-bodies/issue-merchant-crate-claim-fx-20260503.md`.
-2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-330-merchant-crate-claim-fx-20260503.md`.
+1. `gh issue edit 332 --body-file reports/operations/github-bodies/issue-merchant-followup-order-20260503.md`.
+2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-332-merchant-followup-order-20260503.md`.
 3. GateEvent comment body-file publication, PR checks watch/repair, ready/merge when green.
 4. Post-merge main CI는 observation-only로 기록한다. 닫힌 PR/issue에 누락 evidence backfill을 위한 main closeout commit은 만들지 않는다.
 5. Stop rule이 없으므로 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
@@ -38,27 +38,27 @@ Generated at: 2026-05-03T14:15:17.128Z
 
 ## Local state
 
-- Branch: codex/0330-merchant-crate-claim-fx
-- Latest commit: d723b70 상인 주문상자 수령을 HUD 보상 이동으로 닫는다
+- Branch: codex/0332-merchant-followup-order
+- Latest commit: 05ba2b2 상인 단골 납품 WorkUnit을 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T14:15:14.925Z
-- Phase: issue-330-pr-checks
-- Issue: 330
-- PR: 331
-- Item: items/0167-merchant-crate-claim-fx.md
-- Next action: gate: watch PR #331 checks, repair if needed, mark ready and merge when green
+- Timestamp: 2026-05-03T15:18:45.334Z
+- Phase: issue-332-pr-publication
+- Issue: 332
+- PR: 
+- Item: items/0168-merchant-followup-order.md
+- Next action: gate: publish #332 issue/PR body files, watch checks, merge when green
 
 ## Open PRs
 
-- #331 draft 상인 주문상자 수령을 HUD 보상 이동으로 닫는다 — https://github.com/bborok1234/strange-seed-shop/pull/331
+- unavailable or none
 
 ## Open issues
 
-- #330 상인 주문상자 보상 수령을 HUD 보상 이동 FX로 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/330
+- #332 포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다 — https://github.com/bborok1234/strange-seed-shop/issues/332
 
 ## Playable mode
 
