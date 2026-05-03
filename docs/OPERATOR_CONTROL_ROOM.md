@@ -3,20 +3,47 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-02T18:10:29.477Z
+Generated at: 2026-05-03T00:55:29.632Z
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #284 **정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다**이다. #276(PR #279), #274(PR #280), #275(PR #281), #282(PR #283)는 merge 및 main CI 관찰을 완료했고, GitHub open issue/PR reconciliation 후 P0.5 Production Bar의 big strategic jump 후보로 #284를 생성했다.
+현재 작업은 GitHub-authoritative open WorkUnit #286 **GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다**이다. #284(PR #285)는 merge 및 main CI `25265967477` 관찰을 완료했다. 사용자가 지적한 #284 publication final ask는 Studio Harness v3 결함으로 처리하며, routine GitHub issue/PR/comment publication이 self-imposed confirmation wait로 멈추지 않도록 문서와 checker를 harden한다.
+
+현재 evidence:
+
+- GitHub issue: #286 `GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다`
+- Plan artifact: `items/0145-routine-github-publication-no-final.md`
+- Branch: `codex/0286-routine-github-publication-no-final`
+- Related regression: #284/#285 publication ask final stop
+- Game Studio route: N/A — 운영사 하네스/문서/체커 작업
+
+즉시 적용할 gate:
+
+1. GitHub issue/PR/GateEvent만 WorkUnit authority로 사용한다.
+2. Routine GitHub issue/PR/comment publication은 agent responsibility이며 checkpoint다.
+3. PublicationBoundary는 credential/tool/runtime이 실제로 막을 때만 적용한다.
+4. `final` 또는 self-imposed confirmation wait로 멈추면 checker 실패로 고정한다.
+
+다음 checkpoint는 PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 계속 진행한다.
+
+
+
+현재 작업은 GitHub-authoritative open WorkUnit #284 **정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다**이다. 구현과 Browser Use current-session blocker/Playwright fallback evidence, focused visual regression, 전체 `npm run check:visual` 54건 통과까지 완료했으며, 다음 gate는 `npm run check:ci`, issue/PR evidence publication, GitHub checks, merge, main CI 관찰이다.
 
 현재 evidence:
 
 - GitHub issue: #284 `정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다`
+- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
+- GitHub PR: #285 `#284 정원 첫 화면을 생산 엔진 중심으로 재배치한다`
 - Plan artifact: `items/0144-first-screen-production-engine-layout.md`
 - Branch: `codex/0284-first-screen-production-engine-layout`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` / `game-studio:game-playtest` / `browser-use:browser`
 - Explorer recommendation: first-screen production engine layout을 다음 big strategic jump 후보로 추천
 - GitHub issue body file: `reports/operations/issue-284-body-20260503.md`
+- Playtest report: `reports/visual/0284-first-screen-production-engine-playtest-20260503.md`
+- Screenshot: `reports/visual/first-screen-production-engine-one-scene-20260503.png`
+- Browser Use blocker: `reports/visual/browser-use-blocker-0284-20260503.md`
+- Local visual evidence: focused 1/1, regression 4/4, full `npm run check:visual` 54/54 passed, `npm run check:ci` passed
 
 즉시 적용할 gate:
 
@@ -25,24 +52,25 @@ Generated at: 2026-05-02T18:10:29.477Z
 3. 직전 작은 연결 기능이 아니라 큰 방향 점프를 선택했다. player verb + production role + screen moment + playfield/HUD/order crate visual payoff + playtest evidence를 모두 검증해야 한다.
 4. 신규 accepted manifest game asset은 만들지 않는다. 기존 playfield actor/order crate/FX와 CSS/DOM layout을 재배치한다.
 5. Browser Use `iab`를 current session에서 다시 시도한다. Node REPL `js` tool이 미노출이면 current-session blocker와 Playwright fallback screenshot을 남긴다.
+6. 다음 queue gate는 계속 `Codex native subagents` 또는 `team mode` 사용 여부를 명시한다. `단순 주문 추가`, `copy tweak`, `test-only` 작업은 concrete visual/game-feel payoff와 vertical slice blocker 제거를 동반할 때만 고른다.
 
-다음 checkpoint는 #284 plan-first commit, implementation, focused visual checks, `npm run check:ci`, PR publication, GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
+다음 checkpoint는 GitHub checks, merge, main CI 관찰이다. Stop rule이 없으므로 이 WorkUnit을 계속 진행한다.
 
 ## Local state
 
-- Branch: codex/0284-first-screen-production-engine-layout
-- Latest commit: 1c29781 #282 PR GateEvent를 evidence surface에 연결한다
+- Branch: codex/0286-routine-github-publication-no-final
+- Latest commit: 76f1cb6 #286 GitHub 게시 멈춤 회귀를 plan-first로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-02T18:10:27.985Z
-- Phase: planning
-- Issue: 284
+- Timestamp: 2026-05-03T00:55:27.717Z
+- Phase: ready-for-pr
+- Issue: 286
 - PR: 
-- Item: items/0144-first-screen-production-engine-layout.md
-- Next action: implementation prep gate: commit #284 plan then redesign first-screen production engine layout
+- Item: items/0145-routine-github-publication-no-final.md
+- Next action: PR publication gate: publish issue body, create PR, post GateEvent, watch checks
 
 ## Open PRs
 
@@ -50,7 +78,7 @@ Generated at: 2026-05-02T18:10:29.477Z
 
 ## Open issues
 
-- #284 정원 첫 화면을 생산 엔진 중심으로 재배치해 수확·납품을 한 장면에 묶는다 — https://github.com/bborok1234/strange-seed-shop/issues/284
+- #286 GitHub 게시가 final 확인 대기로 멈추지 않게 하네스를 고정한다 — https://github.com/bborok1234/strange-seed-shop/issues/286
 
 ## Playable mode
 
@@ -67,11 +95,11 @@ Generated at: 2026-05-02T18:10:29.477Z
 
 Stop only after PR required checks, main CI, and local `npm run check:all` are green, or after a written blocker report. The next work queue should name a North Star production vertical slice, not a merely safe small task.
 
-## PR publication confirmation boundary
+## PR publication boundary
 
-Codex App action-time confirmation can apply when a GitHub PR, issue, or comment publishes representational communication. This is not a terminal stop: do not send final just to ask for PR creation. Record the pending external-publication gate with branch, commit, PR body file, pending command, confirmation, and next local safe work, then ensure next issue plan artifact exists and continue non-destructive/non-external local work.
+Routine GitHub issue/PR/comment publication is a Studio Harness v3 runner responsibility in this repository. If credentials/tools are available, `gh issue create/edit/comment`, `gh pr create/edit/comment/ready/merge`, branch push, check inspection, and merge are checkpoints, not action-time confirmation waits. This is not a terminal stop: do not send final just to ask for PR creation.
 
-assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. confirmation wording, if unavoidable, must be commentary, not final. write heartbeat before any publication ask and leave a same-turn local continuation action in heartbeat, control room, report, checker, or next plan. If the same final publication ask repeats, open a harness-defect fix instead of stopping.
+assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. Commentary confirmation wording is also a regression for routine GitHub publication when the tool did not actually block. PublicationBoundary is only for real credential/tool/runtime blockers or destructive/external-production/payment/customer-data boundaries. Routine publication should be represented as `confirmation.channel: preapproved` and the next agent action should be execute/watch/merge, not `await action-time confirmation`.
 
 ## Studio Campaign Gate
 

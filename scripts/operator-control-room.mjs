@@ -130,11 +130,11 @@ ${openIssues.length === 0 ? "- unavailable or none" : openIssues.map((issue) => 
 
 Stop only after PR required checks, main CI, and local \`npm run check:all\` are green, or after a written blocker report. The next work queue should name a North Star production vertical slice, not a merely safe small task.
 
-## PR publication confirmation boundary
+## PR publication boundary
 
-Codex App action-time confirmation can apply when a GitHub PR, issue, or comment publishes representational communication. This is not a terminal stop: do not send final just to ask for PR creation. Record the pending external-publication gate with branch, commit, PR body file, pending command, confirmation, and next local safe work, then ensure next issue plan artifact exists and continue non-destructive/non-external local work.
+Routine GitHub issue/PR/comment publication is a Studio Harness v3 runner responsibility in this repository. If credentials/tools are available, \`gh issue create/edit/comment\`, \`gh pr create/edit/comment/ready/merge\`, branch push, check inspection, and merge are checkpoints, not action-time confirmation waits. This is not a terminal stop: do not send final just to ask for PR creation.
 
-assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. confirmation wording, if unavoidable, must be commentary, not final. write heartbeat before any publication ask and leave a same-turn local continuation action in heartbeat, control room, report, checker, or next plan. If the same final publication ask repeats, open a harness-defect fix instead of stopping.
+assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다. Commentary confirmation wording is also a regression for routine GitHub publication when the tool did not actually block. PublicationBoundary is only for real credential/tool/runtime blockers or destructive/external-production/payment/customer-data boundaries. Routine publication should be represented as \`confirmation.channel: preapproved\` and the next agent action should be execute/watch/merge, not \`await action-time confirmation\`.
 
 ## Studio Campaign Gate
 

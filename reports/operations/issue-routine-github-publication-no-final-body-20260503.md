@@ -26,11 +26,11 @@
 
 ## 수용 기준
 
-- [ ] docs/PROJECT_COMMANDS.md, docs/OPERATOR_RUNBOOK.md, docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md, .codex/skills/seed-ops/SKILL.md가 routine GitHub issue/PR/comment publication은 agent responsibility이며 self-imposed confirmation wait로 멈추면 안 된다고 명시한다.
-- [ ] scripts/check-seed-ops-publication-gate-state.mjs fixture가 `confirmation.channel: preapproved` 또는 실제 tool-blocked boundary를 기준으로 갱신된다.
-- [ ] `await action-time confirmation without repeated ask`가 routine GitHub publication continuation으로 쓰이면 checker가 실패한다.
-- [ ] #284/#285 final publication ask 회귀가 report 또는 item evidence에 기록된다.
-- [ ] `npm run check:seed-ops-publication-gate`, `npm run check:ops-live`, `npm run check:ci`가 통과한다.
+- [x] docs/PROJECT_COMMANDS.md, docs/OPERATOR_RUNBOOK.md, docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md, .codex/skills/seed-ops/SKILL.md가 routine GitHub issue/PR/comment publication은 agent responsibility이며 self-imposed confirmation wait로 멈추면 안 된다고 명시한다.
+- [x] scripts/check-seed-ops-publication-gate-state.mjs fixture가 `confirmation.channel: preapproved` 또는 실제 tool-blocked boundary를 기준으로 갱신된다.
+- [x] `await action-time confirmation without repeated ask`가 routine GitHub publication continuation으로 쓰이면 checker가 실패한다.
+- [x] #284/#285 final publication ask 회귀가 report 또는 item evidence에 기록된다.
+- [x] `npm run check:seed-ops-publication-gate`, `npm run check:ops-live`, `npm run check:ci`가 통과한다.
 
 ## 검증 명령
 
@@ -42,3 +42,18 @@
 
 - User report: 2026-05-03, `$seed-studio force` session 중 #284 PR publication ask가 final로 멈춤
 - Related merged PR: #285
+
+
+## 구현 결과
+
+- Routine GitHub publication은 `confirmation.channel: preapproved`로 표현하고, self-imposed action-time confirmation wait를 checker 실패로 고정했다.
+- `await action-time confirmation without repeated ask`는 routine GitHub publication continuation으로 사용할 수 없게 했다.
+- #284/#285 final publication ask 회귀를 `reports/operations/final-publication-ask-regression-0286-20260503.md`에 기록했다.
+
+## 검증 evidence
+
+- `npm run check:seed-ops-publication-gate` → passed
+- `npm run check:project-commands` → passed
+- `npm run check:ops-live` → passed
+- `npm run check:dashboard` → passed
+- `npm run check:ci` → passed

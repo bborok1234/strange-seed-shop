@@ -72,8 +72,8 @@ if (publicationGateTarget) {
     commit: heartbeat.commit
   };
   heartbeat.confirmation = {
-    required: readArg("confirmation-required", "true") !== "false",
-    channel: readArg("confirmation-channel", "commentary")
+    required: readArg("confirmation-required", "false") !== "false",
+    channel: readArg("confirmation-channel", "preapproved")
   };
   heartbeat.continuation = {
     action: readArg("continuation-action", ""),

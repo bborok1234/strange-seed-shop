@@ -180,19 +180,19 @@ all merge-blocking evidence must be in the original PR before merge/close. post-
 
 `left the next queue candidate is not continuation`: roadmap, control room, 또는 요약에 다음 후보를 적어두는 것만으로는 continuation이 아니다. 다음 `items/<id>.md` 또는 동등 artifact에 `## Plan`, 수용 기준, 검증 명령, 리스크가 있을 때만 계속 진행 중으로 본다. final 응답은 시간 상한, 명시 중단, 외부 승인/credential/destructive boundary, 치명적 blocker, materially branching 제품 결정 중 하나가 보고서에 고정된 뒤에만 허용된다.
 
-#### PR publication confirmation boundary
+#### PR publication boundary
 
-Codex App에서는 GitHub PR 생성/수정, issue 수정, comment 게시처럼 외부에 운영사 문장을 공개하는 representational communication이 action-time confirmation을 요구할 수 있다. 이 경계는 safety gate이지 `$seed-ops`의 완료 조건이 아니다.
+Routine GitHub issue/PR/comment publication is a Studio Harness v3 runner responsibility in this repository. `gh issue create/edit/comment`, `gh pr create/edit/comment/ready/merge`, branch push, check inspection, and merge는 credentials/tools가 사용 가능하면 agent가 실행하는 정상 checkpoint다. 단순 GitHub 게시를 이유로 action-time confirmation wait를 self-impose하지 않고, publish 여부를 묻기 위해 `final`을 보내지 않는다.
 
-- This is not a terminal stop: PR publication confirmation boundary는 `final response is terminal` 예외가 아니며, do not send final just to ask for PR creation.
+- This is not a terminal stop: PR/issue/comment publication은 `final response is terminal` 예외가 아니다.
 - assistant final publication ask is a regression: final로 GitHub 게시 확인을 묻지 않는다.
-- confirmation wording, if unavoidable, must be commentary, not final.
-- write heartbeat before any publication ask를 먼저 수행하고, same-turn local continuation action으로 heartbeat/control room/report/checker/next plan 중 하나를 실제 tool action으로 남긴다.
+- routine GitHub publication에서 commentary confirmation wording도 regression이다. 도구가 실제로 막지 않았으면 바로 body-file 기반 명령을 실행한다.
+- PublicationBoundary는 credential, tool/runtime block, destructive/external-production/payment/customer-data boundary가 실제로 막을 때만 기록한다. 단순 GitHub issue/PR/comment 게시 자체는 boundary가 아니다.
+- 실제 blocker가 있으면 final이 아니라 commentary checkpoint와 heartbeat/control room/report/checker/next plan 중 하나를 남기고, `confirmation.channel: preapproved` routine GitHub publication과 실제 blocked publication을 구분한다.
 - 같은 final publication ask가 반복되면 open a harness-defect fix instead of stopping.
-- 확인이 필요한 순간에는 final이 아니라 commentary checkpoint로 pending external-publication gate를 남기고, branch, commit, PR body file, 정확한 pending command, 필요한 confirmation, next local safe work를 `reports/operations/` 또는 현재 `items/<id>.md`에 기록한다.
-- 그 직후 `next issue plan artifact exists` 상태를 만든다. 이미 다음 plan이 있으면 그 plan을 최신 blocker/continuation evidence와 연결한다.
-- 확인 대기 중에도 destructive/external 작업이 아닌 local safe work는 계속한다. 다음 issue plan 보강, asset plan/prompt 초안, local QA 계획, docs/checker hardening, report 갱신은 계속 가능한 작업이다.
-- 로컬로 계속할 안전한 작업이 전혀 없고 PR/issue/comment 게시만 남으면 blocker report를 보낼 수 있다. 이 경우에도 final은 vague ask가 아니라 pending external-publication gate와 stop rule을 명시해야 한다.
+- Publication gate de-duplication: `publication_gate.dedupe_key`는 target, branch, commit, body_file, pending_command 조합으로 안정적으로 남긴다. 같은 dedupe key에서 이미 `repeat_policy: do_not_repeat_final_ask`가 기록되었으면 같은 PR/issue 게시 확인을 다시 묻거나 같은 CI/검증 prep loop를 반복하지 않는다.
+- Routine GitHub publication의 continuation action은 `execute GitHub publication`, `watch checks`, `merge gate`처럼 다음 agent action이어야 한다. `await action-time confirmation without repeated ask`는 routine GitHub publication에서 harness failure다.
+- 로컬로 계속할 안전한 작업이 전혀 없고 credential/tool/runtime blocker만 남은 경우에만 blocker report를 보낼 수 있다. 이 경우에도 final은 vague ask가 아니라 실제 stop rule과 blocker를 명시해야 한다.
 
 ### watchdog runner
 
