@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-05-03T06:50:01Z",
-  "source": "GitHub CLI observation after #314/#315 merge and active #316 continuation; local docs/reports are evidence mirrors, not authority.",
+  "generatedAt": "2026-05-03T07:16:32Z",
+  "source": "GitHub CLI observation after #316/#317 merge and active #318 continuation; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 316,
-    "title": "새 기록 다음 씨앗 심기가 정원 재성장 payoff로 이어지게 만든다",
-    "item": "items/0160-album-record-next-seed-planting-payoff.md",
-    "branch": "codex/0316-album-record-next-seed-planting-payoff"
+    "issue": 318,
+    "title": "새 기록 후속 재배 성장 중 다음 생명체 수확 예고를 보이게 만든다",
+    "item": "items/0161-album-record-followup-growth-preview.md",
+    "branch": "codex/0318-album-record-followup-growth-preview"
   },
   "workUnits": [
     {
@@ -406,6 +406,31 @@
         "GitHub-authoritative open WorkUnit #314",
         "Branch: `codex/0314-album-record-next-seed-cta`",
         "Branch: codex/0314-album-record-next-seed-cta"
+      ]
+    },
+    {
+      "issue": 316,
+      "issueTitle": "새 기록 다음 씨앗 심기가 정원 재성장 payoff로 이어지게 만든다",
+      "issueState": "CLOSED",
+      "issueClosedAt": "2026-05-03T07:13:33Z",
+      "pr": 317,
+      "prTitle": "#316 새 기록 다음 씨앗 심기를 정원 재성장 payoff로 보이게 만든다",
+      "prState": "MERGED",
+      "prMergedAt": "2026-05-03T07:13:32Z",
+      "mergeCommit": "99e5fd5c5be137a82a98f535f8af768e6c4cadd8",
+      "mainCiRun": 25272819077,
+      "mainCiConclusion": "success",
+      "roadmapStep": "새 기록 다음 씨앗 심기 정원 재성장 payoff",
+      "expectedRoadmapStatus": "done",
+      "requiredRoadmapEvidence": [
+        "Issue #316",
+        "PR #317",
+        "main CI `25272819077`"
+      ],
+      "forbiddenActivePhrases": [
+        "GitHub-authoritative open WorkUnit #316",
+        "Branch: `codex/0316-album-record-next-seed-planting-payoff`",
+        "Branch: codex/0316-album-record-next-seed-planting-payoff"
       ]
     }
   ]
