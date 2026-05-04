@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T07:28:26.401Z
+Generated at: 2026-05-04T07:36:15.040Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T07:28:26.401Z
 
 ## Local state
 
-- Branch: codex/0188-production-rate-delta-indicator
-- Latest commit: df7ff25 dispatch receipt nextOrderTitle fall-through 처리를 모든 greenhouse chain orders로 확장한다 (#368) (#369)
+- Branch: codex/0189-milestones-card-next-step-hint
+- Latest commit: a5b40fb production card rate에 upgrade 활성 시 "+분당 X.X 잎" delta inline indicator를 1.6s 표시한다 (#370) (#371)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T10:10:00.000Z
-- Phase: issue-370-implementation
-- Issue: 370
+- Timestamp: 2026-05-04T10:33:00.000Z
+- Phase: issue-372-implementation
+- Issue: 372
 - PR: 
-- Item: items/0188-production-rate-delta-indicator.md
-- Next action: publication gate: push branch, open PR for #370, watch checks, merge when green.
+- Item: items/0189-milestones-card-next-step-hint.md
+- Next action: publication gate: push branch, open PR for #372, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T07:28:26.401Z
 
 ## Open issues
 
-- #370 production card rate에 upgrade 활성 시 "+분당 X.X 잎" delta inline indicator를 1.6s 표시한다 — https://github.com/bborok1234/strange-seed-shop/issues/370
+- #372 P0.5 진행도 카드 헤더에 "다음: <label>" 다음 milestone 힌트를 인라인 표시한다 — https://github.com/bborok1234/strange-seed-shop/issues/372
 
 ## Playable mode
 
