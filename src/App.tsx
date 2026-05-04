@@ -766,6 +766,28 @@ export default function App() {
     : null;
   const albumRecordLoopActive = researchAlbumRecord?.source === "album_record_followup";
   const rateBreakdown = save ? getProductionRateBreakdown(save) : [];
+  const previousRatePerMinuteRef = useRef<number>(0);
+  const ratePerMinuteInitializedRef = useRef(false);
+  const [rateDeltaIndicator, setRateDeltaIndicator] = useState<number | null>(null);
+  const currentRatePerMinute = productionStatus?.ratePerMinute ?? 0;
+  useEffect(() => {
+    if (!ratePerMinuteInitializedRef.current) {
+      previousRatePerMinuteRef.current = currentRatePerMinute;
+      ratePerMinuteInitializedRef.current = true;
+      return;
+    }
+    const previousRate = previousRatePerMinuteRef.current;
+    if (currentRatePerMinute > previousRate + 0.05) {
+      const delta = currentRatePerMinute - previousRate;
+      setRateDeltaIndicator(delta);
+      const timeoutId = window.setTimeout(() => {
+        setRateDeltaIndicator(null);
+      }, 1_600);
+      previousRatePerMinuteRef.current = currentRatePerMinute;
+      return () => window.clearTimeout(timeoutId);
+    }
+    previousRatePerMinuteRef.current = currentRatePerMinute;
+  }, [currentRatePerMinute]);
   const previousRateBreakdownKeysRef = useRef<Set<string>>(new Set());
   const rateBreakdownInitializedRef = useRef(false);
   const [recentlyActivatedBoosts, setRecentlyActivatedBoosts] = useState<Set<string>>(new Set());
@@ -2285,7 +2307,17 @@ export default function App() {
                       <small className="production-worker-detail">{productionStatus.workerDetail}</small>
                     </div>
                   </div>
-                  <span className="production-card-rate">분당 {formatRatePerMinute(productionStatus.ratePerMinute)} 잎</span>
+                  <span className="production-card-rate">
+                    분당 {formatRatePerMinute(productionStatus.ratePerMinute)} 잎
+                    {rateDeltaIndicator !== null && rateDeltaIndicator > 0 && (
+                      <span
+                        className="production-rate-delta"
+                        aria-label="자동 생산 보너스 변화"
+                      >
+                        +{formatRatePerMinute(rateDeltaIndicator)}
+                      </span>
+                    )}
+                  </span>
                 </div>
                 {save && !productionStatus.orderCompleted && rateBreakdown.length > 0 && (
                   <div className="production-rate-breakdown" aria-label="자동 생산 보너스 분해">
