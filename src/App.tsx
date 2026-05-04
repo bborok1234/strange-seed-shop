@@ -1990,6 +1990,11 @@ export default function App() {
                   productionStatus.order.id === MERCHANT_SECOND_CHAPTER_ORDER.id ? "has-merchant-second-chapter" : "",
                   save?.merchantChainBoostActive ? "has-merchant-chain-complete-active" : "",
                   merchantChainCompleteReceipt ? "has-merchant-chain-complete-receipt" : "",
+                  save?.merchantChainBoostActive &&
+                  save.greenhouseFacilityLevel < GREENHOUSE_FACILITY_MAX_LEVEL &&
+                  !merchantChainCompleteReceipt
+                    ? "has-merchant-chain-next-goal"
+                    : "",
                   mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
                   lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
                   productionClaimReceipt ? "has-production-claim-receipt" : "",
@@ -2140,6 +2145,25 @@ export default function App() {
                     <small>정원 자동 생산 영구 가속</small>
                   </div>
                 )}
+                {save?.merchantChainBoostActive &&
+                  save.greenhouseFacilityLevel < GREENHOUSE_FACILITY_MAX_LEVEL &&
+                  !merchantChainCompleteReceipt && (
+                    <div
+                      className="merchant-chain-next-goal"
+                      aria-label="단골 시퀀스 마침 다음 목표"
+                    >
+                      <span className="merchant-chain-next-goal-arrow" aria-hidden="true">
+                        →
+                      </span>
+                      <strong>다음 목표</strong>
+                      <span>달빛 온실 설립</span>
+                      <small>
+                        {save.materialWorkbenchLevel >= MATERIAL_WORKBENCH_MAX_LEVEL
+                          ? `잎 ${GREENHOUSE_FACILITY_COST_LEAVES} · 재료 ${GREENHOUSE_FACILITY_COST_MATERIALS}`
+                          : "작업대 완성 후 시작"}
+                      </small>
+                    </div>
+                  )}
                 {productionStatus.orderCompleted ? (
                   <div
                     className={[
@@ -3342,6 +3366,10 @@ function buildGardenPlayfieldViewModel(
   const merchantSecondChapterOrderActive = productionStatus.order.id === MERCHANT_SECOND_CHAPTER_ORDER.id;
   const merchantSecondChapterDispatchReceiptActive = orderDeliveryReceipt?.orderId === MERCHANT_SECOND_CHAPTER_ORDER.id;
   const merchantChainCompleteActive = Boolean(merchantChainCompleteReceipt);
+  const merchantChainHandoffActive =
+    save.merchantChainBoostActive &&
+    save.greenhouseFacilityLevel < GREENHOUSE_FACILITY_MAX_LEVEL &&
+    !merchantChainCompleteActive;
   const productionClaimActive = Boolean(productionClaimReceipt);
   const productionBoostActive = Boolean(productionBoostReceipt);
   const researchUnlockActive = Boolean(researchUnlockReceipt);
@@ -3497,6 +3525,8 @@ function buildGardenPlayfieldViewModel(
                 ? ("merchant-second-chapter" as const)
             : merchantFollowupOrderActive
                 ? ("merchant-followup" as const)
+            : merchantChainHandoffActive
+                ? ("merchant-chain-handoff" as const)
             : albumRecordHarvestReceipt?.orderCrateLabel
               ? ("merchant-record" as const)
               : lunarGuardianOrderActive

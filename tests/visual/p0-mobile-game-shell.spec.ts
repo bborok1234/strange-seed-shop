@@ -1675,6 +1675,13 @@ test("모바일 단골 시퀀스 마침이 정원 자동 생산에 영구 +10% �
   await expect(page.getByLabel("단골 시퀀스 마침 영구 가속")).toContainText("단골 시퀀스 마침");
   await expect(page.getByLabel("단골 시퀀스 마침 영구 가속")).toContainText("+10%");
 
+  // Chain-complete handoff card points the player to the next production goal
+  await expect(page.getByLabel("단골 시퀀스 마침 다음 목표")).toBeVisible();
+  await expect(page.getByLabel("단골 시퀀스 마침 다음 목표")).toContainText("다음 목표");
+  await expect(page.getByLabel("단골 시퀀스 마침 다음 목표")).toContainText("달빛 온실 설립");
+  await expect(page.locator(".production-action-card.has-merchant-chain-next-goal")).toBeVisible();
+  await expect(page.locator(".playfield-order-crate.order-variant-merchant-chain-handoff")).toBeVisible();
+
   // Save state records the permanent boost
   const saved = await page.evaluate(() => {
     const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
@@ -1710,11 +1717,37 @@ test("모바일 단골 시퀀스 마침이 정원 자동 생산에 영구 +10% �
   expect(metrics.badge).not.toBeNull();
   expect(metrics.badge!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
 
+  const handoffMetrics = await page.evaluate(() => {
+    const handoff = document
+      .querySelector<HTMLElement>(".merchant-chain-next-goal")
+      ?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    return {
+      handoff: handoff ? { bottom: handoff.bottom } : null,
+      tabs: tabs ? { top: tabs.top } : null
+    };
+  });
+  expect(handoffMetrics.handoff).not.toBeNull();
+  expect(handoffMetrics.handoff!.bottom).toBeLessThanOrEqual(handoffMetrics.tabs!.top - 4);
+
   await page.screenshot({
     path: testInfo.outputPath("mobile-merchant-chain-completion-boost-393.png"),
     fullPage: false,
     animations: "disabled"
   });
+
+  // Build the greenhouse facility via save mutation and confirm the handoff dismisses
+  await page.evaluate(() => {
+    const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+    if (!raw) return;
+    const parsed = JSON.parse(raw) as { greenhouseFacilityLevel?: number };
+    parsed.greenhouseFacilityLevel = 1;
+    window.localStorage.setItem("strange-seed-shop:phase0-save", JSON.stringify(parsed));
+  });
+  await page.goto("/");
+  await expect(page.getByLabel("단골 시퀀스 마침 영구 가속")).toBeVisible();
+  await expect(page.getByLabel("단골 시퀀스 마침 다음 목표")).toHaveCount(0);
+  await expect(page.locator(".production-action-card.has-merchant-chain-next-goal")).toHaveCount(0);
 });
 
 

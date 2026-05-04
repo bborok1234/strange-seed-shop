@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T02:50:09.658Z
+Generated at: 2026-05-04T05:05:51.571Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T02:50:09.658Z
 
 ## Local state
 
-- Branch: codex/0338-merchant-chain-completion-boost
-- Latest commit: ef88e40 포장잎 상인 단골 납품 후 두 번째 단골 chapter로 production loop를 잇는다 (#337)
+- Branch: codex/0174-merchant-chain-next-goal-handoff
+- Latest commit: dfe3088 gpt-image-2 + chroma-key 후처리로 달빛 온실 source icon을 production quality로 업그레이드한다 (#342) (#343)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T02:50:01.103Z
-- Phase: issue-338-implementation
-- Issue: 338
+- Timestamp: 2026-05-04T05:00:00.000Z
+- Phase: implement
+- Issue: 344
 - PR: 
-- Item: items/0171-merchant-chain-completion-boost.md
-- Next action: publication gate: commit, push branch, open PR for #338, watch checks, merge when green
+- Item: items/0174-merchant-chain-next-goal-handoff.md
+- Next action: publication gate: push branch, open PR for #344, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T02:50:09.658Z
 
 ## Open issues
 
-- #338 포장잎 상인 단골 두 번째 chapter 납품이 단골 시퀀스 영구 생산 boost로 마침을 잇는다 — https://github.com/bborok1234/strange-seed-shop/issues/338
+- #344 포장잎 상인 단골 시퀀스 마침이 다음 production 목표(달빛 온실 설립)로 시각적 handoff를 잇는다 — https://github.com/bborok1234/strange-seed-shop/issues/344
 
 ## Playable mode
 
