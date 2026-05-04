@@ -249,7 +249,18 @@ export class GardenScene extends Phaser.Scene {
     }
 
     const hitZone = this.add.zone(width / 2, height / 2, width, height).setInteractive({ useHandCursor: plot.state !== "locked" });
-    hitZone.on("pointerdown", () => this.emitPlotAction(plot, x + width / 2, y + height * 0.55));
+    hitZone.on("pointerdown", () => {
+      if ((plot.state === "growing" || plot.state === "ready") && group.active) {
+        this.tweens.add({
+          targets: group,
+          scale: 1.04,
+          duration: 160,
+          yoyo: true,
+          ease: "Sine.easeOut"
+        });
+      }
+      this.emitPlotAction(plot, x + width / 2, y + height * 0.55);
+    });
     group.add(hitZone);
   }
 
