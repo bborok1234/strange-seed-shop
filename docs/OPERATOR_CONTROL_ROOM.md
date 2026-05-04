@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T07:53:30.495Z
+Generated at: 2026-05-04T07:58:38.533Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T07:53:30.495Z
 
 ## Local state
 
-- Branch: codex/0191-album-3-milestone-reward
-- Latest commit: 9581578 album_2 milestone(5마리 도감) 보상 +50 잎을 도입한다 (#374) (#375)
+- Branch: codex/0192-album-milestone-claim-receipt
+- Latest commit: 8397c08 album_3 milestone(도감 완성) 보상 +100 잎을 도입한다 (#376) (#377)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T11:18:00.000Z
-- Phase: issue-376-implementation
-- Issue: 376
+- Timestamp: 2026-05-04T11:35:00.000Z
+- Phase: issue-378-implementation
+- Issue: 378
 - PR: 
-- Item: items/0191-album-3-milestone-reward.md
-- Next action: publication gate: push branch, open PR for #376, watch checks, merge when green.
+- Item: items/0192-album-milestone-claim-receipt.md
+- Next action: publication gate: push branch, open PR for #378, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T07:53:30.495Z
 
 ## Open issues
 
-- #376 album_3 milestone(도감 완성) 보상 +100 잎을 도입한다 — https://github.com/bborok1234/strange-seed-shop/issues/376
+- #378 album_1/2/3 reward claim 직후 1.8s "도감 마일스톤 +X 잎" reveal motion을 표시한다 — https://github.com/bborok1234/strange-seed-shop/issues/378
 
 ## Playable mode
 
