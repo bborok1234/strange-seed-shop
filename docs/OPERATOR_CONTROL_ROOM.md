@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T07:01:11.195Z
+Generated at: 2026-05-04T07:08:57.733Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T07:01:11.195Z
 
 ## Local state
 
-- Branch: codex/0184-album-p05-milestones-progress
-- Latest commit: b79a427 온실 물안개 분사 직후 production card에 "물안개 분사 완료" reveal motion으로 chain handoff arc symmetry를 마무리한다 (#362) (#363)
+- Branch: codex/0185-lunar-phase-entry-receipt
+- Latest commit: 8478770 album 탭에 P0.5 진행도 milestones 카드를 더해 player progression long-term meta hint를 anchor한다 (#364) (#365)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T08:50:00.000Z
-- Phase: issue-364-implementation
-- Issue: 364
+- Timestamp: 2026-05-04T09:18:00.000Z
+- Phase: issue-366-implementation
+- Issue: 366
 - PR: 
-- Item: items/0184-album-p05-milestones-progress.md
-- Next action: publication gate: push branch, open PR for #364, watch checks, merge when green.
+- Item: items/0185-lunar-phase-entry-receipt.md
+- Next action: publication gate: push branch, open PR for #366, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T07:01:11.195Z
 
 ## Open issues
 
-- #364 album 탭에 P0.5 진행도 milestones 카드를 더해 player progression long-term meta hint를 anchor한다 — https://github.com/bborok1234/strange-seed-shop/issues/364
+- #366 달빛 손님 첫 발견 직후 production card에 "달빛 phase 시작" reveal motion으로 lunar phase entry를 anchor한다 — https://github.com/bborok1234/strange-seed-shop/issues/366
 
 ## Playable mode
 
