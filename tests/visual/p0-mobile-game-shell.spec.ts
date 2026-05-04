@@ -2204,6 +2204,16 @@ test("모바일 온실 설비는 새 납품 주문으로 이어진다", async ({
     )
     .toEqual({ materials: 1, greenhouseFacilityLevel: 1, completedThirdOrder: true });
 
+  // Click the 선반 정리 upgrade and assert the storage entry reveal motion fires
+  await page.locator(".upgrade-choice", { hasText: "선반 정리" }).click();
+  await expect(page.getByLabel("선반 정리 완료 보상")).toBeVisible();
+  await expect(page.getByLabel("선반 정리 완료 보상")).toContainText("선반 정리 완료");
+  await expect(page.getByLabel("선반 정리 완료 보상")).toContainText("다음 주문: 온실 확장 준비 시작");
+  await expect(page.getByLabel("선반 정리 완료 보상")).toContainText("보관 보너스 +10% 적용");
+  await expect(page.locator(".production-action-card.has-greenhouse-storage-entry-receipt")).toBeVisible();
+  // Storage handoff dismisses once storage is built
+  await expect(page.getByLabel("온실 선반 출하 후 다음 목표")).toHaveCount(0);
+
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-facility-order-v0-393.png"), fullPage: false });
 });
 

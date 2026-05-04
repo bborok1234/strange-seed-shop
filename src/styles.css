@@ -1776,6 +1776,60 @@ h1 {
   100% { color: #ffffff; box-shadow: 0 0 0 rgba(168, 218, 132, 0); }
 }
 
+.greenhouse-storage-entry-receipt {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 4px 8px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(86, 138, 71, 0.55);
+  background:
+    radial-gradient(circle at 14% 22%, rgba(255, 255, 255, 0.92), transparent 36%),
+    radial-gradient(circle at 78% 70%, rgba(168, 218, 132, 0.55), transparent 42%),
+    linear-gradient(135deg, rgba(232, 246, 214, 0.97), rgba(204, 232, 184, 0.95));
+  color: #1f3b10;
+  font-size: 10px;
+  font-weight: 800;
+  box-shadow:
+    0 6px 14px rgba(86, 138, 71, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+  animation: greenhouse-facility-entry-reveal 2.0s cubic-bezier(0.2, 1, 0.2, 1) both;
+}
+
+.greenhouse-storage-entry-receipt strong {
+  font-size: 12px;
+  color: #16320b;
+  text-shadow: 0 0 6px rgba(168, 218, 132, 0.55);
+}
+
+.greenhouse-storage-entry-receipt span {
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.greenhouse-storage-entry-receipt small {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.greenhouse-storage-entry-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(168, 218, 132, 0.95), rgba(118, 188, 96, 0.95));
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(86, 138, 71, 0.55);
+  animation: greenhouse-facility-entry-chip-pulse 1.6s ease-in-out 1;
+}
+
 .production-claim-receipt small {
   grid-column: 1 / -1;
   color: var(--text-muted);

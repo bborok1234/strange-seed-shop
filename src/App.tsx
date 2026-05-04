@@ -167,6 +167,12 @@ interface GreenhouseFacilityEntryReceipt {
   bonusPercent: number;
 }
 
+interface GreenhouseStorageEntryReceipt {
+  id: number;
+  nextOrderTitle: string;
+  bonusPercent: number;
+}
+
 interface UpgradeChoice {
   id: string;
   title: string;
@@ -373,6 +379,8 @@ export default function App() {
     useState<MerchantChainCompleteReceipt | null>(null);
   const [greenhouseFacilityEntryReceipt, setGreenhouseFacilityEntryReceipt] =
     useState<GreenhouseFacilityEntryReceipt | null>(null);
+  const [greenhouseStorageEntryReceipt, setGreenhouseStorageEntryReceipt] =
+    useState<GreenhouseStorageEntryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
   const [albumMemoryPage, setAlbumMemoryPage] = useState(0);
@@ -1348,6 +1356,11 @@ export default function App() {
   }
 
   function buyGreenhouseStorage() {
+    const canBuild =
+      !!save &&
+      save.greenhouseStorageLevel < GREENHOUSE_STORAGE_MAX_LEVEL &&
+      save.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id) &&
+      save.materials >= GREENHOUSE_STORAGE_COST_MATERIALS;
     commit((draft) => {
       if (
         draft.greenhouseStorageLevel >= GREENHOUSE_STORAGE_MAX_LEVEL ||
@@ -1366,6 +1379,23 @@ export default function App() {
       });
     });
     triggerRewardPulse();
+    if (canBuild) {
+      const entryReceipt: GreenhouseStorageEntryReceipt = {
+        id: Date.now(),
+        nextOrderTitle: GREENHOUSE_EXPANSION_ORDER.title,
+        bonusPercent: Math.round(GREENHOUSE_STORAGE_OFFLINE_BONUS * 100)
+      };
+      setGreenhouseStorageEntryReceipt(entryReceipt);
+      window.setTimeout(() => {
+        setGreenhouseStorageEntryReceipt((current) =>
+          current?.id === entryReceipt.id ? null : current
+        );
+      }, 2_000);
+      trackEvent("greenhouse_storage_entry_revealed", {
+        rewardMotion: "greenhouse_storage_entry_reveal",
+        nextOrderId: GREENHOUSE_EXPANSION_ORDER.id
+      });
+    }
   }
 
   function buyGreenhouseRoute() {
@@ -2030,6 +2060,7 @@ export default function App() {
                     ? "has-merchant-chain-next-goal"
                     : "",
                   greenhouseFacilityEntryReceipt ? "has-greenhouse-facility-entry-receipt" : "",
+                  greenhouseStorageEntryReceipt ? "has-greenhouse-storage-entry-receipt" : "",
                   save?.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id) &&
                   save.greenhouseStorageLevel < GREENHOUSE_STORAGE_MAX_LEVEL &&
                   !(orderDeliveryReceipt?.orderId === GREENHOUSE_ORDER.id) &&
@@ -2185,6 +2216,17 @@ export default function App() {
                     <strong>달빛 온실 입장</strong>
                     <span>다음 주문: {greenhouseFacilityEntryReceipt.nextOrderTitle} 시작</span>
                     <small>정원 자동 생산 +{greenhouseFacilityEntryReceipt.bonusPercent}% 적용</small>
+                  </div>
+                )}
+                {greenhouseStorageEntryReceipt && (
+                  <div
+                    className="greenhouse-storage-entry-receipt"
+                    aria-label="선반 정리 완료 보상"
+                  >
+                    <span className="greenhouse-storage-entry-chip">선반 정리 완료</span>
+                    <strong>선반 정리 완료</strong>
+                    <span>다음 주문: {greenhouseStorageEntryReceipt.nextOrderTitle} 시작</span>
+                    <small>보관 보너스 +{greenhouseStorageEntryReceipt.bonusPercent}% 적용</small>
                   </div>
                 )}
                 {save?.merchantChainBoostActive && !merchantChainCompleteReceipt && (
