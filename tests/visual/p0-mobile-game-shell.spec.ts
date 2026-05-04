@@ -2027,6 +2027,19 @@ test("모바일 작업대 강화는 첫 온실 설비 목표로 이어진다", a
   await expect(facilityChoice).toContainText("온실 선반 +10% 가동");
   await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("분당 15.3 잎");
 
+  // Greenhouse facility entry reveal — closes the post-handoff loop from #344
+  await expect(page.getByLabel("달빛 온실 입장 보상")).toBeVisible();
+  await expect(page.getByLabel("달빛 온실 입장 보상")).toContainText("달빛 온실 입장");
+  await expect(page.getByLabel("달빛 온실 입장 보상")).toContainText("다음 주문: 온실 선반 납품 시작");
+  await expect(page.getByLabel("달빛 온실 입장 보상")).toContainText("정원 자동 생산 +10% 적용");
+  await expect(page.locator(".production-action-card.has-greenhouse-facility-entry-receipt")).toBeVisible();
+  await expect(page.locator(".playfield-order-crate.order-variant-greenhouse-facility-entry")).toBeVisible();
+
+  // Receipt expires (~2.0s) and production card transitions out of the entry state
+  await page.waitForTimeout(2_400);
+  await expect(page.getByLabel("달빛 온실 입장 보상")).toHaveCount(0);
+  await expect(page.locator(".production-action-card.has-greenhouse-facility-entry-receipt")).toHaveCount(0);
+
   const metrics = await page.evaluate(() => {
     const panelElement = document.querySelector<HTMLElement>(".starter-panel");
     const panel = panelElement?.getBoundingClientRect();

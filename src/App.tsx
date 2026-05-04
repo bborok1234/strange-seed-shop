@@ -161,6 +161,12 @@ interface MerchantChainCompleteReceipt {
   detailLabel: string;
 }
 
+interface GreenhouseFacilityEntryReceipt {
+  id: number;
+  nextOrderTitle: string;
+  bonusPercent: number;
+}
+
 interface UpgradeChoice {
   id: string;
   title: string;
@@ -365,6 +371,8 @@ export default function App() {
   const [orderDeliveryReceipt, setOrderDeliveryReceipt] = useState<OrderDeliveryReceipt | null>(null);
   const [merchantChainCompleteReceipt, setMerchantChainCompleteReceipt] =
     useState<MerchantChainCompleteReceipt | null>(null);
+  const [greenhouseFacilityEntryReceipt, setGreenhouseFacilityEntryReceipt] =
+    useState<GreenhouseFacilityEntryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
   const [albumMemoryPage, setAlbumMemoryPage] = useState(0);
@@ -715,6 +723,7 @@ export default function App() {
         albumRecordHarvestReceipt,
         merchantCrateClaimReceipt,
         merchantChainCompleteReceipt,
+        greenhouseFacilityEntryReceipt,
         nextCreatureGoal
       ),
     [
@@ -732,6 +741,7 @@ export default function App() {
       albumRecordHarvestReceipt,
       merchantCrateClaimReceipt,
       merchantChainCompleteReceipt,
+      greenhouseFacilityEntryReceipt,
       nextCreatureGoal
     ]
   );
@@ -1290,6 +1300,12 @@ export default function App() {
   }
 
   function buyGreenhouseFacility() {
+    const canBuild =
+      !!save &&
+      save.greenhouseFacilityLevel < GREENHOUSE_FACILITY_MAX_LEVEL &&
+      save.materialWorkbenchLevel >= MATERIAL_WORKBENCH_MAX_LEVEL &&
+      save.leaves >= GREENHOUSE_FACILITY_COST_LEAVES &&
+      save.materials >= GREENHOUSE_FACILITY_COST_MATERIALS;
     commit((draft) => {
       if (
         draft.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL ||
@@ -1312,6 +1328,23 @@ export default function App() {
       });
     });
     triggerRewardPulse();
+    if (canBuild) {
+      const entryReceipt: GreenhouseFacilityEntryReceipt = {
+        id: Date.now(),
+        nextOrderTitle: GREENHOUSE_ORDER.title,
+        bonusPercent: Math.round(GREENHOUSE_FACILITY_RATE_BONUS * 100)
+      };
+      setGreenhouseFacilityEntryReceipt(entryReceipt);
+      window.setTimeout(() => {
+        setGreenhouseFacilityEntryReceipt((current) =>
+          current?.id === entryReceipt.id ? null : current
+        );
+      }, 2_000);
+      trackEvent("greenhouse_facility_entry_revealed", {
+        rewardMotion: "greenhouse_facility_entry_reveal",
+        nextOrderId: GREENHOUSE_ORDER.id
+      });
+    }
   }
 
   function buyGreenhouseStorage() {
@@ -1995,6 +2028,7 @@ export default function App() {
                   !merchantChainCompleteReceipt
                     ? "has-merchant-chain-next-goal"
                     : "",
+                  greenhouseFacilityEntryReceipt ? "has-greenhouse-facility-entry-receipt" : "",
                   mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
                   lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
                   productionClaimReceipt ? "has-production-claim-receipt" : "",
@@ -2133,6 +2167,17 @@ export default function App() {
                     </span>
                     <strong>+{merchantChainCompleteReceipt.bonusPercent}% 영구 가속</strong>
                     <span>{merchantChainCompleteReceipt.detailLabel}</span>
+                  </div>
+                )}
+                {greenhouseFacilityEntryReceipt && (
+                  <div
+                    className="greenhouse-facility-entry-receipt"
+                    aria-label="달빛 온실 입장 보상"
+                  >
+                    <span className="greenhouse-facility-entry-chip">달빛 온실 입장</span>
+                    <strong>달빛 온실 입장</strong>
+                    <span>다음 주문: {greenhouseFacilityEntryReceipt.nextOrderTitle} 시작</span>
+                    <small>정원 자동 생산 +{greenhouseFacilityEntryReceipt.bonusPercent}% 적용</small>
                   </div>
                 )}
                 {save?.merchantChainBoostActive && !merchantChainCompleteReceipt && (
@@ -3286,6 +3331,7 @@ function buildGardenPlayfieldViewModel(
   albumRecordHarvestReceipt: AlbumRecordHarvestReceipt | null,
   merchantCrateClaimReceipt: MerchantCrateClaimReceipt | null,
   merchantChainCompleteReceipt: MerchantChainCompleteReceipt | null,
+  greenhouseFacilityEntryReceipt: GreenhouseFacilityEntryReceipt | null,
   nextCreatureGoal: NextCreatureGoal | null
 ): GardenPlayfieldViewModel {
   if (!save) {
@@ -3370,6 +3416,7 @@ function buildGardenPlayfieldViewModel(
     save.merchantChainBoostActive &&
     save.greenhouseFacilityLevel < GREENHOUSE_FACILITY_MAX_LEVEL &&
     !merchantChainCompleteActive;
+  const greenhouseFacilityEntryActive = Boolean(greenhouseFacilityEntryReceipt);
   const productionClaimActive = Boolean(productionClaimReceipt);
   const productionBoostActive = Boolean(productionBoostReceipt);
   const researchUnlockActive = Boolean(researchUnlockReceipt);
@@ -3511,7 +3558,9 @@ function buildGardenPlayfieldViewModel(
             albumRecordHarvestActive ||
             albumRecordPlantActive ||
             researchSeedPlantedActive,
-          orderVariant: merchantChainCompleteActive
+          orderVariant: greenhouseFacilityEntryActive
+            ? ("greenhouse-facility-entry" as const)
+            : merchantChainCompleteActive
             ? ("merchant-chain-complete" as const)
             : firstOrderDispatchReceiptActive
             ? ("first-dispatched" as const)
