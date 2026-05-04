@@ -185,6 +185,10 @@ interface GreenhouseMistEntryReceipt {
   bonusPercent: number;
 }
 
+interface LunarPhaseEntryReceipt {
+  id: number;
+}
+
 interface UpgradeChoice {
   id: string;
   title: string;
@@ -397,6 +401,8 @@ export default function App() {
     useState<GreenhouseIrrigationEntryReceipt | null>(null);
   const [greenhouseMistEntryReceipt, setGreenhouseMistEntryReceipt] =
     useState<GreenhouseMistEntryReceipt | null>(null);
+  const [lunarPhaseEntryReceipt, setLunarPhaseEntryReceipt] =
+    useState<LunarPhaseEntryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
   const [albumMemoryPage, setAlbumMemoryPage] = useState(0);
@@ -1190,6 +1196,23 @@ export default function App() {
       setAlbumRecordHarvestReceipt(albumRecordHarvest);
       setResearchAlbumRecord(null);
       setHarvestReveal(harvestedCreature);
+    }
+    if (
+      save &&
+      harvestedCreatureId === LUNAR_REWARD_CREATURE_ID &&
+      !save.discoveredCreatureIds.includes(LUNAR_REWARD_CREATURE_ID)
+    ) {
+      const entryReceipt: LunarPhaseEntryReceipt = { id: Date.now() };
+      setLunarPhaseEntryReceipt(entryReceipt);
+      window.setTimeout(() => {
+        setLunarPhaseEntryReceipt((current) =>
+          current?.id === entryReceipt.id ? null : current
+        );
+      }, 2_000);
+      trackEvent("lunar_phase_entry_revealed", {
+        rewardMotion: "lunar_phase_entry_reveal",
+        creatureId: LUNAR_REWARD_CREATURE_ID
+      });
     }
     triggerRewardPulse();
   }
@@ -2203,6 +2226,7 @@ export default function App() {
                   greenhouseStorageEntryReceipt ? "has-greenhouse-storage-entry-receipt" : "",
                   greenhouseIrrigationEntryReceipt ? "has-greenhouse-irrigation-entry-receipt" : "",
                   greenhouseMistEntryReceipt ? "has-greenhouse-mist-entry-receipt" : "",
+                  lunarPhaseEntryReceipt ? "has-lunar-phase-entry-receipt" : "",
                   save?.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id) &&
                   save.greenhouseStorageLevel < GREENHOUSE_STORAGE_MAX_LEVEL &&
                   !(orderDeliveryReceipt?.orderId === GREENHOUSE_ORDER.id) &&
@@ -2408,6 +2432,17 @@ export default function App() {
                     <strong>물안개 분사 완료</strong>
                     <span>다음 주문: {greenhouseMistEntryReceipt.nextOrderTitle} 시작</span>
                     <small>오프라인 복귀 보관 +{greenhouseMistEntryReceipt.bonusPercent}% 적용</small>
+                  </div>
+                )}
+                {lunarPhaseEntryReceipt && (
+                  <div
+                    className="lunar-phase-entry-receipt"
+                    aria-label="달빛 phase 시작 보상"
+                  >
+                    <span className="lunar-phase-entry-chip">달빛 phase 시작</span>
+                    <strong>달빛 phase 시작</strong>
+                    <span>달빛 보호 거래 준비</span>
+                    <small>달빛 케어 메모리 잠금 해제</small>
                   </div>
                 )}
                 {save?.merchantChainBoostActive && !merchantChainCompleteReceipt && (
