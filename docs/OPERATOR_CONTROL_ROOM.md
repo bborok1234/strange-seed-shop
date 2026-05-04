@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T15:18:47.581Z
+Generated at: 2026-05-04T02:01:00.306Z
 
 ## Current mission
 
@@ -38,27 +38,27 @@ Generated at: 2026-05-03T15:18:47.581Z
 
 ## Local state
 
-- Branch: codex/0332-merchant-followup-order
-- Latest commit: 05ba2b2 상인 단골 납품 WorkUnit을 plan-first로 고정한다
+- Branch: codex/0336-merchant-second-chapter-order
+- Latest commit: b24f34e 포장잎 상인 단골 납품 후 두 번째 단골 chapter로 production loop를 잇는다 (#336)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T15:18:45.334Z
-- Phase: issue-332-pr-publication
-- Issue: 332
-- PR: 
-- Item: items/0168-merchant-followup-order.md
-- Next action: gate: publish #332 issue/PR body files, watch checks, merge when green
+- Timestamp: 2026-05-04T02:00:37.842Z
+- Phase: issue-336-pr-publication
+- Issue: 336
+- PR: 337
+- Item: items/0170-merchant-second-chapter-order.md
+- Next action: publication gate: push refreshed dashboard + heartbeat, watch checks, merge when green, observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #337 ready 포장잎 상인 단골 납품 후 두 번째 단골 chapter로 production loop를 잇는다 — https://github.com/bborok1234/strange-seed-shop/pull/337
 
 ## Open issues
 
-- #332 포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다 — https://github.com/bborok1234/strange-seed-shop/issues/332
+- #336 포장잎 상인 단골 납품 후 두 번째 단골 chapter 의뢰가 production loop를 잇는다 — https://github.com/bborok1234/strange-seed-shop/issues/336
 
 ## Playable mode
 

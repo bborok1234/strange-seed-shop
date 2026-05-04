@@ -1,6 +1,6 @@
 # Studio Harness v3 Foreground Operator Entry
 
-- Updated: 2026-05-03T17:43:30.511Z
+- Updated: 2026-05-03T17:54:14.417Z
 - Backend: claude
 - Fallback: claude
 - Idle timeout: 10 min (per pass, kills on no stdio)
@@ -31,13 +31,13 @@
 ## Foreground command
 
 ```bash
-(cd '/Users/mirlim/Documents/strange-seed-shop' && claude '--bare' '-p' '--add-dir' '/Users/mirlim/Documents/strange-seed-shop' '--dangerously-skip-permissions' < '.omx/state/studio-v3-operator-prompt.md')
+(cd '/Users/mirlim/Documents/strange-seed-shop' && claude '-p' '--add-dir' '/Users/mirlim/Documents/strange-seed-shop' '--dangerously-skip-permissions' < '.omx/state/studio-v3-operator-prompt.md')
 ```
 
 ## Detached command
 
 ```bash
 mkdir -p '.omx/logs' '.omx/state'
-nohup '/Users/mirlim/.nvm/versions/node/v24.12.0/bin/node' '/Users/mirlim/Documents/strange-seed-shop/scripts/studio-v3-operator.mjs' '--supervisor' '--duration-hours' '24' '--interval-seconds' '300' '--max-iterations' '0' '--worktree' '/Users/mirlim/Documents/strange-seed-shop' '--backend' 'claude' '--fallback' 'claude' '--idle-timeout-minutes' '10' '--codex-cooldown-minutes' '60' '--prompt' '.omx/state/studio-v3-operator-prompt.md' '--state' '.omx/state/studio-v3-operator.json' '--report' 'reports/operations/studio-v3-operator-20260503.md' '--yolo' > '.omx/logs/studio-v3-operator-20260503T174329Z.log' 2>&1 &
+nohup '/Users/mirlim/.nvm/versions/node/v24.12.0/bin/node' '/Users/mirlim/Documents/strange-seed-shop/scripts/studio-v3-operator.mjs' '--supervisor' '--duration-hours' '24' '--interval-seconds' '300' '--max-iterations' '0' '--worktree' '/Users/mirlim/Documents/strange-seed-shop' '--backend' 'claude' '--fallback' 'claude' '--idle-timeout-minutes' '10' '--codex-cooldown-minutes' '60' '--prompt' '.omx/state/studio-v3-operator-prompt.md' '--state' '.omx/state/studio-v3-operator.json' '--report' 'reports/operations/studio-v3-operator-20260503.md' '--yolo' > '.omx/logs/studio-v3-operator-20260503T175413Z.log' 2>&1 &
 echo $! > '.omx/state/studio-v3-operator.pid'
 ```

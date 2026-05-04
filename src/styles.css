@@ -1432,11 +1432,68 @@ h1 {
     linear-gradient(135deg, rgba(255, 244, 206, 0.98), rgba(231, 247, 207, 0.9));
 }
 
+.production-action-card.has-merchant-second-chapter .order-progress-card {
+  border-color: rgba(132, 78, 27, 0.5);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.86), transparent 32%),
+    radial-gradient(circle at 80% 26%, rgba(255, 196, 110, 0.5), transparent 38%),
+    radial-gradient(circle at 68% 78%, rgba(180, 132, 60, 0.34), transparent 40%),
+    linear-gradient(135deg, rgba(255, 236, 192, 0.98), rgba(214, 238, 187, 0.9));
+  box-shadow:
+    0 6px 14px rgba(132, 78, 27, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.56);
+  animation: merchant-second-chapter-reveal 720ms cubic-bezier(0.2, 1, 0.2, 1) both;
+}
+
+.production-action-card.has-merchant-second-chapter .order-progress-card strong {
+  animation: merchant-second-chapter-title-pulse 1.4s ease-in-out 1;
+}
+
 .production-asset-merchant-crate {
   box-shadow:
     0 8px 18px rgba(153, 96, 44, 0.18),
     inset 0 0 0 1px rgba(255, 255, 255, 0.56);
   animation: merchant-crate-pack 1.45s ease-in-out infinite;
+}
+
+.production-asset-merchant-second-chapter {
+  box-shadow:
+    0 10px 22px rgba(132, 78, 27, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.62);
+  animation: merchant-second-chapter-crate-bob 1.3s ease-in-out infinite;
+}
+
+@keyframes merchant-second-chapter-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+    box-shadow: 0 0 0 rgba(132, 78, 27, 0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.012);
+    box-shadow: 0 12px 22px rgba(132, 78, 27, 0.26);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow:
+      0 6px 14px rgba(132, 78, 27, 0.18),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.56);
+  }
+}
+
+@keyframes merchant-second-chapter-title-pulse {
+  0% { color: #203f2d; }
+  35% { color: #6b3a07; text-shadow: 0 0 8px rgba(255, 198, 122, 0.6); }
+  100% { color: #203f2d; text-shadow: none; }
+}
+
+@keyframes merchant-second-chapter-crate-bob {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-2px) rotate(1.5deg); }
 }
 
 .production-claim-receipt small {
@@ -6221,6 +6278,48 @@ h1 {
 }
 
 .playfield-order-crate.order-variant-merchant-delivered::after {
+  border-radius: 999px;
+  border-color: transparent;
+  animation: merchant-reward-flyout 1.05s ease-in-out infinite;
+}
+
+.playfield-order-crate.order-variant-merchant-second-chapter,
+.playfield-order-crate.order-variant-merchant-second-delivered {
+  position: relative;
+  border-color: rgba(132, 78, 27, 0.56);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.84), transparent 32%),
+    radial-gradient(circle at 80% 28%, rgba(255, 196, 110, 0.6), transparent 38%),
+    radial-gradient(circle at 64% 78%, rgba(180, 132, 60, 0.34), transparent 40%),
+    linear-gradient(135deg, rgba(255, 234, 188, 0.98), rgba(214, 238, 187, 0.92));
+  box-shadow:
+    0 6px 14px rgba(132, 78, 27, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.playfield-order-crate.order-variant-merchant-second-chapter {
+  animation: merchant-second-chapter-reveal 720ms cubic-bezier(0.2, 1, 0.2, 1) both;
+}
+
+.playfield-order-crate.order-variant-merchant-second-chapter::after,
+.playfield-order-crate.order-variant-merchant-second-delivered::after {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  width: 28px;
+  height: 18px;
+  border: 2px solid rgba(132, 78, 27, 0.56);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow:
+    -9px 8px 0 -5px rgba(255, 196, 110, 0.96),
+    -20px 2px 0 -6px rgba(86, 138, 71, 0.78),
+    0 0 14px rgba(132, 78, 27, 0.32);
+  content: "";
+  animation: merchant-second-chapter-crate-bob 1.3s ease-in-out infinite;
+}
+
+.playfield-order-crate.order-variant-merchant-second-delivered::after {
   border-radius: 999px;
   border-color: transparent;
   animation: merchant-reward-flyout 1.05s ease-in-out infinite;
