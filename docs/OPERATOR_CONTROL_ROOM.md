@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T05:05:51.571Z
+Generated at: 2026-05-04T05:20:50.032Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T05:05:51.571Z
 
 ## Local state
 
-- Branch: codex/0174-merchant-chain-next-goal-handoff
-- Latest commit: dfe3088 gpt-image-2 + chroma-key 후처리로 달빛 온실 source icon을 production quality로 업그레이드한다 (#342) (#343)
+- Branch: codex/0175-greenhouse-facility-entry-reveal
+- Latest commit: 708aa9e 포장잎 상인 단골 시퀀스 마침이 다음 production 목표(달빛 온실 설립)로 시각적 handoff한다 (#344) (#345)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T05:00:00.000Z
-- Phase: implement
-- Issue: 344
+- Timestamp: 2026-05-04T05:25:00.000Z
+- Phase: issue-346-implementation
+- Issue: 346
 - PR: 
-- Item: items/0174-merchant-chain-next-goal-handoff.md
-- Next action: publication gate: push branch, open PR for #344, watch checks, merge when green.
+- Item: items/0175-greenhouse-facility-entry-reveal.md
+- Next action: publication gate: push branch, open PR for #346, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T05:05:51.571Z
 
 ## Open issues
 
-- #344 포장잎 상인 단골 시퀀스 마침이 다음 production 목표(달빛 온실 설립)로 시각적 handoff를 잇는다 — https://github.com/bborok1234/strange-seed-shop/issues/344
+- #346 달빛 온실 설립 직후 production card에 "달빛 온실 입장" reveal motion으로 chain handoff loop를 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/346
 
 ## Playable mode
 
