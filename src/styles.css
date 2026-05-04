@@ -1591,6 +1591,67 @@ h1 {
   100% { color: #5b2f06; box-shadow: 0 0 0 rgba(255, 200, 116, 0); }
 }
 
+.merchant-chain-next-goal {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 4px 8px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px dashed rgba(86, 138, 71, 0.55);
+  background:
+    radial-gradient(circle at 14% 22%, rgba(255, 255, 255, 0.82), transparent 40%),
+    linear-gradient(135deg, rgba(232, 246, 214, 0.95), rgba(212, 234, 192, 0.92));
+  color: #2c4d1a;
+  font-size: 10px;
+  font-weight: 800;
+  animation: merchant-chain-next-goal-fadein 0.5s ease-out 1;
+}
+
+.merchant-chain-next-goal strong {
+  font-size: 11px;
+  color: #1f3b10;
+}
+
+.merchant-chain-next-goal span {
+  font-size: 10px;
+  font-weight: 800;
+  color: #1f3b10;
+}
+
+.merchant-chain-next-goal small {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.merchant-chain-next-goal-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(168, 218, 132, 0.95), rgba(118, 188, 96, 0.95));
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 900;
+  border: 1px solid rgba(86, 138, 71, 0.55);
+  animation: merchant-chain-next-goal-arrow-pulse 1.6s ease-in-out 1;
+}
+
+@keyframes merchant-chain-next-goal-fadein {
+  0% { opacity: 0; transform: translateY(3px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes merchant-chain-next-goal-arrow-pulse {
+  0% { transform: translateX(-2px) scale(0.92); }
+  45% { transform: translateX(2px) scale(1.06); }
+  100% { transform: translateX(0) scale(1); }
+}
+
 .production-claim-receipt small {
   grid-column: 1 / -1;
   color: var(--text-muted);
@@ -6456,6 +6517,38 @@ h1 {
   0% { transform: rotate(-12deg) scale(0.85); opacity: 0; }
   35% { transform: rotate(6deg) scale(1.05); opacity: 1; }
   100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+.playfield-order-crate.order-variant-merchant-chain-handoff {
+  position: relative;
+  border-color: rgba(86, 138, 71, 0.55);
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.88), transparent 36%),
+    radial-gradient(circle at 78% 70%, rgba(168, 218, 132, 0.55), transparent 42%),
+    linear-gradient(135deg, rgba(232, 246, 214, 0.97), rgba(212, 234, 192, 0.93));
+  box-shadow:
+    0 6px 14px rgba(86, 138, 71, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+  animation: merchant-chain-next-goal-fadein 0.5s ease-out 1;
+}
+
+.playfield-order-crate.order-variant-merchant-chain-handoff::after {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(232, 248, 220, 0.96), rgba(168, 218, 132, 0.96) 60%, rgba(86, 138, 71, 0.94));
+  border: 2px solid rgba(86, 138, 71, 0.7);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 900;
+  text-align: center;
+  line-height: 14px;
+  content: "→";
+  animation: merchant-chain-next-goal-arrow-pulse 1.6s ease-in-out 1;
 }
 
 @keyframes merchant-crate-pack {
