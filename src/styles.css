@@ -1496,6 +1496,101 @@ h1 {
   50% { transform: translateY(-2px) rotate(1.5deg); }
 }
 
+.merchant-chain-complete-receipt,
+.merchant-chain-complete-badge {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 4px 8px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(132, 78, 27, 0.45);
+  background:
+    radial-gradient(circle at 14% 22%, rgba(255, 255, 255, 0.88), transparent 36%),
+    radial-gradient(circle at 84% 60%, rgba(255, 200, 116, 0.5), transparent 42%),
+    linear-gradient(135deg, rgba(255, 240, 206, 0.96), rgba(214, 238, 187, 0.9));
+  color: #43230a;
+  font-size: 10px;
+  font-weight: 800;
+  box-shadow:
+    0 6px 14px rgba(132, 78, 27, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.merchant-chain-complete-receipt strong,
+.merchant-chain-complete-badge strong {
+  font-size: 12px;
+  color: #6b3a07;
+  text-shadow: 0 0 6px rgba(255, 200, 116, 0.6);
+}
+
+.merchant-chain-complete-receipt span,
+.merchant-chain-complete-badge span {
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.merchant-chain-complete-badge small {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.merchant-chain-complete-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 224, 168, 0.95), rgba(255, 196, 110, 0.95));
+  color: #5b2f06;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(132, 78, 27, 0.35);
+}
+
+.production-action-card.has-merchant-chain-complete-receipt .merchant-chain-complete-receipt {
+  animation: merchant-chain-complete-sparkle 2.2s cubic-bezier(0.2, 1, 0.2, 1) both;
+}
+
+.production-action-card.has-merchant-chain-complete-receipt .merchant-chain-complete-chip {
+  animation: merchant-chain-complete-chip-pulse 1.6s ease-in-out 1;
+}
+
+.production-action-card.has-merchant-chain-complete-active .merchant-chain-complete-chip {
+  box-shadow: 0 0 8px rgba(255, 200, 116, 0.55);
+}
+
+@keyframes merchant-chain-complete-sparkle {
+  0% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.985);
+    box-shadow: 0 0 0 rgba(132, 78, 27, 0);
+  }
+
+  35% {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.018);
+    box-shadow: 0 12px 22px rgba(132, 78, 27, 0.28);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow:
+      0 6px 14px rgba(132, 78, 27, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+  }
+}
+
+@keyframes merchant-chain-complete-chip-pulse {
+  0% { color: #5b2f06; box-shadow: 0 0 0 rgba(255, 200, 116, 0); }
+  40% { color: #f7d28a; text-shadow: 0 0 10px rgba(255, 226, 158, 0.85); box-shadow: 0 0 12px rgba(255, 200, 116, 0.65); }
+  100% { color: #5b2f06; box-shadow: 0 0 0 rgba(255, 200, 116, 0); }
+}
+
 .production-claim-receipt small {
   grid-column: 1 / -1;
   color: var(--text-muted);
@@ -6323,6 +6418,44 @@ h1 {
   border-radius: 999px;
   border-color: transparent;
   animation: merchant-reward-flyout 1.05s ease-in-out infinite;
+}
+
+.playfield-order-crate.order-variant-merchant-chain-complete {
+  position: relative;
+  border-color: rgba(132, 78, 27, 0.6);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.92), transparent 30%),
+    radial-gradient(circle at 80% 30%, rgba(255, 210, 132, 0.78), transparent 40%),
+    radial-gradient(circle at 60% 80%, rgba(214, 158, 80, 0.42), transparent 42%),
+    linear-gradient(135deg, rgba(255, 240, 196, 0.99), rgba(220, 244, 192, 0.95));
+  box-shadow:
+    0 8px 18px rgba(132, 78, 27, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  animation: merchant-chain-complete-sparkle 2.2s cubic-bezier(0.2, 1, 0.2, 1) both;
+}
+
+.playfield-order-crate.order-variant-merchant-chain-complete::after {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 248, 220, 0.96), rgba(255, 200, 116, 0.92) 60%, rgba(180, 110, 40, 0.94));
+  border: 2px solid rgba(132, 78, 27, 0.7);
+  box-shadow:
+    0 0 10px rgba(255, 200, 116, 0.7),
+    -8px 14px 0 -6px rgba(212, 90, 50, 0.85),
+    -16px 18px 0 -8px rgba(86, 138, 71, 0.85);
+  content: "";
+  animation: merchant-chain-complete-crate-spin 2.2s ease-in-out 1;
+}
+
+@keyframes merchant-chain-complete-crate-spin {
+  0% { transform: rotate(-12deg) scale(0.85); opacity: 0; }
+  35% { transform: rotate(6deg) scale(1.05); opacity: 1; }
+  100% { transform: rotate(0deg) scale(1); opacity: 1; }
 }
 
 @keyframes merchant-crate-pack {

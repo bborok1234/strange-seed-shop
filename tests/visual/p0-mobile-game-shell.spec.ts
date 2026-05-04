@@ -1606,6 +1606,117 @@ test("모바일 단골 두 번째 chapter 의뢰가 상인 단골 납품 직후 
   });
 });
 
+test("모바일 단골 시퀀스 마침이 정원 자동 생산에 영구 +10% 가속을 남긴다", async ({ page }, testInfo) => {
+  test.setTimeout(600_000);
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchComplete=1&qaTab=seeds&qaFxTelemetry=1");
+
+  const researchTargetRow = page.locator(".seed-inventory-row-target").first();
+  await researchTargetRow.getByRole("button", { name: /구매/ }).click();
+  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 씨앗 목표: 젤리콩 통통" }).click();
+
+  const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
+  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 기록으로 이어가기: 방울새싹 씨앗" }).click();
+
+  const ramiTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
+  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
+  await expect(page.getByLabel("새 기록 재순환 생명체 발견")).toContainText("이슬연금 라미");
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "다음 기록으로 이어가기: 젤리콩 씨앗" }).click();
+
+  const merchantTargetRow = page.locator(".seed-inventory-row-record-next").first();
+  await merchantTargetRow.getByRole("button", { name: /구매/ }).click();
+  await merchantTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+
+  await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
+  await page.getByRole("button", { name: "상인 주문상자 보상 받기" }).click();
+  await expect(page.getByLabel("상인 주문상자 보상 수령 완료")).toContainText("+36 잎 · +1 꽃가루");
+  await page.getByRole("button", { name: "도감에 기록하기" }).click();
+  await page.getByRole("button", { name: "정원", exact: true }).click();
+
+  // First chapter (단골 납품) → second chapter
+  await page.getByRole("button", { name: "생산 잎 수령" }).click();
+  await page.getByRole("button", { name: "상인 단골 납품 +54 잎 · +2 꽃가루 · +1 재료" }).click();
+
+  // Second chapter delivery
+  await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("포장잎 상인 두 번째 단골 납품");
+  await page.getByRole("button", { name: "생산 잎 수령" }).click();
+  await page.getByRole("button", { name: "상인 두 번째 단골 납품 +96 잎 · +3 꽃가루 · +2 재료" }).click();
+
+  // Chain-complete reveal: receipt + sparkle + chip pulse
+  await expect(page.getByLabel("단골 시퀀스 마침 보상")).toBeVisible();
+  await expect(page.getByLabel("단골 시퀀스 마침 보상")).toContainText("단골 시퀀스 마침");
+  await expect(page.getByLabel("단골 시퀀스 마침 보상")).toContainText("+10% 영구 가속");
+  await expect(page.getByLabel("단골 시퀀스 마침 보상")).toContainText("정원 자동 생산 영구 가속");
+
+  // Playfield crate flips to chain-complete variant during reveal
+  await expect(page.locator(".playfield-order-crate.order-variant-merchant-chain-complete")).toBeVisible();
+
+  // Production card has receipt + active classes during reveal
+  await expect(page.locator(".production-action-card.has-merchant-chain-complete-receipt")).toBeVisible();
+  await expect(page.locator(".production-action-card.has-merchant-chain-complete-active")).toBeVisible();
+
+  // Receipt expires (~2.2s) then persistent badge takes over
+  await page.waitForTimeout(2_400);
+  await expect(page.getByLabel("단골 시퀀스 마침 보상")).toHaveCount(0);
+  await expect(page.getByLabel("단골 시퀀스 마침 영구 가속")).toBeVisible();
+  await expect(page.getByLabel("단골 시퀀스 마침 영구 가속")).toContainText("단골 시퀀스 마침");
+  await expect(page.getByLabel("단골 시퀀스 마침 영구 가속")).toContainText("+10%");
+
+  // Save state records the permanent boost
+  const saved = await page.evaluate(() => {
+    const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+    const parsed = raw
+      ? (JSON.parse(raw) as { merchantChainBoostActive?: boolean; idleProduction?: { completedOrderIds?: string[] } })
+      : {};
+    return {
+      boostActive: parsed.merchantChainBoostActive ?? false,
+      secondCompleted:
+        parsed.idleProduction?.completedOrderIds?.includes("order_merchant_chapter_two_001") ?? false
+    };
+  });
+  expect(saved).toEqual({ boostActive: true, secondCompleted: true });
+
+  const metrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".starter-panel");
+    const badge = document
+      .querySelector<HTMLElement>(".merchant-chain-complete-badge")
+      ?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    return {
+      innerHeight: window.innerHeight,
+      bodyScrollHeight,
+      panelClientHeight: panel?.clientHeight ?? 0,
+      panelScrollHeight: panel?.scrollHeight ?? 0,
+      badge: badge ? { bottom: badge.bottom } : null,
+      tabs: tabs ? { top: tabs.top } : null
+    };
+  });
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
+  expect(metrics.badge).not.toBeNull();
+  expect(metrics.badge!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-merchant-chain-completion-boost-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
+
 
 test("모바일 연구 완료 후 원정 탭은 장기 메타 단서를 보여준다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });

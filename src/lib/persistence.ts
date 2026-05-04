@@ -49,6 +49,7 @@ export function createNewSave(now = new Date()): PlayerSave {
     greenhouseRouteLevel: 0,
     greenhouseIrrigationLevel: 0,
     greenhouseMistLevel: 0,
+    merchantChainBoostActive: false,
     researchLevel: 0,
     plots: createEmptyPlots(),
     idleProduction: {
@@ -90,6 +91,7 @@ export function normalizeSave(raw: Partial<PlayerSave>, now = new Date()): Playe
     greenhouseIrrigationLevel: raw.greenhouseIrrigationLevel ?? fallback.greenhouseIrrigationLevel,
     greenhouseMistLevel: raw.greenhouseMistLevel ?? fallback.greenhouseMistLevel,
     lunarRewardSource: raw.lunarRewardSource,
+    merchantChainBoostActive: raw.merchantChainBoostActive ?? fallback.merchantChainBoostActive,
     researchLevel: raw.researchLevel ?? fallback.researchLevel,
     plots: createEmptyPlots().map((plot) => normalizePlot(plots[plot.index], plot.index)),
     idleProduction: {

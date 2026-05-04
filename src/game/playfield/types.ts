@@ -45,7 +45,8 @@ export interface GardenPlayfieldViewModel {
       | "merchant-followup"
       | "merchant-delivered"
       | "merchant-second-chapter"
-      | "merchant-second-delivered";
+      | "merchant-second-delivered"
+      | "merchant-chain-complete";
     orderStatusLabel?: string;
     actorFamily?: "herb" | "candy" | "lunar";
     workAssetPath?: string;

@@ -154,6 +154,13 @@ interface OrderDeliveryReceipt {
   nextOrderTitle: string;
 }
 
+interface MerchantChainCompleteReceipt {
+  id: number;
+  bonusPercent: number;
+  badgeLabel: string;
+  detailLabel: string;
+}
+
 interface UpgradeChoice {
   id: string;
   title: string;
@@ -216,6 +223,7 @@ const LUNAR_REWARD_CREATURE_ID = "creature_lunar_common_001";
 const MERCHANT_RECORD_CREATURE_ID = "creature_candy_common_002";
 const MERCHANT_CRATE_REWARD_LEAVES = 36;
 const MERCHANT_CRATE_REWARD_POLLEN = 1;
+const MERCHANT_CHAIN_RATE_BONUS = 0.1;
 const LUNAR_CARE_MEMORY_ID = "care_lunar_nunu_001";
 const LUNAR_CARE_REWARD_LEAVES = 18;
 const GUARDIAN_OFFLINE_BONUS = 0.2;
@@ -355,6 +363,8 @@ export default function App() {
   const [albumRecordHarvestReceipt, setAlbumRecordHarvestReceipt] = useState<AlbumRecordHarvestReceipt | null>(null);
   const [merchantCrateClaimReceipt, setMerchantCrateClaimReceipt] = useState<MerchantCrateClaimReceipt | null>(null);
   const [orderDeliveryReceipt, setOrderDeliveryReceipt] = useState<OrderDeliveryReceipt | null>(null);
+  const [merchantChainCompleteReceipt, setMerchantChainCompleteReceipt] =
+    useState<MerchantChainCompleteReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
   const [albumMemoryPage, setAlbumMemoryPage] = useState(0);
@@ -704,6 +714,7 @@ export default function App() {
         albumRecordPlantReceipt,
         albumRecordHarvestReceipt,
         merchantCrateClaimReceipt,
+        merchantChainCompleteReceipt,
         nextCreatureGoal
       ),
     [
@@ -720,6 +731,7 @@ export default function App() {
       albumRecordPlantReceipt,
       albumRecordHarvestReceipt,
       merchantCrateClaimReceipt,
+      merchantChainCompleteReceipt,
       nextCreatureGoal
     ]
   );
@@ -1654,6 +1666,15 @@ export default function App() {
           rewardMotion: "merchant_second_chapter_reveal"
         });
       }
+      if (currentOrder.id === MERCHANT_SECOND_CHAPTER_ORDER.id && !draft.merchantChainBoostActive) {
+        draft.merchantChainBoostActive = true;
+        draft.idleProduction.lastTickAt = new Date().toISOString();
+        trackEvent("merchant_chain_complete_boost_unlocked", {
+          orderId: MERCHANT_SECOND_CHAPTER_ORDER.id,
+          rateBonus: MERCHANT_CHAIN_RATE_BONUS,
+          rewardMotion: "merchant_chain_complete_sparkle"
+        });
+      }
     });
     if (
       orderBeforeDelivery.id === FIRST_ORDER.id ||
@@ -1672,6 +1693,20 @@ export default function App() {
       window.setTimeout(() => {
         setResearchUnlockReceipt((current) => (current?.id === researchReceipt.id ? null : current));
       }, 2_000);
+    }
+    if (orderBeforeDelivery.id === MERCHANT_SECOND_CHAPTER_ORDER.id && !save.merchantChainBoostActive) {
+      const chainCompleteReceipt: MerchantChainCompleteReceipt = {
+        id: Date.now() + 1,
+        bonusPercent: Math.round(MERCHANT_CHAIN_RATE_BONUS * 100),
+        badgeLabel: "단골 시퀀스 마침",
+        detailLabel: "정원 자동 생산 영구 가속"
+      };
+      setMerchantChainCompleteReceipt(chainCompleteReceipt);
+      window.setTimeout(() => {
+        setMerchantChainCompleteReceipt((current) =>
+          current?.id === chainCompleteReceipt.id ? null : current
+        );
+      }, 2_200);
     }
     triggerProductionFx("order", orderFxAssetId);
     triggerRewardPulse();
@@ -1953,6 +1988,8 @@ export default function App() {
                   productionStatus.order.id === LUNAR_GUARDIAN_ORDER.id ? "has-lunar-guardian-order" : "",
                   productionStatus.order.id === MERCHANT_FOLLOWUP_ORDER.id ? "has-merchant-followup-order" : "",
                   productionStatus.order.id === MERCHANT_SECOND_CHAPTER_ORDER.id ? "has-merchant-second-chapter" : "",
+                  save?.merchantChainBoostActive ? "has-merchant-chain-complete-active" : "",
+                  merchantChainCompleteReceipt ? "has-merchant-chain-complete-receipt" : "",
                   mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
                   lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
                   productionClaimReceipt ? "has-production-claim-receipt" : "",
@@ -2079,6 +2116,28 @@ export default function App() {
                     <strong>{orderDeliveryReceipt.title}</strong>
                     <span>{orderDeliveryReceipt.rewardLabel} 수거</span>
                     <small>다음 주문: {orderDeliveryReceipt.nextOrderTitle}</small>
+                  </div>
+                )}
+                {merchantChainCompleteReceipt && (
+                  <div
+                    className="merchant-chain-complete-receipt"
+                    aria-label="단골 시퀀스 마침 보상"
+                  >
+                    <span className="merchant-chain-complete-chip">
+                      {merchantChainCompleteReceipt.badgeLabel}
+                    </span>
+                    <strong>+{merchantChainCompleteReceipt.bonusPercent}% 영구 가속</strong>
+                    <span>{merchantChainCompleteReceipt.detailLabel}</span>
+                  </div>
+                )}
+                {save?.merchantChainBoostActive && !merchantChainCompleteReceipt && (
+                  <div
+                    className="merchant-chain-complete-badge"
+                    aria-label="단골 시퀀스 마침 영구 가속"
+                  >
+                    <span className="merchant-chain-complete-chip">단골 시퀀스 마침</span>
+                    <strong>+{Math.round(MERCHANT_CHAIN_RATE_BONUS * 100)}%</strong>
+                    <small>정원 자동 생산 영구 가속</small>
                   </div>
                 )}
                 {productionStatus.orderCompleted ? (
@@ -3202,6 +3261,7 @@ function buildGardenPlayfieldViewModel(
   albumRecordPlantReceipt: AlbumRecordPlantReceipt | null,
   albumRecordHarvestReceipt: AlbumRecordHarvestReceipt | null,
   merchantCrateClaimReceipt: MerchantCrateClaimReceipt | null,
+  merchantChainCompleteReceipt: MerchantChainCompleteReceipt | null,
   nextCreatureGoal: NextCreatureGoal | null
 ): GardenPlayfieldViewModel {
   if (!save) {
@@ -3281,6 +3341,7 @@ function buildGardenPlayfieldViewModel(
   const merchantFollowupDispatchReceiptActive = orderDeliveryReceipt?.orderId === MERCHANT_FOLLOWUP_ORDER.id;
   const merchantSecondChapterOrderActive = productionStatus.order.id === MERCHANT_SECOND_CHAPTER_ORDER.id;
   const merchantSecondChapterDispatchReceiptActive = orderDeliveryReceipt?.orderId === MERCHANT_SECOND_CHAPTER_ORDER.id;
+  const merchantChainCompleteActive = Boolean(merchantChainCompleteReceipt);
   const productionClaimActive = Boolean(productionClaimReceipt);
   const productionBoostActive = Boolean(productionBoostReceipt);
   const researchUnlockActive = Boolean(researchUnlockReceipt);
@@ -3401,6 +3462,7 @@ function buildGardenPlayfieldViewModel(
             firstOrderDispatchReceiptActive ||
             merchantFollowupDispatchReceiptActive ||
             merchantSecondChapterDispatchReceiptActive ||
+            merchantChainCompleteActive ||
             merchantCrateClaimActive ||
             researchUnlockActive ||
             researchCompleteActive ||
@@ -3413,6 +3475,7 @@ function buildGardenPlayfieldViewModel(
             firstOrderDispatchReceiptActive ||
             merchantFollowupDispatchReceiptActive ||
             merchantSecondChapterDispatchReceiptActive ||
+            merchantChainCompleteActive ||
             merchantCrateClaimActive ||
             researchUnlockActive ||
             researchCompleteActive ||
@@ -3420,7 +3483,9 @@ function buildGardenPlayfieldViewModel(
             albumRecordHarvestActive ||
             albumRecordPlantActive ||
             researchSeedPlantedActive,
-          orderVariant: firstOrderDispatchReceiptActive
+          orderVariant: merchantChainCompleteActive
+            ? ("merchant-chain-complete" as const)
+            : firstOrderDispatchReceiptActive
             ? ("first-dispatched" as const)
             : merchantSecondChapterDispatchReceiptActive
               ? ("merchant-second-delivered" as const)
@@ -4024,7 +4089,8 @@ function getProductionRatePerSecond(save: PlayerSave): number {
     Math.min(save.greenhouseFacilityLevel, GREENHOUSE_FACILITY_MAX_LEVEL) * GREENHOUSE_FACILITY_RATE_BONUS;
   const irrigationBoost =
     Math.min(save.greenhouseIrrigationLevel, GREENHOUSE_IRRIGATION_MAX_LEVEL) * GREENHOUSE_IRRIGATION_RATE_BONUS;
-  return baseRate * (1 + productionBoost + workbenchBoost + facilityBoost + irrigationBoost);
+  const merchantChainBoost = save.merchantChainBoostActive ? MERCHANT_CHAIN_RATE_BONUS : 0;
+  return baseRate * (1 + productionBoost + workbenchBoost + facilityBoost + irrigationBoost + merchantChainBoost);
 }
 
 function formatRatePerMinute(ratePerMinute: number): string {
