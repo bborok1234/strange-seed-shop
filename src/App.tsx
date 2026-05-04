@@ -1832,6 +1832,21 @@ export default function App() {
         save.greenhouseStorageLevel < GREENHOUSE_STORAGE_MAX_LEVEL
       ) {
         resolvedNextOrderTitle = "다음 단계: 선반 정리";
+      } else if (
+        orderBeforeDelivery.id === GREENHOUSE_EXPANSION_ORDER.id &&
+        save.greenhouseRouteLevel < GREENHOUSE_ROUTE_MAX_LEVEL
+      ) {
+        resolvedNextOrderTitle = "다음 단계: 온실 동선";
+      } else if (
+        orderBeforeDelivery.id === GREENHOUSE_ROUTE_SUPPLY_ORDER.id &&
+        save.greenhouseIrrigationLevel < GREENHOUSE_IRRIGATION_MAX_LEVEL
+      ) {
+        resolvedNextOrderTitle = "다음 단계: 온실 물길";
+      } else if (
+        orderBeforeDelivery.id === GREENHOUSE_IRRIGATION_ORDER.id &&
+        save.greenhouseMistLevel < GREENHOUSE_MIST_MAX_LEVEL
+      ) {
+        resolvedNextOrderTitle = "다음 단계: 온실 물안개";
       } else {
         resolvedNextOrderTitle = "다음 단계 준비";
       }
