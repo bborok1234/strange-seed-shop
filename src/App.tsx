@@ -79,6 +79,14 @@ interface ProductionBoostReceipt {
   bonusPercent: number;
 }
 
+interface ExpeditionClaimReceipt {
+  id: number;
+  expeditionName: string;
+  leaves: number;
+  materials: number;
+  unlockedSeedName?: string;
+}
+
 interface ResearchUnlockReceipt {
   id: number;
   orderTitle: string;
@@ -388,6 +396,7 @@ export default function App() {
   const [productionFx, setProductionFx] = useState<ProductionFxState | null>(null);
   const [productionClaimReceipt, setProductionClaimReceipt] = useState<ProductionClaimReceipt | null>(null);
   const [productionBoostReceipt, setProductionBoostReceipt] = useState<ProductionBoostReceipt | null>(null);
+  const [expeditionClaimReceipt, setExpeditionClaimReceipt] = useState<ExpeditionClaimReceipt | null>(null);
   const [researchUnlockReceipt, setResearchUnlockReceipt] = useState<ResearchUnlockReceipt | null>(null);
   const [researchCompleteReceipt, setResearchCompleteReceipt] = useState<ResearchCompleteReceipt | null>(null);
   const [researchSeedReceipt, setResearchSeedReceipt] = useState<ResearchSeedReceipt | null>(null);
@@ -1820,6 +1829,17 @@ export default function App() {
   }
 
   function claimExpedition() {
+    if (!save || !save.activeExpedition || !isExpeditionReady(save.activeExpedition, now)) {
+      return;
+    }
+    const claimingExpeditionId = save.activeExpedition.expeditionId;
+    const claimingExpedition = content.expeditions.find((item) => item.id === claimingExpeditionId);
+    const willUnlockLunarSeed =
+      claimingExpeditionId === RESEARCH_EXPEDITION_ID && !save.unlockedSeedIds.includes(LUNAR_REWARD_SEED_ID);
+    const lunarSeedDefinition = willUnlockLunarSeed
+      ? content.seeds.find((seed) => seed.id === LUNAR_REWARD_SEED_ID)
+      : undefined;
+
     commit((draft) => {
       if (!draft.activeExpedition || !isExpeditionReady(draft.activeExpedition, now)) {
         return;
@@ -1845,6 +1865,19 @@ export default function App() {
       });
       draft.activeExpedition = undefined;
     });
+    if (claimingExpedition) {
+      const receipt: ExpeditionClaimReceipt = {
+        id: Date.now(),
+        expeditionName: claimingExpedition.name,
+        leaves: claimingExpedition.rewardLeaves ?? 0,
+        materials: claimingExpedition.rewardMaterials ?? 0,
+        unlockedSeedName: lunarSeedDefinition?.name
+      };
+      setExpeditionClaimReceipt(receipt);
+      window.setTimeout(() => {
+        setExpeditionClaimReceipt((current) => (current?.id === receipt.id ? null : current));
+      }, 5_000);
+    }
     triggerRewardPulse();
   }
 
@@ -3317,6 +3350,26 @@ export default function App() {
                     원정 보상 받기
                   </button>
                 </>
+              )}
+              {!save?.activeExpedition && expeditionClaimReceipt && (
+                <div className="expedition-claim-receipt" aria-label="원정 보상 수령 완료">
+                  <span className="expedition-claim-chip">원정 귀환</span>
+                  <strong>{expeditionClaimReceipt.expeditionName} 보상 수령</strong>
+                  <span className="expedition-claim-rewards">
+                    {expeditionClaimReceipt.leaves > 0 && (
+                      <span className="expedition-claim-reward-chip">+{expeditionClaimReceipt.leaves} 잎</span>
+                    )}
+                    {expeditionClaimReceipt.materials > 0 && (
+                      <span className="expedition-claim-reward-chip">+{expeditionClaimReceipt.materials} 재료</span>
+                    )}
+                    {expeditionClaimReceipt.unlockedSeedName && (
+                      <span className="expedition-claim-reward-chip expedition-claim-unlock-chip">
+                        {expeditionClaimReceipt.unlockedSeedName} 해금
+                      </span>
+                    )}
+                  </span>
+                  <small>다음 행동을 골라보세요</small>
+                </div>
               )}
               {!save?.activeExpedition && researchExpeditionRewardClaimed && lunarExpeditionGoal && (
                 <article
