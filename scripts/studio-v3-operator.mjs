@@ -45,7 +45,7 @@ function commandExists(command) {
 }
 
 function usage() {
-  return `Studio Harness v3 foreground Codex operator entrypoint
+  return `Studio Harness v3 foreground operator entrypoint (Codex backend)
 
 Usage:
   npm run studio:v3:operate -- --help
