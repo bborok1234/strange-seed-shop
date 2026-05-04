@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T06:52:03.759Z
+Generated at: 2026-05-04T07:01:11.195Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T06:52:03.759Z
 
 ## Local state
 
-- Branch: codex/0183-greenhouse-mist-entry-reveal
-- Latest commit: 3e4f91e dispatch receipt의 nextOrderTitle이 fall-through 케이스에서 stale-completed order를 가리키는 UX bug를 다음 단계 hint로 대체한다 (#360) (#361)
+- Branch: codex/0184-album-p05-milestones-progress
+- Latest commit: b79a427 온실 물안개 분사 직후 production card에 "물안개 분사 완료" reveal motion으로 chain handoff arc symmetry를 마무리한다 (#362) (#363)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T08:30:00.000Z
-- Phase: issue-362-implementation
-- Issue: 362
+- Timestamp: 2026-05-04T08:50:00.000Z
+- Phase: issue-364-implementation
+- Issue: 364
 - PR: 
-- Item: items/0183-greenhouse-mist-entry-reveal.md
-- Next action: publication gate: push branch, open PR for #362, watch checks, merge when green.
+- Item: items/0184-album-p05-milestones-progress.md
+- Next action: publication gate: push branch, open PR for #364, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T06:52:03.759Z
 
 ## Open issues
 
-- #362 온실 물안개 분사 직후 production card에 "물안개 분사 완료" reveal motion으로 chain handoff arc symmetry를 마무리한다 — https://github.com/bborok1234/strange-seed-shop/issues/362
+- #364 album 탭에 P0.5 진행도 milestones 카드를 더해 player progression long-term meta hint를 anchor한다 — https://github.com/bborok1234/strange-seed-shop/issues/364
 
 ## Playable mode
 
