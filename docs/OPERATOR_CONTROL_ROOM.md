@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T05:33:03.529Z
+Generated at: 2026-05-04T05:48:44.488Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T05:33:03.529Z
 
 ## Local state
 
-- Branch: codex/0176-greenhouse-shelf-delivery-receipt
-- Latest commit: f57f839 달빛 온실 설립 직후 production card에 "달빛 온실 입장" reveal motion으로 chain handoff loop를 닫는다 (#346) (#347)
+- Branch: codex/0177-greenhouse-storage-next-goal-handoff
+- Latest commit: ff9fffc 첫 GREENHOUSE_ORDER 납품에 출하 receipt + playfield 메달 variant를 더해 chain handoff loop를 한 beat 더 닫는다 (#348) (#349)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T05:45:00.000Z
-- Phase: issue-348-implementation
-- Issue: 348
+- Timestamp: 2026-05-04T06:05:00.000Z
+- Phase: issue-350-implementation
+- Issue: 350
 - PR: 
-- Item: items/0176-greenhouse-shelf-delivery-receipt.md
-- Next action: publication gate: push branch, open PR for #348, watch checks, merge when green.
+- Item: items/0177-greenhouse-storage-next-goal-handoff.md
+- Next action: publication gate: push branch, open PR for #350, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T05:33:03.529Z
 
 ## Open issues
 
-- #348 첫 GREENHOUSE_ORDER 납품에 출하 receipt + playfield 메달 variant를 더해 chain handoff loop를 한 beat 더 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/348
+- #350 첫 GREENHOUSE_ORDER 출하 후 다음 production 목표(선반 정리)로 시각적 handoff card를 production card에 더한다 — https://github.com/bborok1234/strange-seed-shop/issues/350
 
 ## Playable mode
 
