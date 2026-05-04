@@ -712,6 +712,7 @@ export default function App() {
     ? `${nextCreatureGoal.seed.name} 후속 성장 중 · ${nextCreatureGoal.creature.name} 수확 예고`
     : null;
   const albumRecordLoopActive = researchAlbumRecord?.source === "album_record_followup";
+  const rateBreakdown = save ? getProductionRateBreakdown(save) : [];
   const albumRecordNextSeedActive = Boolean(researchAlbumRecord && activeTab === "seeds" && nextCreatureGoal);
   const albumRecordLoopNextSeedActive = Boolean(albumRecordLoopActive && albumRecordNextSeedActive);
   const gardenViewModel = useMemo(
@@ -2106,6 +2107,15 @@ export default function App() {
                   </div>
                   <span className="production-card-rate">분당 {formatRatePerMinute(productionStatus.ratePerMinute)} 잎</span>
                 </div>
+                {save && !productionStatus.orderCompleted && rateBreakdown.length > 0 && (
+                  <div className="production-rate-breakdown" aria-label="자동 생산 보너스 분해">
+                    {rateBreakdown.map((entry) => (
+                      <span className="production-rate-chip" key={entry.key}>
+                        {entry.label} +{entry.percent}%
+                      </span>
+                    ))}
+                  </div>
+                )}
                 {productionStatus.workerCreatures.length > 1 && (
                   <div className="production-roster" aria-label="생산 동료 roster">
                     {productionStatus.workerCreatures.slice(0, 3).map((creature) => (
@@ -4225,6 +4235,39 @@ function getPendingProductionLeaves(save: PlayerSave, now: number): number {
 
   const elapsedSeconds = Math.max(0, (now - new Date(save.idleProduction.lastTickAt).getTime()) / 1000);
   return save.idleProduction.pendingLeaves + Math.floor(elapsedSeconds * ratePerSecond);
+}
+
+interface ProductionRateBreakdownEntry {
+  key: string;
+  label: string;
+  percent: number;
+}
+
+function getProductionRateBreakdown(save: PlayerSave): ProductionRateBreakdownEntry[] {
+  const entries: ProductionRateBreakdownEntry[] = [];
+  const productionBoost = Math.min(save.productionBoostLevel, PRODUCTION_BOOST_MAX_LEVEL) * PRODUCTION_BOOST_RATE_BONUS;
+  if (productionBoost > 0) {
+    entries.push({ key: "production-boost", label: "간식", percent: Math.round(productionBoost * 100) });
+  }
+  const workbenchBoost =
+    Math.min(save.materialWorkbenchLevel, MATERIAL_WORKBENCH_MAX_LEVEL) * MATERIAL_WORKBENCH_RATE_BONUS;
+  if (workbenchBoost > 0) {
+    entries.push({ key: "workbench", label: "작업대", percent: Math.round(workbenchBoost * 100) });
+  }
+  const facilityBoost =
+    Math.min(save.greenhouseFacilityLevel, GREENHOUSE_FACILITY_MAX_LEVEL) * GREENHOUSE_FACILITY_RATE_BONUS;
+  if (facilityBoost > 0) {
+    entries.push({ key: "facility", label: "시설", percent: Math.round(facilityBoost * 100) });
+  }
+  const irrigationBoost =
+    Math.min(save.greenhouseIrrigationLevel, GREENHOUSE_IRRIGATION_MAX_LEVEL) * GREENHOUSE_IRRIGATION_RATE_BONUS;
+  if (irrigationBoost > 0) {
+    entries.push({ key: "irrigation", label: "물길", percent: Math.round(irrigationBoost * 100) });
+  }
+  if (save.merchantChainBoostActive) {
+    entries.push({ key: "merchant-chain", label: "단골", percent: Math.round(MERCHANT_CHAIN_RATE_BONUS * 100) });
+  }
+  return entries;
 }
 
 function getProductionRatePerSecond(save: PlayerSave): number {

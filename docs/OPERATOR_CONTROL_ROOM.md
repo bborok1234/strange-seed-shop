@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T06:00:49.077Z
+Generated at: 2026-05-04T06:15:18.139Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T06:00:49.077Z
 
 ## Local state
 
-- Branch: codex/0178-greenhouse-storage-entry-reveal
-- Latest commit: 28e5526 첫 GREENHOUSE_ORDER 출하 후 다음 production 목표(선반 정리)로 시각적 handoff card를 production card에 더한다 (#350) (#351)
+- Branch: codex/0179-production-rate-breakdown-chips
+- Latest commit: 9589f28 선반 정리 직후 production card에 "선반 정리 완료" reveal motion으로 storage handoff loop를 닫는다 (#352) (#353)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T06:30:00.000Z
-- Phase: issue-352-implementation
-- Issue: 352
+- Timestamp: 2026-05-04T06:55:00.000Z
+- Phase: issue-354-implementation
+- Issue: 354
 - PR: 
-- Item: items/0178-greenhouse-storage-entry-reveal.md
-- Next action: publication gate: push branch, open PR for #352, watch checks, merge when green.
+- Item: items/0179-production-rate-breakdown-chips.md
+- Next action: publication gate: push branch, open PR for #354, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T06:00:49.077Z
 
 ## Open issues
 
-- #352 선반 정리 직후 production card에 "선반 정리 완료" reveal motion으로 storage handoff loop를 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/352
+- #354 production card rate에 component multiplier breakdown chip strip을 더해 production engine readability를 키운다 — https://github.com/bborok1234/strange-seed-shop/issues/354
 
 ## Playable mode
 

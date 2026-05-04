@@ -964,6 +964,27 @@ h1 {
   overflow: hidden;
 }
 
+.production-rate-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 0;
+}
+
+.production-rate-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(232, 246, 214, 0.95), rgba(204, 232, 184, 0.92));
+  color: #1f3b10;
+  font-size: 8px;
+  font-weight: 800;
+  border: 1px solid rgba(86, 138, 71, 0.45);
+  letter-spacing: 0.02em;
+}
+
 .production-card-heading,
 .production-meter-row {
   display: flex;

@@ -2214,6 +2214,12 @@ test("모바일 온실 설비는 새 납품 주문으로 이어진다", async ({
   // Storage handoff dismisses once storage is built
   await expect(page.getByLabel("온실 선반 출하 후 다음 목표")).toHaveCount(0);
 
+  // Production rate breakdown chip strip surfaces the component multipliers
+  await page.waitForTimeout(2_400);
+  await expect(page.getByLabel("자동 생산 보너스 분해")).toBeVisible();
+  await expect(page.getByLabel("자동 생산 보너스 분해")).toContainText("작업대 +15%");
+  await expect(page.getByLabel("자동 생산 보너스 분해")).toContainText("시설 +10%");
+
   await page.screenshot({ path: testInfo.outputPath("mobile-greenhouse-facility-order-v0-393.png"), fullPage: false });
 });
 
