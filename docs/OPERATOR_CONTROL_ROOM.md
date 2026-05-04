@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T06:15:18.139Z
+Generated at: 2026-05-04T06:26:25.390Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T06:15:18.139Z
 
 ## Local state
 
-- Branch: codex/0179-production-rate-breakdown-chips
-- Latest commit: 9589f28 선반 정리 직후 production card에 "선반 정리 완료" reveal motion으로 storage handoff loop를 닫는다 (#352) (#353)
+- Branch: codex/0180-production-rate-chip-activation-pulse
+- Latest commit: 7142c5a production card rate에 component multiplier breakdown chip strip을 더해 production engine readability를 키운다 (#354) (#355)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T06:55:00.000Z
-- Phase: issue-354-implementation
-- Issue: 354
+- Timestamp: 2026-05-04T07:18:00.000Z
+- Phase: issue-356-implementation
+- Issue: 356
 - PR: 
-- Item: items/0179-production-rate-breakdown-chips.md
-- Next action: publication gate: push branch, open PR for #354, watch checks, merge when green.
+- Item: items/0180-production-rate-chip-activation-pulse.md
+- Next action: publication gate: push branch, open PR for #356, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T06:15:18.139Z
 
 ## Open issues
 
-- #354 production card rate에 component multiplier breakdown chip strip을 더해 production engine readability를 키운다 — https://github.com/bborok1234/strange-seed-shop/issues/354
+- #356 production rate breakdown chip strip의 신규 활성 source에 1.6s pulse motion을 더해 boost unlock moment를 강조한다 — https://github.com/bborok1234/strange-seed-shop/issues/356
 
 ## Playable mode
 
