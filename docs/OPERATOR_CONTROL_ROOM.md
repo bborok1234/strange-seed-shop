@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T07:58:38.533Z
+Generated at: 2026-05-04T08:13:06.380Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T07:58:38.533Z
 
 ## Local state
 
-- Branch: codex/0192-album-milestone-claim-receipt
-- Latest commit: 8397c08 album_3 milestone(도감 완성) 보상 +100 잎을 도입한다 (#376) (#377)
+- Branch: codex/0193-album-milestone-progress-hint
+- Latest commit: b6bd4c4 album_1/2/3 reward claim 직후 1.8s "도감 마일스톤 +X 잎" reveal motion을 표시한다 (#378) (#379)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T11:35:00.000Z
-- Phase: issue-378-implementation
-- Issue: 378
+- Timestamp: 2026-05-04T12:00:00.000Z
+- Phase: issue-380-implementation
+- Issue: 380
 - PR: 
-- Item: items/0192-album-milestone-claim-receipt.md
-- Next action: publication gate: push branch, open PR for #378, watch checks, merge when green.
+- Item: items/0193-album-milestone-progress-hint.md
+- Next action: publication gate: push branch, open PR for #380, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T07:58:38.533Z
 
 ## Open issues
 
-- #378 album_1/2/3 reward claim 직후 1.8s "도감 마일스톤 +X 잎" reveal motion을 표시한다 — https://github.com/bborok1234/strange-seed-shop/issues/378
+- #380 P0.5 진행도 카드의 album_2/album_3 milestone에 progress 카운트(X/Y)를 인라인 표시한다 — https://github.com/bborok1234/strange-seed-shop/issues/380
 
 ## Playable mode
 
