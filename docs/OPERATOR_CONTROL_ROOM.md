@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T07:36:15.040Z
+Generated at: 2026-05-04T07:48:19.966Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T07:36:15.040Z
 
 ## Local state
 
-- Branch: codex/0189-milestones-card-next-step-hint
-- Latest commit: a5b40fb production card rate에 upgrade 활성 시 "+분당 X.X 잎" delta inline indicator를 1.6s 표시한다 (#370) (#371)
+- Branch: codex/0190-album-2-milestone-reward
+- Latest commit: cd67261 P0.5 진행도 카드 헤더에 "다음: <label>" 다음 milestone 힌트를 인라인 표시한다 (#372) (#373)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T10:33:00.000Z
-- Phase: issue-372-implementation
-- Issue: 372
+- Timestamp: 2026-05-04T11:00:00.000Z
+- Phase: issue-374-implementation
+- Issue: 374
 - PR: 
-- Item: items/0189-milestones-card-next-step-hint.md
-- Next action: publication gate: push branch, open PR for #372, watch checks, merge when green.
+- Item: items/0190-album-2-milestone-reward.md
+- Next action: publication gate: push branch, open PR for #374, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T07:36:15.040Z
 
 ## Open issues
 
-- #372 P0.5 진행도 카드 헤더에 "다음: <label>" 다음 milestone 힌트를 인라인 표시한다 — https://github.com/bborok1234/strange-seed-shop/issues/372
+- #374 album_2 milestone(5마리 도감) 보상 +50 잎을 도입한다 — https://github.com/bborok1234/strange-seed-shop/issues/374
 
 ## Playable mode
 
