@@ -562,12 +562,19 @@ export default function App() {
         },
         {
           id: "album_2",
-          label: "5마리 도감 마일스톤",
+          label: save.claimedAlbumMilestoneIds.includes("album_2")
+            ? "5마리 도감 마일스톤"
+            : `5마리 도감 마일스톤 (${Math.min(save.discoveredCreatureIds.length, 5)}/5)`,
           done: save.claimedAlbumMilestoneIds.includes("album_2")
         },
         {
           id: "album_3",
-          label: "도감 완성 마일스톤",
+          label: save.claimedAlbumMilestoneIds.includes("album_3")
+            ? "도감 완성 마일스톤"
+            : `도감 완성 마일스톤 (${Math.min(
+                save.discoveredCreatureIds.length,
+                content.creatures.length
+              )}/${content.creatures.length})`,
           done: save.claimedAlbumMilestoneIds.includes("album_3")
         }
       ]
