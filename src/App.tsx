@@ -189,6 +189,12 @@ interface LunarPhaseEntryReceipt {
   id: number;
 }
 
+interface AlbumMilestoneClaimReceipt {
+  id: number;
+  milestoneId: string;
+  leaves: number;
+}
+
 interface UpgradeChoice {
   id: string;
   title: string;
@@ -403,6 +409,16 @@ export default function App() {
     useState<GreenhouseMistEntryReceipt | null>(null);
   const [lunarPhaseEntryReceipt, setLunarPhaseEntryReceipt] =
     useState<LunarPhaseEntryReceipt | null>(null);
+  const [albumMilestoneClaimReceipt, setAlbumMilestoneClaimReceipt] =
+    useState<AlbumMilestoneClaimReceipt | null>(null);
+
+  function fireAlbumMilestoneClaimReceipt(milestoneId: string, leaves: number) {
+    const receipt: AlbumMilestoneClaimReceipt = { id: Date.now(), milestoneId, leaves };
+    setAlbumMilestoneClaimReceipt(receipt);
+    window.setTimeout(() => {
+      setAlbumMilestoneClaimReceipt((current) => (current?.id === receipt.id ? null : current));
+    }, 1_800);
+  }
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
   const [albumMemoryPage, setAlbumMemoryPage] = useState(0);
@@ -1334,6 +1350,7 @@ export default function App() {
       advanceMission(draft, "tutorial_claim_album_reward");
       trackEvent("album_reward_claimed", { milestoneId: "album_1", leaves: 25 });
     });
+    fireAlbumMilestoneClaimReceipt("album_1", 25);
     triggerRewardPulse();
   }
 
@@ -1350,6 +1367,7 @@ export default function App() {
       draft.leaves += 50;
       trackEvent("album_reward_claimed", { milestoneId: "album_2", leaves: 50 });
     });
+    fireAlbumMilestoneClaimReceipt("album_2", 50);
     triggerRewardPulse();
   }
 
@@ -1366,6 +1384,7 @@ export default function App() {
       draft.leaves += 100;
       trackEvent("album_reward_claimed", { milestoneId: "album_3", leaves: 100 });
     });
+    fireAlbumMilestoneClaimReceipt("album_3", 100);
     triggerRewardPulse();
   }
 
@@ -2541,6 +2560,16 @@ export default function App() {
                     <strong>달빛 phase 시작</strong>
                     <span>달빛 보호 거래 준비</span>
                     <small>달빛 케어 메모리 잠금 해제</small>
+                  </div>
+                )}
+                {albumMilestoneClaimReceipt && (
+                  <div
+                    className="album-milestone-claim-receipt"
+                    aria-label="도감 마일스톤 보상 수령"
+                  >
+                    <span className="album-milestone-claim-chip">도감 마일스톤</span>
+                    <strong>+{albumMilestoneClaimReceipt.leaves} 잎</strong>
+                    <span>{albumMilestoneClaimReceipt.milestoneId.replace("album_", "")}단계 보상 수령</span>
                   </div>
                 )}
                 {save?.merchantChainBoostActive && !merchantChainCompleteReceipt && (
