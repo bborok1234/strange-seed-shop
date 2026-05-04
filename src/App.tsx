@@ -543,6 +543,11 @@ export default function App() {
           id: "lunar_guardian_discovered",
           label: "달빛 손님 발견",
           done: save.discoveredCreatureIds.includes(LUNAR_REWARD_CREATURE_ID)
+        },
+        {
+          id: "album_2",
+          label: "5마리 도감 마일스톤",
+          done: save.claimedAlbumMilestoneIds.includes("album_2")
         }
       ]
     : [];
@@ -554,6 +559,10 @@ export default function App() {
   const activePlotReady = Boolean(activePlot && activePlotSeed && isPlotReady(activePlot, activePlotSeed, now));
   const firstAlbumRewardReady =
     save && save.discoveredCreatureIds.length > 0 && !save.claimedAlbumMilestoneIds.includes("album_1");
+  const secondAlbumRewardReady =
+    save &&
+    save.discoveredCreatureIds.length >= 5 &&
+    !save.claimedAlbumMilestoneIds.includes("album_2");
   const expeditionReady = save?.activeExpedition
     ? isExpeditionReady(save.activeExpedition, now) && !save.activeExpedition.claimed
     : false;
@@ -1315,6 +1324,22 @@ export default function App() {
       draft.leaves += 25;
       advanceMission(draft, "tutorial_claim_album_reward");
       trackEvent("album_reward_claimed", { milestoneId: "album_1", leaves: 25 });
+    });
+    triggerRewardPulse();
+  }
+
+  function claimSecondAlbumReward() {
+    commit((draft) => {
+      if (
+        draft.claimedAlbumMilestoneIds.includes("album_2") ||
+        draft.discoveredCreatureIds.length < 5
+      ) {
+        return;
+      }
+
+      draft.claimedAlbumMilestoneIds.push("album_2");
+      draft.leaves += 50;
+      trackEvent("album_reward_claimed", { milestoneId: "album_2", leaves: 50 });
     });
     triggerRewardPulse();
   }
@@ -2705,6 +2730,11 @@ export default function App() {
               {firstAlbumRewardReady && (
                 <button className="primary-action" onClick={claimAlbumReward} type="button">
                   첫 도감 보상 받기 +25 잎
+                </button>
+              )}
+              {secondAlbumRewardReady && (
+                <button className="primary-action" onClick={claimSecondAlbumReward} type="button">
+                  두 번째 도감 보상 받기 +50 잎
                 </button>
               )}
               {(!productionStatus || productionStatus.ratePerMinute <= 0) && (
