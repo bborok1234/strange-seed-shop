@@ -2030,6 +2030,12 @@ export default function App() {
                     ? "has-merchant-chain-next-goal"
                     : "",
                   greenhouseFacilityEntryReceipt ? "has-greenhouse-facility-entry-receipt" : "",
+                  save?.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id) &&
+                  save.greenhouseStorageLevel < GREENHOUSE_STORAGE_MAX_LEVEL &&
+                  !(orderDeliveryReceipt?.orderId === GREENHOUSE_ORDER.id) &&
+                  !greenhouseFacilityEntryReceipt
+                    ? "has-greenhouse-storage-next-goal"
+                    : "",
                   mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
                   lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
                   productionClaimReceipt ? "has-production-claim-receipt" : "",
@@ -2208,6 +2214,29 @@ export default function App() {
                           ? `잎 ${GREENHOUSE_FACILITY_COST_LEAVES} · 재료 ${GREENHOUSE_FACILITY_COST_MATERIALS}`
                           : "작업대 완성 후 시작"}
                       </small>
+                    </div>
+                  )}
+                {save?.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id) &&
+                  save.greenhouseStorageLevel < GREENHOUSE_STORAGE_MAX_LEVEL &&
+                  !(orderDeliveryReceipt?.orderId === GREENHOUSE_ORDER.id) &&
+                  !greenhouseFacilityEntryReceipt && (
+                    <div
+                      className="greenhouse-storage-next-goal"
+                      aria-label="온실 선반 출하 후 다음 목표"
+                    >
+                      <span className="greenhouse-storage-next-goal-arrow" aria-hidden="true">
+                        →
+                      </span>
+                      <strong>다음 목표</strong>
+                      <span>
+                        선반 정리 ·{" "}
+                        {save.materials >= GREENHOUSE_STORAGE_COST_MATERIALS
+                          ? `${GREENHOUSE_STORAGE_COST_MATERIALS} 재료`
+                          : `${Math.max(
+                              GREENHOUSE_STORAGE_COST_MATERIALS - save.materials,
+                              0
+                            )} 재료 더 필요`}
+                      </span>
                     </div>
                   )}
                 {productionStatus.orderCompleted ? (

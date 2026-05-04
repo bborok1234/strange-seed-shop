@@ -1197,6 +1197,15 @@ h1 {
 }
 
 .starter-panel.has-production
+  .production-action-card.has-greenhouse-order.has-completed-order.has-greenhouse-storage-next-goal
+  .production-complete-row,
+.starter-panel.has-production
+  .production-action-card.has-worker-roster.has-greenhouse-order.has-completed-order.has-greenhouse-storage-next-goal
+  .production-complete-row {
+  display: none;
+}
+
+.starter-panel.has-production
   .production-action-card.has-worker-roster.has-route-supply-order.has-completed-order
   .production-complete-row {
   display: grid;
@@ -1650,6 +1659,55 @@ h1 {
   0% { transform: translateX(-2px) scale(0.92); }
   45% { transform: translateX(2px) scale(1.06); }
   100% { transform: translateX(0) scale(1); }
+}
+
+.greenhouse-storage-next-goal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px dashed rgba(86, 138, 71, 0.55);
+  background:
+    radial-gradient(circle at 14% 22%, rgba(255, 255, 255, 0.82), transparent 40%),
+    linear-gradient(135deg, rgba(232, 246, 214, 0.95), rgba(212, 234, 192, 0.92));
+  color: #2c4d1a;
+  font-size: 9px;
+  font-weight: 800;
+  animation: merchant-chain-next-goal-fadein 0.5s ease-out 1;
+}
+
+.greenhouse-storage-next-goal strong {
+  font-size: 10px;
+  color: #1f3b10;
+}
+
+.greenhouse-storage-next-goal span {
+  font-size: 9px;
+  font-weight: 800;
+  color: #1f3b10;
+}
+
+.greenhouse-storage-next-goal small {
+  color: var(--text-muted);
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.greenhouse-storage-next-goal-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(168, 218, 132, 0.95), rgba(118, 188, 96, 0.95));
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 900;
+  border: 1px solid rgba(86, 138, 71, 0.55);
+  animation: merchant-chain-next-goal-arrow-pulse 1.6s ease-in-out 1;
 }
 
 .greenhouse-facility-entry-receipt {
