@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T06:35:48.799Z
+Generated at: 2026-05-04T06:44:06.260Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T06:35:48.799Z
 
 ## Local state
 
-- Branch: codex/0181-greenhouse-irrigation-entry-reveal
-- Latest commit: 7c714fc production rate breakdown chip strip의 신규 활성 source에 1.6s pulse motion을 더해 boost unlock moment를 강조한다 (#356) (#357)
+- Branch: codex/0182-dispatch-receipt-fall-through-fix
+- Latest commit: be65585 온실 물길 점검 직후 production card에 "물길 점검 완료" reveal motion으로 chain handoff arc symmetry를 닫는다 (#358) (#359)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T07:43:00.000Z
-- Phase: issue-358-implementation
-- Issue: 358
+- Timestamp: 2026-05-04T08:05:00.000Z
+- Phase: issue-360-implementation
+- Issue: 360
 - PR: 
-- Item: items/0181-greenhouse-irrigation-entry-reveal.md
-- Next action: publication gate: push branch, open PR for #358, watch checks, merge when green.
+- Item: items/0182-dispatch-receipt-fall-through-fix.md
+- Next action: publication gate: push branch, open PR for #360, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T06:35:48.799Z
 
 ## Open issues
 
-- #358 온실 물길 점검 직후 production card에 "물길 점검 완료" reveal motion으로 chain handoff arc symmetry를 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/358
+- #360 dispatch receipt의 nextOrderTitle이 fall-through 케이스에서 stale-completed order를 가리키는 UX bug를 다음 단계 hint로 대체한다 — https://github.com/bborok1234/strange-seed-shop/issues/360
 
 ## Playable mode
 

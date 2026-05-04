@@ -2131,6 +2131,8 @@ test("모바일 온실 설비는 새 납품 주문으로 이어진다", async ({
   await expect(page.getByLabel("주문 상자 출하 완료")).toContainText("상자 출하 완료");
   await expect(page.getByLabel("주문 상자 출하 완료")).toContainText("온실 선반 납품");
   await expect(page.getByLabel("주문 상자 출하 완료")).toContainText("+42 잎 · +2 꽃가루 · +1 재료");
+  // Fall-through fix: nextOrderTitle no longer points back to just-completed order
+  await expect(page.getByLabel("주문 상자 출하 완료")).toContainText("다음 단계: 선반 정리");
   await expect(page.locator(".production-action-card.has-order-dispatch-receipt")).toBeVisible();
   await expect(page.locator(".playfield-order-crate.order-variant-greenhouse-shelf-delivered")).toBeVisible();
 
