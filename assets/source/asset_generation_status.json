@@ -1,9 +1,9 @@
 {
   "source_prompts": "assets/source/asset_prompts.json",
-  "generated_at": "2026-05-01",
-  "generation_mode": "codex_native_image_generation",
+  "generated_at": "2026-05-04",
+  "generation_mode": "hybrid_codex_native_and_openai_images_api",
   "total": 33,
-  "completed": 31,
+  "completed": 33,
   "missing": [],
   "blocked": false,
   "notes": [
@@ -12,7 +12,8 @@
     "sprite_batch_001: 6 starter spritesheet/fx strips saved as static workspace PNGs; runtime generation remains disabled. Codex native file export was approximated with deterministic local strip normalization for strict Phaser slicing.",
     "p0_5_core_asset_generation_first_pass: 5 production/order asset candidates saved as static workspace PNGs after Codex native generation and chroma-key alpha conversion. FX strips need normalization before manifest integration.",
     "p0_5_core_asset_manifest_normalization: 5 P0.5 assets registered in manifest; FX strips normalized to 4x160 strict strips.",
-    "p0_5_lunar_source_playfield_assets: SVG attempt rejected by asset provenance/style gates; must regenerate as GPT Image raster PNG seed icon plus 4-frame FX strip before manifest acceptance."
+    "p0_5_lunar_source_playfield_assets: SVG attempt rejected; replaced via Codex native fallback initially, then regenerated through OpenAI Images API (gpt-image-1) on 2026-05-04 via #340.",
+    "art_team_api_lever_validated_2026-05-04: gpt-image-1 path verified end-to-end via #340 (npm run asset:generate:gpt-image -- --asset-id=seed_lunar_001_greenhouse_source_icon --force). gpt-image-2 model is unavailable on current org tier; SEED_ASSET_IMAGE_MODEL=gpt-image-1 is the production API path."
   ],
   "outputs": [
     "public/assets/game/creatures/creature_herb_common_001.png",
@@ -111,7 +112,7 @@
       ]
     },
     "p0_5_lunar_source_playfield_assets": {
-      "generated_at": "2026-05-01",
+      "generated_at": "2026-05-04",
       "total": 2,
       "completed": 2,
       "missing": [],
@@ -122,9 +123,11 @@
           "asset_id": "seed_lunar_001_greenhouse_source_icon",
           "output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
           "status": "accepted_manifest_asset",
-          "width": 1254,
-          "height": 1254,
-          "notes": "Codex native image generation fallback raster PNG with checkerboard matte cutout after gpt-image-2 organization verification propagation blocker."
+          "width": 1024,
+          "height": 1024,
+          "provider": "openai_images_api",
+          "model": "gpt-image-1",
+          "notes": "Regenerated via gpt-image-1 API path on 2026-05-04 after #340 verified the art-team OpenAI Images API lever end-to-end. gpt-image-2 model is still blocked for this org (model not in tier); SEED_ASSET_IMAGE_MODEL=gpt-image-1 override is the production API path."
         },
         {
           "asset_id": "fx_lunar_greenhouse_planting_pulse_001",
@@ -132,13 +135,16 @@
           "status": "accepted_manifest_asset",
           "width": 640,
           "height": 160,
-          "notes": "Codex native image generation fallback raster PNG normalized to strict 4-frame FX strip after gpt-image-2 organization verification propagation blocker."
+          "provider": "codex_native_image_generation",
+          "model": "codex_native_image_generation",
+          "notes": "Codex native image generation fallback raster PNG normalized to strict 4-frame FX strip. gpt-image-1 API path validated separately on the seed icon; FX strip horizontal-frame layout still uses Codex native pending a follow-up post-process WorkUnit."
         }
       ],
       "notes": [
         "SVG/vector attempt rejected by asset provenance/style gates.",
-        "Requires OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL for gpt-image generation.",
-        "FX output must be a 4-frame strip with manifest animation.binding."
+        "Requires OPENAI_API_KEY for gpt-image-1 (gpt-image-2 unavailable on current org).",
+        "FX output must be a 4-frame strip with manifest animation.binding.",
+        "Art-team OpenAI Images API lever verified end-to-end on 2026-05-04 via #340 (gpt-image-1 produced an accepted_manifest_asset PNG for the seed icon)."
       ]
     }
   }
