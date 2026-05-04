@@ -3341,6 +3341,29 @@ export default function App() {
               {save?.activeExpedition && (
                 <>
                   <p className="expedition-progress-status">{expeditionReady ? "원정 완료" : "원정 진행 중"}</p>
+                  {(() => {
+                    const totalSeconds = activeExpeditionDefinition?.durationSeconds ?? 0;
+                    const elapsedSeconds = Math.max(0, totalSeconds - expeditionRemainingSeconds);
+                    const percent =
+                      totalSeconds > 0 ? Math.max(0, Math.min(100, (elapsedSeconds / totalSeconds) * 100)) : expeditionReady ? 100 : 0;
+                    const percentRounded = Math.round(percent);
+                    const nearComplete = percent >= 90;
+                    return (
+                      <div
+                        className={nearComplete ? "expedition-progress-bar near-complete" : "expedition-progress-bar"}
+                        role="progressbar"
+                        aria-label={`원정 진행률 ${percentRounded}%`}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-valuenow={percentRounded}
+                      >
+                        <span className="expedition-progress-fill" style={{ width: `${percent}%` }}>
+                          <span className="expedition-progress-trail" aria-hidden="true" />
+                        </span>
+                        <span className="expedition-progress-readout">{percentRounded}%</span>
+                      </div>
+                    );
+                  })()}
                   <small className="expedition-progress-note">
                     {expeditionReady
                       ? `${activeExpeditionDefinition ? getExpeditionRewardSummary(activeExpeditionDefinition) : "보상"} 수령 가능`
