@@ -713,6 +713,40 @@ export default function App() {
     : null;
   const albumRecordLoopActive = researchAlbumRecord?.source === "album_record_followup";
   const rateBreakdown = save ? getProductionRateBreakdown(save) : [];
+  const previousRateBreakdownKeysRef = useRef<Set<string>>(new Set());
+  const rateBreakdownInitializedRef = useRef(false);
+  const [recentlyActivatedBoosts, setRecentlyActivatedBoosts] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    const currentKeys = new Set(rateBreakdown.map((entry) => entry.key));
+    if (!rateBreakdownInitializedRef.current) {
+      previousRateBreakdownKeysRef.current = currentKeys;
+      rateBreakdownInitializedRef.current = true;
+      return;
+    }
+    const newlyActivated: string[] = [];
+    currentKeys.forEach((key) => {
+      if (!previousRateBreakdownKeysRef.current.has(key)) {
+        newlyActivated.push(key);
+      }
+    });
+    previousRateBreakdownKeysRef.current = currentKeys;
+    if (newlyActivated.length === 0) {
+      return;
+    }
+    setRecentlyActivatedBoosts((prev) => {
+      const next = new Set(prev);
+      newlyActivated.forEach((key) => next.add(key));
+      return next;
+    });
+    const timeoutId = window.setTimeout(() => {
+      setRecentlyActivatedBoosts((prev) => {
+        const next = new Set(prev);
+        newlyActivated.forEach((key) => next.delete(key));
+        return next;
+      });
+    }, 1_600);
+    return () => window.clearTimeout(timeoutId);
+  }, [rateBreakdown]);
   const albumRecordNextSeedActive = Boolean(researchAlbumRecord && activeTab === "seeds" && nextCreatureGoal);
   const albumRecordLoopNextSeedActive = Boolean(albumRecordLoopActive && albumRecordNextSeedActive);
   const gardenViewModel = useMemo(
@@ -2110,7 +2144,15 @@ export default function App() {
                 {save && !productionStatus.orderCompleted && rateBreakdown.length > 0 && (
                   <div className="production-rate-breakdown" aria-label="자동 생산 보너스 분해">
                     {rateBreakdown.map((entry) => (
-                      <span className="production-rate-chip" key={entry.key}>
+                      <span
+                        className={[
+                          "production-rate-chip",
+                          recentlyActivatedBoosts.has(entry.key) ? "is-pulsing" : ""
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+                        key={entry.key}
+                      >
                         {entry.label} +{entry.percent}%
                       </span>
                     ))}

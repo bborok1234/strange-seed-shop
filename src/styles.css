@@ -985,6 +985,28 @@ h1 {
   letter-spacing: 0.02em;
 }
 
+.production-rate-chip.is-pulsing {
+  animation: production-rate-chip-pulse 1.6s ease-in-out 1;
+}
+
+@keyframes production-rate-chip-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(168, 218, 132, 0);
+    background: linear-gradient(135deg, rgba(232, 246, 214, 0.95), rgba(204, 232, 184, 0.92));
+  }
+  35% {
+    transform: scale(1.06);
+    box-shadow: 0 0 12px rgba(168, 218, 132, 0.7);
+    background: linear-gradient(135deg, rgba(255, 255, 240, 0.98), rgba(208, 240, 184, 0.96));
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(168, 218, 132, 0);
+    background: linear-gradient(135deg, rgba(232, 246, 214, 0.95), rgba(204, 232, 184, 0.92));
+  }
+}
+
 .production-card-heading,
 .production-meter-row {
   display: flex;
