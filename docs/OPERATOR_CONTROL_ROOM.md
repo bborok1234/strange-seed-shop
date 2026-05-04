@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T07:08:57.733Z
+Generated at: 2026-05-04T07:16:16.828Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T07:08:57.733Z
 
 ## Local state
 
-- Branch: codex/0185-lunar-phase-entry-receipt
-- Latest commit: 8478770 album 탭에 P0.5 진행도 milestones 카드를 더해 player progression long-term meta hint를 anchor한다 (#364) (#365)
+- Branch: codex/0186-dispatch-receipt-fall-through-expansion
+- Latest commit: 9ace4e3 달빛 손님 첫 발견 직후 production card에 "달빛 phase 시작" reveal motion으로 lunar phase entry를 anchor한다 (#366) (#367)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T09:18:00.000Z
-- Phase: issue-366-implementation
-- Issue: 366
+- Timestamp: 2026-05-04T09:42:00.000Z
+- Phase: issue-368-implementation
+- Issue: 368
 - PR: 
-- Item: items/0185-lunar-phase-entry-receipt.md
-- Next action: publication gate: push branch, open PR for #366, watch checks, merge when green.
+- Item: items/0186-dispatch-receipt-fall-through-expansion.md
+- Next action: publication gate: push branch, open PR for #368, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T07:08:57.733Z
 
 ## Open issues
 
-- #366 달빛 손님 첫 발견 직후 production card에 "달빛 phase 시작" reveal motion으로 lunar phase entry를 anchor한다 — https://github.com/bborok1234/strange-seed-shop/issues/366
+- #368 dispatch receipt nextOrderTitle fall-through 처리를 모든 greenhouse chain orders로 확장한다 — https://github.com/bborok1234/strange-seed-shop/issues/368
 
 ## Playable mode
 
