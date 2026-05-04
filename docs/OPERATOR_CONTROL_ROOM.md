@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T20:00:42.772Z
+Generated at: 2026-05-04T02:01:00.306Z
 
 ## Current mission
 
@@ -39,22 +39,22 @@ Generated at: 2026-05-03T20:00:42.772Z
 ## Local state
 
 - Branch: codex/0336-merchant-second-chapter-order
-- Latest commit: 98e7bfc 운영사 supervisor가 Codex rate-limit/idle에서 Claude로 폴백한다 (#335)
+- Latest commit: b24f34e 포장잎 상인 단골 납품 후 두 번째 단골 chapter로 production loop를 잇는다 (#336)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T19:59:45.218Z
-- Phase: issue-336-implementation
+- Timestamp: 2026-05-04T02:00:37.842Z
+- Phase: issue-336-pr-publication
 - Issue: 336
-- PR: 
+- PR: 337
 - Item: items/0170-merchant-second-chapter-order.md
-- Next action: PR/check gate: publish PR for #336, watch checks, merge when green
+- Next action: publication gate: push refreshed dashboard + heartbeat, watch checks, merge when green, observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #337 ready 포장잎 상인 단골 납품 후 두 번째 단골 chapter로 production loop를 잇는다 — https://github.com/bborok1234/strange-seed-shop/pull/337
 
 ## Open issues
 
