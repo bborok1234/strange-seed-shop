@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T06:26:25.390Z
+Generated at: 2026-05-04T06:35:48.799Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T06:26:25.390Z
 
 ## Local state
 
-- Branch: codex/0180-production-rate-chip-activation-pulse
-- Latest commit: 7142c5a production card rate에 component multiplier breakdown chip strip을 더해 production engine readability를 키운다 (#354) (#355)
+- Branch: codex/0181-greenhouse-irrigation-entry-reveal
+- Latest commit: 7c714fc production rate breakdown chip strip의 신규 활성 source에 1.6s pulse motion을 더해 boost unlock moment를 강조한다 (#356) (#357)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T07:18:00.000Z
-- Phase: issue-356-implementation
-- Issue: 356
+- Timestamp: 2026-05-04T07:43:00.000Z
+- Phase: issue-358-implementation
+- Issue: 358
 - PR: 
-- Item: items/0180-production-rate-chip-activation-pulse.md
-- Next action: publication gate: push branch, open PR for #356, watch checks, merge when green.
+- Item: items/0181-greenhouse-irrigation-entry-reveal.md
+- Next action: publication gate: push branch, open PR for #358, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T06:26:25.390Z
 
 ## Open issues
 
-- #356 production rate breakdown chip strip의 신규 활성 source에 1.6s pulse motion을 더해 boost unlock moment를 강조한다 — https://github.com/bborok1234/strange-seed-shop/issues/356
+- #358 온실 물길 점검 직후 production card에 "물길 점검 완료" reveal motion으로 chain handoff arc symmetry를 닫는다 — https://github.com/bborok1234/strange-seed-shop/issues/358
 
 ## Playable mode
 

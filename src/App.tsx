@@ -173,6 +173,12 @@ interface GreenhouseStorageEntryReceipt {
   bonusPercent: number;
 }
 
+interface GreenhouseIrrigationEntryReceipt {
+  id: number;
+  nextOrderTitle: string;
+  bonusPercent: number;
+}
+
 interface UpgradeChoice {
   id: string;
   title: string;
@@ -381,6 +387,8 @@ export default function App() {
     useState<GreenhouseFacilityEntryReceipt | null>(null);
   const [greenhouseStorageEntryReceipt, setGreenhouseStorageEntryReceipt] =
     useState<GreenhouseStorageEntryReceipt | null>(null);
+  const [greenhouseIrrigationEntryReceipt, setGreenhouseIrrigationEntryReceipt] =
+    useState<GreenhouseIrrigationEntryReceipt | null>(null);
   const [brokenAssetIds, setBrokenAssetIds] = useState<Set<string>>(() => new Set());
   const [creatureStageReaction, setCreatureStageReaction] = useState(0);
   const [albumMemoryPage, setAlbumMemoryPage] = useState(0);
@@ -1458,6 +1466,12 @@ export default function App() {
   }
 
   function buyGreenhouseIrrigation() {
+    const canBuild =
+      !!save &&
+      save.greenhouseIrrigationLevel < GREENHOUSE_IRRIGATION_MAX_LEVEL &&
+      save.idleProduction.completedOrderIds.includes(GREENHOUSE_ROUTE_SUPPLY_ORDER.id) &&
+      save.materials >= GREENHOUSE_IRRIGATION_COST_MATERIALS &&
+      save.pollen >= GREENHOUSE_IRRIGATION_COST_POLLEN;
     commit((draft) => {
       if (
         draft.greenhouseIrrigationLevel >= GREENHOUSE_IRRIGATION_MAX_LEVEL ||
@@ -1479,6 +1493,23 @@ export default function App() {
       });
     });
     triggerRewardPulse();
+    if (canBuild) {
+      const entryReceipt: GreenhouseIrrigationEntryReceipt = {
+        id: Date.now(),
+        nextOrderTitle: GREENHOUSE_IRRIGATION_ORDER.title,
+        bonusPercent: Math.round(GREENHOUSE_IRRIGATION_RATE_BONUS * 100)
+      };
+      setGreenhouseIrrigationEntryReceipt(entryReceipt);
+      window.setTimeout(() => {
+        setGreenhouseIrrigationEntryReceipt((current) =>
+          current?.id === entryReceipt.id ? null : current
+        );
+      }, 2_000);
+      trackEvent("greenhouse_irrigation_entry_revealed", {
+        rewardMotion: "greenhouse_irrigation_entry_reveal",
+        nextOrderId: GREENHOUSE_IRRIGATION_ORDER.id
+      });
+    }
   }
 
   function buyGreenhouseMist() {
@@ -2096,6 +2127,7 @@ export default function App() {
                     : "",
                   greenhouseFacilityEntryReceipt ? "has-greenhouse-facility-entry-receipt" : "",
                   greenhouseStorageEntryReceipt ? "has-greenhouse-storage-entry-receipt" : "",
+                  greenhouseIrrigationEntryReceipt ? "has-greenhouse-irrigation-entry-receipt" : "",
                   save?.idleProduction.completedOrderIds.includes(GREENHOUSE_ORDER.id) &&
                   save.greenhouseStorageLevel < GREENHOUSE_STORAGE_MAX_LEVEL &&
                   !(orderDeliveryReceipt?.orderId === GREENHOUSE_ORDER.id) &&
@@ -2279,6 +2311,17 @@ export default function App() {
                     <strong>선반 정리 완료</strong>
                     <span>다음 주문: {greenhouseStorageEntryReceipt.nextOrderTitle} 시작</span>
                     <small>보관 보너스 +{greenhouseStorageEntryReceipt.bonusPercent}% 적용</small>
+                  </div>
+                )}
+                {greenhouseIrrigationEntryReceipt && (
+                  <div
+                    className="greenhouse-irrigation-entry-receipt"
+                    aria-label="물길 점검 완료 보상"
+                  >
+                    <span className="greenhouse-irrigation-entry-chip">물길 점검 완료</span>
+                    <strong>물길 점검 완료</strong>
+                    <span>다음 주문: {greenhouseIrrigationEntryReceipt.nextOrderTitle} 시작</span>
+                    <small>자동 생산 +{greenhouseIrrigationEntryReceipt.bonusPercent}% 적용</small>
                   </div>
                 )}
                 {save?.merchantChainBoostActive && !merchantChainCompleteReceipt && (
