@@ -3106,6 +3106,20 @@ h1 {
   color: #16320b;
 }
 
+.phase05-next-step-hint {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(168, 218, 132, 0.95), rgba(118, 188, 96, 0.95));
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(86, 138, 71, 0.55);
+  margin-left: 4px;
+}
+
 .phase05-milestones-card ul {
   list-style: none;
   margin: 0;

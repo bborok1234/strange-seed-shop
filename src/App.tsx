@@ -547,6 +547,7 @@ export default function App() {
       ]
     : [];
   const phase05MilestonesDone = phase05Milestones.filter((m) => m.done).length;
+  const phase05NextMilestone = phase05Milestones.find((m) => !m.done) ?? null;
   const firstOwnedCreature = discoveredCreatures[0];
   const activePlot = save?.plots.find((plot) => plot.seedId && !plot.harvestedCreatureId);
   const activePlotSeed = getSeed(activePlot?.seedId);
@@ -3026,6 +3027,9 @@ export default function App() {
                     <strong>
                       {phase05MilestonesDone}/{phase05Milestones.length} 단계 완료
                     </strong>
+                    {phase05NextMilestone && (
+                      <span className="phase05-next-step-hint">다음: {phase05NextMilestone.label}</span>
+                    )}
                   </header>
                   <ul>
                     {phase05Milestones.map((milestone) => (
