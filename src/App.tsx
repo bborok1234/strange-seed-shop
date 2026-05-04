@@ -1739,12 +1739,24 @@ export default function App() {
     setResearchSeedReceipt(null);
 
     const orderFxAssetId = getProductionFxAssetId("order", orderBeforeDelivery);
+    const naturalNextOrder = getOrderAfterCompleting(save, orderBeforeDelivery);
+    let resolvedNextOrderTitle = naturalNextOrder.title;
+    if (naturalNextOrder.id === orderBeforeDelivery.id) {
+      if (
+        orderBeforeDelivery.id === GREENHOUSE_ORDER.id &&
+        save.greenhouseStorageLevel < GREENHOUSE_STORAGE_MAX_LEVEL
+      ) {
+        resolvedNextOrderTitle = "다음 단계: 선반 정리";
+      } else {
+        resolvedNextOrderTitle = "다음 단계 준비";
+      }
+    }
     const deliveryReceipt: OrderDeliveryReceipt = {
       id: Date.now(),
       orderId: orderBeforeDelivery.id,
       title: orderBeforeDelivery.title,
       rewardLabel: formatOrderReward(orderBeforeDelivery),
-      nextOrderTitle: getOrderAfterCompleting(save, orderBeforeDelivery).title
+      nextOrderTitle: resolvedNextOrderTitle
     };
     const researchReceipt: ResearchUnlockReceipt | null =
       orderBeforeDelivery.id === SECOND_ORDER.id
