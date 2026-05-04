@@ -1,36 +1,10 @@
 {
   "version": "phase0-v1",
   "provider": "openai_images_api",
-  "model": "gpt-image-2",
+  "model": "gpt-image-1",
   "source_prompts": "assets/source/asset_prompts.json",
   "style_bible": "assets/source/asset_style_bible.json",
   "records": [
-    {
-      "asset_id": "seed_lunar_001_greenhouse_source_icon",
-      "provider": "openai_images_api",
-      "model": "gpt-image-2",
-      "source_prompt_path": "assets/source/asset_prompts.json",
-      "style_bible_path": "assets/source/asset_style_bible.json",
-      "accepted_output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
-      "generated_at": "2026-05-01T12:39:30.218Z",
-      "status": "blocked_codex_native_fallback_required",
-      "blocker": "OpenAI image generation failed for seed_lunar_001_greenhouse_source_icon: Your organization must be verified to use the model `gpt-image-2`. Please go to: https://platform.openai.com/settings/organization/general and click on Verify Organization. If you just verified, it can take up to 15 minutes for access to propagate.",
-      "fallback": {
-        "provider": "codex_native_image_generation",
-        "required": true,
-        "output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
-        "rule": "Use Codex image generation to create raster PNG only; SVG/vector/code-native drawings remain rejected."
-      },
-      "style_reference_asset_ids": [
-        "creature_herb_common_001",
-        "creature_herb_common_002",
-        "creature_lunar_common_001",
-        "seed_herb_001_icon",
-        "seed_lunar_001_icon",
-        "ui_order_crate_leaf_001",
-        "fx_production_tick_leaf_001"
-      ]
-    },
     {
       "asset_id": "fx_lunar_greenhouse_planting_pulse_001",
       "provider": "codex_native_image_generation",
@@ -79,7 +53,27 @@
         "seed_lunar_001_greenhouse_source_icon",
         "fx_lunar_greenhouse_planting_pulse_001"
       ]
+    },
+    {
+      "asset_id": "seed_lunar_001_greenhouse_source_icon",
+      "provider": "openai_images_api",
+      "model": "gpt-image-1",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/seed_lunar_001_greenhouse_source_icon/2026-05-04T03-39-26-959Z.png",
+      "accepted_output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
+      "generated_at": "2026-05-04T03:40:04.313Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
     }
   ],
-  "updated_at": "2026-05-01T12:39:59.026Z"
+  "updated_at": "2026-05-04T03:40:04.314Z"
 }
