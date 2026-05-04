@@ -548,6 +548,11 @@ export default function App() {
           id: "album_2",
           label: "5마리 도감 마일스톤",
           done: save.claimedAlbumMilestoneIds.includes("album_2")
+        },
+        {
+          id: "album_3",
+          label: "도감 완성 마일스톤",
+          done: save.claimedAlbumMilestoneIds.includes("album_3")
         }
       ]
     : [];
@@ -563,6 +568,10 @@ export default function App() {
     save &&
     save.discoveredCreatureIds.length >= 5 &&
     !save.claimedAlbumMilestoneIds.includes("album_2");
+  const thirdAlbumRewardReady =
+    save &&
+    save.discoveredCreatureIds.length >= content.creatures.length &&
+    !save.claimedAlbumMilestoneIds.includes("album_3");
   const expeditionReady = save?.activeExpedition
     ? isExpeditionReady(save.activeExpedition, now) && !save.activeExpedition.claimed
     : false;
@@ -1340,6 +1349,22 @@ export default function App() {
       draft.claimedAlbumMilestoneIds.push("album_2");
       draft.leaves += 50;
       trackEvent("album_reward_claimed", { milestoneId: "album_2", leaves: 50 });
+    });
+    triggerRewardPulse();
+  }
+
+  function claimThirdAlbumReward() {
+    commit((draft) => {
+      if (
+        draft.claimedAlbumMilestoneIds.includes("album_3") ||
+        draft.discoveredCreatureIds.length < content.creatures.length
+      ) {
+        return;
+      }
+
+      draft.claimedAlbumMilestoneIds.push("album_3");
+      draft.leaves += 100;
+      trackEvent("album_reward_claimed", { milestoneId: "album_3", leaves: 100 });
     });
     triggerRewardPulse();
   }
@@ -2735,6 +2760,11 @@ export default function App() {
               {secondAlbumRewardReady && (
                 <button className="primary-action" onClick={claimSecondAlbumReward} type="button">
                   두 번째 도감 보상 받기 +50 잎
+                </button>
+              )}
+              {thirdAlbumRewardReady && (
+                <button className="primary-action" onClick={claimThirdAlbumReward} type="button">
+                  도감 완성 보상 받기 +100 잎
                 </button>
               )}
               {(!productionStatus || productionStatus.ratePerMinute <= 0) && (

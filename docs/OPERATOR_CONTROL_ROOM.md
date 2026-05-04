@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T07:48:19.966Z
+Generated at: 2026-05-04T07:53:30.495Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T07:48:19.966Z
 
 ## Local state
 
-- Branch: codex/0190-album-2-milestone-reward
-- Latest commit: cd67261 P0.5 진행도 카드 헤더에 "다음: <label>" 다음 milestone 힌트를 인라인 표시한다 (#372) (#373)
+- Branch: codex/0191-album-3-milestone-reward
+- Latest commit: 9581578 album_2 milestone(5마리 도감) 보상 +50 잎을 도입한다 (#374) (#375)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T11:00:00.000Z
-- Phase: issue-374-implementation
-- Issue: 374
+- Timestamp: 2026-05-04T11:18:00.000Z
+- Phase: issue-376-implementation
+- Issue: 376
 - PR: 
-- Item: items/0190-album-2-milestone-reward.md
-- Next action: publication gate: push branch, open PR for #374, watch checks, merge when green.
+- Item: items/0191-album-3-milestone-reward.md
+- Next action: publication gate: push branch, open PR for #376, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T07:48:19.966Z
 
 ## Open issues
 
-- #374 album_2 milestone(5마리 도감) 보상 +50 잎을 도입한다 — https://github.com/bborok1234/strange-seed-shop/issues/374
+- #376 album_3 milestone(도감 완성) 보상 +100 잎을 도입한다 — https://github.com/bborok1234/strange-seed-shop/issues/376
 
 ## Playable mode
 
