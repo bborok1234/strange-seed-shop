@@ -1,20 +1,20 @@
 # Studio Harness v3 Live Runner Report
 
-- Runner: `studio-v3-1777859390561`
+- Runner: `studio-v3-1777860583412`
 - Iteration: 1
-- Updated: 2026-05-04T01:49:53.356Z
+- Updated: 2026-05-04T02:09:45.644Z
 - Source of truth: github-authoritative
 - Dry run: true
 - Queue empty is stop: false
-- Decision: `select-github-workunit`
-- Target: Issue #336
-- Next action: implementation gate: plan-first for GitHub issue #336
+- Decision: `production-game-intake-required`
+- Target: new GitHub issue
+- Next action: Intake gate: create a production game quality WorkUnit from P0.5 Idle Core + Creative Rescue
 
 ## Open GitHub issues
 
 | Issue | Title | Labels | URL |
 | --- | --- | --- | --- |
-| #336 | 포장잎 상인 단골 납품 후 두 번째 단골 chapter 의뢰가 production loop를 잇는다 |  | https://github.com/bborok1234/strange-seed-shop/issues/336 |
+| none | GitHub queue empty |  |  |
 
 ## Open GitHub PRs
 
@@ -26,11 +26,11 @@
 
 | Run | Workflow | Status | Conclusion | URL |
 | --- | --- | --- | --- | --- |
+| 25297556615 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25297556615 |
 | 25286329093 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25286329093 |
 | 25286072238 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25286072238 |
 | 25281550163 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25281550163 |
 | 25279311165 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25279311165 |
-| 25277919013 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25277919013 |
 
 ## Production game quality intake rule
 

@@ -131,6 +131,7 @@ export interface PlayerSave {
   greenhouseIrrigationLevel: number;
   greenhouseMistLevel: number;
   lunarRewardSource?: ExpeditionRewardSource;
+  merchantChainBoostActive: boolean;
   researchLevel: number;
   plots: PlotState[];
   activeExpedition?: ExpeditionState;
