@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-03T15:18:47.581Z
+Generated at: 2026-05-03T20:00:42.772Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-03T15:18:47.581Z
 
 ## Local state
 
-- Branch: codex/0332-merchant-followup-order
-- Latest commit: 05ba2b2 상인 단골 납품 WorkUnit을 plan-first로 고정한다
+- Branch: codex/0336-merchant-second-chapter-order
+- Latest commit: 98e7bfc 운영사 supervisor가 Codex rate-limit/idle에서 Claude로 폴백한다 (#335)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-03T15:18:45.334Z
-- Phase: issue-332-pr-publication
-- Issue: 332
+- Timestamp: 2026-05-03T19:59:45.218Z
+- Phase: issue-336-implementation
+- Issue: 336
 - PR: 
-- Item: items/0168-merchant-followup-order.md
-- Next action: gate: publish #332 issue/PR body files, watch checks, merge when green
+- Item: items/0170-merchant-second-chapter-order.md
+- Next action: PR/check gate: publish PR for #336, watch checks, merge when green
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-03T15:18:47.581Z
 
 ## Open issues
 
-- #332 포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다 — https://github.com/bborok1234/strange-seed-shop/issues/332
+- #336 포장잎 상인 단골 납품 후 두 번째 단골 chapter 의뢰가 production loop를 잇는다 — https://github.com/bborok1234/strange-seed-shop/issues/336
 
 ## Playable mode
 
