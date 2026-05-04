@@ -1,7 +1,7 @@
 {
   "version": "phase0-v1",
   "provider": "openai_images_api",
-  "model": "gpt-image-1",
+  "model": "gpt-image-2",
   "source_prompts": "assets/source/asset_prompts.json",
   "style_bible": "assets/source/asset_style_bible.json",
   "records": [
@@ -57,12 +57,12 @@
     {
       "asset_id": "seed_lunar_001_greenhouse_source_icon",
       "provider": "openai_images_api",
-      "model": "gpt-image-1",
+      "model": "gpt-image-2",
       "source_prompt_path": "assets/source/asset_prompts.json",
       "style_bible_path": "assets/source/asset_style_bible.json",
-      "raw_output_path": "assets/source/generated/gpt-image/seed_lunar_001_greenhouse_source_icon/2026-05-04T03-39-26-959Z.png",
+      "raw_output_path": "assets/source/generated/gpt-image/seed_lunar_001_greenhouse_source_icon/2026-05-04T04-22-55-376Z.png",
       "accepted_output_path": "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
-      "generated_at": "2026-05-04T03:40:04.313Z",
+      "generated_at": "2026-05-04T04:25:46.810Z",
       "review_required": true,
       "style_reference_asset_ids": [
         "creature_herb_common_001",
@@ -72,8 +72,16 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        {
+          "step": "chroma_key_alpha_cutout",
+          "tool": "scripts/chroma-key-asset.mjs",
+          "params": { "threshold": 225, "feather": 14 },
+          "reason": "gpt-image-2 does not output an alpha channel; near-white background is keyed out post-generation to produce an RGBA game asset."
+        }
       ]
     }
   ],
-  "updated_at": "2026-05-04T03:40:04.314Z"
+  "updated_at": "2026-05-04T04:25:46.810Z"
 }

@@ -13,7 +13,7 @@
     "p0_5_core_asset_generation_first_pass: 5 production/order asset candidates saved as static workspace PNGs after Codex native generation and chroma-key alpha conversion. FX strips need normalization before manifest integration.",
     "p0_5_core_asset_manifest_normalization: 5 P0.5 assets registered in manifest; FX strips normalized to 4x160 strict strips.",
     "p0_5_lunar_source_playfield_assets: SVG attempt rejected; replaced via Codex native fallback initially, then regenerated through OpenAI Images API (gpt-image-1) on 2026-05-04 via #340.",
-    "art_team_api_lever_validated_2026-05-04: gpt-image-1 path verified end-to-end via #340 (npm run asset:generate:gpt-image -- --asset-id=seed_lunar_001_greenhouse_source_icon --force). gpt-image-2 model is unavailable on current org tier; SEED_ASSET_IMAGE_MODEL=gpt-image-1 is the production API path."
+    "art_team_api_lever_validated_2026-05-04: After #340 the gpt-image-1 path was confirmed end-to-end. Following individual verification propagation, gpt-image-2 was unblocked and rerun via SEED_ASSET_IMAGE_BACKGROUND=opaque + scripts/chroma-key-asset.mjs to produce RGBA assets at production quality. gpt-image-1 remains a usable alpha-native fallback; gpt-image-2 + chroma-key is the preferred high-quality path."
   ],
   "outputs": [
     "public/assets/game/creatures/creature_herb_common_001.png",
@@ -126,8 +126,9 @@
           "width": 1024,
           "height": 1024,
           "provider": "openai_images_api",
-          "model": "gpt-image-1",
-          "notes": "Regenerated via gpt-image-1 API path on 2026-05-04 after #340 verified the art-team OpenAI Images API lever end-to-end. gpt-image-2 model is still blocked for this org (model not in tier); SEED_ASSET_IMAGE_MODEL=gpt-image-1 override is the production API path."
+          "model": "gpt-image-2",
+          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=225 --feather=14)"],
+          "notes": "Regenerated via gpt-image-2 (background=opaque) on 2026-05-04 after #340 individual verification propagated, then chroma-keyed to RGBA via scripts/chroma-key-asset.mjs because gpt-image-2 does not emit an alpha channel. gpt-image-1 first-pass kept a transparent channel directly but produced lower visual quality; gpt-image-2 + chroma-key matches the Codex native production bar."
         },
         {
           "asset_id": "fx_lunar_greenhouse_planting_pulse_001",
