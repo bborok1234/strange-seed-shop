@@ -2999,6 +2999,79 @@ h1 {
   margin: 0;
 }
 
+.phase05-milestones-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(86, 138, 71, 0.45);
+  background:
+    radial-gradient(circle at 14% 22%, rgba(255, 255, 255, 0.85), transparent 40%),
+    linear-gradient(135deg, rgba(232, 246, 214, 0.92), rgba(212, 234, 192, 0.88));
+  margin-bottom: 8px;
+}
+
+.phase05-milestones-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.phase05-milestones-card header .panel-label {
+  margin: 0;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
+.phase05-milestones-card header strong {
+  font-size: 11px;
+  color: #16320b;
+}
+
+.phase05-milestones-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 8px;
+}
+
+.phase05-milestone {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.phase05-milestone.is-done {
+  color: #1f3b10;
+  font-weight: 800;
+}
+
+.phase05-milestone-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(204, 224, 192, 0.6);
+  color: rgba(86, 138, 71, 0.5);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.phase05-milestone.is-done .phase05-milestone-mark {
+  background: linear-gradient(135deg, rgba(168, 218, 132, 0.95), rgba(118, 188, 96, 0.95));
+  color: #ffffff;
+  box-shadow: 0 0 6px rgba(168, 218, 132, 0.4);
+}
+
 .next-creature-card,
 .album-next-goal {
   display: grid;

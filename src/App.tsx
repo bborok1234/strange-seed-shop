@@ -510,6 +510,37 @@ export default function App() {
     : [];
   const discoveredCreatureIds = new Set(save?.discoveredCreatureIds ?? []);
   const albumDiscoveredCount = discoveredCreatures.length;
+  const phase05Milestones = save
+    ? [
+        { id: "first_creature", label: "첫 생명체 발견", done: save.discoveredCreatureIds.length >= 1 },
+        {
+          id: "second_order",
+          label: "두 번째 주문 완료",
+          done: save.idleProduction.completedOrderIds.includes(SECOND_ORDER.id)
+        },
+        {
+          id: "material_workbench",
+          label: "작업대 강화",
+          done: save.materialWorkbenchLevel >= MATERIAL_WORKBENCH_MAX_LEVEL
+        },
+        {
+          id: "greenhouse_facility",
+          label: "달빛 온실 설립",
+          done: save.greenhouseFacilityLevel >= GREENHOUSE_FACILITY_MAX_LEVEL
+        },
+        {
+          id: "merchant_chain_complete",
+          label: "단골 시퀀스 마침",
+          done: save.merchantChainBoostActive
+        },
+        {
+          id: "lunar_guardian_discovered",
+          label: "달빛 손님 발견",
+          done: save.discoveredCreatureIds.includes(LUNAR_REWARD_CREATURE_ID)
+        }
+      ]
+    : [];
+  const phase05MilestonesDone = phase05Milestones.filter((m) => m.done).length;
   const firstOwnedCreature = discoveredCreatures[0];
   const activePlot = save?.plots.find((plot) => plot.seedId && !plot.harvestedCreatureId);
   const activePlotSeed = getSeed(activePlot?.seedId);
@@ -2906,6 +2937,29 @@ export default function App() {
                 <span className="tab-section-chip">{albumDiscoveredCount}/{content.creatures.length}</span>
               </header>
               <p className="album-progress-copy">미발견 슬롯의 단서를 따라 씨앗을 심고 도감 칸을 채워보세요.</p>
+              {phase05Milestones.length > 0 && (
+                <article className="phase05-milestones-card" aria-label="P0.5 진행도">
+                  <header>
+                    <p className="panel-label">P0.5 진행도</p>
+                    <strong>
+                      {phase05MilestonesDone}/{phase05Milestones.length} 단계 완료
+                    </strong>
+                  </header>
+                  <ul>
+                    {phase05Milestones.map((milestone) => (
+                      <li
+                        className={milestone.done ? "phase05-milestone is-done" : "phase05-milestone"}
+                        key={milestone.id}
+                      >
+                        <span className="phase05-milestone-mark" aria-hidden="true">
+                          {milestone.done ? "✓" : "·"}
+                        </span>
+                        <span>{milestone.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              )}
               <div className="creature-list album-grid">
                 {content.creatures.map((creature) => {
                   const discovered = discoveredCreatureIds.has(creature.id);
