@@ -2126,6 +2126,14 @@ test("모바일 온실 설비는 새 납품 주문으로 이어진다", async ({
   await expect(page.getByLabel("온실 선반 납품 납품 완료")).toContainText("+42 잎 · +2 꽃가루 · +1 재료");
   await expect(page.getByLabel("자동 생산과 첫 주문")).toContainText("온실 선반 납품 완료");
 
+  // Greenhouse shelf delivery receipt — closes the chain handoff arc one beat further
+  await expect(page.getByLabel("주문 상자 출하 완료")).toBeVisible();
+  await expect(page.getByLabel("주문 상자 출하 완료")).toContainText("상자 출하 완료");
+  await expect(page.getByLabel("주문 상자 출하 완료")).toContainText("온실 선반 납품");
+  await expect(page.getByLabel("주문 상자 출하 완료")).toContainText("+42 잎 · +2 꽃가루 · +1 재료");
+  await expect(page.locator(".production-action-card.has-order-dispatch-receipt")).toBeVisible();
+  await expect(page.locator(".playfield-order-crate.order-variant-greenhouse-shelf-delivered")).toBeVisible();
+
   const metrics = await page.evaluate(() => {
     const panelElement = document.querySelector<HTMLElement>(".starter-panel");
     const panel = panelElement?.getBoundingClientRect();

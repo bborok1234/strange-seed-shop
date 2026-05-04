@@ -6645,6 +6645,50 @@ h1 {
   animation: greenhouse-facility-entry-chip-pulse 1.6s ease-in-out 1;
 }
 
+.playfield-order-crate.order-variant-greenhouse-shelf-delivered {
+  position: relative;
+  border-color: rgba(86, 138, 71, 0.65);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.92), transparent 32%),
+    radial-gradient(circle at 80% 30%, rgba(168, 218, 132, 0.7), transparent 40%),
+    radial-gradient(circle at 60% 80%, rgba(118, 188, 96, 0.5), transparent 42%),
+    linear-gradient(135deg, rgba(232, 246, 214, 0.99), rgba(204, 232, 184, 0.95));
+  box-shadow:
+    0 8px 18px rgba(86, 138, 71, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  animation: greenhouse-shelf-delivered-burst 1.8s cubic-bezier(0.2, 1, 0.2, 1) both;
+}
+
+.playfield-order-crate.order-variant-greenhouse-shelf-delivered::after {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(232, 248, 220, 0.96), rgba(168, 218, 132, 0.96) 50%, rgba(86, 138, 71, 0.94));
+  border: 2px solid rgba(86, 138, 71, 0.7);
+  box-shadow:
+    0 0 10px rgba(168, 218, 132, 0.7),
+    -8px 14px 0 -6px rgba(118, 188, 96, 0.85),
+    -16px 18px 0 -8px rgba(168, 218, 132, 0.85);
+  content: "";
+  animation: greenhouse-shelf-delivered-medal-spin 1.8s ease-in-out 1;
+}
+
+@keyframes greenhouse-shelf-delivered-burst {
+  0% { opacity: 0; transform: translateY(4px) scale(0.985); }
+  35% { opacity: 1; transform: translateY(-1px) scale(1.018); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes greenhouse-shelf-delivered-medal-spin {
+  0% { transform: rotate(-12deg) scale(0.85); opacity: 0; }
+  35% { transform: rotate(6deg) scale(1.05); opacity: 1; }
+  100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
 @keyframes merchant-crate-pack {
   0%,
   100% {

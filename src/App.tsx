@@ -1712,7 +1712,8 @@ export default function App() {
     if (
       orderBeforeDelivery.id === FIRST_ORDER.id ||
       orderBeforeDelivery.id === MERCHANT_FOLLOWUP_ORDER.id ||
-      orderBeforeDelivery.id === MERCHANT_SECOND_CHAPTER_ORDER.id
+      orderBeforeDelivery.id === MERCHANT_SECOND_CHAPTER_ORDER.id ||
+      orderBeforeDelivery.id === GREENHOUSE_ORDER.id
     ) {
       setOrderDeliveryReceipt(deliveryReceipt);
       window.setTimeout(() => {
@@ -3417,6 +3418,7 @@ function buildGardenPlayfieldViewModel(
     save.greenhouseFacilityLevel < GREENHOUSE_FACILITY_MAX_LEVEL &&
     !merchantChainCompleteActive;
   const greenhouseFacilityEntryActive = Boolean(greenhouseFacilityEntryReceipt);
+  const greenhouseShelfDeliveredActive = orderDeliveryReceipt?.orderId === GREENHOUSE_ORDER.id;
   const productionClaimActive = Boolean(productionClaimReceipt);
   const productionBoostActive = Boolean(productionBoostReceipt);
   const researchUnlockActive = Boolean(researchUnlockReceipt);
@@ -3568,6 +3570,8 @@ function buildGardenPlayfieldViewModel(
               ? ("merchant-second-delivered" as const)
             : merchantFollowupDispatchReceiptActive
               ? ("merchant-delivered" as const)
+            : greenhouseShelfDeliveredActive
+              ? ("greenhouse-shelf-delivered" as const)
             : merchantCrateClaimActive
               ? ("merchant-claimed" as const)
             : merchantSecondChapterOrderActive
