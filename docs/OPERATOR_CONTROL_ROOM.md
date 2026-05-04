@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T06:44:06.260Z
+Generated at: 2026-05-04T06:52:03.759Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T06:44:06.260Z
 
 ## Local state
 
-- Branch: codex/0182-dispatch-receipt-fall-through-fix
-- Latest commit: be65585 온실 물길 점검 직후 production card에 "물길 점검 완료" reveal motion으로 chain handoff arc symmetry를 닫는다 (#358) (#359)
+- Branch: codex/0183-greenhouse-mist-entry-reveal
+- Latest commit: 3e4f91e dispatch receipt의 nextOrderTitle이 fall-through 케이스에서 stale-completed order를 가리키는 UX bug를 다음 단계 hint로 대체한다 (#360) (#361)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T08:05:00.000Z
-- Phase: issue-360-implementation
-- Issue: 360
+- Timestamp: 2026-05-04T08:30:00.000Z
+- Phase: issue-362-implementation
+- Issue: 362
 - PR: 
-- Item: items/0182-dispatch-receipt-fall-through-fix.md
-- Next action: publication gate: push branch, open PR for #360, watch checks, merge when green.
+- Item: items/0183-greenhouse-mist-entry-reveal.md
+- Next action: publication gate: push branch, open PR for #362, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T06:44:06.260Z
 
 ## Open issues
 
-- #360 dispatch receipt의 nextOrderTitle이 fall-through 케이스에서 stale-completed order를 가리키는 UX bug를 다음 단계 hint로 대체한다 — https://github.com/bborok1234/strange-seed-shop/issues/360
+- #362 온실 물안개 분사 직후 production card에 "물안개 분사 완료" reveal motion으로 chain handoff arc symmetry를 마무리한다 — https://github.com/bborok1234/strange-seed-shop/issues/362
 
 ## Playable mode
 
