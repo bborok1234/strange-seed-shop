@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T07:16:16.828Z
+Generated at: 2026-05-04T07:28:26.401Z
 
 ## Current mission
 
@@ -38,19 +38,19 @@ Generated at: 2026-05-04T07:16:16.828Z
 
 ## Local state
 
-- Branch: codex/0186-dispatch-receipt-fall-through-expansion
-- Latest commit: 9ace4e3 달빛 손님 첫 발견 직후 production card에 "달빛 phase 시작" reveal motion으로 lunar phase entry를 anchor한다 (#366) (#367)
+- Branch: codex/0188-production-rate-delta-indicator
+- Latest commit: df7ff25 dispatch receipt nextOrderTitle fall-through 처리를 모든 greenhouse chain orders로 확장한다 (#368) (#369)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T09:42:00.000Z
-- Phase: issue-368-implementation
-- Issue: 368
+- Timestamp: 2026-05-04T10:10:00.000Z
+- Phase: issue-370-implementation
+- Issue: 370
 - PR: 
-- Item: items/0186-dispatch-receipt-fall-through-expansion.md
-- Next action: publication gate: push branch, open PR for #368, watch checks, merge when green.
+- Item: items/0188-production-rate-delta-indicator.md
+- Next action: publication gate: push branch, open PR for #370, watch checks, merge when green.
 
 ## Open PRs
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-04T07:16:16.828Z
 
 ## Open issues
 
-- #368 dispatch receipt nextOrderTitle fall-through 처리를 모든 greenhouse chain orders로 확장한다 — https://github.com/bborok1234/strange-seed-shop/issues/368
+- #370 production card rate에 upgrade 활성 시 "+분당 X.X 잎" delta inline indicator를 1.6s 표시한다 — https://github.com/bborok1234/strange-seed-shop/issues/370
 
 ## Playable mode
 
