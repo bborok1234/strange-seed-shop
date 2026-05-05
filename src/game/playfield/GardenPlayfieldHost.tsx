@@ -105,8 +105,11 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
         parent: hostRef.current,
         width: Math.max(320, hostRef.current.clientWidth || 640),
         height: Math.max(260, hostRef.current.clientHeight || 360),
-        backgroundColor: "#fff1c4",
-        transparent: false,
+        // stage-art-first Cycle A PR3 — canvas 배경을 transparent로 만들어 garden-stage의
+        // backgroundImage(L0 art-plate, 햇살 온실 일러스트)가 Phaser canvas 영역에서도
+        // 비쳐 보이도록. 기존 #fff1c4 cream fill은 art bible align 위반이었음.
+        // Phaser scene mechanic은 변경 0 — scene 내부에서 background fill 안 함 (검증됨).
+        transparent: true,
         render: {
           antialias: false,
           roundPixels: true
