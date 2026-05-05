@@ -6209,6 +6209,35 @@ h1 {
     display: none;
   }
 
+  .starter-panel.has-production.has-open-merchant-followup-order .upgrade-choice-card,
+  .starter-panel.has-production.has-open-merchant-followup-order .next-creature-compact,
+  .starter-panel.has-production.has-open-merchant-second-chapter .upgrade-choice-card,
+  .starter-panel.has-production.has-open-merchant-second-chapter .next-creature-compact {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-open-merchant-followup-order .production-action-card,
+  .starter-panel.has-production.has-open-merchant-second-chapter .production-action-card {
+    gap: 5px;
+  }
+
+  .starter-panel.has-production.has-open-merchant-followup-order .production-roster,
+  .starter-panel.has-production.has-open-merchant-second-chapter .production-roster {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .starter-panel.has-production.has-open-merchant-followup-order .production-worker-detail,
+  .starter-panel.has-production.has-open-merchant-second-chapter .production-worker-detail {
+    display: none;
+  }
+
+  .starter-panel.has-production.has-open-merchant-followup-order .order-progress-card button,
+  .starter-panel.has-production.has-open-merchant-second-chapter .order-progress-card button {
+    min-height: 38px;
+    font-size: 10px;
+  }
+
   .starter-panel.has-production.has-first-order-return-briefing .production-action-card {
     overflow: visible;
   }
@@ -6690,13 +6719,13 @@ h1 {
   }
 
   .playfield-plot-card {
-    min-height: 84px;
+    min-height: 104px;
     padding: 12px 8px 10px;
     border-radius: 16px;
   }
 
   .playfield-board-overlay.plot-count-3 .playfield-plot-card {
-    min-height: 82px;
+    min-height: 100px;
     padding: 12px 5px 9px;
   }
 
@@ -6884,10 +6913,10 @@ h1 {
   min-width: 0;
   min-height: 220px;
   overflow: hidden;
-  border: 1px solid rgba(39, 86, 64, 0.18);
+  border: 0;
   border-radius: calc(var(--radius-panel) + 8px);
-  background: #fff1c4;
-  box-shadow: 0 10px 22px rgba(37, 78, 53, 0.1);
+  background: transparent;
+  box-shadow: none;
 }
 
 .garden-stage.has-creature-stage .garden-playfield-host {
@@ -6907,7 +6936,7 @@ h1 {
   inset: 0;
   width: 100% !important;
   height: 100% !important;
-  background: #fff1c4;
+  background: transparent;
   opacity: 0;
 }
 
@@ -6924,7 +6953,22 @@ h1 {
   gap: 12px;
   padding: 14px 18px 18px;
   pointer-events: auto;
-  background: #fff1c4;
+  background: transparent;
+}
+
+.playfield-board-overlay:not(.has-production-scene) {
+  display: block;
+  padding: 0;
+  pointer-events: none;
+}
+
+.playfield-board-overlay:not(.has-production-scene) .playfield-plot-row {
+  position: absolute;
+  top: clamp(260px, 55%, 560px);
+  left: 50%;
+  width: min(430px, 74%);
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
 }
 
 .playfield-board-overlay.has-production-scene {
@@ -7424,6 +7468,11 @@ h1 {
   object-fit: contain;
 }
 
+.playfield-production-actor img {
+  transform-origin: 50% 86%;
+  animation: playfieldActorIdle 2100ms ease-in-out infinite;
+}
+
 .playfield-order-crate img,
 .playfield-order-crate .playfield-scene-fallback {
   width: 34px;
@@ -7487,19 +7536,20 @@ h1 {
   position: relative;
   display: grid;
   justify-items: center;
-  align-content: start;
+  align-content: center;
   width: 100%;
   min-height: 94px;
-  padding: 14px 10px 12px;
+  padding: 14px 12px 12px;
   overflow: hidden;
-  border: 1px solid rgba(117, 91, 38, 0.26);
-  border-radius: 18px;
-  background: #efdc94;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
   color: #223f2b;
   appearance: none;
   cursor: pointer;
   font: inherit;
-  box-shadow: 0 5px 12px rgba(93, 69, 31, 0.12);
+  filter: drop-shadow(0 8px 12px rgba(53, 57, 31, 0.16));
+  transform-origin: 50% 78%;
 }
 
 .playfield-plot-card:disabled {
@@ -7509,59 +7559,106 @@ h1 {
 .playfield-plot-card:not(:disabled):hover,
 .playfield-plot-card:not(:disabled):focus-visible {
   transform: translateY(-1px);
-  box-shadow: 0 8px 16px rgba(93, 69, 31, 0.16);
+  filter: drop-shadow(0 10px 15px rgba(53, 57, 31, 0.2));
+}
+
+.playfield-plot-marker {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  object-fit: fill;
+  user-select: none;
+}
+
+.playfield-plot-marker-seedbed {
+  transform: scale(1.05) translateY(4px);
+  transform-origin: 50% 74%;
+  animation: plotMarkerBreathe 2600ms ease-in-out infinite;
+}
+
+.playfield-plot-marker-ribbon {
+  z-index: 1;
+  transform: scale(1.02) translateY(-5px);
+  opacity: 0.88;
+}
+
+.playfield-plot-marker-plate {
+  inset: auto 20% 18px;
+  z-index: 2;
+  width: 60%;
+  height: 26px;
+  object-fit: fill;
+  opacity: 0.62;
 }
 
 .playfield-plot-index {
   position: absolute;
-  top: 12px;
-  left: 14px;
-  color: rgba(255, 248, 216, 0.88);
+  z-index: 3;
+  top: 24px;
+  left: 20%;
+  color: rgba(255, 248, 216, 0.96);
   font-size: 11px;
   font-weight: 900;
+  text-shadow: 0 1px 4px rgba(33, 54, 34, 0.36);
 }
 
 .playfield-plot-card strong {
   max-width: 100%;
   color: #243b28;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 900;
   line-height: 1.1;
   text-align: center;
 }
 
 .playfield-empty-plus {
-  margin-top: 4px;
-  color: rgba(81, 111, 58, 0.42);
-  font-size: 22px;
+  margin-top: 1px;
+  color: rgba(65, 98, 49, 0.5);
+  font-size: 18px;
   font-weight: 900;
   line-height: 1;
 }
 
 .playfield-plot-state {
-  margin-top: 3px;
+  margin-top: 1px;
   color: #2f4d31;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 900;
 }
 
-.playfield-plot-mound {
-  width: min(96px, 62%);
-  height: 13px;
-  margin-top: 12px;
-  border-radius: 999px;
-  background: rgba(121, 84, 53, 0.2);
+.playfield-plot-label-stack {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  max-width: min(118px, 62%);
+  min-height: 42px;
+  margin-top: 24px;
+  padding: 1px 7px;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(255, 250, 220, 0.68);
+}
+
+.plot-state-ready .playfield-plot-label-stack {
+  max-width: min(112px, 58%);
+  min-height: 38px;
+  margin-top: 32px;
+}
+
+.plot-state-ready .playfield-plot-label-stack strong {
+  font-size: 11px;
 }
 
 .plot-state-growing {
-  background: #cde89e;
+  background: transparent;
 }
 
 .plot-source-greenhouse-mist {
-  border-color: rgba(95, 145, 116, 0.56);
-  background:
-    radial-gradient(circle at 50% 18%, rgba(255, 249, 190, 0.84), transparent 32%),
-    linear-gradient(180deg, #dff1b2 0%, #badb95 100%);
+  background: transparent;
 }
 
 .playfield-plot-source-icon {
@@ -7575,14 +7672,12 @@ h1 {
 }
 
 .playfield-plot-source-label {
-  position: relative;
-  z-index: 1;
-  margin-top: 2px;
-  padding: 2px 8px;
+  margin-top: 1px;
+  padding: 1px 6px;
   border: 1px solid rgba(47, 96, 65, 0.18);
   border-radius: 999px;
   color: #315c43;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 900;
   line-height: 1.1;
   background: rgba(255, 248, 205, 0.7);
@@ -7590,18 +7685,26 @@ h1 {
 
 .plot-source-greenhouse-mist strong,
 .plot-source-greenhouse-mist .playfield-plot-state,
-.plot-source-greenhouse-mist .playfield-plot-mound {
+.plot-source-greenhouse-mist .playfield-plot-label-stack {
   position: relative;
   z-index: 1;
 }
 
 .plot-state-ready {
-  background: #f5d867;
-  border-color: rgba(139, 88, 24, 0.38);
+  background: transparent;
 }
 
 .plot-state-ready .playfield-plot-state {
-  color: #744c16;
+  margin-top: 2px;
+  padding: 1px 8px 2px;
+  border: 1px solid rgba(108, 70, 22, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 247, 196, 0.74);
+  color: #653b11;
+  font-size: 12px;
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-shadow: 0 1px 0 rgba(255, 253, 221, 0.78);
 }
 
 .playfield-action-feedback {
@@ -7672,11 +7775,42 @@ h1 {
   }
 }
 
+@keyframes plotMarkerBreathe {
+  0%,
+  100% {
+    transform: scale(1.04) translateY(5px) rotate(-0.2deg);
+  }
+
+  50% {
+    transform: scale(1.065) translateY(1px) rotate(0.3deg);
+  }
+}
+
+@keyframes playfieldActorIdle {
+  0%,
+  100% {
+    transform: translateY(1px) scale(1);
+  }
+
+  45% {
+    transform: translateY(-3px) scale(1.035, 0.985);
+  }
+
+  60% {
+    transform: translateY(-1px) scale(0.985, 1.025);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .playfield-action-feedback {
+  .playfield-action-feedback,
+  .playfield-production-actor img,
+  .playfield-plot-marker-seedbed {
     opacity: 1;
-    transform: translateX(-50%);
     animation: none !important;
+  }
+
+  .playfield-action-feedback {
+    transform: translateX(-50%);
   }
 }
 

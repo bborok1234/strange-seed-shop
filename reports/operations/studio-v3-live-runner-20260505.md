@@ -1,36 +1,36 @@
 # Studio Harness v3 Live Runner Report
 
-- Runner: `studio-v3-1777991576324`
+- Runner: `studio-v3-1777999279545`
 - Iteration: 1
-- Updated: 2026-05-05T14:32:59.391Z
+- Updated: 2026-05-05T16:41:22.301Z
 - Source of truth: github-authoritative
 - Dry run: true
 - Queue empty is stop: false
-- Decision: `watch-pr-checks`
-- Target: PR #402
-- Next action: PR/check gate: update evidence, watch checks, and merge PR #402 when green
+- Decision: `select-github-workunit`
+- Target: Issue #403
+- Next action: implementation gate: plan-first for GitHub issue #403
 
 ## Open GitHub issues
 
 | Issue | Title | Labels | URL |
 | --- | --- | --- | --- |
-| #401 | 정원 밭 HUD marker asset 후보를 GitHub PR 루프로 복구 |  | https://github.com/bborok1234/strange-seed-shop/issues/401 |
+| #403 | 정원 밭 marker를 실제 화면 object로 교체 |  | https://github.com/bborok1234/strange-seed-shop/issues/403 |
 
 ## Open GitHub PRs
 
 | PR | State | Title | Checks | URL |
 | --- | --- | --- | --- | --- |
-| #402 | draft | 정원 밭 HUD marker asset 후보를 GitHub PR 루프로 복구 | Check automerge eligibility:COMPLETED/SUCCESS<br>Verify game baseline:COMPLETED/SUCCESS<br>Art-share gate (stage-art-first enforcement):COMPLETED/SUCCESS | https://github.com/bborok1234/strange-seed-shop/pull/402 |
+| none |  |  |  |  |
 
 ## Latest main runs
 
 | Run | Workflow | Status | Conclusion | URL |
 | --- | --- | --- | --- | --- |
+| 25383262163 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25383262163 |
 | 25367380407 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25367380407 |
 | 25367104835 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25367104835 |
 | 25366219560 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25366219560 |
 | 25365948647 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25365948647 |
-| 25365745827 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25365745827 |
 
 ## Production game quality intake rule
 

@@ -861,6 +861,92 @@
           ]
         }
       }
+    },
+    "ui_hud_plot_seedbed_empty_001": {
+      "path": "/assets/game/ui/ui_hud_plot_seedbed_empty_001.png",
+      "category": "ui_frame",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "garden_plot_marker_empty",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "tags": [
+        "phase0_5",
+        "ui",
+        "plot-marker",
+        "screen_moment:garden_empty_plot",
+        "player_verb:plant_seed",
+        "state_binding:plot.empty",
+        "text_safe_zone:center",
+        "must_not_obscure:plot_label_or_click_target"
+      ],
+      "notes": "Codex native raster PNG accepted from PR1 preview for PR2 GardenPlotCard runtime composition. screen_moment=garden empty plot; player_verb=plant_seed; state_binding=plot.state.empty; text_safe_zone=center; must_not_obscure=plot label, plus sign, click target."
+    },
+    "ui_hud_plot_seedbed_growing_001": {
+      "path": "/assets/game/ui/ui_hud_plot_seedbed_growing_001.png",
+      "category": "ui_frame",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "garden_plot_marker_growing",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "tags": [
+        "phase0_5",
+        "ui",
+        "plot-marker",
+        "screen_moment:garden_growing_plot",
+        "player_verb:tap_growth",
+        "state_binding:plot.growing",
+        "text_safe_zone:center",
+        "must_not_obscure:progress_or_source_label"
+      ],
+      "notes": "Codex native raster PNG accepted from PR1 preview for planted GardenPlotCard composition. screen_moment=garden growing plot; player_verb=tap_growth; state_binding=plot.state.growing plus source variants; text_safe_zone=center; must_not_obscure=progress, seed label, source chip."
+    },
+    "ui_hud_plot_ready_ribbon_001": {
+      "path": "/assets/game/ui/ui_hud_plot_ready_ribbon_001.png",
+      "category": "ui_frame",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "garden_plot_marker_ready_affordance",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "tags": [
+        "phase0_5",
+        "ui",
+        "plot-marker",
+        "ready-ribbon",
+        "screen_moment:garden_ready_plot",
+        "player_verb:harvest_plot",
+        "state_binding:plot.ready",
+        "text_safe_zone:center",
+        "must_not_obscure:harvest_label_or_source_icon"
+      ],
+      "notes": "Codex native raster PNG accepted as the ready harvest affordance layered behind GardenPlotCard text. screen_moment=garden ready plot; player_verb=harvest_plot; state_binding=plot.state.ready; text_safe_zone=center; must_not_obscure=harvest label, source icon, click target."
+    },
+    "ui_hud_plot_text_plate_001": {
+      "path": "/assets/game/ui/ui_hud_plot_text_plate_001.png",
+      "category": "ui_frame",
+      "family": "greenhouse",
+      "rarity": "common",
+      "intended_use": "garden_plot_marker_subordinate_text_plate",
+      "width": 1536,
+      "height": 1024,
+      "status": "accepted",
+      "tags": [
+        "phase0_5",
+        "ui",
+        "plot-marker",
+        "text-plate",
+        "screen_moment:garden_plot_label",
+        "player_verb:read_plot_state",
+        "state_binding:plot.empty|plot.growing|plot.ready",
+        "text_safe_zone:center",
+        "must_not_obscure:seedbed_or_ready_ribbon"
+      ],
+      "notes": "Codex native raster PNG accepted only as a small subordinate label plate in GardenPlotCard. screen_moment=garden plot label; player_verb=read_plot_state; state_binding=all visible plot states; text_safe_zone=center; must_not_obscure=seedbed object, ready ribbon, primary action affordance."
     }
   }
 }

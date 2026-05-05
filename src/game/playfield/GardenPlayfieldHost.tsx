@@ -5,10 +5,18 @@ import type { GardenPlayfieldAction, GardenPlayfieldActionHandler, GardenPlayfie
 interface GardenPlayfieldHostProps {
   viewModel: GardenPlayfieldViewModel;
   playfieldAssets: ManifestAsset[];
+  plotMarkerAssets: GardenPlotMarkerAssets;
   onAction: GardenPlayfieldActionHandler;
 }
 
-export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: GardenPlayfieldHostProps) {
+interface GardenPlotMarkerAssets {
+  emptySeedbedPath: string;
+  growingSeedbedPath: string;
+  readyRibbonPath: string;
+  textPlatePath: string;
+}
+
+export function GardenPlayfieldHost({ viewModel, playfieldAssets, plotMarkerAssets, onAction }: GardenPlayfieldHostProps) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const gameRef = useRef<import("phaser").Game | null>(null);
   const sceneRef = useRef<import("./GardenScene").GardenScene | null>(null);
@@ -181,7 +189,13 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
       role="application"
     >
       <GardenBoardOverlay
+        markerAssets={plotMarkerAssets}
         onPlotAction={(plot, target) => {
+          if (plot.state === "empty") {
+            actionRef.current({ type: "select_plot", plotIndex: plot.index });
+            return;
+          }
+
           const actionType = plot.state === "ready" ? "harvest_plot" : "tap_growth";
           const targetRect = target.getBoundingClientRect();
           const hostRect = hostRef.current?.getBoundingClientRect();
@@ -214,9 +228,11 @@ export function GardenPlayfieldHost({ viewModel, playfieldAssets, onAction }: Ga
 }
 
 function GardenBoardOverlay({
+  markerAssets,
   onPlotAction,
   viewModel
 }: {
+  markerAssets: GardenPlotMarkerAssets;
   onPlotAction: (plot: GardenPlotView, target: HTMLButtonElement) => void;
   viewModel: GardenPlayfieldViewModel;
 }) {
@@ -239,7 +255,7 @@ function GardenBoardOverlay({
       {viewModel.productionScene ? <ProductionScene scene={viewModel.productionScene} /> : null}
       <div className="playfield-plot-row">
         {visiblePlots.map((plot) => (
-          <GardenPlotCard key={plot.index} onPlotAction={onPlotAction} plot={plot} />
+          <GardenPlotCard key={plot.index} markerAssets={markerAssets} onPlotAction={onPlotAction} plot={plot} />
         ))}
       </div>
     </div>
@@ -278,13 +294,16 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
 }
 
 function GardenPlotCard({
+  markerAssets,
   onPlotAction,
   plot
 }: {
+  markerAssets: GardenPlotMarkerAssets;
   onPlotAction: (plot: GardenPlotView, target: HTMLButtonElement) => void;
   plot: GardenPlotView;
 }) {
-  const disabled = plot.state === "empty" || plot.state === "locked";
+  const disabled = plot.state === "locked";
+  const seedbedPath = plot.state === "empty" ? markerAssets.emptySeedbedPath : markerAssets.growingSeedbedPath;
   const classes = [
     "playfield-plot-card",
     `plot-state-${plot.state}`,
@@ -295,21 +314,35 @@ function GardenPlotCard({
 
   return (
     <button
-      aria-label={`${plot.label} ${plot.state === "ready" ? "수확" : plot.state === "growing" ? "성장시키기" : "빈 자리"}`}
+      aria-label={`${plot.label} ${
+        plot.state === "ready" ? "수확" : plot.state === "growing" ? "성장시키기" : plot.emptyActionLabel ?? "빈 자리"
+      }`}
       className={classes}
       disabled={disabled}
       onClick={(event) => onPlotAction(plot, event.currentTarget)}
       type="button"
     >
+      {seedbedPath ? <img alt="" aria-hidden="true" className="playfield-plot-marker playfield-plot-marker-seedbed" src={seedbedPath} /> : null}
+      {plot.state === "ready" && markerAssets.readyRibbonPath ? (
+        <img alt="" aria-hidden="true" className="playfield-plot-marker playfield-plot-marker-ribbon" src={markerAssets.readyRibbonPath} />
+      ) : null}
+      {markerAssets.textPlatePath ? (
+        <img alt="" aria-hidden="true" className="playfield-plot-marker playfield-plot-marker-plate" src={markerAssets.textPlatePath} />
+      ) : null}
       <span className="playfield-plot-index">{plot.index + 1}</span>
       {plot.sourceAssetPath ? <img alt="" className="playfield-plot-source-icon" src={plot.sourceAssetPath} /> : null}
-      <strong>{plot.label}</strong>
-      {plot.sourceLabel ? <span className="playfield-plot-source-label">{plot.sourceLabel}</span> : null}
-      {plot.state === "empty" ? <span className="playfield-empty-plus">+</span> : null}
-      <span className="playfield-plot-state">
-        {plot.state === "ready" ? "수확!" : plot.state === "growing" ? `${Math.round(plot.progressPercent)}%` : "빈 자리"}
+      <span className="playfield-plot-label-stack">
+        <strong>{plot.label}</strong>
+        {plot.sourceLabel ? <span className="playfield-plot-source-label">{plot.sourceLabel}</span> : null}
+        {plot.state === "empty" ? <span className="playfield-empty-plus">+</span> : null}
+        <span className="playfield-plot-state">
+          {plot.state === "ready"
+            ? "수확"
+            : plot.state === "growing"
+              ? `${Math.round(plot.progressPercent)}%`
+              : plot.emptyActionLabel ?? "빈 자리"}
+        </span>
       </span>
-      <span className="playfield-plot-mound" />
     </button>
   );
 }

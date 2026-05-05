@@ -7,7 +7,7 @@ Generated at: 2026-05-05T23:02:37+09:00
 
 ## Current mission
 
-현재 작업은 사용자 승인된 다음 axis **`garden-respecting-hud-assets`**의 첫 implementation slice다. Codex Studio deliberation은 완료됐고, PR1 plot marker asset plan/prompt/preview gate에서 네 개의 Codex native raster 후보를 workspace PNG로 남겼다. 다음 authority checkpoint는 PR2에서 `GardenPlotCard` cream surface를 실제 raster plot marker composition으로 교체하고 Browser Use 또는 fallback screenshot evidence로 검증하는 것이다.
+현재 작업은 사용자 승인된 다음 axis **`garden-respecting-hud-assets`**의 PR2 runtime slice다. PR1 plot marker asset 후보는 PR #402로 main에 merge됐고, 이번 slice는 Issue #403에서 `GardenPlotCard`와 playfield host의 cream panel fill을 제거해 raster plot marker object가 정원 배경 위에 직접 놓이게 만든다.
 
 현재 evidence:
 
@@ -15,45 +15,44 @@ Generated at: 2026-05-05T23:02:37+09:00
 - Handoff: `docs/studio/HANDOFF.md`
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
-- Issue: #401
-- Draft PR: #402
-- Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`
+- Issue: #403
+- Draft PR: #404 — https://github.com/bborok1234/strange-seed-shop/pull/404
+- Previous PR: #402 merged
+- Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`, `items/0211-garden-plot-marker-runtime.md`
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
 - PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
+- PR2 Browser Use evidence: `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-plot-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-fresh-start-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-floor-placement-iab.png`
 - Heartbeat: `reports/operations/operator-heartbeat-20260505.jsonl`, `.omx/state/operator-heartbeat.json`
 - Operator prompt: `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`
-- Validation: skill validator pass, `npm run check:studio-deliberation-ralph-loop` pass, `npm run check:studio-v3-operator` pass, `npm run check:project-commands` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:asset-normalization` pass, `npm run check:asset-alpha` pass, `npm run check:p0-ui-ux` pass, `npm run check:art-share` 12 passed, `npm run build` pass
+- Validation: Browser Use `iab` screenshots pass, fresh-start marker click pass, `npm run check:art-share` 21 passed, focused mobile regression 8 passed, merchant follow-up targeted pass, merchant second-chapter targeted pass, targeted long mobile regression pass, `npm run check:ci` pass. Full `check:visual` attempt exposed the merchant regressions and was stopped after focused repair rather than rerun end-to-end.
 - Legacy closed-workunit mirror guard still references active issue #332 and active item `items/0168-merchant-followup-order.md` until the next GitHub-authoritative WorkUnit manifest refresh; this is compatibility evidence, not the current local axis.
 
 즉시 적용할 gate:
 
-1. PR2에서 `public/assets/manifest/assetManifest.json`에 accepted candidate만 등록한다.
-2. `src/game/playfield/GardenPlayfieldHost.tsx`와 `src/styles.css`에서 `GardenPlotCard`의 cream rectangle 시각 주도권을 plot marker object로 교체한다.
-3. DOM button, aria-label, click target, disabled empty state를 유지한다.
-4. desktop default, loaded ready plot, dock-expanded seeds tab, mobile 393x852 evidence를 남긴다.
-5. `ui_hud_plot_text_plate_001`은 panel-like 위험이 있으므로 small subordinate label plate로만 사용한다.
-6. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
-7. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용하고, 사용하지 않으면 plan에 이유를 남긴다.
+1. PR #404 required checks를 관찰하고 green이면 merge gate로 진행한다.
+2. PR body에는 Browser Use `iab` screenshots, `check:ci`, `check:art-share`, targeted long mobile regression evidence가 반영되어 있다.
+3. PR2 이후 다음 WorkUnit은 side dock/resource holder, next-action signpost, 또는 sprite-sheet creature actor motion 중 `garden-respecting-hud-assets`/P0.5 Creative Rescue의 다음 visual payoff를 plan-first로 고른다.
+4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
 
 ## Local state
 
-- Branch: main
-- Latest commit: 6407be1 studio handoff for Codex — USER_PREFERENCES + HANDOFF docs (#400)
-- Dirty files: present
+- Branch: codex/0211-garden-plot-marker-runtime
+- Latest commit: b7e306b 정원 첫 밭을 시작 가능한 움직이는 action node로 회복한다
+- Dirty files: PR URL evidence update only
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-05T23:02:37+09:00
-- Phase: garden-hud-plot-marker-pr1-preview
-- Issue: #401
-- PR: #402
-- Item: items/0210-garden-hud-plot-marker-assets.md
-- Next action: watch/repair draft PR #402 checks, then PR2 GardenPlotCard manifest/runtime visual replacement with screenshot evidence
+- Timestamp: 2026-05-05T15:18:13.960Z
+- Phase: garden-plot-marker-runtime-pr-checks
+- Issue: #403
+- PR: #404
+- Item: items/0211-garden-plot-marker-runtime.md
+- Next action: gate: watch PR #404 required checks and merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #404 — https://github.com/bborok1234/strange-seed-shop/pull/404 — draft, checks in progress
 
 ## Open issues
 

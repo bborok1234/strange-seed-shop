@@ -101,6 +101,64 @@ for (const viewport of DESKTOP_VIEWPORTS) {
     expect(dockBg).not.toBe(stageBg);
   });
 
+  test(`garden plot marker replaces cream playfield panel at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/?qaSpriteState=ready");
+    await expect(page.locator(".garden-playfield-host")).toBeVisible();
+    await expect(page.locator(".playfield-plot-marker").first()).toBeVisible();
+
+    const markerCount = await page.locator(".playfield-plot-marker").count();
+    expect(markerCount).toBeGreaterThanOrEqual(3);
+    const plotRect = await page.locator(".playfield-plot-card").first().boundingBox();
+    const stageRect = await page.locator(".garden-stage").boundingBox();
+    expect(plotRect).not.toBeNull();
+    expect(stageRect).not.toBeNull();
+    if (!plotRect || !stageRect) return;
+    const plotCenterY = plotRect.y + plotRect.height / 2;
+    const minFloorY = stageRect.y + stageRect.height * 0.34;
+    const maxActionSafeY = stageRect.y + stageRect.height * 0.72;
+    expect(plotCenterY, "plot marker should sit in the floor action area, not on the top shelf").toBeGreaterThan(minFloorY);
+    expect(plotCenterY, "plot marker should stay clear of the lower action panel").toBeLessThan(maxActionSafeY);
+    const seedbedAnimationName = await page
+      .locator(".playfield-plot-marker-seedbed")
+      .first()
+      .evaluate((element) => window.getComputedStyle(element).animationName);
+    expect(seedbedAnimationName).toContain("plotMarkerBreathe");
+
+    const markerSources = await page.locator(".playfield-plot-marker").evaluateAll((elements) =>
+      elements.map((element) => (element as HTMLImageElement).currentSrc || (element as HTMLImageElement).src)
+    );
+    expect(markerSources).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining("ui_hud_plot_seedbed_growing_001.png"),
+        expect.stringContaining("ui_hud_plot_ready_ribbon_001.png"),
+        expect.stringContaining("ui_hud_plot_text_plate_001.png")
+      ])
+    );
+
+    const surfaces = await page.locator(".garden-playfield-host, .playfield-board-overlay, .playfield-plot-card").evaluateAll((elements) =>
+      elements.map((element) => ({
+        className: element.className.toString(),
+        background: window.getComputedStyle(element).backgroundColor,
+        borderWidth: window.getComputedStyle(element).borderTopWidth
+      }))
+    );
+    for (const surface of surfaces) {
+      expect(surface.background, `${surface.className} must not restore the old cream playfield block`).toBe("rgba(0, 0, 0, 0)");
+    }
+    const plotSurface = surfaces.find((surface) => surface.className.includes("playfield-plot-card"));
+    expect(plotSurface?.borderWidth).toBe("0px");
+  });
+
+  test(`fresh garden starts from the plot marker at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/?qaReset=1");
+    const starterPlot = page.getByRole("button", { name: "말랑잎 씨앗 무료로 심기" });
+    await expect(starterPlot).toBeVisible();
+    await starterPlot.click();
+    await expect(page.getByRole("button", { name: "말랑잎 씨앗 성장시키기" })).toBeVisible();
+  });
+
   test(`plot card NOT covered by dev-panel/dock when seeds tab active at ${viewport.width}x${viewport.height}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/?qaHarvestReveal=1");
@@ -131,5 +189,19 @@ for (const viewport of DESKTOP_VIEWPORTS) {
           `User cannot see plot. Reposition garden-panel or make dev-panel narrower/transparent.`
       );
     }
+  });
+
+  test(`production actor has visible idle motion at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/?qaHarvestReveal=1");
+    const recordBtn = page.getByRole("button", { name: "도감에 기록하기" });
+    if ((await recordBtn.count()) > 0) {
+      await recordBtn.click();
+    }
+    await page.waitForTimeout(800);
+    const actor = page.locator(".playfield-production-actor img").first();
+    await expect(actor).toBeVisible();
+    const animationName = await actor.evaluate((element) => window.getComputedStyle(element).animationName);
+    expect(animationName).toContain("playfieldActorIdle");
   });
 }
