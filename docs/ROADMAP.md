@@ -350,6 +350,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
 - GitHub issue: #405
+- Draft PR: #406 — https://github.com/bborok1234/strange-seed-shop/pull/406
 - Previous PR: #404 merged — https://github.com/bborok1234/strange-seed-shop/pull/404
 - Plan artifact: `items/0212-creature-actor-motion-v0.md`
 - Deliberation artifacts: `reports/deliberation/garden-respecting-hud-assets/{brief.md,spec.md,user-review.md,retrospective.md}`
@@ -364,7 +365,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 적용할 gate:
 
-1. Issue #405 draft PR을 게시하고 required checks를 관찰한다.
-2. PR body에 Browser Use `iab`, `check:ci`, `check:art-share`, focused mobile actor regression evidence를 남긴다.
+1. PR #406 required checks를 관찰하고 green이면 merge gate로 진행한다.
+2. PR body에는 Browser Use `iab`, `check:ci`, `check:art-share`, focused mobile actor regression evidence가 반영되어 있다.
 3. PR green/merge 이후 다음 WorkUnit은 다른 creature 고유 actor strip 또는 richer interaction behavior를 plan-first로 고른다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.

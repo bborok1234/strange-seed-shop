@@ -3,6 +3,7 @@
 - ID: `0212`
 - Status: planning
 - GitHub issue: #405 — https://github.com/bborok1234/strange-seed-shop/issues/405
+- Draft PR: #406 — https://github.com/bborok1234/strange-seed-shop/pull/406
 - Source WorkUnit: `items/0211-garden-plot-marker-runtime.md`
 - Source PR: #404
 - Game Studio route: `game-studio:game-studio` -> `game-studio:sprite-pipeline` -> `game-studio:phaser-2d-game` -> `game-studio:game-playtest`

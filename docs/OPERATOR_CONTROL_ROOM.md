@@ -16,6 +16,7 @@ Generated at: 2026-05-05T23:02:37+09:00
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
 - Issue: #405
+- Draft PR: #406 — https://github.com/bborok1234/strange-seed-shop/pull/406
 - Previous PR: #404 merged — https://github.com/bborok1234/strange-seed-shop/pull/404
 - Plan artifact: `items/0212-creature-actor-motion-v0.md`
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
@@ -48,11 +49,11 @@ Generated at: 2026-05-05T23:02:37+09:00
 - Issue: #405
 - PR: pending
 - Item: items/0212-creature-actor-motion-v0.md
-- Next action: gate: publish #405 draft PR and watch required checks
+- Next action: gate: watch PR #406 required checks and merge when green
 
 ## Open PRs
 
-- none
+- #406 — https://github.com/bborok1234/strange-seed-shop/pull/406 — draft, checks pending
 
 ## Open issues
 
