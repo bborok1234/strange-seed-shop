@@ -2178,7 +2178,10 @@ export default function App() {
 
   return (
     <main className={showDebugPanel ? "app-shell debug-shell" : "app-shell playable-focus"}>
-      <div className="desktop-shell">
+      <div
+        className="desktop-shell"
+        data-dock-expanded={isDesktopLayout && isPlayerTabScreen ? "true" : "false"}
+      >
       <section
         className={["garden-stage", isPlayerTabScreen ? "has-player-tab" : "", showDebugPanel ? "debug-mode" : ""]
           .concat(stageHeroCreature ? ["has-creature-stage"] : [])
