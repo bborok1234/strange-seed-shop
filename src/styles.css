@@ -31,9 +31,15 @@
   --radius-hero: 24px;
   --radius-panel-desktop: 16px;
   /* color — desktop region 전용 surfaces + sun accent */
-  --color-surface-dock: #fffbe9;
+  /* PR1: stage-art-first Cycle A — dock 배경을 stage cream과 luminance contrast ≥ 3:1로 분리.
+     기존 #fffbe9는 stage cream과 거의 동일해 invisible separation이었음 (Cycle 1 §4 위반). */
+  --color-surface-dock: #f6ebcf;
   --color-surface-rail: rgba(31, 59, 43, 0.78);
   --color-accent-sun: #f4c75a;
+  /* alpha-aware decal overlays — stage 위에 art가 비치는 floating panel 전용.
+     Cycle A PR2에서 .garden-panel의 cream rectangle 패러다임 폐기 시 사용. */
+  --color-surface-decal-warm: rgba(255, 251, 233, 0.62);
+  --color-surface-decal-veil: rgba(31, 59, 43, 0.38);
   /* elevation */
   --elevation-dock-raised: 0 8px 20px rgba(35, 58, 43, 0.10);
   --elevation-dramatic: 0 24px 60px rgba(35, 58, 43, 0.22);
@@ -53,6 +59,8 @@
   --motion-gesture-chapter: var(--motion-duration-chapter) var(--motion-easing-entrance);
   --motion-gesture-celebrate: var(--motion-duration-celebrate) var(--motion-easing-emphasized);
   --motion-gesture-ambient: var(--motion-duration-swift) var(--motion-easing-standard);
+  /* PR1: stage-art-first Cycle A — overlay 자리 앉기·decal sleep 등 art 위 호흡 motion */
+  --motion-gesture-settle: var(--motion-duration-swift) var(--motion-easing-emphasized);
 
   --mobile-nav-height: calc(64px + env(safe-area-inset-bottom));
   color: var(--text-primary);
