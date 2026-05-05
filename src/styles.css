@@ -7725,16 +7725,64 @@ h1 {
   }
 }
 
-/* desktop-ui-redesign Cycle 1 PR1 — desktop scaffolding + RailNav placeholder */
+/* desktop-ui-redesign Cycle 1 PR1+PR2 — desktop scaffolding + RailNav + SideDock */
 @media (min-width: 1280px) {
   .desktop-shell {
     display: grid;
-    grid-template-columns: clamp(180px, 14vw, 220px) minmax(0, 1fr);
-    grid-template-areas: "rail stage";
+    grid-template-columns: clamp(180px, 14vw, 220px) minmax(0, 1fr) clamp(280px, 22vw, 360px);
+    grid-template-areas: "rail stage dock";
   }
 
   .garden-stage {
     grid-area: stage;
+  }
+
+  .side-dock {
+    grid-area: dock;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--spacing-2xl) var(--space-4);
+    background: var(--color-surface-dock);
+    overflow-y: auto;
+  }
+
+  .side-dock-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-panel-desktop);
+    background: var(--surface-panel);
+    box-shadow: var(--elevation-dock-raised);
+  }
+
+  .side-dock-card .currency-cluster {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  .side-dock-card .currency-cluster span {
+    min-width: 0;
+  }
+
+  .side-dock-card strong {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  .side-dock-card span {
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  /* dock에 currency·next-action 노출되므로 top-bar redundancy 제거 */
+  .top-bar .objective-chip,
+  .top-bar .currency-cluster {
+    display: none;
   }
 
   .bottom-tabs.is-desktop-rail {

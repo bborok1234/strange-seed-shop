@@ -2869,6 +2869,34 @@ export default function App() {
         </section>
       </section>
 
+        {isDesktopLayout && save && (
+          <aside className="side-dock" aria-label="정원 사이드 정보">
+            <article className="side-dock-card" aria-label="자원">
+              <p className="panel-label">자원</p>
+              <div className={rewardPulse ? "currency-cluster reward-pop" : "currency-cluster"}>
+                <span>잎 {save.leaves}</span>
+                <span>꽃가루 {save.pollen}</span>
+                <span>재료 {save.materials}</span>
+              </div>
+            </article>
+            <article className="side-dock-card side-dock-next-action" aria-label="다음 행동">
+              <p className="panel-label">다음 행동</p>
+              <strong>{nextAction.title}</strong>
+            </article>
+            {save.activeExpedition && activeExpeditionDefinition && (
+              <article className="side-dock-card" aria-label="진행 중 원정">
+                <p className="panel-label">원정 진행</p>
+                <strong>{activeExpeditionDefinition.name}</strong>
+                <span>{expeditionReady ? "완료 — 회수 가능" : "진행 중"}</span>
+              </article>
+            )}
+            <article className="side-dock-card" aria-label="도감 진행">
+              <p className="panel-label">도감</p>
+              <strong>{albumDiscoveredCount}/{content.creatures.length}</strong>
+            </article>
+          </aside>
+        )}
+
         {showSidePanel && (
           <section
             className={["dev-panel", showDebugPanel ? "debug-panel" : "player-panel", `tab-${activeTab}`]
