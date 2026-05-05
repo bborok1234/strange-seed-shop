@@ -7,7 +7,7 @@ Generated at: 2026-05-05T23:02:37+09:00
 
 ## Current mission
 
-현재 작업은 사용자 승인된 다음 axis **`garden-respecting-hud-assets`**의 PR2 runtime slice다. PR1 plot marker asset 후보는 PR #402로 main에 merge됐고, 이번 slice는 Issue #403에서 `GardenPlotCard`와 playfield host의 cream panel fill을 제거해 raster plot marker object가 정원 배경 위에 직접 놓이게 만든다.
+현재 작업은 #404 merge/main CI 이후 사용자 지적의 다음 미해결 축인 **creature actor motion v0**다. #404는 밭 marker 위치, fresh-start deadlock, safe-zone text, first-pass idle motion을 닫았고, 새 Issue #405는 첫 발견 creature가 도감 이미지가 아니라 playfield에서 frame animation actor로 보이게 하는 slice다.
 
 현재 evidence:
 
@@ -15,13 +15,12 @@ Generated at: 2026-05-05T23:02:37+09:00
 - Handoff: `docs/studio/HANDOFF.md`
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
-- Issue: #403
-- Draft PR: #404 — https://github.com/bborok1234/strange-seed-shop/pull/404
-- Previous PR: #402 merged
-- Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`, `items/0211-garden-plot-marker-runtime.md`
+- Issue: #405
+- Previous PR: #404 merged — https://github.com/bborok1234/strange-seed-shop/pull/404
+- Plan artifact: `items/0212-creature-actor-motion-v0.md`
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
 - PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
-- PR2 Browser Use evidence: `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-plot-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-fresh-start-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-floor-placement-iab.png`
+- Prior Browser Use evidence: `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-plot-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-fresh-start-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-floor-placement-iab.png`
 - Heartbeat: `reports/operations/operator-heartbeat-20260505.jsonl`, `.omx/state/operator-heartbeat.json`
 - Operator prompt: `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`
 - Validation: Browser Use `iab` screenshots pass, fresh-start marker click pass, `npm run check:art-share` 21 passed, focused mobile regression 8 passed, merchant follow-up targeted pass, merchant second-chapter targeted pass, targeted long mobile regression pass, `npm run check:ci` pass. Full `check:visual` attempt exposed the merchant regressions and was stopped after focused repair rather than rerun end-to-end.
@@ -29,34 +28,34 @@ Generated at: 2026-05-05T23:02:37+09:00
 
 즉시 적용할 gate:
 
-1. PR #404 required checks를 관찰하고 green이면 merge gate로 진행한다.
-2. PR body에는 Browser Use `iab` screenshots, `check:ci`, `check:art-share`, targeted long mobile regression evidence가 반영되어 있다.
-3. PR2 이후 다음 WorkUnit은 side dock/resource holder, next-action signpost, 또는 sprite-sheet creature actor motion 중 `garden-respecting-hud-assets`/P0.5 Creative Rescue의 다음 visual payoff를 plan-first로 고른다.
+1. Issue #405 전용 branch에서 current creature actor/runtime/manifest 경계를 읽는다.
+2. 첫 대상 creature와 animation asset strategy를 고정한다: sprite-strip generation이 가능하면 provenance를 남기고, 막히면 accepted raster frame-state fallback blocker를 명시한다.
+3. Browser Use `iab`와 focused visual regression으로 desktop/mobile actor motion, playfield obstruction, bottom panel overlap을 검증한다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
 
 ## Local state
 
-- Branch: codex/0211-garden-plot-marker-runtime
-- Latest commit: b7e306b 정원 첫 밭을 시작 가능한 움직이는 action node로 회복한다
-- Dirty files: PR URL evidence update only
+- Branch: codex/0212-creature-actor-motion-v0
+- Latest main commit: 039ec17 정원 첫 밭을 시작 가능한 action node로 회복한다
+- Dirty files: #405 plan-first evidence only
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
 - Timestamp: 2026-05-05T15:18:13.960Z
-- Phase: garden-plot-marker-runtime-pr-checks
-- Issue: #403
-- PR: #404
-- Item: items/0211-garden-plot-marker-runtime.md
-- Next action: gate: watch PR #404 required checks and merge when green
+- Phase: creature-actor-motion-planning
+- Issue: #405
+- PR: pending
+- Item: items/0212-creature-actor-motion-v0.md
+- Next action: inspect current creature actor/runtime/manifest boundary and choose sprite/FX strategy
 
 ## Open PRs
 
-- #404 — https://github.com/bborok1234/strange-seed-shop/pull/404 — draft, checks in progress
+- none
 
 ## Open issues
 
-- unavailable or none
+- #405 — https://github.com/bborok1234/strange-seed-shop/issues/405 — planning
 
 ## Playable mode
 
