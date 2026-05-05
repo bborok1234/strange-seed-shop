@@ -7809,3 +7809,41 @@ h1 {
     background: var(--color-accent-sun);
   }
 }
+
+/* desktop-ui-redesign Cycle 1 PR3 — dock 가변 확장 + 4 surface slot 통합 */
+@media (min-width: 1280px) {
+  .desktop-shell {
+    transition: grid-template-columns var(--motion-gesture-reveal);
+  }
+
+  .desktop-shell[data-dock-expanded="true"] {
+    grid-template-columns: clamp(180px, 14vw, 220px) minmax(0, 1fr) clamp(420px, 35vw, 560px);
+  }
+
+  .desktop-shell[data-dock-expanded="true"] .side-dock {
+    display: none;
+  }
+
+  /* dev-panel을 dock 영역으로 격상 — 기존 absolute 좌표 무효화 */
+  .desktop-shell[data-dock-expanded="true"] .dev-panel {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: clamp(420px, 35vw, 560px);
+    height: 100%;
+    min-width: 0;
+    max-width: none;
+    background: var(--color-surface-dock);
+    box-shadow: var(--elevation-dock-raised);
+    backdrop-filter: none;
+    border-left: 1px solid var(--border-subtle);
+  }
+
+  /* dock 확장 시 stage 우측 dev-panel float이 자연스럽게 dock 위치로 align */
+  .desktop-shell[data-dock-expanded="false"] .dev-panel {
+    /* default desktop: dev-panel 미사용 (Garden 모드 = 4 cluster only) */
+    /* 단 isPlayerTabScreen=false인데 showDebugPanel=true 또는 manifestError 케이스에서는 dev-panel이 mount됨 */
+    /* 그 경우 stage 우상단 floating으로 노출 — debug surface임을 시각화 */
+  }
+}
