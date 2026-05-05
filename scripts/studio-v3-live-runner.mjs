@@ -54,8 +54,8 @@ function normalizeLabels(labels = []) {
 }
 
 function snapshotFromGitHub() {
-  const openIssues = runJson("gh", ["issue", "list", "--state", "open", "--limit", "30", "--json", "number,title,url,updatedAt,labels"], []);
-  const openPrs = runJson("gh", ["pr", "list", "--state", "open", "--limit", "30", "--json", "number,title,url,isDraft,headRefName,updatedAt,statusCheckRollup"], []);
+  const openIssues = runJson("gh", ["issue", "list", "--state", "open", "--limit", "30", "--json", "number,title,url,updatedAt,labels,body"], []);
+  const openPrs = runJson("gh", ["pr", "list", "--state", "open", "--limit", "30", "--json", "number,title,url,isDraft,headRefName,updatedAt,statusCheckRollup,body"], []);
   const mainRuns = runJson("gh", ["run", "list", "--branch", "main", "--limit", "10", "--json", "databaseId,name,status,conclusion,workflowName,headSha,url,createdAt"], []);
   const mainCommit = run("git", ["rev-parse", "origin/main"], run("git", ["rev-parse", "main"], "unknown"));
   return { openIssues, openPrs, mainRuns, mainCommit };
@@ -130,6 +130,30 @@ function classifyNextAction(snapshot) {
     reason: "GitHub queue empty is not a stop condition",
     next_action: "Intake gate: create a production game quality WorkUnit from P0.5 Idle Core + Creative Rescue"
   };
+}
+
+function itemPathFromText(text = "") {
+  const match = String(text).match(/items\/[A-Za-z0-9._-]+\.md/);
+  return match?.[0] ?? "";
+}
+
+function inferHeartbeatItem(snapshot, action) {
+  const targetNumber = action?.target?.match(/#(\d+)/)?.[1] ?? "";
+  const openPrs = snapshot.openPrs ?? [];
+  const openIssues = snapshot.openIssues ?? [];
+  const candidates = [
+    ...openPrs.filter((pr) => !targetNumber || String(pr.number) === targetNumber),
+    ...openIssues.filter((issue) => !targetNumber || String(issue.number) === targetNumber),
+    ...openPrs,
+    ...openIssues
+  ];
+
+  for (const candidate of candidates) {
+    const itemPath = itemPathFromText(candidate.body);
+    if (itemPath) return itemPath;
+  }
+
+  return "";
 }
 
 function makeState({ runnerId, iteration, dryRun, allowCreateIssue, snapshot, action, startedAt }) {
@@ -288,7 +312,7 @@ while (true) {
   const createdIssue = maybeCreateIntakeIssue(latestState, dryRun, allowCreateIssue);
   if (createdIssue) latestState.created_issue = createdIssue;
   writeStateAndReport(latestState, statePath, reportPath);
-  writeHeartbeat(latestState, { issue: heartbeatIssue, pr: heartbeatPr, item: heartbeatItem, reportPath });
+  writeHeartbeat(latestState, { issue: heartbeatIssue, pr: heartbeatPr, item: heartbeatItem || inferHeartbeatItem(snapshot, action), reportPath });
 
   if (once || (maxIterations > 0 && iteration >= maxIterations)) break;
   if (durationHours > 0 && Date.now() - startedMs >= durationHours * 60 * 60 * 1000) break;

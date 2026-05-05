@@ -47,6 +47,8 @@ requirePhrases("scripts/studio-v3-operator.mjs", [
   "Studio Harness v3 foreground operator entrypoint",
   "This does not call or route through $seed-ops",
   "seed_ops_entrypoint: false",
+  "detectLimitInStream",
+  "stdout prompt echo does not trigger limit",
   "Browser Use Node REPL MCP",
   "codex mcp add node_repl",
   "plan-first",
@@ -54,6 +56,17 @@ requirePhrases("scripts/studio-v3-operator.mjs", [
   "GitHub checks",
   "merge",
   "main CI observation"
+]);
+
+requirePhrases(".codex/skills/studio-operate/SKILL.md", [
+  "Codex In-Session Operator",
+  "Do not claim prompt-side `$ralph` is a live long runner",
+  "Browser Use `iab` first",
+  "do not execute or stop a substantive implementation slice as local-only",
+  "create/promote the matching GitHub issue",
+  "create/update a draft PR",
+  "items/0210-garden-hud-plot-marker-assets.md",
+  "npm run check:studio-v3-operator"
 ]);
 
 requirePhrases("docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md", [
@@ -98,6 +111,11 @@ const reportPath = path.join(tempDir, "report.md");
 const help = runNode(["scripts/studio-v3-operator.mjs", "--help"]);
 for (const phrase of ["npm run studio:v3:operate", "$seed-ops is not the v3", "--detached", "--doctor"]) {
   if (!help.includes(phrase)) failures.push(`help output missing phrase: ${phrase}`);
+}
+
+const limitSelfTest = runNode(["scripts/studio-v3-operator.mjs", "--self-test-limit-detection"]);
+for (const phrase of ["stdout prompt echo does not trigger limit", "stderr usage limit still triggers limit", "\"ok\": true"]) {
+  if (!limitSelfTest.includes(phrase)) failures.push(`limit self-test missing phrase: ${phrase}`);
 }
 
 const doctor = runNode([

@@ -3,54 +3,53 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-04T08:13:06.380Z
+Generated at: 2026-05-05T23:02:37+09:00
 
 ## Current mission
 
-현재 작업은 GitHub-authoritative open WorkUnit #332 **포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
+현재 작업은 사용자 승인된 다음 axis **`garden-respecting-hud-assets`**의 첫 implementation slice다. Codex Studio deliberation은 완료됐고, PR1 plot marker asset plan/prompt/preview gate에서 네 개의 Codex native raster 후보를 workspace PNG로 남겼다. 다음 authority checkpoint는 PR2에서 `GardenPlotCard` cream surface를 실제 raster plot marker composition으로 교체하고 Browser Use 또는 fallback screenshot evidence로 검증하는 것이다.
 
 현재 evidence:
 
-- GitHub issue: #332 `포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다`
-- Plan artifact: `items/0168-merchant-followup-order.md`
-- Branch: `codex/0332-merchant-followup-order`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-followup-order-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-332-merchant-followup-order-20260503.md`
-- GateEvent: `reports/operations/gate-event-0332-merchant-followup-order-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0332-20260503.md`
-- Screenshot: `reports/visual/issue-332-merchant-followup-order-393.png`
-- Implementation: `src/App.tsx`, `src/game/playfield/types.ts`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Validation: `npm run build` pass, focused Playwright 1 passed + 2 passed, `npm run check:visual` 69 passed, `npm run check:ci` pass
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing order crate asset + DOM/CSS merchant follow-up/delivered state + reward motion
-- Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `상인 주문상자 보상을 받은 뒤 단골 납품 주문을 채워 보내기`
-- Concrete payoff: `포장잎 상인 단골 납품`, `0/18 → 18/18`, `상인 단골 납품 +54 잎 · +2 꽃가루 · +1 재료`, playfield `merchant-delivered`, bottom-tab/overflow-safe 393px screenshot
+- User decision: `Cycle A OK / 다음 axis는 garden-respecting-hud-assets`
+- Handoff: `docs/studio/HANDOFF.md`
+- User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
+- Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
+- Issue: #401
+- Draft PR: #402
+- Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`
+- PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
+- PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
+- Heartbeat: `reports/operations/operator-heartbeat-20260505.jsonl`, `.omx/state/operator-heartbeat.json`
+- Operator prompt: `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`
+- Validation: skill validator pass, `npm run check:studio-deliberation-ralph-loop` pass, `npm run check:studio-v3-operator` pass, `npm run check:project-commands` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:asset-normalization` pass, `npm run check:asset-alpha` pass, `npm run check:p0-ui-ux` pass, `npm run check:art-share` 12 passed, `npm run build` pass
+- Legacy closed-workunit mirror guard still references active issue #332 and active item `items/0168-merchant-followup-order.md` until the next GitHub-authoritative WorkUnit manifest refresh; this is compatibility evidence, not the current local axis.
 
 즉시 적용할 gate:
 
-1. `gh issue edit 332 --body-file reports/operations/github-bodies/issue-merchant-followup-order-20260503.md`.
-2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-332-merchant-followup-order-20260503.md`.
-3. GateEvent comment body-file publication, PR checks watch/repair, ready/merge when green.
-4. Post-merge main CI는 observation-only로 기록한다. 닫힌 PR/issue에 누락 evidence backfill을 위한 main closeout commit은 만들지 않는다.
-5. Stop rule이 없으므로 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
-6. Studio Campaign Gate: 다음 게임 WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
-7. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용한다.
+1. PR2에서 `public/assets/manifest/assetManifest.json`에 accepted candidate만 등록한다.
+2. `src/game/playfield/GardenPlayfieldHost.tsx`와 `src/styles.css`에서 `GardenPlotCard`의 cream rectangle 시각 주도권을 plot marker object로 교체한다.
+3. DOM button, aria-label, click target, disabled empty state를 유지한다.
+4. desktop default, loaded ready plot, dock-expanded seeds tab, mobile 393x852 evidence를 남긴다.
+5. `ui_hud_plot_text_plate_001`은 panel-like 위험이 있으므로 small subordinate label plate로만 사용한다.
+6. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+7. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용하고, 사용하지 않으면 plan에 이유를 남긴다.
 
 ## Local state
 
-- Branch: codex/0193-album-milestone-progress-hint
-- Latest commit: b6bd4c4 album_1/2/3 reward claim 직후 1.8s "도감 마일스톤 +X 잎" reveal motion을 표시한다 (#378) (#379)
+- Branch: main
+- Latest commit: 6407be1 studio handoff for Codex — USER_PREFERENCES + HANDOFF docs (#400)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-04T12:00:00.000Z
-- Phase: issue-380-implementation
-- Issue: 380
-- PR: 
-- Item: items/0193-album-milestone-progress-hint.md
-- Next action: publication gate: push branch, open PR for #380, watch checks, merge when green.
+- Timestamp: 2026-05-05T23:02:37+09:00
+- Phase: garden-hud-plot-marker-pr1-preview
+- Issue: #401
+- PR: #402
+- Item: items/0210-garden-hud-plot-marker-assets.md
+- Next action: watch/repair draft PR #402 checks, then PR2 GardenPlotCard manifest/runtime visual replacement with screenshot evidence
 
 ## Open PRs
 
@@ -58,7 +57,7 @@ Generated at: 2026-05-04T08:13:06.380Z
 
 ## Open issues
 
-- #380 P0.5 진행도 카드의 album_2/album_3 milestone에 progress 카운트(X/Y)를 인라인 표시한다 — https://github.com/bborok1234/strange-seed-shop/issues/380
+- unavailable or none
 
 ## Playable mode
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Studio Deliberate"
+  short_description: "Run studio deliberation from repo truth"
+  default_prompt: "Use $studio-deliberate to run a Codex-native studio deliberation for the selected axis."

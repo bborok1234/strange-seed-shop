@@ -53,6 +53,7 @@ The first asset-production workflow is stored under `.codex/skills/`.
 | `seed-design` | `$seed-design`: design/product/operator conversation mode |
 | `seed-qa` | `$seed-qa`: practical browser/visual QA mode |
 | `seed-play` | `$seed-play`: prepare the playable main worktree/port |
+| `studio-deliberate` | `$studio-deliberate`: Codex-native adapter for `docs/studio/DELIBERATION_WORKFLOW.md` with repo-native persona/proposal/critique/spec artifacts |
 
 ## Current Product Summary
 

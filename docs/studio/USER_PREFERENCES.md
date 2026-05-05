@@ -78,6 +78,18 @@ emoji 사용 금지 (사용자 명시 요청 외). 보고는 짧고 직설적. c
 
 ---
 
+## P8 — Standing delegation for autonomous studio loops (NEW from 2026-05-05)
+
+사용자가 axis 또는 운영 방향을 명시 선택한 뒤 "사용자의 개입 없이도 studio가 돌아가게" 요청하면, Codex/Studio Harness v3 foreground loop는 그 선택 범위 안에서 deliberation → Director synthesis → plan-first implementation 준비를 계속 진행한다. 단, 이건 Director의 자기 승인권이 아니라 **사용자 메시지나 repo-native approval ledger에 근거한 standing delegation**이다.
+
+**How to apply:**
+- axis 선택·Cycle 종료 OK·자동 운영 요청은 `docs/studio/HANDOFF.md`, `reports/operations/operator-heartbeat-*.jsonl`, 또는 `reports/deliberation/<axis>/user-review.md`에 근거와 범위를 남긴다.
+- 새 spec이 destructive/credential/payment/external-production/customer-data boundary를 건드리면 standing delegation을 적용하지 않고 stop rule로 전환한다.
+- visible gameplay cycle close는 evidence package와 user approval source를 분리해 기록한다. 사용자가 직접 OK한 Cycle A처럼 source가 명확하면 `userApproved: true`로 전환한다.
+- 승인 source가 없으면 final로 묻기 위해 멈추지 말고, pending review heartbeat를 남긴 뒤 안전한 local continuation(brief, checker, evidence, next plan)을 계속한다.
+
+---
+
 ## How harness should consume this
 
 - **Claude Code:** auto-loaded via `~/.claude/projects/.../memory/MEMORY.md` index. Mirror here for Codex.

@@ -2,8 +2,8 @@
   "source_prompts": "assets/source/asset_prompts.json",
   "generated_at": "2026-05-04",
   "generation_mode": "hybrid_codex_native_and_openai_images_api",
-  "total": 33,
-  "completed": 33,
+  "total": 37,
+  "completed": 37,
   "missing": [],
   "blocked": false,
   "notes": [
@@ -48,7 +48,11 @@
     "public/assets/game/fx/fx_production_tick_leaf_001_strip.png",
     "public/assets/game/fx/fx_order_delivery_burst_001_strip.png",
     "public/assets/game/seeds/seed_lunar_001_greenhouse_source_icon.png",
-    "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png"
+    "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+    "public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png",
+    "public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png",
+    "public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png",
+    "public/assets/game/ui/ui_hud_plot_text_plate_001.png"
   ],
   "batches": {
     "p0_5_core_asset_generation_first_pass": {
@@ -146,6 +150,69 @@
         "Requires OPENAI_API_KEY for gpt-image-1 (gpt-image-2 unavailable on current org).",
         "FX output must be a 4-frame strip with manifest animation.binding.",
         "Art-team OpenAI Images API lever verified end-to-end on 2026-05-04 via #340 (gpt-image-1 produced an accepted_manifest_asset PNG for the seed icon)."
+      ]
+    },
+    "garden_hud_plot_marker_asset_plan_20260505": {
+      "generated_at": "2026-05-05T22:56:14+09:00",
+      "total": 4,
+      "completed": 4,
+      "missing": [],
+      "blocked": false,
+      "runtime_generation_allowed": false,
+      "completed_assets": [
+        {
+          "asset_id": "ui_hud_plot_seedbed_empty_001",
+          "output_path": "public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png",
+          "source_cache_path": "/Users/mirlim/.codex/generated_images/019df866-ee92-7880-be6f-3441c94a474e/ig_024c198571d478510169f9f65a80f4819185a07a247112203e.png",
+          "status": "candidate_preview_pending_manifest",
+          "width": 1536,
+          "height": 1024,
+          "provider": "codex_native_image_generation",
+          "model": "codex_native_image_generation",
+          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"],
+          "notes": "Empty plot seedbed marker candidate. Strong object silhouette and broad center safe zone; manifest acceptance deferred to PR2 screen composition."
+        },
+        {
+          "asset_id": "ui_hud_plot_seedbed_growing_001",
+          "output_path": "public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png",
+          "source_cache_path": "/Users/mirlim/.codex/generated_images/019df866-ee92-7880-be6f-3441c94a474e/ig_024c198571d478510169f9f68f0f688191bb7f41b560eb5aa3.png",
+          "status": "candidate_preview_pending_manifest",
+          "width": 1536,
+          "height": 1024,
+          "provider": "codex_native_image_generation",
+          "model": "codex_native_image_generation",
+          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"],
+          "notes": "Growing plot seedbed marker candidate. Sprout and planted mound read clearly; manifest acceptance deferred to PR2 screen composition."
+        },
+        {
+          "asset_id": "ui_hud_plot_ready_ribbon_001",
+          "output_path": "public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png",
+          "source_cache_path": "/Users/mirlim/.codex/generated_images/019df866-ee92-7880-be6f-3441c94a474e/ig_024c198571d478510169f9f6b63a8881919f94fc8e6afe590f.png",
+          "status": "candidate_preview_pending_manifest",
+          "width": 1536,
+          "height": 1024,
+          "provider": "codex_native_image_generation",
+          "model": "codex_native_image_generation",
+          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"],
+          "notes": "Ready ribbon candidate. Harvest affordance is visually strong; PR2 must scale/crop so it does not dominate plot label or bottom tabs."
+        },
+        {
+          "asset_id": "ui_hud_plot_text_plate_001",
+          "output_path": "public/assets/game/ui/ui_hud_plot_text_plate_001.png",
+          "source_cache_path": "/Users/mirlim/.codex/generated_images/019df866-ee92-7880-be6f-3441c94a474e/ig_024c198571d478510169f9f6d984488191b2b28570f327c48b.png",
+          "status": "candidate_preview_pending_manifest",
+          "width": 1536,
+          "height": 1024,
+          "provider": "codex_native_image_generation",
+          "model": "codex_native_image_generation",
+          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"],
+          "notes": "Text-safe plate candidate. Strong readability but could feel panel-like if used too large; PR2 should keep it subordinate to seedbed/ribbon."
+        }
+      ],
+      "notes": [
+        "Codex native image generation used one asset at a time.",
+        "Generated cache files were copied into workspace output_path files and original cache files were left in place.",
+        "This is a PR1 preview candidate set, not manifest acceptance. PR2 must reject or crop assets if GardenPlotCard still reads as cream/panel UI."
       ]
     }
   }

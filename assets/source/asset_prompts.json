@@ -427,6 +427,82 @@
       "width": 640,
       "height": 160,
       "notes": "No new raster file generated in this run because OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL are missing. This prompt documents the accepted fallback binding to the existing Codex native raster FX strip."
+    },
+    {
+      "asset_id": "ui_hud_plot_seedbed_empty_001",
+      "output_path": "public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png",
+      "prompt": "Use case: raster PNG HUD marker for a mobile idle browser game.\nAsset type: transparent UI frame / plot marker object, no text.\nPrimary request: Create ui_hud_plot_seedbed_empty_001, an empty garden plot seedbed marker that replaces a cream DOM card with a low diegetic garden object.\nSubject: A small rounded soil seedbed with a low wooden plant tag silhouette, tiny herb leaves at the edges, and an open center text-safe area. It should read as a tappable place to plant a seed, not as a rectangular app card.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp mobile-readable silhouette, subtle painterly texture, clean edges, transparent PNG asset.\nComposition/framing: Centered horizontal marker with generous padding, transparent background, broad center safe zone for Korean DOM text, decorative detail only around the perimeter.\nColor palette: warm soil browns, fresh herb greens, cream highlights, deep greenhouse teal accents, warm leaf yellow edge accents.\nConstraints: No readable text, no letters, no numbers, no logo, no watermark, no thick opaque rectangle, no busy background, no runtime image generation dependency. Keep alpha edges clean for overlay on garden art.\nAvoid: dashboard card frames, paper note UI, brand symbols, photorealistic dirt, clutter under the label area, SVG/vector/code-native style.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "transparent or alpha-ready background",
+        "reads as an empty seedbed object at 96px and 160px",
+        "large center text-safe zone is visually plain",
+        "no text, watermark, logo, or rectangular cream card silhouette",
+        "screen_moment=fresh_garden; player_verb=plant_seed; state_binding=plot.state=empty; must_not_obscure=stage_art"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "fresh_garden",
+      "player_verb": "plant_seed",
+      "state_binding": "plot.state=empty",
+      "text_safe_zone": "center inset 18%, top plate area clear for DOM label/progress",
+      "must_not_obscure": "stage_art, bottom_tabs, plot click target"
+    },
+    {
+      "asset_id": "ui_hud_plot_seedbed_growing_001",
+      "output_path": "public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png",
+      "prompt": "Use case: raster PNG HUD marker for a mobile idle browser game.\nAsset type: transparent UI frame / growing plot marker object, no text.\nPrimary request: Create ui_hud_plot_seedbed_growing_001, a growing garden plot seedbed marker that makes the DOM plot button read as a planted, tappable garden object.\nSubject: A rounded soil mound with a tiny sprout and subtle growth grooves, low wooden marker edges, small dew highlights, and a broad center text-safe area for DOM label/progress. It should invite tap_growth without covering the garden stage.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp mobile-readable silhouette, subtle painterly texture, clean edges, transparent PNG asset.\nComposition/framing: Centered horizontal marker, transparent background, generous padding, plain text-safe center/lower area, details at corners and mound edges only.\nColor palette: fresh herb greens, warm soil browns, soft cream highlights, muted greenhouse teal, small dew blue accent.\nConstraints: No readable text, no letters, no numbers, no logo, no watermark, no opaque cream card, no busy background. Keep alpha edges clean for overlay on garden art.\nAvoid: dashboard panels, photorealistic dirt, large leaf covering text, heavy shadow, clutter under progress text, SVG/vector/code-native style.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "transparent or alpha-ready background",
+        "reads as a growing tappable seedbed object at 96px and 160px",
+        "plain center/lower safe zone supports DOM progress text",
+        "no text, watermark, logo, or rectangular cream card silhouette",
+        "screen_moment=growing_plot; player_verb=tap_growth; state_binding=plot.state=growing; must_not_obscure=progress label"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "growing_plot",
+      "player_verb": "tap_growth",
+      "state_binding": "plot.state=growing",
+      "text_safe_zone": "center inset 18%, lower mound clear, no details under progress text",
+      "must_not_obscure": "stage_art, seed/source icon, progress label"
+    },
+    {
+      "asset_id": "ui_hud_plot_ready_ribbon_001",
+      "output_path": "public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png",
+      "prompt": "Use case: raster PNG HUD affordance for a mobile idle browser game.\nAsset type: transparent UI frame / ready harvest ribbon, no text.\nPrimary request: Create ui_hud_plot_ready_ribbon_001, a warm harvest-ready ribbon that becomes the primary affordance for plot.state=ready without increasing HUD footprint.\nSubject: A small curved leaf-and-sun ribbon that can sit on or behind a plot marker, with bright harvest energy, tiny leaf tips at both ends, and a clear blank center where DOM text can sit. It should signal harvest_plot strongly but remain a garden object.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp mobile-readable silhouette, subtle painterly texture, clean edges, transparent PNG asset.\nComposition/framing: Horizontal ribbon, transparent background, generous alpha padding, decorative leaves only at edges, center clear for Korean DOM text. No separate background card.\nColor palette: warm leaf yellow, fresh herb green, cream highlight, soft orange sun accent, deep greenhouse teal shadow.\nConstraints: No readable text, no letters, no numbers, no logo, no watermark, no opaque rectangular badge, no busy background. Keep one-object primary affordance; no extra particles.\nAvoid: casino reward badge, sticky note, rectangular button skin, dark low contrast, text painted into image, SVG/vector/code-native style.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "transparent or alpha-ready background",
+        "reads as a harvest-ready affordance at 96px and 160px",
+        "blank center supports DOM harvest text",
+        "no text, watermark, logo, or opaque rectangular badge",
+        "screen_moment=ready_plot; player_verb=harvest_plot; state_binding=plot.state=ready; must_not_obscure=plot label"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "ready_plot",
+      "player_verb": "harvest_plot",
+      "state_binding": "plot.state=ready",
+      "text_safe_zone": "ribbon center clear for DOM harvest/progress text; decorative leaves stay at edges",
+      "must_not_obscure": "plot label, source label, bottom_tabs"
+    },
+    {
+      "asset_id": "ui_hud_plot_text_plate_001",
+      "output_path": "public/assets/game/ui/ui_hud_plot_text_plate_001.png",
+      "prompt": "Use case: raster PNG HUD text-safe backing for a mobile idle browser game.\nAsset type: transparent UI frame / garden plot text plate, no text.\nPrimary request: Create ui_hud_plot_text_plate_001, a small organic backing plate that keeps Korean DOM plot labels readable without becoming a cream app card.\nSubject: A low rounded wooden/leaf plate with subtle greenhouse trim, mostly plain center area, very soft edge highlights, and tiny leaf knots on the corners. It should support plot labels/progress text across empty, growing, and ready states.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp mobile-readable silhouette, subtle painterly texture, clean edges, transparent PNG asset.\nComposition/framing: Centered low-profile plate, transparent background, large plain center field, edge detail only, generous padding for overlay composition.\nColor palette: muted greenhouse teal, warm wood brown, cream highlight, fresh herb green edge accents.\nConstraints: No readable text, no letters, no numbers, no logo, no watermark, no opaque large rectangle, no busy background. Must stay visually subordinate to seedbed and ready ribbon.\nAvoid: dashboard card, beige panel, paper sign with text lines, heavy shadow, ornate border, SVG/vector/code-native style.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "transparent or alpha-ready background",
+        "plain center field supports Korean DOM labels at 96px and 160px",
+        "visually subordinate to seedbed and ready ribbon",
+        "no text, watermark, logo, or large cream rectangle",
+        "screen_moment=all_plot_states; player_verb=read_plot_state; state_binding=plot.state=empty|growing|ready; must_not_obscure=stage_art"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "all_plot_states",
+      "player_verb": "read_plot_state",
+      "state_binding": "plot.state=empty|growing|ready",
+      "text_safe_zone": "large plain center field; no painted detail behind DOM labels",
+      "must_not_obscure": "stage_art, player verb, click target"
     }
   ]
 }

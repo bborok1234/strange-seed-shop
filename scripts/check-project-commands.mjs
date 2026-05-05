@@ -9,6 +9,7 @@ const requiredPaths = [
   ".codex/skills/seed-design/SKILL.md",
   ".codex/skills/seed-qa/SKILL.md",
   ".codex/skills/seed-play/SKILL.md",
+  ".codex/skills/studio-operate/SKILL.md",
   "items/0067-project-command-surface.md"
 ];
 
@@ -40,6 +41,7 @@ requirePhrases("docs/PROJECT_COMMANDS.md", [
   "issue -> `## Plan` -> 구현 -> 검증 -> PR -> CI -> merge -> 다음 issue",
   "Studio Harness v3 foreground operator",
   "npm run studio:v3:operate",
+  "studio-operate",
   "`$seed-ops`는 Studio Harness v3 entrypoint가 아니다",
   "GitHub metadata 품질 규칙",
   "--body-file",
@@ -103,7 +105,7 @@ requirePhrases("docs/README.md", [
   "프로젝트 전용 명령어"
 ]);
 
-for (const command of ["seed-ops", "seed-brief", "seed-design", "seed-qa", "seed-play"]) {
+for (const command of ["seed-ops", "seed-brief", "seed-design", "seed-qa", "seed-play", "studio-operate"]) {
   requirePhrases(`.codex/skills/${command}/SKILL.md`, [
     `name: ${command}`,
     "description:",

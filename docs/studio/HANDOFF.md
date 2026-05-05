@@ -18,7 +18,7 @@
   | PR5 | `882b69e` | evidence 패키징 + hotfix (plot 가림 버그 + art-share-gate test 추가) |
 
 - art-share-gate 측정: **12/12 PASS** (3 viewport × 4 test) on main.
-- **사용자 명시 visual approval 아직 미수령** — Cycle A close 공식 선언 금지 (spec § Decisions §4 Director self-restriction). heartbeat `userApproved: false` 유지.
+- **사용자 명시 visual approval 수령** — 2026-05-05 Codex handoff에서 사용자가 "Cycle A OK / 다음 axis는 garden-respecting-hud-assets"라고 결정. heartbeat `userApproved: true` 전환 가능.
 
 ## Last user feedback (handoff trigger)
 
@@ -27,19 +27,19 @@
 
 → PR #399 hotfix가 plot-가림 버그 + art-share-gate measurement gap 수정. 단 사용자 deeper critique ("정원 느낌 / cream rectangle 일변도 / HUD asset 필요")은 **여전히 미해결**. 다음 axis가 답해야 함.
 
-## Decision pending (사용자 응답 대기)
+## Decision resolved (사용자 응답 완료)
 
-`reports/visual/cycle-A-evidence-20260505/README.md` 검토 후 사용자가 선택:
+`reports/visual/cycle-A-evidence-20260505/README.md` 검토 후 사용자 결정:
 
-1. **Cycle A 종료 OK + 다음 axis로 진행** → heartbeat `userApproved: true` 전환 + 다음 axis spec 작성
-2. **추가 polish PR 필요** → 어느 known issue 우선 (Cycle A 재오픈)
-3. **다른 방향 검토** → Cycle B 진입 vs HUD asset axis vs 다른 안
+1. **Cycle A 종료 OK + 다음 axis로 진행** → heartbeat `userApproved: true` 전환.
+2. **다음 axis** → `garden-respecting-hud-assets`.
+3. **Codex 정비 선행 요청** → Claude Code 전용 `/studio-deliberate`를 Codex용 `$studio-deliberate`로 만들고, Ralph/Studio foreground loop가 사용자 개입 없이 deliberation과 후속 작업을 이어가게 정비.
 
 ## Recommended next axes (deliberation 후보)
 
 | Axis slug | 우선순위 | 이유 |
 |---|---|---|
-| `garden-respecting-hud-assets` | **P1** (사용자 직접 hint) | "HUD asset 생성해서 정원 느낌" — 잎/나무표지판/덩굴/햇살 ribbon frame illustrations. `scripts/generate-gpt-image-assets.mjs` + `assets/source/asset_prompts.json` pipeline 사용. cream rectangle 패러다임의 진짜 답. |
+| `garden-respecting-hud-assets` | **P1 — 선택됨** | "HUD asset 생성해서 정원 느낌" — 잎/나무표지판/덩굴/햇살 ribbon frame illustrations. `scripts/generate-gpt-image-assets.mjs` + `assets/source/asset_prompts.json` pipeline 사용. cream rectangle 패러다임의 진짜 답. |
 | `garden-diegetic-ui` (= Cycle B) | P1 | spec § Decisions §7 binding promise. plot card 위 % badge / "수확!" chip / creature stage를 in-canvas Phaser sprite로 전환. Designer's L1 약속 회복. |
 | `garden-scene-anchor-adjustment` | P2 | brief 70% empty 완전 해소용. Phaser scene plot grid가 viewport 비례 적응 (현재 mobile portrait hardcoded). |
 | `mission-ux-visibility-impl` | P2 | 두 번째 deliberation axis spec(`reports/deliberation/mission-ux-visibility/spec.md`)의 implementation. Cycle 1 PR2 dependency 만족됨. |
@@ -58,11 +58,10 @@
 7. Read reports/deliberation/stage-art-first-restructure/spec.md — 마지막 axis spec
 ```
 
-### Step 2: Resolve user pending decision
+### Step 2: Apply resolved decision
 
-사용자에게:
-- "Cycle A close OK?" (heartbeat `userApproved: true` 전환 가능?)
-- "다음 axis는 어느 것?"
+- Cycle A close OK는 사용자 승인됨. `reports/operations/operator-heartbeat-<YYYYMMDD>.jsonl`에 `userApproved: true`, `axis: "garden-respecting-hud-assets"`로 남긴다.
+- 다음 axis는 `garden-respecting-hud-assets`로 고정한다.
 
 ### Step 3: 새 axis 시작 (deliberation)
 
@@ -70,7 +69,7 @@
 
 **Claude Code:** `/studio-deliberate <axis-slug>` skill 호출 (skill이 docs/studio/personas 자동 로드).
 
-**Codex / 다른 harness:** SKILL.md 없으면 수동 follow `docs/studio/DELIBERATION_WORKFLOW.md`:
+**Codex / 다른 harness:** `$studio-deliberate <axis-slug>` repo-local skill을 우선 사용. SKILL.md가 없거나 비활성인 harness면 수동 follow `docs/studio/DELIBERATION_WORKFLOW.md`:
 1. brief 작성: `reports/deliberation/<axis-slug>/brief.md`
 2. Phase 2 — 3 specialist에게 병렬 proposal 작성 위임:
    - `proposals/designer.md`
@@ -99,20 +98,21 @@
 | measurement gap 발생 가능 | 사용자 critique 발견 시 즉시 art-share-gate 강화 |
 | cream rectangle 일변도 | 다음 axis (`garden-respecting-hud-assets`)가 진짜 답 |
 
-## Active TODOs (none assigned)
+## Active TODOs
 
-- [ ] 사용자 명시 Cycle A approval 받기
-- [ ] 다음 axis 선택 (위 표 4개 중)
+- [x] 사용자 명시 Cycle A approval 받기
+- [x] 다음 axis 선택 (`garden-respecting-hud-assets`)
+- [ ] Codex용 `$studio-deliberate` + Ralph/Studio loop 정비
 - [ ] 선택된 axis brief 작성 + `/studio-deliberate` 또는 수동 deliberation 진행
 
 ## Heartbeat reference
 
-`reports/operations/operator-heartbeat-20260504.jsonl` 마지막 entry:
+이전 `reports/operations/operator-heartbeat-20260504.jsonl` 마지막 entry:
 ```json
 {"phase":"cycle-a-pr5-evidence-package","status":"awaiting_user_review","userApproved":false}
 ```
 
-Codex / 다음 session도 `userApproved: false` 유지. 사용자 명시 OK 받은 후에만 `true` 전환.
+Codex handoff에서 사용자 명시 OK를 받았으므로 다음 heartbeat는 `userApproved: true`로 전환한다.
 
 ## Repo path reference (전부 harness-neutral)
 
