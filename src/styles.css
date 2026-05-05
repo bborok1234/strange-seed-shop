@@ -53,7 +53,7 @@ button {
     var(--surface-base);
 }
 
-.garden-stage {
+.desktop-shell {
   position: relative;
   width: min(1180px, calc(100vw - 48px));
   min-width: 0;
@@ -62,10 +62,17 @@ button {
   overflow: hidden;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-panel);
+}
+
+.garden-stage {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
   background-color: #d9e8c5;
   background-position: center;
   background-size: cover;
-  box-shadow: var(--shadow-panel);
 }
 
 .garden-stage::before {
@@ -5466,6 +5473,15 @@ h1 {
     min-height: 25px;
     padding: 5px 7px;
     font-size: 11px;
+  }
+
+  .desktop-shell {
+    width: 100vw;
+    min-height: 100dvh;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .garden-stage {
