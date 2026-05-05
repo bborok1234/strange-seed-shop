@@ -25,3 +25,28 @@ jobs:
 
       - name: Run CI project checks
         run: npm run check:ci
+
+  art-share-gate:
+    name: Art-share gate (stage-art-first enforcement)
+    runs-on: ubuntu-latest
+    # Cycle A PR0~PR4 동안 advisory(continue-on-error). PR5 또는 별도 폴로업 PR에서
+    # continue-on-error 제거하여 hard required check로 전환. spec § Implementation Sequence 참조.
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser (chromium)
+        run: npx playwright install --with-deps chromium
+
+      - name: Run art-share gate
+        run: npm run check:art-share
