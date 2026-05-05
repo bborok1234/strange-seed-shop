@@ -6,15 +6,28 @@
 - Spec: `reports/deliberation/stage-art-first-restructure/spec.md`
 - 사용자 명시 approval 대기 — Director 자체 Cycle close 금지 (spec § Decisions §4)
 
-## art-share-gate 자동 측정 결과
+## art-share-gate 자동 측정 결과 (PR5 hotfix 후)
 
-| Test | Cycle 1 종료 시 | Cycle A PR4 후 |
-|---|---|---|
-| stage cream panel ratio ≤ 0.25 (3 viewport) | FAIL (~71%) | **PASS** (~22%) |
-| dock background contrast (3 viewport) | FAIL (cream=cream) | **PASS** (#f6ebcf vs stage) |
-| rail button height ≤ 44px (3 viewport) | FAIL (56px+) | **PASS** (40px) |
+**중요한 self-QA 회귀 인정**: PR4까지 9/9 PASS는 **incomplete measurement**였음. 사용자 critique으로 발견된 새 패턴(seeds 탭 활성 시 dev-panel이 plot card를 덮음)을 **hotfix로 수정 + art-share-gate에 새 테스트 추가**.
 
-**9/9 PASS** — spec § Acceptance Criteria Layer 1·2 모든 자동 측정 통과 (PR #398 art-share-gate green).
+| Test | Cycle 1 종료 시 | Cycle A PR4 (incomplete) | Cycle A hotfix |
+|---|---|---|---|
+| stage cream panel ratio ≤ 0.25 (3 viewport) | FAIL (~71%) | **PASS** (~22%) | PASS 유지 |
+| dock background contrast (3 viewport) | FAIL (cream=cream) | **PASS** (#f6ebcf vs stage) | PASS 유지 |
+| rail button height ≤ 44px (3 viewport) | FAIL (56px+) | **PASS** (40px) | PASS 유지 |
+| **NEW**: plot card NOT covered by dev-panel (3 viewport, seeds 탭) | (no test) | (no test, **bug 미감지**) | **PASS** |
+
+**12/12 PASS** — measurement gap 인정 + 보강.
+
+### Self-QA 회귀의 honest admission
+
+PR4까지 자동 측정은 모두 통과했지만 사용자가 seeds 탭 스크린샷을 보여줬을 때 plot card가 dev-panel에 덮인 상태였음. art-share-gate 원래 4 selector(.garden-panel/.starter-panel/.action-surface/.garden-action-surface)만 측정했고 dev-panel과 plot card 간 overlap은 측정 안 함. **이건 Cycle 1 self-validation 실패 mechanism의 재발 패턴**:
+
+- Cycle 1: spec promise 있었으나 측정 0
+- Cycle A 초기: 측정 있었으나 measurement gap 존재
+- Cycle A hotfix: gap 메우는 새 테스트 추가 + 실제 visual fix
+
+→ `feedback_implementation_critique_gate.md` 메모리의 "측정 있어도 갭 존재 가능, screenshot review 필수" 학습 본 axis가 재확인.
 
 ## 사용자 critique 5종 항목별 해결 여부 표
 

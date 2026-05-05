@@ -7935,3 +7935,24 @@ h1 {
     top: var(--spacing-2xl);
   }
 }
+
+/* stage-art-first Cycle A HOTFIX — dock 확장 시 dev-panel이 garden-panel(plot)을 가리던 버그 */
+@media (min-width: 1280px) {
+  /* dock 확장 시 plot card는 stage 좌측으로 이동 + 폭 축소, dev-panel과 정면 충돌 회피.
+     garden-stage column이 좁아지므로(col-span-7→col-span-5) garden-panel도 비례 축소. */
+  .desktop-shell[data-dock-expanded="true"] .garden-panel {
+    left: var(--space-3);
+    right: auto;
+    transform: none;
+    width: clamp(240px, 24vw, 340px);
+    max-height: clamp(240px, 38vh, 360px);
+  }
+
+  /* dev-panel을 alpha-aware로 — art가 panel 아래에서도 부분 비쳐 보이게.
+     기존 var(--color-surface-dock) 불투명 배경 → semi-transparent로 hierarchy 강화 +
+     사용자가 지적한 "패널이 art를 다 덮는" 패턴 부분 완화. 본격 개선은 HUD frame asset 도입(별도 axis). */
+  .desktop-shell[data-dock-expanded="true"] .dev-panel {
+    background: rgba(255, 251, 233, 0.86);
+    backdrop-filter: blur(6px);
+  }
+}
