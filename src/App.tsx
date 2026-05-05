@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { getAssetPath, getPlayfieldAnimationAssets, loadAssetManifest } from "./lib/assetManifest";
+import { getAsset, getAssetPath, getPlayfieldAnimationAssets, loadAssetManifest } from "./lib/assetManifest";
 import { createNewSave, localSaveStore } from "./lib/persistence";
 import { content, getStarterSeeds } from "./lib/content";
 import { readEvents, trackEvent } from "./lib/analytics";
@@ -52,6 +52,7 @@ interface ProductionStatus {
   workerCreatures: CreatureDefinition[];
   primaryWorker?: CreatureDefinition;
   primaryWorkAssetId: string;
+  primaryWorkAnimationAssetId?: string;
   workerLabel: string;
   workerDetail: string;
 }
@@ -4255,6 +4256,7 @@ function buildGardenPlayfieldViewModel(
                 : undefined,
           actorFamily: productionStatus.primaryWorker?.family,
           workAssetPath: getAssetPath(manifest, productionStatus.primaryWorkAssetId),
+          workAnimation: getProductionWorkAnimation(manifest, productionStatus.primaryWorkAnimationAssetId),
           crateAssetPath: getAssetPath(manifest, "ui_order_crate_leaf_001")
         }
       : undefined;
@@ -4326,6 +4328,7 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
     workerCreatures,
     primaryWorker,
     primaryWorkAssetId: getProductionWorkAssetId(primaryWorker),
+    primaryWorkAnimationAssetId: getProductionWorkAnimationAssetId(primaryWorker),
     workerLabel:
       workerCreatures.length > 1
         ? `정원 동료 ${workerCreatures.length}명 작업 중`
@@ -4341,6 +4344,35 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
           ? `${getCreatureRoleLabel(workerCreatures[0].role)} 역할`
           : "첫 생명체를 수확하면 생산을 시작해요"
   };
+}
+
+function getProductionWorkAnimation(
+  manifest: AssetManifest | null,
+  assetId: string | undefined
+): NonNullable<GardenPlayfieldViewModel["productionScene"]>["workAnimation"] | undefined {
+  if (!assetId) {
+    return undefined;
+  }
+
+  const asset = getAsset(manifest, assetId);
+  if (!asset?.animation || asset.animation.kind !== "spritesheet") {
+    return undefined;
+  }
+
+  return {
+    assetId,
+    path: asset.path,
+    frames: asset.animation.frames,
+    frameRate: asset.animation.frameRate
+  };
+}
+
+function getProductionWorkAnimationAssetId(worker: CreatureDefinition | undefined): string | undefined {
+  if (worker?.id === "creature_herb_common_001") {
+    return "creature_herb_common_001_actor_work_idle_strip";
+  }
+
+  return undefined;
 }
 
 function getComebackProductionTarget(productionStatus: ProductionStatus): ComebackProductionTarget {

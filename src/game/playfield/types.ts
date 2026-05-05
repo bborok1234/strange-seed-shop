@@ -54,6 +54,12 @@ export interface GardenPlayfieldViewModel {
     orderStatusLabel?: string;
     actorFamily?: "herb" | "candy" | "lunar";
     workAssetPath?: string;
+    workAnimation?: {
+      assetId: string;
+      path: string;
+      frames: number;
+      frameRate: number;
+    };
     crateAssetPath?: string;
   };
   updatedAt: number;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { ManifestAsset } from "../../types/game";
 import type { GardenPlayfieldAction, GardenPlayfieldActionHandler, GardenPlayfieldViewModel, GardenPlotView } from "./types";
 
@@ -263,10 +263,33 @@ function GardenBoardOverlay({
 }
 
 function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewModel["productionScene"]> }) {
+  const actorSpriteStyle =
+    scene.workAnimation
+      ? ({
+          "--actor-frame-count": scene.workAnimation.frames,
+          "--actor-strip-duration": `${Math.round((scene.workAnimation.frames / scene.workAnimation.frameRate) * 1000)}ms`
+        } as CSSProperties)
+      : undefined;
+
   return (
     <section className="playfield-production-lane" aria-label="정원 자동 생산 장면">
       <div className={["playfield-production-actor", scene.actorFamily === "lunar" ? "is-lunar-actor" : ""].filter(Boolean).join(" ")}>
-        {scene.workAssetPath ? <img alt="" src={scene.workAssetPath} /> : <span className="playfield-scene-fallback">작업</span>}
+        {scene.workAnimation ? (
+          <span
+            aria-label={`${scene.actorName} 작업 animation`}
+            className="playfield-production-actor-sprite"
+            data-animation-asset={scene.workAnimation.assetId}
+            data-frame-count={scene.workAnimation.frames}
+            role="img"
+            style={actorSpriteStyle}
+          >
+            <img alt="" src={scene.workAnimation.path} />
+          </span>
+        ) : scene.workAssetPath ? (
+          <img alt="" src={scene.workAssetPath} />
+        ) : (
+          <span className="playfield-scene-fallback">작업</span>
+        )}
         <div>
           <p>자동 생산</p>
           <strong>{scene.actorName}</strong>

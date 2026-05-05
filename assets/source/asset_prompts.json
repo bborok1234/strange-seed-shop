@@ -294,6 +294,17 @@
       ]
     },
     {
+      "asset_id": "creature_herb_common_001_actor_work_idle_strip",
+      "output_path": "public/assets/game/sprites/starter/creature_herb_common_ready_strip.png",
+      "prompt": "Reuse provenance alias for Issue #405 actor motion v0. Source strip is creature_herb_common_ready_strip, produced as a transparent 4-frame 96x96 horizontal spritesheet for creature_herb_common_001. Runtime binding changes from plot ready pulse to playfield creature actor work_idle; no new image generation is performed.",
+      "acceptance": [
+        "reuses accepted raster PNG generated for creature_herb_common_ready_strip",
+        "manifest records actor work_idle binding separately from plot ready binding",
+        "frame dimensions remain 384x96 with 4 equal 96x96 cells",
+        "runtime generation remains disabled and output is saved in the workspace"
+      ]
+    },
+    {
       "asset_id": "fx_harvest_sparkle_strip",
       "output_path": "public/assets/game/fx/fx_harvest_sparkle_strip.png",
       "prompt": "Use case: Phaser spritesheet strip for a mobile idle browser game.\nAsset type: greenhouse feedback FX horizontal spritesheet\nPrimary request: Create 6 equal frame cells in one horizontal strip for fx_harvest_sparkle_strip. The strip must be transparent/clean background, no gutter, no text, no watermark, no logo.\nStrip layout: one row, 6 frames, each frame 96x96px, total expected size 576x96px, consistent anchor and scale.\nAnimation intent: playfield_harvest_fx, frame rate 12 fps, one-shot animation.\nStyle: cute-strange 이상한 씨앗상회 Herb greenhouse style, rounded silhouette, warm leaf yellow highlights, readable at 96px.\nReference asset id: creature_herb_common_001.\nConstraints: static pre-produced asset only; runtime image generation is forbidden; avoid copyrighted characters, brands, living artist imitation, busy backgrounds, tiny unreadable details.",

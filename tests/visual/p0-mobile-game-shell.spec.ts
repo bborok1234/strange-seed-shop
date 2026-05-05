@@ -4186,7 +4186,10 @@ test("짧은 모바일 브라우저에서도 생산 actor와 action surface는 �
   await page.setViewportSize({ width: 399, height: 666 });
   await page.goto("/?qaProductionReady=1");
   await expect(page.getByLabel("정원 자동 생산 장면").getByText("자동 생산", { exact: true })).toBeVisible();
-  await expect(page.locator(".playfield-production-actor img")).toBeVisible();
+  const actorSprite = page.locator(".playfield-production-actor-sprite");
+  await expect(actorSprite).toBeVisible();
+  await expect(actorSprite).toHaveAttribute("data-animation-asset", "creature_herb_common_001_actor_work_idle_strip");
+  await expect(actorSprite.locator("img")).toBeVisible();
   await expect(page.locator(".playfield-order-crate img")).toBeVisible();
   await expect(page.getByRole("button", { name: "생산 잎 수령" })).toBeVisible();
   await expect(page.getByLabel("다음 성장 선택")).toBeVisible();

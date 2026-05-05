@@ -199,9 +199,14 @@ for (const viewport of DESKTOP_VIEWPORTS) {
       await recordBtn.click();
     }
     await page.waitForTimeout(800);
-    const actor = page.locator(".playfield-production-actor img").first();
+    const actor = page.locator(".playfield-production-actor-sprite");
     await expect(actor).toBeVisible();
-    const animationName = await actor.evaluate((element) => window.getComputedStyle(element).animationName);
-    expect(animationName).toContain("playfieldActorIdle");
+    await expect(actor).toHaveAttribute("data-animation-asset", "creature_herb_common_001_actor_work_idle_strip");
+    const actorMotion = await actor.evaluate((element) => window.getComputedStyle(element).animationName);
+    expect(actorMotion).toContain("playfieldActorIdle");
+    const strip = actor.locator("img");
+    await expect(strip).toBeVisible();
+    const stripMotion = await strip.evaluate((element) => window.getComputedStyle(element).animationName);
+    expect(stripMotion).toContain("playfieldActorSprite4");
   });
 }

@@ -11,7 +11,7 @@ export type SeedFamily = "herb" | "candy" | "lunar" | "greenhouse" | "shop" | "a
 
 export type Rarity = "common" | "uncommon" | "rare" | "epic";
 
-export type PlayfieldAnimationTarget = "plot" | "effect";
+export type PlayfieldAnimationTarget = "plot" | "effect" | "actor";
 
 export type PlayfieldAnimationSlot =
   | "seed_idle"
@@ -19,7 +19,8 @@ export type PlayfieldAnimationSlot =
   | "ready"
   | "tap_feedback"
   | "harvest_fx"
-  | "reward_fx";
+  | "reward_fx"
+  | "work_idle";
 
 export type PlayfieldAnimationAction = "tap_growth" | "harvest_plot";
 
