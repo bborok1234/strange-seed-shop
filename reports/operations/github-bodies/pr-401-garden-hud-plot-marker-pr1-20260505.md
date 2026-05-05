@@ -49,7 +49,7 @@ Codex `$studio-operate`가 로컬 `items/0210` 산출물로만 진행되던 상�
 
 ## 검증
 
-- [ ] `npm run check:ci` PASS
+- [x] `npm run check:ci` PASS
 - [x] `npm run check:asset-provenance` PASS
 - [x] `npm run check:asset-style` PASS
 - [x] `npm run check:asset-normalization` PASS
@@ -74,7 +74,7 @@ Codex `$studio-operate`가 로컬 `items/0210` 산출물로만 진행되던 상�
 
 - `ui_hud_plot_text_plate_001`은 panel-like 위험이 있어 PR2에서 small subordinate label plate로만 써야 한다.
 - PR1 후보가 실제 `GardenPlotCard`에서 cream rectangle 시각 주도권을 제거하지 못하면 PR2에서 asset crop/scale/reject가 필요하다.
-- `npm run check:ci` 전체는 아직 로컬에서 돌리지 않았다. 이 PR의 local evidence는 focused checks + build이며 GitHub Actions 결과 확인이 남았다.
+- GitHub Actions #402 checks는 `Check automerge eligibility`, `Verify game baseline`, `Art-share gate` 모두 PASS다.
 
 ## 연결된 issue
 
