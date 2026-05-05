@@ -7,7 +7,7 @@ Generated at: 2026-05-05T23:02:37+09:00
 
 ## Current mission
 
-현재 작업은 #404 merge/main CI 이후 사용자 지적의 다음 미해결 축인 **creature actor motion v0**다. #404는 밭 marker 위치, fresh-start deadlock, safe-zone text, first-pass idle motion을 닫았고, 새 Issue #405는 첫 발견 creature가 도감 이미지가 아니라 playfield에서 frame animation actor로 보이게 하는 slice다.
+현재 작업은 #404 merge/main CI 이후 사용자 지적의 다음 미해결 축인 **creature actor motion v0**다. #405는 첫 발견 creature가 도감 이미지가 아니라 playfield에서 accepted sprite-strip actor로 보이게 하는 slice이며, 현재 구현과 로컬 검증은 완료되어 PR publication gate에 있다.
 
 현재 evidence:
 
@@ -21,6 +21,7 @@ Generated at: 2026-05-05T23:02:37+09:00
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
 - PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
 - Prior Browser Use evidence: `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-plot-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-fresh-start-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-floor-placement-iab.png`
+- #405 Browser Use evidence: `reports/visual/issue-405-creature-actor-motion-v0-20260505.md`, `reports/visual/issue-405-creature-actor-motion-v0-browser-use-20260505.png`
 - Heartbeat: `reports/operations/operator-heartbeat-20260505.jsonl`, `.omx/state/operator-heartbeat.json`
 - Operator prompt: `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`
 - Validation: Browser Use `iab` screenshots pass, fresh-start marker click pass, `npm run check:art-share` 21 passed, focused mobile regression 8 passed, merchant follow-up targeted pass, merchant second-chapter targeted pass, targeted long mobile regression pass, `npm run check:ci` pass. Full `check:visual` attempt exposed the merchant regressions and was stopped after focused repair rather than rerun end-to-end.
@@ -28,26 +29,26 @@ Generated at: 2026-05-05T23:02:37+09:00
 
 즉시 적용할 gate:
 
-1. Issue #405 전용 branch에서 current creature actor/runtime/manifest 경계를 읽는다.
-2. 첫 대상 creature와 animation asset strategy를 고정한다: sprite-strip generation이 가능하면 provenance를 남기고, 막히면 accepted raster frame-state fallback blocker를 명시한다.
-3. Browser Use `iab`와 focused visual regression으로 desktop/mobile actor motion, playfield obstruction, bottom panel overlap을 검증한다.
+1. Issue #405 draft PR을 게시하고 required checks를 관찰한다.
+2. PR body에 Browser Use `iab`, `check:ci`, `check:art-share`, focused mobile actor regression evidence를 남긴다.
+3. PR green/merge 이후 다음 WorkUnit은 다른 creature 고유 actor strip 또는 richer interaction behavior를 plan-first로 고른다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
 
 ## Local state
 
 - Branch: codex/0212-creature-actor-motion-v0
 - Latest main commit: 039ec17 정원 첫 밭을 시작 가능한 action node로 회복한다
-- Dirty files: #405 plan-first evidence only
+- Dirty files: #405 implementation and PR evidence
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
 - Timestamp: 2026-05-05T15:18:13.960Z
-- Phase: creature-actor-motion-planning
+- Phase: creature-actor-motion-pr-ready
 - Issue: #405
 - PR: pending
 - Item: items/0212-creature-actor-motion-v0.md
-- Next action: inspect current creature actor/runtime/manifest boundary and choose sprite/FX strategy
+- Next action: gate: publish #405 draft PR and watch required checks
 
 ## Open PRs
 

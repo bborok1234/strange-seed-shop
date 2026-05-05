@@ -311,7 +311,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Codex studio deliberation + Ralph loop | done | `items/0209-codex-studio-deliberation-ralph-loop.md`, `.codex/skills/studio-deliberate/SKILL.md`, `scripts/check-studio-deliberation-ralph-loop.mjs`, `scripts/studio-v3-operator.mjs`, `reports/operations/operator-heartbeat-20260505.jsonl` | Claude Code `/studio-deliberate` 계약을 Codex `$studio-deliberate`로 이식하고, `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`가 Cycle A 승인과 선택 axis를 prompt/report/heartbeat에 남긴다. 검증: skill validator, `npm run check:studio-deliberation-ralph-loop`, `npm run check:studio-v3-operator` |
 | Codex studio-operate bounded pass | done | `.codex/skills/studio-operate/SKILL.md`, `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs`, `scripts/check-project-commands.mjs`, `.omx/context/codex-studio-operate-ralph-20260505T124128Z.md`, `reports/operations/codex-studio-operate-ralph-20260505.md` | Claude Code `/studio-operate`에 대응하는 Codex project-local `$studio-operate` skill을 추가하고, detached supervisor가 prompt echo의 `usage limit` 문구를 오인해 즉시 종료하던 false-positive를 stderr-only 감지 + self-test로 고정함. 검증: `npm run check:studio-v3-operator`, `npm run check:project-commands` |
 | Garden plot marker runtime | review | Issue #403, `items/0211-garden-plot-marker-runtime.md`, `public/assets/manifest/assetManifest.json`, `src/game/playfield/GardenPlayfieldHost.tsx`, `src/styles.css`, `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md` | PR1 raster plot marker 후보를 accepted manifest asset으로 등록하고, `GardenPlotCard`와 playfield host의 cream panel fill을 제거해 in-app Browser Use `iab`에서 정원 배경 위 marker object로 보이게 함. 사용자 지적 후 fresh reset 시작 동사, 바닥 action-area 위치, safe-zone 텍스트, marker/production actor idle motion, merchant follow-up overflow/second-delivered precedence를 Browser Use와 focused visual regression으로 재검증함. |
-| Creature actor motion v0 | planning | Issue #405, `items/0212-creature-actor-motion-v0.md` | #404가 닫은 dead-start/밭 marker 문제 다음으로, 첫 발견 creature가 도감 보상 이미지에 머무르지 않고 playfield에서 frame animation actor로 살아 움직이게 하는 production slice를 시작함 |
+| Creature actor motion v0 | review | Issue #405, `items/0212-creature-actor-motion-v0.md`, `reports/visual/issue-405-creature-actor-motion-v0-20260505.md`, `public/assets/manifest/assetManifest.json` | #404가 닫은 dead-start/밭 marker 문제 다음으로, 첫 발견 creature가 도감 보상 이미지에 머무르지 않고 playfield에서 accepted sprite-strip actor로 살아 움직이게 함. Browser Use `iab`, `check:art-share`, focused mobile actor regression, `check:ci` 통과. |
 | Studio Harness v3 migration backfill gate | review | Issue #274, `items/0141-v2-ledger-quarantine-backfill.md`, `reports/operations/studio-v3-migration-backfill-20260503.md`, `reports/operations/studio-v3-migration-backfill-20260503.json`, `scripts/check-studio-v3-migration-backfill.mjs` | v2 local campaign ledger/prototype/visual/asset prep 산출물을 `quarantined` 또는 `migration-backfill` evidence로 분류하고, local ledger가 work authorization source가 아님을 `npm run check:studio-v3-migration-backfill`과 `npm run check:ci`에서 검증함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
@@ -341,7 +341,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 #404 merge/main CI 이후 사용자 지적의 다음 미해결 축인 **creature actor motion v0**다. #404는 밭 marker 위치, fresh-start deadlock, safe-zone text, first-pass idle motion을 닫았고, 새 Issue #405는 첫 발견 creature가 도감 이미지가 아니라 playfield에서 frame animation actor로 보이게 하는 slice다.
+현재 작업은 #404 merge/main CI 이후 사용자 지적의 다음 미해결 축인 **creature actor motion v0**다. #405는 첫 발견 creature가 도감 이미지가 아니라 playfield에서 accepted sprite-strip actor로 보이게 하는 slice이며, 현재 구현과 로컬 검증은 완료되어 PR publication gate에 있다.
 
 현재 evidence:
 
@@ -356,6 +356,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
 - PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
 - Prior Browser Use evidence: `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-plot-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-fresh-start-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-floor-placement-iab.png`
+- #405 Browser Use evidence: `reports/visual/issue-405-creature-actor-motion-v0-20260505.md`, `reports/visual/issue-405-creature-actor-motion-v0-browser-use-20260505.png`
 - Heartbeat: `reports/operations/operator-heartbeat-20260505.jsonl`, `.omx/state/operator-heartbeat.json`
 - Operator prompt: `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`
 - Validation: Browser Use `iab` screenshots pass, fresh-start marker click pass, `npm run check:art-share` 21 passed, focused mobile regression 8 passed, merchant follow-up targeted pass, merchant second-chapter targeted pass, targeted long mobile regression pass, `npm run check:ci` pass. Full `check:visual` attempt exposed the merchant regressions and was stopped after focused repair rather than rerun end-to-end.
@@ -363,7 +364,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 적용할 gate:
 
-1. Issue #405 전용 branch에서 current creature actor/runtime/manifest 경계를 읽는다.
-2. 첫 대상 creature와 animation asset strategy를 고정한다: sprite-strip generation이 가능하면 provenance를 남기고, 막히면 accepted raster frame-state fallback blocker를 명시한다.
-3. Browser Use `iab`와 focused visual regression으로 desktop/mobile actor motion, playfield obstruction, bottom panel overlap을 검증한다.
+1. Issue #405 draft PR을 게시하고 required checks를 관찰한다.
+2. PR body에 Browser Use `iab`, `check:ci`, `check:art-share`, focused mobile actor regression evidence를 남긴다.
+3. PR green/merge 이후 다음 WorkUnit은 다른 creature 고유 actor strip 또는 richer interaction behavior를 plan-first로 고른다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.

@@ -7473,6 +7473,25 @@ h1 {
   animation: playfieldActorIdle 2100ms ease-in-out infinite;
 }
 
+.playfield-production-actor-sprite {
+  display: block;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  transform-origin: 50% 88%;
+  animation: playfieldActorIdle 2100ms ease-in-out infinite;
+}
+
+.playfield-production-actor-sprite img {
+  display: block;
+  width: calc(48px * var(--actor-frame-count, 4));
+  max-width: none;
+  height: 48px;
+  object-fit: fill;
+  transform-origin: 0 50%;
+  animation: playfieldActorSprite4 var(--actor-strip-duration, 667ms) steps(4, end) infinite;
+}
+
 .playfield-order-crate img,
 .playfield-order-crate .playfield-scene-fallback {
   width: 34px;
@@ -7801,11 +7820,27 @@ h1 {
   }
 }
 
+@keyframes playfieldActorSprite4 {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .playfield-action-feedback,
   .playfield-production-actor img,
+  .playfield-production-actor-sprite,
   .playfield-plot-marker-seedbed {
     opacity: 1;
+    animation: none !important;
+  }
+
+  .playfield-production-actor-sprite img {
+    transform: translateX(0);
     animation: none !important;
   }
 

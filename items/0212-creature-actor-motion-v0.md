@@ -24,16 +24,16 @@
 
 ## Acceptance Criteria
 
-- [ ] 첫 발견 creature actor가 playfield에서 static card가 아니라 frame animation 또는 sprite-strip animation으로 보인다.
-- [ ] 신규 sprite/FX asset을 만들면 gpt-image-2 또는 Codex native provenance와 manifest accepted entry가 남는다.
-- [ ] manifest entry에 `animation.binding`, `frame_count`, `frame_size`, `fps`, `anchor`, `screen_moment`, `player_verb`, `must_not_obscure`가 있다.
-- [ ] actor는 desktop/mobile에서 밭 marker, next action panel, bottom tab을 가리지 않는다.
-- [ ] Browser Use `iab` screenshot 또는 explicit blocker + fallback evidence가 있다.
-- [ ] `npm run check:asset-provenance`
-- [ ] `npm run check:asset-style`
-- [ ] `npm run check:art-share`
-- [ ] focused visual regression for actor motion
-- [ ] `npm run check:ci`
+- [x] 첫 발견 creature actor가 playfield에서 static card가 아니라 frame animation 또는 sprite-strip animation으로 보인다.
+- [x] 신규 sprite/FX asset을 만들면 gpt-image-2 또는 Codex native provenance와 manifest accepted entry가 남는다. 새 generation은 하지 않고 기존 accepted strip provenance alias를 기록했다.
+- [x] manifest entry에 `animation.binding`, `frame_count`, `frame_size`, `fps`, `anchor`, `screen_moment`, `player_verb`, `must_not_obscure`가 있다.
+- [x] actor는 desktop/mobile에서 밭 marker, next action panel, bottom tab을 가리지 않는다.
+- [x] Browser Use `iab` screenshot 또는 explicit blocker + fallback evidence가 있다.
+- [x] `npm run check:asset-provenance`
+- [x] `npm run check:asset-style`
+- [x] `npm run check:art-share`
+- [x] focused visual regression for actor motion
+- [x] `npm run check:ci`
 
 ## Reference Teardown
 
@@ -54,6 +54,16 @@
 - Browser Use `iab`: `http://127.0.0.1:4173/?qaHarvestReveal=1` 또는 equivalent QA state에서 creature actor를 확인한다.
 - Browser Use `iab`: fresh reset에서 첫 씨앗 심기 -> 성장 -> 수확 후 actor 등장까지 최소 흐름을 확인한다.
 - Visual regression: actor element bounds, animation binding, mobile bottom overlap, playfield obstruction.
+
+## Verification Notes
+
+- Browser Use `iab` report: `reports/visual/issue-405-creature-actor-motion-v0-20260505.md`
+- Browser Use screenshot: `reports/visual/issue-405-creature-actor-motion-v0-browser-use-20260505.png`
+- `npm run check:asset-provenance`: passed.
+- `npm run check:asset-style`: passed.
+- `npm run check:art-share`: 21 passed.
+- `npx playwright test tests/visual/p0-mobile-game-shell.spec.ts --grep "짧은 모바일 브라우저에서도 생산 actor" --config playwright.config.ts`: 1 passed.
+- `npm run check:ci`: passed.
 
 ## Stop / Blocker Boundaries
 

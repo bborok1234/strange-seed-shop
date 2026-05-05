@@ -524,6 +524,48 @@
         }
       }
     },
+    "creature_herb_common_001_actor_work_idle_strip": {
+      "path": "/assets/game/sprites/starter/creature_herb_common_ready_strip.png",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "playfield_creature_actor_work_idle",
+      "width": 384,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "phase0",
+        "sprite_batch_001",
+        "sprite_strip",
+        "herb",
+        "starter",
+        "actor_motion",
+        "screen_moment:production_garden",
+        "player_verb:watch_auto_production",
+        "must_not_obscure:plot_marker_or_bottom_action"
+      ],
+      "notes": "Issue #405 actor motion v0; reuses accepted strict strip provenance from creature_herb_common_ready_strip; frames=4; frame_width=96; frame_height=96; intended_frame_rate=6; loop=true; anchor=floor_actor; screen_moment=production_garden; player_verb=watch_auto_production; must_not_obscure=plot_marker_or_bottom_action.",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "creature_herb_common_001_actor_work_idle_strip",
+        "frames": 4,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 6,
+        "repeat": -1,
+        "sourceAssetIds": [
+          "creature_herb_common_001",
+          "creature_herb_common_ready_strip"
+        ],
+        "binding": {
+          "target": "actor",
+          "slot": "work_idle",
+          "creatureIds": [
+            "creature_herb_common_001"
+          ]
+        }
+      }
+    },
     "fx_harvest_sparkle_strip": {
       "path": "/assets/game/fx/fx_harvest_sparkle_strip.png",
       "category": "fx_strip",
