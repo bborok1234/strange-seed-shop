@@ -3,6 +3,7 @@
 - ID: `0210`
 - Status: active
 - GitHub issue: #401
+- Draft PR: #402
 - Source spec: `reports/deliberation/garden-respecting-hud-assets/spec.md`
 - Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + asset pipeline review
 - Campaign source: P0.5 Idle Core + Creative Rescue
@@ -70,6 +71,7 @@ Spec synthesis evidence:
 PR1 candidate evidence:
 
 - GitHub issue: https://github.com/bborok1234/strange-seed-shop/issues/401
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/402
 - `assets/source/asset_plan.json`
 - `assets/source/asset_prompts.json`
 - `assets/source/generated/garden-hud-plot-marker-20260505/`
@@ -98,3 +100,9 @@ PR1 verification:
 - `npm run check:p0-ui-ux` passed.
 - `npm run check:art-share` passed: 12 passed.
 - `npm run build` passed.
+
+GitHub loop recovery:
+
+- Issue #401 created from `reports/operations/github-bodies/issue-0210-garden-hud-plot-marker-assets-20260505.md`.
+- Branch `codex/0210-garden-hud-plot-marker-pr1` pushed.
+- Draft PR #402 created from `reports/operations/github-bodies/pr-401-garden-hud-plot-marker-pr1-20260505.md`.

@@ -347,6 +347,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
 - GitHub issue: #401
+- Draft PR: #402
 - Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`
 - Deliberation artifacts: `reports/deliberation/garden-respecting-hud-assets/{brief.md,spec.md,user-review.md,retrospective.md}`
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`

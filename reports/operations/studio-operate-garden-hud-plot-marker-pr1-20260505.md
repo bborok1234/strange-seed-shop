@@ -5,6 +5,7 @@
 - Command surface: `$studio-operate`
 - WorkUnit: `items/0210-garden-hud-plot-marker-assets.md`
 - GitHub issue: #401
+- Draft PR: #402
 - Axis: `garden-respecting-hud-assets`
 - Bounded slice: PR1 plot HUD asset plan + prompts + Codex native candidate generation + preview gate
 - Runtime code: 변경 없음
@@ -53,4 +54,4 @@ Browser Use `iab` was not exposed by tool discovery in this Codex App turn. Node
 
 ## Next Checkpoint
 
-PR2 should register only accepted candidates in `public/assets/manifest/assetManifest.json`, replace the `GardenPlotCard` visual surface in `src/game/playfield/GardenPlayfieldHost.tsx` and `src/styles.css`, and capture desktop/mobile screenshots proving the plot card no longer reads as a cream rectangle.
+Draft PR #402 now holds the PR1 recovery/asset-preview slice. After #402 checks/review are handled, PR2 should register only accepted candidates in `public/assets/manifest/assetManifest.json`, replace the `GardenPlotCard` visual surface in `src/game/playfield/GardenPlayfieldHost.tsx` and `src/styles.css`, and capture desktop/mobile screenshots proving the plot card no longer reads as a cream rectangle.

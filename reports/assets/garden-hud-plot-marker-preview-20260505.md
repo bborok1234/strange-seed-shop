@@ -4,6 +4,7 @@
 
 - WorkUnit: `items/0210-garden-hud-plot-marker-assets.md`
 - GitHub issue: #401
+- Draft PR: #402
 - Spec: `reports/deliberation/garden-respecting-hud-assets/spec.md`
 - Route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` + asset pipeline review
 - PR slice: PR1 asset plan + prompt + candidate preview gate

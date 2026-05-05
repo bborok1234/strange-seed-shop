@@ -16,6 +16,7 @@ Generated at: 2026-05-05T23:02:37+09:00
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
 - Issue: #401
+- Draft PR: #402
 - Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
 - PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
@@ -46,9 +47,9 @@ Generated at: 2026-05-05T23:02:37+09:00
 - Timestamp: 2026-05-05T23:02:37+09:00
 - Phase: garden-hud-plot-marker-pr1-preview
 - Issue: #401
-- PR: 
+- PR: #402
 - Item: items/0210-garden-hud-plot-marker-assets.md
-- Next action: publish/current draft PR for #401, then PR2 GardenPlotCard manifest/runtime visual replacement with screenshot evidence
+- Next action: watch/repair draft PR #402 checks, then PR2 GardenPlotCard manifest/runtime visual replacement with screenshot evidence
 
 ## Open PRs
 
