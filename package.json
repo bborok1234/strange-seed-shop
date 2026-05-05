@@ -51,6 +51,7 @@
     "check:p0-ui-ux": "node scripts/check-p0-game-ui-ux.mjs",
     "check:asset-alpha": "node scripts/check-asset-alpha-quality.mjs",
     "check:visual": "playwright test --config playwright.config.ts",
+    "check:art-share": "playwright test tests/visual/desktop-art-share.spec.ts --config playwright.config.ts",
     "check:project-commands": "node scripts/check-project-commands.mjs",
     "check:github-metadata": "node scripts/check-github-metadata-quality.mjs",
     "check:studio-v3-contract": "node scripts/check-studio-v3-contract.mjs",
