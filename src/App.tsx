@@ -2161,6 +2161,7 @@ export default function App() {
 
   return (
     <main className={showDebugPanel ? "app-shell debug-shell" : "app-shell playable-focus"}>
+      <div className="desktop-shell">
       <section
         className={["garden-stage", isPlayerTabScreen ? "has-player-tab" : "", showDebugPanel ? "debug-mode" : ""]
           .concat(stageHeroCreature ? ["has-creature-stage"] : [])
@@ -2849,6 +2850,7 @@ export default function App() {
             </div>
           </aside>
         </section>
+      </section>
 
         {showSidePanel && (
           <section
@@ -3490,7 +3492,7 @@ export default function App() {
             );
           })}
         </nav>
-      </section>
+      </div>
 
       {harvestReveal && (
         <section
