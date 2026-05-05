@@ -100,4 +100,36 @@ for (const viewport of DESKTOP_VIEWPORTS) {
     const stageBg = await page.locator(".garden-stage").evaluate((element) => window.getComputedStyle(element).backgroundColor);
     expect(dockBg).not.toBe(stageBg);
   });
+
+  test(`plot card NOT covered by dev-panel/dock when seeds tab active at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/?qaHarvestReveal=1");
+    const recordBtn = page.getByRole("button", { name: "도감에 기록하기" });
+    if ((await recordBtn.count()) > 0) {
+      await recordBtn.click();
+    }
+    await page.waitForTimeout(800);
+    const seedsTab = page.locator(".bottom-tabs.is-desktop-rail button", { hasText: "씨앗" }).first();
+    if ((await seedsTab.count()) === 0) return;
+    await seedsTab.click();
+    await page.waitForTimeout(800);
+
+    const gardenPanel = page.locator(".garden-panel").first();
+    const devPanel = page.locator(".dev-panel").first();
+    if ((await gardenPanel.count()) === 0 || (await devPanel.count()) === 0) return;
+
+    const gardenRect = await gardenPanel.boundingBox();
+    const devRect = await devPanel.boundingBox();
+    if (!gardenRect || !devRect) return;
+
+    const overlapArea = intersectionArea(gardenRect, devRect);
+    const gardenArea = gardenRect.width * gardenRect.height;
+    const overlapRatio = gardenArea > 0 ? overlapArea / gardenArea : 0;
+    if (overlapRatio > 0.1) {
+      throw new Error(
+        `When seeds tab is active, dev-panel covers ${(overlapRatio * 100).toFixed(1)}% of garden-panel(plot) at ${viewport.width}x${viewport.height}. ` +
+          `User cannot see plot. Reposition garden-panel or make dev-panel narrower/transparent.`
+      );
+    }
+  });
 }
