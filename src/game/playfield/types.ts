@@ -9,6 +9,7 @@ export interface GardenPlotView {
   index: number;
   state: GardenPlotState;
   label: string;
+  emptyActionLabel?: string;
   seedId?: string;
   family?: "herb" | "candy" | "lunar";
   source?: "research" | "greenhouse_mist" | "album_record_next_seed";

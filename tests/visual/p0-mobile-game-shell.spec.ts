@@ -43,7 +43,8 @@ async function growAndHarvestSeed(page: Page, seedName: string, maxTaps = 40) {
     if ((await growthButton.count()) === 0) {
       break;
     }
-    await growthButton.first().click({ force: true });
+    const visiblePlot = page.locator(".playfield-plot-card:not(:disabled)").first();
+    await visiblePlot.click({ force: true });
   }
 
   if ((await recordCta.count()) > 0) {
@@ -61,6 +62,16 @@ for (const viewport of [
   { name: "360", width: 360, height: 800 },
   { name: "399x666", width: 399, height: 666 }
 ]) {
+  test(`모바일 정원 ${viewport.name}px 첫 화면은 밭 marker에서 바로 시작된다`, async ({ page }, testInfo) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.goto("/?qaReset=1");
+    const starterPlot = page.getByRole("button", { name: "말랑잎 씨앗 무료로 심기" });
+    await expect(starterPlot).toBeVisible();
+    await starterPlot.click();
+    await expect(page.getByRole("button", { name: "말랑잎 씨앗 성장시키기" })).toBeVisible();
+    await page.screenshot({ path: testInfo.outputPath(`mobile-fresh-start-plot-marker-${viewport.name}.png`), fullPage: false });
+  });
+
   test(`모바일 정원 ${viewport.name}px 화면은 body scroll 없이 playfield와 하단 탭을 보존한다`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.goto("/?qaSpriteState=ready");

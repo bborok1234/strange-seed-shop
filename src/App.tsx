@@ -757,6 +757,12 @@ export default function App() {
       : "",
     productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id ? "has-lunar-guardian-order" : "",
     productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id && !productionStatus.orderCompleted ? "has-open-lunar-guardian-order" : "",
+    productionStatus?.order.id === MERCHANT_FOLLOWUP_ORDER.id && !productionStatus.orderCompleted
+      ? "has-open-merchant-followup-order"
+      : "",
+    productionStatus?.order.id === MERCHANT_SECOND_CHAPTER_ORDER.id && !productionStatus.orderCompleted
+      ? "has-open-merchant-second-chapter"
+      : "",
     mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
     lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
     productionClaimReceipt ? "has-production-claim-receipt" : "",
@@ -931,6 +937,15 @@ export default function App() {
     ]
   );
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
+  const plotMarkerAssets = useMemo(
+    () => ({
+      emptySeedbedPath: getAssetPath(manifest, "ui_hud_plot_seedbed_empty_001"),
+      growingSeedbedPath: getAssetPath(manifest, "ui_hud_plot_seedbed_growing_001"),
+      readyRibbonPath: getAssetPath(manifest, "ui_hud_plot_ready_ribbon_001"),
+      textPlatePath: getAssetPath(manifest, "ui_hud_plot_text_plate_001")
+    }),
+    [manifest]
+  );
   const showDebugPanel = getLocalDebugMode();
   const isDesktopLayout = useDesktopLayout();
   const isPlayerTabScreen = activeTab !== "garden";
@@ -2104,6 +2119,19 @@ export default function App() {
   }
 
   function handlePlayfieldAction(action: GardenPlayfieldAction) {
+    if (action.type === "select_plot") {
+      if (!save?.selectedStarterSeedId) {
+        const starterSeed = starterSeeds[0];
+        if (starterSeed) {
+          selectStarter(starterSeed);
+        }
+        return;
+      }
+
+      setActiveTab("seeds");
+      return;
+    }
+
     if (action.type === "tap_growth") {
       tapGrowth(action.plotIndex);
       return;
@@ -2289,7 +2317,12 @@ export default function App() {
         )}
 
         <section aria-hidden={isPlayerTabScreen ? true : undefined} className="garden-panel" aria-label="정원">
-          <GardenPlayfieldHost onAction={handlePlayfieldAction} playfieldAssets={playfieldAssets} viewModel={gardenViewModel} />
+          <GardenPlayfieldHost
+            onAction={handlePlayfieldAction}
+            playfieldAssets={playfieldAssets}
+            plotMarkerAssets={plotMarkerAssets}
+            viewModel={gardenViewModel}
+          />
 
           {stageHeroCreature && (
             <section
@@ -3952,10 +3985,13 @@ function buildGardenPlayfieldViewModel(
     }
 
     if (!seed) {
+      const starterEmptyPlot = plot.index === 0 && !save.selectedStarterSeedId;
       return {
         index: plot.index,
         state: "empty",
-        label: plot.index === 0 ? "첫 밭" : `${plot.index + 1}번 밭`,
+        label: starterEmptyPlot ? "말랑잎 씨앗" : plot.index === 0 ? "첫 밭" : `${plot.index + 1}번 밭`,
+        emptyActionLabel: starterEmptyPlot ? "무료로 심기" : undefined,
+        sourceLabel: starterEmptyPlot ? "첫 씨앗" : undefined,
         progressPercent: 0
       };
     }
@@ -4151,14 +4187,14 @@ function buildGardenPlayfieldViewModel(
             researchSeedPlantedActive,
           orderVariant: greenhouseFacilityEntryActive
             ? ("greenhouse-facility-entry" as const)
-            : merchantChainCompleteActive
-            ? ("merchant-chain-complete" as const)
             : firstOrderDispatchReceiptActive
             ? ("first-dispatched" as const)
             : merchantSecondChapterDispatchReceiptActive
               ? ("merchant-second-delivered" as const)
             : merchantFollowupDispatchReceiptActive
               ? ("merchant-delivered" as const)
+            : merchantChainCompleteActive
+            ? ("merchant-chain-complete" as const)
             : greenhouseShelfDeliveredActive
               ? ("greenhouse-shelf-delivered" as const)
             : merchantCrateClaimActive

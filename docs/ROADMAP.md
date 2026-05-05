@@ -127,6 +127,7 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | Browser Use source-of-truth guard | done | Issue #175, `items/0098-browser-use-source-of-truth-guard.md`, `docs/BROWSER_QA.md`, `scripts/check-browser-qa.mjs` | UI/visual 작업에서 Browser Use `iab` QA와 현재 세션 blocker 없이 Playwright fallback만으로 완료하지 못하게 운영 지침과 checker가 강제하고 `npm run check:ci`가 통과함 |
 | Asset alpha/background quality gate | active | asset checker, asset review follow-up | creature/seed/icon/fx는 alpha 필요 조건 또는 명시 예외를 검증하고, checkerboard/배경 오염 asset은 후속 cutout/remaster 대상으로 기록됨 |
 | P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
+| Studio campaign routing contract | active | `items/0129-game-studio-ops-harness.md`, `docs/PROJECT_COMMANDS.md`, `AGENTS.md` | Game Studio Department Signoff, Subagent/Team Routing, Codex native subagents, team mode, role-debate note, reference teardown, creative brief, QA/playtest plan, gastory style state, prompt/model sidecar, reference image consistency, animation camera/composition lock, frame/GIF/spritesheet extraction이 visual/gameplay WorkUnit의 선택·검수 문맥으로 유지됨 |
 | First harvest reveal reward polish | done | Issue #103, PR #108, `items/0062-harvest-reveal-polish.md`, visual evidence, main CI `25063830331` | 첫 수확 reveal이 일반 모달이 아니라 수집형 게임 보상 화면처럼 읽히고 CTA가 393/360에서 잘리지 않음 |
 | Playfield tap/harvest feedback | done | Issue #109, PR #110, `items/0063-playfield-tap-harvest-feedback.md`, `reports/visual/p0-playfield-tap-harvest-feedback-20260429.md`, main CI `25066468406` | 성장 탭과 ready 수확 탭이 `qaFxTelemetry=1` Playwright gate와 mobile screenshot으로 즉시 피드백을 검증함 |
 | Mobile tab card polish | done | Issue #111, PR #112, `items/0064-mobile-tab-card-polish.md`, `reports/visual/p0-mobile-tab-card-polish-20260429.md`, main CI `25067574458` | seeds/album 탭이 수집 게임 메뉴처럼 읽히고 full-screen tab regression이 유지됨 |
@@ -309,6 +310,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Studio Harness v3 foreground operator entrypoint | done | Issue #293, PR #294, `items/0149-studio-v3-foreground-operator-entrypoint.md`, `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-operator-20260503.md`, main CI `25267635921` | `npm run studio:v3:operate -- --doctor --print-command`와 `npm run studio:v3:operate -- --duration-hours 24`로 `$seed-ops` 없이 v3 native foreground operator를 시작하고, GitHub WorkUnit/plan-first/Browser Use iab/PR/check/merge/main CI/next WorkUnit 계약을 prompt+checker로 고정함 |
 | Codex studio deliberation + Ralph loop | done | `items/0209-codex-studio-deliberation-ralph-loop.md`, `.codex/skills/studio-deliberate/SKILL.md`, `scripts/check-studio-deliberation-ralph-loop.mjs`, `scripts/studio-v3-operator.mjs`, `reports/operations/operator-heartbeat-20260505.jsonl` | Claude Code `/studio-deliberate` 계약을 Codex `$studio-deliberate`로 이식하고, `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`가 Cycle A 승인과 선택 axis를 prompt/report/heartbeat에 남긴다. 검증: skill validator, `npm run check:studio-deliberation-ralph-loop`, `npm run check:studio-v3-operator` |
 | Codex studio-operate bounded pass | done | `.codex/skills/studio-operate/SKILL.md`, `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs`, `scripts/check-project-commands.mjs`, `.omx/context/codex-studio-operate-ralph-20260505T124128Z.md`, `reports/operations/codex-studio-operate-ralph-20260505.md` | Claude Code `/studio-operate`에 대응하는 Codex project-local `$studio-operate` skill을 추가하고, detached supervisor가 prompt echo의 `usage limit` 문구를 오인해 즉시 종료하던 false-positive를 stderr-only 감지 + self-test로 고정함. 검증: `npm run check:studio-v3-operator`, `npm run check:project-commands` |
+| Garden plot marker runtime | review | Issue #403, `items/0211-garden-plot-marker-runtime.md`, `public/assets/manifest/assetManifest.json`, `src/game/playfield/GardenPlayfieldHost.tsx`, `src/styles.css`, `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md` | PR1 raster plot marker 후보를 accepted manifest asset으로 등록하고, `GardenPlotCard`와 playfield host의 cream panel fill을 제거해 in-app Browser Use `iab`에서 정원 배경 위 marker object로 보이게 함. 사용자 지적 후 fresh reset 시작 동사, 바닥 action-area 위치, safe-zone 텍스트, marker/production actor idle motion, merchant follow-up overflow/second-delivered precedence를 Browser Use와 focused visual regression으로 재검증함. |
 | Studio Harness v3 migration backfill gate | review | Issue #274, `items/0141-v2-ledger-quarantine-backfill.md`, `reports/operations/studio-v3-migration-backfill-20260503.md`, `reports/operations/studio-v3-migration-backfill-20260503.json`, `scripts/check-studio-v3-migration-backfill.mjs` | v2 local campaign ledger/prototype/visual/asset prep 산출물을 `quarantined` 또는 `migration-backfill` evidence로 분류하고, local ledger가 work authorization source가 아님을 `npm run check:studio-v3-migration-backfill`과 `npm run check:ci`에서 검증함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
@@ -338,7 +340,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 사용자 승인된 다음 axis **`garden-respecting-hud-assets`** deliberation을 완료하고, 첫 implementation slice PR1인 plot marker asset plan/prompt/preview gate를 만든 단계다. Cycle A는 사용자 메시지로 OK 처리됐고, `$studio-deliberate garden-respecting-hud-assets`는 brief → proposals → critiques → Director spec → standing delegation review → retrospective까지 repo-native artifact로 완료됐다.
+현재 작업은 사용자 승인된 다음 axis **`garden-respecting-hud-assets`**의 PR2 runtime 적용 단계다. PR1 plot marker asset plan/prompt/preview gate는 PR #402로 main에 merge됐고, PR2는 Issue #403에서 `GardenPlotCard` cream panel을 실제 raster plot marker object로 교체한다.
 
 현재 evidence:
 
@@ -346,21 +348,21 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Handoff: `docs/studio/HANDOFF.md`
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
-- GitHub issue: #401
-- Draft PR: #402
-- Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`
+- GitHub issue: #403
+- Previous PR: #402 merged
+- Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`, `items/0211-garden-plot-marker-runtime.md`
 - Deliberation artifacts: `reports/deliberation/garden-respecting-hud-assets/{brief.md,spec.md,user-review.md,retrospective.md}`
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
 - PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
+- PR2 Browser Use evidence: `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-plot-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-fresh-start-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-floor-placement-iab.png`
 - Heartbeat: `reports/operations/operator-heartbeat-20260505.jsonl`, `.omx/state/operator-heartbeat.json`
 - Operator prompt: `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`
-- Validation: skill validator pass, `npm run check:studio-deliberation-ralph-loop` pass, `npm run check:studio-v3-operator` pass, `npm run check:project-commands` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:asset-normalization` pass, `npm run check:asset-alpha` pass, `npm run check:p0-ui-ux` pass, `npm run check:art-share` 12 passed, `npm run build` pass
+- Validation: Browser Use `iab` screenshots pass, fresh-start marker click pass, `npm run check:art-share` 21 passed, focused mobile regression 8 passed, merchant follow-up targeted pass, merchant second-chapter targeted pass, targeted long mobile regression pass, `npm run check:ci` pass. Full `check:visual` attempt exposed the merchant regressions and was stopped after focused repair rather than rerun end-to-end.
 - Legacy closed-workunit mirror guard still references active issue #332 and active item `items/0168-merchant-followup-order.md` until the next GitHub-authoritative WorkUnit manifest refresh; this is compatibility evidence, not the current local axis.
 
 즉시 적용할 gate:
 
-1. `items/0210-garden-hud-plot-marker-assets.md` 기준으로 PR2 `GardenPlotCard` manifest/runtime visual replacement를 시작한다.
-2. 첫 적용 순간은 `GardenPlotCard`다. side dock, rail, vine divider는 첫 slice에서 제외한다.
-3. PR2에서 candidate PNG를 manifest accepted로 올리기 전 screenshot에서 cream rectangle 시각 주도권이 사라졌는지 검증한다.
+1. Issue #403 PR을 draft로 게시하고 required checks를 관찰한다.
+2. PR2 merge 전 original PR body에 Browser Use evidence와 `check:ci`/`check:art-share` evidence를 남긴다.
+3. PR2 이후 다음 WorkUnit은 side dock/resource holder 또는 next-action signpost 중 `garden-respecting-hud-assets` spec의 다음 visual payoff를 plan-first로 고른다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
-5. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용하고, 사용하지 않으면 plan에 이유를 남긴다.
