@@ -16,6 +16,7 @@ Generated at: 2026-05-05T23:02:37+09:00
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
 - Issue: #403
+- Draft PR: #404 — https://github.com/bborok1234/strange-seed-shop/pull/404
 - Previous PR: #402 merged
 - Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`, `items/0211-garden-plot-marker-runtime.md`
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
@@ -28,30 +29,30 @@ Generated at: 2026-05-05T23:02:37+09:00
 
 즉시 적용할 gate:
 
-1. Issue #403 draft PR을 게시하고 required checks를 관찰한다.
-2. PR body에 Browser Use `iab` screenshots, `check:ci`, `check:art-share`, targeted long mobile regression evidence를 남긴다.
-3. PR2 이후 다음 WorkUnit은 side dock/resource holder 또는 next-action signpost 중 `garden-respecting-hud-assets` spec의 다음 visual payoff를 plan-first로 고른다.
+1. PR #404 required checks를 관찰하고 green이면 merge gate로 진행한다.
+2. PR body에는 Browser Use `iab` screenshots, `check:ci`, `check:art-share`, targeted long mobile regression evidence가 반영되어 있다.
+3. PR2 이후 다음 WorkUnit은 side dock/resource holder, next-action signpost, 또는 sprite-sheet creature actor motion 중 `garden-respecting-hud-assets`/P0.5 Creative Rescue의 다음 visual payoff를 plan-first로 고른다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
 
 ## Local state
 
 - Branch: codex/0211-garden-plot-marker-runtime
-- Latest commit: c32b8af 정원 HUD asset 작업을 GitHub 운영 루프로 완료 (#402)
-- Dirty files: present
+- Latest commit: b7e306b 정원 첫 밭을 시작 가능한 움직이는 action node로 회복한다
+- Dirty files: PR URL evidence update only
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
 - Timestamp: 2026-05-05T15:18:13.960Z
-- Phase: garden-plot-marker-runtime-browser-use
+- Phase: garden-plot-marker-runtime-pr-checks
 - Issue: #403
-- PR: pending
+- PR: #404
 - Item: items/0211-garden-plot-marker-runtime.md
-- Next action: gate: finish #403 checks, publish draft PR, and watch required checks
+- Next action: gate: watch PR #404 required checks and merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #404 — https://github.com/bborok1234/strange-seed-shop/pull/404 — draft, checks in progress
 
 ## Open issues
 

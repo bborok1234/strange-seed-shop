@@ -349,6 +349,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
 - GitHub issue: #403
+- Draft PR: #404 — https://github.com/bborok1234/strange-seed-shop/pull/404
 - Previous PR: #402 merged
 - Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`, `items/0211-garden-plot-marker-runtime.md`
 - Deliberation artifacts: `reports/deliberation/garden-respecting-hud-assets/{brief.md,spec.md,user-review.md,retrospective.md}`
@@ -362,7 +363,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 적용할 gate:
 
-1. Issue #403 PR을 draft로 게시하고 required checks를 관찰한다.
-2. PR2 merge 전 original PR body에 Browser Use evidence와 `check:ci`/`check:art-share` evidence를 남긴다.
-3. PR2 이후 다음 WorkUnit은 side dock/resource holder 또는 next-action signpost 중 `garden-respecting-hud-assets` spec의 다음 visual payoff를 plan-first로 고른다.
+1. PR #404 required checks를 관찰하고 green이면 merge gate로 진행한다.
+2. PR2 merge 전 original PR body에 Browser Use evidence와 `check:ci`/`check:art-share` evidence가 남아 있다.
+3. PR2 이후 다음 WorkUnit은 side dock/resource holder, next-action signpost, 또는 sprite-sheet creature actor motion 중 `garden-respecting-hud-assets`/P0.5 Creative Rescue의 다음 visual payoff를 plan-first로 고른다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.

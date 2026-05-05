@@ -3,6 +3,7 @@
 - ID: `0211`
 - Status: review
 - GitHub issue: #403
+- Draft PR: #404 — https://github.com/bborok1234/strange-seed-shop/pull/404
 - Source WorkUnit: `items/0210-garden-hud-plot-marker-assets.md`
 - Source spec: `reports/deliberation/garden-respecting-hud-assets/spec.md`
 - Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:game-playtest`
