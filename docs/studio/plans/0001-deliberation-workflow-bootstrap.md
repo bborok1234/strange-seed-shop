@@ -175,3 +175,9 @@ This plan bootstraps that structure as **harness-neutral repo assets** (docs + r
 ## Changelog
 
 - 2026-05-04: initial draft. User confirmed Phase (b) outputs spec.md only, Director = main thread, persona spawn = general-purpose agent + inline prompts. User added harness-neutrality constraint mid-plan; layout adjusted: assets in `docs/studio/` and `reports/deliberation/`, never `.omc/.omx/.claude/`.
+- 2026-05-04: Phase (b) ✅ complete — `desktop-ui-redesign` first dogfood, spec + retrospective merged.
+- 2026-05-04: Phase (a) ✅ complete — `/studio-deliberate` skill shipped + dogfood verified on `mission-ux-visibility` second axis. PR #388 merged.
+- 2026-05-05: Cycle 1 (`desktop-ui-redesign`) implementation 5 PR merged. art-share-gate passed but user critique exposed implementation gap — spec promises violated. Memory `feedback_implementation_critique_gate.md` added.
+- 2026-05-05: 3rd axis `stage-art-first-restructure` deliberated + Cycle A 6 PR merged (PR0~PR5 + hotfix). art-share-gate hardened to 12/12 with new "plot card NOT covered" test. Spec § Decisions §4 enforces user-only Cycle close + Director self-restriction.
+- 2026-05-05: **Session handoff for Codex** — `docs/studio/USER_PREFERENCES.md` + `docs/studio/HANDOFF.md` 작성. 모든 source-of-truth repo-native, harness-neutral. Cycle B (`garden-diegetic-ui`) binding promise + recommended axis `garden-respecting-hud-assets` 명시.
+- Phase (c) → still pending. Recommend after `/studio-deliberate` runs on 1+ more axis (counting `stage-art-first-restructure` = 3 total now).
