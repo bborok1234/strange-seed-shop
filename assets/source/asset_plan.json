@@ -3,8 +3,8 @@
   "project": "이상한 씨앗상회",
   "batch": {
     "id": "milestone1_style_validation_001",
-    "purpose": "Validate and extend static Phase 0/P0.5 assets, including source-linked lunar greenhouse planting assets for production/playfield payoff.",
-    "target_asset_count": 33,
+    "purpose": "Validate and extend static Phase 0/P0.5 assets, including source-linked lunar greenhouse planting assets and garden-respecting plot HUD marker assets for production/playfield payoff.",
+    "target_asset_count": 37,
     "generation_mode": "codex_native_image_generation",
     "runtime_generation_allowed": false
   },
@@ -600,6 +600,100 @@
         "transparent or alpha-ready background",
         "manifest animation.binding ready"
       ]
+    },
+    {
+      "id": "ui_hud_plot_seedbed_empty_001",
+      "category": "ui_frame",
+      "family": "greenhouse",
+      "rarity": "common",
+      "growth_stage": "empty_plot",
+      "intended_use": "garden_plot_marker_empty",
+      "output_path": "public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png",
+      "manifest_tags": [
+        "phase0_5",
+        "ui",
+        "hud",
+        "plot-marker",
+        "seedbed",
+        "empty",
+        "plant_seed"
+      ],
+      "screen_moment": "fresh_garden",
+      "player_verb": "plant_seed",
+      "state_binding": "plot.state=empty",
+      "text_safe_zone": "center inset 18%, top plate area clear for DOM label/progress",
+      "must_not_obscure": "stage_art, bottom_tabs, plot click target",
+      "notes": "Text-free transparent PNG marker that makes an empty DOM plot button read as a low seedbed object rather than a cream rectangle."
+    },
+    {
+      "id": "ui_hud_plot_seedbed_growing_001",
+      "category": "ui_frame",
+      "family": "greenhouse",
+      "rarity": "common",
+      "growth_stage": "growing_plot",
+      "intended_use": "garden_plot_marker_growing",
+      "output_path": "public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png",
+      "manifest_tags": [
+        "phase0_5",
+        "ui",
+        "hud",
+        "plot-marker",
+        "seedbed",
+        "growing",
+        "tap_growth"
+      ],
+      "screen_moment": "growing_plot",
+      "player_verb": "tap_growth",
+      "state_binding": "plot.state=growing",
+      "text_safe_zone": "center inset 18%, lower mound clear, no details under progress text",
+      "must_not_obscure": "stage_art, seed/source icon, progress label",
+      "notes": "Text-free transparent PNG marker for active growth state; must suggest a tappable planted bed without adding a large opaque panel."
+    },
+    {
+      "id": "ui_hud_plot_ready_ribbon_001",
+      "category": "ui_frame",
+      "family": "greenhouse",
+      "rarity": "common",
+      "growth_stage": "ready_plot",
+      "intended_use": "garden_plot_ready_affordance",
+      "output_path": "public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png",
+      "manifest_tags": [
+        "phase0_5",
+        "ui",
+        "hud",
+        "plot-marker",
+        "ready-ribbon",
+        "harvest_plot"
+      ],
+      "screen_moment": "ready_plot",
+      "player_verb": "harvest_plot",
+      "state_binding": "plot.state=ready",
+      "text_safe_zone": "ribbon center clear for DOM harvest/progress text; decorative leaves stay at edges",
+      "must_not_obscure": "plot label, source label, bottom_tabs",
+      "notes": "Text-free transparent PNG ready ribbon that supplies the single primary harvest affordance in the plot marker family."
+    },
+    {
+      "id": "ui_hud_plot_text_plate_001",
+      "category": "ui_frame",
+      "family": "greenhouse",
+      "rarity": "common",
+      "growth_stage": "all_plot_states",
+      "intended_use": "garden_plot_text_safe_plate",
+      "output_path": "public/assets/game/ui/ui_hud_plot_text_plate_001.png",
+      "manifest_tags": [
+        "phase0_5",
+        "ui",
+        "hud",
+        "plot-marker",
+        "text-safe",
+        "all-states"
+      ],
+      "screen_moment": "all_plot_states",
+      "player_verb": "read_plot_state",
+      "state_binding": "plot.state=empty|growing|ready",
+      "text_safe_zone": "large plain center field; no painted detail behind DOM labels",
+      "must_not_obscure": "stage_art, player verb, click target",
+      "notes": "Text-free transparent/alpha-ready backing plate for DOM plot label and percentage text; it must support Korean labels without painting any text into the asset."
     }
   ]
 }

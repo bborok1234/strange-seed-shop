@@ -307,6 +307,8 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Studio Harness v3 bot runner deterministic gate | review | Issue #276, `items/0140-studio-v3-bot-runner-checker.md`, `scripts/studio-v3-bot-runner.mjs`, `scripts/check-studio-v3-bot-runner.mjs`, `reports/operations/fixtures/studio-v3-bot-runner-*.json` | GitHub issue/PR/GateEvent fixture로 WorkUnit을 복원하고, local campaign ledger authority, routine GitHub human handoff, stale branch/dirty work, GateEvent hash mismatch 회귀를 `npm run check:studio-v3-bot-runner`와 `npm run check:ci`에서 차단함 |
 | Studio Harness v3 24h live runner entrypoint | done | Issue #290, PR #291, `items/0147-studio-v3-24h-live-runner.md`, `scripts/studio-v3-live-runner.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-live-runner-20260503.md`, main CI `25266675744` | `npm run studio:v3:runner -- --once --dry-run`으로 GitHub queue/PR/main 상태를 읽고, queue empty를 production game quality WorkUnit intake로 분류하는 watcher/decision runner 진입점을 만들었다 |
 | Studio Harness v3 foreground operator entrypoint | done | Issue #293, PR #294, `items/0149-studio-v3-foreground-operator-entrypoint.md`, `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `reports/operations/studio-v3-operator-20260503.md`, main CI `25267635921` | `npm run studio:v3:operate -- --doctor --print-command`와 `npm run studio:v3:operate -- --duration-hours 24`로 `$seed-ops` 없이 v3 native foreground operator를 시작하고, GitHub WorkUnit/plan-first/Browser Use iab/PR/check/merge/main CI/next WorkUnit 계약을 prompt+checker로 고정함 |
+| Codex studio deliberation + Ralph loop | done | `items/0209-codex-studio-deliberation-ralph-loop.md`, `.codex/skills/studio-deliberate/SKILL.md`, `scripts/check-studio-deliberation-ralph-loop.mjs`, `scripts/studio-v3-operator.mjs`, `reports/operations/operator-heartbeat-20260505.jsonl` | Claude Code `/studio-deliberate` 계약을 Codex `$studio-deliberate`로 이식하고, `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`가 Cycle A 승인과 선택 axis를 prompt/report/heartbeat에 남긴다. 검증: skill validator, `npm run check:studio-deliberation-ralph-loop`, `npm run check:studio-v3-operator` |
+| Codex studio-operate bounded pass | done | `.codex/skills/studio-operate/SKILL.md`, `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs`, `scripts/check-project-commands.mjs`, `.omx/context/codex-studio-operate-ralph-20260505T124128Z.md`, `reports/operations/codex-studio-operate-ralph-20260505.md` | Claude Code `/studio-operate`에 대응하는 Codex project-local `$studio-operate` skill을 추가하고, detached supervisor가 prompt echo의 `usage limit` 문구를 오인해 즉시 종료하던 false-positive를 stderr-only 감지 + self-test로 고정함. 검증: `npm run check:studio-v3-operator`, `npm run check:project-commands` |
 | Studio Harness v3 migration backfill gate | review | Issue #274, `items/0141-v2-ledger-quarantine-backfill.md`, `reports/operations/studio-v3-migration-backfill-20260503.md`, `reports/operations/studio-v3-migration-backfill-20260503.json`, `scripts/check-studio-v3-migration-backfill.mjs` | v2 local campaign ledger/prototype/visual/asset prep 산출물을 `quarantined` 또는 `migration-backfill` evidence로 분류하고, local ledger가 work authorization source가 아님을 `npm run check:studio-v3-migration-backfill`과 `npm run check:ci`에서 검증함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
@@ -336,31 +338,28 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 GitHub-authoritative open WorkUnit #332 **포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다**의 PR publication gate다. 구현과 local validation은 완료됐고, 다음 authority checkpoint는 GitHub issue body 갱신, branch push, draft PR 생성, PR checks watch/repair, green merge, main CI observation이다.
+현재 작업은 사용자 승인된 다음 axis **`garden-respecting-hud-assets`** deliberation을 완료하고, 첫 implementation slice PR1인 plot marker asset plan/prompt/preview gate를 만든 단계다. Cycle A는 사용자 메시지로 OK 처리됐고, `$studio-deliberate garden-respecting-hud-assets`는 brief → proposals → critiques → Director spec → standing delegation review → retrospective까지 repo-native artifact로 완료됐다.
 
 현재 evidence:
 
-- GitHub issue: #332 `포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다`
-- Plan artifact: `items/0168-merchant-followup-order.md`
-- Branch: `codex/0332-merchant-followup-order`
-- GitHub issue body-file: `reports/operations/github-bodies/issue-merchant-followup-order-20260503.md`
-- PR body-file: `reports/operations/github-bodies/pr-332-merchant-followup-order-20260503.md`
-- GateEvent: `reports/operations/gate-event-0332-merchant-followup-order-20260503.md`
-- Browser Use blocker: `reports/visual/browser-use-blocker-0332-20260503.md`
-- Screenshot: `reports/visual/issue-332-merchant-followup-order-393.png`
-- Implementation: `src/App.tsx`, `src/game/playfield/types.ts`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`
-- Validation: `npm run build` pass, focused Playwright 1 passed + 2 passed, `npm run check:visual` 69 passed, `npm run check:ci` pass
-- Game Studio route: `game-studio:game-studio` → `game-studio:game-ui-frontend` + `game-studio:game-playtest`; 신규 manifest asset 없음, existing order crate asset + DOM/CSS merchant follow-up/delivered state + reward motion
-- Campaign source of truth: `P0.5 Idle Core + Creative Rescue`
-- Player verb: `상인 주문상자 보상을 받은 뒤 단골 납품 주문을 채워 보내기`
-- Concrete payoff: `포장잎 상인 단골 납품`, `0/18 → 18/18`, `상인 단골 납품 +54 잎 · +2 꽃가루 · +1 재료`, playfield `merchant-delivered`, bottom-tab/overflow-safe 393px screenshot
+- User decision: `Cycle A OK / 다음 axis는 garden-respecting-hud-assets`
+- Handoff: `docs/studio/HANDOFF.md`
+- User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
+- Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
+- GitHub issue: #401
+- Plan artifact: `items/0209-codex-studio-deliberation-ralph-loop.md`, `items/0210-garden-hud-plot-marker-assets.md`
+- Deliberation artifacts: `reports/deliberation/garden-respecting-hud-assets/{brief.md,spec.md,user-review.md,retrospective.md}`
+- PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
+- PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
+- Heartbeat: `reports/operations/operator-heartbeat-20260505.jsonl`, `.omx/state/operator-heartbeat.json`
+- Operator prompt: `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`
+- Validation: skill validator pass, `npm run check:studio-deliberation-ralph-loop` pass, `npm run check:studio-v3-operator` pass, `npm run check:project-commands` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:asset-normalization` pass, `npm run check:asset-alpha` pass, `npm run check:p0-ui-ux` pass, `npm run check:art-share` 12 passed, `npm run build` pass
+- Legacy closed-workunit mirror guard still references active issue #332 and active item `items/0168-merchant-followup-order.md` until the next GitHub-authoritative WorkUnit manifest refresh; this is compatibility evidence, not the current local axis.
 
 즉시 적용할 gate:
 
-1. `gh issue edit 332 --body-file reports/operations/github-bodies/issue-merchant-followup-order-20260503.md`.
-2. Lore protocol commit, branch push, draft PR creation with `reports/operations/github-bodies/pr-332-merchant-followup-order-20260503.md`.
-3. GateEvent comment body-file publication, PR checks watch/repair, ready/merge when green.
-4. Post-merge main CI는 observation-only로 기록한다. 닫힌 PR/issue에 누락 evidence backfill을 위한 main closeout commit은 만들지 않는다.
-5. Stop rule이 없으므로 merge 후 `npm run studio:v3:runner -- --once --dry-run`으로 다음 GitHub WorkUnit을 선택하고 plan-first로 계속 진행한다.
-6. Studio Campaign Gate: 다음 게임 WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
-7. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용한다.
+1. `items/0210-garden-hud-plot-marker-assets.md` 기준으로 PR2 `GardenPlotCard` manifest/runtime visual replacement를 시작한다.
+2. 첫 적용 순간은 `GardenPlotCard`다. side dock, rail, vine divider는 첫 slice에서 제외한다.
+3. PR2에서 candidate PNG를 manifest accepted로 올리기 전 screenshot에서 cream rectangle 시각 주도권이 사라졌는지 검증한다.
+4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+5. Subagent/Team Routing은 Codex native subagents 또는 team mode가 독립 evidence를 빠르게 만들 때만 사용하고, 사용하지 않으면 plan에 이유를 남긴다.

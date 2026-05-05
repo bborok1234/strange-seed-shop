@@ -52,6 +52,22 @@ const heartbeat = {
   cwd: process.cwd()
 };
 
+const axis = readArg("axis", "");
+if (axis) {
+  heartbeat.axis = axis;
+}
+
+const userApproved = readArg("user-approved", "");
+if (userApproved) {
+  heartbeat.userApproved = userApproved === "true";
+  heartbeat.user_approval = {
+    approved: userApproved === "true",
+    source: readArg("approval-source", "unspecified"),
+    scope: readArg("approval-scope", ""),
+    axis,
+  };
+}
+
 const publicationGateTarget = readArg("publication-gate", "");
 if (publicationGateTarget) {
   const pendingCommand = readArg("pending-command", heartbeat.current_command);

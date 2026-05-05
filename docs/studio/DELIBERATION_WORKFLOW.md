@@ -82,6 +82,7 @@ Phase 6: Retrospective
 - **Input:** spec.md.
 - **Output:** approval / change request / rejection. If change request: incorporate feedback into spec.md and (if needed) re-run Phase 3 + Phase 4. If rejection: workflow ends and a new brief must be written.
 - **Rule:** code is NOT written before this gate clears. Implementation happens in a separate workflow / plan / PR cycle.
+- **Autonomous Studio standing delegation:** In a Studio Harness v3 / Ralph foreground loop, this gate may be cleared by a direct user message or repo-native approval ledger that explicitly delegates the selected axis or cycle. The Director must write `reports/deliberation/<axis-slug>/user-review.md` with approval source, scope, exclusions, and timestamp before implementation planning. If no such source exists, do not self-approve; write awaiting-review heartbeat/report evidence and continue only safe local work that does not implement the unapproved spec.
 
 ### Phase 6 — Retrospective
 
@@ -100,7 +101,7 @@ Phase 6: Retrospective
 A deliberation is complete when:
 1. All 6 phases have their named output artifacts on disk.
 2. spec.md "Decisions Resolved" has ≥ 2 entries.
-3. User has explicitly approved (Phase 5).
+3. User has explicitly approved, or standing delegation has been recorded with source evidence (Phase 5).
 4. retrospective.md exists.
 
 A deliberation is INCOMPLETE if any of these are missing — even if the spec "looks done." Do not proceed to implementation.

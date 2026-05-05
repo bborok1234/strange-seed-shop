@@ -14,6 +14,7 @@ Scope: `이상한 씨앗상회` + 에이전트 네이티브 게임 스튜디오/
 | 명령 | 세션 종류 | 목적 | 기본 행동 |
 | --- | --- | --- | --- |
 | `npm run studio:v3:operate` | Studio Harness v3 foreground operator | GitHub-authoritative WorkUnit 루프를 `$seed-ops` 없이 실행 | issue -> `## Plan` -> 구현 -> 검증 -> PR -> CI -> merge -> 다음 issue |
+| `$studio-operate` / `studio-operate` | Codex/Claude in-session operator pass | detached supervisor보다 가벼운 한 패스 운영 | context snapshot -> WorkUnit 선택/계획 -> 구현/검증 -> evidence/heartbeat -> 다음 checkpoint |
 | `$seed-ops` | deprecated adapter | v3 이전 Productionization 보조 표면. 새 v3 운영 진입점이 아님 | 새 작업 선택/무한 운영에는 사용하지 않음 |
 | `$seed-brief` | 보고/상황판 | 지금 어디까지 됐는지 증거 중심으로 요약 | issue/PR/CI/main/playable/evidence/next queue 정리 |
 | `$seed-design` | 설계/기획 대화 | 게임성, UI/UX, 운영사 철학, milestone 정렬 | 선택지와 tradeoff 제시, 결정된 내용 문서화 |
@@ -44,26 +45,30 @@ Studio Harness v3 foreground operator와 runner는 GitHub issue/PR/GateEvent를 
 
 `$seed-ops`는 Studio Harness v3 entrypoint가 아니다. `$seed-ops`는 deprecated adapter이며, v3 전환의 목적은 그 과거 프롬프트 표면을 `npm run studio:v3:operate`로 시작하는 GitHub-authoritative foreground operator로 대체하는 것이다.
 
+Codex App에서 Claude Code의 `/studio-operate`처럼 가볍게 한 패스만 돌리고 싶으면 project-local `$studio-operate` / `studio-operate` skill을 사용한다. 이 경로는 detached 24h supervisor를 띄우지 않고 현재 Codex 세션 안에서 context snapshot, Ralph prompt-side state, WorkUnit plan, Browser Use evidence, focused checks, heartbeat를 남기는 bounded operator pass다. `$ralph`가 같이 활성화되어도 그것은 live long runner가 아니라 persistence/state guidance이며, 실제 장시간 runner는 `npm run studio:v3:operate -- --detached ...` 또는 attached OMX CLI에서 별도로 시작해야 한다.
+
 실제 v3 운영 시작 명령:
 
 ```bash
 npm run studio:v3:operate -- --doctor --print-command
 npm run studio:v3:operate -- --duration-hours 24
 npm run studio:v3:operate -- --detached --duration-hours 24 --interval-seconds 300
+npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved
 ```
 
 반드시 지키는 루프:
 
 1. `docs/ROADMAP.md`, `docs/NORTH_STAR.md`, `docs/OPERATOR_CONTROL_ROOM.md`에서 현재 목표를 확인한다.
-2. 새 게임 issue를 고르기 전에 `Studio Campaign Gate`를 적용한다. 현재 campaign source of truth는 `P0.5 Idle Core + Creative Rescue`다.
-3. 게임 기능/UI/에셋/QA issue이면 `game-studio:game-studio`로 먼저 분류하고, 즉시 specialist route를 고정한다.
-4. 다음 issue를 선택하거나 만든다. 이때 선택 기준은 "안전하고 작은 작업"이 아니라 `docs/NORTH_STAR.md`의 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow다.
-5. 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`, Game Studio route, Game Studio Department Signoff, Subagent/Team Routing, 수용 기준, 검증 명령, 금지 범위를 적는다.
-6. branch에서 작업한다.
-7. 로컬 검증과 필요한 visual evidence를 남긴다. UI/visual 변경이면 Browser Use `iab` QA를 먼저 시도하고, 처음 도구가 보이지 않으면 `tool_search`로 Node REPL `js`를 lazy-load한 뒤 재시도한다.
-8. PR을 만들고 GitHub checks를 확인한다.
-9. merge 후 main CI를 확인한다.
-10. 완료 보고는 중단 조건이 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
+2. 선택된 deliberation axis가 있으면 `$studio-deliberate <axis-slug>`로 `docs/studio/DELIBERATION_WORKFLOW.md`를 먼저 실행한다. Claude Code `/studio-deliberate`는 어댑터일 뿐이고 Codex는 `.codex/skills/studio-deliberate/SKILL.md`와 repo-native `docs/studio/`를 사용한다.
+3. 새 게임 issue를 고르기 전에 `Studio Campaign Gate`를 적용한다. 현재 campaign source of truth는 `P0.5 Idle Core + Creative Rescue`다.
+4. 게임 기능/UI/에셋/QA issue이면 `game-studio:game-studio`로 먼저 분류하고, 즉시 specialist route를 고정한다.
+5. 다음 issue를 선택하거나 만든다. 이때 선택 기준은 "안전하고 작은 작업"이 아니라 `docs/NORTH_STAR.md`의 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow다.
+6. 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`, Game Studio route, Game Studio Department Signoff, Subagent/Team Routing, 수용 기준, 검증 명령, 금지 범위를 적는다.
+7. branch에서 작업한다.
+8. 로컬 검증과 필요한 visual evidence를 남긴다. UI/visual 변경이면 Browser Use `iab` QA를 먼저 시도하고, 처음 도구가 보이지 않으면 `tool_search`로 Node REPL `js`를 lazy-load한 뒤 재시도한다.
+9. PR을 만들고 GitHub checks를 확인한다.
+10. merge 후 main CI를 확인한다.
+11. 완료 보고는 중단 조건이 아니라 checkpoint로 취급하고, stop rule이 없으면 다음 issue를 plan-first로 선택한다.
 
 원격 게시 기본값: Studio Harness v3 foreground operator issue loop에서 branch push, draft PR 생성/갱신, GitHub checks 확인, merge, main CI 확인은 별도 사용자 지시가 없어도 완료 조건에 포함된다. 확인 질문으로 멈추지 않는다. 다만 credential, 외부 배포, 결제/광고/고객 데이터, destructive boundary, 실채널 GTM은 stop rule과 명시 승인 규칙을 우선한다.
 

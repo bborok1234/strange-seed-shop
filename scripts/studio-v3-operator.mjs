@@ -53,6 +53,7 @@ Usage:
   npm run studio:v3:operate -- --duration-hours 24
   npm run studio:v3:operate -- --detached --duration-hours 24 --interval-seconds 300
   npm run studio:v3:operate -- --prompt-only --issue 293
+  npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved
 
 What this is:
   v3 native foreground Codex/OMX operator starter. It prepares and launches the
@@ -82,6 +83,8 @@ Options:
   --max-iterations N    Maximum Codex passes. 0 means until duration expires. Default: 0.
   --idle-timeout-minutes N  Kill the active Codex pass if no stdout/stderr for N minutes. Default: 10.
   --issue N             Initial GitHub WorkUnit issue number to prioritize.
+  --axis SLUG           Selected studio deliberation axis to run before ordinary queue work.
+  --cycle-a-approved    Record the standing user decision that Cycle A close is OK.
   --worktree PATH       Repo path for Codex/OMX execution. Default: current directory.
   --backend omx|codex   Execution backend. Default: omx if installed, otherwise codex.
   --prompt PATH         Prompt output path. Default: .omx/state/studio-v3-operator-prompt.md.
@@ -118,8 +121,20 @@ function formatChecks(checks) {
   return [`| 상태 | 필수 | 항목 | 세부 |`, `| --- | --- | --- | --- |`, ...rows].join("\n");
 }
 
-function buildPrompt({ issue, durationHours, intervalSeconds, worktree }) {
+function buildPrompt({ issue, durationHours, intervalSeconds, worktree, axis, cycleAApproved }) {
   const initialIssue = issue ? `\nInitial GitHub WorkUnit: #${issue}. Start there unless GitHub state shows a higher-priority blocking WorkUnit.\n` : "";
+  const selectedAxis = axis ? `
+현재 사용자 결정:
+- Cycle A close approval: ${cycleAApproved ? "approved by user in this handoff; record heartbeat userApproved=true before starting the next axis" : "not provided in this run"}
+- Selected deliberation axis: \`${axis}\`
+
+Deliberation-first branch:
+1. Read \`docs/studio/HANDOFF.md\`, \`docs/studio/USER_PREFERENCES.md\`, and \`docs/studio/DELIBERATION_WORKFLOW.md\`.
+2. If \`reports/deliberation/${axis}/spec.md\` is missing, use \`$studio-deliberate ${axis}\` as the Codex-native adapter.
+3. If \`reports/deliberation/${axis}/brief.md\` is missing, create it first from the handoff, current critique, Game Studio route, asset need, playtest plan, and source artifacts.
+4. Apply the standing delegation rules in \`docs/studio/USER_PREFERENCES.md\` P8 and \`docs/studio/DELIBERATION_WORKFLOW.md\` Phase 5. Do not invent user approval; write \`user-review.md\` only when the source message or ledger supports it.
+5. After spec synthesis and review-gate evidence, continue into plan-first implementation or the next safe local operator action. Do not use a final response as a checkpoint.
+` : "";
   return `Studio Harness v3 foreground operator — 이상한 씨앗상회 AI 네이티브 게임 운영사
 
 목표:
@@ -137,15 +152,17 @@ function buildPrompt({ issue, durationHours, intervalSeconds, worktree }) {
 - local docs/items/reports는 mirror/evidence다.
 - Routine git/GitHub actions(issue/PR/comment body-file publication, branch push, checks watch, merge when green)는 agent responsibility다. credential/tool/destructive/external-production/payment/customer-data boundary가 아니면 사람에게 일반 git/GitHub 명령을 떠넘기지 않는다.
 ${initialIssue}
+${selectedAxis}
 작업 루프:
 1. docs/STUDIO_HARNESS_V3_AUTONOMOUS_DESIGN.md, docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md, docs/NORTH_STAR.md, docs/IDLE_CORE_CREATIVE_GUIDE.md를 빠르게 확인한다.
-2. npm run studio:v3:runner -- --once --dry-run 으로 GitHub queue/PR/CI snapshot과 next action을 확인한다.
-3. GitHub issue queue에서 합법 WorkUnit을 선택한다. 없으면 queue empty를 종료가 아니라 production game quality Intake WorkUnit 생성으로 처리한다.
-4. 구현 전 items/<id>.md 또는 동등 plan artifact에 ## Plan, 수용 기준, 검증 명령, 리스크, Game Studio route(visible gameplay일 때), Subagent/Team Routing을 작성한다.
-5. branch를 만들고 scope 안에서 구현한다.
-6. visible gameplay/HUD/playfield/assets/QA는 Game Studio route를 먼저 고정하고 Browser Use iab를 우선 사용한다. Codex CLI에서 Browser Use가 안 보이면 node_repl MCP js readiness를 확인하고 현재 세션 blocker를 reports/visual/에 기록한다. Playwright는 반복 regression gate이지 Browser Use hands-on QA 대체재가 아니다.
-7. focused checks -> 필요한 full checks -> PR body-file 작성 -> branch push -> PR create/update -> GitHub checks watch/repair -> merge when green -> main CI observation을 수행한다.
-8. Release/Retro/daily report/merge/queue empty는 checkpoint일 뿐 종료 사유가 아니다. stop rule이 없으면 즉시 다음 GitHub WorkUnit을 plan-first로 이어간다.
+2. 선택된 deliberation axis가 있으면 먼저 \`$studio-deliberate\` 경로로 brief/proposals/critiques/spec/review evidence를 정리한다.
+3. npm run studio:v3:runner -- --once --dry-run 으로 GitHub queue/PR/CI snapshot과 next action을 확인한다.
+4. GitHub issue queue에서 합법 WorkUnit을 선택한다. 없으면 queue empty를 종료가 아니라 production game quality Intake WorkUnit 생성으로 처리한다.
+5. 구현 전 items/<id>.md 또는 동등 plan artifact에 ## Plan, 수용 기준, 검증 명령, 리스크, Game Studio route(visible gameplay일 때), Subagent/Team Routing을 작성한다.
+6. branch를 만들고 scope 안에서 구현한다.
+7. visible gameplay/HUD/playfield/assets/QA는 Game Studio route를 먼저 고정하고 Browser Use iab를 우선 사용한다. Codex CLI에서 Browser Use가 안 보이면 node_repl MCP js readiness를 확인하고 현재 세션 blocker를 reports/visual/에 기록한다. Playwright는 반복 regression gate이지 Browser Use hands-on QA 대체재가 아니다.
+8. focused checks -> 필요한 full checks -> PR body-file 작성 -> branch push -> PR create/update -> GitHub checks watch/repair -> merge when green -> main CI observation을 수행한다.
+9. Release/Retro/daily report/merge/queue empty는 checkpoint일 뿐 종료 사유가 아니다. stop rule이 없으면 즉시 다음 GitHub WorkUnit을 plan-first로 이어간다.
 
 중단 사유:
 - user stop/close/interrupt/cancel
@@ -159,11 +176,13 @@ Codex 한도/idle로 supervisor가 멈추면 사용자는 Claude Code 세션에�
 실행 파라미터:
 - worktree: ${worktree}
 - supervision target: ${durationHours}h, restart interval after completed pass: ${intervalSeconds}s
+- selected deliberation axis: ${axis || "none"}
+- cycle-a-approved: ${cycleAApproved}
 - final user-facing report는 위 중단 사유가 있을 때만 허용한다. 그 외에는 commentary checkpoint와 다음 plan artifact/heartbeat를 남기고 계속한다.
 `;
 }
 
-function writeReport({ reportPath, promptPath, statePath, checks, commandText, detachedCommandText, issue, backend, worktree, idleTimeoutMinutes }) {
+function writeReport({ reportPath, promptPath, statePath, checks, commandText, detachedCommandText, issue, backend, worktree, idleTimeoutMinutes, axis, cycleAApproved }) {
   ensureDir(reportPath);
   const report = `# Studio Harness v3 Foreground Operator Entry
 
@@ -172,6 +191,8 @@ function writeReport({ reportPath, promptPath, statePath, checks, commandText, d
 - Idle timeout: ${idleTimeoutMinutes} min (per Codex pass; supervisor stops cleanly on idle/limit)
 - Worktree: \`${worktree}\`
 - Initial issue: ${issue ? `#${issue}` : "auto from GitHub queue"}
+- Selected deliberation axis: ${axis ? `\`${axis}\`` : "none"}
+- Cycle A approved: ${cycleAApproved}
 - Prompt: \`${promptPath}\`
 - State: \`${statePath}\`
 
@@ -214,7 +235,7 @@ function buildCommandText({ backend, worktree, promptPath, yolo }) {
   return `${command} ${argsText} < ${shellQuote(promptPath)}`;
 }
 
-function buildDetachedCommandText({ durationHours, intervalSeconds, maxIterations, issue, worktree, backend, promptPath, statePath, reportPath, logPath, pidPath, yolo, idleTimeoutMinutes }) {
+function buildDetachedCommandText({ durationHours, intervalSeconds, maxIterations, issue, axis, cycleAApproved, worktree, backend, promptPath, statePath, reportPath, logPath, pidPath, yolo, idleTimeoutMinutes }) {
   const scriptArgs = [
     scriptPath,
     "--supervisor",
@@ -229,6 +250,8 @@ function buildDetachedCommandText({ durationHours, intervalSeconds, maxIteration
     "--report", reportPath
   ];
   if (issue) scriptArgs.push("--issue", String(issue));
+  if (axis) scriptArgs.push("--axis", String(axis));
+  if (cycleAApproved) scriptArgs.push("--cycle-a-approved");
   if (yolo) scriptArgs.push("--yolo");
   const nodeCommand = [process.execPath, ...scriptArgs].map(shellQuote).join(" ");
   return `mkdir -p ${shellQuote(path.dirname(logPath))} ${shellQuote(path.dirname(pidPath))}\nnohup ${nodeCommand} > ${shellQuote(logPath)} 2>&1 &\necho $! > ${shellQuote(pidPath)}`;
@@ -258,6 +281,15 @@ function detectLimit(text) {
   return null;
 }
 
+function detectLimitInStream(text, streamName) {
+  // Codex/OMX echoes the submitted user prompt on stdout. The operator prompt
+  // intentionally describes limit handling, so scanning stdout creates a
+  // false positive before the first assistant pass starts. Runtime limit
+  // failures are expected on stderr.
+  if (streamName !== "stderr") return null;
+  return detectLimit(text);
+}
+
 function runMonitoredPass({ command, args, prompt, worktree, idleTimeoutMs }) {
   return new Promise((resolve) => {
     process.stderr.write(`[operator] launching ${command} (cwd=${worktree}, idle-timeout=${Math.round(idleTimeoutMs / 1000)}s, prompt=${prompt.length} chars)\n`);
@@ -279,18 +311,18 @@ function runMonitoredPass({ command, args, prompt, worktree, idleTimeoutMs }) {
       const fallbackKill = setTimeout(() => { try { child.kill("SIGKILL"); } catch {} }, 5000);
       fallbackKill.unref?.();
     };
-    const onChunk = (chunk, sink) => {
+    const onChunk = (chunk, sink, streamName) => {
       sink.write(chunk);
       lastOutputAt = Date.now();
       if (limitMatch) return;
-      const match = detectLimit(chunk.toString());
+      const match = detectLimitInStream(chunk.toString(), streamName);
       if (match) {
         limitMatch = match;
         killChild("limit-detected");
       }
     };
-    child.stdout.on("data", (chunk) => onChunk(chunk, process.stdout));
-    child.stderr.on("data", (chunk) => onChunk(chunk, process.stderr));
+    child.stdout.on("data", (chunk) => onChunk(chunk, process.stdout, "stdout"));
+    child.stderr.on("data", (chunk) => onChunk(chunk, process.stderr, "stderr"));
     const interval = Math.max(5000, Math.min(30000, Math.floor(idleTimeoutMs / 4)));
     const idleTimer = setInterval(() => {
       if (Date.now() - lastOutputAt > idleTimeoutMs) killChild("idle-timeout");
@@ -336,7 +368,7 @@ async function sleep(ms) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo, idleTimeoutMs }) {
+async function supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo, idleTimeoutMs, axis, cycleAApproved }) {
   const startedAt = new Date();
   const deadlineMs = startedAt.getTime() + durationHours * 60 * 60 * 1000;
   let iteration = 0;
@@ -352,6 +384,8 @@ async function supervise({ backend, worktree, prompt, statePath, durationHours, 
     interval_seconds: intervalSeconds,
     idle_timeout_ms: idleTimeoutMs,
     max_iterations: maxIterations,
+    selected_axis: axis || null,
+    cycle_a_approved: Boolean(cycleAApproved),
     seed_ops_entrypoint: false,
   });
 
@@ -368,6 +402,8 @@ async function supervise({ backend, worktree, prompt, statePath, durationHours, 
       duration_hours: durationHours,
       interval_seconds: intervalSeconds,
       iteration,
+      selected_axis: axis || null,
+      cycle_a_approved: Boolean(cycleAApproved),
       seed_ops_entrypoint: false,
     });
     const result = await runCodexPass({ backend, worktree, prompt, yolo, idleTimeoutMs });
@@ -384,6 +420,8 @@ async function supervise({ backend, worktree, prompt, statePath, durationHours, 
       interval_seconds: intervalSeconds,
       iteration,
       last_result: result,
+      selected_axis: axis || null,
+      cycle_a_approved: Boolean(cycleAApproved),
       next_action_hint: limitTriggered
         ? "Codex 한도/idle로 supervisor를 중단했다. Claude Code 세션에서 /studio-operate 스킬로 작업 루프를 계속한다."
         : null,
@@ -409,11 +447,30 @@ async function supervise({ backend, worktree, prompt, statePath, durationHours, 
     duration_hours: durationHours,
     interval_seconds: intervalSeconds,
     iterations: iteration,
+    selected_axis: axis || null,
+    cycle_a_approved: Boolean(cycleAApproved),
     seed_ops_entrypoint: false,
   });
 }
 
 const help = hasFlag("help") || hasFlag("h");
+if (hasFlag("self-test-limit-detection")) {
+  const echoedPrompt = "user\\nCodex 한도/idle로 supervisor가 멈추면 usage limit recovery path를 쓴다.";
+  const realLimit = "Error: you've hit your usage limit. Please try again later.";
+  const checks = [
+    {
+      name: "stdout prompt echo does not trigger limit",
+      ok: detectLimitInStream(echoedPrompt, "stdout") === null
+    },
+    {
+      name: "stderr usage limit still triggers limit",
+      ok: Boolean(detectLimitInStream(realLimit, "stderr"))
+    }
+  ];
+  const ok = checks.every((check) => check.ok);
+  console.log(JSON.stringify({ ok, checks }, null, 2));
+  process.exit(ok ? 0 : 1);
+}
 if (help) {
   console.log(usage());
   process.exit(0);
@@ -427,6 +484,8 @@ if (backendRaw !== "omx" && backendRaw !== "codex") {
 }
 const backend = backendRaw;
 const issue = readArg("issue", "");
+const axis = readArg("axis", "");
+const cycleAApproved = hasFlag("cycle-a-approved");
 const durationHours = Number(readArg("duration-hours", "24"));
 const intervalSeconds = Math.max(1, Number(readArg("interval-seconds", "300")));
 const maxIterations = Math.max(0, Number(readArg("max-iterations", "0")));
@@ -438,15 +497,15 @@ const reportPath = readArg("report", `reports/operations/studio-v3-operator-${to
 const logPath = readArg("log", `.omx/logs/studio-v3-operator-${timestampCompact()}.log`);
 const pidPath = readArg("pid", ".omx/state/studio-v3-operator.pid");
 const yolo = hasFlag("yolo");
-const prompt = buildPrompt({ issue, durationHours, intervalSeconds, worktree });
+const prompt = buildPrompt({ issue, durationHours, intervalSeconds, worktree, axis, cycleAApproved });
 const checks = doctorChecks(worktree, backend);
 
 ensureDir(promptPath);
 fs.writeFileSync(promptPath, prompt);
 
 const commandText = buildCommandText({ backend, worktree, promptPath, yolo });
-const detachedCommandText = buildDetachedCommandText({ durationHours, intervalSeconds, maxIterations, issue, worktree, backend, promptPath, statePath, reportPath, logPath, pidPath, yolo, idleTimeoutMinutes });
-writeReport({ reportPath, promptPath, statePath, checks, commandText, detachedCommandText, issue, backend, worktree, idleTimeoutMinutes });
+const detachedCommandText = buildDetachedCommandText({ durationHours, intervalSeconds, maxIterations, issue, axis, cycleAApproved, worktree, backend, promptPath, statePath, reportPath, logPath, pidPath, yolo, idleTimeoutMinutes });
+writeReport({ reportPath, promptPath, statePath, checks, commandText, detachedCommandText, issue, backend, worktree, idleTimeoutMinutes, axis, cycleAApproved });
 
 const strictDoctor = hasFlag("strict-doctor");
 const doctor = hasFlag("doctor");
@@ -457,7 +516,7 @@ const supervisor = hasFlag("supervisor");
 
 if (doctor) {
   const failedRequired = checks.filter((check) => check.required && !check.ok);
-  console.log(JSON.stringify({ ok: failedRequired.length === 0, backend, idle_timeout_minutes: idleTimeoutMinutes, worktree, prompt: promptPath, report: reportPath, checks }, null, 2));
+  console.log(JSON.stringify({ ok: failedRequired.length === 0, backend, idle_timeout_minutes: idleTimeoutMinutes, worktree, prompt: promptPath, report: reportPath, axis, cycle_a_approved: cycleAApproved, checks }, null, 2));
   if (printCommand) {
     console.log("\n# foreground");
     console.log(commandText);
@@ -474,7 +533,7 @@ if (printCommand) {
 }
 
 if (promptOnly) {
-  console.log(JSON.stringify({ ok: true, prompt: promptPath, report: reportPath, state: statePath, seed_ops_entrypoint: false }, null, 2));
+  console.log(JSON.stringify({ ok: true, prompt: promptPath, report: reportPath, state: statePath, axis, cycle_a_approved: cycleAApproved, seed_ops_entrypoint: false }, null, 2));
   process.exit(0);
 }
 
@@ -495,6 +554,8 @@ if (detached) {
     "--report", reportPath,
   ];
   if (issue) childArgs.push("--issue", String(issue));
+  if (axis) childArgs.push("--axis", String(axis));
+  if (cycleAApproved) childArgs.push("--cycle-a-approved");
   if (yolo) childArgs.push("--yolo");
   const out = fs.openSync(logPath, "a");
   const child = spawn(process.execPath, childArgs, { detached: true, stdio: ["ignore", out, out] });
@@ -511,6 +572,8 @@ if (detached) {
     prompt: promptPath,
     report: reportPath,
     updated_at: new Date().toISOString(),
+    selected_axis: axis || null,
+    cycle_a_approved: Boolean(cycleAApproved),
     seed_ops_entrypoint: false,
   });
   console.log(JSON.stringify({ ok: true, status: "detached-started", pid: child.pid, pidPath, logPath, prompt: promptPath, report: reportPath }, null, 2));
@@ -518,8 +581,8 @@ if (detached) {
 }
 
 if (supervisor) {
-  await supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo, idleTimeoutMs });
+  await supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo, idleTimeoutMs, axis, cycleAApproved });
   process.exit(0);
 }
 
-await supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo, idleTimeoutMs });
+await supervise({ backend, worktree, prompt, statePath, durationHours, intervalSeconds, maxIterations, yolo, idleTimeoutMs, axis, cycleAApproved });

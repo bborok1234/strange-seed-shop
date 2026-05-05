@@ -1,0 +1,30 @@
+- main:
+  - paragraph: 햇살 온실 정원
+  - heading "이상한 씨앗상회" [level=1]
+  - paragraph: 첫 씨앗을 고르세요
+  - generic "현재 재화":
+    - generic: 잎 0
+    - generic: 꽃가루 0
+    - generic: 재료 0
+  - region "정원":
+    - 'application "Phaser 정원 플레이필드: 밭을 눌러 성장시키고 수확합니다"':
+      - button "첫 밭 빈 자리" [disabled]:
+        - generic: "1"
+        - strong: 첫 밭
+        - generic: +
+        - generic: 빈 자리
+    - complementary:
+      - paragraph: 다음 행동
+      - heading "첫 씨앗을 고르세요" [level=2]
+  - navigation "주요 화면":
+    - button "정원" [pressed]:
+      - generic: 정원
+    - button "씨앗":
+      - generic: 씨앗
+    - button "도감 도감 진행 0/9":
+      - generic: 도감
+      - generic "도감 진행 0/9": 0/9
+    - button "원정":
+      - generic: 원정
+    - button "상점":
+      - generic: 상점

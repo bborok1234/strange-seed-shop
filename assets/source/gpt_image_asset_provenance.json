@@ -81,7 +81,135 @@
           "reason": "gpt-image-2 does not output an alpha channel; near-white background is keyed out post-generation to produce an RGBA game asset."
         }
       ]
+    },
+    {
+      "asset_id": "ui_hud_plot_seedbed_empty_001",
+      "provider": "codex_native_image_generation",
+      "model": "codex_native_image_generation",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "/Users/mirlim/.codex/generated_images/019df866-ee92-7880-be6f-3441c94a474e/ig_024c198571d478510169f9f65a80f4819185a07a247112203e.png",
+      "accepted_output_path": "public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png",
+      "generated_at": "2026-05-05T22:54:08+09:00",
+      "status": "candidate_preview_pending_manifest",
+      "width": 1536,
+      "height": 1024,
+      "screen_moment": "fresh_garden",
+      "player_verb": "plant_seed",
+      "state_binding": "plot.state=empty",
+      "text_safe_zone": "center inset 18%, top plate area clear for DOM label/progress",
+      "must_not_obscure": "stage_art, bottom_tabs, plot click target",
+      "post_processing": [
+        {
+          "step": "chroma_key_alpha_cutout",
+          "tool": "scripts/chroma-key-asset.mjs",
+          "params": { "threshold": 205, "feather": 18 },
+          "reason": "Codex native output arrived as RGB with checker/near-white backing; PR1 preview candidate requires alpha-ready overlay for later GardenPlotCard composition."
+        }
+      ],
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "seed_herb_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "ui_hud_plot_seedbed_growing_001",
+      "provider": "codex_native_image_generation",
+      "model": "codex_native_image_generation",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "/Users/mirlim/.codex/generated_images/019df866-ee92-7880-be6f-3441c94a474e/ig_024c198571d478510169f9f68f0f688191bb7f41b560eb5aa3.png",
+      "accepted_output_path": "public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png",
+      "generated_at": "2026-05-05T22:55:02+09:00",
+      "status": "candidate_preview_pending_manifest",
+      "width": 1536,
+      "height": 1024,
+      "screen_moment": "growing_plot",
+      "player_verb": "tap_growth",
+      "state_binding": "plot.state=growing",
+      "text_safe_zone": "center inset 18%, lower mound clear, no details under progress text",
+      "must_not_obscure": "stage_art, seed/source icon, progress label",
+      "post_processing": [
+        {
+          "step": "chroma_key_alpha_cutout",
+          "tool": "scripts/chroma-key-asset.mjs",
+          "params": { "threshold": 205, "feather": 18 },
+          "reason": "Codex native output arrived as RGB with checker/near-white backing; PR1 preview candidate requires alpha-ready overlay for later GardenPlotCard composition."
+        }
+      ],
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "seed_herb_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "ui_hud_plot_ready_ribbon_001",
+      "provider": "codex_native_image_generation",
+      "model": "codex_native_image_generation",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "/Users/mirlim/.codex/generated_images/019df866-ee92-7880-be6f-3441c94a474e/ig_024c198571d478510169f9f6b63a8881919f94fc8e6afe590f.png",
+      "accepted_output_path": "public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png",
+      "generated_at": "2026-05-05T22:55:37+09:00",
+      "status": "candidate_preview_pending_manifest",
+      "width": 1536,
+      "height": 1024,
+      "screen_moment": "ready_plot",
+      "player_verb": "harvest_plot",
+      "state_binding": "plot.state=ready",
+      "text_safe_zone": "ribbon center clear for DOM harvest/progress text; decorative leaves stay at edges",
+      "must_not_obscure": "plot label, source label, bottom_tabs",
+      "post_processing": [
+        {
+          "step": "chroma_key_alpha_cutout",
+          "tool": "scripts/chroma-key-asset.mjs",
+          "params": { "threshold": 205, "feather": 18 },
+          "reason": "Codex native output arrived as RGB with checker/near-white backing; PR1 preview candidate requires alpha-ready overlay for later GardenPlotCard composition."
+        }
+      ],
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "seed_herb_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "ui_hud_plot_text_plate_001",
+      "provider": "codex_native_image_generation",
+      "model": "codex_native_image_generation",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "/Users/mirlim/.codex/generated_images/019df866-ee92-7880-be6f-3441c94a474e/ig_024c198571d478510169f9f6d984488191b2b28570f327c48b.png",
+      "accepted_output_path": "public/assets/game/ui/ui_hud_plot_text_plate_001.png",
+      "generated_at": "2026-05-05T22:56:14+09:00",
+      "status": "candidate_preview_pending_manifest",
+      "width": 1536,
+      "height": 1024,
+      "screen_moment": "all_plot_states",
+      "player_verb": "read_plot_state",
+      "state_binding": "plot.state=empty|growing|ready",
+      "text_safe_zone": "large plain center field; no painted detail behind DOM labels",
+      "must_not_obscure": "stage_art, player verb, click target",
+      "post_processing": [
+        {
+          "step": "chroma_key_alpha_cutout",
+          "tool": "scripts/chroma-key-asset.mjs",
+          "params": { "threshold": 205, "feather": 18 },
+          "reason": "Codex native output arrived as RGB with checker/near-white backing; PR1 preview candidate requires alpha-ready overlay for later GardenPlotCard composition."
+        }
+      ],
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "seed_herb_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
     }
   ],
-  "updated_at": "2026-05-04T04:25:46.810Z"
+  "updated_at": "2026-05-05T22:56:14+09:00"
 }
