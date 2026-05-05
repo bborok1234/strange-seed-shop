@@ -21,6 +21,39 @@
   --radius-control: 8px;
   --radius-panel: 8px;
   --radius-pill: 999px;
+
+  /* desktop-ui-redesign 신규 토큰 (Cycle 1 PR0.5) — 사용처는 후속 PR에서 도입 */
+  /* spacing — desktop hero scale */
+  --spacing-2xl: 32px;
+  --spacing-3xl: 48px;
+  --spacing-4xl: 64px;
+  /* radius */
+  --radius-hero: 24px;
+  --radius-panel-desktop: 16px;
+  /* color — desktop region 전용 surfaces + sun accent */
+  --color-surface-dock: #fffbe9;
+  --color-surface-rail: rgba(31, 59, 43, 0.78);
+  --color-accent-sun: #f4c75a;
+  /* elevation */
+  --elevation-dock-raised: 0 8px 20px rgba(35, 58, 43, 0.10);
+  --elevation-dramatic: 0 24px 60px rgba(35, 58, 43, 0.22);
+  /* motion duration */
+  --motion-duration-snap: 120ms;
+  --motion-duration-swift: 220ms;
+  --motion-duration-gentle: 420ms;
+  --motion-duration-chapter: 720ms;
+  --motion-duration-celebrate: 880ms;
+  /* motion easing */
+  --motion-easing-standard: cubic-bezier(0.2, 0, 0.2, 1);
+  --motion-easing-entrance: cubic-bezier(0, 0, 0.2, 1);
+  --motion-easing-emphasized: cubic-bezier(0.2, 0.9, 0.28, 1.12);
+  /* motion gesture (duration × easing 결합 vocabulary) */
+  --motion-gesture-tap: var(--motion-duration-snap) var(--motion-easing-standard);
+  --motion-gesture-reveal: var(--motion-duration-gentle) var(--motion-easing-entrance);
+  --motion-gesture-chapter: var(--motion-duration-chapter) var(--motion-easing-entrance);
+  --motion-gesture-celebrate: var(--motion-duration-celebrate) var(--motion-easing-emphasized);
+  --motion-gesture-ambient: var(--motion-duration-swift) var(--motion-easing-standard);
+
   --mobile-nav-height: calc(64px + env(safe-area-inset-bottom));
   color: var(--text-primary);
   background: var(--surface-base);
