@@ -7893,3 +7893,45 @@ h1 {
     display: grid;
   }
 }
+
+/* stage-art-first Cycle A PR4 — rail button 축소 + brand cluster 흡수 + top-bar desktop hide */
+@media (min-width: 1280px) {
+  .bottom-tabs.is-desktop-rail .rail-brand-cluster {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    border-bottom: 1px solid rgba(255, 251, 233, 0.16);
+    margin-bottom: var(--space-2);
+  }
+
+  .bottom-tabs.is-desktop-rail .rail-brand-cluster .eyebrow {
+    margin: 0 0 4px;
+    color: rgba(255, 251, 233, 0.62);
+    font-size: 11px;
+  }
+
+  .bottom-tabs.is-desktop-rail .rail-brand-cluster strong {
+    display: block;
+    color: var(--surface-panel);
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  /* PR4: rail 버튼 ambient nav 정신 회복 — Cycle 1 §2 loser concession + acceptance height ≤ 44 */
+  .bottom-tabs.is-desktop-rail button {
+    min-height: 40px;
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2);
+    font-size: 13px;
+  }
+
+  /* desktop에서 top-bar 폐기 — eyebrow/h1는 rail brand cluster, currency·objective는 dock으로 흡수.
+     기존 .top-bar 안 cream gradient가 stage art 위 25%를 가리던 문제 해결. */
+  .top-bar {
+    display: none;
+  }
+
+  /* garden-panel top 좌표가 top-bar 부재로 너무 위로 붙는 문제 보정 */
+  .garden-panel {
+    top: var(--spacing-2xl);
+  }
+}

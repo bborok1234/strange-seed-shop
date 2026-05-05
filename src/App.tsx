@@ -3501,6 +3501,12 @@ export default function App() {
           </section>
         )}
         <nav className={isDesktopLayout ? "bottom-tabs is-desktop-rail" : "bottom-tabs"} aria-label="주요 화면">
+          {isDesktopLayout && (
+            <div className="rail-brand-cluster" aria-hidden="true">
+              <p className="eyebrow">햇살 온실 정원</p>
+              <strong>이상한 씨앗상회</strong>
+            </div>
+          )}
           {(isDesktopLayout ? MAIN_TABS.filter((tab) => tab.id !== "garden") : MAIN_TABS).map((tab) => {
             const albumProgressBadge =
               tab.id === "album" && save ? `${albumDiscoveredCount}/${content.creatures.length}` : null;
