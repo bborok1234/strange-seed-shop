@@ -383,6 +383,22 @@ const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "shop", label: "상점" }
 ];
 
+const DESKTOP_LAYOUT_MEDIA_QUERY = "(min-width: 1280px)";
+
+function useDesktopLayout(): boolean {
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia(DESKTOP_LAYOUT_MEDIA_QUERY).matches
+  );
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mediaQuery = window.matchMedia(DESKTOP_LAYOUT_MEDIA_QUERY);
+    const handler = (event: MediaQueryListEvent) => setIsDesktop(event.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+  return isDesktop;
+}
+
 export default function App() {
   const [manifest, setManifest] = useState<AssetManifest | null>(null);
   const [save, setSave] = useState<PlayerSave | null>(null);
@@ -916,6 +932,7 @@ export default function App() {
   );
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
   const showDebugPanel = getLocalDebugMode();
+  const isDesktopLayout = useDesktopLayout();
   const isPlayerTabScreen = activeTab !== "garden";
   const showSidePanel = showDebugPanel || isPlayerTabScreen || Boolean(manifestError);
 
@@ -3452,8 +3469,8 @@ export default function App() {
             {manifestError && <p className="error-text">{manifestError}</p>}
           </section>
         )}
-        <nav className="bottom-tabs" aria-label="주요 화면">
-          {MAIN_TABS.map((tab) => {
+        <nav className={isDesktopLayout ? "bottom-tabs is-desktop-rail" : "bottom-tabs"} aria-label="주요 화면">
+          {(isDesktopLayout ? MAIN_TABS.filter((tab) => tab.id !== "garden") : MAIN_TABS).map((tab) => {
             const albumProgressBadge =
               tab.id === "album" && save ? `${albumDiscoveredCount}/${content.creatures.length}` : null;
             const expeditionStatusBadge =
