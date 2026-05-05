@@ -7855,3 +7855,41 @@ h1 {
     /* 그 경우 stage 우상단 floating으로 노출 — debug surface임을 시각화 */
   }
 }
+
+/* stage-art-first Cycle A PR2 — .garden-panel cream-rectangle 패러다임 폐기 */
+@media (min-width: 1280px) {
+  /* garden-panel: cream rectangle 폐기 + bounding box 축소.
+     기존: top:122/bottom:78/left/right:--space-4 → stage 면적의 ~80% 차지.
+     변경: top:88, 중앙 정렬, width clamp(320,32vw,480), height auto + max-height
+     → stage 면적의 ~22% 차지하여 art ≥ 75% 약속 회복. */
+  .garden-panel {
+    top: 88px;
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: clamp(320px, 32vw, 480px);
+    height: auto;
+    max-height: clamp(280px, 45vh, 420px);
+    grid-template-rows: 1fr;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    overflow: visible;
+  }
+
+  /* starter-panel(다음 행동 + 첫 씨앗 helper): dock의 next-action card가 정보를 흡수하므로 desktop hide.
+     Designer의 첫 세션 onboarding 우려는 dock chip의 hot-state spike(spec § Decisions §4 Cycle 1) +
+     Cycle B의 L1 in-canvas diegetic UI(binding promise spec § Decisions §7)에서 회복. */
+  .starter-panel,
+  .garden-action-surface {
+    display: none;
+  }
+
+  /* 단, debug-shell 모드에서는 starter-panel을 다시 노출 (debug surface는 검증 도구) */
+  .app-shell.debug-shell .starter-panel,
+  .app-shell.debug-shell .garden-action-surface {
+    display: grid;
+  }
+}
