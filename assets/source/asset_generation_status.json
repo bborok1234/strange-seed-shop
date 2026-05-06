@@ -1,9 +1,9 @@
 {
   "source_prompts": "assets/source/asset_prompts.json",
-  "generated_at": "2026-05-04",
+  "generated_at": "2026-05-06",
   "generation_mode": "hybrid_codex_native_and_openai_images_api",
-  "total": 37,
-  "completed": 37,
+  "total": 49,
+  "completed": 49,
   "missing": [],
   "blocked": false,
   "notes": [
@@ -13,7 +13,8 @@
     "p0_5_core_asset_generation_first_pass: 5 production/order asset candidates saved as static workspace PNGs after Codex native generation and chroma-key alpha conversion. FX strips need normalization before manifest integration.",
     "p0_5_core_asset_manifest_normalization: 5 P0.5 assets registered in manifest; FX strips normalized to 4x160 strict strips.",
     "p0_5_lunar_source_playfield_assets: SVG attempt rejected; replaced via Codex native fallback initially, then regenerated through OpenAI Images API (gpt-image-1) on 2026-05-04 via #340.",
-    "art_team_api_lever_validated_2026-05-04: After #340 the gpt-image-1 path was confirmed end-to-end. Following individual verification propagation, gpt-image-2 was unblocked and rerun via SEED_ASSET_IMAGE_BACKGROUND=opaque + scripts/chroma-key-asset.mjs to produce RGBA assets at production quality. gpt-image-1 remains a usable alpha-native fallback; gpt-image-2 + chroma-key is the preferred high-quality path."
+    "art_team_api_lever_validated_2026-05-04: After #340 the gpt-image-1 path was confirmed end-to-end. Following individual verification propagation, gpt-image-2 was unblocked and rerun via SEED_ASSET_IMAGE_BACKGROUND=opaque + scripts/chroma-key-asset.mjs to produce RGBA assets at production quality. gpt-image-1 remains a usable alpha-native fallback; gpt-image-2 + chroma-key is the preferred high-quality path.",
+    "issue_0224_garden_production_redesign: 12 gpt-image-2 UI/sprite/FX assets generated, alpha-cut, sprite/FX normalized, and registered as accepted manifest assets for the production scene redesign."
   ],
   "outputs": [
     "public/assets/game/creatures/creature_herb_common_001.png",
@@ -52,7 +53,19 @@
     "public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png",
     "public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png",
     "public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png",
-    "public/assets/game/ui/ui_hud_plot_text_plate_001.png"
+    "public/assets/game/ui/ui_hud_plot_text_plate_001.png",
+    "public/assets/game/ui/ui_garden_objective_wood_sign_001.png",
+    "public/assets/game/ui/ui_garden_resource_pouch_001.png",
+    "public/assets/game/ui/ui_garden_action_ribbon_001.png",
+    "public/assets/game/ui/ui_garden_plot_floor_empty_001.png",
+    "public/assets/game/ui/ui_garden_plot_floor_growing_001.png",
+    "public/assets/game/ui/ui_garden_plot_floor_ready_001.png",
+    "public/assets/game/sprites/production/creature_herb_common_001_idle_strip.png",
+    "public/assets/game/sprites/production/creature_herb_common_001_work_strip.png",
+    "public/assets/game/sprites/production/creature_herb_common_001_celebrate_strip.png",
+    "public/assets/game/fx/fx_garden_leaf_trail_001_strip.png",
+    "public/assets/game/fx/fx_garden_harvest_pop_001_strip.png",
+    "public/assets/game/fx/fx_garden_order_receipt_001_strip.png"
   ],
   "batches": {
     "p0_5_core_asset_generation_first_pass": {
@@ -131,7 +144,9 @@
           "height": 1024,
           "provider": "openai_images_api",
           "model": "gpt-image-2",
-          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=225 --feather=14)"],
+          "post_processing": [
+            "chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=225 --feather=14)"
+          ],
           "notes": "Regenerated via gpt-image-2 (background=opaque) on 2026-05-04 after #340 individual verification propagated, then chroma-keyed to RGBA via scripts/chroma-key-asset.mjs because gpt-image-2 does not emit an alpha channel. gpt-image-1 first-pass kept a transparent channel directly but produced lower visual quality; gpt-image-2 + chroma-key matches the Codex native production bar."
         },
         {
@@ -169,7 +184,9 @@
           "height": 1024,
           "provider": "codex_native_image_generation",
           "model": "codex_native_image_generation",
-          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"],
+          "post_processing": [
+            "chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"
+          ],
           "notes": "Empty plot seedbed marker candidate. Strong object silhouette and broad center safe zone; manifest acceptance deferred to PR2 screen composition."
         },
         {
@@ -181,7 +198,9 @@
           "height": 1024,
           "provider": "codex_native_image_generation",
           "model": "codex_native_image_generation",
-          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"],
+          "post_processing": [
+            "chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"
+          ],
           "notes": "Growing plot seedbed marker candidate. Sprout and planted mound read clearly; manifest acceptance deferred to PR2 screen composition."
         },
         {
@@ -193,7 +212,9 @@
           "height": 1024,
           "provider": "codex_native_image_generation",
           "model": "codex_native_image_generation",
-          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"],
+          "post_processing": [
+            "chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"
+          ],
           "notes": "Ready ribbon candidate. Harvest affordance is visually strong; PR2 must scale/crop so it does not dominate plot label or bottom tabs."
         },
         {
@@ -205,7 +226,9 @@
           "height": 1024,
           "provider": "codex_native_image_generation",
           "model": "codex_native_image_generation",
-          "post_processing": ["chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"],
+          "post_processing": [
+            "chroma_key_alpha_cutout (scripts/chroma-key-asset.mjs --threshold=205 --feather=18)"
+          ],
           "notes": "Text-safe plate candidate. Strong readability but could feel panel-like if used too large; PR2 should keep it subordinate to seedbed/ribbon."
         }
       ],
@@ -213,6 +236,257 @@
         "Codex native image generation used one asset at a time.",
         "Generated cache files were copied into workspace output_path files and original cache files were left in place.",
         "This is a PR1 preview candidate set, not manifest acceptance. PR2 must reject or crop assets if GardenPlotCard still reads as cream/panel UI."
+      ]
+    },
+    "issue_0224_garden_production_redesign": {
+      "generated_at": "2026-05-06T13:38:35.851Z",
+      "total": 12,
+      "completed": 12,
+      "missing": [],
+      "blocked": false,
+      "runtime_generation_allowed": false,
+      "budget_cap_usd": 250,
+      "soft_checkpoint_usd": 200,
+      "completed_assets": [
+        {
+          "asset_id": "ui_garden_objective_wood_sign_001",
+          "output_path": "public/assets/game/ui/ui_garden_objective_wood_sign_001.png",
+          "status": "accepted_manifest_asset",
+          "width": 1024,
+          "height": 1024,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/ui_garden_objective_wood_sign_001/2026-05-06T13-04-49-588Z.png",
+          "post_processing": [
+            "alpha_cutout"
+          ],
+          "notes": "Issue #422 garden production redesign; hud.objective; alpha cutout UI gameplay asset."
+        },
+        {
+          "asset_id": "ui_garden_resource_pouch_001",
+          "output_path": "public/assets/game/ui/ui_garden_resource_pouch_001.png",
+          "status": "accepted_manifest_asset",
+          "width": 1024,
+          "height": 1024,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/ui_garden_resource_pouch_001/2026-05-06T13-08-40-066Z.png",
+          "post_processing": [
+            "alpha_cutout"
+          ],
+          "notes": "Issue #422 garden production redesign; hud.resourcePills; alpha cutout UI gameplay asset."
+        },
+        {
+          "asset_id": "ui_garden_action_ribbon_001",
+          "output_path": "public/assets/game/ui/ui_garden_action_ribbon_001.png",
+          "status": "accepted_manifest_asset",
+          "width": 1024,
+          "height": 1024,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/ui_garden_action_ribbon_001/2026-05-06T13-14-05-016Z.png",
+          "post_processing": [
+            "alpha_cutout"
+          ],
+          "notes": "Issue #422 garden production redesign; bottomAction.primaryVerb; alpha cutout UI gameplay asset."
+        },
+        {
+          "asset_id": "ui_garden_plot_floor_empty_001",
+          "output_path": "public/assets/game/ui/ui_garden_plot_floor_empty_001.png",
+          "status": "accepted_manifest_asset",
+          "width": 1024,
+          "height": 1024,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/ui_garden_plot_floor_empty_001/2026-05-06T13-15-28-856Z.png",
+          "post_processing": [
+            "alpha_cutout"
+          ],
+          "notes": "Issue #422 garden production redesign; plot.state=empty; alpha cutout UI gameplay asset."
+        },
+        {
+          "asset_id": "ui_garden_plot_floor_growing_001",
+          "output_path": "public/assets/game/ui/ui_garden_plot_floor_growing_001.png",
+          "status": "accepted_manifest_asset",
+          "width": 1024,
+          "height": 1024,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/ui_garden_plot_floor_growing_001/2026-05-06T13-16-35-899Z.png",
+          "post_processing": [
+            "alpha_cutout"
+          ],
+          "notes": "Issue #422 garden production redesign; plot.state=growing; alpha cutout UI gameplay asset."
+        },
+        {
+          "asset_id": "ui_garden_plot_floor_ready_001",
+          "output_path": "public/assets/game/ui/ui_garden_plot_floor_ready_001.png",
+          "status": "accepted_manifest_asset",
+          "width": 1024,
+          "height": 1024,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/ui_garden_plot_floor_ready_001/2026-05-06T13-17-40-177Z.png",
+          "post_processing": [
+            "alpha_cutout"
+          ],
+          "notes": "Issue #422 garden production redesign; plot.state=ready; alpha cutout UI gameplay asset."
+        },
+        {
+          "asset_id": "sprite_creature_herb_common_001_idle_strip",
+          "output_path": "public/assets/game/sprites/production/creature_herb_common_001_idle_strip.png",
+          "status": "accepted_manifest_asset",
+          "width": 576,
+          "height": 96,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/sprite_creature_herb_common_001_idle_strip/2026-05-06T13-18-54-175Z.png",
+          "post_processing": [
+            "alpha_cutout_and_strict_strip_normalization"
+          ],
+          "normalization": {
+            "frames": 6,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 8,
+            "repeat": -1,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 576,
+            "expectedHeight": 96
+          },
+          "notes": "Issue #422 garden production redesign; productionActor.state=idle; strict strip normalized and manifest animation.binding registered."
+        },
+        {
+          "asset_id": "sprite_creature_herb_common_001_work_strip",
+          "output_path": "public/assets/game/sprites/production/creature_herb_common_001_work_strip.png",
+          "status": "accepted_manifest_asset",
+          "width": 576,
+          "height": 96,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/sprite_creature_herb_common_001_work_strip/2026-05-06T13-20-02-915Z.png",
+          "post_processing": [
+            "alpha_cutout_and_strict_strip_normalization"
+          ],
+          "normalization": {
+            "frames": 6,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 10,
+            "repeat": -1,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 576,
+            "expectedHeight": 96
+          },
+          "notes": "Issue #422 garden production redesign; productionActor.state=work; strict strip normalized and manifest animation.binding registered."
+        },
+        {
+          "asset_id": "sprite_creature_herb_common_001_celebrate_strip",
+          "output_path": "public/assets/game/sprites/production/creature_herb_common_001_celebrate_strip.png",
+          "status": "accepted_manifest_asset",
+          "width": 576,
+          "height": 96,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/sprite_creature_herb_common_001_celebrate_strip/2026-05-06T13-21-23-212Z.png",
+          "post_processing": [
+            "alpha_cutout_and_strict_strip_normalization"
+          ],
+          "normalization": {
+            "frames": 6,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 12,
+            "repeat": 0,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 576,
+            "expectedHeight": 96
+          },
+          "notes": "Issue #422 garden production redesign; productionActor.state=celebrate; strict strip normalized and manifest animation.binding registered."
+        },
+        {
+          "asset_id": "fx_garden_leaf_trail_001_strip",
+          "output_path": "public/assets/game/fx/fx_garden_leaf_trail_001_strip.png",
+          "status": "accepted_manifest_asset",
+          "width": 768,
+          "height": 128,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/fx_garden_leaf_trail_001_strip/2026-05-06T13-22-44-520Z.png",
+          "post_processing": [
+            "alpha_cutout_and_strict_strip_normalization"
+          ],
+          "normalization": {
+            "frames": 6,
+            "frameWidth": 128,
+            "frameHeight": 128,
+            "frameRate": 12,
+            "repeat": 0,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 128
+          },
+          "notes": "Issue #422 garden production redesign; action=claim_production; strict strip normalized and manifest animation.binding registered."
+        },
+        {
+          "asset_id": "fx_garden_harvest_pop_001_strip",
+          "output_path": "public/assets/game/fx/fx_garden_harvest_pop_001_strip.png",
+          "status": "accepted_manifest_asset",
+          "width": 768,
+          "height": 128,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/fx_garden_harvest_pop_001_strip/2026-05-06T13-23-58-937Z.png",
+          "post_processing": [
+            "alpha_cutout_and_strict_strip_normalization"
+          ],
+          "normalization": {
+            "frames": 6,
+            "frameWidth": 128,
+            "frameHeight": 128,
+            "frameRate": 12,
+            "repeat": 0,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 128
+          },
+          "notes": "Issue #422 garden production redesign; action=harvest_plot; strict strip normalized and manifest animation.binding registered."
+        },
+        {
+          "asset_id": "fx_garden_order_receipt_001_strip",
+          "output_path": "public/assets/game/fx/fx_garden_order_receipt_001_strip.png",
+          "status": "accepted_manifest_asset",
+          "width": 768,
+          "height": 128,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/fx_garden_order_receipt_001_strip/2026-05-06T13-25-08-618Z.png",
+          "post_processing": [
+            "alpha_cutout_and_strict_strip_normalization"
+          ],
+          "normalization": {
+            "frames": 6,
+            "frameWidth": 128,
+            "frameHeight": 128,
+            "frameRate": 12,
+            "repeat": 0,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 128
+          },
+          "notes": "Issue #422 garden production redesign; action=deliver_order; strict strip normalized and manifest animation.binding registered."
+        }
+      ],
+      "notes": [
+        "OpenAI Images API gpt-image-2 used with static workspace outputs.",
+        "Opaque outputs were alpha-cut because gpt-image-2 returned non-alpha PNGs.",
+        "Actor/FX candidates were normalized into strict horizontal strips before manifest acceptance."
       ]
     }
   }

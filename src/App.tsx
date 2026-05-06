@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { getAsset, getAssetPath, getPlayfieldAnimationAssets, loadAssetManifest } from "./lib/assetManifest";
 import { createNewSave, localSaveStore } from "./lib/persistence";
 import { content, getStarterSeeds } from "./lib/content";
@@ -302,8 +302,8 @@ const GUARDIAN_OFFLINE_BONUS = 0.2;
 const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const MIN_REPEAT_SEED_COST = 10;
 const PRODUCTION_FX_ASSETS: Record<ProductionFxKind, string> = {
-  production: "fx_production_tick_leaf_001",
-  order: "fx_order_delivery_burst_001"
+  production: "fx_garden_leaf_trail_001_strip",
+  order: "fx_garden_order_receipt_001_strip"
 };
 const FIRST_ORDER: FirstOrderDefinition = {
   id: "order_pori_leaf_001",
@@ -758,6 +758,7 @@ export default function App() {
   const firstOrderDispatchReady = Boolean(
     productionStatus?.order.id === FIRST_ORDER.id && productionStatus.orderReady && !productionStatus.orderCompleted
   );
+  const hasVisibleProductionSurface = Boolean(productionStatus && productionStatus.ratePerMinute > 0);
   const hasResearchSeedPlot = Boolean(save?.plots.some((plot) => plot.source === "research" && plot.seedId));
   const hasAlbumRecordFollowupPlot = Boolean(
     save &&
@@ -768,7 +769,7 @@ export default function App() {
   );
   const actionSurfaceClassName = [
     "starter-panel garden-action-surface",
-    productionStatus ? "has-production" : "",
+    hasVisibleProductionSurface ? "has-production" : "",
     productionGraphStatus?.bottleneckAxis === "storage" ? "has-production-graph" : "",
     productionStatus && productionStatus.workerCreatures.length > 1 && productionStatus.orderCompleted ? "has-roster-complete" : "",
     productionStatus?.order.id === GREENHOUSE_ORDER.id ? "has-greenhouse-order" : "",
@@ -966,10 +967,11 @@ export default function App() {
   const playfieldAssets = useMemo(() => getPlayfieldAnimationAssets(manifest), [manifest]);
   const plotMarkerAssets = useMemo(
     () => ({
-      emptySeedbedPath: getAssetPath(manifest, "ui_hud_plot_seedbed_empty_001"),
-      growingSeedbedPath: getAssetPath(manifest, "ui_hud_plot_seedbed_growing_001"),
-      readyRibbonPath: getAssetPath(manifest, "ui_hud_plot_ready_ribbon_001"),
-      textPlatePath: getAssetPath(manifest, "ui_hud_plot_text_plate_001")
+      emptySeedbedPath: getAssetPath(manifest, "ui_garden_plot_floor_empty_001"),
+      growingSeedbedPath: getAssetPath(manifest, "ui_garden_plot_floor_growing_001"),
+      readySeedbedPath: getAssetPath(manifest, "ui_garden_plot_floor_ready_001"),
+      readyRibbonPath: "",
+      textPlatePath: ""
     }),
     [manifest]
   );
@@ -2263,13 +2265,21 @@ export default function App() {
   }
 
   function renderProductionFx(effect: ProductionFxState) {
-    const path = brokenAssetIds.has(effect.assetId) ? "" : getAssetPath(manifest, effect.assetId);
+    const asset = brokenAssetIds.has(effect.assetId) ? null : getAsset(manifest, effect.assetId);
+    const path = asset?.path ?? "";
     if (!path) {
       return null;
     }
+    const animation = asset?.animation?.kind === "spritesheet" ? asset.animation : null;
+    const style = animation
+      ? ({
+          "--production-fx-frame-count": animation.frames,
+          "--production-fx-strip-duration": `${Math.round((animation.frames / animation.frameRate) * 1000)}ms`
+        } as CSSProperties)
+      : undefined;
 
     return (
-      <span aria-hidden="true" className={`production-fx production-fx-${effect.kind}`} key={effect.id}>
+      <span aria-hidden="true" className={`production-fx production-fx-${effect.kind}`} key={effect.id} style={style}>
         <img alt="" onError={() => markAssetBroken(effect.assetId)} src={path} />
       </span>
     );
@@ -4537,7 +4547,7 @@ function getProductionFxAnimation(
 
 function getProductionWorkAnimationAssetId(worker: CreatureDefinition | undefined): string | undefined {
   if (worker?.id === "creature_herb_common_001") {
-    return "creature_herb_common_001_actor_work_idle_strip";
+    return "sprite_creature_herb_common_001_work_strip";
   }
 
   return undefined;

@@ -1,0 +1,199 @@
+{
+  "batchId": "garden_production_redesign_0224",
+  "issue": 422,
+  "generated_at": "2026-05-06T13:29:42.985Z",
+  "records": [
+    {
+      "asset_id": "ui_garden_objective_wood_sign_001",
+      "output_path": "public/assets/game/ui/ui_garden_objective_wood_sign_001.png",
+      "post_processing": "alpha_cutout",
+      "width": 1024,
+      "height": 1024,
+      "inputChannels": 3,
+      "cleared": 822298
+    },
+    {
+      "asset_id": "ui_garden_resource_pouch_001",
+      "output_path": "public/assets/game/ui/ui_garden_resource_pouch_001.png",
+      "post_processing": "alpha_cutout",
+      "width": 1024,
+      "height": 1024,
+      "inputChannels": 3,
+      "cleared": 765657
+    },
+    {
+      "asset_id": "ui_garden_action_ribbon_001",
+      "output_path": "public/assets/game/ui/ui_garden_action_ribbon_001.png",
+      "post_processing": "alpha_cutout",
+      "width": 1024,
+      "height": 1024,
+      "inputChannels": 3,
+      "cleared": 857257
+    },
+    {
+      "asset_id": "ui_garden_plot_floor_empty_001",
+      "output_path": "public/assets/game/ui/ui_garden_plot_floor_empty_001.png",
+      "post_processing": "alpha_cutout",
+      "width": 1024,
+      "height": 1024,
+      "inputChannels": 3,
+      "cleared": 667940
+    },
+    {
+      "asset_id": "ui_garden_plot_floor_growing_001",
+      "output_path": "public/assets/game/ui/ui_garden_plot_floor_growing_001.png",
+      "post_processing": "alpha_cutout",
+      "width": 1024,
+      "height": 1024,
+      "inputChannels": 3,
+      "cleared": 735458
+    },
+    {
+      "asset_id": "ui_garden_plot_floor_ready_001",
+      "output_path": "public/assets/game/ui/ui_garden_plot_floor_ready_001.png",
+      "post_processing": "alpha_cutout",
+      "width": 1024,
+      "height": 1024,
+      "inputChannels": 3,
+      "cleared": 677814
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_001_idle_strip",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "selected_raw_output": "public/assets/game/sprites/production/creature_herb_common_001_idle_strip.png",
+      "normalized_output_path": "public/assets/game/sprites/production/creature_herb_common_001_idle_strip.png",
+      "source_bbox": {
+        "left": 6,
+        "top": 398,
+        "width": 1016,
+        "height": 251
+      },
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 8,
+        "repeat": -1,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 576,
+        "expectedHeight": 96
+      }
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_001_work_strip",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "selected_raw_output": "public/assets/game/sprites/production/creature_herb_common_001_work_strip.png",
+      "normalized_output_path": "public/assets/game/sprites/production/creature_herb_common_001_work_strip.png",
+      "source_bbox": {
+        "left": 2,
+        "top": 387,
+        "width": 1022,
+        "height": 260
+      },
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 10,
+        "repeat": -1,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 576,
+        "expectedHeight": 96
+      }
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_001_celebrate_strip",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "selected_raw_output": "public/assets/game/sprites/production/creature_herb_common_001_celebrate_strip.png",
+      "normalized_output_path": "public/assets/game/sprites/production/creature_herb_common_001_celebrate_strip.png",
+      "source_bbox": {
+        "left": 4,
+        "top": 336,
+        "width": 1018,
+        "height": 309
+      },
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 576,
+        "expectedHeight": 96
+      }
+    },
+    {
+      "asset_id": "fx_garden_leaf_trail_001_strip",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "selected_raw_output": "public/assets/game/fx/fx_garden_leaf_trail_001_strip.png",
+      "normalized_output_path": "public/assets/game/fx/fx_garden_leaf_trail_001_strip.png",
+      "source_bbox": {
+        "left": 26,
+        "top": 340,
+        "width": 972,
+        "height": 303
+      },
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frameRate": 12,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 128
+      }
+    },
+    {
+      "asset_id": "fx_garden_harvest_pop_001_strip",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "selected_raw_output": "public/assets/game/fx/fx_garden_harvest_pop_001_strip.png",
+      "normalized_output_path": "public/assets/game/fx/fx_garden_harvest_pop_001_strip.png",
+      "source_bbox": {
+        "left": 5,
+        "top": 383,
+        "width": 1012,
+        "height": 237
+      },
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frameRate": 12,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 128
+      }
+    },
+    {
+      "asset_id": "fx_garden_order_receipt_001_strip",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "selected_raw_output": "public/assets/game/fx/fx_garden_order_receipt_001_strip.png",
+      "normalized_output_path": "public/assets/game/fx/fx_garden_order_receipt_001_strip.png",
+      "source_bbox": {
+        "left": 15,
+        "top": 285,
+        "width": 994,
+        "height": 392
+      },
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frameRate": 12,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 128
+      }
+    }
+  ]
+}

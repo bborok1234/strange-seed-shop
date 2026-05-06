@@ -12,6 +12,7 @@ interface GardenPlayfieldHostProps {
 interface GardenPlotMarkerAssets {
   emptySeedbedPath: string;
   growingSeedbedPath: string;
+  readySeedbedPath: string;
   readyRibbonPath: string;
   textPlatePath: string;
 }
@@ -292,7 +293,17 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
           .join(" ")}
       >
         <div className="playfield-production-actor-media">
-          {scene.workAnimation ? (
+          {scene.workAssetPath ? (
+            <span
+              aria-label={`${scene.actorName} 작업 pose`}
+              className="playfield-production-actor-sprite"
+              data-animation-asset={scene.workAnimation?.assetId}
+              data-frame-count={scene.workAnimation?.frames}
+              role="img"
+            >
+              <img alt="" className="playfield-production-actor-static" src={scene.workAssetPath} />
+            </span>
+          ) : scene.workAnimation ? (
             <span
               aria-label={`${scene.actorName} 작업 animation`}
               className="playfield-production-actor-sprite"
@@ -303,8 +314,6 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
             >
               <img alt="" src={scene.workAnimation.path} />
             </span>
-          ) : scene.workAssetPath ? (
-            <img alt="" src={scene.workAssetPath} />
           ) : (
             <span className="playfield-scene-fallback">작업</span>
           )}
@@ -372,7 +381,12 @@ function GardenPlotCard({
   plot: GardenPlotView;
 }) {
   const disabled = plot.state === "locked";
-  const seedbedPath = plot.state === "empty" ? markerAssets.emptySeedbedPath : markerAssets.growingSeedbedPath;
+  const seedbedPath =
+    plot.state === "empty"
+      ? markerAssets.emptySeedbedPath
+      : plot.state === "ready"
+        ? markerAssets.readySeedbedPath || markerAssets.growingSeedbedPath
+        : markerAssets.growingSeedbedPath;
   const classes = [
     "playfield-plot-card",
     `plot-state-${plot.state}`,
