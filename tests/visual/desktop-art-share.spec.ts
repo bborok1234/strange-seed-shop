@@ -176,3 +176,66 @@ for (const viewport of DESKTOP_VIEWPORTS) {
     expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top + 1);
   });
 }
+
+test("desktop 1280x900 production garden visual composition도 모바일 frame 안에서 유지된다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/?qaBottleneckGraphReady=1");
+
+  await expect(page.locator(".desktop-shell")).toBeVisible();
+  await expect(page.locator(".starter-panel.has-production-graph")).toBeVisible();
+  await expect(page.locator(".playfield-production-actor-sprite")).toBeVisible();
+  await expect(page.locator(".playfield-order-crate")).toBeVisible();
+  await expect(page.locator(".playfield-plot-card").first()).toBeVisible();
+  await expect(page.locator(".side-dock")).toHaveCount(0);
+  await expect(page.locator(".bottom-tabs.is-desktop-rail")).toHaveCount(0);
+
+  const metrics = await page.evaluate(() => {
+    const shell = document.querySelector<HTMLElement>(".desktop-shell")?.getBoundingClientRect();
+    const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
+    const plot = document.querySelector<HTMLElement>(".playfield-plot-card:not(:disabled)")?.getBoundingClientRect();
+    const actor = document.querySelector<HTMLElement>(".playfield-production-actor-sprite")?.getBoundingClientRect();
+    const label = document.querySelector<HTMLElement>(".playfield-plot-label-stack");
+    const labelStyle = label ? window.getComputedStyle(label) : null;
+    const actionPanel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    return {
+      innerWidth: window.innerWidth,
+      shell: shell ? { x: shell.x, width: shell.width } : null,
+      playfield: playfield ? { top: playfield.top, height: playfield.height } : null,
+      plot: plot ? { top: plot.top, bottom: plot.bottom, centerY: plot.top + plot.height / 2 } : null,
+      actor: actor ? { width: actor.width, height: actor.height } : null,
+      label: label
+        ? {
+            backgroundColor: labelStyle?.backgroundColor ?? "",
+            borderTopWidth: labelStyle?.borderTopWidth ?? ""
+          }
+        : null,
+      actionPanel: actionPanel ? { top: actionPanel.top, bottom: actionPanel.bottom, height: actionPanel.height } : null,
+      tabs: tabs ? { top: tabs.top, bottom: tabs.bottom, width: tabs.width } : null
+    };
+  });
+
+  expect(metrics.shell).not.toBeNull();
+  expect(metrics.playfield).not.toBeNull();
+  expect(metrics.plot).not.toBeNull();
+  expect(metrics.actor).not.toBeNull();
+  expect(metrics.label).not.toBeNull();
+  expect(metrics.actionPanel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.shell!.width).toBeLessThanOrEqual(430);
+  expect(Math.abs(metrics.shell!.x + metrics.shell!.width / 2 - metrics.innerWidth / 2)).toBeLessThanOrEqual(2);
+  expect(metrics.tabs!.width).toBeLessThanOrEqual(metrics.shell!.width);
+  expect(metrics.playfield!.height).toBeGreaterThanOrEqual(315);
+  expect(metrics.plot!.centerY).toBeGreaterThan(metrics.playfield!.top + metrics.playfield!.height * 0.52);
+  expect(metrics.plot!.bottom).toBeLessThanOrEqual(metrics.actionPanel!.top - 8);
+  expect(metrics.actor!.width).toBeGreaterThanOrEqual(48);
+  expect(metrics.actor!.height).toBeGreaterThanOrEqual(48);
+  expect(metrics.label!.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+  expect(metrics.label!.borderTopWidth).not.toBe("0px");
+
+  await page.screenshot({
+    path: testInfo.outputPath("desktop-production-garden-visual-composition-1280.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
