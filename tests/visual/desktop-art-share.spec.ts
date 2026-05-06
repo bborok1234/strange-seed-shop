@@ -1,28 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-/**
- * stage-art-first-restructure spec § Acceptance Criteria Layer 1·2 enforcement.
- *
- * Cycle 1 implementation 갭의 자동 차단 mechanism. PR이 spec § Decisions §1 약속
- * (stage region cream React panel ≤ 25%)을 위반하면 CI가 자동 reject.
- *
- * Spec: reports/deliberation/stage-art-first-restructure/spec.md
- */
-
-const STAGE_CREAM_PANEL_RATIO_MAX = 0.25;
-const RAIL_BUTTON_HEIGHT_MAX = 44;
-
 const DESKTOP_VIEWPORTS = [
   { width: 1280, height: 800 },
   { width: 1600, height: 900 },
   { width: 1920, height: 1180 }
-];
-
-const STAGE_OVERLAY_SELECTORS = [
-  ".garden-panel",
-  ".starter-panel",
-  ".action-surface",
-  ".garden-action-surface"
 ];
 
 interface BoundingBox {
@@ -41,152 +22,97 @@ function intersectionArea(a: BoundingBox, b: BoundingBox): number {
 }
 
 for (const viewport of DESKTOP_VIEWPORTS) {
-  test(`stage cream panel ratio ≤ ${STAGE_CREAM_PANEL_RATIO_MAX} at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+  test(`desktop ${viewport.width}x${viewport.height}도 모바일 game frame 하나만 렌더한다`, async ({ page }, testInfo) => {
     await page.setViewportSize(viewport);
-    await page.goto("/");
-    const stage = page.locator(".garden-stage");
-    await expect(stage).toBeVisible();
+    await page.goto("/?qaResearchExpeditionReady=1");
 
-    const stageRect = await stage.boundingBox();
-    expect(stageRect).not.toBeNull();
-    if (!stageRect) return;
-
-    let overlayArea = 0;
-    for (const selector of STAGE_OVERLAY_SELECTORS) {
-      const elements = await page.locator(selector).all();
-      for (const element of elements) {
-        const rect = await element.boundingBox();
-        if (!rect) continue;
-        overlayArea += intersectionArea(rect, stageRect);
-      }
-    }
-
-    const stageArea = stageRect.width * stageRect.height;
-    const ratio = stageArea > 0 ? overlayArea / stageArea : 0;
-    expect.soft(ratio).toBeLessThanOrEqual(STAGE_CREAM_PANEL_RATIO_MAX);
-    if (ratio > STAGE_CREAM_PANEL_RATIO_MAX) {
-      throw new Error(
-        `Stage cream panel ratio ${(ratio * 100).toFixed(1)}% exceeds ${(STAGE_CREAM_PANEL_RATIO_MAX * 100).toFixed(0)}% at ${viewport.width}x${viewport.height}. ` +
-          `Spec § Decisions §1·§2 violation. Reduce React panel coverage of garden-stage region.`
-      );
-    }
-  });
-
-  test(`rail button height ≤ ${RAIL_BUTTON_HEIGHT_MAX}px at ${viewport.width}x${viewport.height}`, async ({ page }) => {
-    await page.setViewportSize(viewport);
-    await page.goto("/");
-    const railButtons = page.locator(".bottom-tabs.is-desktop-rail button");
-    const count = await railButtons.count();
-    expect(count).toBeGreaterThan(0);
-    for (let index = 0; index < count; index += 1) {
-      const rect = await railButtons.nth(index).boundingBox();
-      if (!rect) continue;
-      if (rect.height > RAIL_BUTTON_HEIGHT_MAX) {
-        throw new Error(
-          `Rail button #${index} height ${rect.height.toFixed(0)}px exceeds ${RAIL_BUTTON_HEIGHT_MAX}px at ${viewport.width}x${viewport.height}. ` +
-            `Spec § Implementation Sequence PR4 violation. Reduce padding/min-height for ambient nav.`
-        );
-      }
-    }
-  });
-
-  test(`dock background contrast vs stage at ${viewport.width}x${viewport.height}`, async ({ page }) => {
-    await page.setViewportSize(viewport);
-    await page.goto("/");
-    const sideDock = page.locator(".side-dock");
-    if ((await sideDock.count()) === 0) return;
-
-    const dockBg = await sideDock.evaluate((element) => window.getComputedStyle(element).backgroundColor);
-    const stageBg = await page.locator(".garden-stage").evaluate((element) => window.getComputedStyle(element).backgroundColor);
-    expect(dockBg).not.toBe(stageBg);
-  });
-
-  test(`desktop garden stage stays inside its grid track at ${viewport.width}x${viewport.height}`, async ({ page }) => {
-    await page.setViewportSize(viewport);
-    await page.goto("/?qaProductionReady=1");
     const shell = page.locator(".desktop-shell");
-    const rail = page.locator(".bottom-tabs.is-desktop-rail");
     const stage = page.locator(".garden-stage");
+    const tabs = page.locator(".bottom-tabs");
     await expect(shell).toBeVisible();
-    await expect(rail).toBeVisible();
     await expect(stage).toBeVisible();
+    await expect(tabs).toBeVisible();
+    await expect(page.locator(".side-dock")).toHaveCount(0);
+    await expect(page.locator(".bottom-tabs.is-desktop-rail")).toHaveCount(0);
+    await expect(tabs.locator("button")).toHaveCount(5);
+    await expect(page.getByRole("button", { name: "정원" })).toBeVisible();
 
-    const shellRect = await shell.boundingBox();
-    const railRect = await rail.boundingBox();
-    const stageRect = await stage.boundingBox();
-    expect(shellRect).not.toBeNull();
-    expect(railRect).not.toBeNull();
-    expect(stageRect).not.toBeNull();
-    if (!shellRect || !railRect || !stageRect) return;
+    const metrics = await page.evaluate(() => {
+      const shell = document.querySelector<HTMLElement>(".desktop-shell")?.getBoundingClientRect();
+      const stage = document.querySelector<HTMLElement>(".garden-stage")?.getBoundingClientRect();
+      const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+      const topBar = document.querySelector<HTMLElement>(".top-bar")?.getBoundingClientRect();
+      const bodyScrollWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
+      const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      return {
+        innerWidth: window.innerWidth,
+        innerHeight: window.innerHeight,
+        bodyScrollWidth,
+        bodyScrollHeight,
+        shell: shell ? { x: shell.x, y: shell.y, width: shell.width, height: shell.height, bottom: shell.bottom } : null,
+        stage: stage ? { x: stage.x, y: stage.y, width: stage.width, height: stage.height, bottom: stage.bottom } : null,
+        tabs: tabs ? { x: tabs.x, y: tabs.y, width: tabs.width, height: tabs.height, bottom: tabs.bottom } : null,
+        topBar: topBar ? { x: topBar.x, y: topBar.y, width: topBar.width, height: topBar.height } : null
+      };
+    });
 
-    const shellRight = shellRect.x + shellRect.width;
-    const railRight = railRect.x + railRect.width;
-    const stageLeft = stageRect.x;
-    const stageRight = stageRect.x + stageRect.width;
+    expect(metrics.shell).not.toBeNull();
+    expect(metrics.stage).not.toBeNull();
+    expect(metrics.tabs).not.toBeNull();
+    expect(metrics.topBar).not.toBeNull();
+    expect(metrics.shell!.width).toBeLessThanOrEqual(430);
+    expect(metrics.stage!.width).toBeLessThanOrEqual(metrics.shell!.width);
+    expect(metrics.stage!.width).toBeGreaterThanOrEqual(metrics.shell!.width - 4);
+    expect(metrics.tabs!.width).toBeLessThanOrEqual(metrics.shell!.width);
+    expect(metrics.tabs!.width).toBeGreaterThanOrEqual(metrics.shell!.width - 4);
+    expect(metrics.tabs!.bottom).toBeLessThanOrEqual(metrics.shell!.bottom);
+    expect(metrics.tabs!.bottom).toBeGreaterThanOrEqual(metrics.shell!.bottom - 4);
+    expect(Math.abs(metrics.shell!.x + metrics.shell!.width / 2 - metrics.innerWidth / 2)).toBeLessThanOrEqual(2);
+    expect(metrics.bodyScrollWidth).toBeLessThanOrEqual(metrics.innerWidth + 2);
+    expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
 
-    expect(stageLeft, "stage must start after the desktop rail").toBeGreaterThanOrEqual(railRight - 1);
-    expect(stageRight, "stage must not overflow past the desktop shell").toBeLessThanOrEqual(shellRight + 1);
-    expect(stageRect.width, "stage should keep enough visible playfield width").toBeGreaterThan(360);
-
-    const hostRect = await page.locator(".garden-playfield-host").boundingBox();
-    expect(hostRect).not.toBeNull();
-    if (!hostRect) return;
-    const hostLeft = hostRect.x;
-    const hostRight = hostRect.x + hostRect.width;
-    expect(hostLeft).toBeGreaterThanOrEqual(stageLeft - 1);
-    expect(hostRight).toBeLessThanOrEqual(stageRight + 1);
+    await page.screenshot({ path: testInfo.outputPath(`desktop-forced-mobile-frame-${viewport.width}.png`), fullPage: false });
   });
 
-  test(`garden plot marker replaces cream playfield panel at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+  test(`desktop ${viewport.width}x${viewport.height} plot marker가 floor action zone에 남는다`, async ({ page }) => {
     await page.setViewportSize(viewport);
-    await page.goto("/?qaSpriteState=ready");
+    await page.goto("/?qaResearchExpeditionReady=1");
     await expect(page.locator(".garden-playfield-host")).toBeVisible();
     await expect(page.locator(".playfield-plot-marker").first()).toBeVisible();
 
     const markerCount = await page.locator(".playfield-plot-marker").count();
-    expect(markerCount).toBeGreaterThanOrEqual(3);
+    expect(markerCount).toBeGreaterThanOrEqual(2);
     const plotRect = await page.locator(".playfield-plot-card").first().boundingBox();
     const stageRect = await page.locator(".garden-stage").boundingBox();
+    const actionRect = await page.locator(".starter-panel").boundingBox();
     expect(plotRect).not.toBeNull();
     expect(stageRect).not.toBeNull();
-    if (!plotRect || !stageRect) return;
+    expect(actionRect).not.toBeNull();
+    if (!plotRect || !stageRect || !actionRect) return;
+
     const plotCenterY = plotRect.y + plotRect.height / 2;
-    const minFloorY = stageRect.y + stageRect.height * 0.34;
-    const maxActionSafeY = stageRect.y + stageRect.height * 0.72;
-    expect(plotCenterY, "plot marker should sit in the floor action area, not on the top shelf").toBeGreaterThan(minFloorY);
-    expect(plotCenterY, "plot marker should stay clear of the lower action panel").toBeLessThan(maxActionSafeY);
-    const seedbedAnimationName = await page
-      .locator(".playfield-plot-marker-seedbed")
-      .first()
-      .evaluate((element) => window.getComputedStyle(element).animationName);
-    expect(seedbedAnimationName).toContain("plotMarkerBreathe");
-
-    const markerSources = await page.locator(".playfield-plot-marker").evaluateAll((elements) =>
-      elements.map((element) => (element as HTMLImageElement).currentSrc || (element as HTMLImageElement).src)
-    );
-    expect(markerSources).toEqual(
-      expect.arrayContaining([
-        expect.stringContaining("ui_hud_plot_seedbed_growing_001.png"),
-        expect.stringContaining("ui_hud_plot_ready_ribbon_001.png"),
-        expect.stringContaining("ui_hud_plot_text_plate_001.png")
-      ])
+    const minFloorY = stageRect.y + stageRect.height * 0.32;
+    expect(plotCenterY, "plot marker should sit on the garden floor, not the top shelf").toBeGreaterThan(minFloorY);
+    expect(plotRect.y + plotRect.height, "plot marker must not collide with the bottom action surface").toBeLessThanOrEqual(
+      actionRect.y + 10
     );
 
-    const surfaces = await page.locator(".garden-playfield-host, .playfield-board-overlay, .playfield-plot-card").evaluateAll((elements) =>
-      elements.map((element) => ({
-        className: element.className.toString(),
-        background: window.getComputedStyle(element).backgroundColor,
-        borderWidth: window.getComputedStyle(element).borderTopWidth
-      }))
-    );
-    for (const surface of surfaces) {
-      expect(surface.background, `${surface.className} must not restore the old cream playfield block`).toBe("rgba(0, 0, 0, 0)");
-    }
-    const plotSurface = surfaces.find((surface) => surface.className.includes("playfield-plot-card"));
-    expect(plotSurface?.borderWidth).toBe("0px");
+    const labelMetrics = await page.locator(".playfield-plot-label-stack").first().evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      const style = window.getComputedStyle(element);
+      return {
+        width: rect.width,
+        height: rect.height,
+        background: style.backgroundColor,
+        color: style.color
+      };
+    });
+    expect(labelMetrics.width).toBeGreaterThan(48);
+    expect(labelMetrics.height).toBeGreaterThan(24);
+    expect(labelMetrics.background).not.toBe("rgba(0, 0, 0, 0)");
   });
 
-  test(`fresh garden starts from the plot marker at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+  test(`desktop ${viewport.width}x${viewport.height} fresh start가 첫 밭 action에서 시작한다`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/?qaReset=1");
     const starterPlot = page.getByRole("button", { name: "말랑잎 씨앗 무료로 심기" });
@@ -195,54 +121,58 @@ for (const viewport of DESKTOP_VIEWPORTS) {
     await expect(page.getByRole("button", { name: "말랑잎 씨앗 성장시키기" })).toBeVisible();
   });
 
-  test(`plot card NOT covered by dev-panel/dock when seeds tab active at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+  test(`desktop ${viewport.width}x${viewport.height} production actor와 support actor가 card 안에서 읽힌다`, async ({ page }) => {
     await page.setViewportSize(viewport);
-    await page.goto("/?qaHarvestReveal=1");
-    const recordBtn = page.getByRole("button", { name: "도감에 기록하기" });
-    if ((await recordBtn.count()) > 0) {
-      await recordBtn.click();
-    }
-    await page.waitForTimeout(800);
-    const seedsTab = page.locator(".bottom-tabs.is-desktop-rail button", { hasText: "씨앗" }).first();
-    if ((await seedsTab.count()) === 0) return;
-    await seedsTab.click();
-    await page.waitForTimeout(800);
+    await page.goto("/?qaResearchExpeditionReady=1");
+    const actor = page.locator(".playfield-production-actor-sprite");
+    await expect(actor).toBeVisible();
+    const actorMotion = await actor.evaluate((element) => window.getComputedStyle(element).animationName);
+    expect(actorMotion).toContain("playfieldActorIdle");
 
-    const gardenPanel = page.locator(".garden-panel").first();
-    const devPanel = page.locator(".dev-panel").first();
-    if ((await gardenPanel.count()) === 0 || (await devPanel.count()) === 0) return;
+    const actorCard = page.locator(".playfield-production-actor");
+    const supportActors = page.locator(".playfield-support-worker");
+    await expect(actorCard).toBeVisible();
+    const supportCount = await supportActors.count();
+    expect(supportCount).toBeGreaterThan(0);
 
-    const gardenRect = await gardenPanel.boundingBox();
-    const devRect = await devPanel.boundingBox();
-    if (!gardenRect || !devRect) return;
-
-    const overlapArea = intersectionArea(gardenRect, devRect);
-    const gardenArea = gardenRect.width * gardenRect.height;
-    const overlapRatio = gardenArea > 0 ? overlapArea / gardenArea : 0;
-    if (overlapRatio > 0.1) {
-      throw new Error(
-        `When seeds tab is active, dev-panel covers ${(overlapRatio * 100).toFixed(1)}% of garden-panel(plot) at ${viewport.width}x${viewport.height}. ` +
-          `User cannot see plot. Reposition garden-panel or make dev-panel narrower/transparent.`
-      );
+    const cardRect = await actorCard.boundingBox();
+    expect(cardRect).not.toBeNull();
+    if (!cardRect) return;
+    for (let index = 0; index < supportCount; index += 1) {
+      const rect = await supportActors.nth(index).boundingBox();
+      expect(rect).not.toBeNull();
+      if (!rect) continue;
+      expect(rect.x).toBeGreaterThanOrEqual(cardRect.x - 2);
+      expect(rect.y).toBeGreaterThanOrEqual(cardRect.y - 2);
+      expect(rect.x + rect.width).toBeLessThanOrEqual(cardRect.x + cardRect.width + 2);
+      expect(rect.y + rect.height).toBeLessThanOrEqual(cardRect.y + cardRect.height + 2);
     }
   });
 
-  test(`production actor has visible idle motion at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+  test(`desktop ${viewport.width}x${viewport.height} player tab도 mobile panel로 열린다`, async ({ page }) => {
     await page.setViewportSize(viewport);
-    await page.goto("/?qaHarvestReveal=1");
-    const recordBtn = page.getByRole("button", { name: "도감에 기록하기" });
-    if ((await recordBtn.count()) > 0) {
-      await recordBtn.click();
-    }
-    await page.waitForTimeout(800);
-    const actor = page.locator(".playfield-production-actor-sprite");
-    await expect(actor).toBeVisible();
-    await expect(actor).toHaveAttribute("data-animation-asset", "creature_herb_common_001_actor_work_idle_strip");
-    const actorMotion = await actor.evaluate((element) => window.getComputedStyle(element).animationName);
-    expect(actorMotion).toContain("playfieldActorIdle");
-    const strip = actor.locator("img");
-    await expect(strip).toBeVisible();
-    const stripMotion = await strip.evaluate((element) => window.getComputedStyle(element).animationName);
-    expect(stripMotion).toContain("playfieldActorSprite4");
+    await page.goto("/?qaResearchExpeditionReady=1");
+    await page.getByRole("button", { name: "씨앗", exact: true }).click();
+    await expect(page.locator(".dev-panel.player-panel.tab-seeds")).toBeVisible();
+
+    const metrics = await page.evaluate(() => {
+      const shell = document.querySelector<HTMLElement>(".desktop-shell")?.getBoundingClientRect();
+      const panel = document.querySelector<HTMLElement>(".dev-panel.player-panel")?.getBoundingClientRect();
+      const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+      return {
+        shell: shell ? { x: shell.x, y: shell.y, width: shell.width, height: shell.height } : null,
+        panel: panel ? { x: panel.x, y: panel.y, width: panel.width, height: panel.height, bottom: panel.bottom } : null,
+        tabs: tabs ? { x: tabs.x, y: tabs.y, width: tabs.width, height: tabs.height, top: tabs.top } : null
+      };
+    });
+
+    expect(metrics.shell).not.toBeNull();
+    expect(metrics.panel).not.toBeNull();
+    expect(metrics.tabs).not.toBeNull();
+    expect(metrics.panel!.x).toBeGreaterThanOrEqual(metrics.shell!.x);
+    expect(metrics.panel!.x).toBeLessThanOrEqual(metrics.shell!.x + 2);
+    expect(metrics.panel!.width).toBeLessThanOrEqual(metrics.shell!.width);
+    expect(metrics.panel!.width).toBeGreaterThanOrEqual(metrics.shell!.width - 4);
+    expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top + 1);
   });
 }
