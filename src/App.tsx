@@ -384,22 +384,6 @@ const MAIN_TABS: Array<{ id: MainTab; label: string }> = [
   { id: "shop", label: "상점" }
 ];
 
-const DESKTOP_LAYOUT_MEDIA_QUERY = "(min-width: 1280px)";
-
-function useDesktopLayout(): boolean {
-  const [isDesktop, setIsDesktop] = useState(() =>
-    typeof window !== "undefined" && window.matchMedia(DESKTOP_LAYOUT_MEDIA_QUERY).matches
-  );
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mediaQuery = window.matchMedia(DESKTOP_LAYOUT_MEDIA_QUERY);
-    const handler = (event: MediaQueryListEvent) => setIsDesktop(event.matches);
-    mediaQuery.addEventListener("change", handler);
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
-  return isDesktop;
-}
-
 export default function App() {
   const [manifest, setManifest] = useState<AssetManifest | null>(null);
   const [save, setSave] = useState<PlayerSave | null>(null);
@@ -948,7 +932,6 @@ export default function App() {
     [manifest]
   );
   const showDebugPanel = getLocalDebugMode();
-  const isDesktopLayout = useDesktopLayout();
   const isPlayerTabScreen = activeTab !== "garden";
   const showSidePanel = showDebugPanel || isPlayerTabScreen || Boolean(manifestError);
 
@@ -2209,7 +2192,7 @@ export default function App() {
     <main className={showDebugPanel ? "app-shell debug-shell" : "app-shell playable-focus"}>
       <div
         className="desktop-shell"
-        data-dock-expanded={isDesktopLayout && isPlayerTabScreen ? "true" : "false"}
+        data-dock-expanded="false"
       >
       <section
         className={["garden-stage", isPlayerTabScreen ? "has-player-tab" : "", showDebugPanel ? "debug-mode" : ""]
@@ -2906,34 +2889,6 @@ export default function App() {
         </section>
       </section>
 
-        {isDesktopLayout && save && (
-          <aside className="side-dock" aria-label="정원 사이드 정보">
-            <article className="side-dock-card" aria-label="자원">
-              <p className="panel-label">자원</p>
-              <div className={rewardPulse ? "currency-cluster reward-pop" : "currency-cluster"}>
-                <span>잎 {save.leaves}</span>
-                <span>꽃가루 {save.pollen}</span>
-                <span>재료 {save.materials}</span>
-              </div>
-            </article>
-            <article className="side-dock-card side-dock-next-action" aria-label="다음 행동">
-              <p className="panel-label">다음 행동</p>
-              <strong>{nextAction.title}</strong>
-            </article>
-            {save.activeExpedition && activeExpeditionDefinition && (
-              <article className="side-dock-card" aria-label="진행 중 원정">
-                <p className="panel-label">원정 진행</p>
-                <strong>{activeExpeditionDefinition.name}</strong>
-                <span>{expeditionReady ? "완료 — 회수 가능" : "진행 중"}</span>
-              </article>
-            )}
-            <article className="side-dock-card" aria-label="도감 진행">
-              <p className="panel-label">도감</p>
-              <strong>{albumDiscoveredCount}/{content.creatures.length}</strong>
-            </article>
-          </aside>
-        )}
-
         {showSidePanel && (
           <section
             className={["dev-panel", showDebugPanel ? "debug-panel" : "player-panel", `tab-${activeTab}`]
@@ -3534,14 +3489,8 @@ export default function App() {
             {manifestError && <p className="error-text">{manifestError}</p>}
           </section>
         )}
-        <nav className={isDesktopLayout ? "bottom-tabs is-desktop-rail" : "bottom-tabs"} aria-label="주요 화면">
-          {isDesktopLayout && (
-            <div className="rail-brand-cluster" aria-hidden="true">
-              <p className="eyebrow">햇살 온실 정원</p>
-              <strong>이상한 씨앗상회</strong>
-            </div>
-          )}
-          {(isDesktopLayout ? MAIN_TABS.filter((tab) => tab.id !== "garden") : MAIN_TABS).map((tab) => {
+        <nav className="bottom-tabs" aria-label="주요 화면">
+          {MAIN_TABS.map((tab) => {
             const albumProgressBadge =
               tab.id === "album" && save ? `${albumDiscoveredCount}/${content.creatures.length}` : null;
             const expeditionStatusBadge =
