@@ -6694,12 +6694,30 @@ h1 {
     border-radius: 13px;
   }
 
-  .playfield-production-actor img,
+  .playfield-production-actor-media > img,
   .playfield-production-actor .playfield-scene-fallback,
   .playfield-order-crate img,
   .playfield-order-crate .playfield-scene-fallback {
     width: 28px;
     height: 28px;
+  }
+
+  .playfield-production-actor-media {
+    width: 34px;
+    height: 30px;
+  }
+
+  .playfield-support-worker {
+    right: -7px;
+    bottom: -2px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .playfield-support-worker img,
+  .playfield-support-worker .playfield-scene-fallback {
+    width: 19px;
+    height: 19px;
   }
 
   .playfield-production-lane p,
@@ -7012,6 +7030,15 @@ h1 {
     radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.68), transparent 34%),
     linear-gradient(135deg, rgba(235, 249, 199, 0.94), rgba(255, 248, 202, 0.9));
   box-shadow: 0 5px 12px rgba(80, 93, 36, 0.1);
+}
+
+.playfield-production-actor.has-support-workers {
+  overflow: visible;
+  border-color: rgba(44, 99, 64, 0.32);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.74), transparent 34%),
+    radial-gradient(circle at 30% 82%, rgba(167, 218, 119, 0.48), transparent 34%),
+    linear-gradient(135deg, rgba(235, 249, 199, 0.96), rgba(255, 248, 202, 0.92));
 }
 
 .playfield-order-crate {
@@ -7465,7 +7492,7 @@ h1 {
   }
 }
 
-.playfield-production-actor img,
+.playfield-production-actor-media > img,
 .playfield-order-crate img,
 .playfield-scene-fallback {
   display: block;
@@ -7474,9 +7501,50 @@ h1 {
   object-fit: contain;
 }
 
-.playfield-production-actor img {
+.playfield-production-actor-media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  min-width: 0;
+  height: 44px;
+}
+
+.playfield-production-actor-media > img {
   transform-origin: 50% 86%;
   animation: playfieldActorIdle 2100ms ease-in-out infinite;
+}
+
+.playfield-support-worker {
+  position: absolute;
+  right: -10px;
+  bottom: -1px;
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  border: 1px solid rgba(47, 96, 65, 0.26);
+  border-radius: 999px;
+  background: rgba(255, 250, 216, 0.82);
+  box-shadow:
+    0 5px 10px rgba(49, 86, 60, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.48);
+  transform-origin: 50% 88%;
+  animation: playfieldSupportRelay 1700ms ease-in-out infinite;
+  animation-delay: calc(var(--support-worker-index, 0) * 130ms);
+}
+
+.playfield-support-worker img,
+.playfield-support-worker .playfield-scene-fallback {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+.playfield-support-worker.support-worker-herb {
+  background:
+    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.82), transparent 38%),
+    linear-gradient(135deg, rgba(235, 255, 202, 0.92), rgba(255, 247, 194, 0.86));
 }
 
 .playfield-production-actor-sprite {
@@ -7850,6 +7918,21 @@ h1 {
   }
 }
 
+@keyframes playfieldSupportRelay {
+  0%,
+  100% {
+    transform: translate(0, 1px) scale(0.98);
+  }
+
+  42% {
+    transform: translate(-3px, -3px) scale(1.05);
+  }
+
+  64% {
+    transform: translate(-1px, -1px) scale(1.01);
+  }
+}
+
 @keyframes playfieldActorSprite4 {
   from {
     transform: translateX(0);
@@ -7916,8 +7999,9 @@ h1 {
 
 @media (prefers-reduced-motion: reduce) {
   .playfield-action-feedback,
-  .playfield-production-actor img,
+  .playfield-production-actor-media > img,
   .playfield-production-actor-sprite,
+  .playfield-support-worker,
   .playfield-order-crate.has-order-reward-motion,
   .playfield-order-reward-motion,
   .playfield-plot-marker-seedbed {

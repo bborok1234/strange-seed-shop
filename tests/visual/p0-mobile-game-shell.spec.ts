@@ -1830,12 +1830,16 @@ test("모바일 생산 roster는 두 번째 생명체를 정원 동료로 보여
   await expect(page.getByLabel("생산 동료 roster")).toContainText("방패새싹 모모");
   await expect(page.getByLabel("생산 동료 roster")).toContainText("수집가 +7.2/분");
   await expect(page.getByLabel("생산 동료 roster")).toContainText("수호자 +3.0/분");
+  await expect(page.getByLabel("방패새싹 모모 support actor")).toBeVisible();
+  await expect(page.getByLabel("방패새싹 모모 support actor")).toHaveAttribute("data-asset-id", "creature_herb_common_002");
 
   const metrics = await page.evaluate(() => {
     const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
     const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
     const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
     const roster = document.querySelector<HTMLElement>(".production-roster")?.getBoundingClientRect();
+    const productionActor = document.querySelector<HTMLElement>(".playfield-production-actor")?.getBoundingClientRect();
+    const supportActor = document.querySelector<HTMLElement>(".playfield-support-worker")?.getBoundingClientRect();
     const overflowingChildren = Array.from(
       document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
     )
@@ -1849,10 +1853,12 @@ test("모바일 생산 roster는 두 번째 생명체를 정원 동료로 보여
     return {
       bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
       innerHeight: window.innerHeight,
-      playfield: playfield ? { height: playfield.height } : null,
+      playfield: playfield ? { top: playfield.top, right: playfield.right, bottom: playfield.bottom, left: playfield.left, height: playfield.height } : null,
       panel: panel ? { bottom: panel.bottom, clientHeight: document.querySelector<HTMLElement>(".starter-panel")?.clientHeight ?? 0, scrollHeight: document.querySelector<HTMLElement>(".starter-panel")?.scrollHeight ?? 0 } : null,
       tabs: tabs ? { top: tabs.top } : null,
       roster: roster ? { bottom: roster.bottom, height: roster.height } : null,
+      productionActor: productionActor ? { top: productionActor.top, right: productionActor.right, bottom: productionActor.bottom, left: productionActor.left } : null,
+      supportActor: supportActor ? { top: supportActor.top, right: supportActor.right, bottom: supportActor.bottom, left: supportActor.left, width: supportActor.width, height: supportActor.height } : null,
       overflowingChildren
     };
   });
@@ -1862,7 +1868,16 @@ test("모바일 생산 roster는 두 번째 생명체를 정원 동료로 보여
   expect(metrics.panel).not.toBeNull();
   expect(metrics.tabs).not.toBeNull();
   expect(metrics.roster).not.toBeNull();
+  expect(metrics.productionActor).not.toBeNull();
+  expect(metrics.supportActor).not.toBeNull();
   expect(metrics.playfield!.height).toBeGreaterThan(220);
+  expect(metrics.supportActor!.width).toBeGreaterThanOrEqual(20);
+  expect(metrics.supportActor!.height).toBeGreaterThanOrEqual(20);
+  expect(metrics.supportActor!.left).toBeGreaterThanOrEqual(metrics.playfield!.left - 1);
+  expect(metrics.supportActor!.right).toBeLessThanOrEqual(metrics.playfield!.right + 1);
+  expect(metrics.supportActor!.top).toBeGreaterThanOrEqual(metrics.playfield!.top - 1);
+  expect(metrics.supportActor!.bottom).toBeLessThanOrEqual(metrics.playfield!.bottom + 1);
+  expect(metrics.supportActor!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
   expect(metrics.roster!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);

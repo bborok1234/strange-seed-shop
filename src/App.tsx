@@ -4259,6 +4259,17 @@ function buildGardenPlayfieldViewModel(
                 : undefined,
           actorFamily: productionStatus.primaryWorker?.family,
           workAssetPath: getAssetPath(manifest, productionStatus.primaryWorkAssetId),
+          supportWorkers: productionStatus.workerCreatures
+            .filter((creature) => creature.id !== productionStatus.primaryWorker?.id)
+            .slice(0, 2)
+            .map((creature) => ({
+              id: creature.id,
+              name: creature.name,
+              roleLabel: getCreatureRoleLabel(creature.role),
+              family: creature.family,
+              assetId: creature.assetId,
+              assetPath: getAssetPath(manifest, creature.assetId)
+            })),
           workAnimation: getProductionWorkAnimation(manifest, productionStatus.primaryWorkAnimationAssetId),
           orderRewardMotion: getProductionFxAnimation(
             manifest,
