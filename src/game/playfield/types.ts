@@ -54,6 +54,14 @@ export interface GardenPlayfieldViewModel {
     orderStatusLabel?: string;
     actorFamily?: "herb" | "candy" | "lunar";
     workAssetPath?: string;
+    supportWorkers?: Array<{
+      id: string;
+      name: string;
+      roleLabel: string;
+      family: "herb" | "candy" | "lunar";
+      assetId: string;
+      assetPath?: string;
+    }>;
     workAnimation?: {
       assetId: string;
       path: string;

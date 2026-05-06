@@ -282,23 +282,47 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
 
   return (
     <section className="playfield-production-lane" aria-label="정원 자동 생산 장면">
-      <div className={["playfield-production-actor", scene.actorFamily === "lunar" ? "is-lunar-actor" : ""].filter(Boolean).join(" ")}>
-        {scene.workAnimation ? (
-          <span
-            aria-label={`${scene.actorName} 작업 animation`}
-            className="playfield-production-actor-sprite"
-            data-animation-asset={scene.workAnimation.assetId}
-            data-frame-count={scene.workAnimation.frames}
-            role="img"
-            style={actorSpriteStyle}
-          >
-            <img alt="" src={scene.workAnimation.path} />
-          </span>
-        ) : scene.workAssetPath ? (
-          <img alt="" src={scene.workAssetPath} />
-        ) : (
-          <span className="playfield-scene-fallback">작업</span>
-        )}
+      <div
+        className={[
+          "playfield-production-actor",
+          scene.actorFamily === "lunar" ? "is-lunar-actor" : "",
+          scene.supportWorkers?.length ? "has-support-workers" : ""
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <div className="playfield-production-actor-media">
+          {scene.workAnimation ? (
+            <span
+              aria-label={`${scene.actorName} 작업 animation`}
+              className="playfield-production-actor-sprite"
+              data-animation-asset={scene.workAnimation.assetId}
+              data-frame-count={scene.workAnimation.frames}
+              role="img"
+              style={actorSpriteStyle}
+            >
+              <img alt="" src={scene.workAnimation.path} />
+            </span>
+          ) : scene.workAssetPath ? (
+            <img alt="" src={scene.workAssetPath} />
+          ) : (
+            <span className="playfield-scene-fallback">작업</span>
+          )}
+          {scene.supportWorkers?.map((worker, index) => (
+            <span
+              aria-label={`${worker.name} support actor`}
+              className={["playfield-support-worker", `support-worker-${worker.family}`].join(" ")}
+              data-asset-id={worker.assetId}
+              data-worker-id={worker.id}
+              key={worker.id}
+              role="img"
+              style={{ "--support-worker-index": index } as CSSProperties}
+              title={`${worker.name} · ${worker.roleLabel}`}
+            >
+              {worker.assetPath ? <img alt="" src={worker.assetPath} /> : <span className="playfield-scene-fallback">동료</span>}
+            </span>
+          ))}
+        </div>
         <div>
           <p>자동 생산</p>
           <strong>{scene.actorName}</strong>
