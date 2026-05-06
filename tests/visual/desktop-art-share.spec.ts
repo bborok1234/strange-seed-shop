@@ -239,3 +239,67 @@ test("desktop 1280x900 production garden visual composition도 모바일 frame �
     animations: "disabled"
   });
 });
+
+test("desktop 1280x900 복귀 정원 state도 중앙 모바일 frame 안에 남는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");
+
+  await page.getByRole("button", { name: "보상 확인" }).click();
+
+  await expect(page.locator(".desktop-shell")).toBeVisible();
+  await expect(page.getByLabel("복귀 정원 상태")).toContainText("+90 잎");
+  await expect(page.locator(".playfield-order-crate.order-variant-comeback-return")).toBeVisible();
+  await expect(page.locator(".side-dock")).toHaveCount(0);
+  await expect(page.locator(".bottom-tabs.is-desktop-rail")).toHaveCount(0);
+
+  const metrics = await page.evaluate(() => {
+    const shell = document.querySelector<HTMLElement>(".desktop-shell")?.getBoundingClientRect();
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const receiptElement = document.querySelector<HTMLElement>(".comeback-garden-receipt");
+    const receipt = receiptElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const crate = document.querySelector<HTMLElement>(".playfield-order-crate.order-variant-comeback-return")?.getBoundingClientRect();
+    return {
+      innerWidth: window.innerWidth,
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      shell: shell ? { x: shell.x, width: shell.width, bottom: shell.bottom } : null,
+      panel: panel
+        ? {
+            bottom: panel.bottom,
+            clientHeight: panelElement?.clientHeight ?? 0,
+            scrollHeight: panelElement?.scrollHeight ?? 0
+          }
+        : null,
+      receipt: receipt
+        ? {
+            bottom: receipt.bottom,
+            clientHeight: receiptElement?.clientHeight ?? 0,
+            scrollHeight: receiptElement?.scrollHeight ?? 0
+          }
+        : null,
+      tabs: tabs ? { top: tabs.top, bottom: tabs.bottom, width: tabs.width } : null,
+      crate: crate ? { width: crate.width, height: crate.height } : null
+    };
+  });
+
+  expect(metrics.shell).not.toBeNull();
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.receipt).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.crate).not.toBeNull();
+  expect(metrics.shell!.width).toBeLessThanOrEqual(430);
+  expect(Math.abs(metrics.shell!.x + metrics.shell!.width / 2 - metrics.innerWidth / 2)).toBeLessThanOrEqual(2);
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.receipt!.scrollHeight).toBeLessThanOrEqual(metrics.receipt!.clientHeight + 1);
+  expect(metrics.crate!.width).toBeGreaterThanOrEqual(120);
+
+  await page.screenshot({
+    path: testInfo.outputPath("desktop-offline-return-garden-state-1280.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});

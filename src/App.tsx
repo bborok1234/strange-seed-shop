@@ -237,6 +237,15 @@ interface OfflineRewardResult {
   shelfBonusLabel?: string;
 }
 
+interface ComebackGardenState {
+  id: number;
+  leaves: number;
+  awayMinutes: number;
+  sourceLabel: string;
+  nextTitle: string;
+  nextDetail: string;
+}
+
 interface ComebackProductionTarget {
   title: string;
   detail: string;
@@ -411,6 +420,7 @@ export default function App() {
   const [now, setNow] = useState(() => Date.now());
   const [offlineMessage, setOfflineMessage] = useState<string | null>(null);
   const [offlineRewardSummary, setOfflineRewardSummary] = useState<OfflineRewardResult | null>(null);
+  const [comebackGardenState, setComebackGardenState] = useState<ComebackGardenState | null>(null);
   const [activeTab, setActiveTab] = useState<MainTab>(() => getLocalQaTab() ?? "garden");
   const [rewardPulse, setRewardPulse] = useState<number | null>(null);
   const [harvestReveal, setHarvestReveal] = useState<CreatureDefinition | null>(null);
@@ -779,6 +789,7 @@ export default function App() {
     mistCondenserPayoffActive ? "has-mist-condenser-payoff" : "",
     lunarGuardianOrderPayoffActive ? "has-lunar-guardian-payoff" : "",
     productionClaimReceipt ? "has-production-claim-receipt" : "",
+    comebackGardenState ? "has-comeback-garden-state" : "",
     productionBoostReceipt ? "has-production-boost-receipt" : "",
     researchUnlockReceipt ? "has-research-unlock-receipt" : "",
     researchCompleteReceipt ? "has-research-complete-receipt" : "",
@@ -929,6 +940,7 @@ export default function App() {
         merchantCrateClaimReceipt,
         merchantChainCompleteReceipt,
         greenhouseFacilityEntryReceipt,
+        comebackGardenState,
         nextCreatureGoal
       ),
     [
@@ -947,6 +959,7 @@ export default function App() {
       merchantCrateClaimReceipt,
       merchantChainCompleteReceipt,
       greenhouseFacilityEntryReceipt,
+      comebackGardenState,
       nextCreatureGoal
     ]
   );
@@ -1083,10 +1096,36 @@ export default function App() {
     setActiveTab("seeds");
   }
 
+  function rememberComebackGardenState(
+    reward: OfflineRewardResult | null,
+    target: ComebackProductionTarget | null,
+    fallbackTitle = "복귀 잎 보관"
+  ) {
+    if (!reward || reward.leaves <= 0) {
+      return;
+    }
+
+    const sourceLabel = getComebackStateSourceLabel(reward);
+    setComebackGardenState({
+      id: Date.now(),
+      leaves: reward.leaves,
+      awayMinutes: reward.awayMinutes,
+      sourceLabel,
+      nextTitle: target?.title ?? fallbackTitle,
+      nextDetail: target?.detail ?? "정원 바구니에 모인 잎을 다음 생산/주문 행동으로 이어가세요."
+    });
+  }
+
+  function dismissComebackReward() {
+    rememberComebackGardenState(offlineRewardSummary, comebackProductionTarget);
+    setOfflineRewardSummary(null);
+    setActiveTab("garden");
+    triggerProductionFx("production");
+  }
+
   function continueComebackProductionTarget() {
     if (!productionStatus || !comebackProductionTarget) {
-      setOfflineRewardSummary(null);
-      setActiveTab("garden");
+      dismissComebackReward();
       return;
     }
 
@@ -2245,6 +2284,7 @@ export default function App() {
       <section
         className={["garden-stage", isPlayerTabScreen ? "has-player-tab" : "", showDebugPanel ? "debug-mode" : ""]
           .concat(stageHeroCreature ? ["has-creature-stage"] : [])
+          .concat(comebackGardenState ? ["has-comeback-garden-state"] : [])
           .concat(productionStatus?.order.id === LUNAR_GUARDIAN_ORDER.id ? ["has-lunar-guardian-order"] : [])
           .filter(Boolean)
           .join(" ")}
@@ -2340,7 +2380,7 @@ export default function App() {
                     {nextCreatureGoal.seed.name} 보러가기
                   </button>
                 )}
-                <button className="comeback-dismiss-button" onClick={() => setOfflineRewardSummary(null)} type="button">
+                <button className="comeback-dismiss-button" onClick={dismissComebackReward} type="button">
                   보상 확인
                 </button>
               </div>
@@ -2455,6 +2495,7 @@ export default function App() {
                   !merchantChainCompleteReceipt
                     ? "has-merchant-chain-next-goal"
                     : "",
+                  comebackGardenState ? "has-comeback-garden-state" : "",
                   greenhouseFacilityEntryReceipt ? "has-greenhouse-facility-entry-receipt" : "",
                   greenhouseStorageEntryReceipt ? "has-greenhouse-storage-entry-receipt" : "",
                   greenhouseIrrigationEntryReceipt ? "has-greenhouse-irrigation-entry-receipt" : "",
@@ -2570,6 +2611,16 @@ export default function App() {
                       <small>{productionGraphStatus.recommendationDetail}</small>
                       <small>{productionGraphStatus.numericChangeLabel} · {productionGraphStatus.propChangeLabel}</small>
                     </div>
+                  </div>
+                )}
+                {comebackGardenState && (
+                  <div className="comeback-garden-receipt" aria-label="복귀 정원 상태">
+                    <span className="comeback-garden-chip">복귀 잎 보관</span>
+                    <strong>+{comebackGardenState.leaves} 잎이 바구니에 정리됨</strong>
+                    <span>
+                      {getAwayTimeLabel(comebackGardenState.awayMinutes)} · {comebackGardenState.sourceLabel}
+                    </span>
+                    <small>다음: {comebackGardenState.nextTitle}</small>
                   </div>
                 )}
                 {productionStatus.workerCreatures.length > 1 && (
@@ -4017,6 +4068,7 @@ function buildGardenPlayfieldViewModel(
   merchantCrateClaimReceipt: MerchantCrateClaimReceipt | null,
   merchantChainCompleteReceipt: MerchantChainCompleteReceipt | null,
   greenhouseFacilityEntryReceipt: GreenhouseFacilityEntryReceipt | null,
+  comebackGardenState: ComebackGardenState | null,
   nextCreatureGoal: NextCreatureGoal | null
 ): GardenPlayfieldViewModel {
   if (!save) {
@@ -4105,6 +4157,7 @@ function buildGardenPlayfieldViewModel(
     save.greenhouseFacilityLevel < GREENHOUSE_FACILITY_MAX_LEVEL &&
     !merchantChainCompleteActive;
   const greenhouseFacilityEntryActive = Boolean(greenhouseFacilityEntryReceipt);
+  const comebackGardenActive = Boolean(comebackGardenState);
   const greenhouseShelfDeliveredActive = orderDeliveryReceipt?.orderId === GREENHOUSE_ORDER.id;
   const productionClaimActive = Boolean(productionClaimReceipt);
   const productionBoostActive = Boolean(productionBoostReceipt);
@@ -4131,6 +4184,8 @@ function buildGardenPlayfieldViewModel(
           actorName: productionStatus.workerLabel,
           actorLine: firstOrderDispatchReceiptActive
             ? `${orderDeliveryReceipt.title} 출하 완료 · 다음 주문 준비`
+            : comebackGardenActive
+              ? `${comebackGardenState?.sourceLabel ?? "복귀 보상"} · 복귀 잎 ${comebackGardenState?.leaves ?? 0}개 정리`
             : merchantSecondChapterDispatchReceiptActive
               ? `${orderDeliveryReceipt.title} 납품 완료 · 다음 단골 chapter 준비`
             : merchantFollowupDispatchReceiptActive
@@ -4166,6 +4221,8 @@ function buildGardenPlayfieldViewModel(
           pendingLabel: `대기 ${productionStatus.pendingLeaves} 잎`,
           orderTitle: firstOrderDispatchReceiptActive
             ? "첫 주문 상자 출하"
+            : comebackGardenActive
+              ? "복귀 잎 보관"
             : merchantSecondChapterDispatchReceiptActive
               ? "상인 두 번째 단골 chapter 납품 완료"
             : merchantFollowupDispatchReceiptActive
@@ -4195,6 +4252,8 @@ function buildGardenPlayfieldViewModel(
               : productionStatus.order.title,
           orderProgressLabel: firstOrderDispatchReceiptActive
             ? "보상 수거 완료"
+            : comebackGardenActive
+              ? `+${comebackGardenState?.leaves ?? 0} 잎`
             : merchantSecondChapterDispatchReceiptActive
               ? "보상 수거 완료"
             : merchantFollowupDispatchReceiptActive
@@ -4227,6 +4286,7 @@ function buildGardenPlayfieldViewModel(
           orderReady:
             productionStatus.orderReady ||
             firstOrderDispatchReceiptActive ||
+            comebackGardenActive ||
             merchantFollowupDispatchReceiptActive ||
             merchantSecondChapterDispatchReceiptActive ||
             merchantChainCompleteActive ||
@@ -4240,6 +4300,7 @@ function buildGardenPlayfieldViewModel(
           orderCompleted:
             productionStatus.orderCompleted ||
             firstOrderDispatchReceiptActive ||
+            comebackGardenActive ||
             merchantFollowupDispatchReceiptActive ||
             merchantSecondChapterDispatchReceiptActive ||
             merchantChainCompleteActive ||
@@ -4252,6 +4313,8 @@ function buildGardenPlayfieldViewModel(
             researchSeedPlantedActive,
           orderVariant: greenhouseFacilityEntryActive
             ? ("greenhouse-facility-entry" as const)
+            : comebackGardenActive
+            ? ("comeback-return" as const)
             : firstOrderDispatchReceiptActive
             ? ("first-dispatched" as const)
             : merchantSecondChapterDispatchReceiptActive
@@ -4279,6 +4342,8 @@ function buildGardenPlayfieldViewModel(
               : undefined,
           orderStatusLabel: firstOrderDispatchReceiptActive
             ? `${orderDeliveryReceipt.rewardLabel} 수거`
+            : comebackGardenActive
+              ? `다음: ${comebackGardenState?.nextTitle ?? productionStatus.order.title}`
             : merchantSecondChapterDispatchReceiptActive
               ? `${orderDeliveryReceipt.rewardLabel} 수거`
             : merchantFollowupDispatchReceiptActive
@@ -5297,6 +5362,19 @@ function getOfflineRewardMessage(reward: OfflineRewardResult): string {
   }
 
   return `${base} ${bonusMessages.join(" ")}`;
+}
+
+function getComebackStateSourceLabel(reward: OfflineRewardResult): string {
+  const sources = [
+    reward.guardianName && reward.guardianBonusPercent > 0
+      ? `${reward.guardianName} 수호 +${Math.round(reward.guardianBonusPercent * 100)}%`
+      : "",
+    reward.shelfBonusPercent > 0
+      ? `${reward.shelfBonusLabel ?? "온실 선반"} +${Math.round(reward.shelfBonusPercent * 100)}%`
+      : ""
+  ].filter(Boolean);
+
+  return sources.length > 0 ? sources.join(" · ") : "말랑포 포리 자동 생산";
 }
 
 function getAwayTimeLabel(minutes: number): string {
