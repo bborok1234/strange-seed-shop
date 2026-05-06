@@ -1,9 +1,9 @@
 # WorkUnit — 정원 동료 work scene motion
 
 - ID: `0225`
-- Status: planning
+- Status: review
 - GitHub issue: #424 — https://github.com/bborok1234/strange-seed-shop/issues/424
-- Draft PR: pending
+- Draft PR: #425 — https://github.com/bborok1234/strange-seed-shop/pull/425
 - Campaign source: P0.5 Idle Core + Creative Rescue
 - Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:sprite-pipeline` -> `game-studio:game-playtest`
 - Source specs: `docs/DESIGN.md`, `docs/ART_HUD_PRODUCTION_SPEC.md`, `docs/IDLE_CORE_PRODUCTION_SPEC.md`
@@ -59,13 +59,23 @@ No native subagent for the first implementation pass. The work touches a narrow 
 
 ## Acceptance Criteria
 
-- [ ] `?qaResearchExpeditionReady=1` first viewport shows at least two companion work actors anchored to plot/crate/workbench positions, not only inside cards.
-- [ ] No raw horizontal sprite strip or distracting circular helper badge is visible in the production card or playfield.
-- [ ] At least one production motion path visually connects worker -> resource/order target.
-- [ ] Top HUD/resource/action text remains glanceable and does not cover actor/plot labels at 393x852 and desktop central mobile frame.
-- [ ] If a new accepted game asset is added, provenance, manifest entry, animation binding, style, alpha, and normalization gates pass.
-- [ ] Browser Use `iab` before/after screenshots are stored under `reports/visual/issue-0225-garden-companion-work-scene-motion/`.
-- [ ] `npm run check:p0-ui-ux`, `npm run check:art-share`, focused visual regression, `npm run build`, and `npm run check:ci` pass or a written blocker is recorded.
+- [x] `?qaResearchExpeditionReady=1` first viewport shows at least two companion work actors anchored to plot/crate/workbench positions, not only inside cards.
+- [x] No raw horizontal sprite strip or distracting circular helper badge is visible in the production card or playfield.
+- [x] At least one production motion path visually connects worker -> resource/order target.
+- [x] Top HUD/resource/action text remains glanceable and does not cover actor/plot labels at 393x852 and desktop central mobile frame.
+- [x] If a new accepted game asset is added, provenance, manifest entry, animation binding, style, alpha, and normalization gates pass. N/A — 새 accepted asset 없음.
+- [x] Browser Use `iab` before/after screenshots are stored under `reports/visual/issue-0225-garden-companion-work-scene-motion/`.
+- [x] `npm run check:p0-ui-ux`, `npm run check:art-share`, focused visual regression, `npm run build`, and `npm run check:ci` pass or a written blocker is recorded.
+
+## Implementation Evidence
+
+- Commit: `29beeaa` — workstage actor/support actor/prop target implementation.
+- PR body evidence commit: `b36ff20`.
+- Browser Use before: `reports/visual/issue-0225-garden-companion-work-scene-motion/browser-use-before-production-ready-20260506.png`
+- Browser Use after: `reports/visual/issue-0225-garden-companion-work-scene-motion/browser-use-after-workstage-prop-pass-20260506.png`
+- Visual report: `reports/visual/issue-0225-garden-companion-work-scene-motion/visual-report-20260506.md`
+- Local verification: Browser Use `iab` live screenshot pass, `npm run build`, `npm run check:p0-ui-ux`, focused visual regression 9 passed, `npm run check:art-share` 17 passed, `npm run check:closed-workunit-mirrors`, `npm run check:ci`.
+- GitHub checks: pending on PR #425 at publication time.
 
 ## Verification Commands
 

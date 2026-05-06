@@ -363,20 +363,20 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
 - GitHub issue: #424 — https://github.com/bborok1234/strange-seed-shop/issues/424
+- Draft PR: #425 — https://github.com/bborok1234/strange-seed-shop/pull/425
 - Plan artifact: `items/0225-garden-companion-work-scene-motion.md`
 - Branch: `codex/0225-garden-companion-work-scene-motion`
 - Previous PR: #423 merged — https://github.com/bborok1234/strange-seed-shop/pull/423
 - Previous main CI: `25443793542` success
 - Browser Use evidence: `reports/visual/issue-0225-garden-companion-work-scene-motion/browser-use-before-production-ready-20260506.png`, `reports/visual/issue-0225-garden-companion-work-scene-motion/browser-use-after-workstage-prop-pass-20260506.png`
 - Visual report: `reports/visual/issue-0225-garden-companion-work-scene-motion/visual-report-20260506.md`
-- Current validation: Browser Use `iab` live screenshot pass, `npm run build` pass, `npm run check:p0-ui-ux` pass, focused production visual regression 9 passed, `npm run check:art-share` 17 passed.
+- Current validation: Browser Use `iab` live screenshot pass, `npm run build` pass, `npm run check:p0-ui-ux` pass, focused production visual regression 9 passed, `npm run check:art-share` 17 passed, `npm run check:ci` pass.
 - Heartbeat: `reports/operations/operator-heartbeat-20260506.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
 1. `npm run check:ci`를 통과시킨다.
-2. #424 구현 커밋을 push하고 draft PR을 만든다.
-3. PR required checks를 확인하고 ready/merge gate를 진행한다.
+2. PR #425 required checks를 확인하고 ready/merge gate를 진행한다.
 4. main CI 관찰 뒤 local main으로 복귀한다.
 5. PR green/merge 이후 다음 WorkUnit은 신규 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
 6. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.

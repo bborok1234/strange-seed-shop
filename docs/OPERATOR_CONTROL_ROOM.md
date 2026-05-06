@@ -16,25 +16,26 @@ Generated at: 2026-05-06T15:21:13.164Z
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
 - GitHub issue: #424 — https://github.com/bborok1234/strange-seed-shop/issues/424
+- Draft PR: #425 — https://github.com/bborok1234/strange-seed-shop/pull/425
 - Plan artifact: `items/0225-garden-companion-work-scene-motion.md`
 - Previous PR: #423 merged — https://github.com/bborok1234/strange-seed-shop/pull/423
 - Previous main CI: `25443793542` success
 - Previous Browser Use evidence: `reports/visual/issue-0224-garden-production-redesign/browser-use-production-actor-static-wrapper-20260506.png`
 - Heartbeat: `reports/operations/operator-heartbeat-20260506.jsonl`, `.omx/state/operator-heartbeat.json`
 - Runner evidence: `reports/operations/studio-v3-live-runner-20260506.md`
-- Current validation: plan-first checkpoint pending commit; Browser Use before screenshot is the next implementation action.
+- Current validation: Browser Use `iab` live screenshot pass, `npm run build` pass, `npm run check:p0-ui-ux` pass, focused production visual regression 9 passed, `npm run check:art-share` 17 passed, `npm run check:ci` pass.
 
 즉시 적용할 gate:
 
-1. Plan checkpoint를 커밋하고 #424 branch를 push한다.
-2. Browser Use `iab`로 `?qaResearchExpeditionReady=1` before screenshot과 DOM bounds를 기록한다.
-3. 동료 actor anchor, production motion path, card compression을 구현한다.
-4. Browser Use after screenshot, focused visual gate, `check:art-share`, `check:ci` 후 draft PR/merge gate를 진행한다.
+1. PR #425 required checks를 확인한다.
+2. Green이면 ready/merge gate를 진행한다.
+3. main CI 관찰 뒤 local main으로 복귀한다.
+4. 다음 WorkUnit은 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
 
 ## Local state
 
 - Branch: codex/0225-garden-companion-work-scene-motion
-- Latest commit: cd81090 정원 첫 화면을 생산 장면으로 읽히게 만든다
+- Latest commit: b36ff20 #424 PR 본문 evidence를 남긴다
 - Dirty files: present
 
 ## Heartbeat
