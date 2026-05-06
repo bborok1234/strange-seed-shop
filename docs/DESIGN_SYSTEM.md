@@ -12,6 +12,8 @@ Phase 0 UI는 첫 플레이 루프를 더 빠르게 이해시키기 위한 작�
 
 게임 UI 판단은 `game-studio:game-ui-frontend`의 원칙을 따른다. 이 프로젝트의 화면은 일반 앱 대시보드가 아니라 플레이필드를 보호하는 브라우저 게임 HUD여야 한다.
 
+상위 화면 판단은 `docs/DESIGN.md`가 소유하고, 정원/생산 화면의 plot, actor, HUD, label, motion 제작 규격은 `docs/ART_HUD_PRODUCTION_SPEC.md`가 소유한다. 이 문서는 그 결정을 실제 컴포넌트와 토큰에 적용할 때의 위생 규칙이다.
+
 
 ## P0 Game Screen Policy — 2026-04-28
 

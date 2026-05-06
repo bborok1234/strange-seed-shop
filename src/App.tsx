@@ -45,6 +45,9 @@ interface FirstOrderDefinition {
 interface ProductionStatus {
   ratePerMinute: number;
   pendingLeaves: number;
+  storageCapacity: number;
+  storagePercent: number;
+  storageIsFull: boolean;
   order: FirstOrderDefinition;
   orderProgress: number;
   orderReady: boolean;
@@ -210,7 +213,19 @@ interface UpgradeChoice {
   detail: string;
   status: string;
   tone: "ready" | "waiting" | "done";
+  recommended?: boolean;
   onSelect?: () => void;
+}
+
+interface ProductionGraphStatus {
+  summary: string;
+  bottleneckAxis: "production" | "storage" | "delivery";
+  bottleneckLabel: string;
+  recommendationTitle: string;
+  recommendationDetail: string;
+  numericChangeLabel: string;
+  propChangeLabel: string;
+  alternativesLabel: string;
 }
 
 interface OfflineRewardResult {
@@ -230,6 +245,11 @@ interface ComebackProductionTarget {
 }
 
 const FIRST_UPGRADE_COST = 25;
+const STORAGE_BASKET_COST_LEAVES = 15;
+const STORAGE_BASKET_MAX_LEVEL = 1;
+const BASE_PRODUCTION_STORAGE_CAPACITY = 12;
+const STORAGE_BASKET_CAPACITY_BONUS = 12;
+const GREENHOUSE_STORAGE_CAPACITY_BONUS = 12;
 const PRODUCTION_BOOST_COST_LEAVES = 40;
 const PRODUCTION_BOOST_COST_POLLEN = 1;
 const PRODUCTION_BOOST_MAX_LEVEL = 1;
@@ -456,6 +476,7 @@ export default function App() {
     const qaExpeditionActive = getLocalQaExpeditionActive();
     const qaExpeditionReady = getLocalQaExpeditionReady();
     const qaProductionReady = getLocalQaProductionReady();
+    const qaBottleneckGraphReady = getLocalQaBottleneckGraphReady();
     const qaResearchReady = getLocalQaResearchReady();
     const qaResearchComplete = getLocalQaResearchComplete();
     const qaResearchExpeditionReady = getLocalQaResearchExpeditionReady();
@@ -487,8 +508,10 @@ export default function App() {
                     ? createResearchCompleteQaSave()
                     : qaResearchReady
                       ? createResearchReadyQaSave()
-                      : qaProductionReady
-                        ? createProductionReadyQaSave()
+                      : qaBottleneckGraphReady
+                        ? createBottleneckGraphReadyQaSave()
+                        : qaProductionReady
+                          ? createProductionReadyQaSave()
                         : qaExpeditionActive
                           ? createExpeditionActiveQaSave()
                           : qaExpeditionReady
@@ -710,6 +733,10 @@ export default function App() {
     return ordered.slice(0, 3);
   }, [nextCreatureGoal, save]);
   const productionStatus = useMemo(() => (save ? getProductionStatus(save, now) : null), [save, now]);
+  const productionGraphStatus = useMemo(
+    () => (save && productionStatus ? getProductionGraphStatus(save, productionStatus) : null),
+    [productionStatus, save]
+  );
   const comebackProductionTarget = productionStatus ? getComebackProductionTarget(productionStatus) : null;
   const mistCondenserPayoffActive = Boolean(
     productionStatus?.order.id === GREENHOUSE_MIST_RETURN_ORDER.id && productionStatus.orderCompleted
@@ -794,6 +821,7 @@ export default function App() {
           save,
           productionStatus,
           buyFirstUpgrade,
+          buyStorageBasket,
           buyProductionBoost,
           buyMaterialWorkbench,
           buyGreenhouseFacility,
@@ -1462,6 +1490,25 @@ export default function App() {
       draft.plotCount = 2;
       trackEvent("upgrade_purchased", { upgradeId: "plot_2", costLeaves: FIRST_UPGRADE_COST });
     });
+  }
+
+  function buyStorageBasket() {
+    commit((draft) => {
+      if (draft.storageBasketLevel >= STORAGE_BASKET_MAX_LEVEL || draft.leaves < STORAGE_BASKET_COST_LEAVES) {
+        return;
+      }
+
+      draft.leaves -= STORAGE_BASKET_COST_LEAVES;
+      draft.storageBasketLevel += 1;
+      trackEvent("upgrade_purchased", {
+        upgradeId: "storage_basket_1",
+        costLeaves: STORAGE_BASKET_COST_LEAVES,
+        storageBasketLevel: draft.storageBasketLevel,
+        storageCapacity: getProductionStorageCapacity(draft),
+        rewardMotion: "storage_prop_expanded"
+      });
+    });
+    triggerRewardPulse();
   }
 
   function buyProductionBoost() {
@@ -2484,6 +2531,46 @@ export default function App() {
                     ))}
                   </div>
                 )}
+                {productionGraphStatus && (
+                  <div
+                    className={[
+                      "production-graph-summary",
+                      `bottleneck-${productionGraphStatus.bottleneckAxis}`,
+                      save?.storageBasketLevel ? "storage-expanded" : ""
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    aria-label="생산 보관 납품 요약"
+                  >
+                    <span>{productionGraphStatus.summary}</span>
+                  </div>
+                )}
+                {productionGraphStatus && (
+                  <div className="production-bottleneck-brief" aria-label="현재 생산 병목 상세">
+                    <div
+                      className={[
+                        "production-storage-prop",
+                        save?.storageBasketLevel ? "storage-expanded" : "storage-tight",
+                        productionStatus.storageIsFull ? "storage-full" : ""
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      aria-hidden="true"
+                    >
+                      <span className="storage-basket basket-front" />
+                      <span className="storage-basket basket-back" />
+                      <span className="storage-leaf leaf-one" />
+                      <span className="storage-leaf leaf-two" />
+                      <span className="storage-leaf leaf-three" />
+                    </div>
+                    <div className="production-bottleneck-copy">
+                      <span>{productionGraphStatus.bottleneckLabel}</span>
+                      <strong>{productionGraphStatus.recommendationTitle}</strong>
+                      <small>{productionGraphStatus.recommendationDetail}</small>
+                      <small>{productionGraphStatus.numericChangeLabel} · {productionGraphStatus.propChangeLabel}</small>
+                    </div>
+                  </div>
+                )}
                 {productionStatus.workerCreatures.length > 1 && (
                   <div className="production-roster" aria-label="생산 동료 roster">
                     {productionStatus.workerCreatures.slice(0, 3).map((creature) => (
@@ -2502,7 +2589,7 @@ export default function App() {
                   </div>
                 )}
                 <div className="production-meter-row">
-                  <span>생산 대기 {productionStatus.pendingLeaves} 잎</span>
+                  <span>보관 {productionStatus.pendingLeaves}/{productionStatus.storageCapacity} 잎</span>
                   <button disabled={productionStatus.pendingLeaves <= 0} onClick={claimProductionLeaves} type="button">
                     생산 잎 수령
                   </button>
@@ -2783,12 +2870,24 @@ export default function App() {
               <article className="upgrade-choice-card" aria-label="다음 성장 선택">
                 <div className="upgrade-choice-heading">
                   <p className="panel-label">다음 성장 선택</p>
-                  <strong>생산 보상을 어디에 쓸까요?</strong>
+                  <strong>{productionGraphStatus?.recommendationTitle ?? "생산 보상을 어디에 쓸까요?"}</strong>
                 </div>
+                {productionGraphStatus && (
+                  <p className="upgrade-choice-summary">
+                    {productionGraphStatus.alternativesLabel}
+                  </p>
+                )}
                 <div className="upgrade-choice-list">
                   {upgradeChoices.map((choice) => (
                     <button
-                      className={`upgrade-choice upgrade-choice-${choice.tone} upgrade-choice-${choice.id}`}
+                      className={[
+                        "upgrade-choice",
+                        `upgrade-choice-${choice.tone}`,
+                        `upgrade-choice-${choice.id}`,
+                        choice.recommended ? "upgrade-choice-recommended" : ""
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
                       disabled={!choice.onSelect}
                       key={choice.id}
                       onClick={choice.onSelect}
@@ -2797,6 +2896,18 @@ export default function App() {
                       <span>{choice.status}</span>
                       <strong>{choice.title}</strong>
                       <small>{choice.detail}</small>
+                      {choice.id === "storage_basket" && (
+                        <span
+                          className={[
+                            "upgrade-choice-prop",
+                            save?.storageBasketLevel ? "storage-expanded" : "storage-tight"
+                          ]
+                            .filter(Boolean)
+                            .join(" ")}
+                          aria-label="보관 바구니 화면 prop"
+                          role="img"
+                        />
+                      )}
                     </button>
                   ))}
                 </div>
@@ -4228,6 +4339,9 @@ function buildGardenPlayfieldViewModel(
         }
       : undefined;
 
+  const productionGraphStatus =
+    productionStatus.ratePerMinute > 0 ? getProductionGraphStatus(save, productionStatus) : null;
+
   return {
     plots,
     headline: albumRecordPlantActive
@@ -4247,12 +4361,8 @@ function buildGardenPlayfieldViewModel(
           : openCount > 0
             ? "오른쪽 HUD에서 씨앗을 골라 심으세요"
             : "두 번째 밭을 열어 반복 속도를 올리세요",
-    productionLine:
-      productionStatus.ratePerMinute > 0 ? `자동 생산 +${formatRatePerMinute(productionStatus.ratePerMinute)}/분` : undefined,
-    orderLine:
-      productionStatus.ratePerMinute > 0
-        ? `주문 ${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves}`
-        : undefined,
+    productionLine: productionGraphStatus?.summary,
+    orderLine: undefined,
     productionScene,
     updatedAt: now
   };
@@ -4273,6 +4383,7 @@ function getShopSurfaceDescription(surfaceId: string): string {
 function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
   const currentOrder = getCurrentOrder(save);
   const pendingLeaves = getPendingProductionLeaves(save, now);
+  const storageCapacity = getProductionStorageCapacity(save);
   const workerCreatures = getProductionWorkers(save);
   const primaryWorker = getPrimaryProductionWorker(workerCreatures);
   const lunarGuardianOrderActive = currentOrder.id === LUNAR_GUARDIAN_ORDER.id;
@@ -4288,6 +4399,9 @@ function getProductionStatus(save: PlayerSave, now: number): ProductionStatus {
   return {
     ratePerMinute: getProductionRatePerSecond(save) * 60,
     pendingLeaves,
+    storageCapacity,
+    storagePercent: storageCapacity > 0 ? Math.min(100, Math.round((pendingLeaves / storageCapacity) * 100)) : 0,
+    storageIsFull: storageCapacity > 0 && pendingLeaves >= storageCapacity,
     order: currentOrder,
     orderProgress,
     orderReady: orderProgress >= currentOrder.requiredLeaves,
@@ -4570,6 +4684,7 @@ function buildUpgradeChoices(
   save: PlayerSave,
   productionStatus: ProductionStatus,
   buyFirstUpgrade: () => void,
+  buyStorageBasket: () => void,
   buyProductionBoost: () => void,
   buyMaterialWorkbench: () => void,
   buyGreenhouseFacility: () => void,
@@ -4581,6 +4696,9 @@ function buildUpgradeChoices(
 ): UpgradeChoice[] {
   const plotComplete = save.plotCount >= 2;
   const plotShortfall = Math.max(FIRST_UPGRADE_COST - save.leaves, 0);
+  const storageBasketComplete = save.storageBasketLevel >= STORAGE_BASKET_MAX_LEVEL;
+  const storageBasketAffordable = save.leaves >= STORAGE_BASKET_COST_LEAVES;
+  const storageBasketShortfallLeaves = Math.max(STORAGE_BASKET_COST_LEAVES - save.leaves, 0);
   const speedComplete = save.productionBoostLevel >= PRODUCTION_BOOST_MAX_LEVEL;
   const speedUnlocked = save.idleProduction.completedOrderIds.includes(FIRST_ORDER.id);
   const speedAffordable = save.leaves >= PRODUCTION_BOOST_COST_LEAVES && save.pollen >= PRODUCTION_BOOST_COST_POLLEN;
@@ -4627,6 +4745,21 @@ function buildUpgradeChoices(
   const researchShortfallPollen = Math.max(FIRST_RESEARCH_COST_POLLEN - save.pollen, 0);
 
   return [
+    {
+      id: "storage_basket",
+      title: "보관 바구니",
+      detail: storageBasketComplete
+        ? `보관 ${productionStatus.storageCapacity} 잎 가동`
+        : storageBasketAffordable
+          ? `${STORAGE_BASKET_COST_LEAVES} 잎으로 보관 ${BASE_PRODUCTION_STORAGE_CAPACITY} → ${
+              BASE_PRODUCTION_STORAGE_CAPACITY + STORAGE_BASKET_CAPACITY_BONUS
+            }`
+          : `${storageBasketShortfallLeaves} 잎 더 모으면 보관 확장`,
+      status: storageBasketComplete ? "보관 확장 완료" : storageBasketAffordable ? "추천" : "보관 부족",
+      tone: storageBasketComplete ? "done" : storageBasketAffordable ? "ready" : "waiting",
+      recommended: !storageBasketComplete,
+      onSelect: !storageBasketComplete && storageBasketAffordable ? buyStorageBasket : undefined
+    },
     {
       id: "plot_2",
       title: "밭 확장",
@@ -4798,7 +4931,71 @@ function getPendingProductionLeaves(save: PlayerSave, now: number): number {
   }
 
   const elapsedSeconds = Math.max(0, (now - new Date(save.idleProduction.lastTickAt).getTime()) / 1000);
-  return save.idleProduction.pendingLeaves + Math.floor(elapsedSeconds * ratePerSecond);
+  return Math.min(getProductionStorageCapacity(save), save.idleProduction.pendingLeaves + Math.floor(elapsedSeconds * ratePerSecond));
+}
+
+function getProductionStorageCapacity(save: PlayerSave): number {
+  return (
+    BASE_PRODUCTION_STORAGE_CAPACITY +
+    Math.min(save.storageBasketLevel, STORAGE_BASKET_MAX_LEVEL) * STORAGE_BASKET_CAPACITY_BONUS +
+    Math.min(save.greenhouseStorageLevel, GREENHOUSE_STORAGE_MAX_LEVEL) * GREENHOUSE_STORAGE_CAPACITY_BONUS
+  );
+}
+
+function getProductionGraphStatus(save: PlayerSave, productionStatus: ProductionStatus): ProductionGraphStatus {
+  const storageNearlyFull = productionStatus.storagePercent >= 80;
+  const storageComplete = save.storageBasketLevel >= STORAGE_BASKET_MAX_LEVEL;
+  const orderLabel = productionStatus.orderReady
+    ? `주문 ${productionStatus.order.requiredLeaves}/${productionStatus.order.requiredLeaves}`
+    : `주문 ${productionStatus.orderProgress}/${productionStatus.order.requiredLeaves}`;
+  const storageLabel = storageComplete
+    ? `보관 ${productionStatus.pendingLeaves}/${productionStatus.storageCapacity}`
+    : storageNearlyFull
+      ? "보관 부족"
+      : `보관 ${productionStatus.pendingLeaves}/${productionStatus.storageCapacity}`;
+  const deliveryLabel = productionStatus.orderReady ? "납품 가능" : orderLabel;
+  const bottleneckAxis: ProductionGraphStatus["bottleneckAxis"] = !storageComplete && storageNearlyFull
+    ? "storage"
+    : productionStatus.orderReady
+      ? "delivery"
+      : "production";
+
+  if (bottleneckAxis === "storage") {
+    return {
+      summary: `분당 ${formatRatePerMinute(productionStatus.ratePerMinute)} 잎 · ${storageLabel} · ${deliveryLabel}`,
+      bottleneckAxis,
+      bottleneckLabel: "현재 병목: 보관",
+      recommendationTitle: storageComplete ? "보관 안정" : "추천: 보관 바구니",
+      recommendationDetail: "자동 생산은 돌고 있지만 바구니가 거의 차서 다음 수령 전 여유가 부족합니다.",
+      numericChangeLabel: `보관 ${BASE_PRODUCTION_STORAGE_CAPACITY} → ${BASE_PRODUCTION_STORAGE_CAPACITY + STORAGE_BASKET_CAPACITY_BONUS} 잎`,
+      propChangeLabel: "정원 바구니가 넉넉한 상태로 바뀜",
+      alternativesLabel: "보관 12→24 · 바구니 prop 확장 · 다른 선택: 생산 속도 / 주문 준비"
+    };
+  }
+
+  if (bottleneckAxis === "delivery") {
+    return {
+      summary: `분당 ${formatRatePerMinute(productionStatus.ratePerMinute)} 잎 · ${storageLabel} · 납품 가능`,
+      bottleneckAxis,
+      bottleneckLabel: "현재 병목: 납품",
+      recommendationTitle: "추천: 주문 납품",
+      recommendationDetail: "주문 상자가 찼습니다. 납품하면 보상이 다음 강화 선택으로 이어집니다.",
+      numericChangeLabel: `${formatOrderReward(productionStatus.order)} 수령`,
+      propChangeLabel: "주문 상자가 출하 상태로 바뀜",
+      alternativesLabel: "다른 선택: 보관 바구니 / 생산 속도"
+    };
+  }
+
+  return {
+    summary: `분당 ${formatRatePerMinute(productionStatus.ratePerMinute)} 잎 · ${storageLabel} · ${deliveryLabel}`,
+    bottleneckAxis,
+    bottleneckLabel: "현재 병목: 생산",
+    recommendationTitle: "추천: 생산 속도",
+    recommendationDetail: "주문까지 아직 잎이 부족합니다. 생산 강화를 하면 다음 수령이 빨라집니다.",
+    numericChangeLabel: `분당 ${formatRatePerMinute(productionStatus.ratePerMinute)} 잎`,
+    propChangeLabel: "작업 동료 상태가 강화됨",
+    alternativesLabel: "다른 선택: 보관 바구니 / 주문 준비"
+  };
 }
 
 interface ProductionRateBreakdownEntry {
@@ -5248,6 +5445,14 @@ function getLocalQaProductionReady(): boolean {
   return new URLSearchParams(window.location.search).get("qaProductionReady") === "1";
 }
 
+function getLocalQaBottleneckGraphReady(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaBottleneckGraphReady") === "1";
+}
+
 function getLocalQaResearchReady(): boolean {
   if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
     return false;
@@ -5476,6 +5681,30 @@ function createProductionReadyQaSave(): PlayerSave {
     plotCount: 2,
     idleProduction: {
       pendingLeaves: 14,
+      lastTickAt: now.toISOString(),
+      orderProgress: {},
+      completedOrderIds: []
+    },
+    lastSeenAt: now.toISOString(),
+    updatedAt: now.toISOString()
+  };
+}
+
+function createBottleneckGraphReadyQaSave(): PlayerSave {
+  const now = new Date();
+  const save = createNewSave(now);
+
+  return {
+    ...save,
+    leaves: 20,
+    pollen: 0,
+    selectedStarterSeedId: "seed_herb_001",
+    discoveredCreatureIds: ["creature_herb_common_001"],
+    claimedAlbumMilestoneIds: ["album_1"],
+    plotCount: 2,
+    storageBasketLevel: 0,
+    idleProduction: {
+      pendingLeaves: BASE_PRODUCTION_STORAGE_CAPACITY,
       lastTickAt: now.toISOString(),
       orderProgress: {},
       completedOrderIds: []

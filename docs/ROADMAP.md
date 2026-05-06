@@ -22,9 +22,14 @@ Status values:
 
 Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon vertical slice로 전환한다. 게임 기획, UI, 에셋, 연출을 분리하지 않고 core loop 재미를 먼저 만든다.
 
+Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, `P0.5`는 현재 playable을 production급 idle collection tycoon으로 끌어올리는 active overlay다. `P0.6`은 아직 active milestone이 아니라 `docs/IDLE_CORE_PRODUCTION_SPEC.md`의 다음 후보 core slice 묶음이며, roadmap에서 별도 섹션으로 승격되기 전까지는 P0.5의 후속 후보로만 본다.
+
 | Step | Status | Output | Acceptance Criteria |
 | --- | --- | --- | --- |
 | Idle core creative guide | active | `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/SESSION_HANDOFF_20260429.md` | Egg, Inc./Idle Miner/Cell to Singularity에서 배운 생산 엔진, 장기 메타, asset bible, Codex vertical-slice workflow가 문서화됨 |
+| Idle core production spec | done | `docs/IDLE_CORE_PRODUCTION_SPEC.md`, `items/0218-idle-core-production-spec.md` | Egg, Inc./Idle Miner/AdVenture Capitalist/Cookie Clicker/Cell to Singularity/Realm Grinder/Idle Slayer 리서치를 바탕으로 production loop, 병목, upgrade, offline return, long meta, WorkUnit acceptance 기준을 문서화함 |
+| Production slice readiness gate | done | `docs/PRODUCTION_SLICE_READINESS.md`, `items/0220-production-slice-readiness-gate.md` | `Bottleneck-readable production graph`를 첫 blocking core slice로 고정하고, 생산/보관/납품 3축, 보관 부족 우선 추천, 수치+prop 변화, 첫 10분 retention loop, scripted QA+screenshot evidence를 merge-ready 기준으로 문서화함 |
+| Bottleneck-readable production graph | review | Issue #416, `items/0221-bottleneck-readable-production-graph.md`, `reports/visual/issue-416-bottleneck-production-graph/visual-report-20260506.md`, `src/App.tsx`, `src/styles.css`, `src/lib/persistence.ts`, `src/types/game.ts`, `tests/visual/p0-mobile-game-shell.spec.ts` | 정원 첫 화면이 `분당 7.2 잎 · 보관 부족 · 주문 0/12`로 생산/보관/납품 병목을 한 줄로 보여주고, `보관 바구니` 추천 upgrade가 보관 12 -> 24 수치와 화면 prop 변화로 이어짐. Browser Use blocker와 Playwright screenshots, focused mobile/desktop regression pass |
 | Creature role + auto production v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, production tick UI, visual evidence, main CI `25090571222` | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
 | Order/commission v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, first order UI, reward loop, visual evidence, main CI `25090571222` | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
 | Production garden UI v0 | done | Issue #123, PR #124, `items/0070-production-garden-ui-v0.md`, compact production/order UI, visual evidence, main CI `25090930573` | 정원 화면이 패널 앱이 아니라 생산 엔진이 보이는 모바일 게임 화면처럼 읽힘 |
@@ -118,6 +123,7 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | Phaser playfield visual-noise cleanup | done | Issue #101, PR #102, `items/0059-playfield-visual-noise-cleanup.md`, `src/game/playfield/GardenScene.ts` | locked plot 반복 텍스트/강한 선을 줄이고 main CI가 통과함 |
 | Player/debug surface split | active | app shell/debug mode policy | `asset count`, `save ready`, `events`, `runtime image generation disabled`는 playable 기본 화면에서 숨겨지고 debug mode에서만 노출됨 |
 | Mobile/desktop viewport policy | active | Issue #414, `items/0216-mobile-frame-desktop-policy.md`, `src/App.tsx`, `src/styles.css`, `tests/visual/desktop-art-share.spec.ts`, visual evidence | 모바일 세로 game frame을 데스크톱 중앙 frame에도 강제하고, desktop rail/dock 회귀를 차단함 |
+| Art/HUD production design spec | done | `docs/DESIGN.md`, `docs/ART_HUD_PRODUCTION_SPEC.md`, `items/0217-art-hud-design-production-spec.md` | 경쟁작 레퍼런스와 Game Studio route를 기준으로 UI/UX 상위 판단 기준, HUD 예산, plot/actor/text/motion/QA production-ready 기준을 문서화함 |
 | Mobile tab screen architecture | done | Issue #95, PR #96, `items/0056-mobile-tab-screen-visual-regression.md`, `src/App.tsx`, `src/styles.css` | 모바일 non-garden 탭은 half overlay가 아니라 body scroll 없는 full tab screen으로 전환되고 main CI가 통과함 |
 | Mobile game frame tab rework | done | Issue #104, PR #105, `items/0060-mobile-game-frame-tab-rework.md`, Playwright evidence | 모바일 탭 화면은 viewport 상단부터 bottom nav 위까지 고정되고 정원 HUD/playfield가 뒤에 비치거나 터치되지 않으며 main CI가 통과함 |
 | Mobile garden HUD/action card polish | done | Issue #97, PR #98, `items/0057-mobile-garden-hud-polish.md`, visual evidence | 모바일 정원 기본 화면의 개발 라벨과 잘리는 설명을 제거하고 action card가 하단 nav에 가리지 않으며 main CI가 통과함 |

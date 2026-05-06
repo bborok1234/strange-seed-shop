@@ -1037,6 +1037,152 @@ h1 {
   animation: production-rate-chip-pulse 1.6s ease-in-out 1;
 }
 
+.production-graph-summary {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 5px 8px;
+  border: 1px solid rgba(103, 123, 53, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 252, 222, 0.82);
+  color: #27442c;
+  font-size: 10px;
+  font-weight: 1000;
+  line-height: 1.15;
+}
+
+.production-graph-summary span {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.production-graph-summary.bottleneck-storage {
+  border-color: rgba(156, 116, 36, 0.42);
+  background: linear-gradient(135deg, rgba(255, 244, 183, 0.92), rgba(238, 249, 205, 0.9));
+  color: #4f3d12;
+}
+
+.production-bottleneck-brief {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  padding: 6px 7px;
+  border: 1px solid rgba(89, 124, 55, 0.24);
+  border-radius: 14px;
+  background: rgba(255, 253, 229, 0.72);
+}
+
+.production-storage-prop {
+  position: relative;
+  width: 52px;
+  height: 42px;
+}
+
+.storage-basket {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 5px;
+  height: 20px;
+  border: 2px solid rgba(105, 77, 32, 0.72);
+  border-top: 0;
+  border-radius: 5px 5px 12px 12px;
+  background:
+    repeating-linear-gradient(90deg, rgba(145, 103, 44, 0.24) 0 4px, transparent 4px 8px),
+    linear-gradient(180deg, rgba(224, 159, 65, 0.96), rgba(167, 108, 44, 0.98));
+  box-shadow: inset 0 -4px 0 rgba(91, 65, 32, 0.16);
+}
+
+.basket-back {
+  bottom: 13px;
+  height: 16px;
+  opacity: 0.64;
+  transform: scaleX(0.82);
+}
+
+.storage-leaf {
+  position: absolute;
+  width: 13px;
+  height: 9px;
+  border-radius: 999px 999px 999px 2px;
+  background: linear-gradient(135deg, #a6d66e, #4f9840);
+  box-shadow: 0 3px 5px rgba(52, 86, 42, 0.18);
+}
+
+.leaf-one {
+  left: 10px;
+  top: 7px;
+  transform: rotate(-18deg);
+}
+
+.leaf-two {
+  left: 22px;
+  top: 4px;
+  transform: rotate(12deg);
+}
+
+.leaf-three {
+  right: 8px;
+  top: 10px;
+  transform: rotate(26deg);
+}
+
+.production-storage-prop.storage-tight .leaf-three {
+  right: 3px;
+  top: 3px;
+}
+
+.production-storage-prop.storage-expanded {
+  transform: scale(1.06);
+}
+
+.production-storage-prop.storage-expanded .storage-basket {
+  left: 4px;
+  right: 4px;
+  border-color: rgba(63, 105, 57, 0.72);
+  background:
+    repeating-linear-gradient(90deg, rgba(79, 128, 63, 0.22) 0 4px, transparent 4px 8px),
+    linear-gradient(180deg, rgba(188, 219, 116, 0.98), rgba(111, 156, 73, 0.98));
+}
+
+.production-bottleneck-copy {
+  display: grid;
+  min-width: 0;
+  gap: 1px;
+}
+
+.production-bottleneck-copy span,
+.production-bottleneck-copy strong,
+.production-bottleneck-copy small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.production-bottleneck-copy span {
+  color: #6d6330;
+  font-size: 9px;
+  font-weight: 1000;
+}
+
+.production-bottleneck-copy strong {
+  color: #203f2d;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.production-bottleneck-copy small {
+  color: #47623c;
+  font-size: 9px;
+  font-weight: 850;
+}
+
 .production-rate-delta {
   display: inline-flex;
   align-items: center;
@@ -1435,6 +1581,19 @@ h1 {
 
 .starter-panel.has-production.has-album-record-growth-preview .next-creature-compact {
   display: grid;
+}
+
+.starter-panel.has-production.has-production-claim-receipt .production-bottleneck-brief,
+.starter-panel.has-production.has-production-claim-receipt .production-graph-summary,
+.starter-panel.has-production.has-production-boost-receipt .production-bottleneck-brief,
+.starter-panel.has-production.has-production-boost-receipt .production-graph-summary,
+.starter-panel.has-production.has-order-dispatch-receipt .production-bottleneck-brief,
+.starter-panel.has-production.has-order-dispatch-receipt .production-graph-summary,
+.starter-panel.has-production.has-research-unlock-receipt .production-bottleneck-brief,
+.starter-panel.has-production.has-research-unlock-receipt .production-graph-summary,
+.starter-panel.has-production.has-research-complete-receipt .production-bottleneck-brief,
+.starter-panel.has-production.has-research-complete-receipt .production-graph-summary {
+  display: none;
 }
 
 .production-meter-row button,
@@ -3064,6 +3223,14 @@ h1 {
   text-align: right;
 }
 
+.upgrade-choice-summary {
+  margin: -2px 0 0;
+  color: #4a643e;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
 .upgrade-choice-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
@@ -3087,6 +3254,13 @@ h1 {
   border-color: rgba(38, 106, 67, 0.42);
   background: linear-gradient(135deg, rgba(219, 248, 187, 0.96), rgba(255, 244, 174, 0.9));
   box-shadow: 0 5px 12px rgba(50, 86, 45, 0.13);
+}
+
+.upgrade-choice-recommended {
+  border-color: rgba(139, 105, 36, 0.52);
+  box-shadow:
+    0 5px 14px rgba(86, 72, 38, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.48);
 }
 
 .upgrade-choice-done {
@@ -3124,6 +3298,57 @@ h1 {
   color: #4c6540;
   font-size: 10px;
   font-weight: 850;
+}
+
+.upgrade-choice-storage_basket {
+  position: relative;
+  padding-right: 30px;
+}
+
+.upgrade-choice-prop {
+  position: absolute;
+  right: 7px;
+  bottom: 8px;
+  width: 24px;
+  height: 17px;
+  overflow: visible;
+  border: 2px solid rgba(105, 77, 32, 0.72);
+  border-top: 0;
+  border-radius: 4px 4px 10px 10px;
+  background:
+    repeating-linear-gradient(90deg, rgba(145, 103, 44, 0.25) 0 3px, transparent 3px 6px),
+    linear-gradient(180deg, rgba(224, 159, 65, 0.96), rgba(167, 108, 44, 0.98));
+  box-shadow: inset 0 -3px 0 rgba(91, 65, 32, 0.16);
+}
+
+.upgrade-choice-prop::before,
+.upgrade-choice-prop::after {
+  position: absolute;
+  top: -9px;
+  width: 11px;
+  height: 8px;
+  border-radius: 999px 999px 999px 2px;
+  background: linear-gradient(135deg, #a6d66e, #4f9840);
+  content: "";
+}
+
+.upgrade-choice-prop::before {
+  left: 1px;
+  transform: rotate(-18deg);
+}
+
+.upgrade-choice-prop::after {
+  right: 0;
+  transform: rotate(20deg);
+}
+
+.upgrade-choice-prop.storage-expanded {
+  right: 5px;
+  width: 28px;
+  border-color: rgba(63, 105, 57, 0.72);
+  background:
+    repeating-linear-gradient(90deg, rgba(79, 128, 63, 0.22) 0 3px, transparent 3px 6px),
+    linear-gradient(180deg, rgba(188, 219, 116, 0.98), rgba(111, 156, 73, 0.98));
 }
 
 .ownership-card strong,
