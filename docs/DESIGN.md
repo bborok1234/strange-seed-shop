@@ -212,6 +212,7 @@ Phase 0 상점은 mock/click-intent 표면이다. 실제 결제, checkout, 계�
 - `docs/NORTH_STAR.md`: 왜 이 게임을 만드는가
 - `docs/DESIGN.md`: 어떤 게임 화면을 좋은 화면으로 볼 것인가
 - `docs/ART_HUD_PRODUCTION_SPEC.md`: 정원/생산 화면을 어떻게 제작하고 검수할 것인가
+- `docs/IDLE_CORE_PRODUCTION_SPEC.md`: 어떤 idle core loop와 progression을 좋은 게임성으로 볼 것인가
 - `docs/DESIGN_SYSTEM.md`: 어떤 컴포넌트/토큰/위생 규칙을 쓸 것인가
 - `docs/GAME_UI_UX_RESEARCH_20260428.md`: P0 UI rescue의 근거와 과거 결정
 - `docs/IDLE_CORE_CREATIVE_GUIDE.md`: idle core vertical slice 제작 방식

@@ -38,7 +38,7 @@ Updated: 2026-05-06
 
 | 상태 | 개수 |
 | --- | ---: |
-| done | 129 |
+| done | 130 |
 | review | 71 |
 | todo | 2 |
 | blocked | 0 |

@@ -21,6 +21,7 @@ Studio Harness v2 기준의 현재 최상위 source of truth는 repo root의 `RE
 | `ECONOMY_PHASE0.md` | Phase 0 economy tables, formulas, tuning levers | Before economy/config work |
 | `DESIGN.md` | Game-level UI/UX judgment rules, screen contracts, and production-ready design criteria | Before deciding whether a game screen is good enough |
 | `ART_HUD_PRODUCTION_SPEC.md` | Garden art/HUD production spec for plot, actor, label, motion, HUD budget, and visual QA | Before implementing garden, production, order, research, or expedition HUD moments |
+| `IDLE_CORE_PRODUCTION_SPEC.md` | Competitor-backed idle core gameplay spec for production loop, bottlenecks, upgrades, offline return, and long meta | Before choosing or implementing core gameplay WorkUnits |
 | `DESIGN_SYSTEM.md` | Phase 0 UI usage rules, token draft, and visual QA contract | Before UI or visual hierarchy work |
 | `UX_REVIEW_20260427.md` | Devil's advocate UX review and Milestone 3.5 guardrails | Before design-system implementation |
 | `GAME_STUDIO_REVIEW_20260427.md` | Game Studio 기준 playfield/runtime/sprite 구조 재검토 | Before changing the game runtime or sprite pipeline |
