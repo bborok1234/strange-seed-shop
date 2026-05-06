@@ -242,8 +242,16 @@ h1 {
   transform: scale(1);
 }
 
+.garden-stage.has-comeback-garden-state .creature-stage-focus {
+  display: none;
+}
+
 .garden-stage.has-creature-stage .playfield-board-overlay {
   opacity: 0;
+}
+
+.garden-stage.has-creature-stage.has-comeback-garden-state .playfield-board-overlay {
+  opacity: 1;
 }
 
 .garden-stage.has-creature-stage.has-lunar-guardian-order .playfield-board-overlay.has-production-scene {
@@ -1585,6 +1593,7 @@ h1 {
 
 .starter-panel.has-production.has-production-claim-receipt .production-bottleneck-brief,
 .starter-panel.has-production.has-production-claim-receipt .production-graph-summary,
+.starter-panel.has-production.has-comeback-garden-state .production-bottleneck-brief,
 .starter-panel.has-production.has-production-boost-receipt .production-bottleneck-brief,
 .starter-panel.has-production.has-production-boost-receipt .production-graph-summary,
 .starter-panel.has-production.has-order-dispatch-receipt .production-bottleneck-brief,
@@ -1594,6 +1603,21 @@ h1 {
 .starter-panel.has-production.has-research-complete-receipt .production-bottleneck-brief,
 .starter-panel.has-production.has-research-complete-receipt .production-graph-summary {
   display: none;
+}
+
+.starter-panel.has-production.has-comeback-garden-state .upgrade-choice-card,
+.starter-panel.has-production.has-comeback-garden-state .upgrade-choice-summary,
+.starter-panel.has-production.has-comeback-garden-state .upgrade-choice-list,
+.starter-panel.has-production.has-comeback-garden-state .next-creature-compact,
+.starter-panel.has-production.has-comeback-garden-state .garden-support-stack,
+.starter-panel.has-production.has-comeback-garden-state .production-meter-row {
+  display: none !important;
+}
+
+.starter-panel.has-production.has-comeback-garden-state .production-action-card {
+  display: grid;
+  margin: 0;
+  padding: 7px;
 }
 
 .production-meter-row button,
@@ -1662,6 +1686,75 @@ h1 {
     0 0 12px rgba(84, 139, 65, 0.28);
   content: "";
   animation: production-leaf-stream 1.2s ease-in-out infinite;
+}
+
+.comeback-garden-receipt {
+  display: grid;
+  position: relative;
+  gap: 2px;
+  min-height: 54px;
+  padding: 8px 10px 8px 56px;
+  overflow: hidden;
+  border: 1px solid rgba(97, 125, 48, 0.28);
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.78), transparent 34%),
+    linear-gradient(135deg, rgba(255, 247, 193, 0.96), rgba(224, 248, 191, 0.92));
+  box-shadow:
+    0 8px 16px rgba(76, 102, 36, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.54);
+}
+
+.comeback-garden-receipt::before {
+  position: absolute;
+  left: 11px;
+  top: 10px;
+  width: 34px;
+  height: 30px;
+  border: 2px solid rgba(105, 77, 32, 0.72);
+  border-top: 0;
+  border-radius: 6px 6px 16px 16px;
+  background:
+    radial-gradient(circle at 22px 2px, rgba(119, 177, 82, 0.9) 0 5px, transparent 6px),
+    radial-gradient(circle at 13px 5px, rgba(236, 222, 88, 0.92) 0 4px, transparent 5px),
+    repeating-linear-gradient(90deg, rgba(145, 103, 44, 0.24) 0 4px, transparent 4px 8px),
+    linear-gradient(180deg, rgba(224, 159, 65, 0.98), rgba(167, 108, 44, 0.98));
+  box-shadow:
+    inset 0 -4px 0 rgba(91, 65, 32, 0.16),
+    0 0 14px rgba(251, 218, 105, 0.38);
+  content: "";
+}
+
+.comeback-garden-chip {
+  justify-self: start;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.64);
+  color: #526821;
+  font-size: 10px;
+  font-weight: 1000;
+}
+
+.comeback-garden-receipt strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #263c24;
+  font-size: 15px;
+  line-height: 1.08;
+}
+
+.comeback-garden-receipt span:not(.comeback-garden-chip),
+.comeback-garden-receipt small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1.2;
 }
 
 .production-claim-chip {
@@ -5854,6 +5947,23 @@ h1 {
     display: none;
   }
 
+  .garden-stage.has-creature-stage .starter-panel.has-production.has-comeback-garden-state .upgrade-choice-card,
+  .garden-stage.has-creature-stage .starter-panel.has-production.has-comeback-garden-state .upgrade-choice-summary,
+  .garden-stage.has-creature-stage .starter-panel.has-production.has-comeback-garden-state .upgrade-choice-list,
+  .garden-stage.has-creature-stage .starter-panel.has-production.has-comeback-garden-state .next-creature-compact {
+    display: none;
+  }
+
+  .garden-stage.has-creature-stage .starter-panel.has-production.has-comeback-garden-state .production-action-card {
+    display: grid;
+    margin: 0;
+    padding: 7px;
+  }
+
+  .garden-stage.has-creature-stage .starter-panel.has-production.has-comeback-garden-state .production-meter-row {
+    display: none;
+  }
+
   .garden-stage.has-creature-stage.has-lunar-guardian-order .starter-panel.has-production .production-action-card {
     display: grid;
     margin: 0;
@@ -7323,6 +7433,34 @@ h1 {
     0 0 10px rgba(44, 99, 64, 0.32);
   content: "";
   animation: order-dispatch-trail 1.35s ease-in-out infinite;
+}
+
+.playfield-order-crate.order-variant-comeback-return {
+  position: relative;
+  border-color: rgba(111, 135, 42, 0.46);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.8), transparent 32%),
+    radial-gradient(circle at 80% 64%, rgba(255, 237, 132, 0.5), transparent 36%),
+    linear-gradient(135deg, rgba(255, 248, 198, 0.98), rgba(222, 247, 190, 0.92));
+  box-shadow:
+    0 5px 12px rgba(99, 120, 38, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.46);
+}
+
+.playfield-order-crate.order-variant-comeback-return::after {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow:
+    -7px 2px 0 -4px rgba(115, 176, 81, 0.86),
+    -16px -5px 0 -5px rgba(246, 221, 87, 0.88),
+    0 0 14px rgba(245, 216, 91, 0.38);
+  content: "";
+  animation: production-leaf-stream 1.4s ease-in-out infinite;
 }
 
 .playfield-order-crate.order-variant-mist-condenser-complete {

@@ -2998,6 +2998,119 @@ test("모바일 복귀 첫 30초는 보상 수령을 생산 주문 목표로 바
   await page.screenshot({ path: testInfo.outputPath("mobile-comeback-production-briefing-393.png"), fullPage: false });
 });
 
+test("모바일 복귀 보상 확인 후 정원에 보관 receipt와 playfield state가 남는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");
+
+  await page.getByRole("button", { name: "보상 확인" }).click();
+
+  await expect(page.getByLabel("오프라인 복귀 보상")).toHaveCount(0);
+  await expect(page.getByLabel("복귀 정원 상태")).toContainText("복귀 잎 보관");
+  await expect(page.getByLabel("복귀 정원 상태")).toContainText("+90 잎");
+  await expect(page.getByLabel("복귀 정원 상태")).toContainText("달방울 누누 수호 +20%");
+  await expect(page.getByLabel("복귀 정원 상태")).toContainText("다음:");
+  await expect(page.locator(".playfield-order-crate.order-variant-comeback-return")).toBeVisible();
+  await expect(page.getByLabel("정원 생산 엔진 한 장면")).toContainText("복귀 잎 보관");
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const receiptElement = document.querySelector<HTMLElement>(".comeback-garden-receipt");
+    const receipt = receiptElement?.getBoundingClientRect();
+    const crate = document.querySelector<HTMLElement>(".playfield-order-crate.order-variant-comeback-return")?.getBoundingClientRect();
+    const overflowingChildren = Array.from(
+      document.querySelectorAll<HTMLElement>(".starter-panel > article, .production-action-card, .comeback-garden-receipt")
+    )
+      .filter((element) => element.offsetParent !== null && element.scrollHeight > element.clientHeight + 1)
+      .map((element) => ({
+        className: element.className,
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight
+      }));
+
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel
+        ? {
+            bottom: panel.bottom,
+            clientHeight: panelElement?.clientHeight ?? 0,
+            scrollHeight: panelElement?.scrollHeight ?? 0
+          }
+        : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      receipt: receipt
+        ? {
+            bottom: receipt.bottom,
+            clientHeight: receiptElement?.clientHeight ?? 0,
+            scrollHeight: receiptElement?.scrollHeight ?? 0
+          }
+        : null,
+      crate: crate ? { width: crate.width, height: crate.height } : null,
+      overflowingChildren
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.receipt).not.toBeNull();
+  expect(metrics.crate).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.receipt!.scrollHeight).toBeLessThanOrEqual(metrics.receipt!.clientHeight + 1);
+  expect(metrics.crate!.width).toBeGreaterThanOrEqual(120);
+  expect(metrics.overflowingChildren).toEqual([]);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-offline-return-garden-state-393.png"), fullPage: false });
+});
+
+test("짧은 모바일 복귀 정원 state는 action surface와 하단 탭을 겹치지 않는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaReset=1");
+
+  await page.getByRole("button", { name: "보상 확인" }).click();
+
+  await expect(page.getByLabel("복귀 정원 상태")).toContainText("+90 잎");
+  await expect(page.locator(".playfield-order-crate.order-variant-comeback-return")).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const panelElement = document.querySelector<HTMLElement>(".starter-panel");
+    const panel = panelElement?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const receiptElement = document.querySelector<HTMLElement>(".comeback-garden-receipt");
+    return {
+      bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+      innerHeight: window.innerHeight,
+      panel: panel
+        ? {
+            bottom: panel.bottom,
+            clientHeight: panelElement?.clientHeight ?? 0,
+            scrollHeight: panelElement?.scrollHeight ?? 0
+          }
+        : null,
+      tabs: tabs ? { top: tabs.top } : null,
+      receipt: receiptElement
+        ? {
+            clientHeight: receiptElement.clientHeight,
+            scrollHeight: receiptElement.scrollHeight
+          }
+        : null
+    };
+  });
+
+  expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+  expect(metrics.panel).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.receipt).not.toBeNull();
+  expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
+  expect(metrics.receipt!.scrollHeight).toBeLessThanOrEqual(metrics.receipt!.clientHeight + 1);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-offline-return-garden-state-360.png"), fullPage: false });
+});
+
 test("모바일 복귀 보상은 온실 선반 보관 보너스를 함께 보여준다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaOfflineMinutes=60&qaLunarGuardian=1&qaGreenhouseShelf=1&qaReset=1");

@@ -1,7 +1,9 @@
 # WorkUnit #0222 - Production Garden Visual Composition Pass
 
+Status: done
+
 GitHub issue: #418 - https://github.com/bborok1234/strange-seed-shop/issues/418
-Draft PR: #419 - https://github.com/bborok1234/strange-seed-shop/pull/419
+PR: #419 - https://github.com/bborok1234/strange-seed-shop/pull/419
 Branch: `codex/production-garden-visual-composition`
 Source specs: `docs/DESIGN.md`, `docs/ART_HUD_PRODUCTION_SPEC.md`, `docs/PRODUCTION_SLICE_READINESS.md`
 Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:game-playtest`
@@ -91,6 +93,8 @@ No child agent for the first implementation pass. The change is tightly coupled 
 - Desktop 1280 screenshot: `reports/visual/issue-418-production-garden-visual-composition/desktop-1280-after.png`
 - Focused mobile regression: `npx playwright test --config playwright.config.ts tests/visual/p0-mobile-game-shell.spec.ts --grep "visual composition|병목 production graph"` passed.
 - Desktop frame regression: `npx playwright test --config playwright.config.ts tests/visual/desktop-art-share.spec.ts --grep "production garden visual composition|모바일 game frame 하나"` passed.
+- PR #419 merged at `55fde0b996547600ecc0f851f3081f4cb4cb38ef`.
+- Post-merge main CI `25420812339` passed.
 
 ## Stop / Blocker Boundaries
 
