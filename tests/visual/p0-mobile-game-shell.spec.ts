@@ -268,33 +268,53 @@ test("모바일 자동 생산과 첫 주문은 반복 주문과 생산 속도 �
   await expect(page.getByLabel("주문 상자 출하 완료").getByText("+18 잎 · +1 꽃가루 수거", { exact: true })).toBeVisible();
   await expect(page.getByLabel("정원 자동 생산 장면").getByText("첫 주문 상자 출하", { exact: true })).toBeVisible();
   await expect(page.getByLabel("정원 자동 생산 장면").getByText("보상 수거 완료", { exact: true })).toBeVisible();
+  const rewardMotion = page.getByLabel("주문상자 납품 reward motion");
+  await expect(rewardMotion).toBeVisible();
+  const rewardMotionAttributes = await rewardMotion.evaluate((element) => ({
+    animationAsset: element.getAttribute("data-animation-asset"),
+    frameCount: element.getAttribute("data-frame-count")
+  }));
+  expect(rewardMotionAttributes.animationAsset).toBe("fx_order_delivery_burst_001");
+  expect(rewardMotionAttributes.frameCount).toBe("4");
   const dispatchMetrics = await page.evaluate(() => {
     const panel = document.querySelector<HTMLElement>(".starter-panel");
     const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
     const receipt = document.querySelector<HTMLElement>(".order-dispatch-receipt")?.getBoundingClientRect();
     const orderCard = document.querySelector<HTMLElement>(".order-progress-card")?.getBoundingClientRect();
+    const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
     const playfieldCrate = document
       .querySelector<HTMLElement>(".playfield-order-crate.order-variant-first-dispatched")
       ?.getBoundingClientRect();
+    const playfieldFx = document.querySelector<HTMLElement>(".playfield-order-reward-motion")?.getBoundingClientRect();
     return {
       bodyScrollWidth: document.documentElement.scrollWidth,
       viewportWidth: window.innerWidth,
       panelClientHeight: panel?.clientHeight ?? 0,
       panelScrollHeight: panel?.scrollHeight ?? 0,
       tabs: tabs ? { top: tabs.top } : null,
+      playfield: playfield ? { top: playfield.top, right: playfield.right, bottom: playfield.bottom, left: playfield.left } : null,
       receipt: receipt ? { top: receipt.top, bottom: receipt.bottom } : null,
       orderCard: orderCard ? { top: orderCard.top, bottom: orderCard.bottom } : null,
-      playfieldCrate: playfieldCrate ? { width: playfieldCrate.width, height: playfieldCrate.height } : null
+      playfieldCrate: playfieldCrate ? { width: playfieldCrate.width, height: playfieldCrate.height } : null,
+      playfieldFx: playfieldFx
+        ? { top: playfieldFx.top, right: playfieldFx.right, bottom: playfieldFx.bottom, left: playfieldFx.left, width: playfieldFx.width, height: playfieldFx.height }
+        : null
     };
   });
   expect(dispatchMetrics.receipt).not.toBeNull();
   expect(dispatchMetrics.orderCard).not.toBeNull();
+  expect(dispatchMetrics.playfield).not.toBeNull();
   expect(dispatchMetrics.playfieldCrate).not.toBeNull();
+  expect(dispatchMetrics.playfieldFx).not.toBeNull();
   expect(dispatchMetrics.bodyScrollWidth).toBeLessThanOrEqual(dispatchMetrics.viewportWidth + 1);
   expect(dispatchMetrics.panelScrollHeight).toBeLessThanOrEqual(dispatchMetrics.panelClientHeight + 1);
   expect(dispatchMetrics.receipt!.bottom).toBeLessThanOrEqual(dispatchMetrics.tabs!.top - 4);
   expect(dispatchMetrics.orderCard!.bottom).toBeLessThanOrEqual(dispatchMetrics.tabs!.top - 4);
   expect(dispatchMetrics.playfieldCrate!.width).toBeGreaterThanOrEqual(120);
+  expect(dispatchMetrics.playfieldFx!.width).toBeGreaterThanOrEqual(44);
+  expect(dispatchMetrics.playfieldFx!.top).toBeGreaterThanOrEqual(dispatchMetrics.playfield!.top - 24);
+  expect(dispatchMetrics.playfieldFx!.bottom).toBeLessThanOrEqual(dispatchMetrics.playfield!.bottom + 8);
+  expect(dispatchMetrics.playfieldFx!.right).toBeLessThanOrEqual(dispatchMetrics.playfield!.right + 8);
   await page.screenshot({
     path: testInfo.outputPath("mobile-order-crate-dispatch-reward-motion-393.png"),
     fullPage: false,

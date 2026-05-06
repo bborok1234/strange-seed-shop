@@ -2091,7 +2091,7 @@ export default function App() {
       setOrderDeliveryReceipt(deliveryReceipt);
       window.setTimeout(() => {
         setOrderDeliveryReceipt((current) => (current?.id === deliveryReceipt.id ? null : current));
-      }, 1_800);
+      }, 2_300);
     } else {
       setOrderDeliveryReceipt(null);
     }
@@ -4058,6 +4058,9 @@ function buildGardenPlayfieldViewModel(
   const albumRecordPlantPlot = albumRecordPlantReceipt
     ? plots.find((plot) => plot.seedId === albumRecordPlantReceipt.seedId && plot.state === "growing")
     : undefined;
+  const deliveredOrder = orderDeliveryReceipt
+    ? ORDER_DEFINITIONS.find((order) => order.id === orderDeliveryReceipt.orderId)
+    : undefined;
   const researchSeedPlantedActive = researchSeedActive || Boolean(researchSourcePlot);
   const researchSeedName = researchSeedReceipt?.seedName ?? researchSourcePlot?.label ?? "연구 단서 씨앗";
   const albumRecordPlantSeedName = albumRecordPlantReceipt?.seedName ?? albumRecordPlantPlot?.label ?? "새 기록 다음 씨앗";
@@ -4257,6 +4260,10 @@ function buildGardenPlayfieldViewModel(
           actorFamily: productionStatus.primaryWorker?.family,
           workAssetPath: getAssetPath(manifest, productionStatus.primaryWorkAssetId),
           workAnimation: getProductionWorkAnimation(manifest, productionStatus.primaryWorkAnimationAssetId),
+          orderRewardMotion: getProductionFxAnimation(
+            manifest,
+            orderDeliveryReceipt ? getProductionFxAssetId("order", deliveredOrder) : undefined
+          ),
           crateAssetPath: getAssetPath(manifest, "ui_order_crate_leaf_001")
         }
       : undefined;
@@ -4350,6 +4357,27 @@ function getProductionWorkAnimation(
   manifest: AssetManifest | null,
   assetId: string | undefined
 ): NonNullable<GardenPlayfieldViewModel["productionScene"]>["workAnimation"] | undefined {
+  if (!assetId) {
+    return undefined;
+  }
+
+  const asset = getAsset(manifest, assetId);
+  if (!asset?.animation || asset.animation.kind !== "spritesheet") {
+    return undefined;
+  }
+
+  return {
+    assetId,
+    path: asset.path,
+    frames: asset.animation.frames,
+    frameRate: asset.animation.frameRate
+  };
+}
+
+function getProductionFxAnimation(
+  manifest: AssetManifest | null,
+  assetId: string | undefined
+): NonNullable<GardenPlayfieldViewModel["productionScene"]>["orderRewardMotion"] | undefined {
   if (!assetId) {
     return undefined;
   }

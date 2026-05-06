@@ -270,6 +270,15 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
           "--actor-strip-duration": `${Math.round((scene.workAnimation.frames / scene.workAnimation.frameRate) * 1000)}ms`
         } as CSSProperties)
       : undefined;
+  const orderRewardStyle =
+    scene.orderRewardMotion
+      ? ({
+          "--order-reward-frame-count": scene.orderRewardMotion.frames,
+          "--order-reward-strip-duration": `${Math.round(
+            (scene.orderRewardMotion.frames / scene.orderRewardMotion.frameRate) * 1000
+          )}ms`
+        } as CSSProperties)
+      : undefined;
 
   return (
     <section className="playfield-production-lane" aria-label="정원 자동 생산 장면">
@@ -300,12 +309,25 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
         className={[
           "playfield-order-crate",
           scene.orderReady || scene.orderCompleted ? "order-ready" : "",
+          scene.orderRewardMotion ? "has-order-reward-motion" : "",
           scene.orderVariant ? `order-variant-${scene.orderVariant}` : ""
         ]
           .filter(Boolean)
           .join(" ")}
       >
         {scene.crateAssetPath ? <img alt="" src={scene.crateAssetPath} /> : <span className="playfield-scene-fallback">주문</span>}
+        {scene.orderRewardMotion ? (
+          <span
+            aria-label="주문상자 납품 reward motion"
+            className="playfield-order-reward-motion"
+            data-animation-asset={scene.orderRewardMotion.assetId}
+            data-frame-count={scene.orderRewardMotion.frames}
+            role="img"
+            style={orderRewardStyle}
+          >
+            <img alt="" src={scene.orderRewardMotion.path} />
+          </span>
+        ) : null}
         <div>
           <p>{scene.orderTitle}</p>
           <strong>{scene.orderProgressLabel}</strong>
