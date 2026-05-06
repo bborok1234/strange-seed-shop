@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "generatedAt": "2026-05-03T14:23:00Z",
-  "source": "GitHub CLI observation after #330/#331 merge, main CI 25281550163 success, and active #332 intake; local docs/reports are evidence mirrors, not authority.",
+  "source": "GitHub CLI observation after #330/#331 merge, main CI 25281550163 success, and active #424 intake; local docs/reports are evidence mirrors, not authority.",
   "activeWorkUnit": {
-    "issue": 332,
-    "title": "포장잎 상인 보상 수령을 단골 납품 주문으로 이어준다",
-    "item": "items/0168-merchant-followup-order.md",
-    "branch": "codex/0332-merchant-followup-order"
+    "issue": 424,
+    "title": "정원 동료 work scene motion",
+    "item": "items/0225-garden-companion-work-scene-motion.md",
+    "branch": "codex/0225-garden-companion-work-scene-motion"
   },
   "workUnits": [
     {

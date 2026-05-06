@@ -283,20 +283,23 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
 
   return (
     <section className="playfield-production-lane" aria-label="정원 자동 생산 장면">
-      <div
-        className={[
-          "playfield-production-actor",
-          scene.actorFamily === "lunar" ? "is-lunar-actor" : "",
-          scene.supportWorkers?.length ? "has-support-workers" : ""
-        ]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        <div className="playfield-production-actor-media">
+      <div className="playfield-companion-workstage" aria-hidden="true">
+        <span className="playfield-workstage-ground" />
+        <span className="playfield-workstage-trail trail-a" />
+        <span className="playfield-workstage-trail trail-b" />
+        <span className="playfield-workstage-target target-resource" data-label={scene.rateLabel}>
+          <span className="playfield-workstage-target-icon resource-icon" />
+        </span>
+        <span
+          className="playfield-workstage-target target-order"
+          data-label={scene.orderReady || scene.orderCompleted ? "납품 준비" : scene.orderProgressLabel}
+        >
+          {scene.crateAssetPath ? <img alt="" src={scene.crateAssetPath} /> : <span className="playfield-workstage-target-icon order-icon" />}
+        </span>
+        <span className="playfield-workstage-primary" data-work-anchor="plot-1-workbench">
           {scene.workAssetPath ? (
             <span
-              aria-label={`${scene.actorName} 작업 pose`}
-              className="playfield-production-actor-sprite"
+              className="playfield-production-actor-sprite playfield-workstage-primary-sprite"
               data-animation-asset={scene.workAnimation?.assetId}
               data-frame-count={scene.workAnimation?.frames}
               role="img"
@@ -305,8 +308,7 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
             </span>
           ) : scene.workAnimation ? (
             <span
-              aria-label={`${scene.actorName} 작업 animation`}
-              className="playfield-production-actor-sprite"
+              className="playfield-production-actor-sprite playfield-workstage-primary-sprite"
               data-animation-asset={scene.workAnimation.assetId}
               data-frame-count={scene.workAnimation.frames}
               role="img"
@@ -317,54 +319,91 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
           ) : (
             <span className="playfield-scene-fallback">작업</span>
           )}
-          {scene.supportWorkers?.map((worker, index) => (
-            <span
-              aria-label={`${worker.name} support actor`}
-              className={["playfield-support-worker", `support-worker-${worker.family}`].join(" ")}
-              data-asset-id={worker.assetId}
-              data-worker-id={worker.id}
-              key={worker.id}
-              role="img"
-              style={{ "--support-worker-index": index } as CSSProperties}
-              title={`${worker.name} · ${worker.roleLabel}`}
-            >
-              {worker.assetPath ? <img alt="" src={worker.assetPath} /> : <span className="playfield-scene-fallback">동료</span>}
-            </span>
-          ))}
-        </div>
-        <div>
-          <p>자동 생산</p>
-          <strong>{scene.actorName}</strong>
-          <span>{scene.actorLine}</span>
-        </div>
-      </div>
-      <div
-        className={[
-          "playfield-order-crate",
-          scene.orderReady || scene.orderCompleted ? "order-ready" : "",
-          scene.orderRewardMotion ? "has-order-reward-motion" : "",
-          scene.orderVariant ? `order-variant-${scene.orderVariant}` : ""
-        ]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        {scene.crateAssetPath ? <img alt="" src={scene.crateAssetPath} /> : <span className="playfield-scene-fallback">주문</span>}
-        {scene.orderRewardMotion ? (
+        </span>
+        {scene.supportWorkers?.map((worker, index) => (
           <span
-            aria-label="주문상자 납품 reward motion"
-            className="playfield-order-reward-motion"
-            data-animation-asset={scene.orderRewardMotion.assetId}
-            data-frame-count={scene.orderRewardMotion.frames}
-            role="img"
-            style={orderRewardStyle}
+            className={["playfield-workstage-support", `support-worker-${worker.family}`].join(" ")}
+            data-asset-id={worker.assetId}
+            data-worker-id={worker.id}
+            data-work-anchor={index === 0 ? "plot-2-order-crate" : "workbench-side"}
+            key={worker.id}
+            style={{ "--support-worker-index": index } as CSSProperties}
+            title={`${worker.name} · ${worker.roleLabel}`}
           >
-            <img alt="" src={scene.orderRewardMotion.path} />
+            {worker.assetPath ? <img alt="" src={worker.assetPath} /> : <span className="playfield-scene-fallback">동료</span>}
           </span>
-        ) : null}
-        <div>
-          <p>{scene.orderTitle}</p>
-          <strong>{scene.orderProgressLabel}</strong>
-          <span>{scene.orderStatusLabel ?? (scene.orderCompleted ? "보상 수령 완료" : scene.orderReady ? "납품 가능" : scene.pendingLabel)}</span>
+        ))}
+      </div>
+      <div className="playfield-production-summary-row">
+        <div
+          className={[
+            "playfield-production-actor",
+            scene.actorFamily === "lunar" ? "is-lunar-actor" : "",
+            scene.supportWorkers?.length ? "has-support-workers" : ""
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          <div className="playfield-production-actor-media">
+            {scene.workAssetPath ? (
+              <span
+                aria-label={`${scene.actorName} 작업 pose`}
+                className="playfield-production-actor-sprite"
+                data-animation-asset={scene.workAnimation?.assetId}
+                data-frame-count={scene.workAnimation?.frames}
+                role="img"
+              >
+                <img alt="" className="playfield-production-actor-static" src={scene.workAssetPath} />
+              </span>
+            ) : scene.workAnimation ? (
+              <span
+                aria-label={`${scene.actorName} 작업 animation`}
+                className="playfield-production-actor-sprite"
+                data-animation-asset={scene.workAnimation.assetId}
+                data-frame-count={scene.workAnimation.frames}
+                role="img"
+                style={actorSpriteStyle}
+              >
+                <img alt="" src={scene.workAnimation.path} />
+              </span>
+            ) : (
+              <span className="playfield-scene-fallback">작업</span>
+            )}
+          </div>
+          <div>
+            <p>자동 생산</p>
+            <strong>{scene.actorName}</strong>
+            <span>{scene.actorLine}</span>
+          </div>
+        </div>
+        <div
+          className={[
+            "playfield-order-crate",
+            scene.orderReady || scene.orderCompleted ? "order-ready" : "",
+            scene.orderRewardMotion ? "has-order-reward-motion" : "",
+            scene.orderVariant ? `order-variant-${scene.orderVariant}` : ""
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          {scene.crateAssetPath ? <img alt="" src={scene.crateAssetPath} /> : <span className="playfield-scene-fallback">주문</span>}
+          {scene.orderRewardMotion ? (
+            <span
+              aria-label="주문상자 납품 reward motion"
+              className="playfield-order-reward-motion"
+              data-animation-asset={scene.orderRewardMotion.assetId}
+              data-frame-count={scene.orderRewardMotion.frames}
+              role="img"
+              style={orderRewardStyle}
+            >
+              <img alt="" src={scene.orderRewardMotion.path} />
+            </span>
+          ) : null}
+          <div>
+            <p>{scene.orderTitle}</p>
+            <strong>{scene.orderProgressLabel}</strong>
+            <span>{scene.orderStatusLabel ?? (scene.orderCompleted ? "보상 수령 완료" : scene.orderReady ? "납품 가능" : scene.pendingLabel)}</span>
+          </div>
         </div>
       </div>
     </section>

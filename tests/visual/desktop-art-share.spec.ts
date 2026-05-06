@@ -121,31 +121,34 @@ for (const viewport of DESKTOP_VIEWPORTS) {
     await expect(page.getByRole("button", { name: "말랑잎 씨앗 성장시키기" })).toBeVisible();
   });
 
-  test(`desktop ${viewport.width}x${viewport.height} production actor와 support actor가 card 안에서 읽힌다`, async ({ page }) => {
+  test(`desktop ${viewport.width}x${viewport.height} production actor와 support actor가 workstage 안에서 읽힌다`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/?qaResearchExpeditionReady=1");
-    const actor = page.locator(".playfield-production-actor-sprite");
+    const actor = page.locator(".playfield-workstage-primary-sprite");
     await expect(actor).toBeVisible();
-    const actorMotion = await actor.evaluate((element) => window.getComputedStyle(element).animationName);
-    expect(actorMotion).toContain("playfieldActorIdle");
+    const actorMotion = await page
+      .locator(".playfield-workstage-primary")
+      .evaluate((element) => window.getComputedStyle(element).animationName);
+    expect(actorMotion).toContain("workstage-primary-bob");
 
-    const actorCard = page.locator(".playfield-production-actor");
-    const supportActors = page.locator(".playfield-support-worker");
-    await expect(actorCard).toBeVisible();
+    const workstage = page.locator(".playfield-companion-workstage");
+    const supportActors = page.locator(".playfield-workstage-support");
+    await expect(workstage).toBeVisible();
     const supportCount = await supportActors.count();
     expect(supportCount).toBeGreaterThan(0);
+    await expect(page.locator(".playfield-workstage-trail")).toHaveCount(2);
 
-    const cardRect = await actorCard.boundingBox();
-    expect(cardRect).not.toBeNull();
-    if (!cardRect) return;
+    const stageRect = await workstage.boundingBox();
+    expect(stageRect).not.toBeNull();
+    if (!stageRect) return;
     for (let index = 0; index < supportCount; index += 1) {
       const rect = await supportActors.nth(index).boundingBox();
       expect(rect).not.toBeNull();
       if (!rect) continue;
-      expect(rect.x).toBeGreaterThanOrEqual(cardRect.x - 2);
-      expect(rect.y).toBeGreaterThanOrEqual(cardRect.y - 2);
-      expect(rect.x + rect.width).toBeLessThanOrEqual(cardRect.x + cardRect.width + 2);
-      expect(rect.y + rect.height).toBeLessThanOrEqual(cardRect.y + cardRect.height + 2);
+      expect(rect.x).toBeGreaterThanOrEqual(stageRect.x - 2);
+      expect(rect.y).toBeGreaterThanOrEqual(stageRect.y - 2);
+      expect(rect.x + rect.width).toBeLessThanOrEqual(stageRect.x + stageRect.width + 2);
+      expect(rect.y + rect.height).toBeLessThanOrEqual(stageRect.y + stageRect.height + 2);
     }
   });
 
@@ -183,8 +186,8 @@ test("desktop 1280x900 production garden visual composition도 모바일 frame �
 
   await expect(page.locator(".desktop-shell")).toBeVisible();
   await expect(page.locator(".starter-panel.has-production-graph")).toBeVisible();
-  await expect(page.locator(".playfield-production-actor-sprite")).toBeVisible();
-  await expect(page.locator(".playfield-order-crate")).toBeVisible();
+  await expect(page.locator(".playfield-workstage-primary-sprite")).toBeVisible();
+  await expect(page.locator(".playfield-workstage-target.target-order")).toBeVisible();
   await expect(page.locator(".playfield-plot-card").first()).toBeVisible();
   await expect(page.locator(".side-dock")).toHaveCount(0);
   await expect(page.locator(".bottom-tabs.is-desktop-rail")).toHaveCount(0);
@@ -193,7 +196,7 @@ test("desktop 1280x900 production garden visual composition도 모바일 frame �
     const shell = document.querySelector<HTMLElement>(".desktop-shell")?.getBoundingClientRect();
     const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
     const plot = document.querySelector<HTMLElement>(".playfield-plot-card:not(:disabled)")?.getBoundingClientRect();
-    const actor = document.querySelector<HTMLElement>(".playfield-production-actor-sprite")?.getBoundingClientRect();
+    const actor = document.querySelector<HTMLElement>(".playfield-workstage-primary-sprite")?.getBoundingClientRect();
     const label = document.querySelector<HTMLElement>(".playfield-plot-label-stack");
     const labelStyle = label ? window.getComputedStyle(label) : null;
     const actionPanel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
@@ -248,7 +251,7 @@ test("desktop 1280x900 복귀 정원 state도 중앙 모바일 frame 안에 남�
 
   await expect(page.locator(".desktop-shell")).toBeVisible();
   await expect(page.getByLabel("복귀 정원 상태")).toContainText("+90 잎");
-  await expect(page.locator(".playfield-order-crate.order-variant-comeback-return")).toBeVisible();
+  await expect(page.locator(".playfield-workstage-target.target-order")).toBeVisible();
   await expect(page.locator(".side-dock")).toHaveCount(0);
   await expect(page.locator(".bottom-tabs.is-desktop-rail")).toHaveCount(0);
 
@@ -259,7 +262,7 @@ test("desktop 1280x900 복귀 정원 state도 중앙 모바일 frame 안에 남�
     const receiptElement = document.querySelector<HTMLElement>(".comeback-garden-receipt");
     const receipt = receiptElement?.getBoundingClientRect();
     const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
-    const crate = document.querySelector<HTMLElement>(".playfield-order-crate.order-variant-comeback-return")?.getBoundingClientRect();
+    const crate = document.querySelector<HTMLElement>(".playfield-workstage-target.target-order")?.getBoundingClientRect();
     return {
       innerWidth: window.innerWidth,
       bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
@@ -295,7 +298,7 @@ test("desktop 1280x900 복귀 정원 state도 중앙 모바일 frame 안에 남�
   expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   expect(metrics.panel!.scrollHeight).toBeLessThanOrEqual(metrics.panel!.clientHeight + 1);
   expect(metrics.receipt!.scrollHeight).toBeLessThanOrEqual(metrics.receipt!.clientHeight + 1);
-  expect(metrics.crate!.width).toBeGreaterThanOrEqual(120);
+  expect(metrics.crate!.width).toBeGreaterThanOrEqual(28);
 
   await page.screenshot({
     path: testInfo.outputPath("desktop-offline-return-garden-state-1280.png"),

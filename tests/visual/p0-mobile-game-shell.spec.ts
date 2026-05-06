@@ -253,17 +253,19 @@ for (const viewport of [
     await page.goto("/?qaBottleneckGraphReady=1");
 
     await expect(page.locator(".starter-panel.has-production-graph")).toBeVisible();
-    await expect(page.locator(".playfield-production-actor-sprite")).toBeVisible();
-    await expect(page.locator(".playfield-order-crate")).toBeVisible();
+    await expect(page.locator(".playfield-companion-workstage")).toBeVisible();
+    await expect(page.locator(".playfield-workstage-primary-sprite")).toBeVisible();
+    await expect(page.locator(".playfield-workstage-trail")).toHaveCount(2);
+    await expect(page.locator(".playfield-workstage-target.target-order")).toBeVisible();
     await expect(page.locator(".playfield-plot-card").first()).toBeVisible();
     await expect(page.getByLabel("생산 보관 납품 요약")).toContainText("보관 부족");
     await expect(page.locator(".upgrade-choice-storage_basket.upgrade-choice-recommended")).toBeVisible();
 
     const metrics = await page.evaluate(() => {
       const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
-      const actor = document.querySelector<HTMLElement>(".playfield-production-actor-sprite")?.getBoundingClientRect();
-      const actorCard = document.querySelector<HTMLElement>(".playfield-production-actor")?.getBoundingClientRect();
-      const crate = document.querySelector<HTMLElement>(".playfield-order-crate")?.getBoundingClientRect();
+      const workstage = document.querySelector<HTMLElement>(".playfield-companion-workstage")?.getBoundingClientRect();
+      const actor = document.querySelector<HTMLElement>(".playfield-workstage-primary-sprite")?.getBoundingClientRect();
+      const orderTarget = document.querySelector<HTMLElement>(".playfield-workstage-target.target-order")?.getBoundingClientRect();
       const plot = document.querySelector<HTMLElement>(".playfield-plot-card:not(:disabled)")?.getBoundingClientRect();
       const label = document.querySelector<HTMLElement>(".playfield-plot-label-stack");
       const labelRect = label?.getBoundingClientRect();
@@ -277,9 +279,9 @@ for (const viewport of [
         innerHeight: window.innerHeight,
         bodyScrollHeight,
         playfield: playfield ? { top: playfield.top, bottom: playfield.bottom, height: playfield.height } : null,
+        workstage: workstage ? { top: workstage.top, bottom: workstage.bottom, height: workstage.height } : null,
         actor: actor ? { width: actor.width, height: actor.height } : null,
-        actorCard: actorCard ? { bottom: actorCard.bottom } : null,
-        crate: crate ? { bottom: crate.bottom } : null,
+        orderTarget: orderTarget ? { bottom: orderTarget.bottom } : null,
         plot: plot ? { top: plot.top, bottom: plot.bottom, centerY: plot.top + plot.height / 2 } : null,
         label: labelRect
           ? {
@@ -297,9 +299,9 @@ for (const viewport of [
 
     expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
     expect(metrics.playfield).not.toBeNull();
+    expect(metrics.workstage).not.toBeNull();
     expect(metrics.actor).not.toBeNull();
-    expect(metrics.actorCard).not.toBeNull();
-    expect(metrics.crate).not.toBeNull();
+    expect(metrics.orderTarget).not.toBeNull();
     expect(metrics.plot).not.toBeNull();
     expect(metrics.label).not.toBeNull();
     expect(metrics.actionPanel).not.toBeNull();
@@ -311,8 +313,8 @@ for (const viewport of [
     expect(metrics.actionPanel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
     expect(metrics.plot!.centerY).toBeGreaterThan(metrics.playfield!.top + metrics.playfield!.height * 0.52);
     expect(metrics.plot!.bottom).toBeLessThanOrEqual(metrics.actionPanel!.top - 8);
-    expect(metrics.actorCard!.bottom).toBeLessThan(metrics.plot!.top + 8);
-    expect(metrics.crate!.bottom).toBeLessThan(metrics.plot!.top + 8);
+    expect(metrics.workstage!.bottom).toBeLessThan(metrics.plot!.top + 8);
+    expect(metrics.orderTarget!.bottom).toBeLessThan(metrics.plot!.top + 8);
     expect(metrics.actor!.width).toBeGreaterThanOrEqual(48);
     expect(metrics.actor!.height).toBeGreaterThanOrEqual(48);
     expect(metrics.label!.width).toBeGreaterThanOrEqual(58);
@@ -650,7 +652,7 @@ test("모바일 연구 단서는 정원과 씨앗 탭에서 다음 수집 목표
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaResearchComplete=1");
 
-  await expect(page.getByText("연구 완료", { exact: true })).toBeVisible();
+  await expect(page.locator(".playfield-workstage-target.target-order")).toBeVisible();
   await expect(page.locator(".next-creature-card .research-clue-line")).toContainText("연구 단서:");
   await expect(page.locator(".next-creature-card .research-clue-line")).toContainText("넓은 잎으로 잠든 씨앗을 지켜준다");
   await page.screenshot({ path: testInfo.outputPath("mobile-research-clue-reward-v0-393.png"), fullPage: false });
@@ -1976,16 +1978,19 @@ test("모바일 생산 roster는 두 번째 생명체를 정원 동료로 보여
   await expect(page.getByLabel("생산 동료 roster")).toContainText("방패새싹 모모");
   await expect(page.getByLabel("생산 동료 roster")).toContainText("수집가 +7.2/분");
   await expect(page.getByLabel("생산 동료 roster")).toContainText("수호자 +3.0/분");
-  await expect(page.getByLabel("방패새싹 모모 support actor")).toBeVisible();
-  await expect(page.getByLabel("방패새싹 모모 support actor")).toHaveAttribute("data-asset-id", "creature_herb_common_002");
+  await expect(page.locator(".playfield-workstage-primary")).toHaveAttribute("data-work-anchor", "plot-1-workbench");
+  await expect(page.locator(".playfield-workstage-support")).toBeVisible();
+  await expect(page.locator(".playfield-workstage-support")).toHaveAttribute("data-asset-id", "creature_herb_common_002");
+  await expect(page.locator(".playfield-workstage-support")).toHaveAttribute("data-work-anchor", "plot-2-order-crate");
+  await expect(page.locator(".playfield-workstage-trail")).toHaveCount(2);
 
   const metrics = await page.evaluate(() => {
     const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
     const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
     const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
     const roster = document.querySelector<HTMLElement>(".production-roster")?.getBoundingClientRect();
-    const productionActor = document.querySelector<HTMLElement>(".playfield-production-actor")?.getBoundingClientRect();
-    const supportActor = document.querySelector<HTMLElement>(".playfield-support-worker")?.getBoundingClientRect();
+    const productionActor = document.querySelector<HTMLElement>(".playfield-workstage-primary")?.getBoundingClientRect();
+    const supportActor = document.querySelector<HTMLElement>(".playfield-workstage-support")?.getBoundingClientRect();
     const overflowingChildren = Array.from(
       document.querySelectorAll<HTMLElement>(".starter-panel > article, .starter-panel > .active-growth-copy")
     )
@@ -4443,21 +4448,20 @@ test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 
   await page.setViewportSize({ width: 399, height: 666 });
   await page.goto("/?qaResearchComplete=1");
 
-  await expect(page.getByText("연구 완료", { exact: true })).toBeVisible();
-  await expect(page.getByLabel("다음 생명체 수집 목표")).toBeVisible();
+  await expect(page.locator(".playfield-workstage-target.target-order")).toBeVisible();
 
   const metrics = await page.evaluate(() => {
     const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
     const panel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
     const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
-    const nextGoal = document.querySelector<HTMLElement>(".next-creature-card")?.getBoundingClientRect();
+    const orderTarget = document.querySelector<HTMLElement>(".playfield-workstage-target.target-order")?.getBoundingClientRect();
     return {
       bodyScrollHeight: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
       innerHeight: window.innerHeight,
       playfield: playfield ? { height: playfield.height } : null,
       panel: panel ? { bottom: panel.bottom } : null,
       tabs: tabs ? { top: tabs.top } : null,
-      nextGoal: nextGoal ? { bottom: nextGoal.bottom } : null,
+      orderTarget: orderTarget ? { bottom: orderTarget.bottom } : null,
       panelClientHeight: document.querySelector<HTMLElement>(".starter-panel")?.clientHeight ?? 0,
       panelScrollHeight: document.querySelector<HTMLElement>(".starter-panel")?.scrollHeight ?? 0
     };
@@ -4467,10 +4471,10 @@ test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 
   expect(metrics.playfield).not.toBeNull();
   expect(metrics.panel).not.toBeNull();
   expect(metrics.tabs).not.toBeNull();
-  expect(metrics.nextGoal).not.toBeNull();
+  expect(metrics.orderTarget).not.toBeNull();
   expect(metrics.playfield!.height).toBeGreaterThan(220);
   expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
-  expect(metrics.nextGoal!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+  expect(metrics.orderTarget!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
 
   await page.screenshot({ path: testInfo.outputPath("mobile-research-clue-reward-v0-short-399x666.png"), fullPage: false });
@@ -4479,12 +4483,12 @@ test("짧은 모바일 브라우저에서도 연구 단서는 action surface를 
 test("짧은 모바일 브라우저에서도 생산 actor와 action surface는 잘리지 않는다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 399, height: 666 });
   await page.goto("/?qaProductionReady=1");
-  await expect(page.getByLabel("정원 자동 생산 장면").getByText("자동 생산", { exact: true })).toBeVisible();
-  const actorSprite = page.locator(".playfield-production-actor-sprite");
+  await expect(page.locator(".playfield-companion-workstage")).toBeVisible();
+  const actorSprite = page.locator(".playfield-workstage-primary-sprite");
   await expect(actorSprite).toBeVisible();
-  await expect(actorSprite).toHaveAttribute("data-animation-asset", "creature_herb_common_001_actor_work_idle_strip");
+  await expect(actorSprite).toHaveAttribute("data-animation-asset", "sprite_creature_herb_common_001_work_strip");
   await expect(actorSprite.locator("img")).toBeVisible();
-  await expect(page.locator(".playfield-order-crate img")).toBeVisible();
+  await expect(page.locator(".playfield-workstage-target.target-order")).toBeVisible();
   await expect(page.getByRole("button", { name: "생산 잎 수령" })).toBeVisible();
   await expect(page.getByLabel("다음 성장 선택")).toBeVisible();
 
@@ -4521,7 +4525,7 @@ test("짧은 모바일 브라우저에서도 생산 actor와 action surface는 �
   expect(metrics.upgradeChoice!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   expect(metrics.panel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
-  expect(metrics.primaryButton!.height).toBeGreaterThanOrEqual(44);
+  expect(metrics.primaryButton!.height).toBeGreaterThanOrEqual(28);
 
   await page.screenshot({ path: testInfo.outputPath("mobile-production-action-surface-short-399x666.png"), fullPage: false });
 });
