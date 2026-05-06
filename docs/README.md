@@ -6,6 +6,25 @@ This folder is the durable memory for `이상한 씨앗상회` and the agent-nat
 
 Studio Harness v2 기준의 현재 최상위 source of truth는 repo root의 `README.md`, `STUDIO.md`, `GAME_BRIEF.md`, `ROADMAP.md`와 `campaigns/active.json`이다. 이 `docs/` index는 기존 상세 문서와 historical evidence를 찾기 위한 표면이다. `.omx/`는 runtime cache이며 source of truth가 아니다.
 
+### Phase / Spec Hierarchy
+
+Phase 이름은 서로 대체 관계가 아니라 층위다. 새 작업자는 아래 순서로 읽고, 충돌하면 더 높은 active tier를 따른다.
+
+| Tier | 문서 | 역할 | 충돌 시 판단 |
+| --- | --- | --- | --- |
+| 0 | `NORTH_STAR.md` | 게임/운영사 최상위 방향과 production bar | 항상 우선 |
+| 1 | `PRD_PHASE0.md`, `ECONOMY_PHASE0.md` | Phase 0 baseline product/economy/safety contract: 첫 루프, 저장, mock monetization, 결제/로그인/런타임 이미지 생성 금지 | P0.5/P0.6도 이 안전 계약을 넘을 수 없음 |
+| 2 | `DESIGN.md`, `ART_HUD_PRODUCTION_SPEC.md`, `IDLE_CORE_PRODUCTION_SPEC.md` | 현재 active production overlay: 화면, HUD, art, core gameplay의 통과 기준 | 새 visible gameplay/HUD/core WorkUnit은 이 기준을 우선 적용 |
+| 3 | `DESIGN_SYSTEM.md`, `GAME_UI_UX_RESEARCH_20260428.md`, `IDLE_CORE_CREATIVE_GUIDE.md` | 구현 위생, 과거 리서치, creative direction, vertical-slice workflow | Tier 2와 충돌하면 Tier 2를 우선하고, 필요한 근거만 가져옴 |
+| 4 | `items/`, `reports/` | 특정 WorkUnit의 plan/evidence/history | 해당 issue 범위 안에서만 source of truth |
+
+용어 규칙:
+
+- `Phase 0`: MVP baseline contract다. 오래된 것이 아니라 안전/데이터/첫 루프의 하한선이다.
+- `P0 UI/UX rescue`: Phase 0 화면 위생과 모바일/탭/QA 회귀를 정리한 과거 rescue lane이다.
+- `P0.5`: 현재 active playable을 production급 idle collection tycoon으로 끌어올리는 overlay다.
+- `P0.6`: 아직 확정 milestone이 아니라 `IDLE_CORE_PRODUCTION_SPEC.md`에 적은 다음 후보 core slices 이름이다. Roadmap이 active milestone로 승격하기 전까지는 후보로만 본다.
+
 | Document | Purpose | Read When |
 | --- | --- | --- |
 | `../STUDIO.md` | Studio Harness v2 gate graph, source authority, role contract | Before autonomous studio/gate work |

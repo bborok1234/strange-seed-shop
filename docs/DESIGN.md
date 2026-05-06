@@ -9,6 +9,8 @@ Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -
 
 이 문서는 `이상한 씨앗상회`의 화면을 판단하는 상위 기준이다. `docs/DESIGN_SYSTEM.md`가 토큰, 컴포넌트 사용, Phase 0 UI 위생 기준을 다룬다면, 이 문서는 더 앞단의 질문에 답한다.
 
+위계상 이 문서는 Phase 0 baseline contract를 대체하지 않는다. 저장 구조, mock monetization, 결제/로그인/런타임 이미지 생성 금지 같은 안전 계약은 `docs/PRD_PHASE0.md`와 `docs/ECONOMY_PHASE0.md`가 계속 소유한다. 다만 새 visible gameplay/HUD/UI 판단에서는 과거 P0 UI rescue 문서보다 이 문서와 `docs/ART_HUD_PRODUCTION_SPEC.md`를 active 기준으로 우선한다.
+
 - 이 화면이 게임 장면으로 읽히는가?
 - 플레이어가 지금 할 행동을 바로 알 수 있는가?
 - 생명체가 도감 아이콘이 아니라 정원 actor로 느껴지는가?

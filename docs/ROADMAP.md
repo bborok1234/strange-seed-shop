@@ -22,6 +22,8 @@ Status values:
 
 Goal: 현재 수집 UI 프로토타입을 production급 idle collection tycoon vertical slice로 전환한다. 게임 기획, UI, 에셋, 연출을 분리하지 않고 core loop 재미를 먼저 만든다.
 
+Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, `P0.5`는 현재 playable을 production급 idle collection tycoon으로 끌어올리는 active overlay다. `P0.6`은 아직 active milestone이 아니라 `docs/IDLE_CORE_PRODUCTION_SPEC.md`의 다음 후보 core slice 묶음이며, roadmap에서 별도 섹션으로 승격되기 전까지는 P0.5의 후속 후보로만 본다.
+
 | Step | Status | Output | Acceptance Criteria |
 | --- | --- | --- | --- |
 | Idle core creative guide | active | `docs/IDLE_CORE_CREATIVE_GUIDE.md`, `docs/SESSION_HANDOFF_20260429.md` | Egg, Inc./Idle Miner/Cell to Singularity에서 배운 생산 엔진, 장기 메타, asset bible, Codex vertical-slice workflow가 문서화됨 |

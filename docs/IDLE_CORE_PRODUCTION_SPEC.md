@@ -10,6 +10,8 @@ Related design docs: `docs/DESIGN.md`, `docs/ART_HUD_PRODUCTION_SPEC.md`, `docs/
 
 `docs/DESIGN.md`와 `docs/ART_HUD_PRODUCTION_SPEC.md`는 화면과 HUD의 production bar를 고정했다. 이 문서는 그 화면 안에서 실제로 굴러가야 할 idle core를 정의한다.
 
+이 문서는 `docs/IDLE_CORE_CREATIVE_GUIDE.md`를 폐기하지 않는다. creative guide는 방향성과 vertical-slice 작업 방식을 유지하고, 이 문서는 새 core gameplay WorkUnit의 acceptance, 병목 모델, first 10 minutes target을 더 강하게 고정한다. Phase 0 baseline contract와 충돌하는 결제, 로그인, 실제 광고 SDK, 런타임 이미지 생성, 저장 구조 파괴는 여전히 금지다.
+
 핵심 질문:
 
 - 플레이어는 왜 10초 뒤에도 누를 것이 있는가?
@@ -283,6 +285,8 @@ Visual/playtest evidence:
 
 ## P0.6 추천 Core Slices
 
+`P0.6`은 이 문서 안에서는 다음 후보 slice 묶음이다. Roadmap이 별도 active milestone로 승격하기 전까지는 확정 단계명이 아니며, P0.5를 건너뛰거나 Phase 0 baseline contract를 대체하지 않는다.
+
 ### Slice A: Bottleneck-readable production graph
 
 - 현재 잎 생산률이 어떤 생명체/시설/주문 병목에서 오는지 보여준다.
@@ -321,4 +325,3 @@ Visual/playtest evidence:
 - upgrade가 무엇을 개선하는지 화면에서 추론할 수 없으면 실패다.
 - 새 재화를 추가할 때는 source, sink, 화면 prop, unlock target을 같이 정의한다.
 - 실제 광고, 결제, 계정, 외부 배포는 Phase 0 범위 밖이다.
-
