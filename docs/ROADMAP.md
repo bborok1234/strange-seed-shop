@@ -31,7 +31,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Production slice readiness gate | done | `docs/PRODUCTION_SLICE_READINESS.md`, `items/0220-production-slice-readiness-gate.md` | `Bottleneck-readable production graph`를 첫 blocking core slice로 고정하고, 생산/보관/납품 3축, 보관 부족 우선 추천, 수치+prop 변화, 첫 10분 retention loop, scripted QA+screenshot evidence를 merge-ready 기준으로 문서화함 |
 | Bottleneck-readable production graph | done | Issue #416, PR #417, main CI `25419614284`, `items/0221-bottleneck-readable-production-graph.md`, `reports/visual/issue-416-bottleneck-production-graph/visual-report-20260506.md`, `src/App.tsx`, `src/styles.css`, `src/lib/persistence.ts`, `src/types/game.ts`, `tests/visual/p0-mobile-game-shell.spec.ts` | 정원 첫 화면이 `분당 7.2 잎 · 보관 부족 · 주문 0/12`로 생산/보관/납품 병목을 한 줄로 보여주고, `보관 바구니` 추천 upgrade가 보관 12 -> 24 수치와 화면 prop 변화로 이어짐. Browser Use blocker와 Playwright screenshots, focused mobile/desktop regression pass |
 | Production garden visual composition pass | done | Issue #418, PR #419, main CI `25420812339`, `items/0222-production-garden-visual-composition.md`, `reports/visual/issue-418-production-garden-visual-composition/visual-report-20260506.md`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`, `tests/visual/desktop-art-share.spec.ts` | plot을 floor play area에 더 강하게 anchor하고, actor/order prop을 48px 이상으로 읽히게 유지하며, label plate 가독성/하단 action surface 밀도를 조정했다. Browser Use blocker와 mobile 393/360, desktop 1280 Playwright evidence를 남기고 PR #419 merge/main CI까지 통과함 |
-| Garden production asset/sprite redesign | review | Issue #422, `items/0224-garden-production-redesign-asset-sprite-pass.md`, `reports/assets/issue-0224-postprocessed-contact-sheet.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-research-expedition-ready-final-clean-20260506.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-fresh-start-after-free-plant-20260506.png`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenPlayfieldHost.tsx`, `public/assets/manifest/assetManifest.json` | `gpt-image-2` raster PNG 12개와 actor/FX strips를 manifest에 연결하고, 데스크톱도 중앙 모바일 game frame만 보이게 유지하며, fresh start 잎 0 상태에서 첫 씨앗 무료 심기가 실제 Browser Use 클릭으로 성장 상태에 진입함. `check:asset-*`, `check:p0-ui-ux`, `check:art-share`, `build` 통과 |
+| Garden production asset/sprite redesign | done | Issue #422, PR #423, main CI `25443793542`, `items/0224-garden-production-redesign-asset-sprite-pass.md`, `reports/assets/issue-0224-postprocessed-contact-sheet.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-research-expedition-ready-final-clean-20260506.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-fresh-start-after-free-plant-20260506.png`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenPlayfieldHost.tsx`, `public/assets/manifest/assetManifest.json` | `gpt-image-2` raster PNG 12개와 actor/FX strips를 manifest에 연결하고, 데스크톱도 중앙 모바일 game frame만 보이게 유지하며, fresh start 잎 0 상태에서 첫 씨앗 무료 심기가 실제 Browser Use 클릭으로 성장 상태에 진입함. `check:asset-*`, `check:p0-ui-ux`, `check:art-share`, `build`, PR checks, main CI 통과 |
+| Garden companion work scene motion | active | Issue #424, `items/0225-garden-companion-work-scene-motion.md`, Browser Use evidence pending | production-ready 정원에서 동료 actor 2명이 카드 안 아이콘이 아니라 plot/crate/workbench에 anchor된 worker로 보이고, worker -> resource/order target motion path가 Browser Use before/after와 focused visual gate로 검증됨 |
 | Offline return as garden state | review | Issue #420, `items/0223-offline-return-garden-state.md`, `reports/visual/issue-420-offline-return-garden-state/visual-report-20260506.md`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/types.ts`, `tests/visual/p0-mobile-game-shell.spec.ts`, `tests/visual/desktop-art-share.spec.ts` | 복귀 보상 modal 확인 후 `복귀 잎 보관` receipt와 playfield order crate `comeback-return` state가 정원에 남고, mobile 393/360 및 desktop 1280 중앙 mobile frame 회귀가 통과함 |
 | Creature role + auto production v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, production tick UI, visual evidence, main CI `25090571222` | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
 | Order/commission v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, first order UI, reward loop, visual evidence, main CI `25090571222` | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
@@ -353,42 +354,29 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **second creature roster playfield relay**이다. #411은 `?qaResearchExpeditionReady=1` 두 번째 생명체 보유 상태에서 `방패새싹 모모`가 panel roster text가 아니라 playfield production scene의 support actor로 합류하게 하는 slice이며, PR #412에서 checks/merge gate에 있다.
+현재 작업은 **garden companion work scene motion**이다. #424는 `?qaResearchExpeditionReady=1` production-ready 정원에서 `말랑잎 포리`와 `방패새싹 모모`가 카드 안 아이콘이 아니라 plot/crate/workbench에 anchor된 worker actor로 보이게 하고, worker -> resource/order target motion path를 만들어 “정원 동료가 실제로 일하는 장면”을 강화하는 slice다.
 
 현재 evidence:
 
-- User decision: `Cycle A OK / 다음 axis는 garden-respecting-hud-assets`
+- User decision: 전체를 뜯어고쳐도 goal 달성이 우선이며, Browser Use `iab`는 fallback 없는 필수 QA 경로다.
 - Handoff: `docs/studio/HANDOFF.md`
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
-- Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
-- GitHub issue: #411
-- Draft PR: #412 — https://github.com/bborok1234/strange-seed-shop/pull/412
-- Plan artifact: `items/0215-second-creature-roster-playfield-relay.md`
-- Visual evidence: `reports/visual/issue-0215-second-creature-roster-playfield-relay-20260506.md`, `reports/visual/issue-0215-second-creature-roster-before-browseruse-20260506.png`, `reports/visual/issue-0215-second-creature-roster-after-browseruse-20260506.png`
-- Validation: Browser Use `iab` before/after screenshot pass, Browser Use after `supportAsset=creature_herb_common_002`, focused mobile roster regression 1 passed, `npm run check:art-share` 24 passed, `npm run build` pass.
-- Previous GitHub issue: #409
-- Previous PR: #410 — https://github.com/bborok1234/strange-seed-shop/pull/410
-- Previous plan artifact: `items/0214-order-delivery-playfield-reward-motion.md`
-- Previous GitHub issue: #407
-- Previous PR: #408 — https://github.com/bborok1234/strange-seed-shop/pull/408
-- Previous plan artifact: `items/0213-desktop-garden-stage-grid-bounds.md`
-- Previous GitHub issue: #405
-- Previous draft PR: #406 — https://github.com/bborok1234/strange-seed-shop/pull/406
-- Previous PR: #404 merged — https://github.com/bborok1234/strange-seed-shop/pull/404
-- Previous plan artifact: `items/0212-creature-actor-motion-v0.md`
-- Deliberation artifacts: `reports/deliberation/garden-respecting-hud-assets/{brief.md,spec.md,user-review.md,retrospective.md}`
-- PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
-- PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
-- Prior Browser Use evidence: `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-plot-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-fresh-start-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-floor-placement-iab.png`
-- #405 Browser Use evidence: `reports/visual/issue-405-creature-actor-motion-v0-20260505.md`, `reports/visual/issue-405-creature-actor-motion-v0-browser-use-20260505.png`
-- Heartbeat: `reports/operations/operator-heartbeat-20260505.jsonl`, `.omx/state/operator-heartbeat.json`
-- Operator prompt: `npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-approved`
-- Validation: Browser Use `iab` screenshots pass, fresh-start marker click pass, `npm run check:art-share` 21 passed, focused mobile regression 8 passed, merchant follow-up targeted pass, merchant second-chapter targeted pass, targeted long mobile regression pass, `npm run check:ci` pass. Full `check:visual` attempt exposed the merchant regressions and was stopped after focused repair rather than rerun end-to-end.
-- Legacy closed-workunit mirror guard still references active issue #332 and active item `items/0168-merchant-followup-order.md` until the next GitHub-authoritative WorkUnit manifest refresh; this is compatibility evidence, not the current local axis.
+- Codex skill: `.codex/skills/studio-operate/SKILL.md`
+- GitHub issue: #424 — https://github.com/bborok1234/strange-seed-shop/issues/424
+- Draft PR: #425 — https://github.com/bborok1234/strange-seed-shop/pull/425
+- Plan artifact: `items/0225-garden-companion-work-scene-motion.md`
+- Branch: `codex/0225-garden-companion-work-scene-motion`
+- Previous PR: #423 merged — https://github.com/bborok1234/strange-seed-shop/pull/423
+- Previous main CI: `25443793542` success
+- Browser Use evidence: `reports/visual/issue-0225-garden-companion-work-scene-motion/browser-use-before-production-ready-20260506.png`, `reports/visual/issue-0225-garden-companion-work-scene-motion/browser-use-after-workstage-prop-pass-20260506.png`
+- Visual report: `reports/visual/issue-0225-garden-companion-work-scene-motion/visual-report-20260506.md`
+- Current validation: Browser Use `iab` live screenshot pass, `npm run build` pass, `npm run check:p0-ui-ux` pass, focused production visual regression 9 passed, `npm run check:art-share` 17 passed, `npm run check:ci` pass.
+- Heartbeat: `reports/operations/operator-heartbeat-20260506.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. PR #412 checks를 확인하고 ready/merge gate를 진행한다.
-2. main CI 관찰 뒤 local main으로 복귀한다.
-3. PR green/merge 이후 다음 WorkUnit은 신규 `방패새싹 모모` sprite strip 생성 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
-4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+1. `npm run check:ci`를 통과시킨다.
+2. PR #425 required checks를 확인하고 ready/merge gate를 진행한다.
+4. main CI 관찰 뒤 local main으로 복귀한다.
+5. PR green/merge 이후 다음 WorkUnit은 신규 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
+6. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.

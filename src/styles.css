@@ -7019,7 +7019,45 @@ h1 {
   .playfield-production-lane {
     grid-template-columns: 1fr;
     gap: 4px;
-    min-height: 72px;
+    min-height: 118px;
+  }
+
+  .playfield-companion-workstage {
+    min-height: 66px;
+    border-radius: 19px;
+  }
+
+  .playfield-workstage-primary {
+    left: 10%;
+  }
+
+  .playfield-workstage-primary-image,
+  .playfield-workstage-primary .playfield-scene-fallback,
+  .playfield-workstage-primary-sprite {
+    width: 54px;
+    height: 54px;
+  }
+
+  .playfield-workstage-primary-sprite img,
+  .playfield-workstage-primary-sprite img.playfield-production-actor-static {
+    width: 54px;
+    max-width: 54px;
+    height: 54px;
+  }
+
+  .playfield-workstage-support {
+    right: 13%;
+  }
+
+  .playfield-workstage-support img,
+  .playfield-workstage-support .playfield-scene-fallback {
+    width: 42px;
+    height: 42px;
+  }
+
+  .playfield-production-summary-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
   }
 
   .playfield-production-actor,
@@ -7056,8 +7094,8 @@ h1 {
     height: 19px;
   }
 
-  .playfield-production-lane p,
-  .playfield-production-lane span {
+  .playfield-production-summary-row p,
+  .playfield-production-summary-row span {
     display: none;
   }
 
@@ -7347,9 +7385,164 @@ h1 {
 
 .playfield-production-lane {
   display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+  min-height: 142px;
+}
+
+.playfield-companion-workstage {
+  position: relative;
+  min-height: 86px;
+  overflow: visible;
+  border: 0;
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse at 42% 86%, rgba(67, 88, 42, 0.18), transparent 43%),
+    radial-gradient(ellipse at 66% 84%, rgba(67, 88, 42, 0.12), transparent 36%);
+  box-shadow: none;
+}
+
+.playfield-workstage-ground {
+  position: absolute;
+  right: 42px;
+  bottom: 4px;
+  left: 42px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(48, 72, 42, 0.11);
+  filter: blur(3px);
+}
+
+.playfield-workstage-primary,
+.playfield-workstage-support {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  color: #23422f;
+  font-weight: 950;
+  text-align: center;
+  text-shadow:
+    0 1px 0 rgba(255, 252, 218, 0.9),
+    0 2px 5px rgba(31, 57, 32, 0.16);
+}
+
+.playfield-workstage-primary {
+  left: 15%;
+  bottom: 5px;
+  min-width: 72px;
+  animation: workstage-primary-bob 2.2s ease-in-out infinite;
+}
+
+.playfield-workstage-primary-image,
+.playfield-workstage-primary .playfield-scene-fallback,
+.playfield-workstage-primary-sprite {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  filter: drop-shadow(0 9px 8px rgba(34, 65, 38, 0.22));
+}
+
+.playfield-workstage-primary-sprite img,
+.playfield-workstage-primary-sprite img.playfield-production-actor-static {
+  width: 68px;
+  max-width: 68px;
+  height: 68px;
+  object-fit: contain;
+  animation: none;
+  transform: translateX(0);
+}
+
+.playfield-workstage-support {
+  right: 16%;
+  bottom: 7px;
+  min-width: 58px;
+  animation: workstage-support-bob 1.8s ease-in-out infinite;
+  animation-delay: calc(var(--support-worker-index, 0) * 160ms);
+}
+
+.playfield-workstage-support img,
+.playfield-workstage-support .playfield-scene-fallback {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  filter: drop-shadow(0 7px 7px rgba(34, 65, 38, 0.2));
+}
+
+.playfield-workstage-trail {
+  position: absolute;
+  z-index: 1;
+  bottom: 17px;
+  left: 33%;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 240, 126, 0.55);
+  box-shadow:
+    11px -4px 0 -3px rgba(120, 184, 82, 0.42),
+    21px 1px 0 -4px rgba(255, 247, 167, 0.48),
+    29px -3px 0 -4px rgba(72, 137, 74, 0.36);
+  opacity: 0.52;
+  animation: workstage-leaf-path 1.8s ease-in-out infinite;
+  filter: blur(0.2px);
+}
+
+.playfield-workstage-trail.trail-b {
+  right: 30%;
+  bottom: 15px;
+  left: auto;
+  transform: scale(0.78);
+  animation-delay: 520ms;
+}
+
+.playfield-workstage-target {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 24px;
+  overflow: visible;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  filter: drop-shadow(0 5px 5px rgba(44, 69, 35, 0.14));
+}
+
+.playfield-workstage-target.target-resource {
+  bottom: 8px;
+  left: 36%;
+}
+
+.playfield-workstage-target.target-order {
+  right: 32%;
+  bottom: 4px;
+}
+
+.playfield-workstage-target img {
+  width: 36px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.playfield-workstage-target-icon {
+  display: block;
+  width: 22px;
+  height: 16px;
+  border-radius: 999px 999px 70% 70%;
+  background:
+    radial-gradient(circle at 30% 28%, rgba(255, 250, 167, 0.86) 0 17%, transparent 18%),
+    linear-gradient(135deg, rgba(107, 172, 73, 0.84), rgba(51, 111, 62, 0.84));
+  transform: rotate(-10deg);
+}
+
+.playfield-production-summary-row {
+  display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  gap: 10px;
-  min-height: 62px;
+  gap: 8px;
 }
 
 .playfield-production-actor,
@@ -7366,6 +7559,44 @@ h1 {
     radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.68), transparent 34%),
     linear-gradient(135deg, rgba(235, 249, 199, 0.94), rgba(255, 248, 202, 0.9));
   box-shadow: 0 5px 12px rgba(80, 93, 36, 0.1);
+}
+
+@keyframes workstage-primary-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+}
+
+@keyframes workstage-support-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(1deg);
+  }
+
+  50% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+}
+
+@keyframes workstage-leaf-path {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px) translateY(5px) scale(0.86);
+  }
+
+  35% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(34px) translateY(-5px) scale(1.05);
+  }
 }
 
 .playfield-production-actor.has-support-workers {
@@ -8835,7 +9066,31 @@ h1 {
 
 .app-shell.playable-focus .playfield-board-overlay.has-production-scene .playfield-plot-row {
   align-content: center;
-  transform: translateY(36px);
+  transform: translateY(8px);
+}
+
+.app-shell.playable-focus .playfield-loading {
+  display: none;
+}
+
+.app-shell.playable-focus .playfield-production-lane {
+  min-height: 94px;
+}
+
+.app-shell.playable-focus .playfield-production-summary-row {
+  display: none;
+}
+
+.app-shell.playable-focus .playfield-companion-workstage {
+  min-height: 92px;
+}
+
+.app-shell.playable-focus .playfield-workstage-primary {
+  left: 13%;
+}
+
+.app-shell.playable-focus .playfield-workstage-support {
+  right: 13%;
 }
 
 .app-shell.playable-focus .playfield-plot-label-stack {
@@ -9155,7 +9410,7 @@ h1 {
   }
 
   .app-shell.playable-focus .playfield-board-overlay.has-production-scene .playfield-plot-row {
-    transform: translateY(24px);
+    transform: translateY(6px);
   }
 
   .app-shell.playable-focus .starter-panel.has-production.has-production-graph {

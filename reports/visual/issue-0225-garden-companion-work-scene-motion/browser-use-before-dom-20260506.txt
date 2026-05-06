@@ -1,0 +1,63 @@
+- main:
+  - paragraph: 햇살 온실 정원
+  - heading "이상한 씨앗상회" [level=1]
+  - paragraph: 다음 생명체를 준비하세요
+  - generic "현재 재화":
+    - generic: 잎 72
+    - generic: 꽃가루 0
+    - generic: 재료 1
+  - region "정원":
+    - 'application "Phaser 정원 플레이필드: 밭을 눌러 성장시키고 수확합니다"':
+      - group "정원 생산 엔진 한 장면":
+        - paragraph: 분당 12.8 잎 · 보관 부족 · 납품 가능
+        - region "정원 자동 생산 장면":
+          - img "정원 동료 2명 작업 중 작업 pose"
+          - img "방패새싹 모모 support actor"
+          - paragraph: 자동 생산
+          - strong: 정원 동료 2명 작업 중
+          - generic: 말랑잎 포리 · 방패새싹 모모 · 납품을 마치고 쉬는 중
+          - paragraph: 연구 준비 잎 묶음 완료
+          - strong: 24/24 잎
+          - generic: 보상 수령 완료
+        - button "첫 밭 빈 자리":
+          - generic: "1"
+          - strong: 첫 밭
+          - generic: +
+          - generic: 빈 자리
+        - button "2번 밭 빈 자리":
+          - generic: "2"
+          - strong: 2번 밭
+          - generic: +
+          - generic: 빈 자리
+    - complementary:
+      - article "자동 생산과 첫 주문":
+        - generic "생산 동료 roster":
+          - strong: 말랑잎 포리
+          - generic: 수집가 +7.2/분
+          - strong: 방패새싹 모모
+          - generic: 수호자 +3.0/분
+      - article "다음 성장 선택":
+        - paragraph: 다음 성장 선택
+        - strong: "추천: 보관 바구니"
+        - button "추천 보관 바구니 15 잎으로 보관 12 → 24 보관 바구니 화면 prop":
+          - generic: 추천
+          - strong: 보관 바구니
+          - generic: 15 잎으로 보관 12 → 24
+          - img "보관 바구니 화면 prop"
+        - button "완료 밭 확장 2번째 밭 가동 중" [disabled]:
+          - generic: 완료
+          - strong: 밭 확장
+          - generic: 2번째 밭 가동 중
+  - navigation "주요 화면":
+    - button "정원" [pressed]:
+      - generic: 정원
+    - button "씨앗":
+      - generic: 씨앗
+    - button "도감 도감 진행 2/9":
+      - generic: 도감
+      - generic "도감 진행 2/9": 2/9
+    - button "원정 원정 상태 준비":
+      - generic: 원정
+      - generic "원정 상태 준비": 준비
+    - button "상점":
+      - generic: 상점
