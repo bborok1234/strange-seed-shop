@@ -101,6 +101,42 @@ for (const viewport of DESKTOP_VIEWPORTS) {
     expect(dockBg).not.toBe(stageBg);
   });
 
+  test(`desktop garden stage stays inside its grid track at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/?qaProductionReady=1");
+    const shell = page.locator(".desktop-shell");
+    const rail = page.locator(".bottom-tabs.is-desktop-rail");
+    const stage = page.locator(".garden-stage");
+    await expect(shell).toBeVisible();
+    await expect(rail).toBeVisible();
+    await expect(stage).toBeVisible();
+
+    const shellRect = await shell.boundingBox();
+    const railRect = await rail.boundingBox();
+    const stageRect = await stage.boundingBox();
+    expect(shellRect).not.toBeNull();
+    expect(railRect).not.toBeNull();
+    expect(stageRect).not.toBeNull();
+    if (!shellRect || !railRect || !stageRect) return;
+
+    const shellRight = shellRect.x + shellRect.width;
+    const railRight = railRect.x + railRect.width;
+    const stageLeft = stageRect.x;
+    const stageRight = stageRect.x + stageRect.width;
+
+    expect(stageLeft, "stage must start after the desktop rail").toBeGreaterThanOrEqual(railRight - 1);
+    expect(stageRight, "stage must not overflow past the desktop shell").toBeLessThanOrEqual(shellRight + 1);
+    expect(stageRect.width, "stage should keep enough visible playfield width").toBeGreaterThan(360);
+
+    const hostRect = await page.locator(".garden-playfield-host").boundingBox();
+    expect(hostRect).not.toBeNull();
+    if (!hostRect) return;
+    const hostLeft = hostRect.x;
+    const hostRight = hostRect.x + hostRect.width;
+    expect(hostLeft).toBeGreaterThanOrEqual(stageLeft - 1);
+    expect(hostRight).toBeLessThanOrEqual(stageRight + 1);
+  });
+
   test(`garden plot marker replaces cream playfield panel at ${viewport.width}x${viewport.height}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/?qaSpriteState=ready");

@@ -7910,8 +7910,11 @@ h1 {
     grid-template-areas: "rail stage dock";
   }
 
-  .garden-stage {
+  .app-shell.playable-focus .desktop-shell .garden-stage {
     grid-area: stage;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .side-dock {
