@@ -5,6 +5,7 @@
 - Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:game-playtest`
 - Source URL: `http://127.0.0.1:4173/?qaProductionReady=1`
 - Issue: #409
+- PR: #410 — https://github.com/bborok1234/strange-seed-shop/pull/410
 - WorkUnit: `items/0214-order-delivery-playfield-reward-motion.md`
 
 ## Before

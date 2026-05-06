@@ -2,6 +2,8 @@
 
 첫 주문 납품 순간을 panel receipt뿐 아니라 playfield 주문상자의 reward motion으로도 읽히게 했습니다.
 
+Draft PR: #410 — https://github.com/bborok1234/strange-seed-shop/pull/410
+
 ## Small win
 
 `주문 납품`을 누르면 playfield order crate 위에서 accepted `fx_order_delivery_burst_001` 4-frame strip이 재생되고, 상자 카드가 짧게 pulse합니다.
