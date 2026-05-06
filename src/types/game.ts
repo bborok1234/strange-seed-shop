@@ -125,6 +125,7 @@ export interface PlayerSave {
   plotCount: number;
   tapPowerLevel: number;
   productionBoostLevel: number;
+  storageBasketLevel: number;
   materialWorkbenchLevel: number;
   greenhouseFacilityLevel: number;
   greenhouseStorageLevel: number;

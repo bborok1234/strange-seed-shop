@@ -182,6 +182,66 @@ test("모바일 ready 밭 수확은 procedural feedback telemetry 후 reveal로 
   await page.screenshot({ path: testInfo.outputPath("mobile-playfield-harvest-feedback-393.png"), fullPage: false });
 });
 
+test("모바일 병목 production graph는 보관 부족과 추천 강화를 한 화면에서 읽힌다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaBottleneckGraphReady=1");
+
+  await expect(page.getByLabel("생산 보관 납품 요약")).toContainText("보관 부족");
+  await expect(page.getByLabel("생산 보관 납품 요약")).toContainText("주문 0/12");
+  await expect(page.locator(".playfield-engine-status")).toContainText("보관 부족");
+  await expect(page.locator(".upgrade-choice-summary")).toContainText("바구니 prop 확장");
+  await expect(page.getByLabel("보관 바구니 화면 prop")).toHaveClass(/storage-tight/);
+  await expect(page.locator(".upgrade-choice-storage_basket.upgrade-choice-recommended")).toBeVisible();
+  await expect(page.locator(".upgrade-choice-storage_basket")).toContainText("추천");
+
+  const beforeMetrics = await page.evaluate(() => {
+    const panel = document.querySelector<HTMLElement>(".starter-panel");
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const graph = document.querySelector<HTMLElement>(".production-graph-summary")?.getBoundingClientRect();
+    const brief = document.querySelector<HTMLElement>(".production-bottleneck-brief")?.getBoundingClientRect();
+    const choice = document.querySelector<HTMLElement>(".upgrade-choice-storage_basket")?.getBoundingClientRect();
+    return {
+      panelClientHeight: panel?.clientHeight ?? 0,
+      panelScrollHeight: panel?.scrollHeight ?? 0,
+      tabs: tabs ? { top: tabs.top } : null,
+      graph: graph ? { bottom: graph.bottom } : null,
+      brief: brief ? { bottom: brief.bottom } : null,
+      choice: choice ? { bottom: choice.bottom } : null
+    };
+  });
+
+  expect(beforeMetrics.graph).not.toBeNull();
+  expect(beforeMetrics.brief).not.toBeNull();
+  expect(beforeMetrics.choice).not.toBeNull();
+  expect(beforeMetrics.panelScrollHeight).toBeLessThanOrEqual(beforeMetrics.panelClientHeight + 1);
+  expect(beforeMetrics.brief!.bottom).toBeLessThanOrEqual(beforeMetrics.tabs!.top - 4);
+  expect(beforeMetrics.choice!.bottom).toBeLessThanOrEqual(beforeMetrics.tabs!.top - 4);
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-bottleneck-production-graph-before-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+
+  await page.getByRole("button", { name: /보관 바구니/ }).click();
+  await expect(page.getByLabel("보관 바구니 화면 prop")).toHaveClass(/storage-expanded/);
+  await expect(page.getByText("보관 12/24 잎")).toBeVisible();
+  await expect(page.getByLabel("생산 보관 납품 요약")).toContainText("보관 12/24");
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+        return raw ? (JSON.parse(raw) as { storageBasketLevel?: number }).storageBasketLevel : 0;
+      })
+    )
+    .toBe(1);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-bottleneck-production-graph-after-storage-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
+
 test("모바일 자동 생산과 첫 주문은 반복 주문과 생산 속도 업그레이드까지 검증한다", async ({ page }, testInfo) => {
   test.setTimeout(120_000);
   await page.setViewportSize({ width: 393, height: 852 });
