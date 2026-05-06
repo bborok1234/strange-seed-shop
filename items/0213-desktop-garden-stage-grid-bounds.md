@@ -3,7 +3,7 @@
 - ID: `0213`
 - Status: review
 - GitHub issue: #407 — https://github.com/bborok1234/strange-seed-shop/issues/407
-- Draft PR: pending
+- Draft PR: #408 — https://github.com/bborok1234/strange-seed-shop/pull/408
 - Source feedback: 사용자 in-app browser screenshot, `http://127.0.0.1:4173/?qaProductionReady=1`
 - Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:game-playtest`
 - Campaign source: P0.5 Idle Core + Creative Rescue

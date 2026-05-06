@@ -351,7 +351,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
 - GitHub issue: #407
-- Draft PR: pending
+- Draft PR: #408 — https://github.com/bborok1234/strange-seed-shop/pull/408
 - Plan artifact: `items/0213-desktop-garden-stage-grid-bounds.md`
 - Visual evidence: `reports/visual/issue-0213-desktop-garden-stage-grid-bounds-20260506.md`, `reports/visual/desktop-garden-weird-before-1280x800-20260506.png`, `reports/visual/desktop-garden-weird-after-1280x800-wait-20260506.png`, `reports/visual/desktop-garden-weird-after-browseruse-20260506.png`
 - Validation: Browser Use `iab` screenshot pass, focused desktop regression 9 passed, `npm run check:art-share` 24 passed, `npm run build` pass.
@@ -371,7 +371,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 적용할 gate:
 
-1. PR #407 branch를 push하고 draft PR을 생성한다.
+1. PR #408 required checks를 관찰하고 green이면 merge gate로 진행한다.
 2. PR body에는 사용자 screenshot 회귀, Browser Use `iab`, desktop after screenshot/metrics, `check:art-share`, `build` evidence를 반영한다.
 3. PR green/merge 이후 다음 WorkUnit은 다른 creature 고유 actor strip 또는 richer interaction behavior를 plan-first로 고른다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
