@@ -1,6 +1,7 @@
 # Issue 0215 — second creature roster playfield relay
 
 - Issue: #411
+- PR: #412 — https://github.com/bborok1234/strange-seed-shop/pull/412
 - Route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:game-playtest`
 - URL: `http://127.0.0.1:4173/?qaResearchExpeditionReady=1`
 

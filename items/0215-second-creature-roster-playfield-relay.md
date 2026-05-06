@@ -3,7 +3,7 @@
 - ID: `0215`
 - Status: active
 - GitHub issue: #411 — https://github.com/bborok1234/strange-seed-shop/issues/411
-- Draft PR: pending
+- Draft PR: #412 — https://github.com/bborok1234/strange-seed-shop/pull/412
 - Source feedback: #410 merge 후 Studio Harness v3 queue empty intake
 - Campaign source: P0.5 Idle Core + Creative Rescue
 - Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:game-playtest`

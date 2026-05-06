@@ -2,6 +2,8 @@
 
 두 번째 생명체 발견 이후 `방패새싹 모모`가 panel roster text에만 남지 않고, 정원 playfield production scene의 support actor로 합류하게 했습니다.
 
+Draft PR: #412 — https://github.com/bborok1234/strange-seed-shop/pull/412
+
 ## Small win
 
 `qaResearchExpeditionReady=1` 정원에서 포리 옆에 모모 support actor가 보이고, `creature_herb_common_002` accepted raster가 작은 relay motion으로 움직입니다.
