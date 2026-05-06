@@ -20,9 +20,13 @@ export type PlayfieldAnimationSlot =
   | "tap_feedback"
   | "harvest_fx"
   | "reward_fx"
-  | "work_idle";
+  | "work_idle"
+  | "idle"
+  | "work"
+  | "celebrate"
+  | "order_receipt_fx";
 
-export type PlayfieldAnimationAction = "tap_growth" | "harvest_plot";
+export type PlayfieldAnimationAction = "tap_growth" | "harvest_plot" | "claim_production" | "deliver_order";
 
 export type PlayfieldAnimationPlotState = "growing" | "ready";
 

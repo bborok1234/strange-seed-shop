@@ -1,7 +1,7 @@
 {
   "version": "phase0-v1",
   "source_plan": "assets/source/asset_plan.json",
-  "generation_mode": "codex_native_image_generation",
+  "generation_mode": "gpt-image-2",
   "runtime_generation_allowed": false,
   "shared_style": "Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.",
   "prompts": [
@@ -514,6 +514,420 @@
       "state_binding": "plot.state=empty|growing|ready",
       "text_safe_zone": "large plain center field; no painted detail behind DOM labels",
       "must_not_obscure": "stage_art, player verb, click target"
+    },
+    {
+      "asset_id": "ui_garden_objective_wood_sign_001",
+      "output_path": "public/assets/game/ui/ui_garden_objective_wood_sign_001.png",
+      "prompt": "Use case: raster PNG diegetic HUD frame for a mobile idle collection game.\nAsset type: transparent UI frame / top objective wooden garden sign, no text.\nPrimary request: Create a compact warm wooden objective sign for 이상한 씨앗상회 that can sit near the top of a 393px mobile game frame without covering the greenhouse art.\nSubject: A small low wooden garden sign with rounded plank, tiny leaf knots, soft sunlit rim, and a broad blank center for Korean DOM text. It should feel like a prop in the greenhouse, not a SaaS pill or paper card.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Horizontal sign, transparent background, generous alpha padding, decorative leaves only at the corners, center intentionally plain for live text.\nColor palette: warm wood brown, cream highlight, fresh herb green, muted greenhouse teal shadow, tiny warm yellow sun accent.\nConstraints: No readable text, no letters, no numbers, no logo, no watermark, no opaque rectangle, no busy background, no baked label lines.\nAvoid: dashboard badge, beige card, paper note, photorealistic wood grain, ornate fantasy plaque, SVG/vector/code-native look.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=fresh_garden_and_production_garden; player_verb=read_next_action; state_binding=hud.objective; must_not_obscure=background_window, resource_pills",
+        "transparent or alpha-ready background with live DOM text safe zone",
+        "text_safe_zone=wide blank center, leaves only at edges"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "fresh_garden_and_production_garden",
+      "player_verb": "read_next_action",
+      "state_binding": "hud.objective",
+      "text_safe_zone": "wide blank center, leaves only at edges",
+      "must_not_obscure": "background_window, resource_pills",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      }
+    },
+    {
+      "asset_id": "ui_garden_resource_pouch_001",
+      "output_path": "public/assets/game/ui/ui_garden_resource_pouch_001.png",
+      "prompt": "Use case: raster PNG diegetic HUD frame for resource counters in a mobile idle game.\nAsset type: transparent UI frame / seed pouch resource pill, no text.\nPrimary request: Create a compact resource pouch frame that replaces plain cream resource pills for leaves, pollen, and materials.\nSubject: A soft seed pouch or leaf-trimmed oval counter frame with subtle stitched edge, tiny leaf clasp, and a blank center for Korean DOM numbers. It must be readable at small size and not dominate the top HUD.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Horizontal oval/pouch frame, transparent background, center blank, edge decoration minimal.\nColor palette: cream cloth, warm tan, fresh green clasp, muted teal shadow.\nConstraints: No text, no numbers, no logo, no watermark, no opaque large card, no embedded icons that conflict with live resource names.\nAvoid: coin shop badge, generic app pill, ornate border, dark low contrast, cluttered fabric texture.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=all_garden_states; player_verb=read_resources; state_binding=hud.resourcePills; must_not_obscure=top_objective, playfield",
+        "transparent or alpha-ready background with live DOM text safe zone",
+        "text_safe_zone=oval center clear"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "all_garden_states",
+      "player_verb": "read_resources",
+      "state_binding": "hud.resourcePills",
+      "text_safe_zone": "oval center clear",
+      "must_not_obscure": "top_objective, playfield",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      }
+    },
+    {
+      "asset_id": "ui_garden_action_ribbon_001",
+      "output_path": "public/assets/game/ui/ui_garden_action_ribbon_001.png",
+      "prompt": "Use case: raster PNG primary action affordance for a mobile idle game.\nAsset type: transparent UI frame / leafy action ribbon, no text.\nPrimary request: Create a compact leafy action ribbon that can back one primary verb such as 씨앗 심기, 수확, 생산 잎 수령, or 주문 납품.\nSubject: A warm leaf-and-sun ribbon with rounded soft shape, small folded ends, tiny sprouts at edges, blank center for Korean button text. It should be a game prop, not a large cream rectangle.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Horizontal ribbon, transparent background, strong silhouette at 64px height, center clean.\nColor palette: warm leaf yellow, cream highlight, herb green edge leaves, soft orange sun accent, muted teal shadow.\nConstraints: No readable text, no letters, no numbers, no logo, no watermark, no casino badge, no large opaque panel.\nAvoid: rectangular button skin, sticky note, metal plaque, high saturation neon, text baked into the image.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=fresh_garden_and_ready_garden; player_verb=perform_primary_action; state_binding=bottomAction.primaryVerb; must_not_obscure=bottom_nav, plot_marker",
+        "transparent or alpha-ready background with live DOM text safe zone",
+        "text_safe_zone=center clear for CTA"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "fresh_garden_and_ready_garden",
+      "player_verb": "perform_primary_action",
+      "state_binding": "bottomAction.primaryVerb",
+      "text_safe_zone": "center clear for CTA",
+      "must_not_obscure": "bottom_nav, plot_marker",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      }
+    },
+    {
+      "asset_id": "ui_garden_plot_floor_empty_001",
+      "output_path": "public/assets/game/ui/ui_garden_plot_floor_empty_001.png",
+      "prompt": "Use case: raster PNG plot marker for the floor of a greenhouse mobile idle game.\nAsset type: transparent garden object / empty floor seedbed, no text.\nPrimary request: Create a larger floor-anchored empty plot marker that clearly belongs on the greenhouse ground, not on a shelf or card.\nSubject: A low oval soil bed set into the garden floor, with small stones, tiny leaves around the rim, a subtle wooden plant tag silhouette, and a clean lower label-safe plate area for DOM text.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Horizontal floor object, transparent background, strong tappable silhouette, no rectangular backing.\nColor palette: warm soil brown, soft moss green, cream stone highlights, deep greenhouse teal shadow.\nConstraints: No text, no logo, no watermark, no busy full scene, no opaque cream panel, no tall object that covers actor.\nAvoid: shelf object, top-down farm tile, photorealistic dirt, rectangular UI frame, clutter under label.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=fresh_garden; player_verb=plant_seed; state_binding=plot.state=empty; must_not_obscure=actor, bottom_action",
+        "transparent or alpha-ready background with live DOM text safe zone",
+        "text_safe_zone=small lower plate clear"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "fresh_garden",
+      "player_verb": "plant_seed",
+      "state_binding": "plot.state=empty",
+      "text_safe_zone": "small lower plate clear",
+      "must_not_obscure": "actor, bottom_action",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      }
+    },
+    {
+      "asset_id": "ui_garden_plot_floor_growing_001",
+      "output_path": "public/assets/game/ui/ui_garden_plot_floor_growing_001.png",
+      "prompt": "Use case: raster PNG plot marker for a growing seed in a greenhouse mobile idle game.\nAsset type: transparent garden object / growing floor seedbed, no text.\nPrimary request: Create a floor-anchored growing plot marker that shows a small sprout emerging from a soil bed and invites tapping.\nSubject: A low oval soil bed with a cute sprout, tiny dew highlights, small stones and leaves on the rim, and a clean lower label-safe plate area for DOM percent text.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Horizontal floor object, transparent background, sprout above center but not covering live label area.\nColor palette: fresh herb green, warm soil brown, dew blue accent, cream highlight, muted teal shadow.\nConstraints: No text, no logo, no watermark, no opaque card, no busy background, no giant leaves over text.\nAvoid: farm grid tile, rectangular dashboard panel, realistic plant photo, cluttered progress area.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=growing_plot; player_verb=tap_growth; state_binding=plot.state=growing; must_not_obscure=progress_text, actor",
+        "transparent or alpha-ready background with live DOM text safe zone",
+        "text_safe_zone=lower plate clear, sprout away from label"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "growing_plot",
+      "player_verb": "tap_growth",
+      "state_binding": "plot.state=growing",
+      "text_safe_zone": "lower plate clear, sprout away from label",
+      "must_not_obscure": "progress_text, actor",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      }
+    },
+    {
+      "asset_id": "ui_garden_plot_floor_ready_001",
+      "output_path": "public/assets/game/ui/ui_garden_plot_floor_ready_001.png",
+      "prompt": "Use case: raster PNG harvest-ready plot marker for a greenhouse mobile idle game.\nAsset type: transparent garden object / ready floor seedbed, no text.\nPrimary request: Create a ready-to-harvest floor plot marker that looks rewarding before any text is read.\nSubject: A low oval soil bed with a plump leafy sprout and warm harvest glow, tiny sunlit leaves around the rim, subtle ribbon-like blank area for DOM harvest text.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Horizontal floor object, transparent background, glow contained inside alpha padding, center readable.\nColor palette: warm leaf yellow, fresh herb green, cream highlight, soft orange glow, warm soil brown.\nConstraints: No text, no letters, no logo, no watermark, no opaque badge, no busy particle cloud.\nAvoid: casino reward badge, giant banner, rectangular button, dark low contrast, clutter under harvest text.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=ready_plot; player_verb=harvest_plot; state_binding=plot.state=ready; must_not_obscure=actor, bottom_action",
+        "transparent or alpha-ready background with live DOM text safe zone",
+        "text_safe_zone=harvest ribbon center clear"
+      ],
+      "category": "ui_frame",
+      "screen_moment": "ready_plot",
+      "player_verb": "harvest_plot",
+      "state_binding": "plot.state=ready",
+      "text_safe_zone": "harvest ribbon center clear",
+      "must_not_obscure": "actor, bottom_action",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      }
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_001_idle_strip",
+      "output_path": "public/assets/game/sprites/production/creature_herb_common_001_idle_strip.png",
+      "prompt": "Use case: horizontal sprite strip for a mobile idle game production actor.\nAsset type: 6-frame spritesheet strip, transparent background, no text.\nPrimary request: Create sprite_creature_herb_common_001_idle_strip, six consistent frames of 말랑잎 포리 gently breathing while standing in the greenhouse.\nSubject: The same small round leafy starter creature as creature_herb_common_001, front three-quarter view, tiny leaf satchel, soft sprout ears, friendly face. Each frame is the same character with subtle breathing and leaf sway only.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Six frames arranged left-to-right in one horizontal strip, equal 96x96 frame cells after normalization, character centered in each cell, transparent/alpha-ready background.\nColor palette: fresh herb greens, warm yellow highlights, cream facial accents, deep greenhouse teal shadow.\nConstraints: No text, no logo, no watermark, no different character per frame, no camera angle changes, no background, no cropped feet.\nAvoid: model sheet grid with labels, duplicate unrelated poses, extreme motion, busy props, copyrighted mascot resemblance.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=production_garden; player_verb=watch_auto_production; state_binding=productionActor.state=idle; must_not_obscure=plot_label, order_crate",
+        "strict horizontal strip after normalization: frames=6, frame=96x96, frameRate=8",
+        "manifest animation.binding is required before accepted runtime use"
+      ],
+      "category": "sprite_strip",
+      "screen_moment": "production_garden",
+      "player_verb": "watch_auto_production",
+      "state_binding": "productionActor.state=idle",
+      "text_safe_zone": "none",
+      "must_not_obscure": "plot_label, order_crate",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      },
+      "animation": {
+        "kind": "spritesheet",
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 8,
+        "repeat": -1,
+        "binding": {
+          "target": "actor",
+          "slot": "idle",
+          "creatureIds": [
+            "creature_herb_common_001"
+          ]
+        }
+      }
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_001_work_strip",
+      "output_path": "public/assets/game/sprites/production/creature_herb_common_001_work_strip.png",
+      "prompt": "Use case: horizontal sprite strip for a mobile idle game production actor.\nAsset type: 6-frame spritesheet strip, transparent background, no text.\nPrimary request: Create sprite_creature_herb_common_001_work_strip, six consistent frames of 말랑잎 포리 gathering leaves for automatic production.\nSubject: The same starter leafy creature performing a tiny gather-work loop: lean, pick up leaf, hold leaf satchel, cheerful work bounce. Keep the silhouette consistent frame to frame.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Six frames arranged left-to-right, equal 96x96 frame cells after normalization, character centered, transparent/alpha-ready background, no scenery.\nColor palette: fresh herb greens, warm yellow highlights, cream face, tiny teal satchel details.\nConstraints: No text, no logo, no watermark, no different character designs, no camera jumps, no cropped body, no realistic tools.\nAvoid: frame labels, full scene background, huge leaf covering face, aggressive motion, brand mascot resemblance.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=production_garden; player_verb=watch_auto_production; state_binding=productionActor.state=work; must_not_obscure=plot_label, order_crate",
+        "strict horizontal strip after normalization: frames=6, frame=96x96, frameRate=10",
+        "manifest animation.binding is required before accepted runtime use"
+      ],
+      "category": "sprite_strip",
+      "screen_moment": "production_garden",
+      "player_verb": "watch_auto_production",
+      "state_binding": "productionActor.state=work",
+      "text_safe_zone": "none",
+      "must_not_obscure": "plot_label, order_crate",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      },
+      "animation": {
+        "kind": "spritesheet",
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 10,
+        "repeat": -1,
+        "binding": {
+          "target": "actor",
+          "slot": "work",
+          "creatureIds": [
+            "creature_herb_common_001"
+          ]
+        }
+      }
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_001_celebrate_strip",
+      "output_path": "public/assets/game/sprites/production/creature_herb_common_001_celebrate_strip.png",
+      "prompt": "Use case: horizontal sprite strip for a mobile idle game reward moment.\nAsset type: 6-frame spritesheet strip, transparent background, no text.\nPrimary request: Create sprite_creature_herb_common_001_celebrate_strip, six consistent frames of 말랑잎 포리 celebrating a harvest or order reward.\nSubject: The same small leafy creature doing a short happy hop, tiny leaves popping around it, smile visible, satchel bouncing. Keep the same camera and scale in every frame.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Six frames arranged left-to-right, equal 96x96 frame cells after normalization, transparent/alpha-ready background, character centered.\nColor palette: fresh herb greens, warm leaf yellow, cream face, tiny sunlit particles.\nConstraints: No text, no logo, no watermark, no different character per frame, no background, no confetti clutter, no crop.\nAvoid: slot-machine reward style, unrelated pose sheet, large particles hiding silhouette, copyrighted mascot resemblance.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=harvest_or_order_reward; player_verb=claim_reward; state_binding=productionActor.state=celebrate; must_not_obscure=reward_receipt, bottom_action",
+        "strict horizontal strip after normalization: frames=6, frame=96x96, frameRate=12",
+        "manifest animation.binding is required before accepted runtime use"
+      ],
+      "category": "sprite_strip",
+      "screen_moment": "harvest_or_order_reward",
+      "player_verb": "claim_reward",
+      "state_binding": "productionActor.state=celebrate",
+      "text_safe_zone": "none",
+      "must_not_obscure": "reward_receipt, bottom_action",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      },
+      "animation": {
+        "kind": "spritesheet",
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "binding": {
+          "target": "actor",
+          "slot": "celebrate",
+          "creatureIds": [
+            "creature_herb_common_001"
+          ]
+        }
+      }
+    },
+    {
+      "asset_id": "fx_garden_leaf_trail_001_strip",
+      "output_path": "public/assets/game/fx/fx_garden_leaf_trail_001_strip.png",
+      "prompt": "Use case: horizontal FX sprite strip for a mobile idle game resource claim.\nAsset type: 6-frame FX spritesheet strip, transparent background, no text.\nPrimary request: Create fx_garden_leaf_trail_001_strip, a leaf trail/resource flight effect for claiming produced leaves.\nSubject: Small bright leaves and warm spark motes moving upward-right across six frames, starting compact and ending as a soft fade. It should feel gentle and readable, not explosive.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Six frames arranged left-to-right, equal 128x128 cells after normalization, transparent/alpha-ready background, effect centered with enough padding.\nColor palette: fresh herb green, warm leaf yellow, cream sparkle, soft teal shadow.\nConstraints: No text, no numbers, no logo, no watermark, no background, no huge particle cloud.\nAvoid: casino coins, firework explosion, hard neon, busy confetti, frame labels.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=production_claim; player_verb=claim_production; state_binding=action=claim_production; must_not_obscure=resource_delta",
+        "strict horizontal strip after normalization: frames=6, frame=128x128, frameRate=12",
+        "manifest animation.binding is required before accepted runtime use"
+      ],
+      "category": "fx_strip",
+      "screen_moment": "production_claim",
+      "player_verb": "claim_production",
+      "state_binding": "action=claim_production",
+      "text_safe_zone": "none",
+      "must_not_obscure": "resource_delta",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      },
+      "animation": {
+        "kind": "spritesheet",
+        "frames": 6,
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frameRate": 12,
+        "repeat": 0,
+        "binding": {
+          "target": "effect",
+          "slot": "reward_fx",
+          "actions": [
+            "claim_production"
+          ]
+        }
+      }
+    },
+    {
+      "asset_id": "fx_garden_harvest_pop_001_strip",
+      "output_path": "public/assets/game/fx/fx_garden_harvest_pop_001_strip.png",
+      "prompt": "Use case: horizontal FX sprite strip for a mobile idle game harvest moment.\nAsset type: 6-frame FX spritesheet strip, transparent background, no text.\nPrimary request: Create fx_garden_harvest_pop_001_strip, a soft harvest pop effect that plays when a ready plot is harvested.\nSubject: A warm leaf burst with tiny seed sparkles and a gentle circular glow opening then fading over six frames. It should support a creature reveal without covering it.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Six frames left-to-right, equal 128x128 cells after normalization, transparent/alpha-ready, center clear by final frames.\nColor palette: warm leaf yellow, fresh herb green, cream glow, tiny dew blue accent.\nConstraints: No text, no numbers, no logo, no watermark, no opaque background, no aggressive explosion.\nAvoid: casino jackpot, fireworks, dark smoke, heavy particles hiding actor, frame labels.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=harvest_ready_plot; player_verb=harvest_plot; state_binding=action=harvest_plot; must_not_obscure=creature_reveal",
+        "strict horizontal strip after normalization: frames=6, frame=128x128, frameRate=12",
+        "manifest animation.binding is required before accepted runtime use"
+      ],
+      "category": "fx_strip",
+      "screen_moment": "harvest_ready_plot",
+      "player_verb": "harvest_plot",
+      "state_binding": "action=harvest_plot",
+      "text_safe_zone": "none",
+      "must_not_obscure": "creature_reveal",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      },
+      "animation": {
+        "kind": "spritesheet",
+        "frames": 6,
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frameRate": 12,
+        "repeat": 0,
+        "binding": {
+          "target": "effect",
+          "slot": "harvest_fx",
+          "actions": [
+            "harvest_plot"
+          ]
+        }
+      }
+    },
+    {
+      "asset_id": "fx_garden_order_receipt_001_strip",
+      "output_path": "public/assets/game/fx/fx_garden_order_receipt_001_strip.png",
+      "prompt": "Use case: horizontal FX sprite strip for a mobile idle game order delivery.\nAsset type: 6-frame FX spritesheet strip, transparent background, no text.\nPrimary request: Create fx_garden_order_receipt_001_strip, a crate seal and tiny receipt sparkle effect for order delivery completion.\nSubject: A small wax-leaf seal stamp motion, then a few leaf sparkles and soft receipt-shaped glow without any readable writing. The effect should sit near an order crate.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, bright but not neon colors, mobile idle game asset, clean edges, no text, no watermark.\nComposition/framing: Six frames left-to-right, equal 128x128 cells after normalization, transparent/alpha-ready, compact center effect.\nColor palette: warm leaf yellow, soft orange seal, fresh herb green, cream glow, muted teal shadow.\nConstraints: No readable text, no letters, no numbers, no logo, no watermark, no full paper receipt, no opaque background.\nAvoid: shopping receipt UI, casino reward stamp, red error seal, busy confetti, frame labels.",
+      "acceptance": [
+        "workspace PNG can be saved at output_path",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches 이상한 씨앗상회 cute-strange greenhouse style",
+        "screen_moment=order_delivery; player_verb=deliver_order; state_binding=action=deliver_order; must_not_obscure=order_crate_label",
+        "strict horizontal strip after normalization: frames=6, frame=128x128, frameRate=12",
+        "manifest animation.binding is required before accepted runtime use"
+      ],
+      "category": "fx_strip",
+      "screen_moment": "order_delivery",
+      "player_verb": "deliver_order",
+      "state_binding": "action=deliver_order",
+      "text_safe_zone": "none",
+      "must_not_obscure": "order_crate_label",
+      "generation": {
+        "provider": "openai_images_api",
+        "model": "gpt-image-2",
+        "issue": 422,
+        "budget_cap_usd": 250,
+        "soft_checkpoint_usd": 200,
+        "batch": "garden_production_redesign_0224"
+      },
+      "animation": {
+        "kind": "spritesheet",
+        "frames": 6,
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frameRate": 12,
+        "repeat": 0,
+        "binding": {
+          "target": "effect",
+          "slot": "order_receipt_fx",
+          "actions": [
+            "deliver_order"
+          ]
+        }
+      }
     }
   ]
 }

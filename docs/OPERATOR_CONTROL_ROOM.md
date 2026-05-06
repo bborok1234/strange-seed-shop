@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-05T23:02:37+09:00
+Generated at: 2026-05-06T14:04:13.129Z
 
 ## Current mission
 
-현재 작업은 #404 merge/main CI 이후 사용자 지적의 다음 미해결 축인 **creature actor motion v0**다. #405는 첫 발견 creature가 도감 이미지가 아니라 playfield에서 accepted sprite-strip actor로 보이게 하는 slice이며, 현재 구현과 로컬 검증은 완료되어 PR publication gate에 있다.
+현재 작업은 **second creature roster playfield relay**이다. #411은 `?qaResearchExpeditionReady=1` 두 번째 생명체 보유 상태에서 `방패새싹 모모`가 panel roster text가 아니라 playfield production scene의 support actor로 합류하게 하는 slice이며, PR #412에서 checks/merge gate에 있다.
 
 현재 evidence:
 
@@ -15,10 +15,22 @@ Generated at: 2026-05-05T23:02:37+09:00
 - Handoff: `docs/studio/HANDOFF.md`
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
-- Issue: #405
-- Draft PR: #406 — https://github.com/bborok1234/strange-seed-shop/pull/406
+- GitHub issue: #411
+- Draft PR: #412 — https://github.com/bborok1234/strange-seed-shop/pull/412
+- Plan artifact: `items/0215-second-creature-roster-playfield-relay.md`
+- Visual evidence: `reports/visual/issue-0215-second-creature-roster-playfield-relay-20260506.md`, `reports/visual/issue-0215-second-creature-roster-before-browseruse-20260506.png`, `reports/visual/issue-0215-second-creature-roster-after-browseruse-20260506.png`
+- Validation: Browser Use `iab` before/after screenshot pass, Browser Use after `supportAsset=creature_herb_common_002`, focused mobile roster regression 1 passed, `npm run check:art-share` 24 passed, `npm run build` pass.
+- Previous GitHub issue: #409
+- Previous PR: #410 — https://github.com/bborok1234/strange-seed-shop/pull/410
+- Previous plan artifact: `items/0214-order-delivery-playfield-reward-motion.md`
+- Previous GitHub issue: #407
+- Previous PR: #408 — https://github.com/bborok1234/strange-seed-shop/pull/408
+- Previous plan artifact: `items/0213-desktop-garden-stage-grid-bounds.md`
+- Previous GitHub issue: #405
+- Previous draft PR: #406 — https://github.com/bborok1234/strange-seed-shop/pull/406
 - Previous PR: #404 merged — https://github.com/bborok1234/strange-seed-shop/pull/404
-- Plan artifact: `items/0212-creature-actor-motion-v0.md`
+- Previous plan artifact: `items/0212-creature-actor-motion-v0.md`
+- Deliberation artifacts: `reports/deliberation/garden-respecting-hud-assets/{brief.md,spec.md,user-review.md,retrospective.md}`
 - PR1 asset candidates: `public/assets/game/ui/ui_hud_plot_seedbed_empty_001.png`, `public/assets/game/ui/ui_hud_plot_seedbed_growing_001.png`, `public/assets/game/ui/ui_hud_plot_ready_ribbon_001.png`, `public/assets/game/ui/ui_hud_plot_text_plate_001.png`
 - PR1 preview evidence: `reports/assets/garden-hud-plot-marker-preview-20260505.md`, `reports/visual/garden-hud-plot-marker-preview-20260505.png`
 - Prior Browser Use evidence: `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-plot-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-fresh-start-iab.png`, `reports/visual/issue-403-garden-plot-marker-runtime/browser-use-ready-floor-placement-iab.png`
@@ -30,34 +42,34 @@ Generated at: 2026-05-05T23:02:37+09:00
 
 즉시 적용할 gate:
 
-1. Issue #405 draft PR을 게시하고 required checks를 관찰한다.
-2. PR body에 Browser Use `iab`, `check:ci`, `check:art-share`, focused mobile actor regression evidence를 남긴다.
-3. PR green/merge 이후 다음 WorkUnit은 다른 creature 고유 actor strip 또는 richer interaction behavior를 plan-first로 고른다.
+1. PR #412 checks를 확인하고 ready/merge gate를 진행한다.
+2. main CI 관찰 뒤 local main으로 복귀한다.
+3. PR green/merge 이후 다음 WorkUnit은 신규 `방패새싹 모모` sprite strip 생성 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
 
 ## Local state
 
-- Branch: codex/0212-creature-actor-motion-v0
-- Latest main commit: 039ec17 정원 첫 밭을 시작 가능한 action node로 회복한다
-- Dirty files: #405 implementation and PR evidence
+- Branch: codex/p05-garden-production-redesign
+- Latest commit: d3a12d4 오프라인 복귀 보상을 정원 상태로 연결한다
+- Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-05T15:18:13.960Z
-- Phase: creature-actor-motion-pr-ready
-- Issue: #405
-- PR: pending
-- Item: items/0212-creature-actor-motion-v0.md
-- Next action: gate: watch PR #406 required checks and merge when green
+- Timestamp: 2026-05-06T14:02:37Z
+- Phase: studio-operate-review
+- Issue: #422
+- PR: 
+- Item: items/0224-garden-production-redesign-asset-sprite-pass.md
+- Next action: PR publication gate 준비: commit, draft PR, checks, merge gate
 
 ## Open PRs
 
-- #406 — https://github.com/bborok1234/strange-seed-shop/pull/406 — draft, checks pending
+- unavailable or none
 
 ## Open issues
 
-- #405 — https://github.com/bborok1234/strange-seed-shop/issues/405 — planning
+- #422 정원 첫 화면을 production scene으로 재구성 — https://github.com/bborok1234/strange-seed-shop/issues/422
 
 ## Playable mode
 
