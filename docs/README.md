@@ -19,6 +19,8 @@ Studio Harness v2 기준의 현재 최상위 source of truth는 repo root의 `RE
 | `PROJECT_COMMANDS.md` | 프로젝트 전용 명령어와 v3 운영 진입점: `npm run studio:v3:operate`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`; `$seed-ops`는 deprecated adapter | Before choosing operating/report/design/QA/playable mode |
 | `PRD_PHASE0.md` | Phase 0 product requirements and UX contract | Before product or UI work |
 | `ECONOMY_PHASE0.md` | Phase 0 economy tables, formulas, tuning levers | Before economy/config work |
+| `DESIGN.md` | Game-level UI/UX judgment rules, screen contracts, and production-ready design criteria | Before deciding whether a game screen is good enough |
+| `ART_HUD_PRODUCTION_SPEC.md` | Garden art/HUD production spec for plot, actor, label, motion, HUD budget, and visual QA | Before implementing garden, production, order, research, or expedition HUD moments |
 | `DESIGN_SYSTEM.md` | Phase 0 UI usage rules, token draft, and visual QA contract | Before UI or visual hierarchy work |
 | `UX_REVIEW_20260427.md` | Devil's advocate UX review and Milestone 3.5 guardrails | Before design-system implementation |
 | `GAME_STUDIO_REVIEW_20260427.md` | Game Studio 기준 playfield/runtime/sprite 구조 재검토 | Before changing the game runtime or sprite pipeline |
