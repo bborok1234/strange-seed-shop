@@ -313,6 +313,7 @@ Goal: run for multiple hours under supervision with budget, safety gates, and re
 | Garden plot marker runtime | review | Issue #403, `items/0211-garden-plot-marker-runtime.md`, `public/assets/manifest/assetManifest.json`, `src/game/playfield/GardenPlayfieldHost.tsx`, `src/styles.css`, `reports/visual/issue-403-garden-plot-marker-runtime-20260505.md` | PR1 raster plot marker 후보를 accepted manifest asset으로 등록하고, `GardenPlotCard`와 playfield host의 cream panel fill을 제거해 in-app Browser Use `iab`에서 정원 배경 위 marker object로 보이게 함. 사용자 지적 후 fresh reset 시작 동사, 바닥 action-area 위치, safe-zone 텍스트, marker/production actor idle motion, merchant follow-up overflow/second-delivered precedence를 Browser Use와 focused visual regression으로 재검증함. |
 | Creature actor motion v0 | review | Issue #405, `items/0212-creature-actor-motion-v0.md`, `reports/visual/issue-405-creature-actor-motion-v0-20260505.md`, `public/assets/manifest/assetManifest.json` | #404가 닫은 dead-start/밭 marker 문제 다음으로, 첫 발견 creature가 도감 보상 이미지에 머무르지 않고 playfield에서 accepted sprite-strip actor로 살아 움직이게 함. Browser Use `iab`, `check:art-share`, focused mobile actor regression, `check:ci` 통과. |
 | Desktop garden stage grid bounds | review | Issue #407, `items/0213-desktop-garden-stage-grid-bounds.md`, `reports/visual/issue-0213-desktop-garden-stage-grid-bounds-20260506.md`, `src/styles.css`, `tests/visual/desktop-art-share.spec.ts` | 사용자 desktop screenshot에서 재현된 stage overflow를 고쳐 `.garden-stage`가 rail/dock grid track 밖으로 밀리지 않게 했다. Browser Use `iab` reload screenshot, 1280x800 desktop after screenshot/metrics, focused regression 9 passed, `npm run check:art-share` 24 passed, `npm run build` pass. |
+| Order delivery playfield reward motion | review | Issue #409, `items/0214-order-delivery-playfield-reward-motion.md`, `reports/visual/issue-0214-order-delivery-playfield-reward-motion-20260506.md`, `src/App.tsx`, `src/game/playfield/GardenPlayfieldHost.tsx`, `src/game/playfield/types.ts`, `src/styles.css` | 첫 주문 납품 순간을 panel receipt가 아니라 playfield order crate의 `fx_order_delivery_burst_001` 4-frame reward motion으로도 읽히게 했다. Browser Use before screenshot, Browser Use after blocker 기록, Playwright fallback after screenshot/metrics, focused mobile order regression 1 passed, `npm run check:art-share` 24 passed, `npm run build` pass. |
 | Studio Harness v3 migration backfill gate | review | Issue #274, `items/0141-v2-ledger-quarantine-backfill.md`, `reports/operations/studio-v3-migration-backfill-20260503.md`, `reports/operations/studio-v3-migration-backfill-20260503.json`, `scripts/check-studio-v3-migration-backfill.mjs` | v2 local campaign ledger/prototype/visual/asset prep 산출물을 `quarantined` 또는 `migration-backfill` evidence로 분류하고, local ledger가 work authorization source가 아님을 `npm run check:studio-v3-migration-backfill`과 `npm run check:ci`에서 검증함 |
 | Issue-level plan-first gate | done | Issue #106, PR #107, `items/0061-issue-plan-first-operating-rule.md`, operator docs/checker | 모든 issue/work-item 단위 작업은 개발 전에 `## Plan` artifact를 만들고 검증 계획을 기록해야 하며 main CI가 통과함 |
 | Operator continuation watchdog | done | Issue #115, PR #116, `items/0066-operator-continuation-watchdog.md`, `reports/operations/operator-continuation-watchdog-20260429.md`, main CI `25085732384` | 완료 보고는 중단 조건이 아니라 체크포인트이며, 명시 중단/시간 상한/외부 승인/치명적 blocker가 없으면 다음 issue를 plan-first로 선택함 |
@@ -342,7 +343,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 사용자 in-app browser screenshot으로 보고된 **desktop garden stage grid bounds** 회귀 복구다. #407은 `?qaProductionReady=1` desktop garden에서 `.garden-stage`가 rail/dock grid track 밖으로 밀려 action/dock 정보를 덮던 문제를 CSS cascade와 visual regression으로 고정하는 slice이며, 현재 로컬 구현과 검증은 완료되어 PR publication gate에 있다.
+현재 작업은 **order delivery playfield reward motion**이다. #409는 `?qaProductionReady=1` 첫 주문 납품 순간을 panel receipt가 아니라 playfield 주문상자 자체의 reward motion으로 읽히게 하는 slice이며, 현재 로컬 구현과 검증은 완료되어 PR publication gate에 있다.
 
 현재 evidence:
 
@@ -350,11 +351,14 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Handoff: `docs/studio/HANDOFF.md`
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-deliberate/SKILL.md`
-- GitHub issue: #407
-- Draft PR: #408 — https://github.com/bborok1234/strange-seed-shop/pull/408
-- Plan artifact: `items/0213-desktop-garden-stage-grid-bounds.md`
-- Visual evidence: `reports/visual/issue-0213-desktop-garden-stage-grid-bounds-20260506.md`, `reports/visual/desktop-garden-weird-before-1280x800-20260506.png`, `reports/visual/desktop-garden-weird-after-1280x800-wait-20260506.png`, `reports/visual/desktop-garden-weird-after-browseruse-20260506.png`
-- Validation: Browser Use `iab` screenshot pass, focused desktop regression 9 passed, `npm run check:art-share` 24 passed, `npm run build` pass.
+- GitHub issue: #409
+- Draft PR: pending
+- Plan artifact: `items/0214-order-delivery-playfield-reward-motion.md`
+- Visual evidence: `reports/visual/issue-0214-order-delivery-playfield-reward-motion-20260506.md`, `reports/visual/issue-0214-order-reward-motion-before-browseruse-20260506.png`, `reports/visual/issue-0214-order-reward-motion-after-playwright-20260506.png`
+- Validation: Browser Use `iab` before screenshot pass, Browser Use after blocker recorded, Playwright fallback after screenshot/metrics pass, focused mobile order regression 1 passed, `npm run check:art-share` 24 passed, `npm run build` pass.
+- Previous GitHub issue: #407
+- Previous PR: #408 — https://github.com/bborok1234/strange-seed-shop/pull/408
+- Previous plan artifact: `items/0213-desktop-garden-stage-grid-bounds.md`
 - Previous GitHub issue: #405
 - Previous draft PR: #406 — https://github.com/bborok1234/strange-seed-shop/pull/406
 - Previous PR: #404 merged — https://github.com/bborok1234/strange-seed-shop/pull/404
@@ -371,7 +375,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 적용할 gate:
 
-1. PR #408 required checks를 관찰하고 green이면 merge gate로 진행한다.
-2. PR body에는 사용자 screenshot 회귀, Browser Use `iab`, desktop after screenshot/metrics, `check:art-share`, `build` evidence를 반영한다.
+1. PR #409 branch를 push하고 draft PR을 생성한다.
+2. PR body에는 Browser Use before evidence, Browser Use after blocker, Playwright fallback after screenshot/metrics, focused mobile regression, `check:art-share`, `build` evidence를 반영한다.
 3. PR green/merge 이후 다음 WorkUnit은 다른 creature 고유 actor strip 또는 richer interaction behavior를 plan-first로 고른다.
 4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.

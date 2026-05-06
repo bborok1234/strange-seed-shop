@@ -7016,9 +7016,15 @@ h1 {
 
 .playfield-order-crate {
   grid-template-columns: 38px minmax(0, 1fr);
+  position: relative;
   background:
     radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.68), transparent 34%),
     linear-gradient(135deg, rgba(255, 250, 213, 0.96), rgba(235, 240, 189, 0.9));
+}
+
+.playfield-order-crate.has-order-reward-motion {
+  overflow: visible;
+  animation: playfield-order-reward-pulse 980ms ease-out 1;
 }
 
 .playfield-production-actor.is-lunar-actor {
@@ -7498,6 +7504,30 @@ h1 {
   height: 34px;
 }
 
+.playfield-order-reward-motion {
+  position: absolute;
+  z-index: 2;
+  top: -22px;
+  left: 10px;
+  display: block;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgba(73, 106, 37, 0.24));
+  transform-origin: 50% 78%;
+  animation: playfield-order-reward-lift 1.18s ease-out forwards;
+}
+
+.playfield-order-reward-motion img {
+  display: block;
+  width: calc(72px * var(--order-reward-frame-count, 4));
+  max-width: none;
+  height: 72px;
+  object-fit: fill;
+  animation: playfield-order-reward-strip var(--order-reward-strip-duration, 333ms) steps(4, end) forwards;
+}
+
 .playfield-scene-fallback {
   display: grid;
   place-items: center;
@@ -7830,16 +7860,73 @@ h1 {
   }
 }
 
+@keyframes playfield-order-reward-strip {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-75%);
+  }
+}
+
+@keyframes playfield-order-reward-lift {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.86);
+  }
+
+  22% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.04);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(1.08);
+  }
+}
+
+@keyframes playfield-order-reward-pulse {
+  0% {
+    box-shadow:
+      0 5px 12px rgba(44, 99, 64, 0.12),
+      0 0 0 0 rgba(244, 211, 78, 0);
+    transform: scale(1);
+  }
+
+  42% {
+    box-shadow:
+      0 8px 18px rgba(44, 99, 64, 0.18),
+      0 0 0 5px rgba(244, 211, 78, 0.24);
+    transform: scale(1.025);
+  }
+
+  100% {
+    box-shadow:
+      0 5px 12px rgba(44, 99, 64, 0.12),
+      0 0 0 0 rgba(244, 211, 78, 0);
+    transform: scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .playfield-action-feedback,
   .playfield-production-actor img,
   .playfield-production-actor-sprite,
+  .playfield-order-crate.has-order-reward-motion,
+  .playfield-order-reward-motion,
   .playfield-plot-marker-seedbed {
     opacity: 1;
     animation: none !important;
   }
 
-  .playfield-production-actor-sprite img {
+  .playfield-production-actor-sprite img,
+  .playfield-order-reward-motion img {
     transform: translateX(0);
     animation: none !important;
   }

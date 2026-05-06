@@ -60,6 +60,12 @@ export interface GardenPlayfieldViewModel {
       frames: number;
       frameRate: number;
     };
+    orderRewardMotion?: {
+      assetId: string;
+      path: string;
+      frames: number;
+      frameRate: number;
+    };
     crateAssetPath?: string;
   };
   updatedAt: number;
