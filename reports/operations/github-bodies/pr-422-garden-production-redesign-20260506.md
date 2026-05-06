@@ -67,6 +67,9 @@
 - `npx playwright test tests/visual/p0-mobile-game-shell.spec.ts --config playwright.config.ts -g "첫 화면은 밭 marker|body scroll|production garden visual composition"` PASS, 10 passed
 - `npm run build` PASS
 - `npm run check:ci` PASS
+- GitHub PR #423 `Check automerge eligibility` PASS
+- GitHub PR #423 `Verify game baseline` PASS
+- GitHub PR #423 `Art-share gate (stage-art-first enforcement)` PASS
 
 참고: 전체 `npm run check:visual`은 긴 장기 production/research chain 일부에서 기존 테스트가 compact action surface에 숨긴 보조 텍스트를 기다리는 실패를 보여 주었습니다. 이 PR의 merge-blocking evidence는 Browser Use source-of-truth와 targeted visual gates로 제한하고, 장기 chain test 기대값 조정은 별도 WorkUnit으로 분리합니다.
 
