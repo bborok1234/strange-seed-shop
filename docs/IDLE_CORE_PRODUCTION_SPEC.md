@@ -5,6 +5,7 @@ Updated: 2026-05-06
 Scope: P0.5 이후 core gameplay, production loop, upgrade loop, offline return, long meta
 Game Studio route: `game-studio:game-studio` -> `game-studio:web-game-foundations` -> `game-studio:game-playtest`
 Related design docs: `docs/DESIGN.md`, `docs/ART_HUD_PRODUCTION_SPEC.md`, `docs/IDLE_CORE_CREATIVE_GUIDE.md`
+Blocking readiness gate: `docs/PRODUCTION_SLICE_READINESS.md`
 
 ## 목적
 
@@ -292,6 +293,7 @@ Visual/playtest evidence:
 - 현재 잎 생산률이 어떤 생명체/시설/주문 병목에서 오는지 보여준다.
 - `생산`, `보관`, `납품` 중 부족한 축을 다음 upgrade choice로 제시한다.
 - Inspired by: Egg, Inc. capacity balancing, Idle Miner shaft/elevator/warehouse.
+- This is the first blocking readiness slice. See `docs/PRODUCTION_SLICE_READINESS.md`.
 
 ### Slice B: Offline return as garden state
 
