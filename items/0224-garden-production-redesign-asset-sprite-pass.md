@@ -3,7 +3,7 @@
 - ID: `0224`
 - Status: review
 - GitHub issue: #422 — https://github.com/bborok1234/strange-seed-shop/issues/422
-- Draft PR: pending
+- Draft PR: #423 — https://github.com/bborok1234/strange-seed-shop/pull/423
 - Campaign source: P0.5 Idle Core + Creative Rescue
 - Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:game-playtest` + `game-studio:sprite-pipeline`
 - Source specs: `docs/DESIGN.md`, `docs/ART_HUD_PRODUCTION_SPEC.md`, `docs/IDLE_CORE_PRODUCTION_SPEC.md`
