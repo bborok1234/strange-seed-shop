@@ -8604,7 +8604,7 @@ h1 {
 
 .app-shell.playable-focus .garden-stage.has-creature-stage .garden-panel {
   top: 96px;
-  grid-template-rows: minmax(0, 1fr) min(328px, 39dvh);
+  grid-template-rows: minmax(0, 1fr) min(302px, 35.5dvh);
 }
 
 .app-shell.playable-focus .starter-panel {
@@ -8661,12 +8661,12 @@ h1 {
 }
 
 .app-shell.playable-focus .playfield-board-overlay.has-production-scene {
-  gap: 8px;
+  gap: 7px;
 }
 
 .app-shell.playable-focus .playfield-board-overlay.has-production-scene .playfield-plot-row {
   align-content: center;
-  transform: translateY(8px);
+  transform: translateY(22px);
 }
 
 .app-shell.playable-focus .playfield-plot-label-stack {
@@ -8676,10 +8676,154 @@ h1 {
   margin-top: 28px;
   padding: 3px 8px;
   border-radius: 999px;
-  background: rgba(255, 248, 213, 0.38);
+  border: 1px solid rgba(58, 89, 47, 0.2);
+  background:
+    radial-gradient(circle at 25% 18%, rgba(255, 255, 255, 0.72), transparent 34%),
+    linear-gradient(180deg, rgba(255, 249, 214, 0.9), rgba(235, 244, 198, 0.82));
+  background-color: rgba(255, 249, 214, 0.9);
+  box-shadow:
+    0 5px 12px rgba(44, 73, 46, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.54);
   text-shadow:
     0 1px 0 rgba(255, 252, 224, 0.9),
     0 2px 6px rgba(37, 59, 34, 0.22);
+}
+
+.app-shell.playable-focus .playfield-production-actor,
+.app-shell.playable-focus .playfield-order-crate {
+  position: relative;
+  min-height: 58px;
+  border-color: rgba(54, 92, 57, 0.26);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.7), transparent 34%),
+    linear-gradient(135deg, rgba(242, 250, 211, 0.82), rgba(255, 247, 198, 0.72));
+  box-shadow:
+    0 8px 18px rgba(55, 82, 40, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.44);
+}
+
+.app-shell.playable-focus .playfield-production-actor::after,
+.app-shell.playable-focus .playfield-order-crate::after {
+  position: absolute;
+  right: 16px;
+  bottom: 5px;
+  left: 16px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(50, 73, 40, 0.13);
+  content: "";
+  filter: blur(1px);
+}
+
+.app-shell.playable-focus .playfield-production-actor-media,
+.app-shell.playable-focus .playfield-production-actor-sprite {
+  z-index: 1;
+}
+
+.app-shell.playable-focus .playfield-production-actor-sprite {
+  width: 50px;
+  height: 50px;
+}
+
+.app-shell.playable-focus .playfield-production-actor-sprite img {
+  width: calc(50px * var(--actor-frame-count, 4));
+  height: 50px;
+}
+
+.app-shell.playable-focus .playfield-production-lane p,
+.app-shell.playable-focus .playfield-production-lane span {
+  font-size: 9px;
+}
+
+.app-shell.playable-focus .playfield-production-lane strong {
+  font-size: 11px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph {
+  align-content: start;
+  gap: 6px;
+  padding: 8px 10px;
+  min-height: 0;
+  max-height: 302px;
+  overflow: hidden;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph > .panel-label,
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph > h2,
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph > .action-copy {
+  display: none;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-action-card {
+  gap: 5px;
+  padding: 7px 8px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-card-heading {
+  display: none;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-scene {
+  gap: 5px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-asset {
+  width: 34px;
+  height: 34px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-worker-detail,
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-rate-breakdown {
+  display: none;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-meter-row {
+  min-height: 34px;
+  padding: 5px 6px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-meter-row span {
+  font-size: 10px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-meter-row button {
+  min-height: 28px;
+  padding: 4px 9px;
+  font-size: 10px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-graph-summary {
+  min-height: 24px;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-bottleneck-brief {
+  grid-template-columns: 46px minmax(0, 1fr);
+  padding: 5px 6px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .production-storage-prop {
+  width: 46px;
+  height: 36px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .upgrade-choice-card {
+  gap: 5px;
+  padding: 7px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .upgrade-choice-list {
+  gap: 5px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .upgrade-choice {
+  min-height: 48px;
+  padding: 6px 7px;
+}
+
+.app-shell.playable-focus .starter-panel.has-production.has-production-graph .next-creature-compact {
+  display: none;
 }
 
 .app-shell.playable-focus .playfield-plot-card strong {
@@ -8761,10 +8905,20 @@ h1 {
 @media (max-width: 900px) and (max-height: 740px) {
   .app-shell.playable-focus .garden-panel,
   .app-shell.playable-focus .garden-stage.has-creature-stage .garden-panel {
-    grid-template-rows: minmax(0, 1fr) 244px;
+    grid-template-rows: minmax(0, 1fr) 238px;
   }
 
   .app-shell.playable-focus .playfield-board-overlay.has-production-scene .playfield-plot-row {
-    transform: translateY(2px);
+    transform: translateY(12px);
+  }
+
+  .app-shell.playable-focus .starter-panel.has-production.has-production-graph {
+    max-height: 238px;
+  }
+}
+
+@media (max-width: 370px) {
+  .app-shell.playable-focus .starter-panel.has-production.has-production-graph {
+    max-height: 286px;
   }
 }

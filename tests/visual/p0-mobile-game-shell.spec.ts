@@ -242,6 +242,92 @@ test("모바일 병목 production graph는 보관 부족과 추천 강화를 한
   });
 });
 
+for (const viewport of [
+  { name: "393", width: 393, height: 852 },
+  { name: "360", width: 360, height: 800 }
+]) {
+  test(`모바일 ${viewport.name}px production garden visual composition은 밭/actor/HUD를 한 장면으로 읽힌다`, async ({
+    page
+  }, testInfo) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.goto("/?qaBottleneckGraphReady=1");
+
+    await expect(page.locator(".starter-panel.has-production-graph")).toBeVisible();
+    await expect(page.locator(".playfield-production-actor-sprite")).toBeVisible();
+    await expect(page.locator(".playfield-order-crate")).toBeVisible();
+    await expect(page.locator(".playfield-plot-card").first()).toBeVisible();
+    await expect(page.getByLabel("생산 보관 납품 요약")).toContainText("보관 부족");
+    await expect(page.locator(".upgrade-choice-storage_basket.upgrade-choice-recommended")).toBeVisible();
+
+    const metrics = await page.evaluate(() => {
+      const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
+      const actor = document.querySelector<HTMLElement>(".playfield-production-actor-sprite")?.getBoundingClientRect();
+      const actorCard = document.querySelector<HTMLElement>(".playfield-production-actor")?.getBoundingClientRect();
+      const crate = document.querySelector<HTMLElement>(".playfield-order-crate")?.getBoundingClientRect();
+      const plot = document.querySelector<HTMLElement>(".playfield-plot-card:not(:disabled)")?.getBoundingClientRect();
+      const label = document.querySelector<HTMLElement>(".playfield-plot-label-stack");
+      const labelRect = label?.getBoundingClientRect();
+      const labelStyle = label ? window.getComputedStyle(label) : null;
+      const actionPanel = document.querySelector<HTMLElement>(".starter-panel")?.getBoundingClientRect();
+      const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+      const topBar = document.querySelector<HTMLElement>(".top-bar")?.getBoundingClientRect();
+      const bodyScrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+
+      return {
+        innerHeight: window.innerHeight,
+        bodyScrollHeight,
+        playfield: playfield ? { top: playfield.top, bottom: playfield.bottom, height: playfield.height } : null,
+        actor: actor ? { width: actor.width, height: actor.height } : null,
+        actorCard: actorCard ? { bottom: actorCard.bottom } : null,
+        crate: crate ? { bottom: crate.bottom } : null,
+        plot: plot ? { top: plot.top, bottom: plot.bottom, centerY: plot.top + plot.height / 2 } : null,
+        label: labelRect
+          ? {
+              width: labelRect.width,
+              height: labelRect.height,
+              backgroundColor: labelStyle?.backgroundColor ?? "",
+              borderTopWidth: labelStyle?.borderTopWidth ?? ""
+            }
+          : null,
+        actionPanel: actionPanel ? { top: actionPanel.top, bottom: actionPanel.bottom, height: actionPanel.height } : null,
+        tabs: tabs ? { top: tabs.top } : null,
+        topBar: topBar ? { bottom: topBar.bottom } : null
+      };
+    });
+
+    expect(metrics.bodyScrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 2);
+    expect(metrics.playfield).not.toBeNull();
+    expect(metrics.actor).not.toBeNull();
+    expect(metrics.actorCard).not.toBeNull();
+    expect(metrics.crate).not.toBeNull();
+    expect(metrics.plot).not.toBeNull();
+    expect(metrics.label).not.toBeNull();
+    expect(metrics.actionPanel).not.toBeNull();
+    expect(metrics.tabs).not.toBeNull();
+    expect(metrics.topBar).not.toBeNull();
+
+    expect(metrics.playfield!.height).toBeGreaterThanOrEqual(viewport.width === 360 ? 300 : 315);
+    expect(metrics.actionPanel!.height).toBeLessThanOrEqual(viewport.width === 360 ? 286 : 306);
+    expect(metrics.actionPanel!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+    expect(metrics.plot!.centerY).toBeGreaterThan(metrics.playfield!.top + metrics.playfield!.height * 0.52);
+    expect(metrics.plot!.bottom).toBeLessThanOrEqual(metrics.actionPanel!.top - 8);
+    expect(metrics.actorCard!.bottom).toBeLessThan(metrics.plot!.top + 8);
+    expect(metrics.crate!.bottom).toBeLessThan(metrics.plot!.top + 8);
+    expect(metrics.actor!.width).toBeGreaterThanOrEqual(48);
+    expect(metrics.actor!.height).toBeGreaterThanOrEqual(48);
+    expect(metrics.label!.width).toBeGreaterThanOrEqual(58);
+    expect(metrics.label!.height).toBeGreaterThanOrEqual(36);
+    expect(metrics.label!.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+    expect(metrics.label!.borderTopWidth).not.toBe("0px");
+
+    await page.screenshot({
+      path: testInfo.outputPath(`mobile-production-garden-visual-composition-${viewport.name}.png`),
+      fullPage: false,
+      animations: "disabled"
+    });
+  });
+}
+
 test("모바일 자동 생산과 첫 주문은 반복 주문과 생산 속도 업그레이드까지 검증한다", async ({ page }, testInfo) => {
   test.setTimeout(120_000);
   await page.setViewportSize({ width: 393, height: 852 });

@@ -759,6 +759,7 @@ export default function App() {
   const actionSurfaceClassName = [
     "starter-panel garden-action-surface",
     productionStatus ? "has-production" : "",
+    productionGraphStatus?.bottleneckAxis === "storage" ? "has-production-graph" : "",
     productionStatus && productionStatus.workerCreatures.length > 1 && productionStatus.orderCompleted ? "has-roster-complete" : "",
     productionStatus?.order.id === GREENHOUSE_ORDER.id ? "has-greenhouse-order" : "",
     productionStatus?.order.id === GREENHOUSE_ORDER.id && !productionStatus.orderCompleted ? "has-open-greenhouse-order" : "",
