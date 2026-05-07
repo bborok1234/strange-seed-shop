@@ -68,7 +68,7 @@
 ## Evidence
 
 - GitHub issue: https://github.com/bborok1234/strange-seed-shop/issues/428
-- PR: 작성 예정
+- PR: https://github.com/bborok1234/strange-seed-shop/pull/429
 - Browser Use before: `reports/visual/issue-0227-seed-economy-affordance/browser-use-before-seeds-affordance-20260507.png`
 - Browser Use after: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-seeds-affordance-20260507.png`
 - Browser Use interaction: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-buy-seeds-affordance-20260507.png`

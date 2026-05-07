@@ -34,7 +34,7 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Garden production asset/sprite redesign | done | Issue #422, PR #423, main CI `25443793542`, `items/0224-garden-production-redesign-asset-sprite-pass.md`, `reports/assets/issue-0224-postprocessed-contact-sheet.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-research-expedition-ready-final-clean-20260506.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-fresh-start-after-free-plant-20260506.png`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenPlayfieldHost.tsx`, `public/assets/manifest/assetManifest.json` | `gpt-image-2` raster PNG 12개와 actor/FX strips를 manifest에 연결하고, 데스크톱도 중앙 모바일 game frame만 보이게 유지하며, fresh start 잎 0 상태에서 첫 씨앗 무료 심기가 실제 Browser Use 클릭으로 성장 상태에 진입함. `check:asset-*`, `check:p0-ui-ux`, `check:art-share`, `build`, PR checks, main CI 통과 |
 | Garden companion work scene motion | done | Issue #424, PR #425, main CI `25447396883`, `items/0225-garden-companion-work-scene-motion.md`, Browser Use evidence | production-ready 정원에서 동료 actor 2명이 카드 안 아이콘이 아니라 plot/crate/workbench에 anchor된 worker로 보이고, worker -> resource/order target motion path가 Browser Use before/after와 focused visual gate로 검증됨 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
-| Seed tab economy affordance | active | Issue #428, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인함 |
+| Seed tab economy affordance | active | Issue #428, PR #429, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인함 |
 | Offline return as garden state | review | Issue #420, `items/0223-offline-return-garden-state.md`, `reports/visual/issue-420-offline-return-garden-state/visual-report-20260506.md`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/types.ts`, `tests/visual/p0-mobile-game-shell.spec.ts`, `tests/visual/desktop-art-share.spec.ts` | 복귀 보상 modal 확인 후 `복귀 잎 보관` receipt와 playfield order crate `comeback-return` state가 정원에 남고, mobile 393/360 및 desktop 1280 중앙 mobile frame 회귀가 통과함 |
 | Creature role + auto production v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, production tick UI, visual evidence, main CI `25090571222` | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
 | Order/commission v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, first order UI, reward loop, visual evidence, main CI `25090571222` | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
@@ -365,7 +365,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
 - GitHub issue: #428 — https://github.com/bborok1234/strange-seed-shop/issues/428
-- Draft PR: 작성 예정
+- Draft PR: #429 — https://github.com/bborok1234/strange-seed-shop/pull/429
 - Previous PR: #425 merged — https://github.com/bborok1234/strange-seed-shop/pull/425
 - Previous main CI: `25447396883` success
 - Plan artifact: `items/0227-seed-economy-affordance.md`
@@ -374,14 +374,12 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Browser Use after: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-seeds-affordance-20260507.png`
 - Browser Use interaction: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-buy-seeds-affordance-20260507.png`
 - Visual report: `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`
-- Current validation: Browser Use `iab` before/after/interaction pass, `npm run build` pass, focused mobile visual regression 3 passed. `npm run check:ci`는 문서 mirror 갱신 후 재실행 중.
+- Current validation: Browser Use `iab` before/after/interaction pass, `npm run build` pass, focused mobile visual regression 3 passed, `npm run check:ci` pass. PR #429 required checks gate 준비 중.
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. 문서 mirror를 갱신하고 `npm run check:ci`를 green으로 만든다.
-2. 변경분을 커밋하고 draft PR을 생성한다.
-3. PR required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
-4. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
-5. 다음 WorkUnit은 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
-6. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+1. PR #429 required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
+2. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
+3. 다음 WorkUnit은 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
+4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.

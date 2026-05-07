@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T02:32:05.004Z
+Generated at: 2026-05-07T02:38:29.678Z
 
 ## Current mission
 
@@ -16,7 +16,7 @@ Generated at: 2026-05-07T02:32:05.004Z
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
 - GitHub issue: #428 — https://github.com/bborok1234/strange-seed-shop/issues/428
-- Draft PR: 작성 예정
+- Draft PR: #429 — https://github.com/bborok1234/strange-seed-shop/pull/429
 - Previous PR: #425 merged — https://github.com/bborok1234/strange-seed-shop/pull/425
 - Previous main CI: `25447396883` success
 - Plan artifact: `items/0227-seed-economy-affordance.md`
@@ -25,37 +25,35 @@ Generated at: 2026-05-07T02:32:05.004Z
 - Browser Use after: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-seeds-affordance-20260507.png`
 - Browser Use interaction: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-buy-seeds-affordance-20260507.png`
 - Visual report: `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`
-- Current validation: Browser Use `iab` before/after/interaction pass, `npm run build` pass, focused mobile visual regression 3 passed. `npm run check:ci`는 문서 mirror 갱신 후 재실행 중.
+- Current validation: Browser Use `iab` before/after/interaction pass, `npm run build` pass, focused mobile visual regression 3 passed, `npm run check:ci` pass. PR #429 required checks gate 준비 중.
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. 문서 mirror를 갱신하고 `npm run check:ci`를 green으로 만든다.
-2. 변경분을 커밋하고 draft PR을 생성한다.
-3. PR required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
-4. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
-5. 다음 WorkUnit은 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
-6. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+1. PR #429 required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
+2. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
+3. 다음 WorkUnit은 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
+4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
 
 ## Local state
 
 - Branch: codex/seed-economy-affordance
-- Latest commit: 5865737 경제 행동의 재화 맥락을 디자인 계약으로 고정한다 (#427)
+- Latest commit: 9afff3c 씨앗 구매 판단을 비용 맥락으로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T02:27:55.737Z
-- Phase: implementing
+- Timestamp: 2026-05-07T02:37:41.424Z
+- Phase: pr-check-gate
 - Issue: 428
-- PR: 
+- PR: 429
 - Item: items/0227-seed-economy-affordance.md
-- Next action: PR 준비 gate: 씨앗 탭 경제 affordance 검증 후 게시
+- Next action: PR #429 required checks gate 준비
 
 ## Open PRs
 
-- unavailable or none
+- #429 draft 씨앗 탭 경제 affordance를 고정한다 — https://github.com/bborok1234/strange-seed-shop/pull/429
 
 ## Open issues
 
