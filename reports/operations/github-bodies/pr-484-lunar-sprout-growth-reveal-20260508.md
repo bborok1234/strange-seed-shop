@@ -50,6 +50,8 @@ dedicated 달빛 새싹 reveal FX/portrait asset은 아직 없다. 현재 환경
 
 Closes #484
 
+PR: #485
+
 ## 작업 checklist
 
 - [x] Plan-first WorkUnit 작성

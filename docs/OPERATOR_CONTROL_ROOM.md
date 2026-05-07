@@ -43,7 +43,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0258-lunar-sprout-growth-reveal.md`
 - GitHub issue: #484 `달빛 새싹 수확이 다음 발견 reveal로 이어지게 만들기`
-- Draft PR: pending
+- Draft PR: #485 `달빛 새싹 수확이 다음 발견 reveal로 이어지게 만들기`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
@@ -71,13 +71,13 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Timestamp: 2026-05-07T22:39:40.000Z
 - Phase: phaser-v1-lunar-sprout-growth-reveal-verify
 - Issue: 484
-- PR: pending
+- PR: 485
 - Item: items/0258-lunar-sprout-growth-reveal.md
-- Next action: verification gate: run check:ci and operator metadata checks before PR
+- Next action: PR gate: wait checks then ready/merge #485
 
 ## Open PRs
 
-- N/A — #484 PR은 검증 통과 후 생성한다.
+- #485 draft 달빛 새싹 수확이 다음 발견 reveal로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/485
 
 ## Open issues
 
