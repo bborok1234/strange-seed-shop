@@ -91,7 +91,7 @@ Browser Use `iab`가 노출되면 care/harvest FX와 actor motion을 직접 확�
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/446
-- Draft PR: pending
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/447
 
 ## Evidence
 
@@ -105,3 +105,4 @@ Browser Use `iab`가 노출되면 care/harvest FX와 actor motion을 직접 확�
 - `npm run check:asset-alpha` — pass
 - `npm run check:ci` — pass
 - Issue checkpoint comment: https://github.com/bborok1234/strange-seed-shop/issues/446#issuecomment-4399746392
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/447

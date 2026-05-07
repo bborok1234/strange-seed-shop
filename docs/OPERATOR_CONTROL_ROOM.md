@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T17:56:40.666Z
+Generated at: 2026-05-07T18:00:35.881Z
 
 ## Current mission
 
@@ -22,6 +22,7 @@ Generated at: 2026-05-07T17:56:40.666Z
 - Completed topology runtime integration: Issue #444, PR #445, main CI `25512501021`
 - WorkUnit: `items/0239-actor-fx-runtime-strips.md`
 - GitHub issue: #446 `Phaser v1 actor and FX runtime strip normalization`
+- Draft PR: #447 `Phaser v1 actor FX runtime strips`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Strip normalization script: `scripts/normalize-actor-fx-runtime-strips.mjs`
 - Strip contact sheet: `reports/assets/actor_fx_runtime_strip_contact_sheet_20260508.png`
@@ -40,22 +41,22 @@ Generated at: 2026-05-07T17:56:40.666Z
 ## Local state
 
 - Branch: codex/v1-actor-fx-runtime-strips
-- Latest commit: 328e0c1 Phaser v1 topology runtime integration (#445)
+- Latest commit: d324025 Phaser actor와 FX를 생성 스트립으로 움직이게 만든다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T17:56:22.803Z
-- Phase: phaser-v1-actor-fx-runtime-strips
+- Timestamp: 2026-05-07T18:00:25.182Z
+- Phase: phaser-v1-actor-fx-runtime-strips-pr
 - Issue: 446
-- PR:
+- PR: 447
 - Item: items/0239-actor-fx-runtime-strips.md
-- Next action: gate: run full check:ci then open PR #446
+- Next action: gate: watch PR #447 checks and merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #447 draft Phaser v1 actor FX runtime strips — https://github.com/bborok1234/strange-seed-shop/pull/447
 
 ## Open issues
 
