@@ -65,7 +65,7 @@ Browser Use `iab`가 노출되면 workbench claim 후 Momo/order crate motion을
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/448
-- Draft PR: pending
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/449
 
 ## Evidence
 

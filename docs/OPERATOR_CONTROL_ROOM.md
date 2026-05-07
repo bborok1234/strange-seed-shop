@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T18:12:46.920Z
+Generated at: 2026-05-07T18:16:03.855Z
 
 ## Current mission
 
@@ -23,7 +23,7 @@ Generated at: 2026-05-07T18:12:46.920Z
 - Completed actor/FX strip normalization: Issue #446, PR #447, main CI `25513369383`
 - WorkUnit: `items/0240-momo-carrier-order-motion.md`
 - GitHub issue: #448 `Phaser v1 Momo carrier and order crate motion`
-- Draft PR: pending
+- Draft PR: #449 `Phaser v1 Momo carrier order motion`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0448-momo-carrier-order-motion/visual-report-20260508.md`
@@ -41,22 +41,22 @@ Generated at: 2026-05-07T18:12:46.920Z
 ## Local state
 
 - Branch: codex/v1-momo-carrier-order-motion
-- Latest commit: a32d67f Phaser v1 actor FX runtime strips (#447)
+- Latest commit: 2980749 모모 운반자가 주문 상자 흐름을 보이게 만든다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T18:12:40.116Z
-- Phase: phaser-v1-momo-carrier-order-motion
+- Timestamp: 2026-05-07T18:15:43.713Z
+- Phase: phaser-v1-momo-carrier-order-motion-pr
 - Issue: 448
-- PR:
+- PR: 449
 - Item: items/0240-momo-carrier-order-motion.md
-- Next action: gate: run full check:ci then open PR #448
+- Next action: gate: watch PR #449 required checks and merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #449 draft Phaser v1 Momo carrier order motion — https://github.com/bborok1234/strange-seed-shop/pull/449
 
 ## Open issues
 
