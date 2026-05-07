@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T17:43:09.346Z
+Generated at: 2026-05-07T17:56:40.666Z
 
 ## Current mission
 
-현재 작업은 **Phaser v1 topology alpha cleanup/runtime integration**이다. #442 topology asset generation/review는 PR #443으로 merge/main CI까지 통과했고, 다음 blocker는 opaque/checkerboard source 후보를 runtime에 바로 보이게 alpha-clean 처리한 뒤 Phaser board가 실제 generated raster art로 읽히게 만드는 것이다.
+현재 작업은 **Phaser v1 actor/FX runtime strip normalization**이다. #444 topology alpha cleanup/runtime integration은 PR #445로 merge/main CI까지 통과했고, 다음 blocker는 actor와 care/harvest feedback이 여전히 source candidate/placeholder에 머무는 것이다.
 
 현재 evidence:
 
@@ -19,47 +19,47 @@ Generated at: 2026-05-07T17:43:09.346Z
 - Completed plan/prompt batch: Issue #440, PR #441, main CI `25508532265`
 - WorkUnit: `items/0237-topology-asset-generation-review.md`
 - Completed generation/review: Issue #442, PR #443, main CI `25511678907`
-- WorkUnit: `items/0238-topology-runtime-integration.md`
-- GitHub issue: #444 `Phaser v1 topology alpha cleanup and runtime integration`
-- Draft PR: #445 `Phaser v1 topology runtime integration`
+- Completed topology runtime integration: Issue #444, PR #445, main CI `25512501021`
+- WorkUnit: `items/0239-actor-fx-runtime-strips.md`
+- GitHub issue: #446 `Phaser v1 actor and FX runtime strip normalization`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
-- Alpha cleanup script: `scripts/postprocess-topology-runtime-assets.mjs`
-- Alpha contact sheet: `reports/assets/topology_runtime_alpha_contact_sheet_20260508.png`
-- Visual report: `reports/visual/issue-0444-topology-runtime-integration/visual-report-20260508.md`
-- Current validation: `npm run build:phaser` pass, `npm run check:phaser` pass
+- Strip normalization script: `scripts/normalize-actor-fx-runtime-strips.mjs`
+- Strip contact sheet: `reports/assets/actor_fx_runtime_strip_contact_sheet_20260508.png`
+- Visual report: `reports/visual/issue-0446-actor-fx-runtime-strips/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #444는 terrain, plot states, facility states의 runtime visual payoff를 만든다.
-2. Actor/FX 후보는 아직 accepted spritesheet가 아니므로 이번 runtime integration에서 manifest accepted로 등록하지 않는다.
-3. 다음 WorkUnit은 actor/FX strict strip normalization, manifest registration, order reward motion, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #446은 actor/FX strict strip normalization과 runtime motion payoff를 만든다.
+2. Momo strip은 normalized source까지 허용하지만 runtime actor 연결은 Pori 우선이다.
+3. 다음 WorkUnit은 manifest registration, order reward motion, Momo carrier task, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-topology-runtime-integration
-- Latest commit: 583f1e4 Phaser board가 topology 생성 에셋으로 읽히게 만든다
+- Branch: codex/v1-actor-fx-runtime-strips
+- Latest commit: 328e0c1 Phaser v1 topology runtime integration (#445)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T17:42:55.953Z
-- Phase: phaser-v1-topology-runtime-integration-pr
-- Issue: 444
-- PR: 445
-- Item: items/0238-topology-runtime-integration.md
-- Next action: gate: watch PR #445 checks and merge if green
+- Timestamp: 2026-05-07T17:56:22.803Z
+- Phase: phaser-v1-actor-fx-runtime-strips
+- Issue: 446
+- PR:
+- Item: items/0239-actor-fx-runtime-strips.md
+- Next action: gate: run full check:ci then open PR #446
 
 ## Open PRs
 
-- #445 draft Phaser v1 topology runtime integration — https://github.com/bborok1234/strange-seed-shop/pull/445
+- unavailable or none
 
 ## Open issues
 
-- #444 Phaser v1 topology alpha cleanup and runtime integration — https://github.com/bborok1234/strange-seed-shop/issues/444
+- #446 Phaser v1 actor and FX runtime strip normalization — https://github.com/bborok1234/strange-seed-shop/issues/446
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 - #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
 

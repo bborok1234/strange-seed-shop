@@ -906,7 +906,7 @@
       "raw_output_path": "assets/source/generated/gpt-image/actor_pori_caretaker_strip_v1/2026-05-07T17-00-50-848Z.png",
       "accepted_output_path": "public/assets/game/sprites/actor_pori_caretaker_strip_v1.png",
       "generated_at": "2026-05-07T17:04:05.750Z",
-      "review_required": true,
+      "review_required": false,
       "style_reference_asset_ids": [
         "creature_herb_common_001",
         "creature_herb_common_002",
@@ -915,7 +915,23 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
-      ]
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup",
+        "strict_strip_normalization"
+      ],
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frameRate": 8,
+        "repeat": -1,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 128,
+        "binding": "actor.task.care_plot"
+      }
     },
     {
       "asset_id": "actor_momo_carrier_strip_v1",
@@ -926,7 +942,7 @@
       "raw_output_path": "assets/source/generated/gpt-image/actor_momo_carrier_strip_v1/2026-05-07T17-04-05-947Z.png",
       "accepted_output_path": "public/assets/game/sprites/actor_momo_carrier_strip_v1.png",
       "generated_at": "2026-05-07T17:07:07.267Z",
-      "review_required": true,
+      "review_required": false,
       "style_reference_asset_ids": [
         "creature_herb_common_001",
         "creature_herb_common_002",
@@ -935,7 +951,23 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
-      ]
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup",
+        "strict_strip_normalization"
+      ],
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frameRate": 8,
+        "repeat": -1,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 128,
+        "binding": "actor.task.carry_leaves"
+      }
     },
     {
       "asset_id": "fx_care_spark_strip_v1",
@@ -946,7 +978,7 @@
       "raw_output_path": "assets/source/generated/gpt-image/fx_care_spark_strip_v1/2026-05-07T17-07-07-463Z.png",
       "accepted_output_path": "public/assets/game/fx/fx_care_spark_strip_v1.png",
       "generated_at": "2026-05-07T17:09:55.869Z",
-      "review_required": true,
+      "review_required": false,
       "style_reference_asset_ids": [
         "creature_herb_common_001",
         "creature_herb_common_002",
@@ -955,7 +987,23 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
-      ]
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup",
+        "strict_strip_normalization"
+      ],
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 576,
+        "expectedHeight": 96,
+        "binding": "plot.action.care_tapped"
+      }
     },
     {
       "asset_id": "fx_harvest_leaf_flyout_strip_v1",
@@ -966,7 +1014,7 @@
       "raw_output_path": "assets/source/generated/gpt-image/fx_harvest_leaf_flyout_strip_v1/2026-05-07T17-09-56-065Z.png",
       "accepted_output_path": "public/assets/game/fx/fx_harvest_leaf_flyout_strip_v1.png",
       "generated_at": "2026-05-07T17:13:05.465Z",
-      "review_required": true,
+      "review_required": false,
       "style_reference_asset_ids": [
         "creature_herb_common_001",
         "creature_herb_common_002",
@@ -975,7 +1023,23 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
-      ]
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup",
+        "strict_strip_normalization"
+      ],
+      "normalization": {
+        "frames": 8,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 14,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 96,
+        "binding": "plot.action.harvest_reward"
+      }
     },
     {
       "asset_id": "ui_shadow_soft_v1",
@@ -1001,5 +1065,5 @@
       ]
     }
   ],
-  "updated_at": "2026-05-07T17:34:11.484Z"
+  "updated_at": "2026-05-07T17:51:59.281Z"
 }

@@ -42,13 +42,43 @@ const TOPOLOGY_ASSETS = {
       path: "/assets/game/facilities/facility_order_crate_filled_v1.png"
     },
     shadow: { key: "ui_shadow_soft_v1", path: "/assets/game/ui/ui_shadow_soft_v1.png" }
+  },
+  actors: {
+    pori: {
+      key: "actor_pori_caretaker_strip_v1",
+      path: "/assets/game/sprites/actor_pori_caretaker_strip_v1.png",
+      frameWidth: 128,
+      frameHeight: 128
+    },
+    momo: {
+      key: "actor_momo_carrier_strip_v1",
+      path: "/assets/game/sprites/actor_momo_carrier_strip_v1.png",
+      frameWidth: 128,
+      frameHeight: 128
+    }
+  },
+  fx: {
+    care: {
+      key: "fx_care_spark_strip_v1",
+      path: "/assets/game/fx/fx_care_spark_strip_v1.png",
+      frameWidth: 96,
+      frameHeight: 96
+    },
+    harvest: {
+      key: "fx_harvest_leaf_flyout_strip_v1",
+      path: "/assets/game/fx/fx_harvest_leaf_flyout_strip_v1.png",
+      frameWidth: 96,
+      frameHeight: 96
+    }
   }
 } as const;
 
 const TOPOLOGY_ASSET_KEYS = [
   TOPOLOGY_ASSETS.terrain.key,
   ...Object.values(TOPOLOGY_ASSETS.plots).map((asset) => asset.key),
-  ...Object.values(TOPOLOGY_ASSETS.facilities).map((asset) => asset.key)
+  ...Object.values(TOPOLOGY_ASSETS.facilities).map((asset) => asset.key),
+  ...Object.values(TOPOLOGY_ASSETS.actors).map((asset) => asset.key),
+  ...Object.values(TOPOLOGY_ASSETS.fx).map((asset) => asset.key)
 ];
 
 interface HudElements {
@@ -92,6 +122,7 @@ function createHud(): HudElements {
 class GardenBoardScene extends Phaser.Scene {
   private hud?: HudElements;
   private renderLayer?: Phaser.GameObjects.Layer;
+  private pendingFx?: { kind: "care" | "harvest"; slotId: string };
 
   constructor() {
     super("GardenBoardScene");
@@ -101,10 +132,17 @@ class GardenBoardScene extends Phaser.Scene {
     this.load.image(TOPOLOGY_ASSETS.terrain.key, TOPOLOGY_ASSETS.terrain.path);
     Object.values(TOPOLOGY_ASSETS.plots).forEach((asset) => this.load.image(asset.key, asset.path));
     Object.values(TOPOLOGY_ASSETS.facilities).forEach((asset) => this.load.image(asset.key, asset.path));
+    Object.values(TOPOLOGY_ASSETS.actors).forEach((asset) =>
+      this.load.spritesheet(asset.key, asset.path, { frameWidth: asset.frameWidth, frameHeight: asset.frameHeight })
+    );
+    Object.values(TOPOLOGY_ASSETS.fx).forEach((asset) =>
+      this.load.spritesheet(asset.key, asset.path, { frameWidth: asset.frameWidth, frameHeight: asset.frameHeight })
+    );
   }
 
   create() {
     this.cameras.main.setBackgroundColor("#d9e7c6");
+    this.createAnimations();
     (window as unknown as { __seedGardenTopologyAssets?: string[] }).__seedGardenTopologyAssets = TOPOLOGY_ASSET_KEYS;
     this.hud = createHud();
     this.renderGarden();
@@ -116,7 +154,29 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderTerrain();
     this.renderSlots();
     this.renderActors();
+    this.renderPendingFx();
     this.updateHud();
+  }
+
+  private createAnimations() {
+    this.anims.create({
+      key: "pori-care-loop",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.actors.pori.key, { start: 0, end: 5 }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.anims.create({
+      key: "care-spark-once",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.care.key, { start: 0, end: 5 }),
+      frameRate: 12,
+      repeat: 0
+    });
+    this.anims.create({
+      key: "harvest-leaf-flyout-once",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.harvest.key, { start: 0, end: 7 }),
+      frameRate: 14,
+      repeat: 0
+    });
   }
 
   private renderTerrain() {
@@ -291,15 +351,10 @@ class GardenBoardScene extends Phaser.Scene {
     shadow.fillEllipse(0, 42, 54, 18);
     container.add(shadow);
 
-    const body = this.add.graphics();
-    body.fillStyle(0x8fc46a, 1);
-    body.fillRoundedRect(-22, -22, 44, 54, 20);
-    body.fillStyle(0xf5ffd5, 1);
-    body.fillCircle(-8, -5, 4);
-    body.fillCircle(9, -5, 4);
-    body.fillStyle(0x477a45, 1);
-    body.fillRoundedRect(-16, -38, 32, 22, 16);
-    container.add(body);
+    const sprite = this.add.sprite(0, 4, TOPOLOGY_ASSETS.actors.pori.key);
+    sprite.setDisplaySize(64, 64);
+    sprite.play("pori-care-loop");
+    container.add(sprite);
 
     const label = this.add
       .text(0, 59, actor.name, {
@@ -323,18 +378,37 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderLayer?.add(container);
   }
 
+  private renderPendingFx() {
+    if (!this.pendingFx) {
+      return;
+    }
+    const slot = getSlot(gameState, this.pendingFx.slotId);
+    const key = this.pendingFx.kind === "care" ? TOPOLOGY_ASSETS.fx.care.key : TOPOLOGY_ASSETS.fx.harvest.key;
+    const animation = this.pendingFx.kind === "care" ? "care-spark-once" : "harvest-leaf-flyout-once";
+    const sprite = this.add.sprite(slot.x, slot.y - 28, key);
+    sprite.setDepth(60);
+    sprite.setDisplaySize(this.pendingFx.kind === "care" ? 96 : 132, this.pendingFx.kind === "care" ? 96 : 96);
+    sprite.play(animation);
+    sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => sprite.destroy());
+    this.renderLayer?.add(sprite);
+    this.pendingFx = undefined;
+  }
+
   private selectAndRender(slotId: string) {
     selectSlot(gameState, slotId);
     this.renderGarden();
   }
 
   private performAction(action: "plant" | "care" | "harvest" | "claim") {
+    const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
       plantStarterSeed(gameState);
     } else if (action === "care") {
       careSelectedPlot(gameState);
+      this.pendingFx = { kind: "care", slotId: selectedSlotId };
     } else if (action === "harvest") {
       harvestSelectedPlot(gameState);
+      this.pendingFx = { kind: "harvest", slotId: selectedSlotId };
     } else {
       claimWorkbenchProduction(gameState);
     }
