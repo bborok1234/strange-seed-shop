@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T18:16:03.855Z
+Generated at: 2026-05-07T18:32:36.718Z
 
 ## Current mission
 
-현재 작업은 **Phaser v1 Momo carrier and order crate motion**이다. #446 actor/FX runtime strip normalization은 PR #447로 merge/main CI까지 통과했고, 다음 blocker는 Momo carrier strip이 runtime production chain에 연결되지 않아 workbench -> order crate 흐름이 텍스트 중심으로만 읽히는 것이다.
+현재 작업은 **Phaser v1 order crate delivery reward motion**이다. #448 Momo carrier/order crate motion은 PR #449로 merge/main CI까지 통과했고, 다음 blocker는 주문 상자가 100%에 도달해도 납품 claim과 reward motion이 없어 첫 production chain payoff가 닫히지 않는 것이다.
 
 현재 evidence:
 
@@ -21,48 +21,48 @@ Generated at: 2026-05-07T18:16:03.855Z
 - Completed generation/review: Issue #442, PR #443, main CI `25511678907`
 - Completed topology runtime integration: Issue #444, PR #445, main CI `25512501021`
 - Completed actor/FX strip normalization: Issue #446, PR #447, main CI `25513369383`
-- WorkUnit: `items/0240-momo-carrier-order-motion.md`
-- GitHub issue: #448 `Phaser v1 Momo carrier and order crate motion`
-- Draft PR: #449 `Phaser v1 Momo carrier order motion`
+- Completed Momo carrier/order crate motion: Issue #448, PR #449, main CI `25514108801`
+- WorkUnit: `items/0241-order-crate-delivery-reward-motion.md`
+- GitHub issue: #432 `Phaser v1 order crate delivery reward motion`
+- Draft PR: #450 `Phaser v1 order crate delivery reward motion`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0448-momo-carrier-order-motion/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0432-order-crate-delivery-reward-motion/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #448은 Momo carrier task와 order crate progress payoff를 만든다.
-2. Momo strip은 generated runtime spritesheet로만 사용하고 runtime image generation/API/cache를 호출하지 않는다.
-3. 다음 WorkUnit은 manifest registration, order reward motion, order crate delivery claim, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #432는 order crate delivery claim과 reward motion payoff를 만든다.
+2. Delivery FX는 existing generated raster FX/crate asset만 사용하고 runtime image generation/API/cache를 호출하지 않는다.
+3. 다음 WorkUnit은 repeat order chain, manifest registration, storage unlock, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-momo-carrier-order-motion
-- Latest commit: 2980749 모모 운반자가 주문 상자 흐름을 보이게 만든다
+- Branch: codex/v1-order-crate-delivery-reward-motion
+- Latest commit: b4a440d 주문 상자 납품으로 첫 생산 체인을 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T18:15:43.713Z
-- Phase: phaser-v1-momo-carrier-order-motion-pr
-- Issue: 448
-- PR: 449
-- Item: items/0240-momo-carrier-order-motion.md
-- Next action: gate: watch PR #449 required checks and merge if green
+- Timestamp: 2026-05-07T18:32:15.977Z
+- Phase: phaser-v1-order-crate-delivery-reward-motion-pr
+- Issue: 432
+- PR: 450
+- Item: items/0241-order-crate-delivery-reward-motion.md
+- Next action: gate: watch PR #450 required checks and merge if green
 
 ## Open PRs
 
-- #449 draft Phaser v1 Momo carrier order motion — https://github.com/bborok1234/strange-seed-shop/pull/449
+- #450 draft Phaser v1 order crate delivery reward motion — https://github.com/bborok1234/strange-seed-shop/pull/450
 
 ## Open issues
 
-- #448 Phaser v1 Momo carrier and order crate motion — https://github.com/bborok1234/strange-seed-shop/issues/448
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
-- #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
+- #432 Phaser v1 order crate delivery reward motion — https://github.com/bborok1234/strange-seed-shop/issues/432
 
 ## Playable mode
 

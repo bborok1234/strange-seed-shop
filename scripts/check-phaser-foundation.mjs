@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0448-momo-carrier-order-motion";
+const OUT_DIR = "reports/visual/issue-0432-order-crate-delivery-reward-motion";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -92,6 +92,14 @@ async function runSmoke() {
     await page.mouse.click(112, 612);
     await page.getByRole("button", { name: "수령" }).click();
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-workbench-claim-393.png`, fullPage: false });
+    for (let index = 0; index < 3; index += 1) {
+      await page.getByRole("button", { name: "수령" }).click();
+    }
+    await page.mouse.click(284, 606);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-crate-ready-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "납품" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-delivery-claim-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -104,22 +112,27 @@ async function runSmoke() {
       canvasCount: document.querySelectorAll("canvas").length,
       topologyAssets: window.__seedGardenTopologyAssets ?? [],
       actorIds: window.__seedGardenActorIds ?? [],
-      orderCrateProgress: window.__seedGardenOrderCrateProgress ?? 0
+      orderCrateProgress: window.__seedGardenOrderCrateProgress ?? 0,
+      completedDeliveries: window.__seedGardenCompletedDeliveries ?? 0
     }));
 
     await browser.close();
 
     const failures = [];
     if (evidence.canvasCount !== 1) failures.push("expected one Phaser canvas");
-    if (evidence.leaves !== "20") failures.push(`expected 20 leaves after harvest + claim, got ${evidence.leaves}`);
+    if (evidence.leaves !== "74") failures.push(`expected 74 leaves after harvest + claims + delivery, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected starter seed spent, got ${evidence.seeds}`);
     if (!evidence.railText.includes("포리 작업 수령")) failures.push("missing workbench claim receipt");
     if (!evidence.railText.includes("모모 운반 시작")) failures.push("missing Momo carrier receipt");
-    if (!evidence.objective.includes("3번 밭 확장")) failures.push("missing third-slot continuation objective");
+    if (!evidence.railText.includes("주문 상자 납품")) failures.push("missing order crate delivery receipt");
+    if (!evidence.objective.includes("첫 주문 납품 완료")) failures.push("missing delivery completion objective");
     if (!evidence.actorIds.includes("actor_pori")) failures.push("missing Pori actor after harvest");
     if (!evidence.actorIds.includes("actor_momo")) failures.push("missing Momo carrier after workbench claim");
-    if (evidence.orderCrateProgress !== 25) {
-      failures.push(`expected order crate progress 25 after workbench claim, got ${evidence.orderCrateProgress}`);
+    if (evidence.orderCrateProgress !== 0) {
+      failures.push(`expected order crate progress reset to 0 after delivery, got ${evidence.orderCrateProgress}`);
+    }
+    if (evidence.completedDeliveries !== 1) {
+      failures.push(`expected one completed delivery, got ${evidence.completedDeliveries}`);
     }
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
       if (!evidence.topologyAssets.includes(assetId)) {
@@ -139,7 +152,9 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-after-plant-393.png`,
         `${OUT_DIR}/phaser-check-ready-393.png`,
         `${OUT_DIR}/phaser-check-after-harvest-393.png`,
-        `${OUT_DIR}/phaser-check-workbench-claim-393.png`
+        `${OUT_DIR}/phaser-check-workbench-claim-393.png`,
+        `${OUT_DIR}/phaser-check-crate-ready-393.png`,
+        `${OUT_DIR}/phaser-check-delivery-claim-393.png`
       ],
       failures
     };

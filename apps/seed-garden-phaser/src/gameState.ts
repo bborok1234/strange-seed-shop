@@ -55,6 +55,7 @@ export interface GardenState {
   facilities: FacilityEntity[];
   actors: ActorEntity[];
   receipts: string[];
+  completedDeliveries: number;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -178,7 +179,8 @@ export function createGardenState(): GardenState {
       }
     ],
     actors: [],
-    receipts: []
+    receipts: [],
+    completedDeliveries: 0
   };
 }
 
@@ -201,6 +203,17 @@ export function getFacilityBySlot(state: GardenState, slotId: string): FacilityE
 export function selectSlot(state: GardenState, slotId: string): void {
   const slot = getSlot(state, slotId);
   state.selectedSlotId = slot.id;
+  const facility = getFacilityBySlot(state, slotId);
+  if (facility?.kind === "order_crate") {
+    if (facility.progress >= 100) {
+      state.objective = "주문 상자를 납품해 첫 상회 보상을 받기";
+    } else if (facility.progress > 0) {
+      state.objective = `주문 상자 준비 ${facility.progress}% - 작업대 수령으로 채우기`;
+    } else {
+      state.objective = "작업대 생산을 모아 주문 상자를 채우기";
+    }
+    return;
+  }
   if (slot.unlockState === "preview") {
     state.objective = `${slot.label}: 첫 수확 후 확장 목표`;
     return;
@@ -298,6 +311,21 @@ export function claimWorkbenchProduction(state: GardenState): void {
       task: "carry_leaves"
     });
   }
-  state.objective = orderCrate && orderCrate.progress >= 100 ? "주문 상자 납품은 다음 slice에서 연결" : "잎을 모아 3번 밭 확장을 준비하기";
+  state.objective =
+    orderCrate && orderCrate.progress >= 100 ? "주문 상자를 눌러 납품하기" : "잎을 모아 3번 밭 확장을 준비하기";
   state.receipts.unshift("포리 작업 수령 · 모모 운반 시작 · 잎 +8 · 주문 상자 +25%");
+}
+
+export function claimOrderCrateDelivery(state: GardenState): void {
+  const orderCrate = getFacilityBySlot(state, "facility_order_crate");
+  if (!orderCrate || orderCrate.progress < 100) {
+    return;
+  }
+
+  orderCrate.progress = 0;
+  orderCrate.visualState = "preview";
+  state.completedDeliveries += 1;
+  state.resources.leaves += 30;
+  state.objective = "첫 주문 납품 완료 · 3번 밭 확장 준비";
+  state.receipts.unshift("주문 상자 납품 · 잎 +30 · 상회 평판 +1");
 }
