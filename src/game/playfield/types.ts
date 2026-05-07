@@ -62,6 +62,19 @@ export interface GardenPlayfieldViewModel {
       family: "herb" | "candy" | "lunar";
       assetId: string;
       assetPath?: string;
+      workAnimation?: {
+        assetId: string;
+        path: string;
+        frames: number;
+        frameRate: number;
+      };
+      celebrateAnimation?: {
+        assetId: string;
+        path: string;
+        frames: number;
+        frameRate: number;
+      };
+      celebrateActive?: boolean;
     }>;
     workAnimation?: {
       assetId: string;

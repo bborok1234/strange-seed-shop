@@ -620,7 +620,79 @@
       "issue": 422,
       "budget_cap_usd": 250,
       "soft_checkpoint_usd": 200
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_002_work_strip",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/sprite_creature_herb_common_002_work_strip/2026-05-07T06-31-32-165Z.png",
+      "accepted_output_path": "public/assets/game/sprites/production/creature_herb_common_002_work_strip.png",
+      "generated_at": "2026-05-07T06:34:00.099Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ],
+      "status": "accepted_manifest_asset",
+      "post_processing": [
+        "alpha_cutout_and_strict_strip_normalization"
+      ],
+      "normalized_output_path": "public/assets/game/sprites/production/creature_herb_common_002_work_strip.png",
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 10,
+        "repeat": -1,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 576,
+        "expectedHeight": 96
+      }
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_002_celebrate_strip",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/sprite_creature_herb_common_002_celebrate_strip/2026-05-07T06-34-17-929Z.png",
+      "accepted_output_path": "public/assets/game/sprites/production/creature_herb_common_002_celebrate_strip.png",
+      "generated_at": "2026-05-07T06:38:03.469Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ],
+      "status": "accepted_manifest_asset",
+      "post_processing": [
+        "alpha_cutout_and_strict_strip_normalization"
+      ],
+      "normalized_output_path": "public/assets/game/sprites/production/creature_herb_common_002_celebrate_strip.png",
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 576,
+        "expectedHeight": 96
+      }
     }
   ],
-  "updated_at": "2026-05-06T13:29:42.984Z"
+  "updated_at": "2026-05-07T06:38:03.469Z"
 }

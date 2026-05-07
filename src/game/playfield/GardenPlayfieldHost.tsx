@@ -264,13 +264,14 @@ function GardenBoardOverlay({
 }
 
 function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewModel["productionScene"]> }) {
-  const actorSpriteStyle =
-    scene.workAnimation
+  const getActorSpriteStyle = (animation: { frames: number; frameRate: number } | undefined) =>
+    animation
       ? ({
-          "--actor-frame-count": scene.workAnimation.frames,
-          "--actor-strip-duration": `${Math.round((scene.workAnimation.frames / scene.workAnimation.frameRate) * 1000)}ms`
+          "--actor-frame-count": animation.frames,
+          "--actor-strip-duration": `${Math.round((animation.frames / animation.frameRate) * 1000)}ms`
         } as CSSProperties)
       : undefined;
+  const actorSpriteStyle = getActorSpriteStyle(scene.workAnimation);
   const orderRewardStyle =
     scene.orderRewardMotion
       ? ({
@@ -322,15 +323,51 @@ function ProductionScene({ scene }: { scene: NonNullable<GardenPlayfieldViewMode
         </span>
         {scene.supportWorkers?.map((worker, index) => (
           <span
-            className={["playfield-workstage-support", `support-worker-${worker.family}`].join(" ")}
+            className={[
+              "playfield-workstage-support",
+              `support-worker-${worker.family}`,
+              worker.workAnimation ? "has-support-animation" : "",
+              worker.celebrateAnimation && worker.celebrateActive ? "is-celebrating" : ""
+            ]
+              .filter(Boolean)
+              .join(" ")}
             data-asset-id={worker.assetId}
+            data-animation-asset={worker.workAnimation?.assetId}
+            data-celebrate-animation-asset={worker.celebrateAnimation?.assetId}
+            data-frame-count={worker.workAnimation?.frames}
             data-worker-id={worker.id}
+            data-worker-role="support"
             data-work-anchor={index === 0 ? "plot-2-order-crate" : "workbench-side"}
             key={worker.id}
             style={{ "--support-worker-index": index } as CSSProperties}
             title={`${worker.name} · ${worker.roleLabel}`}
           >
-            {worker.assetPath ? <img alt="" src={worker.assetPath} /> : <span className="playfield-scene-fallback">동료</span>}
+            {worker.workAnimation ? (
+              <span
+                className="playfield-production-actor-sprite playfield-workstage-support-sprite"
+                data-animation-asset={worker.workAnimation.assetId}
+                data-frame-count={worker.workAnimation.frames}
+                role="img"
+                style={getActorSpriteStyle(worker.workAnimation)}
+              >
+                <img alt="" src={worker.workAnimation.path} />
+              </span>
+            ) : worker.assetPath ? (
+              <img alt="" src={worker.assetPath} />
+            ) : (
+              <span className="playfield-scene-fallback">동료</span>
+            )}
+            {worker.celebrateAnimation && worker.celebrateActive ? (
+              <span
+                className="playfield-production-actor-sprite playfield-workstage-support-celebrate"
+                data-animation-asset={worker.celebrateAnimation.assetId}
+                data-frame-count={worker.celebrateAnimation.frames}
+                role="img"
+                style={getActorSpriteStyle(worker.celebrateAnimation)}
+              >
+                <img alt="" src={worker.celebrateAnimation.path} />
+              </span>
+            ) : null}
           </span>
         ))}
       </div>

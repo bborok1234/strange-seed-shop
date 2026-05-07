@@ -2051,9 +2051,15 @@ test("모바일 생산 roster는 두 번째 생명체를 정원 동료로 보여
   await expect(page.getByLabel("생산 동료 roster")).toContainText("수집가 +7.2/분");
   await expect(page.getByLabel("생산 동료 roster")).toContainText("수호자 +3.0/분");
   await expect(page.locator(".playfield-workstage-primary")).toHaveAttribute("data-work-anchor", "plot-1-workbench");
-  await expect(page.locator(".playfield-workstage-support")).toBeVisible();
-  await expect(page.locator(".playfield-workstage-support")).toHaveAttribute("data-asset-id", "creature_herb_common_002");
-  await expect(page.locator(".playfield-workstage-support")).toHaveAttribute("data-work-anchor", "plot-2-order-crate");
+  const momoSupport = page.locator('.playfield-workstage-support[data-worker-id="creature_herb_common_002"]');
+  await expect(momoSupport).toBeVisible();
+  await expect(momoSupport).toHaveAttribute("data-asset-id", "creature_herb_common_002");
+  await expect(momoSupport).toHaveAttribute("data-worker-role", "support");
+  await expect(momoSupport).toHaveAttribute("data-work-anchor", "plot-2-order-crate");
+  await expect(momoSupport).toHaveAttribute("data-animation-asset", "sprite_creature_herb_common_002_work_strip");
+  await expect(momoSupport).toHaveAttribute("data-celebrate-animation-asset", "sprite_creature_herb_common_002_celebrate_strip");
+  await expect(momoSupport).toHaveAttribute("data-frame-count", "6");
+  await expect(momoSupport.locator(".playfield-workstage-support-sprite")).toBeVisible();
   await expect(page.locator(".playfield-workstage-trail")).toHaveCount(2);
 
   const metrics = await page.evaluate(() => {
@@ -2094,8 +2100,8 @@ test("모바일 생산 roster는 두 번째 생명체를 정원 동료로 보여
   expect(metrics.productionActor).not.toBeNull();
   expect(metrics.supportActor).not.toBeNull();
   expect(metrics.playfield!.height).toBeGreaterThan(220);
-  expect(metrics.supportActor!.width).toBeGreaterThanOrEqual(20);
-  expect(metrics.supportActor!.height).toBeGreaterThanOrEqual(20);
+  expect(metrics.supportActor!.width).toBeGreaterThanOrEqual(48);
+  expect(metrics.supportActor!.height).toBeGreaterThanOrEqual(48);
   expect(metrics.supportActor!.left).toBeGreaterThanOrEqual(metrics.playfield!.left - 1);
   expect(metrics.supportActor!.right).toBeLessThanOrEqual(metrics.playfield!.right + 1);
   expect(metrics.supportActor!.top).toBeGreaterThanOrEqual(metrics.playfield!.top - 1);
@@ -2107,6 +2113,43 @@ test("모바일 생산 roster는 두 번째 생명체를 정원 동료로 보여
   expect(metrics.overflowingChildren).toEqual([]);
 
   await page.screenshot({ path: testInfo.outputPath("mobile-creature-production-roster-v0-393.png"), fullPage: false });
+});
+
+test("모바일 모모 support actor는 생산 수령 QA에서 celebrate strip을 실제 화면에 노출한다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchExpeditionReady=1&qaMomoCelebrate=1");
+
+  const momoSupport = page.locator('.playfield-workstage-support[data-worker-id="creature_herb_common_002"]');
+  await expect(momoSupport).toBeVisible();
+  await expect(momoSupport).toHaveAttribute("data-animation-asset", "sprite_creature_herb_common_002_work_strip");
+  await expect(momoSupport).toHaveAttribute("data-celebrate-animation-asset", "sprite_creature_herb_common_002_celebrate_strip");
+  await expect(momoSupport.locator(".playfield-workstage-support-celebrate")).toBeVisible();
+  await expect(page.getByLabel("정원 자동 생산 장면")).toContainText("+12 잎 이동");
+
+  const metrics = await page.evaluate(() => {
+    const support = document.querySelector<HTMLElement>('.playfield-workstage-support[data-worker-id="creature_herb_common_002"]')?.getBoundingClientRect();
+    const celebrate = document.querySelector<HTMLElement>(".playfield-workstage-support-celebrate")?.getBoundingClientRect();
+    const playfield = document.querySelector<HTMLElement>(".garden-playfield-host")?.getBoundingClientRect();
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    return {
+      support: support ? { top: support.top, right: support.right, bottom: support.bottom, left: support.left, width: support.width, height: support.height } : null,
+      celebrate: celebrate ? { top: celebrate.top, right: celebrate.right, bottom: celebrate.bottom, left: celebrate.left, width: celebrate.width, height: celebrate.height } : null,
+      playfield: playfield ? { top: playfield.top, right: playfield.right, bottom: playfield.bottom, left: playfield.left } : null,
+      tabs: tabs ? { top: tabs.top } : null
+    };
+  });
+
+  expect(metrics.support).not.toBeNull();
+  expect(metrics.celebrate).not.toBeNull();
+  expect(metrics.playfield).not.toBeNull();
+  expect(metrics.tabs).not.toBeNull();
+  expect(metrics.support!.width).toBeGreaterThanOrEqual(48);
+  expect(metrics.celebrate!.width).toBeGreaterThanOrEqual(48);
+  expect(metrics.celebrate!.left).toBeGreaterThanOrEqual(metrics.playfield!.left - 8);
+  expect(metrics.celebrate!.right).toBeLessThanOrEqual(metrics.playfield!.right + 8);
+  expect(metrics.celebrate!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
+
+  await page.screenshot({ path: testInfo.outputPath("mobile-momo-celebrate-support-v0-393.png"), fullPage: false });
 });
 
 test("모바일 연구 원정 시작은 moon hint 원정을 진행 상태로 만든다", async ({ page }, testInfo) => {

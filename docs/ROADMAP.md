@@ -33,8 +33,9 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Production garden visual composition pass | done | Issue #418, PR #419, main CI `25420812339`, `items/0222-production-garden-visual-composition.md`, `reports/visual/issue-418-production-garden-visual-composition/visual-report-20260506.md`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`, `tests/visual/desktop-art-share.spec.ts` | plot을 floor play area에 더 강하게 anchor하고, actor/order prop을 48px 이상으로 읽히게 유지하며, label plate 가독성/하단 action surface 밀도를 조정했다. Browser Use blocker와 mobile 393/360, desktop 1280 Playwright evidence를 남기고 PR #419 merge/main CI까지 통과함 |
 | Garden production asset/sprite redesign | done | Issue #422, PR #423, main CI `25443793542`, `items/0224-garden-production-redesign-asset-sprite-pass.md`, `reports/assets/issue-0224-postprocessed-contact-sheet.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-research-expedition-ready-final-clean-20260506.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-fresh-start-after-free-plant-20260506.png`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenPlayfieldHost.tsx`, `public/assets/manifest/assetManifest.json` | `gpt-image-2` raster PNG 12개와 actor/FX strips를 manifest에 연결하고, 데스크톱도 중앙 모바일 game frame만 보이게 유지하며, fresh start 잎 0 상태에서 첫 씨앗 무료 심기가 실제 Browser Use 클릭으로 성장 상태에 진입함. `check:asset-*`, `check:p0-ui-ux`, `check:art-share`, `build`, PR checks, main CI 통과 |
 | Garden companion work scene motion | done | Issue #424, PR #425, main CI `25447396883`, `items/0225-garden-companion-work-scene-motion.md`, Browser Use evidence | production-ready 정원에서 동료 actor 2명이 카드 안 아이콘이 아니라 plot/crate/workbench에 anchor된 worker로 보이고, worker -> resource/order target motion path가 Browser Use before/after와 focused visual gate로 검증됨 |
+| Momo work/celebrate sprite actor | review | Issue #430, PR #431, `items/0228-momo-work-celebrate-sprite.md`, `reports/deliberation/momo-work-celebrate-sprite/`, `reports/visual/issue-0228-momo-work-celebrate-sprite/`, gpt-image-2 sprite strips | 방패새싹 모모가 정적 portrait가 아니라 gpt-image-2 work/celebrate strip과 support worker animation binding으로 정원 playfield에 보이고, Browser Use `iab`에서 work/celebrate 화면 증거를 남김 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
-| Seed tab economy affordance | active | Issue #428, PR #429, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인함 |
+| Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
 | Offline return as garden state | review | Issue #420, `items/0223-offline-return-garden-state.md`, `reports/visual/issue-420-offline-return-garden-state/visual-report-20260506.md`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/types.ts`, `tests/visual/p0-mobile-game-shell.spec.ts`, `tests/visual/desktop-art-share.spec.ts` | 복귀 보상 modal 확인 후 `복귀 잎 보관` receipt와 playfield order crate `comeback-return` state가 정원에 남고, mobile 393/360 및 desktop 1280 중앙 mobile frame 회귀가 통과함 |
 | Creature role + auto production v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, production tick UI, visual evidence, main CI `25090571222` | 첫 생명체가 정원 경제에 참여하고 생산 tick이 화면에서 읽힘 |
 | Order/commission v0 | done | Issue #121, PR #122, `items/0069-idle-production-order-v0.md`, first order UI, reward loop, visual evidence, main CI `25090571222` | 짧은 주문 목표가 생기고 납품 보상이 다음 씨앗/연구/탐험 목표로 이어짐 |
@@ -356,7 +357,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **seed tab economy affordance**다. Issue #428 / `items/0227-seed-economy-affordance.md`에서 씨앗 탭의 구매/심기 CTA가 비용 재화, 현재 보유 잎, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에서 설명하도록 고친다. 사용자가 지적한 `구매 25`처럼 재화가 불명확한 기획 결함을 `비용 60 잎 · 보유 72 잎`, `구매 후 보유 1개`, `구매 60 잎`, `48 잎 부족`, `정원에 심기` 상태로 바꾼다.
+현재 작업은 **Momo work/celebrate sprite actor**다. Issue #430 / `items/0228-momo-work-celebrate-sprite.md`에서 방패새싹 모모를 정적 portrait가 아니라 정원 playfield의 독립 support worker actor로 만든다. 신규 gpt-image-2 work/celebrate sprite strip, accepted manifest animation binding, support worker runtime contract, Browser Use `iab` visible QA를 한 WorkUnit으로 닫는다.
 
 현재 evidence:
 
@@ -364,22 +365,24 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Handoff: `docs/studio/HANDOFF.md`
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
-- GitHub issue: #428 — https://github.com/bborok1234/strange-seed-shop/issues/428
-- Draft PR: #429 — https://github.com/bborok1234/strange-seed-shop/pull/429
-- Previous PR: #425 merged — https://github.com/bborok1234/strange-seed-shop/pull/425
-- Previous main CI: `25447396883` success
-- Plan artifact: `items/0227-seed-economy-affordance.md`
-- Branch: `codex/seed-economy-affordance`
-- Browser Use before: `reports/visual/issue-0227-seed-economy-affordance/browser-use-before-seeds-affordance-20260507.png`
-- Browser Use after: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-seeds-affordance-20260507.png`
-- Browser Use interaction: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-buy-seeds-affordance-20260507.png`
-- Visual report: `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`
-- Current validation: Browser Use `iab` before/after/interaction pass, `npm run build` pass, focused mobile visual regression 3 passed, `npm run check:ci` pass. PR #429 required checks gate 준비 중.
+- GitHub issue: #430 — https://github.com/bborok1234/strange-seed-shop/issues/430
+- PR: #431 — https://github.com/bborok1234/strange-seed-shop/pull/431
+- Previous PR: #429 merged — https://github.com/bborok1234/strange-seed-shop/pull/429
+- Previous main CI: `25473096297` success
+- Plan artifact: `items/0228-momo-work-celebrate-sprite.md`
+- Branch: `codex/momo-work-celebrate-sprite`
+- Studio deliberation: `reports/deliberation/momo-work-celebrate-sprite/spec.md`
+- gpt-image-2 assets: `public/assets/game/sprites/production/creature_herb_common_002_work_strip.png`, `public/assets/game/sprites/production/creature_herb_common_002_celebrate_strip.png`
+- Browser Use before/current: `reports/deliberation/momo-work-celebrate-sprite/browser-use-current-garden-20260507.png`
+- Browser Use after work: `reports/visual/issue-0228-momo-work-celebrate-sprite/browser-use-after-momo-work-loaded-20260507.png`
+- Browser Use after celebrate: `reports/visual/issue-0228-momo-work-celebrate-sprite/browser-use-after-momo-celebrate-loaded-20260507.png`
+- Browser Use findings: `reports/visual/issue-0228-momo-work-celebrate-sprite/browser-use-findings-20260507.md`
+- Current validation: `check:asset-*` pass, `npm run build` pass, focused mobile visual regression 2 passed, focused desktop support actor regression 3 passed. `npm run check:ci` gate 진행 중.
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. PR #429 required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
+1. PR #431 required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
 2. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
-3. 다음 WorkUnit은 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
-4. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+3. Issue #430과 WorkUnit evidence를 닫고 다음 WorkUnit을 plan-first로 선택한다.
+4. Studio Campaign Gate: 다음 WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.

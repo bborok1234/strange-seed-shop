@@ -968,6 +968,72 @@
       "text_safe_zone": "none",
       "must_not_obscure": "order_crate_label",
       "notes": "garden_production_redesign_0224; strict_strip=true; frames=6; frame_width=128; frame_height=128; intended_frame_rate=12; loop=false; generated_by=gpt-image-2; source_reference_asset_id=creature_herb_common_001"
+    },
+    {
+      "id": "sprite_creature_herb_common_002_work_strip",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "production_support_actor_work_strip",
+      "output_path": "public/assets/game/sprites/production/creature_herb_common_002_work_strip.png",
+      "asset_type": "sprite_strip",
+      "dimensions": {
+        "width": 576,
+        "height": 96
+      },
+      "tags": [
+        "phase0_5",
+        "issue_0228",
+        "sprite_strip",
+        "support_actor",
+        "work",
+        "gpt-image-2",
+        "screen_moment:production_garden",
+        "player_verb:watch_auto_production"
+      ],
+      "notes": "momo_work_celebrate_0228; strict_strip=true; frames=6; frame_width=96; frame_height=96; intended_frame_rate=10; loop=true; generated_by=gpt-image-2; source_reference_asset_id=creature_herb_common_002",
+      "acceptance": [
+        "6-frame horizontal raster PNG strip",
+        "96x96 frame cells after normalization",
+        "transparent alpha-ready background",
+        "broad leaf shield silhouette reads at 48px",
+        "manifest animation.binding targets creature_herb_common_002 work actor"
+      ],
+      "provenance": [
+        "gpt-image-2"
+      ]
+    },
+    {
+      "id": "sprite_creature_herb_common_002_celebrate_strip",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "production_support_actor_celebrate_strip",
+      "output_path": "public/assets/game/sprites/production/creature_herb_common_002_celebrate_strip.png",
+      "asset_type": "sprite_strip",
+      "dimensions": {
+        "width": 576,
+        "height": 96
+      },
+      "tags": [
+        "phase0_5",
+        "issue_0228",
+        "sprite_strip",
+        "support_actor",
+        "celebrate",
+        "gpt-image-2",
+        "screen_moment:production_claim",
+        "player_verb:claim_reward"
+      ],
+      "notes": "momo_work_celebrate_0228; strict_strip=true; frames=6; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; generated_by=gpt-image-2; source_reference_asset_id=creature_herb_common_002",
+      "acceptance": [
+        "6-frame horizontal raster PNG strip",
+        "96x96 frame cells after normalization",
+        "transparent alpha-ready background",
+        "leaf shield celebrate pose and honey glint readable at 48px",
+        "manifest animation.binding targets creature_herb_common_002 celebrate actor"
+      ],
+      "provenance": [
+        "gpt-image-2"
+      ]
     }
   ]
 }

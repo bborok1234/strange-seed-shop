@@ -491,6 +491,7 @@ export default function App() {
     const qaResearchComplete = getLocalQaResearchComplete();
     const qaResearchExpeditionReady = getLocalQaResearchExpeditionReady();
     const qaResearchExpeditionClaimReady = getLocalQaResearchExpeditionClaimReady();
+    const qaMomoCelebrate = getLocalQaMomoCelebrate();
     const qaGreenhouseLunarClaimReady = getLocalQaGreenhouseLunarClaimReady();
     const qaGreenhouseLunarSeedPlantReady = getLocalQaGreenhouseLunarSeedPlantReady();
     const qaLunarSeedReady = getLocalQaLunarSeedReady();
@@ -559,6 +560,15 @@ export default function App() {
     setSave(nextSave);
     if (qaHarvestReveal) {
       setHarvestReveal(getCreature("creature_herb_common_001") ?? null);
+    }
+    if (qaMomoCelebrate) {
+      setProductionClaimReceipt({
+        id: Date.now(),
+        leaves: 12,
+        orderTitle: "모모 지원 생산",
+        orderProgress: 24,
+        orderRequired: 24
+      });
     }
     trackEvent("session_start", { playerId: nextSave.playerId });
   }, []);
@@ -4535,7 +4545,15 @@ function buildGardenPlayfieldViewModel(
               roleLabel: getCreatureRoleLabel(creature.role),
               family: creature.family,
               assetId: creature.assetId,
-              assetPath: getAssetPath(manifest, creature.assetId)
+              assetPath: getAssetPath(manifest, creature.assetId),
+              workAnimation: getProductionWorkAnimation(manifest, getProductionWorkAnimationAssetId(creature)),
+              celebrateAnimation: getProductionWorkAnimation(manifest, getProductionCelebrateAnimationAssetId(creature)),
+              celebrateActive:
+                productionClaimActive ||
+                firstOrderDispatchReceiptActive ||
+                merchantCrateClaimActive ||
+                merchantFollowupDispatchReceiptActive ||
+                merchantSecondChapterDispatchReceiptActive
             })),
           workAnimation: getProductionWorkAnimation(manifest, productionStatus.primaryWorkAnimationAssetId),
           orderRewardMotion: getProductionFxAnimation(
@@ -4679,6 +4697,22 @@ function getProductionFxAnimation(
 function getProductionWorkAnimationAssetId(worker: CreatureDefinition | undefined): string | undefined {
   if (worker?.id === "creature_herb_common_001") {
     return "sprite_creature_herb_common_001_work_strip";
+  }
+
+  if (worker?.id === "creature_herb_common_002") {
+    return "sprite_creature_herb_common_002_work_strip";
+  }
+
+  return undefined;
+}
+
+function getProductionCelebrateAnimationAssetId(worker: CreatureDefinition | undefined): string | undefined {
+  if (worker?.id === "creature_herb_common_001") {
+    return "sprite_creature_herb_common_001_celebrate_strip";
+  }
+
+  if (worker?.id === "creature_herb_common_002") {
+    return "sprite_creature_herb_common_002_celebrate_strip";
   }
 
   return undefined;
@@ -5695,6 +5729,14 @@ function getLocalQaResearchExpeditionReady(): boolean {
   }
 
   return new URLSearchParams(window.location.search).get("qaResearchExpeditionReady") === "1";
+}
+
+function getLocalQaMomoCelebrate(): boolean {
+  if (!import.meta.env.DEV || !["127.0.0.1", "localhost"].includes(window.location.hostname)) {
+    return false;
+  }
+
+  return new URLSearchParams(window.location.search).get("qaMomoCelebrate") === "1";
 }
 
 function getLocalQaResearchExpeditionClaimReady(): boolean {

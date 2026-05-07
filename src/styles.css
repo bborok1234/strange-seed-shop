@@ -7463,7 +7463,7 @@ h1 {
 .playfield-workstage-primary,
 .playfield-workstage-support {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   display: grid;
   justify-items: center;
   color: #23422f;
@@ -7501,8 +7501,8 @@ h1 {
 }
 
 .playfield-workstage-support {
-  right: 16%;
-  bottom: 7px;
+  right: 4%;
+  bottom: 12px;
   min-width: 58px;
   animation: workstage-support-bob 1.8s ease-in-out infinite;
   animation-delay: calc(var(--support-worker-index, 0) * 160ms);
@@ -7514,6 +7514,43 @@ h1 {
   height: 54px;
   object-fit: contain;
   filter: drop-shadow(0 7px 7px rgba(34, 65, 38, 0.2));
+}
+
+.playfield-workstage-support.has-support-animation {
+  width: 82px;
+  min-width: 82px;
+  height: 78px;
+}
+
+.playfield-workstage-support .playfield-workstage-support-sprite {
+  width: 76px;
+  height: 76px;
+  filter: drop-shadow(0 9px 9px rgba(34, 65, 38, 0.22));
+}
+
+.playfield-workstage-support .playfield-workstage-support-sprite img {
+  width: calc(76px * var(--actor-frame-count, 6));
+  height: 76px;
+}
+
+.playfield-workstage-support .playfield-workstage-support-celebrate {
+  position: absolute;
+  z-index: 3;
+  top: -10px;
+  left: 50%;
+  width: 86px;
+  height: 86px;
+  filter: drop-shadow(0 9px 10px rgba(90, 92, 31, 0.18));
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: supportCelebratePop var(--actor-strip-duration, 500ms) ease-out both;
+}
+
+.playfield-workstage-support .playfield-workstage-support-celebrate img {
+  width: calc(86px * var(--actor-frame-count, 6));
+  height: 86px;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 .playfield-workstage-trail {
@@ -7627,6 +7664,27 @@ h1 {
 
   50% {
     transform: translateY(-4px) rotate(-1deg);
+  }
+}
+
+@keyframes supportCelebratePop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 6px) scale(0.82);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate(-50%, -8px) scale(1.04);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -12px) scale(0.96);
   }
 }
 
@@ -9140,6 +9198,11 @@ h1 {
   right: 13%;
 }
 
+.app-shell.playable-focus .playfield-workstage-support.has-support-animation {
+  right: 4%;
+  bottom: 12px;
+}
+
 .app-shell.playable-focus .playfield-plot-label-stack {
   max-width: min(138px, 72%);
   min-width: 58px;
@@ -9210,6 +9273,32 @@ h1 {
   max-width: 50px;
   height: 50px;
   object-fit: contain;
+}
+
+.app-shell.playable-focus .playfield-workstage-support .playfield-workstage-support-sprite {
+  width: 76px;
+  height: 76px;
+  border-radius: 0;
+}
+
+.app-shell.playable-focus .playfield-workstage-support .playfield-workstage-support-sprite img {
+  width: calc(76px * var(--actor-frame-count, 6));
+  max-width: none;
+  height: 76px;
+  animation: playfieldActorSprite4 var(--actor-strip-duration, 600ms) steps(var(--actor-frame-count, 6), end) infinite;
+}
+
+.app-shell.playable-focus .playfield-workstage-support .playfield-workstage-support-celebrate {
+  width: 86px;
+  height: 86px;
+  border-radius: 0;
+}
+
+.app-shell.playable-focus .playfield-workstage-support .playfield-workstage-support-celebrate img {
+  width: calc(86px * var(--actor-frame-count, 6));
+  max-width: none;
+  height: 86px;
+  animation: playfieldActorSprite4 var(--actor-strip-duration, 500ms) steps(var(--actor-frame-count, 6), end) 1 forwards;
 }
 
 .app-shell.playable-focus .playfield-production-actor .playfield-support-worker {

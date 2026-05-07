@@ -928,6 +928,56 @@
           ]
         }
       }
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_002_work_strip",
+      "output_path": "public/assets/game/sprites/production/creature_herb_common_002_work_strip.png",
+      "prompt": "Use case: horizontal sprite strip for a mobile idle game support production actor.\nAsset type: 6-frame spritesheet strip, transparent or alpha-ready background, no text.\nPrimary request: Create sprite_creature_herb_common_002_work_strip, six consistent frames of 방패새싹 모모 helping automatic production as a gentle sprout guardian.\nSubject: The same friendly sprout guardian as creature_herb_common_002, with broad shield-like leaf, rounded body, calm protective eyes, short root feet. Motion vocabulary: small shield sway, tiny footstep, gathering or guarding leaf ticks beside another worker. Keep the same camera, scale, baseline, and character identity in every frame.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm pastel greenhouse lighting, clean edges, no text, no watermark.\nComposition/framing: Six frames arranged left-to-right in one horizontal strip, equal 96x96 frame cells after normalization, character centered in each frame, no UI frame, no circular badge, no scenery.\nColor palette: fresh herb greens, slightly deeper sage rim for the shield leaf, warm yellow-green highlights, cream face, soft teal shadow.\nConstraints: No text, no logo, no watermark, no different character per frame, no camera angle changes, no background, no cropped feet, no white matte after alpha processing. Must read clearly at 48-64px.\nAvoid: portrait card, circular icon, CSS-bounce-like single pose, aggressive armor, weapon, copyrighted mascot resemblance, busy particles hiding the face.",
+      "acceptance": [
+        "6-frame horizontal raster PNG strip",
+        "96x96 frame cells after normalization",
+        "transparent alpha-ready background",
+        "broad leaf shield silhouette reads at 48px",
+        "manifest animation.binding targets creature_herb_common_002 work actor"
+      ],
+      "metadata": {
+        "model": "gpt-image-2",
+        "issue": "0228",
+        "strict_strip": true,
+        "frames": 6,
+        "frame_width": 96,
+        "frame_height": 96,
+        "intended_frame_rate": 10,
+        "loop": true,
+        "source_reference_asset_id": "creature_herb_common_002",
+        "manifest_binding_required": true
+      },
+      "notes": "momo_work_celebrate_0228; strict_strip=true; frames=6; frame_width=96; frame_height=96; intended_frame_rate=10; loop=true; generated_by=gpt-image-2; source_reference_asset_id=creature_herb_common_002; manifest animation.binding is required before accepted runtime use"
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_002_celebrate_strip",
+      "output_path": "public/assets/game/sprites/production/creature_herb_common_002_celebrate_strip.png",
+      "prompt": "Use case: horizontal sprite strip for a mobile idle game support actor reward reaction.\nAsset type: 6-frame spritesheet strip, transparent or alpha-ready background, no text.\nPrimary request: Create sprite_creature_herb_common_002_celebrate_strip, six consistent frames of 방패새싹 모모 celebrating a production claim reward.\nSubject: The same friendly sprout guardian as creature_herb_common_002, broad shield-like leaf opening like a tiny fan, rounded face smiling, short root feet doing a small hop. Add only a few honey-yellow glints and leaf crumbs close to the character. Keep the same camera, scale, baseline, and character identity in every frame.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm pastel greenhouse lighting, clean edges, no text, no watermark.\nComposition/framing: Six frames arranged left-to-right in one horizontal strip, equal 96x96 frame cells after normalization, character centered in each frame, no UI frame, no circular badge, no scenery.\nColor palette: fresh herb greens, sage shield rim, warm honey yellow sparkle, cream face, soft mint afterimage.\nConstraints: No text, no logo, no watermark, no different character per frame, no camera jumps, no background, no crop, no large confetti covering face, no white matte after alpha processing. Must read clearly at 48-64px.\nAvoid: slot-machine reward style, portrait card, circular icon, unrelated pose sheet, copyrighted mascot resemblance, neon effects.",
+      "acceptance": [
+        "6-frame horizontal raster PNG strip",
+        "96x96 frame cells after normalization",
+        "transparent alpha-ready background",
+        "leaf shield celebrate pose and honey glint readable at 48px",
+        "manifest animation.binding targets creature_herb_common_002 celebrate actor"
+      ],
+      "metadata": {
+        "model": "gpt-image-2",
+        "issue": "0228",
+        "strict_strip": true,
+        "frames": 6,
+        "frame_width": 96,
+        "frame_height": 96,
+        "intended_frame_rate": 12,
+        "loop": false,
+        "source_reference_asset_id": "creature_herb_common_002",
+        "manifest_binding_required": true
+      },
+      "notes": "momo_work_celebrate_0228; strict_strip=true; frames=6; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; generated_by=gpt-image-2; source_reference_asset_id=creature_herb_common_002; manifest animation.binding is required before accepted runtime use"
     }
   ]
 }
