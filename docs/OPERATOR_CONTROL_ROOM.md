@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T19:33:03.345Z
+Generated at: 2026-05-07T19:46:49.792Z
 
 ## Current mission
 
-현재 작업은 **Phaser v1 storage basket unlock affordance**이다. #455 repeat order after third plot harvest는 PR #456으로 merge/main CI까지 통과했고, 다음 blocker는 `보관 바구니 준비` objective가 아직 실제 board unlock action으로 이어지지 않는 것이다.
+현재 작업은 **Phaser v1 storage buffer production fill**이다. #457 storage basket unlock affordance는 PR #458로 merge/main CI까지 통과했고, 다음 blocker는 storage capacity가 열렸지만 다음 작업대 수령이 아직 `오프라인 보관 n/24` buffer를 채우지 않는 것이다.
 
 현재 evidence:
 
@@ -26,46 +26,47 @@ Generated at: 2026-05-07T19:33:03.345Z
 - Completed third plot expansion unlock: Issue #451, PR #452, main CI `25515782343`
 - Completed third plot seed planting loop: Issue #453, PR #454, main CI `25516527365`
 - Completed repeat order after third plot harvest: Issue #455, PR #456, main CI `25517154782`
-- WorkUnit: `items/0245-storage-basket-unlock-affordance.md`
-- GitHub issue: #457 `Phaser v1 storage basket unlock affordance`
-- Draft PR: #458 `Phaser v1 storage basket unlock affordance`
+- Completed storage basket unlock affordance: Issue #457, PR #458, main CI `25517800360`
+- WorkUnit: `items/0246-storage-buffer-production-fill.md`
+- GitHub issue: #459 `Phaser v1 storage buffer production fill`
+- Draft PR: #460 `Phaser v1 storage buffer production fill`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0457-storage-basket-unlock-affordance/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0459-storage-buffer-production-fill/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #457은 repeat order payoff를 storage basket unlock affordance로 연결한다.
-2. Storage state는 existing generated facility raster와 HUD/receipt affordance를 사용하고 runtime image generation/API/cache를 호출하지 않는다.
-3. 다음 WorkUnit은 dedicated storage raster asset, offline/storage cap, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #459는 storage unlock payoff를 production fill feedback으로 연결한다.
+2. Storage buffer state는 existing generated facility raster와 HUD/receipt affordance를 사용하고 runtime image generation/API/cache를 호출하지 않는다.
+3. 다음 WorkUnit은 dedicated storage raster asset, offline comeback reward, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-storage-basket-unlock-affordance
-- Latest commit: 3897e8b 보관 바구니 PR 증거를 준비한다
+- Branch: codex/v1-storage-buffer-production-fill
+- Latest commit: 5e69849 보관 버퍼 PR 증거를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T19:32:55.400Z
-- Phase: phaser-v1-storage-basket-unlock-affordance-pr
-- Issue: 457
-- PR: 458
-- Item: items/0245-storage-basket-unlock-affordance.md
-- Next action: gate: mark PR #458 ready, watch checks, merge if green
+- Timestamp: 2026-05-07T19:46:47.993Z
+- Phase: phaser-v1-storage-buffer-production-fill-pr
+- Issue: 459
+- PR: 460
+- Item: items/0246-storage-buffer-production-fill.md
+- Next action: gate: mark PR #460 ready, watch checks, merge if green
 
 ## Open PRs
 
-- #458 draft Phaser v1 storage basket unlock affordance — https://github.com/bborok1234/strange-seed-shop/pull/458
+- #460 draft Phaser v1 storage buffer production fill — https://github.com/bborok1234/strange-seed-shop/pull/460
 
 ## Open issues
 
-- #457 Phaser v1 storage basket unlock affordance — https://github.com/bborok1234/strange-seed-shop/issues/457
+- #459 Phaser v1 storage buffer production fill — https://github.com/bborok1234/strange-seed-shop/issues/459
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 
 ## Playable mode

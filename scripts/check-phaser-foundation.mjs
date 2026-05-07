@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0457-storage-basket-unlock-affordance";
+const OUT_DIR = "reports/visual/issue-0459-storage-buffer-production-fill";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -132,6 +132,12 @@ async function runSmoke() {
     await page.getByRole("button", { name: "정리 80잎" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-unlocked-393.png`, fullPage: false });
+    await page.mouse.click(112, 612);
+    await page.getByRole("button", { name: "수령" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-fill-claim-393.png`, fullPage: false });
+    await page.mouse.click(304, 502);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-buffer-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -147,6 +153,7 @@ async function runSmoke() {
       orderCrateProgress: window.__seedGardenOrderCrateProgress ?? 0,
       completedDeliveries: window.__seedGardenCompletedDeliveries ?? 0,
       storageCapacity: window.__seedGardenStorageCapacity ?? 0,
+      storedLeaves: window.__seedGardenStoredLeaves ?? 0,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
       plotIds: window.__seedGardenPlotIds ?? [],
@@ -158,15 +165,15 @@ async function runSmoke() {
 
     const failures = [];
     if (evidence.canvasCount !== 1) failures.push("expected one Phaser canvas");
-    if (evidence.leaves !== "8") failures.push(`expected 8 leaves after storage unlock, got ${evidence.leaves}`);
+    if (evidence.leaves !== "16") failures.push(`expected 16 leaves after storage fill claim, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
       failures.push("missing order crate delivery receipt");
     }
     if (!evidence.actorIds.includes("actor_pori")) failures.push("missing Pori actor after harvest");
     if (!evidence.actorIds.includes("actor_momo")) failures.push("missing Momo carrier after workbench claim");
-    if (evidence.orderCrateProgress !== 0) {
-      failures.push(`expected order crate progress reset to 0 after delivery, got ${evidence.orderCrateProgress}`);
+    if (evidence.orderCrateProgress !== 25) {
+      failures.push(`expected order crate progress 25 after storage fill claim, got ${evidence.orderCrateProgress}`);
     }
     if (evidence.completedDeliveries !== 2) {
       failures.push(`expected two completed deliveries, got ${evidence.completedDeliveries}`);
@@ -186,7 +193,10 @@ async function runSmoke() {
     if (!evidence.receipts.some((receipt) => receipt.includes("보관 바구니 정리"))) {
       failures.push("missing storage unlock receipt");
     }
-    if (!evidence.objective.includes("보관 바구니 정리 완료")) failures.push("missing storage unlock objective");
+    if (!evidence.receipts.some((receipt) => receipt.includes("보관 +4/24"))) {
+      failures.push("missing storage fill receipt");
+    }
+    if (!evidence.objective.includes("오프라인 보관 4/24")) failures.push("missing storage buffer objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
@@ -199,6 +209,9 @@ async function runSmoke() {
     }
     if (evidence.storageCapacity !== 24) {
       failures.push(`expected storage capacity 24, got ${evidence.storageCapacity}`);
+    }
+    if (evidence.storedLeaves !== 4) {
+      failures.push(`expected stored leaves 4, got ${evidence.storedLeaves}`);
     }
     if (!evidence.unlockedSlotIds.includes("facility_storage")) failures.push("storage slot did not unlock");
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
@@ -230,7 +243,9 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-second-crate-ready-393.png`,
         `${OUT_DIR}/phaser-check-second-delivery-393.png`,
         `${OUT_DIR}/phaser-check-storage-ready-393.png`,
-        `${OUT_DIR}/phaser-check-storage-unlocked-393.png`
+        `${OUT_DIR}/phaser-check-storage-unlocked-393.png`,
+        `${OUT_DIR}/phaser-check-storage-fill-claim-393.png`,
+        `${OUT_DIR}/phaser-check-storage-buffer-393.png`
       ],
       failures
     };
