@@ -857,6 +857,24 @@ export default function App() {
       )
     : visibleSeedInventorySeeds;
   const totalOwnedSeeds = save ? Object.values(save.seedInventory).reduce((total, count) => total + count, 0) : 0;
+  const seedGoalSeed = nextCreatureGoal?.seed ?? null;
+  const seedGoalOwned = save && seedGoalSeed ? save.seedInventory[seedGoalSeed.id] ?? 0 : 0;
+  const seedGoalCostLeaves = seedGoalSeed ? getSeedPurchaseCost(seedGoalSeed) : 0;
+  const seedGoalLeafShortfall = save && seedGoalSeed ? Math.max(0, seedGoalCostLeaves - save.leaves) : 0;
+  const seedGoalUnlocked = Boolean(save && seedGoalSeed && save.unlockedSeedIds.includes(seedGoalSeed.id));
+  const seedGoalActionDisabled =
+    !seedGoalSeed || !seedGoalUnlocked || !hasOpenPlot || (seedGoalOwned <= 0 && seedGoalLeafShortfall > 0);
+  const seedGoalActionLabel = !seedGoalSeed
+    ? "씨앗 준비 중"
+    : !seedGoalUnlocked
+      ? "씨앗 잠금"
+      : !hasOpenPlot
+        ? "밭을 비워야 해요"
+        : seedGoalOwned > 0
+          ? "정원에 심기"
+          : seedGoalLeafShortfall > 0
+            ? `${seedGoalLeafShortfall} 잎 부족`
+            : "구매하고 심기";
   const researchGrowthPreview = hasResearchSeedPlot && nextCreatureGoal
     ? `${nextCreatureGoal.seed.name} 수확 예고 · ${nextCreatureGoal.creature.name} 단서 추적 중`
     : null;
@@ -1176,6 +1194,87 @@ export default function App() {
     });
     setOfflineRewardSummary(null);
     setOfflineMessage(`${seed.name}을 바로 심었어요. 밭을 톡톡 두드려 성장시켜요.`);
+    setActiveTab("garden");
+  }
+
+  function plantSeedGoal(seed: SeedDefinition) {
+    if (!save || !nextCreatureGoal || seed.id !== nextCreatureGoal.seed.id) {
+      return;
+    }
+
+    const canPlantOwnedSeed =
+      (save.seedInventory[seed.id] ?? 0) > 0 &&
+      save.plots.some((candidate) => candidate.index < save.plotCount && !candidate.seedId);
+    if (canPlantOwnedSeed) {
+      plantOwnedSeed(seed);
+      return;
+    }
+
+    const costLeaves = getSeedPurchaseCost(seed);
+    const canBuyAndPlantSeed =
+      save.unlockedSeedIds.includes(seed.id) &&
+      save.leaves >= costLeaves &&
+      save.plots.some((candidate) => candidate.index < save.plotCount && !candidate.seedId);
+    if (!canBuyAndPlantSeed) {
+      return;
+    }
+
+    const isAlbumRecordTargetSeed = Boolean(researchAlbumRecord && nextCreatureGoal.seed.id === seed.id && activeTab === "seeds");
+    const isResearchClueSeed = !isAlbumRecordTargetSeed && seed.id === researchClueTargetSeedId && seed.id !== LUNAR_REWARD_SEED_ID;
+
+    commit((draft) => {
+      const plot = draft.plots.find((candidate) => candidate.index < draft.plotCount && !candidate.seedId);
+      if (!draft.unlockedSeedIds.includes(seed.id) || draft.leaves < costLeaves || !plot) {
+        return;
+      }
+
+      draft.leaves -= costLeaves;
+      advanceMission(draft, "daily_buy_3_seeds");
+      trackEvent("seed_purchased", {
+        seedId: seed.id,
+        costLeaves,
+        source: "seed_goal_one_tap"
+      });
+
+      const seedSource = isResearchClueSeed
+        ? "research"
+        : isAlbumRecordTargetSeed
+          ? "album_record_next_seed"
+          : getSeedPlantingSource(draft, seed);
+      draft.plots[plot.index] = plantSeedInPlot(plot, seed, seedSource);
+      trackEvent(
+        "seed_planted",
+        isResearchClueSeed
+          ? {
+              seedId: seed.id,
+              plotIndex: plot.index,
+              source: seedSource ?? "research_clue",
+              rewardMotion: "research_clue_seed_planted",
+              purchaseSource: "seed_goal_one_tap"
+            }
+          : isAlbumRecordTargetSeed
+            ? {
+                seedId: seed.id,
+                plotIndex: plot.index,
+                source: seedSource ?? "album_record_next_seed",
+                rewardMotion: "album_record_next_seed_planted",
+                purchaseSource: "seed_goal_one_tap"
+              }
+            : {
+                seedId: seed.id,
+                plotIndex: plot.index,
+                source: seedSource ?? "inventory",
+                purchaseSource: "seed_goal_one_tap"
+              }
+      );
+    });
+
+    if (isResearchClueSeed) {
+      showResearchSeedReceipt(seed, "심기 완료");
+    }
+    if (isAlbumRecordTargetSeed) {
+      showAlbumRecordPlantReceipt(seed, "심기 완료");
+    }
     setActiveTab("garden");
   }
 
@@ -3150,8 +3249,13 @@ export default function App() {
                       <span className="lunar-source-line">온실 단서 source: {lunarRewardSourceLabel}</span>
                     )}
                     {researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
-                    <button className="seed-goal-action-button" onClick={() => setActiveTab("garden")} type="button">
-                      정원에서 심기
+                    <button
+                      className="seed-goal-action-button"
+                      disabled={seedGoalActionDisabled}
+                      onClick={() => plantSeedGoal(nextCreatureGoal.seed)}
+                      type="button"
+                    >
+                      {seedGoalActionLabel}
                     </button>
                   </div>
                 </article>

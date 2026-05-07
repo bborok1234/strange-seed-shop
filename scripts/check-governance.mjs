@@ -33,7 +33,6 @@ const requiredPhrases = new Map([
     [
       "ENABLE_AGENT_AUTOMERGE",
       "npm run check:automerge",
-      "npm run check:ci",
       "gh pr merge"
     ]
   ],
@@ -64,6 +63,13 @@ for (const [path, phrases] of requiredPhrases.entries()) {
       failures.push(`${path} missing phrase: ${phrase}`);
     }
   }
+}
+
+const agentAutomerge = fs.existsSync(".github/workflows/agent-automerge.yml")
+  ? fs.readFileSync(".github/workflows/agent-automerge.yml", "utf8")
+  : "";
+if (agentAutomerge.includes("npm run check:ci")) {
+  failures.push(".github/workflows/agent-automerge.yml should not duplicate npm run check:ci; CI workflow owns Verify game baseline");
 }
 
 console.log(
