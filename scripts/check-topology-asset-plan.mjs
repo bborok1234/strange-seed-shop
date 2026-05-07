@@ -18,6 +18,7 @@ const requiredIds = [
   "fx_harvest_leaf_flyout_strip_v1",
   "fx_storage_claim_leaf_flyout_strip_v1",
   "fx_research_clue_glimmer_strip_v1",
+  "fx_album_record_stamp_strip_v1",
   "ui_shadow_soft_v1"
 ];
 
@@ -27,7 +28,8 @@ const spriteIds = new Set([
   "fx_care_spark_strip_v1",
   "fx_harvest_leaf_flyout_strip_v1",
   "fx_storage_claim_leaf_flyout_strip_v1",
-  "fx_research_clue_glimmer_strip_v1"
+  "fx_research_clue_glimmer_strip_v1",
+  "fx_album_record_stamp_strip_v1"
 ]);
 
 const plan = JSON.parse(await readFile("assets/source/asset_plan.json", "utf8"));

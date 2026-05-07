@@ -4,7 +4,7 @@
   "batch": {
     "id": "milestone1_style_validation_001",
     "purpose": "Validate and extend static Phase 0/P0.5/v1 assets, including Phaser garden board topology runtime terrain, plot states, facility states, actor strips, and FX strips.",
-    "target_asset_count": 67,
+    "target_asset_count": 68,
     "generation_mode": "openai_images_api_with_static_workspace_outputs",
     "runtime_generation_allowed": false
   },
@@ -1441,6 +1441,32 @@
         "behavior": "once"
       },
       "notes": "Horizontal FX strip for the research shelf inspect action. Small moonlit clue glimmers should rise from the shelf without obscuring the facility or action rail."
+    },
+    {
+      "id": "fx_album_record_stamp_strip_v1",
+      "category": "fx_strip",
+      "family": "lunar",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_album_clue_record_fx",
+      "output_path": "public/assets/game/fx/fx_album_record_stamp_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "fx",
+        "album",
+        "record",
+        "lunar",
+        "issue_0480"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 12,
+      "animation": {
+        "binding": "album.clue_record.action.record",
+        "behavior": "once"
+      },
+      "notes": "Horizontal FX strip for confirming a lunar clue album record. Compact stamp/sparkle motion should sit near the action rail without obscuring the recorded clue goal surface."
     }
   ]
 }

@@ -1224,6 +1224,21 @@
         "animation.binding is facility_research_shelf.action.inspect_clue",
         "FX reads at 96px and does not obscure research shelf, HUD chips, or bottom action rail"
       ]
+    },
+    {
+      "asset_id": "fx_album_record_stamp_strip_v1",
+      "output_path": "public/assets/game/fx/fx_album_record_stamp_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser FX sprite sheet\nPrimary request: Create fx_album_record_stamp_strip_v1 for 이상한 씨앗상회 v1.\nSubject: a compact moonlit album record confirmation effect, like a soft crescent stamp, tiny leaf sparkles, and one small pulse that confirms a lunar clue was saved to the album.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game FX, soft rounded stamp shape, crisp readable silhouettes, subtle lunar glow, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: One horizontal FX strip with exactly 8 frames, each frame 96x96, transparent background, consistent effect center, compact motion that stays inside frame and is safe to play near the bottom action rail and recorded clue goal surface.\nColor palette: Pale moonlit blue, soft silver lavender, cream glow, fresh herb green leaf sparkles, tiny warm leaf yellow highlights.\nConstraints: Intended fps 12; animation.binding album.clue_record.action.record; behavior once. No text, no UI frame, no full background, no character, no album card, no button, no baked HUD panel.\nAvoid: Text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, tiny unreadable details, large explosion, dark magical horror look, baked card or UI frame.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "exactly 8 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is album.clue_record.action.record",
+        "FX reads at 96px and does not obscure the bottom action rail or recorded clue goal surface"
+      ]
     }
   ]
 }

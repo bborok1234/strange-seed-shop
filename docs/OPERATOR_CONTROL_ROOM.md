@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T22:04:24.451Z
+Generated at: 2026-05-07T22:13:53.220Z
 
 ## Current mission
 
-현재 작업은 **연구 단서 목표 surface**이다. #476 연구 단서 도감 기록 bridge는 PR #477 merge/main CI `25524211510`까지 통과했다. 다음 blocker는 clue album record 후 다음 seed goal이 visible surface로 남지 않아 collection meta loop가 다시 끊긴다는 점이다.
+현재 작업은 **도감 기록 스탬프 FX plan-prompt**이다. #478 연구 단서 목표 surface는 PR #479 merge/main CI `25524735364`까지 통과했다. 다음 blocker는 clue album record 순간이 아직 텍스트 전환 중심이라 collection meta 저장의 시각적 확정감이 약하다는 점이다.
 
 현재 evidence:
 
@@ -37,48 +37,48 @@ Generated at: 2026-05-07T22:04:24.451Z
 - Completed research shelf asset plan/prompt: Issue #472, PR #473, main CI `25523174826`
 - Completed research clue seed planting: Issue #474, PR #475, main CI `25523742630`
 - Completed research clue album record: Issue #476, PR #477, main CI `25524211510`
+- Completed research clue goal surface: Issue #478, PR #479, main CI `25524735364`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0255-research-clue-goal-surface.md`
-- GitHub issue: #478 `연구 단서 목표 surface`
-- Draft PR: #479 `연구 단서 목표 surface`
-- Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
-- Runtime source: `apps/seed-garden-phaser/src/main.ts`
-- Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0478-research-clue-goal-surface/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
+- WorkUnit: `items/0256-album-record-fx-plan-prompt.md`
+- GitHub issue: #480 `도감 기록 스탬프 FX plan-prompt`
+- Draft PR: pending
+- Asset plan source: `assets/source/asset_plan.json`
+- Asset prompt source: `assets/source/asset_prompts.json`
+- Asset plan verifier: `scripts/check-topology-asset-plan.mjs`
+- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #478은 clue album record reward를 visible next seed goal surface로 연결한다.
-2. album record 후 `researchClueGoalSurfaceVisible` telemetry가 true여야 한다.
-3. action rail/objective에 `달빛 단서 기록됨`과 `다음 씨앗 목표`가 보여야 한다.
-4. Browser Use execution tool이 노출되지 않으면 Playwright fallback screenshot과 telemetry를 evidence로 남긴다.
+1. Studio Campaign Gate: #480은 clue album record 순간의 dedicated FX strip spec을 고정한다.
+2. `fx_album_record_stamp_strip_v1`은 plan/prompt 양쪽에 있어야 한다.
+3. `frame_count: 8`, `frame_size: 96x96`, `intended_fps: 12`, `animation.binding: album.clue_record.action.record`, `behavior: once`가 있어야 한다.
+4. prompt는 horizontal strip, no text/watermark/logo, no baked UI/card, rail-safe compact motion을 명시해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-research-clue-goal-surface
-- Latest commit: f93c6a4 연구 단서 기록을 다음 목표로 이어준다
+- Branch: codex/v1-album-record-fx-plan-prompt
+- Latest commit: b1653f3 연구 단서 목표 surface 병합
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T22:04:22.912Z
-- Phase: phaser-v1-research-clue-goal-surface-pr
-- Issue: 478
-- PR: 479
-- Item: items/0255-research-clue-goal-surface.md
-- Next action: PR gate 준비: wait checks then ready/merge #479
+- Timestamp: 2026-05-07T22:13:51.127Z
+- Phase: phaser-v1-album-record-fx-plan-prompt-pr-gate
+- Issue: 480
+- PR: pending
+- Item: items/0256-album-record-fx-plan-prompt.md
+- Next action: PR gate 준비: commit push draft PR #480
 
 ## Open PRs
 
-- #479 draft 연구 단서 목표 surface — https://github.com/bborok1234/strange-seed-shop/pull/479
+- unavailable or none
 
 ## Open issues
 
-- #478 연구 단서 목표 surface — https://github.com/bborok1234/strange-seed-shop/issues/478
+- #480 도감 기록 스탬프 FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/issues/480
 
 ## Playable mode
 
