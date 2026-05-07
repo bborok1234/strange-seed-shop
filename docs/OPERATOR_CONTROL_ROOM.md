@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T20:03:31.916Z
+Generated at: 2026-05-07T20:11:37.364Z
 
 ## Current mission
 
-현재 작업은 **보관 바구니 오프라인 잎 회수**이다. #459 storage buffer production fill은 PR #460 merge/main CI까지 통과했고, 다음 blocker는 `오프라인 보관 4/24`가 쌓여도 플레이어가 아직 `회수`해서 comeback reward로 가져갈 수 없다는 점이다.
+현재 작업은 **보관 바구니 playfield 채움 상태**이다. #461 보관 바구니 오프라인 잎 회수는 PR #462 merge/main CI까지 통과했고, 다음 blocker는 storage 상태가 아직 action rail/objective를 읽어야만 보인다는 점이다.
 
 현재 evidence:
 
@@ -28,46 +28,47 @@ Generated at: 2026-05-07T20:03:31.916Z
 - Completed repeat order after third plot harvest: Issue #455, PR #456, main CI `25517154782`
 - Completed storage basket unlock affordance: Issue #457, PR #458, main CI `25517800360`
 - Completed storage buffer production fill: Issue #459, PR #460, main CI `25518444184`
-- WorkUnit: `items/0247-offline-storage-reward-claim.md`
-- GitHub issue: #461 `보관 바구니가 오프라인 잎을 회수하게 만들기`
-- Draft PR: #462 `보관 바구니가 오프라인 잎을 회수하게 만들기`
+- Completed offline storage reward claim: Issue #461, PR #462, main CI `25519266912`
+- WorkUnit: `items/0248-storage-playfield-fill-state.md`
+- GitHub issue: #463 `보관 바구니 채움 상태를 playfield에서 보여주기`
+- Draft PR: pending
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0461-offline-storage-reward-claim/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
+- Visual report: `reports/visual/issue-0463-storage-playfield-fill-state/visual-report-20260508.md`
+- Current validation: plan artifact and GitHub issue created
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #461은 storage buffer payoff를 offline comeback reward claim으로 연결한다.
-2. Storage claim state는 existing generated facility raster와 HUD/action/receipt affordance를 사용하고 runtime image generation/API/cache를 호출하지 않는다.
-3. 다음 WorkUnit은 dedicated storage raster asset 또는 storage-fill/claim FX 중 하나의 asset/FX payoff를 우선 검토한다.
+1. Studio Campaign Gate: #463은 storage buffer/claim payoff를 playfield-readable fill state로 연결한다.
+2. Storage fill state는 Phaser playfield overlay로 구현하고 runtime image generation/API/cache를 호출하지 않는다.
+3. Dedicated storage raster asset 또는 storage-fill/claim FX는 API 키/asset generation path가 준비되는 다음 asset-specific WorkUnit 후보로 남긴다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-offline-storage-reward-claim
-- Latest commit: a2b6173 보관 회수 PR 증거를 준비한다
+- Branch: codex/v1-storage-playfield-fill-state
+- Latest commit: b208f4b Merge pull request #462 from bborok1234/codex/v1-offline-storage-reward-claim
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T20:03:13.925Z
-- Phase: phaser-v1-offline-storage-reward-claim-pr
-- Issue: 461
-- PR: 462
-- Item: items/0247-offline-storage-reward-claim.md
-- Next action: gate: mark PR #462 ready, watch checks, merge if green
+- Timestamp: 2026-05-07T20:11:30.576Z
+- Phase: phaser-v1-storage-playfield-fill-state-plan
+- Issue: 463
+- PR: pending
+- Item: items/0248-storage-playfield-fill-state.md
+- Next action: gate: implement storage fill overlay and verify
 
 ## Open PRs
 
-- #462 draft 보관 바구니가 오프라인 잎을 회수하게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/462
+- unavailable or none
 
 ## Open issues
 
-- #461 보관 바구니가 오프라인 잎을 회수하게 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/461
+- #463 보관 바구니 채움 상태를 playfield에서 보여주기 — https://github.com/bborok1234/strange-seed-shop/issues/463
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 
 ## Playable mode
