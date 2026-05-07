@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T21:01:30.885Z
+Generated at: 2026-05-07T21:15:16.031Z
 
 ## Current mission
 
-현재 작업은 **Phaser 신규 정원 감상 모드와 HUD 접기**이다. #467 보관 바구니 전용 raster/회수 FX plan-prompt는 PR #468 merge/main CI까지 통과했고, 실제 asset generation은 API key/native save-path blocker로 분리했다. 다음 blocker는 v1 board가 항상 관리 HUD/action rail을 열어 둔 채라 정원을 소유하고 감상하는 low-chrome 순간이 없다는 점이다.
+현재 작업은 **연구 선반 preview bridge**이다. #434 Phaser 신규 정원 감상 모드와 HUD 접기는 PR #469 merge/main CI까지 통과했다. 다음 blocker는 storage/offline reward 회수 이후 board가 research/discovery로 이어지지 않아 D1-D7 씨앗 단서 실루엣이 없다는 점이다.
 
 현재 evidence:
 
@@ -32,48 +32,48 @@ Generated at: 2026-05-07T21:01:30.885Z
 - Completed storage playfield fill state: Issue #463, PR #464, main CI `25519876357`
 - Completed storage claim reward motion: Issue #465, PR #466, main CI `25520416464`
 - Completed storage asset plan/prompt: Issue #467, PR #468, main CI `25521182658`
+- Completed garden view mode: Issue #434, PR #469, main CI `25522031721`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0230-phaser-garden-view-mode.md`
-- GitHub issue: #434 `Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기`
-- Draft PR: #469 `Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기`
+- WorkUnit: `items/0251-research-shelf-preview-bridge.md`
+- GitHub issue: #470 `연구 선반 preview bridge`
+- Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
-- HUD style source: `apps/seed-garden-phaser/src/styles.css`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0434-phaser-garden-view-mode/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0470-research-shelf-preview-bridge/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #434는 `꾸미기/감상` ownership verb를 v1 board에 연결한다.
-2. 감상 모드는 resource chip과 `관리` 복귀 버튼만 남기고 objective/action rail을 접어 playfield를 보호해야 한다.
-3. 관리 모드 복귀 시 first-loop action rail, selected entity, storage/order smoke loop가 그대로 유지되어야 한다.
+1. Studio Campaign Gate: #470은 storage/offline reward를 D1 research/discovery bridge로 연결한다.
+2. `facility_research_shelf`는 storage claim 후 preview state로 열려야 하며, `살펴보기` action이 player verb를 닫아야 한다.
+3. dedicated research shelf raster는 아직 없으므로 existing accepted workbench raster는 임시 stand-in으로만 쓰고 asset debt를 남긴다.
 4. Browser Use execution tool이 노출되지 않으면 Playwright fallback screenshot과 telemetry를 evidence로 남긴다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-phaser-view-mode-hud-collapse
-- Latest commit: b45afe1 정원 감상 모드로 HUD 밀도를 낮춘다
+- Branch: codex/v1-research-shelf-preview-bridge
+- Latest commit: 2488b28 Merge pull request #469 from bborok1234/codex/v1-phaser-view-mode-hud-collapse
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T21:01:15.030Z
-- Phase: phaser-v1-garden-view-mode-pr
-- Issue: 434
-- PR: 469
-- Item: items/0230-phaser-garden-view-mode.md
-- Next action: gate PR #469 checks then merge when green
+- Timestamp: 2026-05-07T21:15:14.372Z
+- Phase: phaser-v1-research-shelf-preview-pr-prep
+- Issue: 470
+- PR: pending
+- Item: items/0251-research-shelf-preview-bridge.md
+- Next action: prep PR gate for #470
 
 ## Open PRs
 
-- #469 draft Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/469
+- unavailable or none
 
 ## Open issues
 
-- #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
+- #470 연구 선반 preview bridge — https://github.com/bborok1234/strange-seed-shop/issues/470
 
 ## Playable mode
 

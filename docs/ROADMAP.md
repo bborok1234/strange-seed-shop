@@ -55,7 +55,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Phaser greenfield vertical slice spec | blocked | `docs/phaser/VERTICAL_SLICE_SPEC.md`, `items/0229-phaser-care-stage-foundation.md`, `items/0230-phaser-garden-view-mode.md`, `items/0231-phaser-carry-claim-reward-fx.md`, Issue #433/#434/#432 | 2026-05-07 리부트 설계로 보류됨. `plot_left`/`plot_right` 2개 밭 계획과 baked-in background risk가 있어 새 `garden board foundation` issue로 재작성 전 구현하지 않는다 |
 | Repo boundary split before Phaser Stage 1 | review | Issue #436, `items/0232-repo-boundary-split.md`, `apps/legacy-react-playable/`, `apps/seed-garden-phaser/`, `reports/visual/issue-0436-boundary-split/browser-use-smoke-20260507.md` | 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리해 #433이 root 기존 앱 코드나 legacy 문서를 active spec으로 오인하지 않게 했다. PR/merge/main CI 대기 |
 | Phaser care stage foundation | blocked | Historical Issue #433 body, `items/0229-phaser-care-stage-foundation.md` | 보류. 고정 2개 밭/낮은 카메라 계획을 그대로 구현하지 않는다. Issue #433은 `items/0235-garden-board-topology-scaffold.md` 기준의 v1 topology foundation으로 재작성됐다 |
-| Phaser garden view mode | active | Issue #434, Draft PR #469, `items/0230-phaser-garden-view-mode.md`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0434-phaser-garden-view-mode/visual-report-20260508.md` | #433 이후 board topology 위에 `감상/관리` mode toggle을 추가해 overview mode에서 objective/action rail을 접고 정원 board를 pull-back view로 보여준다. Browser Use tool surface가 없어 Playwright fallback으로 manage -> overview -> manage return screenshots와 telemetry를 검증한다 |
+| Phaser garden view mode | done | Issue #434, PR #469, main CI `25522031721`, `items/0230-phaser-garden-view-mode.md`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0434-phaser-garden-view-mode/visual-report-20260508.md` | #433 이후 board topology 위에 `감상/관리` mode toggle을 추가해 overview mode에서 objective/action rail을 접고 정원 board를 pull-back view로 보여줬다. Browser Use tool surface가 없어 Playwright fallback으로 manage -> overview -> manage return screenshots와 telemetry를 검증했고, PR checks/merge/main CI가 통과했다 |
+| 연구 선반 preview bridge | active | Issue #470, `items/0251-research-shelf-preview-bridge.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0470-research-shelf-preview-bridge/visual-report-20260508.md` | #469 이후 storage claim 다음 목표가 없는 blocker를 해결한다. 보관 잎 회수 후 `facility_research_shelf` preview와 `살펴보기` action을 열어 달빛 씨앗 단서 preview receipt/objective로 D1 discovery bridge를 만든다. dedicated research shelf raster는 asset generation blocker로 후속 WorkUnit에 남긴다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -381,7 +382,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **Phaser 신규 정원 감상 모드와 HUD 접기**이다. #467 보관 바구니 전용 raster/회수 FX plan-prompt는 PR #468 merge/main CI까지 통과했고, 실제 asset generation은 API key/native save-path blocker로 분리했다. 다음 blocker는 v1 board가 항상 관리 HUD/action rail을 열어 둔 채라 정원을 소유하고 감상하는 low-chrome 순간이 없다는 점이다.
+현재 작업은 **연구 선반 preview bridge**이다. #434 Phaser 신규 정원 감상 모드와 HUD 접기는 PR #469 merge/main CI까지 통과했다. 다음 blocker는 storage/offline reward 회수 이후 board가 research/discovery로 이어지지 않아 D1-D7 씨앗 단서 실루엣이 없다는 점이다.
 
 현재 evidence:
 
@@ -406,21 +407,21 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed storage playfield fill state: Issue #463, PR #464, main CI `25519876357`
 - Completed storage claim reward motion: Issue #465, PR #466, main CI `25520416464`
 - Completed storage asset plan/prompt: Issue #467, PR #468, main CI `25521182658`
+- Completed garden view mode: Issue #434, PR #469, main CI `25522031721`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0230-phaser-garden-view-mode.md`
-- GitHub issue: #434 `Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기`
-- Draft PR: #469 `Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기`
+- WorkUnit: `items/0251-research-shelf-preview-bridge.md`
+- GitHub issue: #470 `연구 선반 preview bridge`
+- Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
-- HUD style source: `apps/seed-garden-phaser/src/styles.css`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0434-phaser-garden-view-mode/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0470-research-shelf-preview-bridge/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #434는 `꾸미기/감상` ownership verb를 v1 board에 연결한다.
-2. 감상 모드는 resource chip과 `관리` 복귀 버튼만 남기고 objective/action rail을 접어 playfield를 보호해야 한다.
-3. 관리 모드 복귀 시 first-loop action rail, selected entity, storage/order smoke loop가 그대로 유지되어야 한다.
+1. Studio Campaign Gate: #470은 storage/offline reward를 D1 research/discovery bridge로 연결한다.
+2. `facility_research_shelf`는 storage claim 후 preview state로 열려야 하며, `살펴보기` action이 player verb를 닫아야 한다.
+3. dedicated research shelf raster는 아직 없으므로 existing accepted workbench raster는 임시 stand-in으로만 쓰고 asset debt를 남긴다.
 4. Browser Use execution tool이 노출되지 않으면 Playwright fallback screenshot과 telemetry를 evidence로 남긴다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
