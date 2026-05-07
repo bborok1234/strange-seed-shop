@@ -65,6 +65,8 @@ export interface GardenState {
   researchClueSeedAvailable: boolean;
   researchClueSeedPlanted: boolean;
   researchClueHarvested: boolean;
+  researchClueRecordReady: boolean;
+  researchClueAlbumRecorded: boolean;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -214,7 +216,9 @@ export function createGardenState(): GardenState {
     researchShelfPreviewSeen: false,
     researchClueSeedAvailable: false,
     researchClueSeedPlanted: false,
-    researchClueHarvested: false
+    researchClueHarvested: false,
+    researchClueRecordReady: false,
+    researchClueAlbumRecorded: false
   };
 }
 
@@ -342,6 +346,7 @@ export function harvestSelectedPlot(state: GardenState): void {
   state.resources.leaves += clueHarvest ? 18 : 12;
   if (clueHarvest) {
     state.researchClueHarvested = true;
+    state.researchClueRecordReady = true;
     state.objective = "달빛 씨앗 family clue 발견 · 다음 WorkUnit에서 도감 단서로 연결";
     state.receipts.unshift("달빛 단서 수확 · 달빛 family clue +1 · 잎 +18");
     return;
@@ -375,6 +380,17 @@ export function plantResearchClueSeed(state: GardenState): void {
   plot.careCount = 0;
   state.objective = "달빛 단서 씨앗 돌보기 · 수확하면 다음 family clue";
   state.receipts.unshift("달빛 단서 씨앗을 심었다");
+}
+
+export function recordResearchClueInAlbum(state: GardenState): void {
+  if (!state.researchClueRecordReady || state.researchClueAlbumRecorded) {
+    return;
+  }
+
+  state.researchClueRecordReady = false;
+  state.researchClueAlbumRecorded = true;
+  state.objective = "달빛 단서 도감 기록 완료 · 다음 씨앗 목표 저장";
+  state.receipts.unshift("달빛 단서 도감 기록 · 다음 씨앗 목표 저장");
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {

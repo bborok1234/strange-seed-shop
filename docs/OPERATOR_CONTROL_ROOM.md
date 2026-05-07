@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T21:40:31.666Z
+Generated at: 2026-05-07T21:49:42.684Z
 
 ## Current mission
 
-현재 작업은 **연구 단서 씨앗 심기 bridge**이다. #472 연구 선반 raster와 단서 FX plan-prompt는 PR #473 merge/main CI까지 통과했다. 다음 blocker는 research shelf `살펴보기`가 아직 씨앗 재배 verb로 이어지지 않아 D1 discovery가 receipt surface에서 멈춘다는 점이다.
+현재 작업은 **연구 단서 도감 기록 bridge**이다. #474 연구 단서 씨앗 심기 bridge는 PR #475 merge/main CI까지 통과했다. 다음 blocker는 clue seed 수확 후 family clue가 아직 도감/collection meta에 저장되지 않아 discovery reward가 receipt surface에서 멈춘다는 점이다.
 
 현재 evidence:
 
@@ -35,48 +35,48 @@ Generated at: 2026-05-07T21:40:31.666Z
 - Completed garden view mode: Issue #434, PR #469, main CI `25522031721`
 - Completed research shelf preview bridge: Issue #470, PR #471, main CI `25522696541`
 - Completed research shelf asset plan/prompt: Issue #472, PR #473, main CI `25523174826`
+- Completed research clue seed planting: Issue #474, PR #475, main CI `25523742630`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0253-research-clue-seed-planting.md`
-- GitHub issue: #474 `연구 단서 씨앗 심기 bridge`
-- Draft PR: #475 `연구 단서 씨앗 심기 bridge`
+- WorkUnit: `items/0254-research-clue-album-record.md`
+- GitHub issue: #476 `연구 단서 도감 기록 bridge`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0474-research-clue-seed-planting/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0476-research-clue-album-record/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #474는 research/discovery preview를 `단서 심기` player verb로 연결한다.
-2. research shelf inspect 후 clue seed availability telemetry와 빈 밭 action affordance가 생겨야 한다.
-3. clue seed planting/harvest는 existing plot lifecycle을 사용하되 objective/receipt/telemetry로 일반 starter seed와 구분해야 한다.
+1. Studio Campaign Gate: #476은 clue seed harvest reward를 collection meta 저장으로 연결한다.
+2. clue seed harvest 후 `researchClueRecordReady` telemetry와 `도감 기록` action affordance가 생겨야 한다.
+3. album record 후 `researchClueAlbumRecorded` telemetry, receipt, objective가 남아야 한다.
 4. Browser Use execution tool이 노출되지 않으면 Playwright fallback screenshot과 telemetry를 evidence로 남긴다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-research-clue-seed-planting
-- Latest commit: 0c6598d 연구 단서 씨앗을 재배 행동으로 잇는다
+- Branch: codex/v1-research-clue-album-record
+- Latest commit: e70efc6 Merge pull request #475 from bborok1234/codex/v1-research-clue-seed-planting
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T21:40:30.005Z
-- Phase: phaser-v1-research-clue-seed-planting-pr
-- Issue: 474
-- PR: 475
-- Item: items/0253-research-clue-seed-planting.md
-- Next action: gate PR #475 checks then merge when green
+- Timestamp: 2026-05-07T21:49:40.946Z
+- Phase: phaser-v1-research-clue-album-record-verify
+- Issue: 476
+- PR: pending
+- Item: items/0254-research-clue-album-record.md
+- Next action: prep PR gate for #476 after check:ci
 
 ## Open PRs
 
-- #475 draft 연구 단서 씨앗 심기 bridge — https://github.com/bborok1234/strange-seed-shop/pull/475
+- unavailable or none
 
 ## Open issues
 
-- #474 연구 단서 씨앗 심기 bridge — https://github.com/bborok1234/strange-seed-shop/issues/474
+- #476 연구 단서 도감 기록 bridge — https://github.com/bborok1234/strange-seed-shop/issues/476
 
 ## Playable mode
 
