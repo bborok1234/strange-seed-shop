@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T22:03:11.446Z
+Generated at: 2026-05-07T22:04:24.451Z
 
 ## Current mission
 
@@ -40,7 +40,7 @@ Generated at: 2026-05-07T22:03:11.446Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0255-research-clue-goal-surface.md`
 - GitHub issue: #478 `연구 단서 목표 surface`
-- Draft PR: pending
+- Draft PR: #479 `연구 단서 목표 surface`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
@@ -59,22 +59,22 @@ Generated at: 2026-05-07T22:03:11.446Z
 ## Local state
 
 - Branch: codex/v1-research-clue-goal-surface
-- Latest commit: bb48aa3 Merge pull request #477 from bborok1234/codex/v1-research-clue-album-record
+- Latest commit: f93c6a4 연구 단서 기록을 다음 목표로 이어준다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T22:03:09.788Z
-- Phase: phaser-v1-research-clue-goal-surface-pr-gate
+- Timestamp: 2026-05-07T22:04:22.912Z
+- Phase: phaser-v1-research-clue-goal-surface-pr
 - Issue: 478
-- PR: pending
+- PR: 479
 - Item: items/0255-research-clue-goal-surface.md
-- Next action: PR gate 준비: commit push draft PR #478
+- Next action: PR gate 준비: wait checks then ready/merge #479
 
 ## Open PRs
 
-- unavailable or none
+- #479 draft 연구 단서 목표 surface — https://github.com/bborok1234/strange-seed-shop/pull/479
 
 ## Open issues
 

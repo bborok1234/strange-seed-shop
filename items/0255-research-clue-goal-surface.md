@@ -90,4 +90,4 @@ Browser Use execution tool이 이번 세션에 노출되지 않으면 Playwright
 - Visual report: `reports/visual/issue-0478-research-clue-goal-surface/visual-report-20260508.md`
 - Screenshot: `reports/visual/issue-0478-research-clue-goal-surface/phaser-check-research-clue-goal-surface-393.png`
 - Telemetry: `researchClueGoalSurfaceVisible: true`, `researchClueAlbumRecorded: true`, `researchClueRecordReady: false`
-- PR: pending
+- PR: #479 `연구 단서 목표 surface` - https://github.com/bborok1234/strange-seed-shop/pull/479
