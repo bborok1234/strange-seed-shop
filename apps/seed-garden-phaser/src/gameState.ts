@@ -1,7 +1,7 @@
 export type SlotKind = "plot" | "facility" | "decor";
 export type UnlockState = "unlocked" | "preview" | "locked";
 export type PlotState = "empty" | "planted" | "growing" | "ready";
-export type FacilityKind = "workbench" | "order_crate" | "storage";
+export type FacilityKind = "workbench" | "order_crate" | "storage" | "research_shelf";
 export type ActorRole = "caretaker" | "carrier";
 
 export const THIRD_PLOT_UNLOCK_COST = 60;
@@ -61,6 +61,7 @@ export interface GardenState {
   completedDeliveries: number;
   storageCapacity: number;
   storedLeaves: number;
+  researchShelfPreviewSeen: boolean;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -129,6 +130,17 @@ export const boardSlots: BoardSlot[] = [
     scale: 0.86,
     unlockState: "locked",
     allowedEntityKinds: ["facility"]
+  },
+  {
+    id: "facility_research_shelf",
+    kind: "facility",
+    label: "연구 선반",
+    x: 80,
+    y: 500,
+    depth: 26,
+    scale: 0.78,
+    unlockState: "locked",
+    allowedEntityKinds: ["facility"]
   }
 ];
 
@@ -181,13 +193,22 @@ export function createGardenState(): GardenState {
         level: 0,
         visualState: "locked",
         progress: 0
+      },
+      {
+        id: "facility_research_shelf_entity",
+        slotId: "facility_research_shelf",
+        kind: "research_shelf",
+        level: 0,
+        visualState: "locked",
+        progress: 0
       }
     ],
     actors: [],
     receipts: [],
     completedDeliveries: 0,
     storageCapacity: 12,
-    storedLeaves: 0
+    storedLeaves: 0,
+    researchShelfPreviewSeen: false
   };
 }
 
@@ -232,6 +253,13 @@ export function selectSlot(state: GardenState, slotId: string): void {
     } else {
       state.objective = "작업대 생산을 모아 주문 상자를 채우기";
     }
+    return;
+  }
+  if (facility?.kind === "research_shelf") {
+    state.objective =
+      slot.unlockState === "preview"
+        ? "연구 선반 살펴보기 · 다음 씨앗 단서"
+        : "오프라인 보상 회수 후 연구 선반 preview";
     return;
   }
   if (slot.id === "plot_03" && slot.unlockState !== "unlocked") {
@@ -430,5 +458,24 @@ export function claimStoredLeaves(state: GardenState): void {
   state.storedLeaves = 0;
   state.resources.leaves += claimedLeaves;
   state.objective = `보관 잎 회수 완료 · 오프라인 보관 0/${state.storageCapacity}`;
+  const researchSlot = getSlot(state, "facility_research_shelf");
+  const researchShelf = getFacilityBySlot(state, "facility_research_shelf");
+  researchSlot.unlockState = "preview";
+  if (researchShelf) {
+    researchShelf.visualState = "preview";
+  }
   state.receipts.unshift(`오프라인 보관 회수 · 잎 +${claimedLeaves}`);
+}
+
+export function inspectResearchShelfPreview(state: GardenState): void {
+  const slot = getSlot(state, "facility_research_shelf");
+  const researchShelf = getFacilityBySlot(state, "facility_research_shelf");
+  if (!researchShelf || researchShelf.kind !== "research_shelf" || slot.unlockState !== "preview") {
+    return;
+  }
+
+  state.selectedSlotId = "facility_research_shelf";
+  state.researchShelfPreviewSeen = true;
+  state.objective = "연구 단서 확인 · 다음 WorkUnit에서 씨앗 family clue로 연결";
+  state.receipts.unshift("연구 선반 살펴보기 · 달빛 씨앗 단서 preview");
 }

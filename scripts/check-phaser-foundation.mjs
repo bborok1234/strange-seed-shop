@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0434-phaser-garden-view-mode";
+const OUT_DIR = "reports/visual/issue-0470-research-shelf-preview-bridge";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -186,6 +186,11 @@ async function runSmoke() {
     await page.getByRole("button", { name: "회수" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-claimed-393.png`, fullPage: false });
+    await clickUntilAction(page, [[80, 500], [80, 540], [120, 500]], "살펴보기");
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-research-shelf-ready-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "살펴보기" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-research-shelf-inspected-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -203,7 +208,9 @@ async function runSmoke() {
       storageCapacity: window.__seedGardenStorageCapacity ?? 0,
       storedLeaves: window.__seedGardenStoredLeaves ?? 0,
       storageFillRatio: window.__seedGardenStorageFillRatio ?? 0,
+      researchShelfPreviewSeen: window.__seedGardenResearchShelfPreviewSeen ?? false,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
+      previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
       plotIds: window.__seedGardenPlotIds ?? [],
       plotStates: window.__seedGardenPlotStates ?? [],
@@ -274,8 +281,11 @@ async function runSmoke() {
     if (!evidence.receipts.some((receipt) => receipt.includes("오프라인 보관 회수 · 잎 +4"))) {
       failures.push("missing storage claim receipt");
     }
-    if (!evidence.objective.includes("보관 잎 회수 완료")) failures.push("missing storage claim objective");
-    if (!evidence.railText.includes("오프라인 보관 0/24")) failures.push("missing empty storage action note");
+    if (!evidence.receipts.some((receipt) => receipt.includes("연구 선반 살펴보기"))) {
+      failures.push("missing research shelf preview receipt");
+    }
+    if (!evidence.objective.includes("연구 단서 확인")) failures.push("missing research shelf objective");
+    if (!evidence.researchShelfPreviewSeen) failures.push("research shelf preview was not marked seen");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
@@ -296,6 +306,13 @@ async function runSmoke() {
       failures.push(`expected storage fill ratio 0 after claim, got ${evidence.storageFillRatio}`);
     }
     if (!evidence.unlockedSlotIds.includes("facility_storage")) failures.push("storage slot did not unlock");
+    if (!evidence.previewSlotIds.includes("facility_research_shelf")) {
+      failures.push("research shelf did not enter preview state");
+    }
+    const researchShelf = evidence.facilityStates.find((facility) => facility.slotId === "facility_research_shelf");
+    if (!researchShelf || researchShelf.kind !== "research_shelf" || researchShelf.visualState !== "preview") {
+      failures.push(`expected research shelf preview facility, got ${JSON.stringify(researchShelf)}`);
+    }
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
       if (!evidence.topologyAssets.includes(assetId)) {
         failures.push(`missing loaded topology asset key: ${assetId}`);
@@ -333,7 +350,9 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-storage-unlocked-393.png`,
         `${OUT_DIR}/phaser-check-storage-fill-claim-393.png`,
         `${OUT_DIR}/phaser-check-storage-buffer-393.png`,
-        `${OUT_DIR}/phaser-check-storage-claimed-393.png`
+        `${OUT_DIR}/phaser-check-storage-claimed-393.png`,
+        `${OUT_DIR}/phaser-check-research-shelf-ready-393.png`,
+        `${OUT_DIR}/phaser-check-research-shelf-inspected-393.png`
       ],
       failures
     };
