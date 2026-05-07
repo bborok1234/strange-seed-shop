@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 import {
   careSelectedPlot,
+  claimResearchNextGoalSeed,
   claimOrderCrateDelivery,
   claimStoredLeaves,
   claimWorkbenchProduction,
@@ -10,6 +11,7 @@ import {
   getSlot,
   harvestSelectedPlot,
   inspectResearchShelfPreview,
+  plantResearchNextGoalSeed,
   plantResearchClueSeed,
   plantStarterSeed,
   recordResearchClueInAlbum,
@@ -201,6 +203,12 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenResearchClueAlbumRecorded = gameState.researchClueAlbumRecorded;
     (window as unknown as { __seedGardenResearchClueGoalSurfaceVisible?: boolean })
       .__seedGardenResearchClueGoalSurfaceVisible = gameState.researchClueGoalSurfaceVisible;
+    (window as unknown as { __seedGardenResearchNextGoalSeedAvailable?: boolean })
+      .__seedGardenResearchNextGoalSeedAvailable = gameState.researchNextGoalSeedAvailable;
+    (window as unknown as { __seedGardenResearchNextGoalSeedClaimed?: boolean })
+      .__seedGardenResearchNextGoalSeedClaimed = gameState.researchNextGoalSeedClaimed;
+    (window as unknown as { __seedGardenResearchNextGoalSeedPlanted?: boolean })
+      .__seedGardenResearchNextGoalSeedPlanted = gameState.researchNextGoalSeedPlanted;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -217,11 +225,12 @@ class GardenBoardScene extends Phaser.Scene {
     (window as unknown as { __seedGardenPlotIds?: string[] }).__seedGardenPlotIds = gameState.plots.map(
       (plot) => plot.slotId
     );
-    (window as unknown as { __seedGardenPlotStates?: Array<Pick<PlotEntity, "slotId" | "state" | "growth">> })
+    (window as unknown as { __seedGardenPlotStates?: Array<Pick<PlotEntity, "slotId" | "state" | "growth" | "seedId">> })
       .__seedGardenPlotStates = gameState.plots.map((plot) => ({
         slotId: plot.slotId,
         state: plot.state,
-        growth: plot.growth
+        growth: plot.growth,
+        seedId: plot.seedId
       }));
     (window as unknown as { __seedGardenReceipts?: string[] }).__seedGardenReceipts = gameState.receipts;
     this.updateHud();
@@ -354,9 +363,9 @@ class GardenBoardScene extends Phaser.Scene {
       container.add(bar);
     }
 
-    if (plot?.seedId === "seed_lunar_clue_001") {
+    if (plot?.seedId === "seed_lunar_clue_001" || plot?.seedId === "seed_lunar_sprout_001") {
       const clueChip = this.add
-        .text(0, -52, "단서", {
+        .text(0, -52, plot.seedId === "seed_lunar_sprout_001" ? "목표" : "단서", {
           align: "center",
           backgroundColor: "rgba(49, 67, 96, 0.82)",
           color: "#f4f0c9",
@@ -567,12 +576,18 @@ class GardenBoardScene extends Phaser.Scene {
       | "inspect_research"
       | "plant_clue"
       | "record_clue"
+      | "claim_goal_seed"
+      | "plant_goal_seed"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
       plantStarterSeed(gameState);
     } else if (action === "plant_clue") {
       plantResearchClueSeed(gameState);
+    } else if (action === "plant_goal_seed") {
+      plantResearchNextGoalSeed(gameState);
+    } else if (action === "claim_goal_seed") {
+      claimResearchNextGoalSeed(gameState);
     } else if (action === "record_clue") {
       recordResearchClueInAlbum(gameState);
     } else if (action === "care") {
@@ -621,18 +636,17 @@ class GardenBoardScene extends Phaser.Scene {
       .join("");
 
     const actions = this.getAvailableActions(gameState, selectedSlot);
+    if (gameState.researchClueGoalSurfaceVisible) {
+      const goalSurface = document.createElement("div");
+      goalSurface.className = "collection-goal-surface";
+      goalSurface.innerHTML = `
+        <strong>달빛 단서 기록됨</strong>
+        <span>다음 씨앗 목표: 달빛 새싹</span>
+      `;
+      this.hud.actions.appendChild(goalSurface);
+    }
     if (actions.length === 0) {
       const selectedFacility = getFacilityBySlot(gameState, selectedSlot.id);
-      if (gameState.researchClueGoalSurfaceVisible) {
-        const goalSurface = document.createElement("div");
-        goalSurface.className = "collection-goal-surface";
-        goalSurface.innerHTML = `
-          <strong>달빛 단서 기록됨</strong>
-          <span>다음 씨앗 목표: 달빛 새싹</span>
-        `;
-        this.hud.actions.appendChild(goalSurface);
-        return;
-      }
       const empty = document.createElement("span");
       empty.className = "action-note";
       empty.textContent =
@@ -648,6 +662,8 @@ class GardenBoardScene extends Phaser.Scene {
               : "다음 씨앗 단서 preview"
           : selectedSlot.unlockState === "unlocked" && gameState.researchClueSeedAvailable
             ? "빈 밭을 선택해 단서 심기"
+          : selectedSlot.unlockState === "unlocked" && gameState.researchNextGoalSeedAvailable
+            ? "빈 밭에 목표 심기"
           : selectedSlot.unlockState === "unlocked" && gameState.researchClueRecordReady
             ? "도감 기록 대기"
           : selectedSlot.unlockState === "unlocked"
@@ -682,11 +698,20 @@ class GardenBoardScene extends Phaser.Scene {
       | "claim_storage"
       | "inspect_research"
       | "plant_clue"
-      | "record_clue";
+      | "record_clue"
+      | "claim_goal_seed"
+      | "plant_goal_seed";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
     const facility = getFacilityBySlot(state, selectedSlot.id);
+    if (
+      state.researchClueGoalSurfaceVisible &&
+      !state.researchNextGoalSeedAvailable &&
+      !state.researchNextGoalSeedPlanted
+    ) {
+      return [{ id: "claim_goal_seed", label: "목표 씨앗 받기" }];
+    }
     if (
       selectedSlot.id === "plot_03" &&
       selectedSlot.unlockState !== "unlocked" &&
@@ -714,6 +739,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.researchClueSeedAvailable) {
       return [{ id: "plant_clue", label: "단서 심기" }];
+    }
+    if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.researchNextGoalSeedAvailable) {
+      return [{ id: "plant_goal_seed", label: "목표 심기" }];
     }
     if (selectedSlot.unlockState === "unlocked" && state.researchClueRecordReady && !state.researchClueAlbumRecorded) {
       return [{ id: "record_clue", label: "도감 기록" }];

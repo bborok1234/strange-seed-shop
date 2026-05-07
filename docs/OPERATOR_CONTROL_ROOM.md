@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T22:15:11.192Z
+Generated at: 2026-05-07T22:29:32.719Z
 
 ## Current mission
 
-현재 작업은 **도감 기록 스탬프 FX plan-prompt**이다. #478 연구 단서 목표 surface는 PR #479 merge/main CI `25524735364`까지 통과했다. 다음 blocker는 clue album record 순간이 아직 텍스트 전환 중심이라 collection meta 저장의 시각적 확정감이 약하다는 점이다.
+현재 작업은 **다음 씨앗 목표 수령/심기 bridge**이다. #480 도감 기록 스탬프 FX plan-prompt는 PR #481 merge/main CI `25525145605`까지 통과했다. 다음 blocker는 clue album record 이후 `다음 씨앗 목표`가 visible surface로만 남고 실제 씨앗 수령/심기 verb로 닫히지 않는다는 점이다.
 
 현재 evidence:
 
@@ -38,47 +38,49 @@ Generated at: 2026-05-07T22:15:11.192Z
 - Completed research clue seed planting: Issue #474, PR #475, main CI `25523742630`
 - Completed research clue album record: Issue #476, PR #477, main CI `25524211510`
 - Completed research clue goal surface: Issue #478, PR #479, main CI `25524735364`
+- Completed album record stamp FX plan/prompt: Issue #480, PR #481, main CI `25525145605`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0256-album-record-fx-plan-prompt.md`
-- GitHub issue: #480 `도감 기록 스탬프 FX plan-prompt`
-- Draft PR: #481 `도감 기록 스탬프 FX plan-prompt`
-- Asset plan source: `assets/source/asset_plan.json`
-- Asset prompt source: `assets/source/asset_prompts.json`
-- Asset plan verifier: `scripts/check-topology-asset-plan.mjs`
-- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass
+- WorkUnit: `items/0257-next-seed-goal-claim-plant.md`
+- GitHub issue: #482 `다음 씨앗 목표 수령/심기 bridge`
+- Draft PR: #483 `다음 씨앗 목표 수령/심기 bridge`
+- Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
+- Runtime source: `apps/seed-garden-phaser/src/main.ts`
+- Smoke verifier: `scripts/check-phaser-foundation.mjs`
+- Visual report: `reports/visual/issue-0482-next-seed-goal-claim-plant/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #480은 clue album record 순간의 dedicated FX strip spec을 고정한다.
-2. `fx_album_record_stamp_strip_v1`은 plan/prompt 양쪽에 있어야 한다.
-3. `frame_count: 8`, `frame_size: 96x96`, `intended_fps: 12`, `animation.binding: album.clue_record.action.record`, `behavior: once`가 있어야 한다.
-4. prompt는 horizontal strip, no text/watermark/logo, no baked UI/card, rail-safe compact motion을 명시해야 한다.
+1. Studio Campaign Gate: #482는 next seed goal surface를 actual planting verb로 연결한다.
+2. album record 후 `목표 씨앗 받기` action이 보여야 한다.
+3. 수령 후 빈 밭에서 `목표 심기` action이 보여야 한다.
+4. planting 후 `researchNextGoalSeedClaimed`, `researchNextGoalSeedPlanted` telemetry와 `seed_lunar_sprout_001` plot state가 남아야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-album-record-fx-plan-prompt
-- Latest commit: b0f8bcf 도감 기록 FX 제작 기준을 고정한다
+- Branch: codex/v1-next-seed-goal-claim-plant
+- Latest commit: d830b03 다음 씨앗 목표를 심기 루프로 잇는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T22:14:54.392Z
-- Phase: phaser-v1-album-record-fx-plan-prompt-pr
-- Issue: 480
-- PR: 481
-- Item: items/0256-album-record-fx-plan-prompt.md
-- Next action: PR gate 준비: wait checks then ready/merge #481
+- Timestamp: 2026-05-07T22:29:31.020Z
+- Phase: phaser-v1-next-seed-goal-claim-plant-pr
+- Issue: 482
+- PR: 483
+- Item: items/0257-next-seed-goal-claim-plant.md
+- Next action: PR gate 준비: wait checks then ready/merge #483
 
 ## Open PRs
 
-- #481 draft 도감 기록 스탬프 FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/481
+- #483 draft 다음 씨앗 목표 수령/심기 bridge — https://github.com/bborok1234/strange-seed-shop/pull/483
 
 ## Open issues
 
-- #480 도감 기록 스탬프 FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/issues/480
+- #482 다음 씨앗 목표 수령/심기 bridge — https://github.com/bborok1234/strange-seed-shop/issues/482
 
 ## Playable mode
 

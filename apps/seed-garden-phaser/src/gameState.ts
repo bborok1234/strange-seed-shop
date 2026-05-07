@@ -68,6 +68,9 @@ export interface GardenState {
   researchClueRecordReady: boolean;
   researchClueAlbumRecorded: boolean;
   researchClueGoalSurfaceVisible: boolean;
+  researchNextGoalSeedAvailable: boolean;
+  researchNextGoalSeedClaimed: boolean;
+  researchNextGoalSeedPlanted: boolean;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -220,7 +223,10 @@ export function createGardenState(): GardenState {
     researchClueHarvested: false,
     researchClueRecordReady: false,
     researchClueAlbumRecorded: false,
-    researchClueGoalSurfaceVisible: false
+    researchClueGoalSurfaceVisible: false,
+    researchNextGoalSeedAvailable: false,
+    researchNextGoalSeedClaimed: false,
+    researchNextGoalSeedPlanted: false
   };
 }
 
@@ -291,9 +297,11 @@ export function selectSlot(state: GardenState, slotId: string): void {
   }
   const plot = getPlotBySlot(state, slotId);
   if (plot?.state === "empty") {
-    state.objective = state.researchClueSeedAvailable
-      ? "달빛 씨앗 단서 심기 · 다음 family clue 추적"
-      : "말랑잎 씨앗을 심어 첫 생명체를 만나기";
+    state.objective = state.researchNextGoalSeedAvailable
+      ? "달빛 새싹 목표 심기 · 다음 수집 루프 재개"
+      : state.researchClueSeedAvailable
+        ? "달빛 씨앗 단서 심기 · 다음 family clue 추적"
+        : "말랑잎 씨앗을 심어 첫 생명체를 만나기";
   } else if (plot?.state === "planted" || plot?.state === "growing") {
     state.objective = "밭을 돌봐 성장률을 올리기";
   } else if (plot?.state === "ready") {
@@ -382,6 +390,41 @@ export function plantResearchClueSeed(state: GardenState): void {
   plot.careCount = 0;
   state.objective = "달빛 단서 씨앗 돌보기 · 수확하면 다음 family clue";
   state.receipts.unshift("달빛 단서 씨앗을 심었다");
+}
+
+export function claimResearchNextGoalSeed(state: GardenState): void {
+  if (
+    !state.researchClueGoalSurfaceVisible ||
+    state.researchNextGoalSeedAvailable ||
+    state.researchNextGoalSeedPlanted
+  ) {
+    return;
+  }
+
+  state.resources.starterSeeds += 1;
+  state.researchNextGoalSeedAvailable = true;
+  state.researchNextGoalSeedClaimed = true;
+  state.objective = "달빛 새싹 씨앗 준비 · 빈 밭에 목표 심기";
+  state.receipts.unshift("다음 목표 씨앗 수령 · 달빛 새싹 씨앗 +1");
+}
+
+export function plantResearchNextGoalSeed(state: GardenState): void {
+  const plot = getPlotBySlot(state, state.selectedSlotId);
+  const slot = getSlot(state, state.selectedSlotId);
+  if (!plot || slot.unlockState !== "unlocked" || plot.state !== "empty" || !state.researchNextGoalSeedAvailable) {
+    return;
+  }
+
+  state.resources.starterSeeds = Math.max(0, state.resources.starterSeeds - 1);
+  state.researchNextGoalSeedAvailable = false;
+  state.researchNextGoalSeedPlanted = true;
+  state.researchClueGoalSurfaceVisible = false;
+  plot.seedId = "seed_lunar_sprout_001";
+  plot.state = "planted";
+  plot.growth = 35;
+  plot.careCount = 0;
+  state.objective = "달빛 새싹 목표 재배 중 · 돌보기로 다음 발견 준비";
+  state.receipts.unshift("달빛 새싹 목표 씨앗을 심었다");
 }
 
 export function recordResearchClueInAlbum(state: GardenState): void {
