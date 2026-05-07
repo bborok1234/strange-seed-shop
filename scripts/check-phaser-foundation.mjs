@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0474-research-clue-seed-planting";
+const OUT_DIR = "reports/visual/issue-0476-research-clue-album-record";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -212,6 +212,15 @@ async function runSmoke() {
     await page.getByRole("button", { name: "수확" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-research-clue-harvested-393.png`, fullPage: false });
+    const clueBeforeRecord = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      researchClueRecordReady: window.__seedGardenResearchClueRecordReady ?? false
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-research-clue-record-ready-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "도감 기록" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-research-clue-recorded-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -233,6 +242,8 @@ async function runSmoke() {
       researchClueSeedAvailable: window.__seedGardenResearchClueSeedAvailable ?? false,
       researchClueSeedPlanted: window.__seedGardenResearchClueSeedPlanted ?? false,
       researchClueHarvested: window.__seedGardenResearchClueHarvested ?? false,
+      researchClueRecordReady: window.__seedGardenResearchClueRecordReady ?? false,
+      researchClueAlbumRecorded: window.__seedGardenResearchClueAlbumRecorded ?? false,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -314,13 +325,20 @@ async function runSmoke() {
     if (!evidence.researchClueSeedPlanted) failures.push("research clue seed was not marked planted");
     if (!evidence.researchClueHarvested) failures.push("research clue seed was not harvested");
     if (evidence.researchClueSeedAvailable) failures.push("research clue seed remained available after planting");
+    if (!clueBeforeRecord.researchClueRecordReady) failures.push("research clue record was not ready after harvest");
+    if (!clueBeforeRecord.railText.includes("도감 기록")) failures.push("missing album record action after clue harvest");
+    if (!evidence.researchClueAlbumRecorded) failures.push("research clue was not recorded in album");
+    if (evidence.researchClueRecordReady) failures.push("research clue record stayed ready after album record");
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
     }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 수확 · 달빛 family clue +1"))) {
       failures.push("missing research clue seed harvest receipt");
     }
-    if (!evidence.objective.includes("달빛 씨앗 family clue 발견")) failures.push("missing research clue harvest objective");
+    if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 도감 기록 · 다음 씨앗 목표 저장"))) {
+      failures.push("missing research clue album record receipt");
+    }
+    if (!evidence.objective.includes("달빛 단서 도감 기록 완료")) failures.push("missing research clue album record objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
@@ -362,6 +380,7 @@ async function runSmoke() {
       url: URL,
       storageBeforeClaim,
       clueBeforePlant,
+      clueBeforeRecord,
       overviewMode,
       manageReturn,
       evidence,
@@ -392,7 +411,9 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-research-clue-action-393.png`,
         `${OUT_DIR}/phaser-check-research-clue-planted-393.png`,
         `${OUT_DIR}/phaser-check-research-clue-ready-393.png`,
-        `${OUT_DIR}/phaser-check-research-clue-harvested-393.png`
+        `${OUT_DIR}/phaser-check-research-clue-harvested-393.png`,
+        `${OUT_DIR}/phaser-check-research-clue-record-ready-393.png`,
+        `${OUT_DIR}/phaser-check-research-clue-recorded-393.png`
       ],
       failures
     };
