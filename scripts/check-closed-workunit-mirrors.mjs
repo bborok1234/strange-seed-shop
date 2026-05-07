@@ -41,6 +41,11 @@ function readHeartbeat(filePath) {
   if (!raw) return null;
 
   try {
+    if (filePath.endsWith(".jsonl")) {
+      const lines = raw.split("\n").filter(Boolean);
+      return JSON.parse(lines.at(-1));
+    }
+
     return JSON.parse(raw);
   } catch (error) {
     failures.push(`${filePath} has invalid heartbeat JSON: ${error.message}`);
