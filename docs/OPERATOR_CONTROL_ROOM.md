@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T20:26:25.830Z
+Generated at: 2026-05-07T20:28:27.379Z
 
 ## Current mission
 
@@ -32,7 +32,7 @@ Generated at: 2026-05-07T20:26:25.830Z
 - Completed storage playfield fill state: Issue #463, PR #464, main CI `25519876357`
 - WorkUnit: `items/0249-storage-claim-reward-motion.md`
 - GitHub issue: #465 `보관 잎 회수에 reward motion 붙이기`
-- Draft PR: pending
+- Draft PR: #466 `보관 잎 회수에 reward motion 붙이기`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0465-storage-claim-reward-motion/visual-report-20260508.md`
@@ -50,22 +50,22 @@ Generated at: 2026-05-07T20:26:25.830Z
 ## Local state
 
 - Branch: codex/v1-storage-claim-reward-motion
-- Latest commit: 77545c8 보관 회수 모션을 다음 v1 작업으로 고정한다
+- Latest commit: b260b1e 보관 회수 모션 PR 증거를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T20:26:07.756Z
-- Phase: phaser-v1-storage-claim-reward-motion-verified
+- Timestamp: 2026-05-07T20:28:05.316Z
+- Phase: phaser-v1-storage-claim-reward-motion-pr
 - Issue: 465
-- PR: pending
+- PR: 466
 - Item: items/0249-storage-claim-reward-motion.md
-- Next action: gate: update evidence docs and prepare draft PR
+- Next action: gate: mark PR #466 ready, watch checks, merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #466 draft 보관 잎 회수에 reward motion 붙이기 — https://github.com/bborok1234/strange-seed-shop/pull/466
 
 ## Open issues
 
