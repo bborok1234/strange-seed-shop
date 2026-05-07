@@ -19,6 +19,38 @@ import "./styles.css";
 
 const gameState = createGardenState();
 
+const TOPOLOGY_ASSETS = {
+  terrain: {
+    key: "bg_garden_terrain_open_v1",
+    path: "/assets/game/backgrounds/bg_garden_terrain_open_v1.png"
+  },
+  plots: {
+    empty: { key: "tile_plot_empty_v1", path: "/assets/game/tiles/tile_plot_empty_v1.png" },
+    planted: { key: "tile_plot_sprout_v1", path: "/assets/game/tiles/tile_plot_sprout_v1.png" },
+    growing: { key: "tile_plot_growing_v1", path: "/assets/game/tiles/tile_plot_growing_v1.png" },
+    ready: { key: "tile_plot_ready_v1", path: "/assets/game/tiles/tile_plot_ready_v1.png" },
+    locked: { key: "tile_plot_locked_preview_v1", path: "/assets/game/tiles/tile_plot_locked_preview_v1.png" }
+  },
+  facilities: {
+    workbench: { key: "facility_workbench_v1", path: "/assets/game/facilities/facility_workbench_v1.png" },
+    orderCrateEmpty: {
+      key: "facility_order_crate_empty_v1",
+      path: "/assets/game/facilities/facility_order_crate_empty_v1.png"
+    },
+    orderCrateFilled: {
+      key: "facility_order_crate_filled_v1",
+      path: "/assets/game/facilities/facility_order_crate_filled_v1.png"
+    },
+    shadow: { key: "ui_shadow_soft_v1", path: "/assets/game/ui/ui_shadow_soft_v1.png" }
+  }
+} as const;
+
+const TOPOLOGY_ASSET_KEYS = [
+  TOPOLOGY_ASSETS.terrain.key,
+  ...Object.values(TOPOLOGY_ASSETS.plots).map((asset) => asset.key),
+  ...Object.values(TOPOLOGY_ASSETS.facilities).map((asset) => asset.key)
+];
+
 interface HudElements {
   root: HTMLDivElement;
   leaves: HTMLSpanElement;
@@ -65,8 +97,15 @@ class GardenBoardScene extends Phaser.Scene {
     super("GardenBoardScene");
   }
 
+  preload() {
+    this.load.image(TOPOLOGY_ASSETS.terrain.key, TOPOLOGY_ASSETS.terrain.path);
+    Object.values(TOPOLOGY_ASSETS.plots).forEach((asset) => this.load.image(asset.key, asset.path));
+    Object.values(TOPOLOGY_ASSETS.facilities).forEach((asset) => this.load.image(asset.key, asset.path));
+  }
+
   create() {
     this.cameras.main.setBackgroundColor("#d9e7c6");
+    (window as unknown as { __seedGardenTopologyAssets?: string[] }).__seedGardenTopologyAssets = TOPOLOGY_ASSET_KEYS;
     this.hud = createHud();
     this.renderGarden();
   }
@@ -82,17 +121,24 @@ class GardenBoardScene extends Phaser.Scene {
 
   private renderTerrain() {
     const graphics = this.add.graphics();
-    graphics.fillStyle(0xd9e7c6, 1);
+    graphics.fillStyle(0xdce8c6, 1);
     graphics.fillRect(0, 0, 393, 852);
-    graphics.fillStyle(0xb8d2a0, 1);
-    graphics.fillRoundedRect(28, 132, 337, 602, 36);
-    graphics.fillStyle(0xe8f0ce, 1);
-    graphics.fillEllipse(196, 424, 302, 462);
-    graphics.fillStyle(0x9cb77e, 0.55);
-    graphics.fillRoundedRect(44, 680, 305, 22, 12);
-    graphics.lineStyle(2, 0x6d8c65, 0.35);
-    graphics.strokeRoundedRect(28, 132, 337, 602, 36);
     this.renderLayer?.add(graphics);
+
+    const terrain = this.add.image(196, 398, TOPOLOGY_ASSETS.terrain.key);
+    terrain.setDisplaySize(393, 393);
+    terrain.setAlpha(0.98);
+    terrain.setDepth(0);
+    this.renderLayer?.add(terrain);
+
+    const vignette = this.add.graphics();
+    vignette.fillStyle(0xb8d2a0, 0.3);
+    vignette.fillRoundedRect(22, 124, 349, 620, 40);
+    vignette.fillStyle(0x9cb77e, 0.55);
+    vignette.fillRoundedRect(44, 684, 305, 22, 12);
+    vignette.lineStyle(2, 0x6d8c65, 0.32);
+    vignette.strokeRoundedRect(22, 124, 349, 620, 40);
+    this.renderLayer?.add(vignette);
 
     const title = this.add
       .text(196, 104, "햇살 온실 정원", {
@@ -123,31 +169,25 @@ class GardenBoardScene extends Phaser.Scene {
     container.setDepth(slot.depth);
     const isSelected = gameState.selectedSlotId === slot.id;
     const locked = slot.unlockState !== "unlocked";
-    const fill = this.getPlotFill(plot, slot.unlockState);
     const outline = isSelected ? 0xffcf5a : locked ? 0x8a927f : 0x557a51;
 
+    const shadow = this.add.image(0, 32, TOPOLOGY_ASSETS.facilities.shadow.key);
+    shadow.setDisplaySize(110, 40);
+    shadow.setAlpha(0.38);
+    container.add(shadow);
+
+    const tile = this.add.image(0, -4, this.getPlotTextureKey(plot, slot.unlockState));
+    tile.setDisplaySize(136, 108);
+    tile.setAlpha(locked ? 0.76 : 1);
+    container.add(tile);
+
     const bed = this.add.graphics();
-    bed.fillStyle(fill, locked ? 0.72 : 1);
-    bed.fillRoundedRect(-58, -36, 116, 72, 24);
-    bed.lineStyle(isSelected ? 5 : 3, outline, 0.92);
-    bed.strokeRoundedRect(-58, -36, 116, 72, 24);
-    bed.fillStyle(0x6f8f5f, locked ? 0.22 : 0.34);
-    bed.fillEllipse(0, 22, 92, 18);
+    bed.lineStyle(isSelected ? 5 : 2, outline, isSelected ? 0.95 : 0.42);
+    bed.strokeRoundedRect(-62, -46, 124, 92, 24);
     container.add(bed);
 
-    const stateLabel = this.add
-      .text(0, -6, this.getPlotGlyph(plot, slot.unlockState), {
-        align: "center",
-        color: locked ? "#586257" : "#203b2f",
-        fontFamily: "system-ui, sans-serif",
-        fontSize: "22px",
-        fontStyle: "700"
-      })
-      .setOrigin(0.5);
-    container.add(stateLabel);
-
     const label = this.add
-      .text(0, 46, slot.label, {
+      .text(0, 53, slot.label, {
         align: "center",
         color: "#203b2f",
         fontFamily: "system-ui, sans-serif",
@@ -180,26 +220,20 @@ class GardenBoardScene extends Phaser.Scene {
     const locked = slot.unlockState === "locked";
     const preview = slot.unlockState === "preview";
 
-    const prop = this.add.graphics();
-    prop.fillStyle(locked ? 0x8b9184 : preview ? 0xd7cba2 : 0xb9855f, locked ? 0.42 : 1);
-    prop.fillRoundedRect(-52, -34, 104, 68, 14);
-    prop.lineStyle(isSelected ? 5 : 3, isSelected ? 0xffcf5a : 0x5d6d58, 0.9);
-    prop.strokeRoundedRect(-52, -34, 104, 68, 14);
-    prop.fillStyle(0x5b4636, locked ? 0.2 : 0.34);
-    prop.fillRoundedRect(-34, -18, 68, 16, 8);
-    container.add(prop);
+    const shadow = this.add.image(0, 38, TOPOLOGY_ASSETS.facilities.shadow.key);
+    shadow.setDisplaySize(124, 44);
+    shadow.setAlpha(0.32);
+    container.add(shadow);
 
-    const glyph = this.getFacilityGlyph(facility);
-    const text = this.add
-      .text(0, -3, glyph, {
-        align: "center",
-        color: locked ? "#596058" : "#203b2f",
-        fontFamily: "system-ui, sans-serif",
-        fontSize: "18px",
-        fontStyle: "700"
-      })
-      .setOrigin(0.5);
-    container.add(text);
+    const image = this.add.image(0, -4, this.getFacilityTextureKey(facility));
+    image.setDisplaySize(facility?.kind === "workbench" ? 132 : 122, facility?.kind === "workbench" ? 104 : 96);
+    image.setAlpha(locked ? 0.42 : preview ? 0.84 : 1);
+    container.add(image);
+
+    const prop = this.add.graphics();
+    prop.lineStyle(isSelected ? 5 : 3, isSelected ? 0xffcf5a : 0x5d6d58, 0.9);
+    prop.strokeRoundedRect(-58, -46, 116, 88, 18);
+    container.add(prop);
 
     const label = this.add
       .text(0, 42, slot.label, {
@@ -361,49 +395,29 @@ class GardenBoardScene extends Phaser.Scene {
     return [];
   }
 
-  private getPlotFill(plot: PlotEntity | undefined, unlockState: BoardSlot["unlockState"]) {
-    if (unlockState === "locked") {
-      return 0x9ca48f;
-    }
-    if (unlockState === "preview") {
-      return 0xcad7aa;
+  private getPlotTextureKey(plot: PlotEntity | undefined, unlockState: BoardSlot["unlockState"]) {
+    if (unlockState !== "unlocked") {
+      return TOPOLOGY_ASSETS.plots.locked.key;
     }
     if (!plot || plot.state === "empty") {
-      return 0xc4875f;
+      return TOPOLOGY_ASSETS.plots.empty.key;
     }
-    if (plot.state === "ready") {
-      return 0xf1c75e;
-    }
-    return plot.state === "growing" ? 0x78b96a : 0x97c472;
+    return TOPOLOGY_ASSETS.plots[plot.state].key;
   }
 
-  private getPlotGlyph(plot: PlotEntity | undefined, unlockState: BoardSlot["unlockState"]) {
-    if (unlockState === "locked") {
-      return "잠김";
-    }
-    if (unlockState === "preview") {
-      return "다음 밭";
-    }
-    if (!plot || plot.state === "empty") {
-      return "빈 밭";
-    }
-    if (plot.state === "ready") {
-      return "수확";
-    }
-    return `${plot.growth}%`;
-  }
-
-  private getFacilityGlyph(facility?: FacilityEntity) {
+  private getFacilityTextureKey(facility?: FacilityEntity) {
     if (!facility) {
-      return "시설";
+      return TOPOLOGY_ASSETS.facilities.orderCrateEmpty.key;
     }
     if (facility.kind === "workbench") {
-      return facility.progress > 0 ? `작업 ${facility.progress}%` : "작업대";
+      return TOPOLOGY_ASSETS.facilities.workbench.key;
     }
     if (facility.kind === "order_crate") {
-      return facility.progress >= 100 ? "포장 완료" : `주문 ${facility.progress}%`;
+      return facility.progress >= 100
+        ? TOPOLOGY_ASSETS.facilities.orderCrateFilled.key
+        : TOPOLOGY_ASSETS.facilities.orderCrateEmpty.key;
     }
-    return "보관";
+    return TOPOLOGY_ASSETS.facilities.orderCrateEmpty.key;
   }
 }
 

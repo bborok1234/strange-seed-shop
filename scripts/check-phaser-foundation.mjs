@@ -4,7 +4,19 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0433-garden-board-foundation";
+const OUT_DIR = "reports/visual/issue-0444-topology-runtime-integration";
+const REQUIRED_TOPOLOGY_ASSETS = [
+  "bg_garden_terrain_open_v1",
+  "tile_plot_empty_v1",
+  "tile_plot_sprout_v1",
+  "tile_plot_growing_v1",
+  "tile_plot_ready_v1",
+  "tile_plot_locked_preview_v1",
+  "facility_workbench_v1",
+  "facility_order_crate_empty_v1",
+  "facility_order_crate_filled_v1",
+  "ui_shadow_soft_v1"
+];
 
 function waitForServer(url, timeoutMs = 30_000) {
   const startedAt = Date.now();
@@ -61,12 +73,14 @@ async function runSmoke() {
 
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-fresh-start-393.png`, fullPage: false });
     await page.getByRole("button", { name: "심기" }).click();
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-after-plant-393.png`, fullPage: false });
     for (let index = 0; index < 3; index += 1) {
       const careButton = page.getByRole("button", { name: "돌보기" });
       if ((await careButton.count()) > 0) {
         await careButton.click();
       }
     }
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-ready-393.png`, fullPage: false });
     await page.getByRole("button", { name: "수확" }).click();
     await page.mouse.click(112, 612);
     await page.getByRole("button", { name: "수령" }).click();
@@ -80,7 +94,8 @@ async function runSmoke() {
       bodyScrollHeight: document.body.scrollHeight,
       documentScrollHeight: document.documentElement.scrollHeight,
       innerHeight: window.innerHeight,
-      canvasCount: document.querySelectorAll("canvas").length
+      canvasCount: document.querySelectorAll("canvas").length,
+      topologyAssets: window.__seedGardenTopologyAssets ?? []
     }));
 
     await browser.close();
@@ -91,6 +106,11 @@ async function runSmoke() {
     if (evidence.seeds !== "0") failures.push(`expected starter seed spent, got ${evidence.seeds}`);
     if (!evidence.railText.includes("포리 작업 수령")) failures.push("missing workbench claim receipt");
     if (!evidence.objective.includes("3번 밭 확장")) failures.push("missing third-slot continuation objective");
+    for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
+      if (!evidence.topologyAssets.includes(assetId)) {
+        failures.push(`missing loaded topology asset key: ${assetId}`);
+      }
+    }
     if (evidence.bodyScrollHeight > evidence.innerHeight || evidence.documentScrollHeight > evidence.innerHeight) {
       failures.push("mobile viewport has body/document scroll");
     }
@@ -101,6 +121,8 @@ async function runSmoke() {
       evidence,
       screenshots: [
         `${OUT_DIR}/phaser-check-fresh-start-393.png`,
+        `${OUT_DIR}/phaser-check-after-plant-393.png`,
+        `${OUT_DIR}/phaser-check-ready-393.png`,
         `${OUT_DIR}/phaser-check-workbench-claim-393.png`
       ],
       failures

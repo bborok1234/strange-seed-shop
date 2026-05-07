@@ -731,6 +731,9 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup"
       ]
     },
     {
@@ -751,6 +754,9 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup"
       ]
     },
     {
@@ -771,6 +777,9 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup"
       ]
     },
     {
@@ -791,6 +800,9 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup"
       ]
     },
     {
@@ -811,6 +823,9 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup"
       ]
     },
     {
@@ -831,6 +846,9 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup"
       ]
     },
     {
@@ -851,6 +869,9 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup"
       ]
     },
     {
@@ -871,6 +892,9 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup"
       ]
     },
     {
@@ -971,8 +995,11 @@
         "seed_lunar_001_icon",
         "ui_order_crate_leaf_001",
         "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "edge_connected_checkerboard_alpha_cleanup"
       ]
     }
   ],
-  "updated_at": "2026-05-07T17:15:45.272Z"
+  "updated_at": "2026-05-07T17:34:11.484Z"
 }
