@@ -169,6 +169,7 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.completedDeliveries;
     (window as unknown as { __seedGardenStorageCapacity?: number }).__seedGardenStorageCapacity =
       gameState.storageCapacity;
+    (window as unknown as { __seedGardenStoredLeaves?: number }).__seedGardenStoredLeaves = gameState.storedLeaves;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -498,7 +499,7 @@ class GardenBoardScene extends Phaser.Scene {
             ? `주문 준비 ${selectedFacility.progress}%`
             : "다음 상자 준비"
           : selectedFacility?.kind === "storage" && selectedSlot.unlockState === "unlocked"
-            ? `오프라인 보관 ${gameState.storageCapacity}`
+            ? `오프라인 보관 ${gameState.storedLeaves}/${gameState.storageCapacity}`
           : selectedSlot.unlockState === "unlocked"
             ? "다른 slot을 선택"
             : "해금 preview";

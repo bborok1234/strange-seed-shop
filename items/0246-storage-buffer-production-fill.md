@@ -80,4 +80,8 @@ Browser Use `iab`가 노출되면 storage unlock -> workbench claim -> storage s
 
 ## Evidence
 
-- pending
+- `npm run check:phaser` pass
+- `npm run check:ci` pass
+- `reports/visual/issue-0459-storage-buffer-production-fill/phaser-check-storage-fill-claim-393.png`
+- `reports/visual/issue-0459-storage-buffer-production-fill/phaser-check-storage-buffer-393.png`
+- `reports/visual/issue-0459-storage-buffer-production-fill/visual-report-20260508.md`

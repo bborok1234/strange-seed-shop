@@ -60,6 +60,7 @@ export interface GardenState {
   receipts: string[];
   completedDeliveries: number;
   storageCapacity: number;
+  storedLeaves: number;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -185,7 +186,8 @@ export function createGardenState(): GardenState {
     actors: [],
     receipts: [],
     completedDeliveries: 0,
-    storageCapacity: 12
+    storageCapacity: 12,
+    storedLeaves: 0
   };
 }
 
@@ -211,7 +213,7 @@ export function selectSlot(state: GardenState, slotId: string): void {
   const facility = getFacilityBySlot(state, slotId);
   if (facility?.kind === "storage") {
     if (slot.unlockState === "unlocked") {
-      state.objective = `보관 바구니 정리 완료 · 오프라인 보관 ${state.storageCapacity}`;
+      state.objective = `오프라인 보관 ${state.storedLeaves}/${state.storageCapacity}`;
     } else if (state.completedDeliveries >= 2) {
       state.objective =
         state.resources.leaves >= STORAGE_BASKET_UNLOCK_COST
@@ -328,6 +330,11 @@ export function claimWorkbenchProduction(state: GardenState): void {
     orderCrate.progress = Math.min(100, orderCrate.progress + 25);
     orderCrate.visualState = orderCrate.progress >= 100 ? "active" : "preview";
   }
+  const storageSlot = getSlot(state, "facility_storage");
+  const storageFill = storageSlot.unlockState === "unlocked" ? Math.min(4, state.storageCapacity - state.storedLeaves) : 0;
+  if (storageFill > 0) {
+    state.storedLeaves += storageFill;
+  }
   if (!state.actors.some((actor) => actor.id === "actor_momo")) {
     state.actors.push({
       id: "actor_momo",
@@ -340,7 +347,11 @@ export function claimWorkbenchProduction(state: GardenState): void {
   }
   state.objective =
     orderCrate && orderCrate.progress >= 100 ? "주문 상자를 눌러 납품하기" : "잎을 모아 3번 밭 확장을 준비하기";
-  state.receipts.unshift("포리 작업 수령 · 모모 운반 시작 · 잎 +8 · 주문 상자 +25%");
+  state.receipts.unshift(
+    storageFill > 0
+      ? `포리 작업 수령 · 모모 운반 시작 · 잎 +8 · 주문 상자 +25% · 보관 +${storageFill}/${state.storageCapacity}`
+      : "포리 작업 수령 · 모모 운반 시작 · 잎 +8 · 주문 상자 +25%"
+  );
 }
 
 export function claimOrderCrateDelivery(state: GardenState): void {
