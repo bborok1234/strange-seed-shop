@@ -87,7 +87,7 @@ Browser Use `iab`가 노출되면 second delivery -> storage unlock을 직접 �
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/457
-- Draft PR: pending
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/458
 
 ## Evidence
 

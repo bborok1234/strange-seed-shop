@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T19:30:30.666Z
+Generated at: 2026-05-07T19:33:03.345Z
 
 ## Current mission
 
@@ -28,7 +28,7 @@ Generated at: 2026-05-07T19:30:30.666Z
 - Completed repeat order after third plot harvest: Issue #455, PR #456, main CI `25517154782`
 - WorkUnit: `items/0245-storage-basket-unlock-affordance.md`
 - GitHub issue: #457 `Phaser v1 storage basket unlock affordance`
-- Draft PR: pending
+- Draft PR: #458 `Phaser v1 storage basket unlock affordance`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0457-storage-basket-unlock-affordance/visual-report-20260508.md`
@@ -46,22 +46,22 @@ Generated at: 2026-05-07T19:30:30.666Z
 ## Local state
 
 - Branch: codex/v1-storage-basket-unlock-affordance
-- Latest commit: 69224d0 보관 바구니 해금을 다음 v1 작업으로 고정한다
+- Latest commit: 3897e8b 보관 바구니 PR 증거를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T19:30:21.800Z
-- Phase: phaser-v1-storage-basket-unlock-affordance-verified
+- Timestamp: 2026-05-07T19:32:55.400Z
+- Phase: phaser-v1-storage-basket-unlock-affordance-pr
 - Issue: 457
-- PR:
+- PR: 458
 - Item: items/0245-storage-basket-unlock-affordance.md
-- Next action: gate: publish draft PR for #457 and watch checks
+- Next action: gate: mark PR #458 ready, watch checks, merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #458 draft Phaser v1 storage basket unlock affordance — https://github.com/bborok1234/strange-seed-shop/pull/458
 
 ## Open issues
 
