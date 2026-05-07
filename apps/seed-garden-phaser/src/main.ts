@@ -2,6 +2,7 @@ import * as Phaser from "phaser";
 import {
   careSelectedPlot,
   claimOrderCrateDelivery,
+  claimStoredLeaves,
   claimWorkbenchProduction,
   createGardenState,
   getFacilityBySlot,
@@ -450,7 +451,9 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderGarden();
   }
 
-  private performAction(action: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand" | "unlock_storage") {
+  private performAction(
+    action: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand" | "unlock_storage" | "claim_storage"
+  ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
       plantStarterSeed(gameState);
@@ -467,8 +470,10 @@ class GardenBoardScene extends Phaser.Scene {
       this.pendingFx = { kind: "delivery", slotId: selectedSlotId };
     } else if (action === "expand") {
       unlockThirdPlot(gameState);
-    } else {
+    } else if (action === "unlock_storage") {
       unlockStorageBasket(gameState);
+    } else {
+      claimStoredLeaves(gameState);
     }
     this.renderGarden();
   }
@@ -520,7 +525,10 @@ class GardenBoardScene extends Phaser.Scene {
   private getAvailableActions(
     state: GardenState,
     selectedSlot: BoardSlot
-  ): Array<{ id: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand" | "unlock_storage"; label: string }> {
+  ): Array<{
+    id: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand" | "unlock_storage" | "claim_storage";
+    label: string;
+  }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
     const facility = getFacilityBySlot(state, selectedSlot.id);
     if (
@@ -537,6 +545,9 @@ class GardenBoardScene extends Phaser.Scene {
       state.resources.leaves >= STORAGE_BASKET_UNLOCK_COST
     ) {
       return [{ id: "unlock_storage", label: `정리 ${STORAGE_BASKET_UNLOCK_COST}잎` }];
+    }
+    if (facility?.kind === "storage" && selectedSlot.unlockState === "unlocked" && state.storedLeaves > 0) {
+      return [{ id: "claim_storage", label: "회수" }];
     }
     if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.resources.starterSeeds > 0) {
       return [{ id: "plant", label: "심기" }];
