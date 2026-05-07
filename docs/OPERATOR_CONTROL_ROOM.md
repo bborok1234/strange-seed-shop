@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T20:24:14.654Z
+Generated at: 2026-05-07T20:26:25.830Z
 
 ## Current mission
 
@@ -36,7 +36,7 @@ Generated at: 2026-05-07T20:24:14.654Z
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0465-storage-claim-reward-motion/visual-report-20260508.md`
-- Current validation: plan artifact and GitHub issue created
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -50,18 +50,18 @@ Generated at: 2026-05-07T20:24:14.654Z
 ## Local state
 
 - Branch: codex/v1-storage-claim-reward-motion
-- Latest commit: d8a02da Merge pull request #464 from bborok1234/codex/v1-storage-playfield-fill-state
+- Latest commit: 77545c8 보관 회수 모션을 다음 v1 작업으로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T20:24:05.062Z
-- Phase: phaser-v1-storage-claim-reward-motion-plan
+- Timestamp: 2026-05-07T20:26:07.756Z
+- Phase: phaser-v1-storage-claim-reward-motion-verified
 - Issue: 465
 - PR: pending
 - Item: items/0249-storage-claim-reward-motion.md
-- Next action: gate: implement storage claim reward motion and verify
+- Next action: gate: update evidence docs and prepare draft PR
 
 ## Open PRs
 

@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0463-storage-playfield-fill-state";
+const OUT_DIR = "reports/visual/issue-0465-storage-claim-reward-motion";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
