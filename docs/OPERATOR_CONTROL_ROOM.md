@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T16:23:06.670Z
+Generated at: 2026-05-07T17:26:51.719Z
 
 ## Current mission
 
-현재 작업은 **Phaser v1 topology asset plan/prompt batch**다. #433 garden board foundation은 PR #439로 merge/main CI까지 통과했고, 다음 blocker는 placeholder art를 accepted game asset으로 오해하지 않게 topology raster asset bundle을 먼저 계획하는 것이다.
+현재 작업은 **Phaser v1 topology asset generation/review**다. #440 topology asset plan/prompt batch는 PR #441로 merge/main CI까지 통과했고, 다음 blocker는 실제 후보 PNG를 생성하되 opaque/checkerboard 배경 후보를 곧바로 accepted manifest asset으로 오인하지 않게 review gate를 고정하는 것이다.
 
 현재 evidence:
 
@@ -16,47 +16,49 @@ Generated at: 2026-05-07T16:23:06.670Z
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
 - Completed foundation: Issue #433, PR #439, main CI `25507779300`
-- WorkUnit: `items/0236-topology-asset-plan.md`
-- GitHub issue: #440 `Phaser v1 topology asset plan/prompt batch`
-- Draft PR: #441 `Phaser v1 topology asset plan`
-- Asset plan: `assets/source/asset_plan.json`
-- Asset prompts: `assets/source/asset_prompts.json`
-- Automated verifier: `scripts/check-topology-asset-plan.mjs`
-- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass
+- Completed plan/prompt batch: Issue #440, PR #441, main CI `25508532265`
+- WorkUnit: `items/0237-topology-asset-generation-review.md`
+- GitHub issue: #442 `Phaser v1 topology asset generation and review`
+- Draft PR: #443 `Phaser v1 topology asset generation review`
+- Generated candidates: `public/assets/game/**`
+- Raw generated files: `assets/source/generated/gpt-image/**`
+- Review report: `reports/assets/topology_asset_review_20260508.md`
+- Contact sheet: `reports/assets/topology_asset_contact_sheet_20260508.png`
+- Automated verifier: `scripts/check-topology-generated-assets.mjs`
+- Current validation: `npm run check:topology-generated-assets` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:asset-alpha` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #440은 terrain, plot states, facility states, actor strips, FX strips의 accepted raster generation plan을 고정한다.
-2. asset plan/prompt ids는 exact match여야 하며, output path는 `public/assets/game/**.png` workspace path여야 한다.
-3. actor/FX strips는 frame count, frame size, fps, `animation.binding`을 가져야 한다.
-4. background prompt는 gameplay object baked-in 금지를 명시해야 한다.
-5. 다음 WorkUnit은 gpt-image-2 또는 Codex native image generation으로 실제 PNG를 생성하고 review/manifest gate로 이어간다.
-6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
+1. Studio Campaign Gate: #442는 terrain, plot states, facility states, actor strips, FX strips의 actual PNG 후보와 review evidence를 고정한다.
+2. `gpt-image-2` transparent background 미지원으로 생성된 opaque 후보는 background 외에 manifest accepted로 등록하지 않는다.
+3. 다음 WorkUnit은 plot/facility alpha cleanup, actor/FX strict strip normalization, manifest registration, Phaser runtime integration, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
+5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-topology-asset-plan
-- Latest commit: de4cd3e PR evidence를 topology asset plan에 연결한다
-- Dirty files: none
+- Branch: codex/v1-topology-asset-generation-review
+- Latest commit: 653fba0 Phaser v1 topology 후보를 검증 가능한 에셋 후보로 남긴다
+- Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T16:22:40.822Z
-- Phase: phaser-v1-topology-asset-plan-pr
-- Issue: 440
-- PR: 441
-- Item: items/0236-topology-asset-plan.md
-- Next action: gate: watch PR #441 checks and merge if green
+- Timestamp: 2026-05-07T17:26:44.898Z
+- Phase: phaser-v1-topology-asset-generation-review-pr
+- Issue: 442
+- PR: 443
+- Item: items/0237-topology-asset-generation-review.md
+- Next action: gate: watch PR #443 checks and merge if green
 
 ## Open PRs
 
-- #441 draft Phaser v1 topology asset plan — https://github.com/bborok1234/strange-seed-shop/pull/441
+- #443 draft Phaser v1 topology asset generation review — https://github.com/bborok1234/strange-seed-shop/pull/443
 
 ## Open issues
 
-- #440 Phaser v1 topology asset plan/prompt batch — https://github.com/bborok1234/strange-seed-shop/issues/440
+- #442 Phaser v1 topology asset generation and review — https://github.com/bborok1234/strange-seed-shop/issues/442
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 - #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
 
