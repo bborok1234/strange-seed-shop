@@ -15,6 +15,7 @@ import {
   plantResearchNextGoalSeed,
   plantResearchClueSeed,
   plantStarterSeed,
+  previewExpeditionGateRoute,
   recordResearchClueInAlbum,
   selectSlot,
   STORAGE_BASKET_UNLOCK_COST,
@@ -216,6 +217,8 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenResearchNextGoalRevealReady = gameState.researchNextGoalRevealReady;
     (window as unknown as { __seedGardenResearchLunarFamilyRevealed?: boolean })
       .__seedGardenResearchLunarFamilyRevealed = gameState.researchLunarFamilyRevealed;
+    (window as unknown as { __seedGardenExpeditionGatePreviewVisible?: boolean })
+      .__seedGardenExpeditionGatePreviewVisible = gameState.expeditionGatePreviewVisible;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -485,6 +488,21 @@ class GardenBoardScene extends Phaser.Scene {
       }
     }
 
+    if (facility?.kind === "expedition_gate" && slot.unlockState === "preview") {
+      const gateChip = this.add
+        .text(0, -55, "D7", {
+          align: "center",
+          backgroundColor: "rgba(49, 67, 96, 0.86)",
+          color: "#f4f0c9",
+          fontFamily: "system-ui, sans-serif",
+          fontSize: "10px",
+          fontStyle: "800",
+          padding: { x: 7, y: 2 }
+        })
+        .setOrigin(0.5);
+      container.add(gateChip);
+    }
+
     container.setSize(118, 104);
     container.setInteractive(new Phaser.Geom.Rectangle(-59, -48, 118, 104), Phaser.Geom.Rectangle.Contains);
     container.on("pointerdown", () => this.selectAndRender(slot.id));
@@ -601,6 +619,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "claim_goal_seed"
       | "plant_goal_seed"
       | "confirm_discovery"
+      | "preview_expedition"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -615,6 +634,8 @@ class GardenBoardScene extends Phaser.Scene {
       recordResearchClueInAlbum(gameState);
     } else if (action === "confirm_discovery") {
       confirmLunarSproutDiscovery(gameState);
+    } else if (action === "preview_expedition") {
+      previewExpeditionGateRoute(gameState);
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -679,6 +700,15 @@ class GardenBoardScene extends Phaser.Scene {
       `;
       this.hud.actions.appendChild(familySurface);
     }
+    if (gameState.expeditionGatePreviewVisible) {
+      const expeditionSurface = document.createElement("div");
+      expeditionSurface.className = "collection-goal-surface";
+      expeditionSurface.innerHTML = `
+        <strong>원정 문 preview</strong>
+        <span>D7 route 잠금 · 전용 asset 후보 필요</span>
+      `;
+      this.hud.actions.appendChild(expeditionSurface);
+    }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
       goalSurface.className = "collection-goal-surface";
@@ -710,7 +740,9 @@ class GardenBoardScene extends Phaser.Scene {
           : gameState.researchNextGoalRevealReady
             ? "다음 발견 준비 완료"
           : gameState.researchLunarFamilyRevealed
-            ? "달빛 family 연구 중"
+            ? gameState.expeditionGatePreviewVisible
+              ? "원정 문 preview 표시됨"
+              : "달빛 family 연구 중"
           : selectedSlot.unlockState === "unlocked" && gameState.researchClueRecordReady
             ? "도감 기록 대기"
           : selectedSlot.unlockState === "unlocked"
@@ -748,13 +780,17 @@ class GardenBoardScene extends Phaser.Scene {
       | "record_clue"
       | "claim_goal_seed"
       | "plant_goal_seed"
-      | "confirm_discovery";
+      | "confirm_discovery"
+      | "preview_expedition";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
     const facility = getFacilityBySlot(state, selectedSlot.id);
     if (state.researchNextGoalRevealReady && !state.researchLunarFamilyRevealed) {
       return [{ id: "confirm_discovery", label: "발견 확인" }];
+    }
+    if (state.researchLunarFamilyRevealed && !state.expeditionGatePreviewVisible) {
+      return [{ id: "preview_expedition", label: "원정 문 단서 보기" }];
     }
     if (
       state.researchClueGoalSurfaceVisible &&
@@ -839,6 +875,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (facility.kind === "research_shelf") {
       return TOPOLOGY_ASSETS.facilities.workbench.key;
+    }
+    if (facility.kind === "expedition_gate") {
+      return TOPOLOGY_ASSETS.facilities.orderCrateEmpty.key;
     }
     return TOPOLOGY_ASSETS.facilities.orderCrateEmpty.key;
   }

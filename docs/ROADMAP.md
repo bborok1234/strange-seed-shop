@@ -64,7 +64,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 도감 기록 스탬프 FX plan-prompt | done | Issue #480, PR #481, main CI `25525145605`, `items/0256-album-record-fx-plan-prompt.md`, `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`, `scripts/check-topology-asset-plan.mjs` | #478 이후 record moment가 텍스트 전환 중심인 production gap을 해결했다. `fx_album_record_stamp_strip_v1`을 `album.clue_record.action.record`, 8 frames, 96x96, 12fps로 generation-ready plan/prompt에 추가했고, PR checks/merge/main CI가 통과했다 |
 | 다음 씨앗 목표 수령/심기 bridge | done | Issue #482, PR #483, main CI `25525693860`, `items/0257-next-seed-goal-claim-plant.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0482-next-seed-goal-claim-plant/visual-report-20260508.md` | #478 이후 next seed goal surface가 보기에서 멈추는 blocker를 해결했다. `목표 씨앗 받기`와 빈 밭 `목표 심기` action으로 collection meta를 다음 planting loop에 연결했고, PR checks/merge/main CI가 통과했다 |
 | 달빛 새싹 수확 다음 발견 reveal | done | Issue #484, PR #485, main CI `25526399609`, `items/0258-lunar-sprout-growth-reveal.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0484-lunar-sprout-growth-reveal/visual-report-20260508.md` | #482 이후 `seed_lunar_sprout_001` 수확이 일반 말랑잎 수확으로 떨어지는 blocker를 해결했다. 목표 씨앗 수확을 `달빛 새싹 발견 준비` receipt/objective/telemetry로 연결했고, PR checks/merge/main CI가 통과했다 |
-| 달빛 새싹 발견 확인 research family reveal | active | Issue #486, Draft PR #487, `items/0259-lunar-sprout-discovery-confirm.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0486-lunar-sprout-discovery-confirm/visual-report-20260508.md` | #484 이후 reveal-ready 상태가 action rail 안내에 머무르는 blocker를 해결한다. `발견 확인` action으로 달빛 family reveal을 확정하고 연구 선반 playfield/HUD surface에 persistent state를 남긴다 |
+| 달빛 새싹 발견 확인 research family reveal | done | Issue #486, PR #487, main CI `25526968559`, `items/0259-lunar-sprout-discovery-confirm.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0486-lunar-sprout-discovery-confirm/visual-report-20260508.md` | #484 이후 reveal-ready 상태가 action rail 안내에 머무르는 blocker를 해결했다. `발견 확인` action으로 달빛 family reveal을 확정하고 연구 선반 playfield/HUD surface에 persistent state를 남겼으며, PR checks/merge/main CI가 통과했다 |
+| 달빛 family reveal 원정 문 preview route | active | Issue #488, `items/0260-expedition-gate-preview-route.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md` | #486 이후 다음 장기 route가 text promise에 머무르는 blocker를 해결한다. `원정 문 단서 보기` action과 preview-only board state로 D7 expedition route 실루엣을 만든다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -390,7 +391,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **달빛 새싹 발견 확인 research family reveal**이다. #484 달빛 새싹 수확 다음 발견 reveal은 PR #485 merge/main CI `25526399609`까지 통과했다. 다음 blocker는 `달빛 새싹 발견 준비`가 action rail 안내로만 남고 실제 `발견 확인` player verb와 연구 선반 persistent reveal state로 닫히지 않는 점이다.
+현재 작업은 **달빛 family reveal 원정 문 preview route**이다. #486 달빛 새싹 발견 확인 research family reveal은 PR #487 merge/main CI `25526968559`까지 통과했다. 다음 blocker는 research family reveal 이후 장기 route가 text promise에 머물고 원정 문 preview가 board/HUD에 남지 않는 점이다.
 
 현재 evidence:
 
@@ -424,21 +425,22 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed album record stamp FX plan/prompt: Issue #480, PR #481, main CI `25525145605`
 - Completed next seed goal claim/plant bridge: Issue #482, PR #483, main CI `25525693860`
 - Completed lunar sprout harvest reveal bridge: Issue #484, PR #485, main CI `25526399609`
+- Completed lunar sprout discovery confirm: Issue #486, PR #487, main CI `25526968559`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0259-lunar-sprout-discovery-confirm.md`
-- GitHub issue: #486 `달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기`
-- Draft PR: #487 `달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기`
+- WorkUnit: `items/0260-expedition-gate-preview-route.md`
+- GitHub issue: #488 `달빛 family reveal이 원정 문 preview route로 이어지게 만들기`
+- Draft PR: pending
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0486-lunar-sprout-discovery-confirm/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: 새 WorkUnit은 reveal-ready 상태를 `발견 확인` player verb로 닫아야 한다.
-2. 클릭 후 `researchLunarFamilyRevealed=true`, `researchNextGoalRevealReady=false` telemetry가 남아야 한다.
-3. 연구 선반 playfield/HUD surface가 달빛 family reveal 상태를 보여야 한다.
-4. objective/receipt/action rail은 `달빛 family`와 `다음 연구 목표`를 설명해야 한다.
+1. Studio Campaign Gate: 새 WorkUnit은 달빛 family reveal 이후 원정 문 preview route를 board에 남겨야 한다.
+2. `원정 문 단서 보기` action과 `expeditionGatePreviewVisible=true` telemetry가 있어야 한다.
+3. preview-only expedition gate slot/facility state가 board/HUD에서 읽혀야 한다.
+4. objective/receipt/action rail은 `원정 문 preview`와 `D7 route`를 설명해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.

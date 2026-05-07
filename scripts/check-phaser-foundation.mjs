@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0486-lunar-sprout-discovery-confirm";
+const OUT_DIR = "reports/visual/issue-0488-expedition-gate-preview-route";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -281,7 +281,19 @@ async function runSmoke() {
       railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
       researchNextGoalRevealReady: window.__seedGardenResearchNextGoalRevealReady ?? true,
       researchLunarFamilyRevealed: window.__seedGardenResearchLunarFamilyRevealed ?? false,
+      expeditionGatePreviewVisible: window.__seedGardenExpeditionGatePreviewVisible ?? false,
       selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      facilityStates: window.__seedGardenFacilityStates ?? []
+    }));
+    await page.getByRole("button", { name: "원정 문 단서 보기" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-expedition-gate-preview-393.png`, fullPage: false });
+    const expeditionGatePreview = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      expeditionGatePreviewVisible: window.__seedGardenExpeditionGatePreviewVisible ?? false,
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? []
     }));
 
@@ -314,6 +326,7 @@ async function runSmoke() {
       researchNextGoalSeedHarvested: window.__seedGardenResearchNextGoalSeedHarvested ?? false,
       researchNextGoalRevealReady: window.__seedGardenResearchNextGoalRevealReady ?? false,
       researchLunarFamilyRevealed: window.__seedGardenResearchLunarFamilyRevealed ?? false,
+      expeditionGatePreviewVisible: window.__seedGardenExpeditionGatePreviewVisible ?? false,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -454,8 +467,35 @@ async function runSmoke() {
     if (!lunarFamilyRevealed.railText.includes("다음 연구 목표")) {
       failures.push("missing next research goal text");
     }
+    if (!lunarFamilyRevealed.railText.includes("원정 문 단서 보기")) {
+      failures.push("missing expedition preview action after lunar family reveal");
+    }
     if (lunarFamilyRevealed.selectedText !== "연구 선반") {
       failures.push(`expected research shelf selected after discovery confirm, got ${lunarFamilyRevealed.selectedText}`);
+    }
+    if (lunarFamilyRevealed.expeditionGatePreviewVisible) {
+      failures.push("expedition gate preview was visible before preview action");
+    }
+    if (!expeditionGatePreview.expeditionGatePreviewVisible) {
+      failures.push("expedition gate preview telemetry missing");
+    }
+    if (expeditionGatePreview.selectedText !== "원정 문") {
+      failures.push(`expected expedition gate selected after preview action, got ${expeditionGatePreview.selectedText}`);
+    }
+    if (!expeditionGatePreview.previewSlotIds.includes("facility_expedition_gate")) {
+      failures.push("expedition gate preview slot missing");
+    }
+    const expeditionGate = expeditionGatePreview.facilityStates.find(
+      (facility) => facility.slotId === "facility_expedition_gate"
+    );
+    if (!expeditionGate || expeditionGate.kind !== "expedition_gate" || expeditionGate.visualState !== "preview") {
+      failures.push(`expected expedition gate preview facility, got ${JSON.stringify(expeditionGate)}`);
+    }
+    if (!expeditionGatePreview.objective.includes("원정 문 preview")) {
+      failures.push("missing expedition gate preview objective");
+    }
+    if (!expeditionGatePreview.railText.includes("원정 문 preview")) {
+      failures.push("missing expedition gate preview surface");
     }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
@@ -478,12 +518,16 @@ async function runSmoke() {
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 새싹 발견 확인 · 달빛 family reveal"))) {
       failures.push("missing lunar family reveal receipt");
     }
+    if (!evidence.receipts.some((receipt) => receipt.includes("원정 문 단서 확인 · preview route 표시"))) {
+      failures.push("missing expedition gate preview receipt");
+    }
     if (!evidence.researchNextGoalSeedClaimed) failures.push("next goal seed claim telemetry missing");
     if (!evidence.researchNextGoalSeedPlanted) failures.push("next goal seed planting telemetry missing");
     if (!evidence.researchNextGoalSeedHarvested) failures.push("lunar sprout harvest telemetry missing from final evidence");
     if (evidence.researchNextGoalRevealReady) failures.push("lunar sprout reveal-ready stayed true in final evidence");
     if (!evidence.researchLunarFamilyRevealed) failures.push("lunar family reveal telemetry missing from final evidence");
-    if (!evidence.objective.includes("달빛 family reveal 완료")) failures.push("missing lunar family reveal final objective");
+    if (!evidence.expeditionGatePreviewVisible) failures.push("expedition gate preview telemetry missing from final evidence");
+    if (!evidence.objective.includes("원정 문 preview")) failures.push("missing expedition gate preview final objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
@@ -506,6 +550,9 @@ async function runSmoke() {
     if (!evidence.unlockedSlotIds.includes("facility_storage")) failures.push("storage slot did not unlock");
     if (!evidence.previewSlotIds.includes("facility_research_shelf")) {
       failures.push("research shelf did not enter preview state");
+    }
+    if (!evidence.previewSlotIds.includes("facility_expedition_gate")) {
+      failures.push("expedition gate did not enter preview state");
     }
     const researchShelf = evidence.facilityStates.find((facility) => facility.slotId === "facility_research_shelf");
     if (!researchShelf || researchShelf.kind !== "research_shelf" || researchShelf.visualState !== "preview") {
@@ -532,6 +579,7 @@ async function runSmoke() {
       lunarSproutReady,
       lunarSproutHarvested,
       lunarFamilyRevealed,
+      expeditionGatePreview,
       overviewMode,
       manageReturn,
       evidence,
@@ -570,7 +618,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-next-goal-seed-planted-393.png`,
         `${OUT_DIR}/phaser-check-lunar-sprout-ready-393.png`,
         `${OUT_DIR}/phaser-check-lunar-sprout-harvested-393.png`,
-        `${OUT_DIR}/phaser-check-lunar-family-revealed-393.png`
+        `${OUT_DIR}/phaser-check-lunar-family-revealed-393.png`,
+        `${OUT_DIR}/phaser-check-expedition-gate-preview-393.png`
       ],
       failures
     };
