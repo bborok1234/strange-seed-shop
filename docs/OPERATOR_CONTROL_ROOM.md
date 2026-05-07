@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T16:04:45.721Z
+Generated at: 2026-05-07T16:23:06.670Z
 
 ## Current mission
 
-현재 작업은 **Phaser v1 garden board foundation 구현**이다. `studio:v3:runner -- --once --dry-run`은 open GitHub WorkUnit을 확인했고, #434는 감상 모드라 #433 foundation 이후 작업이므로 Issue #433을 `items/0235-garden-board-topology-scaffold.md` 기준으로 재작성해 v1 구현의 첫 runtime blocker를 제거한다.
+현재 작업은 **Phaser v1 topology asset plan/prompt batch**다. #433 garden board foundation은 PR #439로 merge/main CI까지 통과했고, 다음 blocker는 placeholder art를 accepted game asset으로 오해하지 않게 topology raster asset bundle을 먼저 계획하는 것이다.
 
 현재 evidence:
 
@@ -15,48 +15,49 @@ Generated at: 2026-05-07T16:04:45.721Z
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- WorkUnit: `items/0235-garden-board-topology-scaffold.md`
-- GitHub issue: #433 `Phaser garden board foundation을 v1 topology로 시작하기`
-- Draft PR: #439 `Phaser v1 garden board foundation`
-- Runtime implementation: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`
-- Automated verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0433-garden-board-foundation/visual-report-20260508.md`
-- Current validation: `npm run build:phaser` pass, `npm run check:phaser` pass, `npm run check:ci` pass
+- Completed foundation: Issue #433, PR #439, main CI `25507779300`
+- WorkUnit: `items/0236-topology-asset-plan.md`
+- GitHub issue: #440 `Phaser v1 topology asset plan/prompt batch`
+- Draft PR: #441 `Phaser v1 topology asset plan`
+- Asset plan: `assets/source/asset_plan.json`
+- Asset prompts: `assets/source/asset_prompts.json`
+- Automated verifier: `scripts/check-topology-asset-plan.mjs`
+- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #433 foundation은 placeholder text가 아니라 최소 3개 build slot, runtime plot/facility entity, starter seed 심기/돌보기/수확, 첫 actor task를 보여야 한다.
-2. `npm run check:phaser`는 build뿐 아니라 393x852 fresh-start smoke를 실행해 잎 20, 씨앗 0, `포리 작업 수령`, no-scroll, one canvas를 검증한다.
-3. Browser Use `iab`가 세션에 노출되지 않으면 blocker를 visual report에 남기고 Playwright fallback screenshot을 남긴다.
-4. 다음 WorkUnit은 accepted raster asset/sprite bundle 또는 first 5m vertical slice로 진행해야 하며, placeholder를 production art로 주장하지 않는다.
-5. PR #439 required checks를 확인하고, #434 overview mode와 #432 reward FX는 #433 foundation과 asset/FX bundle 이후 진행한다.
+1. Studio Campaign Gate: #440은 terrain, plot states, facility states, actor strips, FX strips의 accepted raster generation plan을 고정한다.
+2. asset plan/prompt ids는 exact match여야 하며, output path는 `public/assets/game/**.png` workspace path여야 한다.
+3. actor/FX strips는 frame count, frame size, fps, `animation.binding`을 가져야 한다.
+4. background prompt는 gameplay object baked-in 금지를 명시해야 한다.
+5. 다음 WorkUnit은 gpt-image-2 또는 Codex native image generation으로 실제 PNG를 생성하고 review/manifest gate로 이어간다.
 6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-garden-board-foundation
-- Latest commit: 1086a89 PR evidence를 v1 foundation 운영 상태에 연결한다
+- Branch: codex/v1-topology-asset-plan
+- Latest commit: de4cd3e PR evidence를 topology asset plan에 연결한다
 - Dirty files: none
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T16:04:05.946Z
-- Phase: phaser-v1-garden-board-foundation-pr
-- Issue: 433
-- PR: 439
-- Item: items/0235-garden-board-topology-scaffold.md
-- Next action: gate: watch PR #439 checks and repair if red
+- Timestamp: 2026-05-07T16:22:40.822Z
+- Phase: phaser-v1-topology-asset-plan-pr
+- Issue: 440
+- PR: 441
+- Item: items/0236-topology-asset-plan.md
+- Next action: gate: watch PR #441 checks and merge if green
 
 ## Open PRs
 
-- #439 draft Phaser v1 garden board foundation — https://github.com/bborok1234/strange-seed-shop/pull/439
+- #441 draft Phaser v1 topology asset plan — https://github.com/bborok1234/strange-seed-shop/pull/441
 
 ## Open issues
 
+- #440 Phaser v1 topology asset plan/prompt batch — https://github.com/bborok1234/strange-seed-shop/issues/440
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
-- #433 Phaser garden board foundation을 v1 topology로 시작하기 — https://github.com/bborok1234/strange-seed-shop/issues/433
 - #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
 
 ## Playable mode

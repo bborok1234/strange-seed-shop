@@ -978,6 +978,196 @@
         "manifest_binding_required": true
       },
       "notes": "momo_work_celebrate_0228; strict_strip=true; frames=6; frame_width=96; frame_height=96; intended_frame_rate=12; loop=false; generated_by=gpt-image-2; source_reference_asset_id=creature_herb_common_002; manifest animation.binding is required before accepted runtime use"
+    },
+    {
+      "asset_id": "bg_garden_terrain_open_v1",
+      "output_path": "public/assets/game/backgrounds/bg_garden_terrain_open_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser terrain background\nPrimary request: Create an open 햇살 온실 정원 terrain background for 이상한 씨앗상회 v1.\nSubject: Warm greenhouse floor, gentle depth, soft plant atmosphere, empty buildable spaces, inviting garden shop mood.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Vertical mobile background, 768x1664 or 1179x2556 composition, safe central board area, clear ground plane.\nColor palette: Fresh herb greens, warm cream light, soft leaf yellow, gentle greenhouse teal accents.\nConstraints: Do not draw or imply active gameplay objects. No plots, planters, workbench, order crate, storage basket, research shelf, expedition gate, character, UI, text, or icons baked into the background.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "background contains no baked-in plot/facility/order/storage/research/expedition gameplay object",
+        "empty terrain supports runtime slot placement"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_empty_v1",
+      "output_path": "public/assets/game/tiles/tile_plot_empty_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime plot tile\nPrimary request: Create tile_plot_empty_v1 for 이상한 씨앗상회 v1.\nSubject: A small raised garden plot tile for the empty state, designed as a runtime entity placed on top of terrain.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Isometric-ish front-facing tile, transparent or clean removable background, 256x192 target, centered with generous padding.\nColor palette: Warm soil brown, fresh herb green, cream highlights, soft yellow growth accents.\nConstraints: The state must be readable at 64px and 96px. No text, no UI label, no character, no background scene.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "empty plot state is visually distinct without text",
+        "works as a runtime entity, not a full background"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_sprout_v1",
+      "output_path": "public/assets/game/tiles/tile_plot_sprout_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime plot tile\nPrimary request: Create tile_plot_sprout_v1 for 이상한 씨앗상회 v1.\nSubject: A small raised garden plot tile for the sprout state, designed as a runtime entity placed on top of terrain.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Isometric-ish front-facing tile, transparent or clean removable background, 256x192 target, centered with generous padding.\nColor palette: Warm soil brown, fresh herb green, cream highlights, soft yellow growth accents.\nConstraints: The state must be readable at 64px and 96px. No text, no UI label, no character, no background scene.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "sprout plot state is visually distinct without text",
+        "works as a runtime entity, not a full background"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_growing_v1",
+      "output_path": "public/assets/game/tiles/tile_plot_growing_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime plot tile\nPrimary request: Create tile_plot_growing_v1 for 이상한 씨앗상회 v1.\nSubject: A small raised garden plot tile for the growing state, designed as a runtime entity placed on top of terrain.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Isometric-ish front-facing tile, transparent or clean removable background, 256x192 target, centered with generous padding.\nColor palette: Warm soil brown, fresh herb green, cream highlights, soft yellow growth accents.\nConstraints: The state must be readable at 64px and 96px. No text, no UI label, no character, no background scene.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "growing plot state is visually distinct without text",
+        "works as a runtime entity, not a full background"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_ready_v1",
+      "output_path": "public/assets/game/tiles/tile_plot_ready_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime plot tile\nPrimary request: Create tile_plot_ready_v1 for 이상한 씨앗상회 v1.\nSubject: A small raised garden plot tile for the ready state, designed as a runtime entity placed on top of terrain.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Isometric-ish front-facing tile, transparent or clean removable background, 256x192 target, centered with generous padding.\nColor palette: Warm soil brown, fresh herb green, cream highlights, soft yellow growth accents.\nConstraints: The state must be readable at 64px and 96px. No text, no UI label, no character, no background scene.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "ready plot state is visually distinct without text",
+        "works as a runtime entity, not a full background"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_locked_preview_v1",
+      "output_path": "public/assets/game/tiles/tile_plot_locked_preview_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime plot tile\nPrimary request: Create tile_plot_locked_preview_v1 for 이상한 씨앗상회 v1.\nSubject: A small raised garden plot tile for the locked_preview state, designed as a runtime entity placed on top of terrain.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Isometric-ish front-facing tile, transparent or clean removable background, 256x192 target, centered with generous padding.\nColor palette: Warm soil brown, fresh herb green, cream highlights, soft yellow growth accents.\nConstraints: The state must be readable at 64px and 96px. No text, no UI label, no character, no background scene.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "locked_preview plot state is visually distinct without text",
+        "works as a runtime entity, not a full background"
+      ]
+    },
+    {
+      "asset_id": "facility_workbench_v1",
+      "output_path": "public/assets/game/facilities/facility_workbench_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime facility prop\nPrimary request: Create facility_workbench_v1 for 이상한 씨앗상회 v1.\nSubject: A cute greenhouse shop facility prop showing active workbench state.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Runtime prop with transparent or clean removable background, centered, readable at mobile scale.\nColor palette: Warm wood, herb green accents, cream highlights, small greenhouse teal shadows.\nConstraints: No text, no UI frame, no full background, no character. The facility state must read through prop shape and contents.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "facility state is readable without text",
+        "prop can sit on terrain as a runtime entity"
+      ]
+    },
+    {
+      "asset_id": "facility_order_crate_empty_v1",
+      "output_path": "public/assets/game/facilities/facility_order_crate_empty_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime facility prop\nPrimary request: Create facility_order_crate_empty_v1 for 이상한 씨앗상회 v1.\nSubject: A cute greenhouse shop facility prop showing empty order state.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Runtime prop with transparent or clean removable background, centered, readable at mobile scale.\nColor palette: Warm wood, herb green accents, cream highlights, small greenhouse teal shadows.\nConstraints: No text, no UI frame, no full background, no character. The facility state must read through prop shape and contents.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "facility state is readable without text",
+        "prop can sit on terrain as a runtime entity"
+      ]
+    },
+    {
+      "asset_id": "facility_order_crate_filled_v1",
+      "output_path": "public/assets/game/facilities/facility_order_crate_filled_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime facility prop\nPrimary request: Create facility_order_crate_filled_v1 for 이상한 씨앗상회 v1.\nSubject: A cute greenhouse shop facility prop showing filled/sealed order state.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Runtime prop with transparent or clean removable background, centered, readable at mobile scale.\nColor palette: Warm wood, herb green accents, cream highlights, small greenhouse teal shadows.\nConstraints: No text, no UI frame, no full background, no character. The facility state must read through prop shape and contents.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "facility state is readable without text",
+        "prop can sit on terrain as a runtime entity"
+      ]
+    },
+    {
+      "asset_id": "actor_pori_caretaker_strip_v1",
+      "output_path": "public/assets/game/sprites/actor_pori_caretaker_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser actor sprite sheet\nPrimary request: Create actor_pori_caretaker_strip_v1 for 이상한 씨앗상회 v1.\nSubject: 말랑잎 포리, a small leafy caretaker plant-creature, doing a gentle plot-care work loop.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: One horizontal sprite strip with exactly 6 frames, each frame 128x128, consistent bottom-center anchor, full body visible, no clipping, transparent or clean removable background.\nColor palette: fresh leaf greens, warm yellow, cream face accents.\nConstraints: Intended fps 8; animation.binding actor.task.care_plot; loop behavior loop. No text, no UI, no background scene.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "exactly 6 frames in a horizontal strip",
+        "each frame is 128x128",
+        "animation.binding is actor.task.care_plot",
+        "bottom-center anchor remains stable and no frame is clipped"
+      ]
+    },
+    {
+      "asset_id": "actor_momo_carrier_strip_v1",
+      "output_path": "public/assets/game/sprites/actor_momo_carrier_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser actor sprite sheet\nPrimary request: Create actor_momo_carrier_strip_v1 for 이상한 씨앗상회 v1.\nSubject: 방패새싹 모모, a sturdy sprout carrier plant-creature, carrying leaves/material toward a crate.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: One horizontal sprite strip with exactly 6 frames, each frame 128x128, consistent bottom-center anchor, full body visible, no clipping, transparent or clean removable background.\nColor palette: shield-leaf greens, soft teal shadows, warm cream highlights.\nConstraints: Intended fps 8; animation.binding actor.task.carry_leaves; loop behavior loop. No text, no UI, no background scene.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "exactly 6 frames in a horizontal strip",
+        "each frame is 128x128",
+        "animation.binding is actor.task.carry_leaves",
+        "bottom-center anchor remains stable and no frame is clipped"
+      ]
+    },
+    {
+      "asset_id": "fx_care_spark_strip_v1",
+      "output_path": "public/assets/game/fx/fx_care_spark_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser FX sprite sheet\nPrimary request: Create fx_care_spark_strip_v1 for 이상한 씨앗상회 v1.\nSubject: soft care spark feedback around a plot after the player taps 돌보기.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: One horizontal FX strip with exactly 6 frames, each frame 96x96, transparent background, consistent effect center.\nColor palette: Warm leaf yellow, fresh green, cream glow, tiny teal accent.\nConstraints: Intended fps 12; animation.binding plot.action.care_tapped; behavior once. No text, no UI frame, no full background.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "exactly 6 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is plot.action.care_tapped",
+        "FX reads at 96px and does not obscure plot/actor silhouette"
+      ]
+    },
+    {
+      "asset_id": "fx_harvest_leaf_flyout_strip_v1",
+      "output_path": "public/assets/game/fx/fx_harvest_leaf_flyout_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser FX sprite sheet\nPrimary request: Create fx_harvest_leaf_flyout_strip_v1 for 이상한 씨앗상회 v1.\nSubject: leaf reward flyout particles moving from harvest/action source toward the HUD.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: One horizontal FX strip with exactly 8 frames, each frame 96x96, transparent background, consistent effect center.\nColor palette: Warm leaf yellow, fresh green, cream glow, tiny teal accent.\nConstraints: Intended fps 14; animation.binding plot.action.harvest_reward; behavior once. No text, no UI frame, no full background.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "exactly 8 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is plot.action.harvest_reward",
+        "FX reads at 96px and does not obscure plot/actor silhouette"
+      ]
+    },
+    {
+      "asset_id": "ui_shadow_soft_v1",
+      "output_path": "public/assets/game/ui/ui_shadow_soft_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser utility sprite\nPrimary request: Create ui_shadow_soft_v1, a soft transparent grounding shadow for 이상한 씨앗상회 runtime entities.\nSubject: A simple oval soft shadow suitable under small actors, plots, and facility props.\nStyle/medium: polished 2D mobile game utility asset, soft clean alpha.\nComposition/framing: 128x64 target, transparent background, centered oval with gentle blur/falloff.\nColor palette: translucent deep greenhouse teal/soft brown shadow.\nConstraints: No text, no object, no hard border, no background scene.\nAvoid text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, and tiny unreadable details.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "transparent soft oval shadow",
+        "does not look like a gameplay object"
+      ]
     }
   ]
 }
