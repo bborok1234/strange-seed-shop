@@ -130,6 +130,28 @@ body {
   font-weight: 700;
 }
 
+.collection-goal-surface {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  border: 1px solid rgba(85, 122, 81, 0.22);
+  border-radius: 12px;
+  background: rgba(230, 241, 204, 0.86);
+  color: #203b2f;
+  padding: 8px 10px;
+}
+
+.collection-goal-surface strong {
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.collection-goal-surface span {
+  color: #45664f;
+  font-size: 12px;
+  font-weight: 750;
+}
+
 .receipt-stack {
   min-height: 34px;
   padding-top: 8px;

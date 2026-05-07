@@ -199,6 +199,8 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.researchClueRecordReady;
     (window as unknown as { __seedGardenResearchClueAlbumRecorded?: boolean })
       .__seedGardenResearchClueAlbumRecorded = gameState.researchClueAlbumRecorded;
+    (window as unknown as { __seedGardenResearchClueGoalSurfaceVisible?: boolean })
+      .__seedGardenResearchClueGoalSurfaceVisible = gameState.researchClueGoalSurfaceVisible;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -621,6 +623,16 @@ class GardenBoardScene extends Phaser.Scene {
     const actions = this.getAvailableActions(gameState, selectedSlot);
     if (actions.length === 0) {
       const selectedFacility = getFacilityBySlot(gameState, selectedSlot.id);
+      if (gameState.researchClueGoalSurfaceVisible) {
+        const goalSurface = document.createElement("div");
+        goalSurface.className = "collection-goal-surface";
+        goalSurface.innerHTML = `
+          <strong>달빛 단서 기록됨</strong>
+          <span>다음 씨앗 목표: 달빛 새싹</span>
+        `;
+        this.hud.actions.appendChild(goalSurface);
+        return;
+      }
       const empty = document.createElement("span");
       empty.className = "action-note";
       empty.textContent =

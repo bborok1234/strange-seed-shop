@@ -59,7 +59,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 연구 선반 preview bridge | done | Issue #470, PR #471, main CI `25522696541`, `items/0251-research-shelf-preview-bridge.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0470-research-shelf-preview-bridge/visual-report-20260508.md` | #469 이후 storage claim 다음 목표가 없는 blocker를 해결했다. 보관 잎 회수 후 `facility_research_shelf` preview와 `살펴보기` action을 열어 달빛 씨앗 단서 preview receipt/objective로 D1 discovery bridge를 만들고, PR checks/merge/main CI가 통과했다. dedicated research shelf raster는 asset generation blocker로 후속 WorkUnit에 남긴다 |
 | 연구 선반 raster/단서 FX plan-prompt | done | Issue #472, PR #473, main CI `25523174826`, `items/0252-research-shelf-asset-plan-prompt.md`, `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`, `scripts/check-topology-asset-plan.mjs` | #470 이후 research shelf가 existing workbench raster를 임시 stand-in으로 쓰는 art debt를 해결했다. `facility_research_shelf_v1`와 `fx_research_clue_glimmer_strip_v1`을 generation-ready plan/prompt로 추가하고, FX는 `facility_research_shelf.action.inspect_clue`, 8 frames, 96x96, 12fps로 고정했다. PR checks/merge/main CI가 통과했다 |
 | 연구 단서 씨앗 심기 bridge | done | Issue #474, PR #475, main CI `25523742630`, `items/0253-research-clue-seed-planting.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0474-research-clue-seed-planting/visual-report-20260508.md` | #470/#472 이후 research shelf `살펴보기`가 receipt에서 끝나는 blocker를 해결했다. `달빛 씨앗 단서`를 확보하고 빈 밭에서 `단서 심기 -> 돌보기 -> 수확`으로 이어지는 Phaser bridge와 telemetry/screenshot evidence를 추가했고, PR checks/merge/main CI가 통과했다 |
-| 연구 단서 도감 기록 bridge | active | Issue #476, Draft PR #477, `items/0254-research-clue-album-record.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0476-research-clue-album-record/visual-report-20260508.md` | #474 이후 clue seed 수확이 receipt에서 끝나는 blocker를 해결한다. 수확 후 `도감 기록` action을 열고 `달빛 family clue`를 collection meta에 저장했다는 state/receipt/objective/telemetry를 추가한다 |
+| 연구 단서 도감 기록 bridge | done | Issue #476, PR #477, main CI `25524211510`, `items/0254-research-clue-album-record.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0476-research-clue-album-record/visual-report-20260508.md` | #474 이후 clue seed 수확이 receipt에서 끝나는 blocker를 해결했다. 수확 후 `도감 기록` action을 열고 `달빛 family clue`를 collection meta에 저장했다는 state/receipt/objective/telemetry를 추가했고, PR checks/merge/main CI가 통과했다 |
+| 연구 단서 목표 surface | active | Issue #478, Draft PR #479, `items/0255-research-clue-goal-surface.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0478-research-clue-goal-surface/visual-report-20260508.md` | #476 이후 clue album record가 저장 receipt에서 끝나는 blocker를 해결한다. 기록 완료 직후 compact HUD/action rail surface에 `달빛 단서 기록됨`과 `다음 씨앗 목표`를 남겨 collection meta가 다음 seed goal로 이어지게 한다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -385,7 +386,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **연구 단서 도감 기록 bridge**이다. #474 연구 단서 씨앗 심기 bridge는 PR #475 merge/main CI까지 통과했다. 다음 blocker는 clue seed 수확 후 family clue가 아직 도감/collection meta에 저장되지 않아 discovery reward가 receipt surface에서 멈춘다는 점이다.
+현재 작업은 **연구 단서 목표 surface**이다. #476 연구 단서 도감 기록 bridge는 PR #477 merge/main CI `25524211510`까지 통과했다. 다음 blocker는 clue album record 후 다음 seed goal이 visible surface로 남지 않아 collection meta loop가 다시 끊긴다는 점이다.
 
 현재 evidence:
 
@@ -414,21 +415,22 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed research shelf preview bridge: Issue #470, PR #471, main CI `25522696541`
 - Completed research shelf asset plan/prompt: Issue #472, PR #473, main CI `25523174826`
 - Completed research clue seed planting: Issue #474, PR #475, main CI `25523742630`
+- Completed research clue album record: Issue #476, PR #477, main CI `25524211510`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0254-research-clue-album-record.md`
-- GitHub issue: #476 `연구 단서 도감 기록 bridge`
-- Draft PR: #477 `연구 단서 도감 기록 bridge`
+- WorkUnit: `items/0255-research-clue-goal-surface.md`
+- GitHub issue: #478 `연구 단서 목표 surface`
+- Draft PR: #479 `연구 단서 목표 surface`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0476-research-clue-album-record/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass
+- Visual report: `reports/visual/issue-0478-research-clue-goal-surface/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #476은 clue seed harvest reward를 collection meta 저장으로 연결한다.
-2. clue seed harvest 후 `researchClueRecordReady` telemetry와 `도감 기록` action affordance가 생겨야 한다.
-3. album record 후 `researchClueAlbumRecorded` telemetry, receipt, objective가 남아야 한다.
+1. Studio Campaign Gate: #478은 clue album record reward를 visible next seed goal surface로 연결한다.
+2. album record 후 `researchClueGoalSurfaceVisible` telemetry가 true여야 한다.
+3. action rail/objective에 `달빛 단서 기록됨`과 `다음 씨앗 목표`가 보여야 한다.
 4. Browser Use execution tool이 노출되지 않으면 Playwright fallback screenshot과 telemetry를 evidence로 남긴다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
