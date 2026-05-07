@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T18:25:04.200Z
+Generated at: 2026-05-07T18:30:52.062Z
 
 ## Current mission
 
@@ -27,8 +27,8 @@ Generated at: 2026-05-07T18:25:04.200Z
 - Draft PR: pending
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: pending
-- Current validation: plan artifact written, implementation pending
+- Visual report: `reports/visual/issue-0432-order-crate-delivery-reward-motion/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -42,18 +42,18 @@ Generated at: 2026-05-07T18:25:04.200Z
 ## Local state
 
 - Branch: codex/v1-order-crate-delivery-reward-motion
-- Latest commit: dc2cff3 Merge pull request #449 from bborok1234/codex/v1-momo-carrier-order-motion
+- Latest commit: b3585e2 주문 상자 납품 보상 작업을 계획한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T18:23:40.898Z
-- Phase: phaser-v1-order-crate-delivery-reward-motion-plan
+- Timestamp: 2026-05-07T18:29:56.417Z
+- Phase: phaser-v1-order-crate-delivery-reward-motion-verified
 - Issue: 432
 - PR:
 - Item: items/0241-order-crate-delivery-reward-motion.md
-- Next action: gate: update issue #432, implement delivery claim, then verify
+- Next action: gate: publish PR #432 and watch required checks
 
 ## Open PRs
 

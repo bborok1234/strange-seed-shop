@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 import {
   careSelectedPlot,
+  claimOrderCrateDelivery,
   claimWorkbenchProduction,
   createGardenState,
   getFacilityBySlot,
@@ -122,7 +123,7 @@ function createHud(): HudElements {
 class GardenBoardScene extends Phaser.Scene {
   private hud?: HudElements;
   private renderLayer?: Phaser.GameObjects.Layer;
-  private pendingFx?: { kind: "care" | "harvest"; slotId: string };
+  private pendingFx?: { kind: "care" | "harvest" | "delivery"; slotId: string };
 
   constructor() {
     super("GardenBoardScene");
@@ -160,6 +161,8 @@ class GardenBoardScene extends Phaser.Scene {
     );
     (window as unknown as { __seedGardenOrderCrateProgress?: number }).__seedGardenOrderCrateProgress =
       getFacilityBySlot(gameState, "facility_order_crate")?.progress ?? 0;
+    (window as unknown as { __seedGardenCompletedDeliveries?: number }).__seedGardenCompletedDeliveries =
+      gameState.completedDeliveries;
     this.updateHud();
   }
 
@@ -399,8 +402,17 @@ class GardenBoardScene extends Phaser.Scene {
     const animation = this.pendingFx.kind === "care" ? "care-spark-once" : "harvest-leaf-flyout-once";
     const sprite = this.add.sprite(slot.x, slot.y - 28, key);
     sprite.setDepth(60);
-    sprite.setDisplaySize(this.pendingFx.kind === "care" ? 96 : 132, this.pendingFx.kind === "care" ? 96 : 96);
+    sprite.setDisplaySize(this.pendingFx.kind === "care" ? 96 : 144, this.pendingFx.kind === "care" ? 96 : 104);
     sprite.play(animation);
+    if (this.pendingFx.kind === "delivery") {
+      this.tweens.add({
+        targets: sprite,
+        y: slot.y - 62,
+        alpha: { from: 1, to: 0.42 },
+        duration: 720,
+        ease: "Sine.easeOut"
+      });
+    }
     sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => sprite.destroy());
     this.renderLayer?.add(sprite);
     this.pendingFx = undefined;
@@ -411,7 +423,7 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderGarden();
   }
 
-  private performAction(action: "plant" | "care" | "harvest" | "claim") {
+  private performAction(action: "plant" | "care" | "harvest" | "claim" | "deliver") {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
       plantStarterSeed(gameState);
@@ -421,8 +433,11 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "harvest") {
       harvestSelectedPlot(gameState);
       this.pendingFx = { kind: "harvest", slotId: selectedSlotId };
-    } else {
+    } else if (action === "claim") {
       claimWorkbenchProduction(gameState);
+    } else {
+      claimOrderCrateDelivery(gameState);
+      this.pendingFx = { kind: "delivery", slotId: selectedSlotId };
     }
     this.renderGarden();
   }
@@ -444,9 +459,17 @@ class GardenBoardScene extends Phaser.Scene {
 
     const actions = this.getAvailableActions(gameState, selectedSlot);
     if (actions.length === 0) {
+      const selectedFacility = getFacilityBySlot(gameState, selectedSlot.id);
       const empty = document.createElement("span");
       empty.className = "action-note";
-      empty.textContent = selectedSlot.unlockState === "unlocked" ? "다른 slot을 선택" : "해금 preview";
+      empty.textContent =
+        selectedFacility?.kind === "order_crate"
+          ? selectedFacility.progress > 0
+            ? `주문 준비 ${selectedFacility.progress}%`
+            : "다음 상자 준비"
+          : selectedSlot.unlockState === "unlocked"
+            ? "다른 slot을 선택"
+            : "해금 preview";
       this.hud.actions.appendChild(empty);
       return;
     }
@@ -464,8 +487,9 @@ class GardenBoardScene extends Phaser.Scene {
   private getAvailableActions(
     state: GardenState,
     selectedSlot: BoardSlot
-  ): Array<{ id: "plant" | "care" | "harvest" | "claim"; label: string }> {
+  ): Array<{ id: "plant" | "care" | "harvest" | "claim" | "deliver"; label: string }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
+    const facility = getFacilityBySlot(state, selectedSlot.id);
     if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.resources.starterSeeds > 0) {
       return [{ id: "plant", label: "심기" }];
     }
@@ -477,6 +501,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (selectedSlot.id === "facility_workbench" && state.actors.length > 0) {
       return [{ id: "claim", label: "수령" }];
+    }
+    if (facility?.kind === "order_crate" && facility.progress >= 100) {
+      return [{ id: "deliver", label: "납품" }];
     }
     return [];
   }

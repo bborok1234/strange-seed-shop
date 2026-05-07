@@ -91,4 +91,16 @@ Browser Use `iab`가 노출되면 order crate 100% -> delivery claim을 직접 �
 
 ## Evidence
 
-- pending
+- `npm run check:phaser` pass
+- `npm run check:ci` pass
+- Visual report: `reports/visual/issue-0432-order-crate-delivery-reward-motion/visual-report-20260508.md`
+- Screenshots:
+  - `reports/visual/issue-0432-order-crate-delivery-reward-motion/phaser-check-crate-ready-393.png`
+  - `reports/visual/issue-0432-order-crate-delivery-reward-motion/phaser-check-delivery-claim-393.png`
+- Runtime evidence after delivery:
+  - leaves: `74`
+  - order crate progress: `0`
+  - completed deliveries: `1`
+  - receipt includes `주문 상자 납품`
+  - action rail shows `다음 상자 준비`
+- Browser Use `iab` is not exposed in this Codex CLI session; Playwright fallback evidence is recorded in the visual report.
