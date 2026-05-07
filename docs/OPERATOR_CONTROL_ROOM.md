@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T19:46:49.792Z
+Generated at: 2026-05-07T19:57:36.279Z
 
 ## Current mission
 
-현재 작업은 **Phaser v1 storage buffer production fill**이다. #457 storage basket unlock affordance는 PR #458로 merge/main CI까지 통과했고, 다음 blocker는 storage capacity가 열렸지만 다음 작업대 수령이 아직 `오프라인 보관 n/24` buffer를 채우지 않는 것이다.
+현재 작업은 **보관 바구니 오프라인 잎 회수**이다. #459 storage buffer production fill은 PR #460 merge/main CI까지 통과했고, 다음 blocker는 `오프라인 보관 4/24`가 쌓여도 플레이어가 아직 `회수`해서 comeback reward로 가져갈 수 없다는 점이다.
 
 현재 evidence:
 
@@ -27,46 +27,47 @@ Generated at: 2026-05-07T19:46:49.792Z
 - Completed third plot seed planting loop: Issue #453, PR #454, main CI `25516527365`
 - Completed repeat order after third plot harvest: Issue #455, PR #456, main CI `25517154782`
 - Completed storage basket unlock affordance: Issue #457, PR #458, main CI `25517800360`
-- WorkUnit: `items/0246-storage-buffer-production-fill.md`
-- GitHub issue: #459 `Phaser v1 storage buffer production fill`
-- Draft PR: #460 `Phaser v1 storage buffer production fill`
+- Completed storage buffer production fill: Issue #459, PR #460, main CI `25518444184`
+- WorkUnit: `items/0247-offline-storage-reward-claim.md`
+- GitHub issue: #461 `보관 바구니가 오프라인 잎을 회수하게 만들기`
+- Draft PR: pending
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0459-storage-buffer-production-fill/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
+- Visual report: `reports/visual/issue-0461-offline-storage-reward-claim/visual-report-20260508.md`
+- Current validation: plan artifact and GitHub issue created
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #459는 storage unlock payoff를 production fill feedback으로 연결한다.
-2. Storage buffer state는 existing generated facility raster와 HUD/receipt affordance를 사용하고 runtime image generation/API/cache를 호출하지 않는다.
-3. 다음 WorkUnit은 dedicated storage raster asset, offline comeback reward, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #461은 storage buffer payoff를 offline comeback reward claim으로 연결한다.
+2. Storage claim state는 existing generated facility raster와 HUD/action/receipt affordance를 사용하고 runtime image generation/API/cache를 호출하지 않는다.
+3. 다음 WorkUnit은 dedicated storage raster asset 또는 storage-fill/claim FX 중 하나의 asset/FX payoff를 우선 검토한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-storage-buffer-production-fill
-- Latest commit: 5e69849 보관 버퍼 PR 증거를 준비한다
+- Branch: codex/v1-offline-storage-reward-claim
+- Latest commit: 064f4d8 Merge pull request #460 from bborok1234/codex/v1-storage-buffer-production-fill
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T19:46:47.993Z
-- Phase: phaser-v1-storage-buffer-production-fill-pr
-- Issue: 459
-- PR: 460
-- Item: items/0246-storage-buffer-production-fill.md
-- Next action: gate: mark PR #460 ready, watch checks, merge if green
+- Timestamp: 2026-05-07T19:57:30.068Z
+- Phase: phaser-v1-offline-storage-reward-claim-plan
+- Issue: 461
+- PR: pending
+- Item: items/0247-offline-storage-reward-claim.md
+- Next action: gate: implement offline storage reward claim and verify
 
 ## Open PRs
 
-- #460 draft Phaser v1 storage buffer production fill — https://github.com/bborok1234/strange-seed-shop/pull/460
+- unavailable or none
 
 ## Open issues
 
-- #459 Phaser v1 storage buffer production fill — https://github.com/bborok1234/strange-seed-shop/issues/459
+- #461 보관 바구니가 오프라인 잎을 회수하게 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/461
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 
 ## Playable mode
