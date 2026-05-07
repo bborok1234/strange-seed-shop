@@ -89,4 +89,4 @@ Solo execute. JSON plan/prompt와 checker 갱신만 다루는 좁은 asset plann
 - `npm run check:asset-provenance`: pass
 - `npm run check:asset-style`: pass
 - `npm run check:ci`: pass
-- PR: pending
+- PR: #481 `도감 기록 스탬프 FX plan-prompt` - https://github.com/bborok1234/strange-seed-shop/pull/481

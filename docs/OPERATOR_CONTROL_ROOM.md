@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T22:13:53.220Z
+Generated at: 2026-05-07T22:15:11.192Z
 
 ## Current mission
 
@@ -41,7 +41,7 @@ Generated at: 2026-05-07T22:13:53.220Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0256-album-record-fx-plan-prompt.md`
 - GitHub issue: #480 `도감 기록 스탬프 FX plan-prompt`
-- Draft PR: pending
+- Draft PR: #481 `도감 기록 스탬프 FX plan-prompt`
 - Asset plan source: `assets/source/asset_plan.json`
 - Asset prompt source: `assets/source/asset_prompts.json`
 - Asset plan verifier: `scripts/check-topology-asset-plan.mjs`
@@ -59,22 +59,22 @@ Generated at: 2026-05-07T22:13:53.220Z
 ## Local state
 
 - Branch: codex/v1-album-record-fx-plan-prompt
-- Latest commit: b1653f3 연구 단서 목표 surface 병합
+- Latest commit: b0f8bcf 도감 기록 FX 제작 기준을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T22:13:51.127Z
-- Phase: phaser-v1-album-record-fx-plan-prompt-pr-gate
+- Timestamp: 2026-05-07T22:14:54.392Z
+- Phase: phaser-v1-album-record-fx-plan-prompt-pr
 - Issue: 480
-- PR: pending
+- PR: 481
 - Item: items/0256-album-record-fx-plan-prompt.md
-- Next action: PR gate 준비: commit push draft PR #480
+- Next action: PR gate 준비: wait checks then ready/merge #481
 
 ## Open PRs
 
-- unavailable or none
+- #481 draft 도감 기록 스탬프 FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/481
 
 ## Open issues
 
