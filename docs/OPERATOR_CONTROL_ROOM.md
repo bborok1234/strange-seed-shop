@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T19:19:43.594Z
+Generated at: 2026-05-07T19:33:03.345Z
 
 ## Current mission
 
-현재 작업은 **Phaser v1 repeat order after third plot harvest**이다. #453 third plot seed planting loop는 PR #454로 merge/main CI까지 통과했고, 다음 blocker는 `3번 햇살 밭` 수확과 두 번째 주문 납품이 아직 반복 루프 copy/state로 분명히 구분되지 않는 것이다.
+현재 작업은 **Phaser v1 storage basket unlock affordance**이다. #455 repeat order after third plot harvest는 PR #456으로 merge/main CI까지 통과했고, 다음 blocker는 `보관 바구니 준비` objective가 아직 실제 board unlock action으로 이어지지 않는 것이다.
 
 현재 evidence:
 
@@ -25,46 +25,47 @@ Generated at: 2026-05-07T19:19:43.594Z
 - Completed order crate delivery reward motion: Issue #432, PR #450, main CI `25514890197`
 - Completed third plot expansion unlock: Issue #451, PR #452, main CI `25515782343`
 - Completed third plot seed planting loop: Issue #453, PR #454, main CI `25516527365`
-- WorkUnit: `items/0244-repeat-order-after-third-plot-harvest.md`
-- GitHub issue: #455 `Phaser v1 repeat order after third plot harvest`
-- Draft PR: #456 `Phaser v1 repeat order after third plot harvest`
+- Completed repeat order after third plot harvest: Issue #455, PR #456, main CI `25517154782`
+- WorkUnit: `items/0245-storage-basket-unlock-affordance.md`
+- GitHub issue: #457 `Phaser v1 storage basket unlock affordance`
+- Draft PR: #458 `Phaser v1 storage basket unlock affordance`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0455-repeat-order-after-third-plot-harvest/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0457-storage-basket-unlock-affordance/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #455는 plot_03 harvest payoff를 repeat order delivery로 다시 순환시킨다.
-2. Repeat harvest/order state는 existing generated plot/order crate/FX raster states만 사용하고 runtime image generation/API/cache를 호출하지 않는다.
-3. 다음 WorkUnit은 storage unlock, offline/storage cap, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #457은 repeat order payoff를 storage basket unlock affordance로 연결한다.
+2. Storage state는 existing generated facility raster와 HUD/receipt affordance를 사용하고 runtime image generation/API/cache를 호출하지 않는다.
+3. 다음 WorkUnit은 dedicated storage raster asset, offline/storage cap, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-repeat-order-after-third-plot-harvest
-- Latest commit: 5d20eb8 반복 주문 PR 증거를 준비한다
+- Branch: codex/v1-storage-basket-unlock-affordance
+- Latest commit: 3897e8b 보관 바구니 PR 증거를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T19:19:35.859Z
-- Phase: phaser-v1-repeat-order-after-third-plot-harvest-pr
-- Issue: 455
-- PR: 456
-- Item: items/0244-repeat-order-after-third-plot-harvest.md
-- Next action: gate: mark PR #456 ready, watch checks, merge if green
+- Timestamp: 2026-05-07T19:32:55.400Z
+- Phase: phaser-v1-storage-basket-unlock-affordance-pr
+- Issue: 457
+- PR: 458
+- Item: items/0245-storage-basket-unlock-affordance.md
+- Next action: gate: mark PR #458 ready, watch checks, merge if green
 
 ## Open PRs
 
-- #456 draft Phaser v1 repeat order after third plot harvest — https://github.com/bborok1234/strange-seed-shop/pull/456
+- #458 draft Phaser v1 storage basket unlock affordance — https://github.com/bborok1234/strange-seed-shop/pull/458
 
 ## Open issues
 
-- #455 Phaser v1 repeat order after third plot harvest — https://github.com/bborok1234/strange-seed-shop/issues/455
+- #457 Phaser v1 storage basket unlock affordance — https://github.com/bborok1234/strange-seed-shop/issues/457
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 
 ## Playable mode

@@ -5,6 +5,7 @@ export type FacilityKind = "workbench" | "order_crate" | "storage";
 export type ActorRole = "caretaker" | "carrier";
 
 export const THIRD_PLOT_UNLOCK_COST = 60;
+export const STORAGE_BASKET_UNLOCK_COST = 80;
 
 export interface BoardSlot {
   id: string;
@@ -58,6 +59,7 @@ export interface GardenState {
   actors: ActorEntity[];
   receipts: string[];
   completedDeliveries: number;
+  storageCapacity: number;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -182,7 +184,8 @@ export function createGardenState(): GardenState {
     ],
     actors: [],
     receipts: [],
-    completedDeliveries: 0
+    completedDeliveries: 0,
+    storageCapacity: 12
   };
 }
 
@@ -206,6 +209,19 @@ export function selectSlot(state: GardenState, slotId: string): void {
   const slot = getSlot(state, slotId);
   state.selectedSlotId = slot.id;
   const facility = getFacilityBySlot(state, slotId);
+  if (facility?.kind === "storage") {
+    if (slot.unlockState === "unlocked") {
+      state.objective = `보관 바구니 정리 완료 · 오프라인 보관 ${state.storageCapacity}`;
+    } else if (state.completedDeliveries >= 2) {
+      state.objective =
+        state.resources.leaves >= STORAGE_BASKET_UNLOCK_COST
+          ? `${STORAGE_BASKET_UNLOCK_COST}잎으로 보관 바구니 정리하기`
+          : `보관 바구니 정리까지 잎 ${STORAGE_BASKET_UNLOCK_COST - state.resources.leaves}개 부족`;
+    } else {
+      state.objective = "두 번째 주문 납품 후 보관 바구니 정리";
+    }
+    return;
+  }
   if (facility?.kind === "order_crate") {
     if (facility.progress >= 100) {
       state.objective = "주문 상자를 납품해 첫 상회 보상을 받기";
@@ -368,4 +384,26 @@ export function unlockThirdPlot(state: GardenState): void {
   state.resources.starterSeeds += 1;
   state.objective = "3번 햇살 밭에 새 씨앗 심기";
   state.receipts.unshift("3번 밭 확장 · 잎 -60 · 씨앗 +1 · 새 재배 자리 +1");
+}
+
+export function unlockStorageBasket(state: GardenState): void {
+  const slot = getSlot(state, "facility_storage");
+  const storage = getFacilityBySlot(state, "facility_storage");
+  if (
+    !storage ||
+    slot.unlockState === "unlocked" ||
+    state.completedDeliveries < 2 ||
+    state.resources.leaves < STORAGE_BASKET_UNLOCK_COST
+  ) {
+    return;
+  }
+
+  state.resources.leaves -= STORAGE_BASKET_UNLOCK_COST;
+  slot.unlockState = "unlocked";
+  storage.level = 1;
+  storage.visualState = "active";
+  storage.progress = 100;
+  state.storageCapacity = 24;
+  state.objective = "보관 바구니 정리 완료 · 오프라인 보관 24";
+  state.receipts.unshift("보관 바구니 정리 · 잎 -80 · 오프라인 보관 12 -> 24");
 }
