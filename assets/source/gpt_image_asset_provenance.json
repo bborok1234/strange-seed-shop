@@ -692,7 +692,287 @@
         "expectedWidth": 576,
         "expectedHeight": 96
       }
+    },
+    {
+      "asset_id": "bg_garden_terrain_open_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/bg_garden_terrain_open_v1/2026-05-07T16-30-05-200Z.png",
+      "accepted_output_path": "public/assets/game/backgrounds/bg_garden_terrain_open_v1.png",
+      "generated_at": "2026-05-07T16:34:00.548Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_empty_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/tile_plot_empty_v1/2026-05-07T16-34-26-405Z.png",
+      "accepted_output_path": "public/assets/game/tiles/tile_plot_empty_v1.png",
+      "generated_at": "2026-05-07T16:37:28.123Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_sprout_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/tile_plot_sprout_v1/2026-05-07T16-37-28-304Z.png",
+      "accepted_output_path": "public/assets/game/tiles/tile_plot_sprout_v1.png",
+      "generated_at": "2026-05-07T16:40:38.150Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_growing_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/tile_plot_growing_v1/2026-05-07T16-40-38-345Z.png",
+      "accepted_output_path": "public/assets/game/tiles/tile_plot_growing_v1.png",
+      "generated_at": "2026-05-07T16:43:47.683Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_ready_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/tile_plot_ready_v1/2026-05-07T16-43-47-877Z.png",
+      "accepted_output_path": "public/assets/game/tiles/tile_plot_ready_v1.png",
+      "generated_at": "2026-05-07T16:46:58.145Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "tile_plot_locked_preview_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/tile_plot_locked_preview_v1/2026-05-07T16-46-58-339Z.png",
+      "accepted_output_path": "public/assets/game/tiles/tile_plot_locked_preview_v1.png",
+      "generated_at": "2026-05-07T16:50:21.297Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "facility_workbench_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/facility_workbench_v1/2026-05-07T16-50-21-495Z.png",
+      "accepted_output_path": "public/assets/game/facilities/facility_workbench_v1.png",
+      "generated_at": "2026-05-07T16:53:56.639Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "facility_order_crate_empty_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/facility_order_crate_empty_v1/2026-05-07T16-53-56-838Z.png",
+      "accepted_output_path": "public/assets/game/facilities/facility_order_crate_empty_v1.png",
+      "generated_at": "2026-05-07T16:57:19.125Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "facility_order_crate_filled_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/facility_order_crate_filled_v1/2026-05-07T16-57-19-324Z.png",
+      "accepted_output_path": "public/assets/game/facilities/facility_order_crate_filled_v1.png",
+      "generated_at": "2026-05-07T17:00:50.652Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "actor_pori_caretaker_strip_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/actor_pori_caretaker_strip_v1/2026-05-07T17-00-50-848Z.png",
+      "accepted_output_path": "public/assets/game/sprites/actor_pori_caretaker_strip_v1.png",
+      "generated_at": "2026-05-07T17:04:05.750Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "actor_momo_carrier_strip_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/actor_momo_carrier_strip_v1/2026-05-07T17-04-05-947Z.png",
+      "accepted_output_path": "public/assets/game/sprites/actor_momo_carrier_strip_v1.png",
+      "generated_at": "2026-05-07T17:07:07.267Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "fx_care_spark_strip_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/fx_care_spark_strip_v1/2026-05-07T17-07-07-463Z.png",
+      "accepted_output_path": "public/assets/game/fx/fx_care_spark_strip_v1.png",
+      "generated_at": "2026-05-07T17:09:55.869Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "fx_harvest_leaf_flyout_strip_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/fx_harvest_leaf_flyout_strip_v1/2026-05-07T17-09-56-065Z.png",
+      "accepted_output_path": "public/assets/game/fx/fx_harvest_leaf_flyout_strip_v1.png",
+      "generated_at": "2026-05-07T17:13:05.465Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
+    },
+    {
+      "asset_id": "ui_shadow_soft_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/ui_shadow_soft_v1/2026-05-07T17-13-05-663Z.png",
+      "accepted_output_path": "public/assets/game/ui/ui_shadow_soft_v1.png",
+      "generated_at": "2026-05-07T17:15:45.272Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ]
     }
   ],
-  "updated_at": "2026-05-07T06:38:03.469Z"
+  "updated_at": "2026-05-07T17:15:45.272Z"
 }
