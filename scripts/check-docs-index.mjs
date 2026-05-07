@@ -39,7 +39,7 @@ for (const doc of requiredDocs) {
   }
 }
 
-const requiredDirs = ["items", "reports/reviews", "reports/audits", "reports/visual"];
+const requiredDirs = ["items", "reports/reviews", "reports/audits", "reports/visual", "docs/legacy", "docs/phaser"];
 
 for (const dir of requiredDirs) {
   if (!fs.existsSync(dir)) {

@@ -118,7 +118,7 @@ ${openIssues.length === 0 ? "- unavailable or none" : openIssues.map((issue) => 
 ## Playable mode
 
 - Prepare stable main worktree: \`npm run play:main\`
-- Serve stable main game: \`cd ../strange-seed-shop-play && npm run dev -- --host 127.0.0.1 --port 5174\`
+- Serve stable main game: \`cd ../strange-seed-shop-play && npm run dev:legacy -- --host 127.0.0.1 --port 5174\`
 - URL: http://127.0.0.1:5174
 
 ## Visual evidence rule

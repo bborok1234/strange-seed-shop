@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
 const failures = [];
+const legacySrc = "apps/legacy-react-playable/src";
 
 function requirePath(path) {
   if (!fs.existsSync(path)) failures.push(`missing required path: ${path}`);
@@ -206,7 +207,7 @@ for (const phrase of [
   "모의 상점",
   "mock-shop-chip"
 ]) {
-  requirePhrase("src/App.tsx", phrase);
+  requirePhrase(`${legacySrc}/App.tsx`, phrase);
 }
 
 for (const phrase of [
@@ -229,7 +230,7 @@ for (const phrase of [
   ".album-target-badge",
   ".mock-shop-chip"
 ]) {
-  requirePhrase("src/styles.css", phrase);
+  requirePhrase(`${legacySrc}/styles.css`, phrase);
 }
 
 
@@ -257,7 +258,7 @@ for (const phrase of [
   "playHarvestBurst",
   "emitFxTelemetry"
 ]) {
-  requirePhrase("src/game/playfield/GardenScene.ts", phrase);
+  requirePhrase(`${legacySrc}/game/playfield/GardenScene.ts`, phrase);
 }
 
 for (const phrase of [
@@ -265,7 +266,7 @@ for (const phrase of [
   "playfield-board-overlay",
   "GardenBoardOverlay"
 ]) {
-  requirePhrase("src/game/playfield/GardenPlayfieldHost.tsx", phrase);
+  requirePhrase(`${legacySrc}/game/playfield/GardenPlayfieldHost.tsx`, phrase);
 }
 
 for (const phrase of [
@@ -273,12 +274,12 @@ for (const phrase of [
   "garden-playfield-fx",
   "showPlayfieldFeedback"
 ]) {
-  requirePhrase("src/game/playfield/GardenPlayfieldHost.tsx", phrase);
+  requirePhrase(`${legacySrc}/game/playfield/GardenPlayfieldHost.tsx`, phrase);
 }
 
-forbidPhrase("src/game/playfield/GardenScene.ts", "setWordWrapWidth");
-forbidPhrase("src/game/playfield/GardenScene.ts", "this.viewModel?.headline ?? \"정원 준비 중\"");
-forbidPhrase("src/game/playfield/GardenScene.ts", "this.viewModel?.hint ?? \"밭을 눌러 성장과 수확을 진행하세요\"");
+forbidPhrase(`${legacySrc}/game/playfield/GardenScene.ts`, "setWordWrapWidth");
+forbidPhrase(`${legacySrc}/game/playfield/GardenScene.ts`, "this.viewModel?.headline ?? \"정원 준비 중\"");
+forbidPhrase(`${legacySrc}/game/playfield/GardenScene.ts`, "this.viewModel?.hint ?? \"밭을 눌러 성장과 수확을 진행하세요\"");
 
 console.log(JSON.stringify({ ok: failures.length === 0, checked: requiredPaths.length, failures }, null, 2));
 

@@ -2,13 +2,13 @@ import fs from "node:fs";
 
 const jsonFiles = [
   "public/assets/manifest/assetManifest.json",
-  "src/data/seeds.json",
-  "src/data/creatures.json",
-  "src/data/growth_curves.json",
-  "src/data/rewards.json",
-  "src/data/expeditions.json",
-  "src/data/missions.json",
-  "src/data/shop_surfaces.json"
+  "apps/legacy-react-playable/src/data/seeds.json",
+  "apps/legacy-react-playable/src/data/creatures.json",
+  "apps/legacy-react-playable/src/data/growth_curves.json",
+  "apps/legacy-react-playable/src/data/rewards.json",
+  "apps/legacy-react-playable/src/data/expeditions.json",
+  "apps/legacy-react-playable/src/data/missions.json",
+  "apps/legacy-react-playable/src/data/shop_surfaces.json"
 ];
 
 const readJson = (path) => JSON.parse(fs.readFileSync(path, "utf8"));
@@ -18,9 +18,9 @@ for (const file of jsonFiles) {
 }
 
 const manifest = readJson("public/assets/manifest/assetManifest.json");
-const seeds = readJson("src/data/seeds.json");
-const creatures = readJson("src/data/creatures.json");
-const shopSurfaces = readJson("src/data/shop_surfaces.json");
+const seeds = readJson("apps/legacy-react-playable/src/data/seeds.json");
+const creatures = readJson("apps/legacy-react-playable/src/data/creatures.json");
+const shopSurfaces = readJson("apps/legacy-react-playable/src/data/shop_surfaces.json");
 const assetIds = new Set(Object.keys(manifest.assets));
 const creatureIds = new Set(creatures.map((creature) => creature.id));
 

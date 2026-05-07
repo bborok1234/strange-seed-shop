@@ -1,10 +1,11 @@
 import fs from "node:fs";
 
-const seeds = JSON.parse(fs.readFileSync("src/data/seeds.json", "utf8"));
-const expeditions = JSON.parse(fs.readFileSync("src/data/expeditions.json", "utf8"));
-const rewards = JSON.parse(fs.readFileSync("src/data/rewards.json", "utf8"));
-const missions = JSON.parse(fs.readFileSync("src/data/missions.json", "utf8"));
-const creatures = JSON.parse(fs.readFileSync("src/data/creatures.json", "utf8"));
+const legacySrc = "apps/legacy-react-playable/src";
+const seeds = JSON.parse(fs.readFileSync(`${legacySrc}/data/seeds.json`, "utf8"));
+const expeditions = JSON.parse(fs.readFileSync(`${legacySrc}/data/expeditions.json`, "utf8"));
+const rewards = JSON.parse(fs.readFileSync(`${legacySrc}/data/rewards.json`, "utf8"));
+const missions = JSON.parse(fs.readFileSync(`${legacySrc}/data/missions.json`, "utf8"));
+const creatures = JSON.parse(fs.readFileSync(`${legacySrc}/data/creatures.json`, "utf8"));
 
 const starterSeedIds = ["seed_herb_001", "seed_herb_002", "seed_candy_001"];
 const starterSeeds = seeds.filter((seed) => starterSeedIds.includes(seed.id));
@@ -16,7 +17,7 @@ const nextDeterministicSeed = seeds.find(
   (seed) => starterSeedIds.includes(seed.id) && seed.creaturePool?.[0] && seed.creaturePool[0] !== firstSeed?.creaturePool?.[0]
 );
 const nextCreatureGoal = creatures.find((creature) => creature.id === nextDeterministicSeed?.creaturePool?.[0]);
-const appSource = fs.readFileSync("src/App.tsx", "utf8");
+const appSource = fs.readFileSync(`${legacySrc}/App.tsx`, "utf8");
 const repeatStarterCost = Math.max(10, firstSeed?.costLeaves ?? 0);
 const requiredMissionIds = [
   "tutorial_plant_first_seed",
@@ -94,7 +95,7 @@ if (!nextDeterministicSeed || !nextCreatureGoal) {
 
 for (const { label, fragment } of requiredAppFragments) {
   if (!normalizedAppSource.includes(normalizeFragment(fragment))) {
-    failures.push(`App.tsx missing shortfall behavior fragment: ${label}`);
+    failures.push(`legacy App.tsx missing shortfall behavior fragment: ${label}`);
   }
 }
 
@@ -195,7 +196,7 @@ for (const phrase of [
   "createProductionReadyQaSave"
 ]) {
   if (!appSource.includes(phrase)) {
-    failures.push(`App.tsx missing collection goal UI phrase: ${phrase}`);
+    failures.push(`legacy App.tsx missing collection goal UI phrase: ${phrase}`);
   }
 }
 

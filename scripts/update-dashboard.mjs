@@ -24,7 +24,7 @@ const fileStatus = (paths) => (paths.every(exists) ? "verified" : "blocked");
 
 const rows = [
   ["공통 북극성", fileStatus(["docs/NORTH_STAR.md"]), "`docs/NORTH_STAR.md`"],
-  ["Phase 0 제품 루프", fileStatus(["src/App.tsx", "scripts/check-game-loop.mjs"]), "`npm run check:loop`"],
+  ["Legacy React 제품 루프", fileStatus(["apps/legacy-react-playable/src/App.tsx", "scripts/check-game-loop.mjs"]), "`npm run check:loop`"],
   [
     "정적 에셋 파이프라인",
     fileStatus(["public/assets/manifest/assetManifest.json", "reports/assets/asset_review_20260427.md"]),

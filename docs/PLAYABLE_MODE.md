@@ -15,7 +15,7 @@ npm run play:main
 # dependencies가 없으면 한 번만:
 npm run play:main:install
 cd ../strange-seed-shop-play
-npm run dev -- --host 127.0.0.1 --port 5174
+npm run dev:legacy -- --host 127.0.0.1 --port 5174
 ```
 
 브라우저에서 `http://127.0.0.1:5174`를 연다.

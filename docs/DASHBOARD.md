@@ -9,7 +9,7 @@ Updated: 2026-05-07
 | 영역 | 상태 | 증거 |
 | --- | --- | --- |
 | 공통 북극성 | verified | `docs/NORTH_STAR.md` |
-| Phase 0 제품 루프 | verified | `npm run check:loop` |
+| Legacy React 제품 루프 | verified | `npm run check:loop` |
 | 정적 에셋 파이프라인 | verified | `public/assets/manifest/assetManifest.json` |
 | 경제 검증 | verified | `npm run simulate:economy` |
 | 브라우저 QA | done | `reports/visual/browser_use_qa_20260427.md` |
@@ -39,7 +39,7 @@ Updated: 2026-05-07
 | 상태 | 개수 |
 | --- | ---: |
 | done | 137 |
-| review | 73 |
+| review | 74 |
 | todo | 4 |
 | blocked | 1 |
 

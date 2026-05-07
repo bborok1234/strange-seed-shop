@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["apps/legacy-react-playable/src", "apps/seed-garden-phaser/src"],
   "references": []
 }

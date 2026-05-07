@@ -57,7 +57,7 @@ const result = {
   commands: [
     `cd ${targetPath}`,
     "npm install",
-    `npm run dev -- --host 127.0.0.1 --port ${port}`
+    `npm run dev:legacy -- --host 127.0.0.1 --port ${port}`
   ],
   notes: []
 };
@@ -107,7 +107,7 @@ if (!fs.existsSync(path.join(targetPath, "node_modules"))) {
 console.log(JSON.stringify(result, null, 2));
 
 if (serve) {
-  const child = spawn("npm", ["run", "dev", "--", "--host", "127.0.0.1", "--port", port], {
+  const child = spawn("npm", ["run", "dev:legacy", "--", "--host", "127.0.0.1", "--port", port], {
     cwd: targetPath,
     stdio: "inherit"
   });
