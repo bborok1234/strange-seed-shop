@@ -1,6 +1,8 @@
 # Phaser 신규 정원 vertical slice 제작 규격
 
-Status: active
+> Superseded on 2026-05-07: 이 문서는 historical Stage 1/2/3 계획이다. `plot_left`/`plot_right`와 고정 2개 밭 구도에서 출발해 확장형 정원 설계와 충돌하므로, 새 구현 기준으로 사용하지 않는다. Active source-of-truth는 `docs/phaser/REBOOT_FOUNDATION_SPEC.md`다.
+
+Status: superseded
 Updated: 2026-05-07
 Owner: Studio
 Scope: 기존 React/CSS 누적 화면을 더 고치지 않고, Phaser-first 신규 vertical slice로 `이상한 씨앗상회`와 에이전트 네이티브 스튜디오를 동시에 검증한다.

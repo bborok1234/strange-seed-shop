@@ -138,7 +138,7 @@ assistant final publication ask is a regression: final로 GitHub 게시 확인�
 
 ## Studio Campaign Gate
 
-The next game issue is a child of the active campaign, not a neighbor of the previous issue. Active campaign source of truth: P0.5 Idle Core + Creative Rescue. Before implementation, the next plan artifact must include reference teardown, creative brief, Game Studio Department Signoff, role-debate note when roles disagree, Subagent/Team Routing decision, and QA/playtest plan.
+The next game issue is a child of the active campaign, not a neighbor of the previous issue. Active campaign source of truth: P0.5 Idle Core + Creative Rescue. Before implementation, the next plan artifact must include reference teardown, creative brief, Game Studio Department Signoff, Department Scorecard with approve/revise/block, Role Debate when roles disagree, Subagent/Team Routing decision, and QA/playtest plan.
 
 ## Game Studio Department Signoff
 
@@ -149,6 +149,10 @@ The next game issue is a child of the active campaign, not a neighbor of the pre
 - 검수팀: Browser Use/playtest evidence, screenshot/report/check list.
 - 마케팅팀: mock-only player-facing promise, no real channel action.
 - 고객지원팀: first 5 minutes confusion/support risk and FAQ note.
+
+## Department Scorecard
+
+Each department must mark approve/revise/block and cite an artifact. Two or more revise/block decisions require a Role Debate before implementation. Hard gameplay/economy/routing/sprite/QA harness problems require a self-evaluation loop: claim, smallest verifier, rubric, artifact path, iteration log, and stop condition.
 
 ## Subagent/Team Routing
 

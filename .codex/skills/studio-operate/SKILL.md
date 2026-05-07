@@ -41,14 +41,39 @@ This skill is the Codex counterpart to Claude Code `/studio-operate`. It runs a 
 5. Ensure the WorkUnit has:
    - `## Plan`;
    - Game Studio route;
+   - `## Department Scorecard` with 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 `approve/revise/block`;
+   - `## Role Debate` when two or more departments are `revise` or `block`;
    - acceptance criteria;
    - verification commands;
    - Browser Use QA plan for visible changes;
    - stop/blocker boundaries.
-6. Execute one bounded slice through implementation and focused verification.
-7. If GitHub is available and the slice changed repo files, create/update a draft PR and record the PR URL in the WorkUnit, heartbeat, and operation report before moving on.
-8. Leave heartbeat/evidence in `reports/operations/` and `reports/visual/`.
-9. If stop rules are not active, prepare the next plan artifact or next actionable checkpoint instead of sending a terminal-style “done” claim.
+6. For hard gameplay/economy/routing/sprite/QA harness problems, create a self-evaluation loop before editing:
+   - claim;
+   - smallest verifier;
+   - rubric;
+   - artifact path;
+   - iteration log;
+   - stop condition.
+7. Execute one bounded slice through implementation and focused verification.
+8. If GitHub is available and the slice changed repo files, create/update a draft PR and record the PR URL in the WorkUnit, heartbeat, and operation report before moving on.
+9. Leave heartbeat/evidence in `reports/operations/` and `reports/visual/`.
+10. If stop rules are not active, prepare the next plan artifact or next actionable checkpoint instead of sending a terminal-style “done” claim.
+
+## Department Contract
+
+전문팀은 이름표가 아니라 gate owner다. 각 팀은 아래 artifact를 소유한다.
+
+| 부서 | 필수 산출물 | block 조건 |
+| --- | --- | --- |
+| 기획팀 | player verb, loop role, reward timing, success metric | player verb 또는 first 5m/D1/D7/D30 moment가 없음 |
+| 리서치팀 | reference teardown, production gap, rejected alternative | reference 없이 작은 기능을 자동 선택 |
+| 아트팀 | visual target, asset/FX bundle, provenance/generation plan | asset/FX payoff인데 raster/sprite/manifest/animation plan 없음 |
+| 개발팀 | runtime/save/economy boundary, implementation tranche, rollback boundary | touched files와 state boundary가 모호함 |
+| 검수팀 | Browser Use/playtest plan, deterministic regression, rubric scoring | UI/visual claim인데 Browser Use evidence 또는 current blocker 없음 |
+| 마케팅팀 | mock-only player promise, release/devlog angle, no real channel action | 외부 채널/실결제/광고/과장 promise 위험 |
+| 고객지원팀 | first-5m confusion risk, support FAQ note | 플레이어가 다음 행동이나 변화 의미를 설명할 수 없음 |
+
+This follows the Codex game-development operating pattern: first playable loop, UI/control tuning, difficult-problem self-evaluation loop, real-signal bug triage, and PR review before merge.
 
 ## Relationship To Detached Supervisor
 

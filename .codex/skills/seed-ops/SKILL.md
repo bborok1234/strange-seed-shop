@@ -136,6 +136,15 @@ PR 제목은 연결 issue 제목의 의도를 유지해야 한다. issue와 PR�
 
 부서 간 관점이 충돌하면 `role-debate note`를 plan에 남긴다. 예: 아트팀이 신규 raster asset을 요구하지만 개발팀이 scope를 줄이려는 경우, 최종 선택과 rejected alternative를 기록한다.
 
+### v3 Department Scorecard 강화
+
+`$seed-ops`는 deprecated adapter지만, 문서/계약 mirror로 남아 있는 동안 v3와 같은 전문팀 의미를 보존해야 한다. 새 Studio Harness v3 WorkUnit은 `Game Studio Department Signoff`를 넘어서 `Department Scorecard`를 요구한다.
+
+- 각 전문팀은 `approve/revise/block` 중 하나와 근거 artifact를 남긴다.
+- 두 부서 이상이 `revise` 또는 `block`이면 `Role Debate`를 구현 전에 닫는다.
+- 기획팀은 player verb와 screen moment, 리서치팀은 production gap, 아트팀은 asset/FX bundle, 개발팀은 runtime boundary, 검수팀은 Browser Use/regression, 마케팅팀은 mock-only promise, 고객지원팀은 first-5m confusion risk를 block 조건까지 판정한다.
+- gameplay/economy/routing/sprite/QA harness 난제는 self-evaluation loop를 요구한다: claim, smallest verifier, rubric, artifact path, iteration log, stop condition.
+
 ## Subagent/Team Routing
 
 `$seed-ops`는 혼자 모든 역할을 순차 처리하는 것을 기본값으로 삼지 않는다. 아래 조건이면 Codex native subagents 또는 team mode를 사용한다.

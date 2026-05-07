@@ -208,21 +208,23 @@ Milestone 7부터 watchdog runner는 heartbeat ledger를 읽어 `fresh`, `stale`
 
 ### Game Studio Department Axis
 
-새 게임 issue는 `Studio Campaign Gate`를 통과한 active campaign source of truth에서 출발한다. 현재 campaign은 `P0.5 Idle Core + Creative Rescue`이며, implementation issue는 이 campaign의 하위 산출물이다. 직전 issue 옆의 작은 기능을 고르는 것은 campaign gate가 아니다. issue plan은 `Game Studio Department Signoff`, creative brief, QA/playtest plan을 포함해야 한다.
+새 게임 issue는 `Studio Campaign Gate`를 통과한 active campaign source of truth에서 출발한다. 현재 campaign은 `P0.5 Idle Core + Creative Rescue`이며, implementation issue는 이 campaign의 하위 산출물이다. 직전 issue 옆의 작은 기능을 고르는 것은 campaign gate가 아니다. issue plan은 `Game Studio Department Signoff`와 더 엄격한 `Department Scorecard`, creative brief, QA/playtest plan을 포함해야 한다.
 
-| 부서 | 책임 | 산출물 |
-| --- | --- | --- |
-| 기획팀 | player verb, core loop, reward timing | player value, production/progression role, first 5 minutes moment |
-| 리서치팀 | 경쟁작 production gap과 레퍼런스 | reference teardown, 비교 기준, rejected alternative |
-| 아트팀 | visual target, style consistency, asset/FX bundle | art direction, gpt-image-2 default/fallback, manifest/animation plan |
-| 개발팀 | runtime architecture, save/economy boundary | implementation tranche, touched files, rollback boundary |
-| 검수팀 | Browser Use, visual QA, regression | playtest evidence, screenshot/report/checks |
-| 마케팅팀 | mock-only player-facing promise | devlog/release-note angle, no real channel action |
-| 고객지원팀 | player confusion/support risk | support risk, FAQ note, first 5 minutes confusion |
+| 부서 | 책임 | 산출물 | block 조건 |
+| --- | --- | --- | --- |
+| 기획팀 | player verb, core loop, reward timing | player value, production/progression role, first 5 minutes moment | player verb 또는 screen moment 없음 |
+| 리서치팀 | 경쟁작 production gap과 레퍼런스 | reference teardown, 비교 기준, rejected alternative | reference 없이 작은 기능 자동 선택 |
+| 아트팀 | visual target, style consistency, asset/FX bundle | art direction, gpt-image-2 default/fallback, manifest/animation plan | asset/FX payoff인데 raster/sprite/manifest/animation plan 없음 |
+| 개발팀 | runtime architecture, save/economy boundary | implementation tranche, touched files, rollback boundary | touched files와 state boundary 불명확 |
+| 검수팀 | Browser Use, visual QA, regression | playtest evidence, screenshot/report/checks, rubric scoring | UI/visual claim인데 Browser Use evidence 또는 current blocker 없음 |
+| 마케팅팀 | mock-only player-facing promise | devlog/release-note angle, no real channel action | 외부 채널/실결제/광고/과장 promise 위험 |
+| 고객지원팀 | player confusion/support risk | support risk, FAQ note, first 5 minutes confusion | 다음 행동이나 변화 의미가 불명확 |
 
 Department signoff는 stage를 대체하지 않는다. 예를 들어 아트팀 signoff가 있어도 apply lane은 여전히 plan artifact, open item, scope, protected boundary를 확인한다. 검수팀 signoff가 있어도 verify lane은 테스트와 screenshot evidence를 실제로 실행한다.
 
-부서 간 관점이 충돌하면 `role-debate note`에 최종 선택과 rejected alternative를 남긴다.
+부서 간 관점이 충돌하면 `Role Debate`에 최종 선택과 rejected alternative를 남긴다. 두 부서 이상이 `approve/revise/block` 중 `revise` 또는 `block`이면 구현 전에 debate를 닫는다.
+
+복잡한 gameplay/economy/routing/sprite/QA harness 문제는 Codex game-development operating pattern에 따라 self-evaluation loop를 만든다. plan에는 `claim`, `smallest verifier`, `rubric`, `artifact path`, `iteration log`, `stop condition`이 있어야 하며, green check가 실제 claim을 평가하지 않으면 completion evidence로 쓰지 않는다.
 
 ### Subagent/Team Routing
 

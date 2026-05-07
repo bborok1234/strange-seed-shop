@@ -62,6 +62,14 @@ Scope: `$seed-ops` 운영 하네스, P0.5 Idle Core + Creative Rescue
 
 서로 충돌하는 관점이 있으면 issue plan에 `role-debate note`를 남긴다. 예: 아트팀은 신규 raster asset을 요구하지만 개발팀은 scope를 줄이고 싶을 때, 최종 선택과 거절한 대안을 기록한다.
 
+### 2026-05-08 v3 Department Scorecard Addendum
+
+기존 reference review는 Game Studio Department Signoff의 필요성을 남겼고, 새 Studio Harness v3 계약은 이를 `Department Scorecard`로 강화한다.
+
+- 각 전문팀은 `approve/revise/block`과 artifact를 남긴다.
+- 두 부서 이상이 `revise` 또는 `block`이면 `Role Debate`를 구현 전에 닫는다.
+- 어려운 gameplay/economy/routing/sprite/QA harness 문제는 self-evaluation loop로 반복한다: claim, smallest verifier, rubric, artifact path, iteration log, stop condition.
+
 ### Subagent/Team Routing
 
 `$seed-ops`는 다음 경우 Codex native subagents 또는 team mode를 사용해야 한다.

@@ -8,8 +8,9 @@ This folder is the durable memory for `이상한 씨앗상회` and the agent-nat
 
 | Lane | Code | Docs | Evidence | Rule |
 | --- | --- | --- | --- | --- |
-| Legacy/reference playable | `apps/legacy-react-playable/` | `docs/legacy/README.md`와 기존 P0/P0.5 docs | 기존 `reports/visual/*`, `reports/playtests/*` | 기존 React playable을 보존/검증한다. 신규 Phaser WorkUnit의 active spec이 아니다 |
-| Active Phaser greenfield | `apps/seed-garden-phaser/` | `docs/phaser/README.md`, `docs/phaser/VERTICAL_SLICE_SPEC.md` | 신규 `reports/phaser/*` 또는 `reports/visual/phaser-*` | #433 이후 신규 gameplay 구현은 여기서 시작한다 |
+| Active game design | N/A | `docs/GAME_BIBLE.md` | `items/0234-game-bible-full-redesign.md` | `이상한 씨앗상회` 게임 자체의 active source-of-truth다. Phaser/legacy/P0 문서는 이 문서의 하위 참고다 |
+| Legacy/reference playable | `apps/legacy-react-playable/` | `docs/legacy/README.md`와 기존 P0/P0.5 docs | 기존 `reports/visual/*`, `reports/playtests/*` | 기존 React playable을 보존/검증한다. 신규 Game/Phaser WorkUnit의 active spec이 아니다 |
+| Active Phaser greenfield | `apps/seed-garden-phaser/` | `docs/phaser/README.md`, `docs/phaser/REBOOT_FOUNDATION_SPEC.md` | 신규 `reports/phaser/*` 또는 `reports/visual/phaser-*` | `GAME_BIBLE.md`의 구현 하위 lane이다. 확장 가능한 world topology부터 신규 gameplay 구현을 시작한다 |
 | Studio/operator | `.codex/skills/studio-*`, `scripts/studio-*`, `scripts/check-*` | `docs/studio/`, `docs/PROJECT_COMMANDS.md`, `docs/OPERATOR_CONTROL_ROOM.md` | `reports/operations/*` | 게임별 구현 spec이 아니라 cross-game 운영 계층이다 |
 
 호환성을 위해 root `npm run dev`는 `apps/legacy-react-playable/`을 연다. 신규 Phaser 구현은 `npm run dev:phaser`와 `apps/seed-garden-phaser/`를 사용한다.
@@ -25,10 +26,12 @@ Phase 이름은 서로 대체 관계가 아니라 층위다. 새 작업자는 �
 | Tier | 문서 | 역할 | 충돌 시 판단 |
 | --- | --- | --- | --- |
 | 0 | `NORTH_STAR.md` | 게임/운영사 최상위 방향과 production bar | 항상 우선 |
-| 1 | `PRD_PHASE0.md`, `ECONOMY_PHASE0.md` | Phase 0 baseline product/economy/safety contract: 첫 루프, 저장, mock monetization, 결제/로그인/런타임 이미지 생성 금지 | P0.5/P0.6도 이 안전 계약을 넘을 수 없음 |
-| 2 | `docs/phaser/README.md`, `docs/phaser/VERTICAL_SLICE_SPEC.md` | 신규 Phaser greenfield active gameplay source-of-truth | #433 이후 신규 Phaser WorkUnit은 이 기준을 우선 적용 |
-| 2L | `DESIGN.md`, `ART_HUD_PRODUCTION_SPEC.md`, `IDLE_CORE_PRODUCTION_SPEC.md` | legacy/reference production overlay: 기존 React playable rescue와 경쟁작 리서치 기록 | `docs/phaser/*`에서 명시적으로 import한 기준만 active Phaser spec으로 승격 |
-| 3 | `DESIGN_SYSTEM.md`, `GAME_UI_UX_RESEARCH_20260428.md`, `IDLE_CORE_CREATIVE_GUIDE.md` | 구현 위생, 과거 리서치, creative direction, vertical-slice workflow | Tier 2와 충돌하면 Tier 2를 우선하고, 필요한 근거만 가져옴 |
+| 1 | `GAME_BIBLE.md` | `이상한 씨앗상회` 전체 게임 설계: 정체성, loop, 30일 progression, world, system, UI/HUD, art, asset policy | 게임 설계 판단에서 우선 |
+| 1A | `GAME_PRODUCTION_SPEC.md` | `GAME_BIBLE.md`의 제작 companion: 화면 상태, 데이터 모델, v1 콘텐츠 수량, 경제 기준값, telemetry, WorkUnit 분해 기준 | 세부 수치/상태/제작 checklist는 여기서 우선 갱신하되, 정체성과 금지선은 Tier 1을 따름 |
+| 2 | `PRD_PHASE0.md`, `ECONOMY_PHASE0.md` | Phase 0 baseline product/economy/safety contract: 첫 루프, 저장, mock monetization, 결제/로그인/런타임 이미지 생성 금지 | `GAME_BIBLE.md`도 안전 계약을 넘을 수 없음 |
+| 3 | `docs/phaser/README.md`, `docs/phaser/REBOOT_FOUNDATION_SPEC.md` | 신규 Phaser greenfield implementation source-of-truth | `GAME_BIBLE.md`를 구현하는 하위 문서다. 충돌하면 `GAME_BIBLE.md` 우선 |
+| 3L | `DESIGN.md`, `ART_HUD_PRODUCTION_SPEC.md`, `IDLE_CORE_PRODUCTION_SPEC.md` | legacy/reference production overlay: 기존 React playable rescue와 경쟁작 리서치 기록 | `GAME_BIBLE.md`나 `docs/phaser/*`에서 명시적으로 import한 기준만 active spec으로 승격 |
+| 4 | `DESIGN_SYSTEM.md`, `GAME_UI_UX_RESEARCH_20260428.md`, `IDLE_CORE_CREATIVE_GUIDE.md` | 구현 위생, 과거 리서치, creative direction, vertical-slice workflow | Tier 1/3과 충돌하면 상위 tier를 우선하고, 필요한 근거만 가져옴 |
 | 4 | `items/`, `reports/` | 특정 WorkUnit의 plan/evidence/history | 해당 issue 범위 안에서만 source of truth |
 
 용어 규칙:
@@ -47,6 +50,8 @@ Phase 이름은 서로 대체 관계가 아니라 층위다. 새 작업자는 �
 | `../ROADMAP.md` | Current concise Studio Harness v2 roadmap | Before choosing current next gate |
 | `../campaigns/active.json` | Single active campaign registry | Before `seed-studio` gate transitions |
 | `NORTH_STAR.md` | Dual north star for the game and the agent-native studio/operator | Before choosing strategy or roadmap work |
+| `GAME_BIBLE.md` | Active game source-of-truth: 살아있는 정원 상회, v1+30일 progression, 온실 세계 확장, system/UI/art/asset policy | Before any game design, Phaser implementation, UI/HUD, content, economy, asset, or playtest work |
+| `GAME_PRODUCTION_SPEC.md` | 제작용 companion spec: player journey, screen states, data model, content counts, economy targets, asset/FX gates, telemetry, WorkUnit split | Before turning game design into implementation, content, asset, balance, or QA tasks |
 | `ROADMAP.md` | Milestone tracking, next tasks, current status | Before deciding what to do next |
 | `PROJECT_COMMANDS.md` | 프로젝트 전용 명령어와 v3 운영 진입점: `npm run studio:v3:operate`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`; `$seed-ops`는 deprecated adapter | Before choosing operating/report/design/QA/playable mode |
 | `PRD_PHASE0.md` | Phase 0 product requirements and UX contract | Before product or UI work |
@@ -55,7 +60,8 @@ Phase 이름은 서로 대체 관계가 아니라 층위다. 새 작업자는 �
 | `ART_HUD_PRODUCTION_SPEC.md` | Garden art/HUD production spec for plot, actor, label, motion, HUD budget, and visual QA | Before implementing garden, production, order, research, or expedition HUD moments |
 | `IDLE_CORE_PRODUCTION_SPEC.md` | Competitor-backed idle core gameplay spec for production loop, bottlenecks, upgrades, offline return, and long meta | Before choosing or implementing core gameplay WorkUnits |
 | `phaser/README.md` | 신규 Phaser active lane index와 code/docs/evidence boundary | Before creating greenfield Phaser game WorkUnits |
-| `phaser/VERTICAL_SLICE_SPEC.md` | Phaser-first 신규 정원 vertical slice 제작 규격: 기존 앱 visual rewrite 동결, 낮은 관리 카메라, 감상 모드, actor care/carry/reward FX stage plan | Before creating greenfield Phaser game WorkUnits or deciding whether to migrate away from the legacy playable |
+| `phaser/REBOOT_FOUNDATION_SPEC.md` | Phaser 리부트 foundation: 기존 Stage plan 보류, 배경 baked-in gameplay object 금지, expandable slot topology, actor task, camera/HUD/asset order | Before creating or implementing any greenfield Phaser game WorkUnit |
+| `phaser/VERTICAL_SLICE_SPEC.md` | Historical Stage 1/2/3 spec. 2026-05-07 기준 superseded | Only for history. Do not use as active implementation source |
 | `legacy/README.md` | 기존 React playable/P0/P0.5 docs를 reference로 분류하는 boundary | Before using old design/HUD/core docs as reference |
 | `PHASER_GREENFIELD_VERTICAL_SLICE_SPEC.md` | Compatibility alias to `phaser/VERTICAL_SLICE_SPEC.md` | Only for old links; do not treat as the active editing surface |
 | `PRODUCTION_SLICE_READINESS.md` | Blocking readiness gate for the next core gameplay slice, starting with bottleneck-readable production graph | Before opening or merging the next core gameplay PR |
@@ -115,9 +121,10 @@ Phase 0 validates:
 Current Game Studio direction:
 
 - `apps/legacy-react-playable/`는 React app shell, save/content/analytics, DOM HUD, 기존 Phaser 2D playfield를 포함한 reference playable이다.
+- `docs/GAME_BIBLE.md`는 게임 자체의 active source-of-truth다.
 - `apps/seed-garden-phaser/`는 신규 Phaser-first 정원의 active runtime lane이다.
-- 신규 Stage 1/2/3 작업은 기존 React/CSS rescue가 아니라 `docs/phaser/*`와 `apps/seed-garden-phaser/`에서 시작한다.
-- Sprite/FX 작업은 `docs/phaser/VERTICAL_SLICE_SPEC.md`와 신규 app manifest policy에 맞춰 진행한다.
+- 신규 작업은 기존 React/CSS rescue나 old Stage 1/2/3 계획이 아니라 `docs/GAME_BIBLE.md`, `docs/phaser/REBOOT_FOUNDATION_SPEC.md`, `apps/seed-garden-phaser/` 순서로 시작한다.
+- Sprite/FX 작업은 새 topology, actor task, manifest policy가 정해진 뒤 진행한다.
 
 ## Current Operating Summary
 

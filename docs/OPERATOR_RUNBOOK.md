@@ -34,6 +34,8 @@ Before any supervised 4h or 24h run:
    - 게임 issue라면 먼저 `Studio Campaign Gate`를 적용해 `P0.5 Idle Core + Creative Rescue` 같은 active campaign source of truth를 고정하고 `Game Studio Department Signoff`와 `Subagent/Team Routing decision`을 적는다.
    - Plan에는 reference teardown, creative brief, QA/playtest plan을 포함한다.
    - 기획팀, 리서치팀, 아트팀, 개발팀, 검수팀, 마케팅팀, 고객지원팀 중 관련 부서가 맡는 산출물과 role-debate note를 적는다.
+   - v3 강화 계약에서는 `Department Scorecard`를 추가해 각 부서가 `approve/revise/block` 중 하나와 근거 artifact를 남긴다.
+   - 두 부서 이상이 `revise` 또는 `block`이면 `Role Debate`를 구현 전에 닫고, 난제는 self-evaluation loop(claim, smallest verifier, rubric, artifact path, iteration log, stop condition)를 먼저 만든다.
    - Plan artifact가 없으면 branch 구현, 제품 코드 수정, 운영 문서 수정으로 넘어가지 않는다.
 4. Create or reuse a context snapshot under `.omx/context/` with:
    - task statement

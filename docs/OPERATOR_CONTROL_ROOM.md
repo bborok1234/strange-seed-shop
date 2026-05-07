@@ -3,59 +3,60 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T12:46:54.606Z
+Generated at: 2026-05-07T16:04:45.721Z
 
 ## Current mission
 
-현재 작업은 **Legacy React app / Phaser / Studio code and source-of-truth boundary split**이다. Issue #436 / `items/0232-repo-boundary-split.md`에서 root의 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리한다. 이 boundary split이 merge되기 전까지 Issue #433 Phaser Stage 1 구현은 시작하지 않는다.
+현재 작업은 **Phaser v1 garden board foundation 구현**이다. `studio:v3:runner -- --once --dry-run`은 open GitHub WorkUnit을 확인했고, #434는 감상 모드라 #433 foundation 이후 작업이므로 Issue #433을 `items/0235-garden-board-topology-scaffold.md` 기준으로 재작성해 v1 구현의 첫 runtime blocker를 제거한다.
 
 현재 evidence:
 
-- User decision: 기존 앱은 legacy/reference로 두고 Phaser 기반 신규 프로젝트를 시작한다. 단, 기존 게임 코드와 설계 문서를 함께 분리하지 않으면 Studio가 다시 꼬인다는 판단으로 boundary split을 선행한다.
-- Boundary split item: `items/0232-repo-boundary-split.md`
-- Phaser spec: `docs/phaser/VERTICAL_SLICE_SPEC.md`
-- Legacy app lane: `apps/legacy-react-playable/`
-- Phaser app lane: `apps/seed-garden-phaser/`
-- Codex skill: `.codex/skills/studio-operate/SKILL.md`
-- GitHub issue: #436 — https://github.com/bborok1234/strange-seed-shop/issues/436
-- Blocked next issue: #433 — https://github.com/bborok1234/strange-seed-shop/issues/433
-- Follow-up issue: #434 — https://github.com/bborok1234/strange-seed-shop/issues/434
-- Follow-up issue: #432 — https://github.com/bborok1234/strange-seed-shop/issues/432
-- Current validation: legacy React app moved to `apps/legacy-react-playable/`, Phaser app scaffolded at `apps/seed-garden-phaser/`. Browser Use `iab` legacy/phaser smoke captured, `npm run check:ci` pass, `npm run check:art-share` 17 passed. PR #438 checks/merge/main CI pending.
+- User decision: studio operate로 게임 v1 버전을 끝까지 구현한다.
+- Active game source: `docs/GAME_BIBLE.md`
+- Production companion: `docs/GAME_PRODUCTION_SPEC.md`
+- Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
+- WorkUnit: `items/0235-garden-board-topology-scaffold.md`
+- GitHub issue: #433 `Phaser garden board foundation을 v1 topology로 시작하기`
+- Draft PR: #439 `Phaser v1 garden board foundation`
+- Runtime implementation: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`
+- Automated verifier: `scripts/check-phaser-foundation.mjs`
+- Visual report: `reports/visual/issue-0433-garden-board-foundation/visual-report-20260508.md`
+- Current validation: `npm run build:phaser` pass, `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Issue #436 구현 PR을 만들고 required checks를 확인한 뒤 merge/main CI까지 관찰한다.
-2. Issue #436 merge/main CI 이후 Studio Campaign Gate로 Issue #433을 실행 WorkUnit으로 재개한다.
-3. Issue #433 구현 전 `Game Studio Department Signoff`, asset plan/prompt/provenance, Browser Use `iab` QA 계획을 보강한다.
-4. 단순 주문 추가, copy tweak, test-only 작업은 이번 greenfield campaign에서 금지한다.
+1. Studio Campaign Gate: #433 foundation은 placeholder text가 아니라 최소 3개 build slot, runtime plot/facility entity, starter seed 심기/돌보기/수확, 첫 actor task를 보여야 한다.
+2. `npm run check:phaser`는 build뿐 아니라 393x852 fresh-start smoke를 실행해 잎 20, 씨앗 0, `포리 작업 수령`, no-scroll, one canvas를 검증한다.
+3. Browser Use `iab`가 세션에 노출되지 않으면 blocker를 visual report에 남기고 Playwright fallback screenshot을 남긴다.
+4. 다음 WorkUnit은 accepted raster asset/sprite bundle 또는 first 5m vertical slice로 진행해야 하며, placeholder를 production art로 주장하지 않는다.
+5. PR #439 required checks를 확인하고, #434 overview mode와 #432 reward FX는 #433 foundation과 asset/FX bundle 이후 진행한다.
+6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/legacy-react-phaser-boundary
-- Latest commit: current branch commit `Phaser 전환 전에 문서 경계를 먼저 나눈다`
-- Dirty files: present
+- Branch: codex/v1-garden-board-foundation
+- Latest commit: 1086a89 PR evidence를 v1 foundation 운영 상태에 연결한다
+- Dirty files: none
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T12:46:54.606Z
-- Phase: code-doc-boundary-pr-created
-- Issue: 436
-- PR: 438
-- Item: items/0232-repo-boundary-split.md
-- Next action: gate: watch PR #438 checks, merge, then observe main CI
+- Timestamp: 2026-05-07T16:04:05.946Z
+- Phase: phaser-v1-garden-board-foundation-pr
+- Issue: 433
+- PR: 439
+- Item: items/0235-garden-board-topology-scaffold.md
+- Next action: gate: watch PR #439 checks and repair if red
 
 ## Open PRs
 
-- unavailable or none
+- #439 draft Phaser v1 garden board foundation — https://github.com/bborok1234/strange-seed-shop/pull/439
 
 ## Open issues
 
-- #436 Legacy와 Phaser 신규 정원의 source-of-truth를 분리하기 — https://github.com/bborok1234/strange-seed-shop/issues/436
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
-- #433 Phaser 신규 정원을 낮은 관리 카메라와 actor loop로 시작하기 — https://github.com/bborok1234/strange-seed-shop/issues/433
+- #433 Phaser garden board foundation을 v1 topology로 시작하기 — https://github.com/bborok1234/strange-seed-shop/issues/433
 - #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
 
 ## Playable mode
@@ -81,7 +82,7 @@ assistant final publication ask is a regression: final로 GitHub 게시 확인�
 
 ## Studio Campaign Gate
 
-The next game issue is a child of the active campaign, not a neighbor of the previous issue. Active campaign source of truth: P0.5 Idle Core + Creative Rescue. Before implementation, the next plan artifact must include reference teardown, creative brief, Game Studio Department Signoff, role-debate note when roles disagree, Subagent/Team Routing decision, and QA/playtest plan.
+The next game issue is a child of the active campaign, not a neighbor of the previous issue. Active campaign source of truth: P0.5 Idle Core + Creative Rescue. Before implementation, the next plan artifact must include reference teardown, creative brief, Game Studio Department Signoff, Department Scorecard with approve/revise/block, Role Debate when roles disagree, Subagent/Team Routing decision, and QA/playtest plan.
 
 ## Game Studio Department Signoff
 
@@ -92,6 +93,10 @@ The next game issue is a child of the active campaign, not a neighbor of the pre
 - 검수팀: Browser Use/playtest evidence, screenshot/report/check list.
 - 마케팅팀: mock-only player-facing promise, no real channel action.
 - 고객지원팀: first 5 minutes confusion/support risk and FAQ note.
+
+## Department Scorecard
+
+Each department must mark approve/revise/block and cite an artifact. Two or more revise/block decisions require a Role Debate before implementation. Hard gameplay/economy/routing/sprite/QA harness problems require a self-evaluation loop: claim, smallest verifier, rubric, artifact path, iteration log, and stop condition.
 
 ## Subagent/Team Routing
 

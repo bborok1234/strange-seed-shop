@@ -55,7 +55,14 @@ requirePhrases("scripts/studio-v3-operator.mjs", [
   "Browser Use iab QA",
   "GitHub checks",
   "merge",
-  "main CI observation"
+  "main CI observation",
+  "Codex game-development operating pattern",
+  "first playable loop -> UI/control tuning -> difficult game-logic eval loop -> real-signal bug triage -> PR review before merge",
+  "Department Scorecard",
+  "approve/revise/block",
+  "Role-debate rule",
+  "Autonomous studio quality gate",
+  "Create a self-evaluation loop"
 ]);
 
 requirePhrases(".codex/skills/studio-operate/SKILL.md", [
@@ -65,6 +72,9 @@ requirePhrases(".codex/skills/studio-operate/SKILL.md", [
   "do not execute or stop a substantive implementation slice as local-only",
   "create/promote the matching GitHub issue",
   "create/update a draft PR",
+  "Department Scorecard",
+  "approve/revise/block",
+  "self-evaluation loop",
   "items/0210-garden-hud-plot-marker-assets.md",
   "npm run check:studio-v3-operator"
 ]);
@@ -75,7 +85,11 @@ requirePhrases("docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md", [
   "v3 운영 루프 진입점 상태",
   "현재 사용 가능",
   "금지/회귀",
-  "Browser Use"
+  "Browser Use",
+  "Codex game-development operating pattern",
+  "Department Scorecard",
+  "approve/revise/block",
+  "self-evaluation loop"
 ]);
 
 requirePhrases("docs/PROJECT_COMMANDS.md", [
@@ -83,7 +97,11 @@ requirePhrases("docs/PROJECT_COMMANDS.md", [
   "npm run studio:v3:operate",
   "`$seed-ops`는 Studio Harness v3 entrypoint가 아니다",
   "계속 달려",
-  "GitHub issue/PR/GateEvent"
+  "GitHub issue/PR/GateEvent",
+  "Department Scorecard",
+  "approve/revise/block",
+  "Role Debate",
+  "self-evaluation loop"
 ]);
 
 requirePhrases(".codex/skills/seed-ops/SKILL.md", [
@@ -150,7 +168,7 @@ const promptOnly = runNode([
 ]);
 if (!promptOnly.includes("seed_ops_entrypoint")) failures.push("prompt-only output missing seed_ops_entrypoint flag");
 const prompt = read(promptPath);
-for (const phrase of ["절대 $seed-ops", "GitHub issue/PR/GateEvent", "Browser Use iab", "plan-first", "PR create/update", "merge when green", "queue empty"]) {
+for (const phrase of ["절대 $seed-ops", "GitHub issue/PR/GateEvent", "Browser Use iab", "plan-first", "PR create/update", "merge when green", "queue empty", "Department Scorecard", "approve/revise/block", "Role Debate", "self-evaluation loop", "first playable loop -> UI/control tuning"]) {
   if (!prompt.includes(phrase)) failures.push(`generated prompt missing phrase: ${phrase}`);
 }
 const report = read(reportPath);
