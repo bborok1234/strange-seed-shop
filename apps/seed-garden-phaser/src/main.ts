@@ -10,6 +10,8 @@ import {
   harvestSelectedPlot,
   plantStarterSeed,
   selectSlot,
+  THIRD_PLOT_UNLOCK_COST,
+  unlockThirdPlot,
   type ActorEntity,
   type BoardSlot,
   type FacilityEntity,
@@ -163,6 +165,12 @@ class GardenBoardScene extends Phaser.Scene {
       getFacilityBySlot(gameState, "facility_order_crate")?.progress ?? 0;
     (window as unknown as { __seedGardenCompletedDeliveries?: number }).__seedGardenCompletedDeliveries =
       gameState.completedDeliveries;
+    (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
+      .filter((slot) => slot.unlockState === "unlocked")
+      .map((slot) => slot.id);
+    (window as unknown as { __seedGardenPlotIds?: string[] }).__seedGardenPlotIds = gameState.plots.map(
+      (plot) => plot.slotId
+    );
     this.updateHud();
   }
 
@@ -423,7 +431,7 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderGarden();
   }
 
-  private performAction(action: "plant" | "care" | "harvest" | "claim" | "deliver") {
+  private performAction(action: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand") {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
       plantStarterSeed(gameState);
@@ -435,9 +443,11 @@ class GardenBoardScene extends Phaser.Scene {
       this.pendingFx = { kind: "harvest", slotId: selectedSlotId };
     } else if (action === "claim") {
       claimWorkbenchProduction(gameState);
-    } else {
+    } else if (action === "deliver") {
       claimOrderCrateDelivery(gameState);
       this.pendingFx = { kind: "delivery", slotId: selectedSlotId };
+    } else {
+      unlockThirdPlot(gameState);
     }
     this.renderGarden();
   }
@@ -487,9 +497,16 @@ class GardenBoardScene extends Phaser.Scene {
   private getAvailableActions(
     state: GardenState,
     selectedSlot: BoardSlot
-  ): Array<{ id: "plant" | "care" | "harvest" | "claim" | "deliver"; label: string }> {
+  ): Array<{ id: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand"; label: string }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
     const facility = getFacilityBySlot(state, selectedSlot.id);
+    if (
+      selectedSlot.id === "plot_03" &&
+      selectedSlot.unlockState !== "unlocked" &&
+      state.resources.leaves >= THIRD_PLOT_UNLOCK_COST
+    ) {
+      return [{ id: "expand", label: `확장 ${THIRD_PLOT_UNLOCK_COST}잎` }];
+    }
     if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.resources.starterSeeds > 0) {
       return [{ id: "plant", label: "심기" }];
     }

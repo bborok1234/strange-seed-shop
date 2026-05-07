@@ -91,4 +91,16 @@ Browser Use `iab`가 노출되면 delivery -> third plot expansion을 직접 확
 
 ## Evidence
 
-- pending
+- `npm run check:phaser` pass
+- `npm run check:ci` pass
+- Visual report: `reports/visual/issue-0451-third-plot-expansion-unlock/visual-report-20260508.md`
+- Screenshots:
+  - `reports/visual/issue-0451-third-plot-expansion-unlock/phaser-check-expand-ready-393.png`
+  - `reports/visual/issue-0451-third-plot-expansion-unlock/phaser-check-third-plot-expanded-393.png`
+- Runtime evidence after expansion:
+  - leaves: `14`
+  - unlocked slots include `plot_03`
+  - plot entities include `plot_03`
+  - receipt includes `3번 밭 확장`
+  - selected label is `3번 햇살 밭`
+- Browser Use `iab` is not exposed in this Codex CLI session; Playwright fallback evidence is recorded in the visual report.
