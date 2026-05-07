@@ -53,6 +53,25 @@ body {
   font-size: 13px;
 }
 
+.view-mode-toggle {
+  pointer-events: auto;
+  margin-left: auto;
+  border: 1px solid rgba(32, 59, 47, 0.18);
+  border-radius: 999px;
+  background: rgba(49, 91, 69, 0.92);
+  box-shadow: 0 8px 24px rgba(44, 70, 52, 0.14);
+  color: #fff8e7;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 850;
+  padding: 7px 12px;
+}
+
+.view-mode-toggle:active {
+  transform: translateY(1px);
+}
+
 .objective-chip {
   justify-self: start;
   max-width: calc(100% - 36px);
@@ -118,4 +137,13 @@ body {
   font-size: 12px;
   font-weight: 700;
   line-height: 1.35;
+}
+
+.garden-hud[data-view-mode="overview"] {
+  grid-template-rows: auto 1fr;
+}
+
+.garden-hud[data-view-mode="overview"] .objective-chip,
+.garden-hud[data-view-mode="overview"] .action-rail {
+  display: none;
 }

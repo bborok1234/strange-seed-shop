@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0465-storage-claim-reward-motion";
+const OUT_DIR = "reports/visual/issue-0434-phaser-garden-view-mode";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -45,6 +45,16 @@ function waitForServer(url, timeoutMs = 30_000) {
   });
 }
 
+async function clickUntilAction(page, points, actionName) {
+  for (const [x, y] of points) {
+    await page.mouse.click(x, y);
+    await page.waitForTimeout(100);
+    if ((await page.getByRole("button", { name: actionName }).count()) > 0) {
+      return;
+    }
+  }
+}
+
 async function runSmoke() {
   await mkdir(OUT_DIR, { recursive: true });
 
@@ -76,6 +86,35 @@ async function runSmoke() {
     await page.goto(URL, { waitUntil: "networkidle" });
 
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-fresh-start-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "감상 모드 열기" }).click();
+    await page.waitForTimeout(160);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-overview-mode-393.png`, fullPage: false });
+    const overviewMode = await page.evaluate(() => {
+      const actionRail = document.querySelector('[data-testid="phaser-action-rail"]');
+      const objective = document.querySelector('[data-testid="phaser-objective"]');
+      return {
+        viewMode: window.__seedGardenViewMode ?? "",
+        hudCollapsed: window.__seedGardenHudCollapsed ?? false,
+        actionRailDisplay: actionRail ? getComputedStyle(actionRail).display : "missing",
+        objectiveDisplay: objective ? getComputedStyle(objective).display : "missing",
+        buttonText: document.querySelector('[data-testid="phaser-view-mode-toggle"]')?.textContent ?? "",
+        bodyScrollHeight: document.body.scrollHeight,
+        documentScrollHeight: document.documentElement.scrollHeight,
+        innerHeight: window.innerHeight
+      };
+    });
+    await page.getByRole("button", { name: "관리 모드로 돌아가기" }).click();
+    await page.waitForTimeout(160);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-manage-return-393.png`, fullPage: false });
+    const manageReturn = await page.evaluate(() => {
+      const actionRail = document.querySelector('[data-testid="phaser-action-rail"]');
+      return {
+        viewMode: window.__seedGardenViewMode ?? "",
+        hudCollapsed: window.__seedGardenHudCollapsed ?? true,
+        actionRailDisplay: actionRail ? getComputedStyle(actionRail).display : "missing",
+        buttonText: document.querySelector('[data-testid="phaser-view-mode-toggle"]')?.textContent ?? ""
+      };
+    });
     await page.getByRole("button", { name: "심기" }).click();
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-after-plant-393.png`, fullPage: false });
     for (let index = 0; index < 3; index += 1) {
@@ -95,12 +134,12 @@ async function runSmoke() {
     for (let index = 0; index < 3; index += 1) {
       await page.getByRole("button", { name: "수령" }).click();
     }
-    await page.mouse.click(284, 606);
+    await clickUntilAction(page, [[230, 606], [284, 606], [284, 646]], "납품");
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-crate-ready-393.png`, fullPage: false });
     await page.getByRole("button", { name: "납품" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-delivery-claim-393.png`, fullPage: false });
-    await page.mouse.click(160, 545);
+    await clickUntilAction(page, [[160, 545], [204, 576]], "확장 60잎");
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-expand-ready-393.png`, fullPage: false });
     await page.getByRole("button", { name: "확장 60잎" }).click();
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-third-plot-expanded-393.png`, fullPage: false });
@@ -122,12 +161,12 @@ async function runSmoke() {
     for (let index = 0; index < 4; index += 1) {
       await page.getByRole("button", { name: "수령" }).click();
     }
-    await page.mouse.click(284, 606);
+    await clickUntilAction(page, [[230, 606], [284, 606], [284, 646]], "납품");
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-second-crate-ready-393.png`, fullPage: false });
     await page.getByRole("button", { name: "납품" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-second-delivery-393.png`, fullPage: false });
-    await page.mouse.click(304, 502);
+    await clickUntilAction(page, [[304, 502], [304, 548]], "정리 80잎");
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-ready-393.png`, fullPage: false });
     await page.getByRole("button", { name: "정리 80잎" }).click();
     await page.waitForTimeout(140);
@@ -136,7 +175,7 @@ async function runSmoke() {
     await page.getByRole("button", { name: "수령" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-fill-claim-393.png`, fullPage: false });
-    await page.mouse.click(304, 502);
+    await clickUntilAction(page, [[304, 502], [304, 548]], "회수");
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-buffer-393.png`, fullPage: false });
     const storageBeforeClaim = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -175,6 +214,25 @@ async function runSmoke() {
 
     const failures = [];
     if (evidence.canvasCount !== 1) failures.push("expected one Phaser canvas");
+    if (overviewMode.viewMode !== "overview") failures.push(`expected overview view mode, got ${overviewMode.viewMode}`);
+    if (overviewMode.hudCollapsed !== true) failures.push("overview mode did not collapse HUD");
+    if (overviewMode.actionRailDisplay !== "none") {
+      failures.push(`expected overview action rail hidden, got ${overviewMode.actionRailDisplay}`);
+    }
+    if (overviewMode.objectiveDisplay !== "none") {
+      failures.push(`expected overview objective hidden, got ${overviewMode.objectiveDisplay}`);
+    }
+    if (overviewMode.buttonText !== "관리") failures.push(`expected overview toggle to show 관리, got ${overviewMode.buttonText}`);
+    if (manageReturn.viewMode !== "manage") failures.push(`expected manage return mode, got ${manageReturn.viewMode}`);
+    if (manageReturn.hudCollapsed !== false) failures.push("manage return still reports HUD collapsed");
+    if (manageReturn.actionRailDisplay === "none") failures.push("manage return action rail stayed hidden");
+    if (manageReturn.buttonText !== "감상") failures.push(`expected manage toggle to show 감상, got ${manageReturn.buttonText}`);
+    if (
+      overviewMode.bodyScrollHeight > overviewMode.innerHeight ||
+      overviewMode.documentScrollHeight > overviewMode.innerHeight
+    ) {
+      failures.push("overview mode has body/document scroll");
+    }
     if (evidence.leaves !== "20") failures.push(`expected 20 leaves after storage claim, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
@@ -251,9 +309,13 @@ async function runSmoke() {
       ok: failures.length === 0,
       url: URL,
       storageBeforeClaim,
+      overviewMode,
+      manageReturn,
       evidence,
       screenshots: [
         `${OUT_DIR}/phaser-check-fresh-start-393.png`,
+        `${OUT_DIR}/phaser-check-overview-mode-393.png`,
+        `${OUT_DIR}/phaser-check-manage-return-393.png`,
         `${OUT_DIR}/phaser-check-after-plant-393.png`,
         `${OUT_DIR}/phaser-check-ready-393.png`,
         `${OUT_DIR}/phaser-check-after-harvest-393.png`,
