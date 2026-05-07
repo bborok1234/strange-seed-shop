@@ -418,3 +418,17 @@ export function unlockStorageBasket(state: GardenState): void {
   state.objective = "보관 바구니 정리 완료 · 오프라인 보관 24";
   state.receipts.unshift("보관 바구니 정리 · 잎 -80 · 오프라인 보관 12 -> 24");
 }
+
+export function claimStoredLeaves(state: GardenState): void {
+  const slot = getSlot(state, "facility_storage");
+  const storage = getFacilityBySlot(state, "facility_storage");
+  if (!storage || slot.unlockState !== "unlocked" || state.storedLeaves <= 0) {
+    return;
+  }
+
+  const claimedLeaves = state.storedLeaves;
+  state.storedLeaves = 0;
+  state.resources.leaves += claimedLeaves;
+  state.objective = `보관 잎 회수 완료 · 오프라인 보관 0/${state.storageCapacity}`;
+  state.receipts.unshift(`오프라인 보관 회수 · 잎 +${claimedLeaves}`);
+}

@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T19:57:36.279Z
+Generated at: 2026-05-07T20:00:24.625Z
 
 ## Current mission
 
@@ -34,7 +34,7 @@ Generated at: 2026-05-07T19:57:36.279Z
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0461-offline-storage-reward-claim/visual-report-20260508.md`
-- Current validation: plan artifact and GitHub issue created
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -48,18 +48,18 @@ Generated at: 2026-05-07T19:57:36.279Z
 ## Local state
 
 - Branch: codex/v1-offline-storage-reward-claim
-- Latest commit: 064f4d8 Merge pull request #460 from bborok1234/codex/v1-storage-buffer-production-fill
+- Latest commit: c1d84f6 보관 회수 루프를 다음 v1 작업으로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T19:57:30.068Z
-- Phase: phaser-v1-offline-storage-reward-claim-plan
+- Timestamp: 2026-05-07T20:00:06.348Z
+- Phase: phaser-v1-offline-storage-reward-claim-verified
 - Issue: 461
 - PR: pending
 - Item: items/0247-offline-storage-reward-claim.md
-- Next action: gate: implement offline storage reward claim and verify
+- Next action: gate: update evidence docs and prepare draft PR
 
 ## Open PRs
 

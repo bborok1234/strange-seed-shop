@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0459-storage-buffer-production-fill";
+const OUT_DIR = "reports/visual/issue-0461-offline-storage-reward-claim";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -138,6 +138,9 @@ async function runSmoke() {
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-fill-claim-393.png`, fullPage: false });
     await page.mouse.click(304, 502);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-buffer-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "회수" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-claimed-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -165,7 +168,7 @@ async function runSmoke() {
 
     const failures = [];
     if (evidence.canvasCount !== 1) failures.push("expected one Phaser canvas");
-    if (evidence.leaves !== "16") failures.push(`expected 16 leaves after storage fill claim, got ${evidence.leaves}`);
+    if (evidence.leaves !== "20") failures.push(`expected 20 leaves after storage claim, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
       failures.push("missing order crate delivery receipt");
@@ -196,7 +199,11 @@ async function runSmoke() {
     if (!evidence.receipts.some((receipt) => receipt.includes("보관 +4/24"))) {
       failures.push("missing storage fill receipt");
     }
-    if (!evidence.objective.includes("오프라인 보관 4/24")) failures.push("missing storage buffer objective");
+    if (!evidence.receipts.some((receipt) => receipt.includes("오프라인 보관 회수 · 잎 +4"))) {
+      failures.push("missing storage claim receipt");
+    }
+    if (!evidence.objective.includes("보관 잎 회수 완료")) failures.push("missing storage claim objective");
+    if (!evidence.railText.includes("오프라인 보관 0/24")) failures.push("missing empty storage action note");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
@@ -210,8 +217,8 @@ async function runSmoke() {
     if (evidence.storageCapacity !== 24) {
       failures.push(`expected storage capacity 24, got ${evidence.storageCapacity}`);
     }
-    if (evidence.storedLeaves !== 4) {
-      failures.push(`expected stored leaves 4, got ${evidence.storedLeaves}`);
+    if (evidence.storedLeaves !== 0) {
+      failures.push(`expected stored leaves 0 after claim, got ${evidence.storedLeaves}`);
     }
     if (!evidence.unlockedSlotIds.includes("facility_storage")) failures.push("storage slot did not unlock");
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
@@ -245,7 +252,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-storage-ready-393.png`,
         `${OUT_DIR}/phaser-check-storage-unlocked-393.png`,
         `${OUT_DIR}/phaser-check-storage-fill-claim-393.png`,
-        `${OUT_DIR}/phaser-check-storage-buffer-393.png`
+        `${OUT_DIR}/phaser-check-storage-buffer-393.png`,
+        `${OUT_DIR}/phaser-check-storage-claimed-393.png`
       ],
       failures
     };
