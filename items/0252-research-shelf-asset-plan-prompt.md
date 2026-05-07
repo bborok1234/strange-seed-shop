@@ -94,4 +94,4 @@ Runtime UI 변경 없음. Visual evidence는 다음 generation/runtime integrati
 - `npm run check:asset-style` pass
 - `npm run check:ci` pass
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/472
-- PR: pending
+- PR: https://github.com/bborok1234/strange-seed-shop/pull/473

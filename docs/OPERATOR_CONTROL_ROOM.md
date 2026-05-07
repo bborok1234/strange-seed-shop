@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T21:25:34.123Z
+Generated at: 2026-05-07T21:27:29.221Z
 
 ## Current mission
 
@@ -37,6 +37,7 @@ Generated at: 2026-05-07T21:25:34.123Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0252-research-shelf-asset-plan-prompt.md`
 - GitHub issue: #472 `연구 선반 raster와 단서 FX plan-prompt`
+- Draft PR: #473 `연구 선반 raster와 단서 FX plan-prompt`
 - Asset plan source: `assets/source/asset_plan.json`
 - Prompt source: `assets/source/asset_prompts.json`
 - Asset plan checker: `scripts/check-topology-asset-plan.mjs`
@@ -54,22 +55,22 @@ Generated at: 2026-05-07T21:25:34.123Z
 ## Local state
 
 - Branch: codex/v1-research-shelf-asset-plan-prompt
-- Latest commit: 885bdb9 Merge pull request #471 from bborok1234/codex/v1-research-shelf-preview-bridge
+- Latest commit: 9a4c488 연구 선반 에셋 생성을 계약화한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T21:25:32.421Z
-- Phase: phaser-v1-research-shelf-asset-plan-prompt
+- Timestamp: 2026-05-07T21:27:27.532Z
+- Phase: phaser-v1-research-shelf-asset-plan-prompt-pr
 - Issue: 472
-- PR: pending
+- PR: 473
 - Item: items/0252-research-shelf-asset-plan-prompt.md
-- Next action: prep PR gate for #472 after check:ci
+- Next action: gate PR #473 checks then merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #473 draft 연구 선반 raster와 단서 FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/473
 
 ## Open issues
 
