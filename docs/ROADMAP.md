@@ -429,12 +429,13 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0260-expedition-gate-preview-route.md`
 - GitHub issue: #488 `달빛 family reveal이 원정 문 preview route로 이어지게 만들기`
-- Draft PR: pending
+- Draft PR: #489 `https://github.com/bborok1234/strange-seed-shop/pull/489`
+- Commit: `b9f277a`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
 - Visual report: `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass, PR #489 checks queued
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:

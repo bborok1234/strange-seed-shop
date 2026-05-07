@@ -45,12 +45,13 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0260-expedition-gate-preview-route.md`
 - GitHub issue: #488 `달빛 family reveal이 원정 문 preview route로 이어지게 만들기`
-- Draft PR: pending
+- Draft PR: #489 `https://github.com/bborok1234/strange-seed-shop/pull/489`
+- Commit: `b9f277a`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
 - Visual report: `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass, PR #489 checks queued
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -64,22 +65,22 @@ Generated at: 2026-05-07T22:29:32.719Z
 ## Local state
 
 - Branch: codex/v1-expedition-gate-preview-route
-- Latest commit: ef45319 달빛 새싹 발견 확인 research family reveal 병합
+- Latest commit: b9f277a 달빛 family reveal을 원정 문 preview로 잇는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T23:14:10.000Z
-- Phase: phaser-v1-expedition-gate-preview-route-planning
+- Timestamp: 2026-05-07T23:18:26.000Z
+- Phase: phaser-v1-expedition-gate-preview-route-pr
 - Issue: 488
-- PR: pending
+- PR: 489
 - Item: items/0260-expedition-gate-preview-route.md
-- Next action: implementation gate: implement expedition gate preview route for #488
+- Next action: PR gate: wait checks then ready/merge #489
 
 ## Open PRs
 
-- N/A — 다음 PR은 issue 생성 후 만든다.
+- #489 달빛 family reveal이 원정 문 preview route로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/489
 
 ## Open issues
 

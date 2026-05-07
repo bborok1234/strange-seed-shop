@@ -1,9 +1,10 @@
 # 달빛 family reveal이 원정 문 preview route로 이어지게 만들기
 
-Status: active
+Status: PR open
 Owner: agent
 Created: 2026-05-08
 GitHub issue: #488
+GitHub PR: #489
 Branch: `codex/v1-expedition-gate-preview-route`
 Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:phaser-2d-game` -> `game-studio:game-playtest`
 
@@ -113,6 +114,8 @@ git diff --check
 
 - `npm run check:phaser` pass
 - `npm run check:ci` pass
+- Draft PR: #489 `https://github.com/bborok1234/strange-seed-shop/pull/489`
+- Commit: `b9f277a`
 - Visual report: `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md`
 - Key screenshots:
   - `reports/visual/issue-0488-expedition-gate-preview-route/phaser-check-lunar-family-revealed-393.png`
