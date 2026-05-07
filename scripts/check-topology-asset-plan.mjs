@@ -10,10 +10,12 @@ const requiredIds = [
   "facility_workbench_v1",
   "facility_order_crate_empty_v1",
   "facility_order_crate_filled_v1",
+  "facility_storage_basket_v1",
   "actor_pori_caretaker_strip_v1",
   "actor_momo_carrier_strip_v1",
   "fx_care_spark_strip_v1",
   "fx_harvest_leaf_flyout_strip_v1",
+  "fx_storage_claim_leaf_flyout_strip_v1",
   "ui_shadow_soft_v1"
 ];
 
@@ -21,7 +23,8 @@ const spriteIds = new Set([
   "actor_pori_caretaker_strip_v1",
   "actor_momo_carrier_strip_v1",
   "fx_care_spark_strip_v1",
-  "fx_harvest_leaf_flyout_strip_v1"
+  "fx_harvest_leaf_flyout_strip_v1",
+  "fx_storage_claim_leaf_flyout_strip_v1"
 ]);
 
 const plan = JSON.parse(await readFile("assets/source/asset_plan.json", "utf8"));
