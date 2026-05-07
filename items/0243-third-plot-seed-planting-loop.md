@@ -55,7 +55,7 @@ Browser Use `iab`가 노출되면 expansion -> plot_03 planting을 직접 확인
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/453
-- Draft PR: pending
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/454
 
 ## Evidence
 
