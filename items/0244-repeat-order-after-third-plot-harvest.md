@@ -91,4 +91,9 @@ Browser Use `iab`가 노출되면 plot_03 harvest -> second delivery를 직접 �
 
 ## Evidence
 
-- pending
+- `npm run check:phaser` pass
+- `npm run check:ci` pass
+- `reports/visual/issue-0455-repeat-order-after-third-plot-harvest/phaser-check-third-plot-ready-393.png`
+- `reports/visual/issue-0455-repeat-order-after-third-plot-harvest/phaser-check-third-plot-harvested-393.png`
+- `reports/visual/issue-0455-repeat-order-after-third-plot-harvest/phaser-check-second-delivery-393.png`
+- `reports/visual/issue-0455-repeat-order-after-third-plot-harvest/visual-report-20260508.md`

@@ -278,12 +278,14 @@ export function harvestSelectedPlot(state: GardenState): void {
     return;
   }
 
+  const slot = getSlot(state, state.selectedSlotId);
+  const firstPoriDiscovery = !state.actors.some((actor) => actor.id === "actor_pori");
   plot.state = "empty";
   plot.seedId = undefined;
   plot.growth = 0;
   plot.careCount = 0;
   state.resources.leaves += 12;
-  if (!state.actors.some((actor) => actor.id === "actor_pori")) {
+  if (firstPoriDiscovery) {
     state.actors.push({
       id: "actor_pori",
       name: "말랑잎 포리",
@@ -293,8 +295,8 @@ export function harvestSelectedPlot(state: GardenState): void {
       task: "care_plot"
     });
   }
-  state.objective = "포리가 작업대에서 잎 생산을 돕는다";
-  state.receipts.unshift("말랑잎 포리 합류 · 잎 +12");
+  state.objective = firstPoriDiscovery ? "포리가 작업대에서 잎 생산을 돕는다" : `${slot.label} 수확 완료 · 주문 반복 납품 준비`;
+  state.receipts.unshift(firstPoriDiscovery ? "말랑잎 포리 합류 · 잎 +12" : `${slot.label} 수확 · 잎 +12`);
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {
@@ -333,10 +335,16 @@ export function claimOrderCrateDelivery(state: GardenState): void {
 
   orderCrate.progress = 0;
   orderCrate.visualState = "preview";
-  state.completedDeliveries += 1;
+  const nextDeliveryCount = state.completedDeliveries + 1;
+  state.completedDeliveries = nextDeliveryCount;
   state.resources.leaves += 30;
-  state.objective = "첫 주문 납품 완료 · 3번 밭 확장 준비";
-  state.receipts.unshift("주문 상자 납품 · 잎 +30 · 상회 평판 +1");
+  state.objective =
+    nextDeliveryCount === 1 ? "첫 주문 납품 완료 · 3번 밭 확장 준비" : `${nextDeliveryCount}번째 주문 납품 완료 · 보관 바구니 준비`;
+  state.receipts.unshift(
+    nextDeliveryCount === 1
+      ? "주문 상자 납품 · 잎 +30 · 상회 평판 +1"
+      : `반복 주문 납품 #${nextDeliveryCount} · 잎 +30 · 상회 평판 +1`
+  );
 }
 
 export function unlockThirdPlot(state: GardenState): void {
