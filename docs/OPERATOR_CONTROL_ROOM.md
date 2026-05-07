@@ -7,7 +7,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 
 ## Current mission
 
-현재 작업은 **달빛 새싹 발견 확인 research family reveal**이다. #484 달빛 새싹 수확 다음 발견 reveal은 PR #485 merge/main CI `25526399609`까지 통과했다. 다음 blocker는 `달빛 새싹 발견 준비`가 action rail 안내로만 남고 실제 `발견 확인` player verb와 연구 선반 persistent reveal state로 닫히지 않는 점이다.
+현재 작업은 **달빛 family reveal 원정 문 preview route**이다. #486 달빛 새싹 발견 확인 research family reveal은 PR #487 merge/main CI `25526968559`까지 통과했다. 다음 blocker는 research family reveal 이후 장기 route가 text promise에 머물고 원정 문 preview가 board/HUD에 남지 않는 점이다.
 
 현재 evidence:
 
@@ -41,48 +41,50 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Completed album record stamp FX plan/prompt: Issue #480, PR #481, main CI `25525145605`
 - Completed next seed goal claim/plant bridge: Issue #482, PR #483, main CI `25525693860`
 - Completed lunar sprout harvest reveal bridge: Issue #484, PR #485, main CI `25526399609`
+- Completed lunar sprout discovery confirm: Issue #486, PR #487, main CI `25526968559`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0259-lunar-sprout-discovery-confirm.md`
-- GitHub issue: #486 `달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기`
-- Draft PR: #487 `달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기`
+- WorkUnit: `items/0260-expedition-gate-preview-route.md`
+- GitHub issue: #488 `달빛 family reveal이 원정 문 preview route로 이어지게 만들기`
+- Draft PR: #489 `https://github.com/bborok1234/strange-seed-shop/pull/489`
+- Commit: `b9f277a`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0486-lunar-sprout-discovery-confirm/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
+- Visual report: `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass, PR #489 checks pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: 새 WorkUnit은 reveal-ready 상태를 `발견 확인` player verb로 닫아야 한다.
-2. 클릭 후 `researchLunarFamilyRevealed=true`, `researchNextGoalRevealReady=false` telemetry가 남아야 한다.
-3. 연구 선반 playfield/HUD surface가 달빛 family reveal 상태를 보여야 한다.
-4. objective/receipt/action rail은 `달빛 family`와 `다음 연구 목표`를 설명해야 한다.
+1. Studio Campaign Gate: 새 WorkUnit은 달빛 family reveal 이후 원정 문 preview route를 board에 남겨야 한다.
+2. `원정 문 단서 보기` action과 `expeditionGatePreviewVisible=true` telemetry가 있어야 한다.
+3. preview-only expedition gate slot/facility state가 board/HUD에서 읽혀야 한다.
+4. objective/receipt/action rail은 `원정 문 preview`와 `D7 route`를 설명해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-lunar-sprout-discovery-confirm
-- Latest commit: 90c87d5 달빛 새싹 수확 다음 발견 reveal 병합
+- Branch: codex/v1-expedition-gate-preview-route
+- Latest commit: b9f277a 달빛 family reveal을 원정 문 preview로 잇는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T22:55:20.000Z
-- Phase: phaser-v1-lunar-sprout-discovery-confirm-planning
-- Issue: 486
-- PR: 487
-- Item: items/0259-lunar-sprout-discovery-confirm.md
-- Next action: PR gate: wait checks then ready/merge #487
+- Timestamp: 2026-05-07T23:22:40.000Z
+- Phase: phaser-v1-expedition-gate-preview-route-merge-gate
+- Issue: 488
+- PR: 489
+- Item: items/0260-expedition-gate-preview-route.md
+- Next action: merge gate: mark ready, merge #489, watch main CI
 
 ## Open PRs
 
-- #487 draft 달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/487
+- #489 달빛 family reveal이 원정 문 preview route로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/489
 
 ## Open issues
 
-- #486 달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/486
+- #488 달빛 family reveal이 원정 문 preview route로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/488
 
 ## Playable mode
 

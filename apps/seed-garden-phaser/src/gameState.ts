@@ -1,7 +1,7 @@
 export type SlotKind = "plot" | "facility" | "decor";
 export type UnlockState = "unlocked" | "preview" | "locked";
 export type PlotState = "empty" | "planted" | "growing" | "ready";
-export type FacilityKind = "workbench" | "order_crate" | "storage" | "research_shelf";
+export type FacilityKind = "workbench" | "order_crate" | "storage" | "research_shelf" | "expedition_gate";
 export type ActorRole = "caretaker" | "carrier";
 
 export const THIRD_PLOT_UNLOCK_COST = 60;
@@ -74,6 +74,7 @@ export interface GardenState {
   researchNextGoalSeedHarvested: boolean;
   researchNextGoalRevealReady: boolean;
   researchLunarFamilyRevealed: boolean;
+  expeditionGatePreviewVisible: boolean;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -153,6 +154,17 @@ export const boardSlots: BoardSlot[] = [
     scale: 0.78,
     unlockState: "locked",
     allowedEntityKinds: ["facility"]
+  },
+  {
+    id: "facility_expedition_gate",
+    kind: "facility",
+    label: "원정 문",
+    x: 334,
+    y: 388,
+    depth: 25,
+    scale: 0.72,
+    unlockState: "locked",
+    allowedEntityKinds: ["facility"]
   }
 ];
 
@@ -213,6 +225,14 @@ export function createGardenState(): GardenState {
         level: 0,
         visualState: "locked",
         progress: 0
+      },
+      {
+        id: "facility_expedition_gate_entity",
+        slotId: "facility_expedition_gate",
+        kind: "expedition_gate",
+        level: 0,
+        visualState: "locked",
+        progress: 0
       }
     ],
     actors: [],
@@ -232,7 +252,8 @@ export function createGardenState(): GardenState {
     researchNextGoalSeedPlanted: false,
     researchNextGoalSeedHarvested: false,
     researchNextGoalRevealReady: false,
-    researchLunarFamilyRevealed: false
+    researchLunarFamilyRevealed: false,
+    expeditionGatePreviewVisible: false
   };
 }
 
@@ -281,10 +302,19 @@ export function selectSlot(state: GardenState, slotId: string): void {
   }
   if (facility?.kind === "research_shelf") {
     state.objective = state.researchLunarFamilyRevealed
-      ? "달빛 family reveal 완료 · 다음 연구 목표: 원정 문 단서"
+      ? state.expeditionGatePreviewVisible
+        ? "원정 문 preview 확인됨 · D7 원정 route 잠금"
+        : "달빛 family reveal 완료 · 다음 연구 목표: 원정 문 단서"
       : slot.unlockState === "preview"
         ? "연구 선반 살펴보기 · 다음 씨앗 단서"
         : "오프라인 보상 회수 후 연구 선반 preview";
+    return;
+  }
+  if (facility?.kind === "expedition_gate") {
+    state.objective =
+      slot.unlockState === "preview"
+        ? "원정 문 preview · D7 원정 route 잠금"
+        : "달빛 family reveal 후 원정 문 단서";
     return;
   }
   if (slot.id === "plot_03" && slot.unlockState !== "unlocked") {
@@ -476,6 +506,23 @@ export function confirmLunarSproutDiscovery(state: GardenState): void {
   state.selectedSlotId = "facility_research_shelf";
   state.objective = "달빛 family reveal 완료 · 다음 연구 목표: 원정 문 단서";
   state.receipts.unshift("달빛 새싹 발견 확인 · 달빛 family reveal");
+}
+
+export function previewExpeditionGateRoute(state: GardenState): void {
+  if (!state.researchLunarFamilyRevealed || state.expeditionGatePreviewVisible) {
+    return;
+  }
+
+  const expeditionSlot = getSlot(state, "facility_expedition_gate");
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  expeditionSlot.unlockState = "preview";
+  if (expeditionGate) {
+    expeditionGate.visualState = "preview";
+  }
+  state.expeditionGatePreviewVisible = true;
+  state.selectedSlotId = "facility_expedition_gate";
+  state.objective = "원정 문 preview 열림 · D7 원정 route 잠금";
+  state.receipts.unshift("원정 문 단서 확인 · preview route 표시");
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {
