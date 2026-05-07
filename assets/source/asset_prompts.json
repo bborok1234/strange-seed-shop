@@ -1168,6 +1168,34 @@
         "transparent soft oval shadow",
         "does not look like a gameplay object"
       ]
+    },
+    {
+      "asset_id": "facility_storage_basket_v1",
+      "output_path": "public/assets/game/facilities/facility_storage_basket_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime facility prop\nPrimary request: Create facility_storage_basket_v1 for 이상한 씨앗상회 v1.\nSubject: A cute low rounded greenhouse storage basket for offline leaf rewards, visibly different from an order crate, with woven warm wood, soft leaf padding, and a small open top that suggests stored leaves without showing UI text.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: Runtime prop with transparent or clean removable background, centered, generous padding, readable at 64px and 96px, designed to sit under a small storage fill chip without the art competing with it.\nColor palette: Warm wood, fresh herb green, leaf yellow accents, cream highlights, small greenhouse teal shadows.\nConstraints: No text, no UI label, no UI frame, no full background, no character, no order forms or delivery markings. The prop should read as storage/offline reward, not order crate.\nAvoid: Text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, tiny unreadable details, hard rectangular shipping-box silhouette.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield at 64px and 96px",
+        "clearly reads as storage basket rather than order crate",
+        "prop can sit on terrain as a runtime entity without obscuring storage fill chip or bottom action rail"
+      ]
+    },
+    {
+      "asset_id": "fx_storage_claim_leaf_flyout_strip_v1",
+      "output_path": "public/assets/game/fx/fx_storage_claim_leaf_flyout_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser FX sprite sheet\nPrimary request: Create fx_storage_claim_leaf_flyout_strip_v1 for 이상한 씨앗상회 v1.\nSubject: leaf reward flyout particles bursting gently upward from a storage basket claim, then arcing toward the HUD as a compact offline reward collection effect.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game FX, soft rounded leaf particles, crisp readable silhouettes, subtle glow, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: One horizontal FX strip with exactly 8 frames, each frame 96x96, transparent background, consistent effect center, compact motion that stays within the frame and leaves room for a storage fill chip above the facility.\nColor palette: Warm leaf yellow, fresh herb green, cream glow, tiny greenhouse teal sparkle accents.\nConstraints: Intended fps 14; animation.binding facility_storage.action.claim_reward; behavior once. No text, no UI frame, no full background, no character, no basket prop baked into the FX.\nAvoid: Text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, tiny unreadable details, large explosion that would hide the storage fill chip or bottom action rail.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "exactly 8 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is facility_storage.action.claim_reward",
+        "FX reads at 96px and does not obscure storage fill chip or bottom action rail"
+      ]
     }
   ]
 }

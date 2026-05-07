@@ -1353,6 +1353,50 @@
         "behavior": "once"
       },
       "notes": "Plan alias for an existing accepted raster FX strip reused as lunar harvest moonburst fallback; no new generation required."
+    },
+    {
+      "id": "facility_storage_basket_v1",
+      "category": "facility",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_runtime_storage_facility_prop",
+      "output_path": "public/assets/game/facilities/facility_storage_basket_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "facility",
+        "storage",
+        "offline_reward",
+        "issue_0467"
+      ],
+      "notes": "Runtime storage basket prop for offline leaf buffer. Distinct from order crate, frames existing storage fill chip without baking UI text."
+    },
+    {
+      "id": "fx_storage_claim_leaf_flyout_strip_v1",
+      "category": "fx_strip",
+      "family": "reward",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_storage_claim_reward_fx",
+      "output_path": "public/assets/game/fx/fx_storage_claim_leaf_flyout_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "fx",
+        "storage",
+        "reward",
+        "offline_reward",
+        "issue_0467"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 14,
+      "animation": {
+        "binding": "facility_storage.action.claim_reward",
+        "behavior": "once"
+      },
+      "notes": "Horizontal FX strip for leaves flying out of the storage basket during offline reward claim. Must not obscure storage fill chip or bottom action rail."
     }
   ]
 }
