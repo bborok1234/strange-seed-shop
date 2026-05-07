@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T19:27:16.206Z
+Generated at: 2026-05-07T19:30:30.666Z
 
 ## Current mission
 
@@ -32,7 +32,7 @@ Generated at: 2026-05-07T19:27:16.206Z
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0457-storage-basket-unlock-affordance/visual-report-20260508.md`
-- Current validation: plan-first pending
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -46,18 +46,18 @@ Generated at: 2026-05-07T19:27:16.206Z
 ## Local state
 
 - Branch: codex/v1-storage-basket-unlock-affordance
-- Latest commit: 28f61b5 Merge pull request #456 from bborok1234/codex/v1-repeat-order-after-third-plot-harvest
+- Latest commit: 69224d0 보관 바구니 해금을 다음 v1 작업으로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T19:27:07.674Z
-- Phase: phaser-v1-storage-basket-unlock-affordance-plan
+- Timestamp: 2026-05-07T19:30:21.800Z
+- Phase: phaser-v1-storage-basket-unlock-affordance-verified
 - Issue: 457
 - PR:
 - Item: items/0245-storage-basket-unlock-affordance.md
-- Next action: gate: implement storage basket unlock affordance and verify
+- Next action: gate: publish draft PR for #457 and watch checks
 
 ## Open PRs
 

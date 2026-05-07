@@ -91,4 +91,8 @@ Browser Use `iab`가 노출되면 second delivery -> storage unlock을 직접 �
 
 ## Evidence
 
-- pending
+- `npm run check:phaser` pass
+- `npm run check:ci` pass
+- `reports/visual/issue-0457-storage-basket-unlock-affordance/phaser-check-storage-ready-393.png`
+- `reports/visual/issue-0457-storage-basket-unlock-affordance/phaser-check-storage-unlocked-393.png`
+- `reports/visual/issue-0457-storage-basket-unlock-affordance/visual-report-20260508.md`

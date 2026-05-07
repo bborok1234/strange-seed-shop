@@ -10,7 +10,9 @@ import {
   harvestSelectedPlot,
   plantStarterSeed,
   selectSlot,
+  STORAGE_BASKET_UNLOCK_COST,
   THIRD_PLOT_UNLOCK_COST,
+  unlockStorageBasket,
   unlockThirdPlot,
   type ActorEntity,
   type BoardSlot,
@@ -165,9 +167,18 @@ class GardenBoardScene extends Phaser.Scene {
       getFacilityBySlot(gameState, "facility_order_crate")?.progress ?? 0;
     (window as unknown as { __seedGardenCompletedDeliveries?: number }).__seedGardenCompletedDeliveries =
       gameState.completedDeliveries;
+    (window as unknown as { __seedGardenStorageCapacity?: number }).__seedGardenStorageCapacity =
+      gameState.storageCapacity;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
+    (window as unknown as { __seedGardenFacilityStates?: Array<Pick<FacilityEntity, "slotId" | "kind" | "level" | "visualState">> })
+      .__seedGardenFacilityStates = gameState.facilities.map((facility) => ({
+        slotId: facility.slotId,
+        kind: facility.kind,
+        level: facility.level,
+        visualState: facility.visualState
+      }));
     (window as unknown as { __seedGardenPlotIds?: string[] }).__seedGardenPlotIds = gameState.plots.map(
       (plot) => plot.slotId
     );
@@ -438,7 +449,7 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderGarden();
   }
 
-  private performAction(action: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand") {
+  private performAction(action: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand" | "unlock_storage") {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
       plantStarterSeed(gameState);
@@ -453,8 +464,10 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "deliver") {
       claimOrderCrateDelivery(gameState);
       this.pendingFx = { kind: "delivery", slotId: selectedSlotId };
-    } else {
+    } else if (action === "expand") {
       unlockThirdPlot(gameState);
+    } else {
+      unlockStorageBasket(gameState);
     }
     this.renderGarden();
   }
@@ -484,6 +497,8 @@ class GardenBoardScene extends Phaser.Scene {
           ? selectedFacility.progress > 0
             ? `주문 준비 ${selectedFacility.progress}%`
             : "다음 상자 준비"
+          : selectedFacility?.kind === "storage" && selectedSlot.unlockState === "unlocked"
+            ? `오프라인 보관 ${gameState.storageCapacity}`
           : selectedSlot.unlockState === "unlocked"
             ? "다른 slot을 선택"
             : "해금 preview";
@@ -504,7 +519,7 @@ class GardenBoardScene extends Phaser.Scene {
   private getAvailableActions(
     state: GardenState,
     selectedSlot: BoardSlot
-  ): Array<{ id: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand"; label: string }> {
+  ): Array<{ id: "plant" | "care" | "harvest" | "claim" | "deliver" | "expand" | "unlock_storage"; label: string }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
     const facility = getFacilityBySlot(state, selectedSlot.id);
     if (
@@ -513,6 +528,14 @@ class GardenBoardScene extends Phaser.Scene {
       state.resources.leaves >= THIRD_PLOT_UNLOCK_COST
     ) {
       return [{ id: "expand", label: `확장 ${THIRD_PLOT_UNLOCK_COST}잎` }];
+    }
+    if (
+      facility?.kind === "storage" &&
+      selectedSlot.unlockState !== "unlocked" &&
+      state.completedDeliveries >= 2 &&
+      state.resources.leaves >= STORAGE_BASKET_UNLOCK_COST
+    ) {
+      return [{ id: "unlock_storage", label: `정리 ${STORAGE_BASKET_UNLOCK_COST}잎` }];
     }
     if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.resources.starterSeeds > 0) {
       return [{ id: "plant", label: "심기" }];

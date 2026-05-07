@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0455-repeat-order-after-third-plot-harvest";
+const OUT_DIR = "reports/visual/issue-0457-storage-basket-unlock-affordance";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -127,6 +127,11 @@ async function runSmoke() {
     await page.getByRole("button", { name: "납품" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-second-delivery-393.png`, fullPage: false });
+    await page.mouse.click(304, 502);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-ready-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "정리 80잎" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-unlocked-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -141,7 +146,9 @@ async function runSmoke() {
       actorIds: window.__seedGardenActorIds ?? [],
       orderCrateProgress: window.__seedGardenOrderCrateProgress ?? 0,
       completedDeliveries: window.__seedGardenCompletedDeliveries ?? 0,
+      storageCapacity: window.__seedGardenStorageCapacity ?? 0,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
+      facilityStates: window.__seedGardenFacilityStates ?? [],
       plotIds: window.__seedGardenPlotIds ?? [],
       plotStates: window.__seedGardenPlotStates ?? [],
       receipts: window.__seedGardenReceipts ?? []
@@ -151,7 +158,7 @@ async function runSmoke() {
 
     const failures = [];
     if (evidence.canvasCount !== 1) failures.push("expected one Phaser canvas");
-    if (evidence.leaves !== "88") failures.push(`expected 88 leaves after second delivery loop, got ${evidence.leaves}`);
+    if (evidence.leaves !== "8") failures.push(`expected 8 leaves after storage unlock, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
       failures.push("missing order crate delivery receipt");
@@ -176,13 +183,24 @@ async function runSmoke() {
     if (!evidence.receipts.some((receipt) => receipt.includes("반복 주문 납품 #2"))) {
       failures.push("missing repeat order delivery receipt");
     }
-    if (!evidence.objective.includes("2번째 주문 납품 완료")) failures.push("missing second delivery objective");
+    if (!evidence.receipts.some((receipt) => receipt.includes("보관 바구니 정리"))) {
+      failures.push("missing storage unlock receipt");
+    }
+    if (!evidence.objective.includes("보관 바구니 정리 완료")) failures.push("missing storage unlock objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
     if (!thirdPlot || thirdPlot.state !== "empty" || thirdPlot.growth !== 0) {
       failures.push(`expected plot_03 harvested back to empty, got ${JSON.stringify(thirdPlot)}`);
     }
+    const storage = evidence.facilityStates.find((facility) => facility.slotId === "facility_storage");
+    if (!storage || storage.level !== 1 || storage.visualState !== "active") {
+      failures.push(`expected storage facility active at level 1, got ${JSON.stringify(storage)}`);
+    }
+    if (evidence.storageCapacity !== 24) {
+      failures.push(`expected storage capacity 24, got ${evidence.storageCapacity}`);
+    }
+    if (!evidence.unlockedSlotIds.includes("facility_storage")) failures.push("storage slot did not unlock");
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
       if (!evidence.topologyAssets.includes(assetId)) {
         failures.push(`missing loaded topology asset key: ${assetId}`);
@@ -210,7 +228,9 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-third-plot-ready-393.png`,
         `${OUT_DIR}/phaser-check-third-plot-harvested-393.png`,
         `${OUT_DIR}/phaser-check-second-crate-ready-393.png`,
-        `${OUT_DIR}/phaser-check-second-delivery-393.png`
+        `${OUT_DIR}/phaser-check-second-delivery-393.png`,
+        `${OUT_DIR}/phaser-check-storage-ready-393.png`,
+        `${OUT_DIR}/phaser-check-storage-unlocked-393.png`
       ],
       failures
     };
