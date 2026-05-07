@@ -92,7 +92,7 @@ function requireIncludes(assetId, field, actualValues = [], expectedValues = [])
 
 const failures = [];
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-const gardenScene = fs.readFileSync("src/game/playfield/GardenScene.ts", "utf8");
+const gardenScene = fs.readFileSync("apps/legacy-react-playable/src/game/playfield/GardenScene.ts", "utf8");
 
 if (manifest.runtime_generation_allowed !== false) {
   failures.push("asset manifest must keep runtime_generation_allowed=false");

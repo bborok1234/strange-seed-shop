@@ -1,9 +1,10 @@
 import fs from "node:fs";
 
-const seeds = JSON.parse(fs.readFileSync("src/data/seeds.json", "utf8"));
-const expeditions = JSON.parse(fs.readFileSync("src/data/expeditions.json", "utf8"));
-const growth = JSON.parse(fs.readFileSync("src/data/growth_curves.json", "utf8"));
-const rewards = JSON.parse(fs.readFileSync("src/data/rewards.json", "utf8"));
+const legacySrc = "apps/legacy-react-playable/src";
+const seeds = JSON.parse(fs.readFileSync(`${legacySrc}/data/seeds.json`, "utf8"));
+const expeditions = JSON.parse(fs.readFileSync(`${legacySrc}/data/expeditions.json`, "utf8"));
+const growth = JSON.parse(fs.readFileSync(`${legacySrc}/data/growth_curves.json`, "utf8"));
+const rewards = JSON.parse(fs.readFileSync(`${legacySrc}/data/rewards.json`, "utf8"));
 
 const horizons = [
   { id: "1h", seconds: 60 * 60 },

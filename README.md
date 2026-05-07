@@ -17,12 +17,25 @@ AI Agent가 스스로 게임을 만들고 운영하는 방식을 실험하는 �
 - 운영사 레이어는 Codex/OMX 기반 에이전트가 work item, roadmap, QA report, PR evidence, CI gate를 남기며 반복 작업을 수행하도록 설계되어 있습니다.
 - 런타임에서는 이미지 생성 API를 호출하지 않고, 정적 에셋 생성/검수/manifest 등록 과정을 별도 파이프라인으로 분리합니다.
 
+## Source Ownership Boundary
+
+이 저장소는 이제 root에 게임 앱을 직접 두지 않는다. root는 npm script, 운영 문서, CI/checker를 묶는 orchestrator다.
+
+| Lane | Path | 역할 | 실행 |
+| --- | --- | --- | --- |
+| Legacy/reference playable | `apps/legacy-react-playable/` | 기존 React/Vite 기반 P0/P0.5 playable. 사람이 계속 확인할 수 있는 reference baseline | `npm run dev:legacy`, `npm run build:legacy`, `npm run check:legacy` |
+| Active Phaser greenfield | `apps/seed-garden-phaser/` | #433부터 구현할 신규 Phaser-first 정원 runtime | `npm run dev:phaser`, `npm run build:phaser`, `npm run check:phaser` |
+| Studio/operator | `.codex/skills/`, `docs/studio/`, `reports/operations/`, `scripts/` | WorkUnit 선택, evidence, PR/CI 운영 계층 | `npm run studio:v3:operate` |
+
+호환성을 위해 root `npm run dev`와 `npm run preview`는 legacy playable을 연다. 신규 gameplay 구현은 `apps/seed-garden-phaser/`와 `docs/phaser/`에서 시작한다.
+
 ## 현재 구현 범위
 
 현재 저장소에는 다음이 포함되어 있습니다.
 
-- React/Vite 기반 게임 앱
-- Phaser 2D garden playfield
+- `apps/legacy-react-playable/`의 React/Vite 기반 legacy game app
+- `apps/legacy-react-playable/` 내부 Phaser 2D garden playfield reference
+- `apps/seed-garden-phaser/`의 신규 Phaser-first app scaffold
 - 씨앗 심기, 성장, 탭 가속, 수확, 도감, 생산 tick, 주문 납품, 업그레이드, 연구/원정 연결 루프
 - localStorage 기반 저장/오프라인 보상
 - 정적 게임 에셋 manifest와 asset QA 문서
@@ -42,16 +55,19 @@ AI Agent가 스스로 게임을 만들고 운영하는 방식을 실험하는 �
 
 ```bash
 npm install
-npm run dev
+npm run dev:legacy
+npm run dev:phaser
 ```
 
-브라우저에서 Vite dev server 주소를 열면 게임을 확인할 수 있습니다.
+브라우저에서 Vite dev server 주소를 열면 각 lane을 확인할 수 있습니다. root `npm run dev`는 기존 사람 플레이 호환성을 위해 legacy playable을 엽니다.
 
 ## 검증
 
 ```bash
 npm run check:ci
 npm run check:visual
+npm run check:legacy
+npm run check:phaser
 ```
 
 `check:ci`는 콘텐츠, 게임 루프, 경제 시뮬레이션, 문서 인덱스, 운영 규칙, 빌드를 포함한 기본 gate입니다. `check:visual`은 화면 회귀와 게임 UI evidence를 보강하는 로컬 QA gate입니다.

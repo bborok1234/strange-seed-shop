@@ -136,4 +136,34 @@ N/A — 기존 playable의 기능 변경은 없다. 다만 #436 구현 후 기�
 ## Evidence
 
 - GitHub issue: https://github.com/bborok1234/strange-seed-shop/issues/436
-- PR: pending
+- Branch: `codex/legacy-react-phaser-boundary`
+- Legacy app: `apps/legacy-react-playable/`
+- Phaser app: `apps/seed-garden-phaser/`
+- Browser Use smoke: `reports/visual/issue-0436-boundary-split/browser-use-smoke-20260507.md`
+- PR: https://github.com/bborok1234/strange-seed-shop/pull/438
+
+## Implementation Notes
+
+- 기존 root `src/`, `index.html`, `vite.config.ts`를 `apps/legacy-react-playable/`로 이동했다.
+- `dev:legacy`, `build:legacy`, `check:legacy`, `dev:phaser`, `build:phaser`, `check:phaser` scripts를 추가했다.
+- root `dev`/`preview`는 사람 플레이 호환성을 위해 legacy app alias로 유지했다.
+- `apps/seed-garden-phaser/`에는 #433 구현 전용 Phaser scaffold만 만들었다. 실제 낮은 관리 카메라/actor gameplay 구현은 #433 범위로 남겼다.
+- `docs/phaser/README.md`, `docs/phaser/VERTICAL_SLICE_SPEC.md`, `docs/legacy/README.md`, `apps/*/README.md`로 source ownership을 분리했다.
+- `scripts/check-app-boundaries.mjs`로 root legacy entrypoint 재발생과 script/source ownership 회귀를 막는다.
+
+## Verification Evidence
+
+- `npm run check:app-boundaries` — pass
+- `npm run check:content` — pass
+- `npm run check:loop` — pass
+- `npm run simulate:economy` — pass
+- `npm run build:legacy` — pass
+- `npm run build:phaser` — pass
+- `npm run check:docs` — pass
+- `npm run check:dashboard` — pass
+- `npm run check:ops-live` — pass
+- `npm run check:github-metadata` — pass
+- `npm run check:ci` — pass
+- `npm run check:art-share` — 17 passed
+- Browser Use `iab` legacy smoke — `말랑잎 씨앗 무료로 심기` button count 1
+- Browser Use `iab` Phaser smoke — canvas count 1

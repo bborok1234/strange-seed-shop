@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T11:55:16.122Z
+Generated at: 2026-05-07T12:46:54.606Z
 
 ## Current mission
 
@@ -13,37 +13,39 @@ Generated at: 2026-05-07T11:55:16.122Z
 
 - User decision: 기존 앱은 legacy/reference로 두고 Phaser 기반 신규 프로젝트를 시작한다. 단, 기존 게임 코드와 설계 문서를 함께 분리하지 않으면 Studio가 다시 꼬인다는 판단으로 boundary split을 선행한다.
 - Boundary split item: `items/0232-repo-boundary-split.md`
-- Phaser spec: `docs/PHASER_GREENFIELD_VERTICAL_SLICE_SPEC.md`
+- Phaser spec: `docs/phaser/VERTICAL_SLICE_SPEC.md`
+- Legacy app lane: `apps/legacy-react-playable/`
+- Phaser app lane: `apps/seed-garden-phaser/`
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
 - GitHub issue: #436 — https://github.com/bborok1234/strange-seed-shop/issues/436
 - Blocked next issue: #433 — https://github.com/bborok1234/strange-seed-shop/issues/433
 - Follow-up issue: #434 — https://github.com/bborok1234/strange-seed-shop/issues/434
 - Follow-up issue: #432 — https://github.com/bborok1234/strange-seed-shop/issues/432
-- Current validation: Issue #436 plan artifact and GitHub issue created. `npm run check:docs`, `npm run check:dashboard`, `npm run check:github-metadata`, `npm run check:ops-live`, `npm run check:ci` pass.
+- Current validation: legacy React app moved to `apps/legacy-react-playable/`, Phaser app scaffolded at `apps/seed-garden-phaser/`. Browser Use `iab` legacy/phaser smoke captured, `npm run check:ci` pass, `npm run check:art-share` 17 passed. PR #438 checks/merge/main CI pending.
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Issue #436 구현 PR을 만들고 기존 React app code, legacy docs, Phaser app lane, Studio/operator source ownership을 package scripts/README/checker로 분리한다.
+1. Issue #436 구현 PR을 만들고 required checks를 확인한 뒤 merge/main CI까지 관찰한다.
 2. Issue #436 merge/main CI 이후 Studio Campaign Gate로 Issue #433을 실행 WorkUnit으로 재개한다.
 3. Issue #433 구현 전 `Game Studio Department Signoff`, asset plan/prompt/provenance, Browser Use `iab` QA 계획을 보강한다.
 4. 단순 주문 추가, copy tweak, test-only 작업은 이번 greenfield campaign에서 금지한다.
 
 ## Local state
 
-- Branch: codex/repo-boundary-split-plan
+- Branch: codex/legacy-react-phaser-boundary
 - Latest commit: current branch commit `Phaser 전환 전에 문서 경계를 먼저 나눈다`
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T11:55:16.122Z
-- Phase: code-doc-boundary-planned
+- Timestamp: 2026-05-07T12:46:54.606Z
+- Phase: code-doc-boundary-pr-created
 - Issue: 436
-- PR: 
+- PR: 438
 - Item: items/0232-repo-boundary-split.md
-- Next action: gate: implement Issue #436 by moving legacy React app out of root before resuming Issue #433
+- Next action: gate: watch PR #438 checks, merge, then observe main CI
 
 ## Open PRs
 
@@ -59,7 +61,7 @@ Generated at: 2026-05-07T11:55:16.122Z
 ## Playable mode
 
 - Prepare stable main worktree: `npm run play:main`
-- Serve stable main game: `cd ../strange-seed-shop-play && npm run dev -- --host 127.0.0.1 --port 5174`
+- Serve stable main game: `cd ../strange-seed-shop-play && npm run dev:legacy -- --host 127.0.0.1 --port 5174`
 - URL: http://127.0.0.1:5174
 
 ## Visual evidence rule
@@ -160,7 +162,7 @@ Agent가 feature branch에서 장시간 작업 중이어도 사람은 main 기�
 ```bash
 npm run play:main
 cd ../strange-seed-shop-play
-npm run dev -- --host 127.0.0.1 --port 5174
+npm run dev:legacy -- --host 127.0.0.1 --port 5174
 ```
 
 원칙:
