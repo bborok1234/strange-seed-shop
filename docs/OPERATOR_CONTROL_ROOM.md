@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T20:43:49.601Z
+Generated at: 2026-05-07T21:01:30.885Z
 
 ## Current mission
 
-현재 작업은 **보관 바구니 전용 raster/회수 FX plan-prompt**이다. #465 보관 잎 회수 reward motion은 PR #466 merge/main CI까지 통과했고, 다음 blocker는 storage/offline reward loop가 아직 전용 storage prop과 dedicated claim FX 후보를 asset pipeline에 갖고 있지 않다는 점이다.
+현재 작업은 **Phaser 신규 정원 감상 모드와 HUD 접기**이다. #467 보관 바구니 전용 raster/회수 FX plan-prompt는 PR #468 merge/main CI까지 통과했고, 실제 asset generation은 API key/native save-path blocker로 분리했다. 다음 blocker는 v1 board가 항상 관리 HUD/action rail을 열어 둔 채라 정원을 소유하고 감상하는 low-chrome 순간이 없다는 점이다.
 
 현재 evidence:
 
@@ -31,47 +31,48 @@ Generated at: 2026-05-07T20:43:49.601Z
 - Completed offline storage reward claim: Issue #461, PR #462, main CI `25519266912`
 - Completed storage playfield fill state: Issue #463, PR #464, main CI `25519876357`
 - Completed storage claim reward motion: Issue #465, PR #466, main CI `25520416464`
-- WorkUnit: `items/0250-storage-asset-plan-prompt.md`
-- GitHub issue: #467 `보관 바구니 전용 raster와 회수 FX plan-prompt 만들기`
-- Draft PR: #468 `보관 바구니 전용 raster와 회수 FX plan-prompt 만들기`
-- Asset plan: `assets/source/asset_plan.json`
-- Asset prompts: `assets/source/asset_prompts.json`
-- Plan checker: `scripts/check-topology-asset-plan.mjs`
-- Current validation: `npm run check:topology-asset-plan` pass
+- Completed storage asset plan/prompt: Issue #467, PR #468, main CI `25521182658`
+- Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
+- WorkUnit: `items/0230-phaser-garden-view-mode.md`
+- GitHub issue: #434 `Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기`
+- Draft PR: #469 `Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기`
+- Runtime source: `apps/seed-garden-phaser/src/main.ts`
+- HUD style source: `apps/seed-garden-phaser/src/styles.css`
+- Smoke verifier: `scripts/check-phaser-foundation.mjs`
+- Visual report: `reports/visual/issue-0434-phaser-garden-view-mode/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #467은 storage/offline reward loop의 dedicated raster/FX asset debt를 generation-ready contract로 바꾼다.
-2. New accepted game graphics는 PNG raster와 horizontal FX strip만 계획하고 SVG/vector/code-native game graphics를 금지한다.
-3. `fx_storage_claim_leaf_flyout_strip_v1`은 `facility_storage.action.claim_reward`, 8 frames, 96x96, 14fps, once behavior를 가져야 한다.
-4. 이번 WorkUnit은 plan/prompt만 추가하며 runtime image generation/API/cache를 호출하지 않는다.
-5. 실제 gpt-image-2/Codex native generation과 runtime integration은 다음 asset-specific WorkUnit에서 별도 검증한다.
-6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
+1. Studio Campaign Gate: #434는 `꾸미기/감상` ownership verb를 v1 board에 연결한다.
+2. 감상 모드는 resource chip과 `관리` 복귀 버튼만 남기고 objective/action rail을 접어 playfield를 보호해야 한다.
+3. 관리 모드 복귀 시 first-loop action rail, selected entity, storage/order smoke loop가 그대로 유지되어야 한다.
+4. Browser Use execution tool이 노출되지 않으면 Playwright fallback screenshot과 telemetry를 evidence로 남긴다.
+5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-storage-asset-plan-prompt
-- Latest commit: 6310115 보관 바구니 에셋 생성을 계약화한다
+- Branch: codex/v1-phaser-view-mode-hud-collapse
+- Latest commit: b45afe1 정원 감상 모드로 HUD 밀도를 낮춘다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T20:43:43.294Z
-- Phase: phaser-v1-storage-asset-plan-prompt-pr
-- Issue: 467
-- PR: 468
-- Item: items/0250-storage-asset-plan-prompt.md
-- Next action: gate PR #468 checks then merge when green
+- Timestamp: 2026-05-07T21:01:15.030Z
+- Phase: phaser-v1-garden-view-mode-pr
+- Issue: 434
+- PR: 469
+- Item: items/0230-phaser-garden-view-mode.md
+- Next action: gate PR #469 checks then merge when green
 
 ## Open PRs
 
-- #468 draft 보관 바구니 전용 raster와 회수 FX plan-prompt 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/468
+- #469 draft Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/469
 
 ## Open issues
 
-- #467 보관 바구니 전용 raster와 회수 FX plan-prompt 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/467
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 
 ## Playable mode

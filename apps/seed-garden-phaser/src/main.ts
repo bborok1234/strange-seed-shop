@@ -91,11 +91,14 @@ interface HudElements {
   root: HTMLDivElement;
   leaves: HTMLSpanElement;
   seeds: HTMLSpanElement;
+  viewToggle: HTMLButtonElement;
   objective: HTMLDivElement;
   selected: HTMLDivElement;
   actions: HTMLDivElement;
   receipts: HTMLDivElement;
 }
+
+type ViewMode = "manage" | "overview";
 
 function createHud(): HudElements {
   const root = document.createElement("div");
@@ -104,6 +107,7 @@ function createHud(): HudElements {
     <div class="hud-top" data-testid="phaser-resource-hud">
       <span class="resource-chip">잎 <strong data-hud="leaves">0</strong></span>
       <span class="resource-chip">씨앗 <strong data-hud="seeds">1</strong></span>
+      <button class="view-mode-toggle" type="button" data-testid="phaser-view-mode-toggle">감상</button>
     </div>
     <div class="objective-chip" data-testid="phaser-objective"></div>
     <div class="action-rail" data-testid="phaser-action-rail">
@@ -118,6 +122,7 @@ function createHud(): HudElements {
     root,
     leaves: root.querySelector("[data-hud='leaves']") as HTMLSpanElement,
     seeds: root.querySelector("[data-hud='seeds']") as HTMLSpanElement,
+    viewToggle: root.querySelector("[data-testid='phaser-view-mode-toggle']") as HTMLButtonElement,
     objective: root.querySelector(".objective-chip") as HTMLDivElement,
     selected: root.querySelector(".selected-entity") as HTMLDivElement,
     actions: root.querySelector(".action-buttons") as HTMLDivElement,
@@ -127,8 +132,9 @@ function createHud(): HudElements {
 
 class GardenBoardScene extends Phaser.Scene {
   private hud?: HudElements;
-  private renderLayer?: Phaser.GameObjects.Layer;
+  private renderLayer?: Phaser.GameObjects.Container;
   private pendingFx?: { kind: "care" | "harvest" | "delivery"; slotId: string };
+  private viewMode: ViewMode = "manage";
 
   constructor() {
     super("GardenBoardScene");
@@ -151,19 +157,24 @@ class GardenBoardScene extends Phaser.Scene {
     this.createAnimations();
     (window as unknown as { __seedGardenTopologyAssets?: string[] }).__seedGardenTopologyAssets = TOPOLOGY_ASSET_KEYS;
     this.hud = createHud();
+    this.hud.viewToggle.addEventListener("click", () => this.toggleViewMode());
     this.renderGarden();
   }
 
   private renderGarden() {
     this.renderLayer?.destroy();
-    this.renderLayer = this.add.layer();
+    this.renderLayer = this.add.container(0, 0);
     this.renderTerrain();
     this.renderSlots();
     this.renderActors();
     this.renderPendingFx();
+    this.applyViewModeCamera();
     (window as unknown as { __seedGardenActorIds?: string[] }).__seedGardenActorIds = gameState.actors.map(
       (actor) => actor.id
     );
+    (window as unknown as { __seedGardenViewMode?: ViewMode }).__seedGardenViewMode = this.viewMode;
+    (window as unknown as { __seedGardenHudCollapsed?: boolean }).__seedGardenHudCollapsed =
+      this.viewMode === "overview";
     (window as unknown as { __seedGardenOrderCrateProgress?: number }).__seedGardenOrderCrateProgress =
       getFacilityBySlot(gameState, "facility_order_crate")?.progress ?? 0;
     (window as unknown as { __seedGardenCompletedDeliveries?: number }).__seedGardenCompletedDeliveries =
@@ -194,6 +205,19 @@ class GardenBoardScene extends Phaser.Scene {
       }));
     (window as unknown as { __seedGardenReceipts?: string[] }).__seedGardenReceipts = gameState.receipts;
     this.updateHud();
+  }
+
+  private applyViewModeCamera() {
+    if (!this.renderLayer) {
+      return;
+    }
+    if (this.viewMode === "overview") {
+      this.renderLayer.setPosition(28, 54);
+      this.renderLayer.setScale(0.86);
+      return;
+    }
+    this.renderLayer.setPosition(0, 0);
+    this.renderLayer.setScale(1);
   }
 
   private createAnimations() {
@@ -475,6 +499,12 @@ class GardenBoardScene extends Phaser.Scene {
 
   private selectAndRender(slotId: string) {
     selectSlot(gameState, slotId);
+    this.viewMode = "manage";
+    this.renderGarden();
+  }
+
+  private toggleViewMode() {
+    this.viewMode = this.viewMode === "manage" ? "overview" : "manage";
     this.renderGarden();
   }
 
@@ -513,6 +543,12 @@ class GardenBoardScene extends Phaser.Scene {
     const selectedSlot = getSlot(gameState, gameState.selectedSlotId);
     this.hud.leaves.textContent = String(gameState.resources.leaves);
     this.hud.seeds.textContent = String(gameState.resources.starterSeeds);
+    this.hud.root.dataset.viewMode = this.viewMode;
+    this.hud.viewToggle.textContent = this.viewMode === "overview" ? "관리" : "감상";
+    this.hud.viewToggle.setAttribute(
+      "aria-label",
+      this.viewMode === "overview" ? "관리 모드로 돌아가기" : "감상 모드 열기"
+    );
     this.hud.objective.textContent = gameState.objective;
     this.hud.selected.textContent = selectedSlot.label;
     this.hud.actions.innerHTML = "";
