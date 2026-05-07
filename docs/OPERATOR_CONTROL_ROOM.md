@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T17:23:20.363Z
+Generated at: 2026-05-07T17:26:51.719Z
 
 ## Current mission
 
@@ -19,6 +19,7 @@ Generated at: 2026-05-07T17:23:20.363Z
 - Completed plan/prompt batch: Issue #440, PR #441, main CI `25508532265`
 - WorkUnit: `items/0237-topology-asset-generation-review.md`
 - GitHub issue: #442 `Phaser v1 topology asset generation and review`
+- Draft PR: #443 `Phaser v1 topology asset generation review`
 - Generated candidates: `public/assets/game/**`
 - Raw generated files: `assets/source/generated/gpt-image/**`
 - Review report: `reports/assets/topology_asset_review_20260508.md`
@@ -38,22 +39,22 @@ Generated at: 2026-05-07T17:23:20.363Z
 ## Local state
 
 - Branch: codex/v1-topology-asset-generation-review
-- Latest commit: af5ca89 Phaser v1 topology asset 생성을 계획 가능하게 만든다
+- Latest commit: 653fba0 Phaser v1 topology 후보를 검증 가능한 에셋 후보로 남긴다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T17:23:12.827Z
-- Phase: phaser-v1-topology-asset-generation-review
+- Timestamp: 2026-05-07T17:26:44.898Z
+- Phase: phaser-v1-topology-asset-generation-review-pr
 - Issue: 442
-- PR:
+- PR: 443
 - Item: items/0237-topology-asset-generation-review.md
-- Next action: gate: open PR #442 generation review after check:ci
+- Next action: gate: watch PR #443 checks and merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #443 draft Phaser v1 topology asset generation review — https://github.com/bborok1234/strange-seed-shop/pull/443
 
 ## Open issues
 

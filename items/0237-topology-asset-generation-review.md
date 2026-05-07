@@ -108,7 +108,7 @@ Stop condition:
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/442
-- Draft PR: pending
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/443
 
 ## Evidence
 
@@ -122,3 +122,4 @@ Stop condition:
 - `npm run check:asset-alpha` — pass
 - `npm run check:ci` — pass
 - Issue checkpoint comment: https://github.com/bborok1234/strange-seed-shop/issues/442#issuecomment-4399445914
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/443
