@@ -56,7 +56,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Repo boundary split before Phaser Stage 1 | review | Issue #436, `items/0232-repo-boundary-split.md`, `apps/legacy-react-playable/`, `apps/seed-garden-phaser/`, `reports/visual/issue-0436-boundary-split/browser-use-smoke-20260507.md` | 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리해 #433이 root 기존 앱 코드나 legacy 문서를 active spec으로 오인하지 않게 했다. PR/merge/main CI 대기 |
 | Phaser care stage foundation | blocked | Historical Issue #433 body, `items/0229-phaser-care-stage-foundation.md` | 보류. 고정 2개 밭/낮은 카메라 계획을 그대로 구현하지 않는다. Issue #433은 `items/0235-garden-board-topology-scaffold.md` 기준의 v1 topology foundation으로 재작성됐다 |
 | Phaser garden view mode | done | Issue #434, PR #469, main CI `25522031721`, `items/0230-phaser-garden-view-mode.md`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0434-phaser-garden-view-mode/visual-report-20260508.md` | #433 이후 board topology 위에 `감상/관리` mode toggle을 추가해 overview mode에서 objective/action rail을 접고 정원 board를 pull-back view로 보여줬다. Browser Use tool surface가 없어 Playwright fallback으로 manage -> overview -> manage return screenshots와 telemetry를 검증했고, PR checks/merge/main CI가 통과했다 |
-| 연구 선반 preview bridge | active | Issue #470, Draft PR #471, `items/0251-research-shelf-preview-bridge.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0470-research-shelf-preview-bridge/visual-report-20260508.md` | #469 이후 storage claim 다음 목표가 없는 blocker를 해결한다. 보관 잎 회수 후 `facility_research_shelf` preview와 `살펴보기` action을 열어 달빛 씨앗 단서 preview receipt/objective로 D1 discovery bridge를 만든다. dedicated research shelf raster는 asset generation blocker로 후속 WorkUnit에 남긴다 |
+| 연구 선반 preview bridge | done | Issue #470, PR #471, main CI `25522696541`, `items/0251-research-shelf-preview-bridge.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0470-research-shelf-preview-bridge/visual-report-20260508.md` | #469 이후 storage claim 다음 목표가 없는 blocker를 해결했다. 보관 잎 회수 후 `facility_research_shelf` preview와 `살펴보기` action을 열어 달빛 씨앗 단서 preview receipt/objective로 D1 discovery bridge를 만들고, PR checks/merge/main CI가 통과했다. dedicated research shelf raster는 asset generation blocker로 후속 WorkUnit에 남긴다 |
+| 연구 선반 raster/단서 FX plan-prompt | active | Issue #472, `items/0252-research-shelf-asset-plan-prompt.md`, `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`, `scripts/check-topology-asset-plan.mjs` | #470 이후 research shelf가 existing workbench raster를 임시 stand-in으로 쓰는 art debt를 해결한다. `facility_research_shelf_v1`와 `fx_research_clue_glimmer_strip_v1`을 generation-ready plan/prompt로 추가하고, FX는 `facility_research_shelf.action.inspect_clue`, 8 frames, 96x96, 12fps로 고정한다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -382,7 +383,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **연구 선반 preview bridge**이다. #434 Phaser 신규 정원 감상 모드와 HUD 접기는 PR #469 merge/main CI까지 통과했다. 다음 blocker는 storage/offline reward 회수 이후 board가 research/discovery로 이어지지 않아 D1-D7 씨앗 단서 실루엣이 없다는 점이다.
+현재 작업은 **연구 선반 raster와 단서 FX plan-prompt**이다. #470 연구 선반 preview bridge는 PR #471 merge/main CI까지 통과했다. 다음 blocker는 research shelf가 아직 existing workbench raster를 임시 stand-in으로 재사용해 D1-D7 research/discovery surface가 production prop/FX로 분리되지 않는다는 점이다.
 
 현재 evidence:
 
@@ -408,21 +409,20 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed storage claim reward motion: Issue #465, PR #466, main CI `25520416464`
 - Completed storage asset plan/prompt: Issue #467, PR #468, main CI `25521182658`
 - Completed garden view mode: Issue #434, PR #469, main CI `25522031721`
+- Completed research shelf preview bridge: Issue #470, PR #471, main CI `25522696541`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0251-research-shelf-preview-bridge.md`
-- GitHub issue: #470 `연구 선반 preview bridge`
-- Draft PR: #471 `연구 선반 preview bridge`
-- Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
-- Runtime source: `apps/seed-garden-phaser/src/main.ts`
-- Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0470-research-shelf-preview-bridge/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass
+- WorkUnit: `items/0252-research-shelf-asset-plan-prompt.md`
+- GitHub issue: #472 `연구 선반 raster와 단서 FX plan-prompt`
+- Asset plan source: `assets/source/asset_plan.json`
+- Prompt source: `assets/source/asset_prompts.json`
+- Asset plan checker: `scripts/check-topology-asset-plan.mjs`
+- Current validation: `npm run check:topology-asset-plan` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #470은 storage/offline reward를 D1 research/discovery bridge로 연결한다.
-2. `facility_research_shelf`는 storage claim 후 preview state로 열려야 하며, `살펴보기` action이 player verb를 닫아야 한다.
-3. dedicated research shelf raster는 아직 없으므로 existing accepted workbench raster는 임시 stand-in으로만 쓰고 asset debt를 남긴다.
-4. Browser Use execution tool이 노출되지 않으면 Playwright fallback screenshot과 telemetry를 evidence로 남긴다.
+1. Studio Campaign Gate: #472는 #470의 research/discovery bridge art debt를 generation-ready raster/FX contract로 전환한다.
+2. `facility_research_shelf_v1`은 workbench/storage/order crate와 다른 seed clue research prop으로 읽혀야 한다.
+3. `fx_research_clue_glimmer_strip_v1`은 `facility_research_shelf.action.inspect_clue`, 8 frames, 96x96, 12fps를 asset plan과 prompt 양쪽에서 보존해야 한다.
+4. Runtime UI 변경이 없으므로 Browser Use evidence는 다음 generation/runtime integration WorkUnit에서 요구한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
