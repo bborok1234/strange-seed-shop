@@ -41,12 +41,12 @@ const requiredAppFragments = [
     fragment: `{leafShortfall > 0 && <span className="seed-shortfall-note">{leafShortfall} 잎 더 모으면 구매 가능</span>}`
   },
   {
-    label: "purchase button preserves buy-cost fallback when no shortfall exists",
-    fragment: "{leafShortfall > 0 ? `${leafShortfall} 잎 부족` : `구매 ${costLeaves}`}"
+    label: "purchase button preserves buy-cost fallback with resource unit when no shortfall exists",
+    fragment: "leafShortfall > 0 ? `${leafShortfall} 잎 부족` : `구매 ${costLeaves} 잎`"
   },
   {
-    label: "purchase button remains disabled by leaf affordability",
-    fragment: `<button disabled={!save || save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">`
+    label: "purchase button remains disabled by unlock and leaf affordability",
+    fragment: `<button disabled={!save || !seedUnlocked || save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">`
   }
 ];
 

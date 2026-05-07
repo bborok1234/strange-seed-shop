@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T01:13:15.023Z
+Generated at: 2026-05-07T02:32:05.004Z
 
 ## Current mission
 
-현재 작업은 **seed goal one-tap planting CTA**다. 사용자가 `?qaResearchExpeditionReady=1`에서 씨앗 메뉴의 `젤리콩 씨앗` 목표 CTA를 눌렀을 때 정원으로만 이동하고 실제 심기가 일어나지 않는 회귀를 Browser Use `iab`로 재현했고, 목표 CTA를 구매 가능 상태에서는 `구매하고 심기`, 보유 상태에서는 `정원에 심기`, 불가능 상태에서는 disabled 이유를 보여주는 실제 행동 버튼으로 고친다.
+현재 작업은 **seed tab economy affordance**다. Issue #428 / `items/0227-seed-economy-affordance.md`에서 씨앗 탭의 구매/심기 CTA가 비용 재화, 현재 보유 잎, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에서 설명하도록 고친다. 사용자가 지적한 `구매 25`처럼 재화가 불명확한 기획 결함을 `비용 60 잎 · 보유 72 잎`, `구매 후 보유 1개`, `구매 60 잎`, `48 잎 부족`, `정원에 심기` 상태로 바꾼다.
 
 현재 evidence:
 
@@ -15,49 +15,51 @@ Generated at: 2026-05-07T01:13:15.023Z
 - Handoff: `docs/studio/HANDOFF.md`
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
-- GitHub issue: local user-reported regression
-- Draft PR: #426 — https://github.com/bborok1234/strange-seed-shop/pull/426
+- GitHub issue: #428 — https://github.com/bborok1234/strange-seed-shop/issues/428
+- Draft PR: 작성 예정
 - Previous PR: #425 merged — https://github.com/bborok1234/strange-seed-shop/pull/425
 - Previous main CI: `25447396883` success
-- Plan artifact: `items/0226-seed-goal-plant-cta-fix.md`
-- Branch: `codex/seed-goal-plant-cta-fix`
-- Browser Use before: `reports/visual/issue-seed-goal-plant-cta/browser-use-before-noop-20260507.png`
-- Browser Use after: `reports/visual/issue-seed-goal-plant-cta/browser-use-after-one-tap-planted-20260507.png`
-- Visual report: `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`
-- Current validation: Browser Use `iab` before/after pass, `npm run build` pass, focused mobile visual regression 3 passed, `npm run check:governance` pass, `npm run check:ci` pass.
+- Plan artifact: `items/0227-seed-economy-affordance.md`
+- Branch: `codex/seed-economy-affordance`
+- Browser Use before: `reports/visual/issue-0227-seed-economy-affordance/browser-use-before-seeds-affordance-20260507.png`
+- Browser Use after: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-seeds-affordance-20260507.png`
+- Browser Use interaction: `reports/visual/issue-0227-seed-economy-affordance/browser-use-after-buy-seeds-affordance-20260507.png`
+- Visual report: `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`
+- Current validation: Browser Use `iab` before/after/interaction pass, `npm run build` pass, focused mobile visual regression 3 passed. `npm run check:ci`는 문서 mirror 갱신 후 재실행 중.
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. 변경분을 커밋하고 draft PR을 생성한다.
-2. PR required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
-3. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
-4. 다음 WorkUnit은 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
-5. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+1. 문서 mirror를 갱신하고 `npm run check:ci`를 green으로 만든다.
+2. 변경분을 커밋하고 draft PR을 생성한다.
+3. PR required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
+4. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
+5. 다음 WorkUnit은 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
+6. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
 
 ## Local state
 
-- Branch: codex/seed-goal-plant-cta-fix
-- Latest commit: 0b10854 씨앗 CTA PR 본문 증거를 남긴다
+- Branch: codex/seed-economy-affordance
+- Latest commit: 5865737 경제 행동의 재화 맥락을 디자인 계약으로 고정한다 (#427)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T01:13:13.040Z
-- Phase: pr-check-gate
-- Issue: local-seed-goal-plant-cta
-- PR: 426
-- Item: items/0226-seed-goal-plant-cta-fix.md
-- Next action: PR #426 required checks gate 준비
+- Timestamp: 2026-05-07T02:27:55.737Z
+- Phase: implementing
+- Issue: 428
+- PR: 
+- Item: items/0227-seed-economy-affordance.md
+- Next action: PR 준비 gate: 씨앗 탭 경제 affordance 검증 후 게시
 
 ## Open PRs
 
-- #426 draft 씨앗 목표 CTA를 실제 심기 액션으로 만든다 — https://github.com/bborok1234/strange-seed-shop/pull/426
+- unavailable or none
 
 ## Open issues
 
-- unavailable or none
+- #428 씨앗 탭 경제 affordance — https://github.com/bborok1234/strange-seed-shop/issues/428
 
 ## Playable mode
 
