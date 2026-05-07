@@ -3,6 +3,7 @@ import fs from "node:fs";
 const requiredDocs = [
   "docs/README.md",
   "docs/NORTH_STAR.md",
+  "docs/GAME_BIBLE.md",
   "docs/ROADMAP.md",
   "docs/PROJECT_COMMANDS.md",
   "docs/PRD_PHASE0.md",

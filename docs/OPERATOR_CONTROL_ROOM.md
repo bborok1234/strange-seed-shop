@@ -3,49 +3,53 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T12:46:54.606Z
+Generated at: 2026-05-07T14:54:16.397Z
 
 ## Current mission
 
-현재 작업은 **Legacy React app / Phaser / Studio code and source-of-truth boundary split**이다. Issue #436 / `items/0232-repo-boundary-split.md`에서 root의 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리한다. 이 boundary split이 merge되기 전까지 Issue #433 Phaser Stage 1 구현은 시작하지 않는다.
+현재 작업은 **이상한 씨앗상회 전체 게임 바이블 리디자인**이다. `items/0234-game-bible-full-redesign.md`와 `docs/GAME_BIBLE.md`가 기존 P0/P0.5/Phaser Stage 기획을 하위 참고로 내리고, 컨셉만 유지한 전체 게임 source-of-truth를 만든다.
 
 현재 evidence:
 
-- User decision: 기존 앱은 legacy/reference로 두고 Phaser 기반 신규 프로젝트를 시작한다. 단, 기존 게임 코드와 설계 문서를 함께 분리하지 않으면 Studio가 다시 꼬인다는 판단으로 boundary split을 선행한다.
-- Boundary split item: `items/0232-repo-boundary-split.md`
-- Phaser spec: `docs/phaser/VERTICAL_SLICE_SPEC.md`
+- User decision: 부분 UI/Phaser foundation 설계가 아니라 게임 자체를 처음부터 끝까지 다시 설계한다.
+- Active game bible: `docs/GAME_BIBLE.md`
+- Reboot foundation spec: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
+- Superseded spec: `docs/phaser/VERTICAL_SLICE_SPEC.md`
 - Legacy app lane: `apps/legacy-react-playable/`
 - Phaser app lane: `apps/seed-garden-phaser/`
-- Codex skill: `.codex/skills/studio-operate/SKILL.md`
-- GitHub issue: #436 — https://github.com/bborok1234/strange-seed-shop/issues/436
-- Blocked next issue: #433 — https://github.com/bborok1234/strange-seed-shop/issues/433
-- Follow-up issue: #434 — https://github.com/bborok1234/strange-seed-shop/issues/434
-- Follow-up issue: #432 — https://github.com/bborok1234/strange-seed-shop/issues/432
-- Current validation: legacy React app moved to `apps/legacy-react-playable/`, Phaser app scaffolded at `apps/seed-garden-phaser/`. Browser Use `iab` legacy/phaser smoke captured, `npm run check:ci` pass, `npm run check:art-share` 17 passed. PR #438 checks/merge/main CI pending.
+- Game bible item: `items/0234-game-bible-full-redesign.md`
+- Reboot item: `items/0233-phaser-reboot-foundation-design.md`
+- Blocked old item: `items/0229-phaser-care-stage-foundation.md`
+- Blocked old item: `items/0230-phaser-garden-view-mode.md`
+- Blocked old item: `items/0231-phaser-carry-claim-reward-fx.md`
+- Codex skill: `game-studio:game-studio`
+- Current validation: `npm run check:docs` pass, `npm run check:dashboard` pass, `npm run check:app-boundaries` pass, `npm run check:seed-ops-queue` pass, `npm run check:closed-workunit-mirrors` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Issue #436 구현 PR을 만들고 required checks를 확인한 뒤 merge/main CI까지 관찰한다.
-2. Issue #436 merge/main CI 이후 Studio Campaign Gate로 Issue #433을 실행 WorkUnit으로 재개한다.
-3. Issue #433 구현 전 `Game Studio Department Signoff`, asset plan/prompt/provenance, Browser Use `iab` QA 계획을 보강한다.
-4. 단순 주문 추가, copy tweak, test-only 작업은 이번 greenfield campaign에서 금지한다.
+1. Studio Campaign Gate: `docs/GAME_BIBLE.md`를 게임 설계 최상위 source-of-truth로 등록한다.
+2. 기존 P0/P0.5/Phaser Stage 문서는 reference/historical로 내리고, 새 구현 판단은 `GAME_BIBLE.md`를 먼저 따른다.
+3. 다음 WorkUnit은 `garden board topology scaffold`이지만, `GAME_BIBLE.md` 검증이 green인 뒤에만 시작한다.
+4. asset generation은 topology scaffold 이후에 시작한다. blank terrain, modular plot tile, facility prop, actor seed frame, sprite strip normalization 순서로 진행한다.
+5. Browser Use `iab` visual/gameplay evidence 없이는 Phaser visual/gameplay 완료를 주장하지 않는다.
+6. 단순 주문 추가, copy tweak, test-only 작업은 이번 greenfield campaign에서 금지한다. 다음 WorkUnit은 world topology, actor task, asset/FX, Browser Use playtest 중 하나 이상의 concrete visual/game-feel payoff를 포함해야 한다.
 
 ## Local state
 
-- Branch: codex/legacy-react-phaser-boundary
-- Latest commit: current branch commit `Phaser 전환 전에 문서 경계를 먼저 나눈다`
+- Branch: codex/phaser-care-stage-foundation
+- Latest commit: e532cdb 기존 React 앱을 legacy lane으로 분리한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T12:46:54.606Z
-- Phase: code-doc-boundary-pr-created
-- Issue: 436
-- PR: 438
-- Item: items/0232-repo-boundary-split.md
-- Next action: gate: watch PR #438 checks, merge, then observe main CI
+- Timestamp: 2026-05-07T14:53:50.811Z
+- Phase: game-bible-full-redesign-verified
+- Issue: game-bible
+- PR: 
+- Item: items/0234-game-bible-full-redesign.md
+- Next action: gate: split next issue into garden board topology scaffold
 
 ## Open PRs
 
@@ -53,7 +57,6 @@ Generated at: 2026-05-07T12:46:54.606Z
 
 ## Open issues
 
-- #436 Legacy와 Phaser 신규 정원의 source-of-truth를 분리하기 — https://github.com/bborok1234/strange-seed-shop/issues/436
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 - #433 Phaser 신규 정원을 낮은 관리 카메라와 actor loop로 시작하기 — https://github.com/bborok1234/strange-seed-shop/issues/433
 - #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
