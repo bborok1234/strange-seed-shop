@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T22:28:25.031Z
+Generated at: 2026-05-07T22:29:32.719Z
 
 ## Current mission
 
@@ -42,7 +42,7 @@ Generated at: 2026-05-07T22:28:25.031Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0257-next-seed-goal-claim-plant.md`
 - GitHub issue: #482 `다음 씨앗 목표 수령/심기 bridge`
-- Draft PR: pending
+- Draft PR: #483 `다음 씨앗 목표 수령/심기 bridge`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
@@ -61,22 +61,22 @@ Generated at: 2026-05-07T22:28:25.031Z
 ## Local state
 
 - Branch: codex/v1-next-seed-goal-claim-plant
-- Latest commit: a477c5c 도감 기록 스탬프 FX plan-prompt 병합
+- Latest commit: d830b03 다음 씨앗 목표를 심기 루프로 잇는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T22:28:15.154Z
-- Phase: phaser-v1-next-seed-goal-claim-plant-pr-gate
+- Timestamp: 2026-05-07T22:29:31.020Z
+- Phase: phaser-v1-next-seed-goal-claim-plant-pr
 - Issue: 482
-- PR: pending
+- PR: 483
 - Item: items/0257-next-seed-goal-claim-plant.md
-- Next action: PR gate 준비: commit push draft PR #482
+- Next action: PR gate 준비: wait checks then ready/merge #483
 
 ## Open PRs
 
-- unavailable or none
+- #483 draft 다음 씨앗 목표 수령/심기 bridge — https://github.com/bborok1234/strange-seed-shop/pull/483
 
 ## Open issues
 

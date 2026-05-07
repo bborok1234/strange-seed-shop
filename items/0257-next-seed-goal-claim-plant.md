@@ -93,4 +93,4 @@ Browser Use execution tool이 이번 세션에 노출되지 않으면 Playwright
 - Visual report: `reports/visual/issue-0482-next-seed-goal-claim-plant/visual-report-20260508.md`
 - Screenshot: `reports/visual/issue-0482-next-seed-goal-claim-plant/phaser-check-next-goal-seed-planted-393.png`
 - Telemetry: `researchNextGoalSeedClaimed: true`, `researchNextGoalSeedPlanted: true`, plot `seedId: seed_lunar_sprout_001`
-- PR: pending
+- PR: #483 `다음 씨앗 목표 수령/심기 bridge` - https://github.com/bborok1234/strange-seed-shop/pull/483
