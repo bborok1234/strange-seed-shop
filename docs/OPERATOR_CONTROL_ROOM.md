@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T20:14:01.474Z
+Generated at: 2026-05-07T20:16:51.052Z
 
 ## Current mission
 
@@ -31,7 +31,7 @@ Generated at: 2026-05-07T20:14:01.474Z
 - Completed offline storage reward claim: Issue #461, PR #462, main CI `25519266912`
 - WorkUnit: `items/0248-storage-playfield-fill-state.md`
 - GitHub issue: #463 `보관 바구니 채움 상태를 playfield에서 보여주기`
-- Draft PR: pending
+- Draft PR: #464 `보관 바구니 채움 상태를 playfield에서 보여주기`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0463-storage-playfield-fill-state/visual-report-20260508.md`
@@ -49,22 +49,22 @@ Generated at: 2026-05-07T20:14:01.474Z
 ## Local state
 
 - Branch: codex/v1-storage-playfield-fill-state
-- Latest commit: 5185522 보관 채움 표시를 다음 v1 작업으로 고정한다
+- Latest commit: 90107f7 보관 채움 표시 PR 증거를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T20:13:43.703Z
-- Phase: phaser-v1-storage-playfield-fill-state-verified
+- Timestamp: 2026-05-07T20:16:29.242Z
+- Phase: phaser-v1-storage-playfield-fill-state-pr
 - Issue: 463
-- PR: pending
+- PR: 464
 - Item: items/0248-storage-playfield-fill-state.md
-- Next action: gate: update evidence docs and prepare draft PR
+- Next action: gate: mark PR #464 ready, watch checks, merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #464 draft 보관 바구니 채움 상태를 playfield에서 보여주기 — https://github.com/bborok1234/strange-seed-shop/pull/464
 
 ## Open issues
 

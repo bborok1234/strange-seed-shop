@@ -108,7 +108,7 @@ Browser Use `iab`가 현재 도구 목록에 직접 노출되지 않으면 `tool
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/463
-- Draft PR: pending
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/464
 
 ## Evidence
 
