@@ -41,7 +41,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Topology asset generation/review | done | Issue #442, PR #443, main CI `25511678907`, `items/0237-topology-asset-generation-review.md`, `reports/assets/topology_asset_contact_sheet_20260508.png`, `reports/assets/topology_asset_review_20260508.md`, `scripts/check-topology-generated-assets.mjs`, `assets/source/gpt_image_asset_provenance.json` | #440 plan/prompt의 14개 topology 후보 PNG를 `gpt-image-2`로 생성했다. `background=transparent`는 `transparent background is not supported for this model.`로 거부되어 `opaque` 후보로 저장했고, review report는 background 외 후보를 manifest 투입 전 알파/배경 후처리 또는 sprite normalization 대상으로 판정한다. `npm run check:topology-generated-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, PR checks, main CI가 통과했다 |
 | Topology alpha cleanup/runtime integration | done | Issue #444, PR #445, main CI `25512501021`, `items/0238-topology-runtime-integration.md`, `apps/seed-garden-phaser/src/main.ts`, `scripts/postprocess-topology-runtime-assets.mjs`, `reports/assets/topology_runtime_alpha_contact_sheet_20260508.png`, `reports/visual/issue-0444-topology-runtime-integration/visual-report-20260508.md` | #442의 opaque topology 후보 중 plot/facility/shadow 9개를 edge-connected alpha cleanup으로 runtime layering 가능 상태로 만들고, Phaser board가 terrain/plot/facility generated raster art를 preload/render한다. `npm run build:phaser`, `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
 | Actor/FX runtime strip normalization | done | Issue #446, PR #447, main CI `25513369383`, `items/0239-actor-fx-runtime-strips.md`, `scripts/normalize-actor-fx-runtime-strips.mjs`, `reports/assets/actor_fx_runtime_strip_contact_sheet_20260508.png`, `reports/visual/issue-0446-actor-fx-runtime-strips/visual-report-20260508.md`, `apps/seed-garden-phaser/src/main.ts` | #442의 actor/FX source candidates를 strict runtime strips로 정규화하고, Phaser board가 Pori actor spritesheet와 care/harvest FX texture를 preload/animation으로 사용한다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
-| Momo carrier and order crate motion | active | Issue #448, Draft PR #449, `items/0240-momo-carrier-order-motion.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0448-momo-carrier-order-motion/visual-report-20260508.md` | 첫 작업대 수령 후 Momo carrier actor가 `actor_momo_carrier_strip_v1`로 등장하고 workbench -> order crate task path를 왕복한다. 주문 상자 진행률은 `25`로 고정 검증되며, `npm run check:phaser`와 `npm run check:ci`가 통과했다. PR #449 checks 대기 |
+| Momo carrier and order crate motion | done | Issue #448, PR #449, main CI `25514108801`, `items/0240-momo-carrier-order-motion.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0448-momo-carrier-order-motion/visual-report-20260508.md` | 첫 작업대 수령 후 Momo carrier actor가 `actor_momo_carrier_strip_v1`로 등장하고 workbench -> order crate task path를 왕복한다. 주문 상자 진행률은 `25`로 고정 검증되며, `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
+| Order crate delivery reward motion | active | Issue #432, `items/0241-order-crate-delivery-reward-motion.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs` | #448 이후 주문 상자 100% -> 납품 claim -> reward motion을 연결한다. 기존 generated crate/FX raster asset만 사용하고 runtime image generation/API/cache는 호출하지 않는다. Plan-first artifact 작성 완료, 구현/검증 대기 |
 | Phaser greenfield vertical slice spec | blocked | `docs/phaser/VERTICAL_SLICE_SPEC.md`, `items/0229-phaser-care-stage-foundation.md`, `items/0230-phaser-garden-view-mode.md`, `items/0231-phaser-carry-claim-reward-fx.md`, Issue #433/#434/#432 | 2026-05-07 리부트 설계로 보류됨. `plot_left`/`plot_right` 2개 밭 계획과 baked-in background risk가 있어 새 `garden board foundation` issue로 재작성 전 구현하지 않는다 |
 | Repo boundary split before Phaser Stage 1 | review | Issue #436, `items/0232-repo-boundary-split.md`, `apps/legacy-react-playable/`, `apps/seed-garden-phaser/`, `reports/visual/issue-0436-boundary-split/browser-use-smoke-20260507.md` | 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리해 #433이 root 기존 앱 코드나 legacy 문서를 active spec으로 오인하지 않게 했다. PR/merge/main CI 대기 |
 | Phaser care stage foundation | blocked | Historical Issue #433 body, `items/0229-phaser-care-stage-foundation.md` | 보류. 고정 2개 밭/낮은 카메라 계획을 그대로 구현하지 않는다. Issue #433은 `items/0235-garden-board-topology-scaffold.md` 기준의 v1 topology foundation으로 재작성됐다 |
@@ -371,7 +372,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **Phaser v1 Momo carrier and order crate motion**이다. #446 actor/FX runtime strip normalization은 PR #447로 merge/main CI까지 통과했고, 다음 blocker는 Momo carrier strip이 runtime production chain에 연결되지 않아 workbench -> order crate 흐름이 텍스트 중심으로만 읽히는 것이다.
+현재 작업은 **Phaser v1 order crate delivery reward motion**이다. #448 Momo carrier/order crate motion은 PR #449로 merge/main CI까지 통과했고, 다음 blocker는 주문 상자가 100%에 도달해도 납품 claim과 reward motion이 없어 첫 production chain payoff가 닫히지 않는 것이다.
 
 현재 evidence:
 
@@ -385,19 +386,20 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed generation/review: Issue #442, PR #443, main CI `25511678907`
 - Completed topology runtime integration: Issue #444, PR #445, main CI `25512501021`
 - Completed actor/FX strip normalization: Issue #446, PR #447, main CI `25513369383`
-- WorkUnit: `items/0240-momo-carrier-order-motion.md`
-- GitHub issue: #448 `Phaser v1 Momo carrier and order crate motion`
-- Draft PR: #449 `Phaser v1 Momo carrier order motion`
+- Completed Momo carrier/order crate motion: Issue #448, PR #449, main CI `25514108801`
+- WorkUnit: `items/0241-order-crate-delivery-reward-motion.md`
+- GitHub issue: #432 `Phaser v1 order crate delivery reward motion`
+- Draft PR: pending
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0448-momo-carrier-order-motion/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
+- Visual report: pending
+- Current validation: plan artifact written, implementation pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #448은 Momo carrier task와 order crate progress payoff를 만든다.
-2. Momo strip은 generated runtime spritesheet로만 사용하고 runtime image generation/API/cache를 호출하지 않는다.
-3. 다음 WorkUnit은 manifest registration, order reward motion, order crate delivery claim, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #432는 order crate delivery claim과 reward motion payoff를 만든다.
+2. Delivery FX는 existing generated raster FX/crate asset만 사용하고 runtime image generation/API/cache를 호출하지 않는다.
+3. 다음 WorkUnit은 repeat order chain, manifest registration, storage unlock, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
