@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T18:49:18.605Z
+Generated at: 2026-05-07T18:50:49.495Z
 
 ## Current mission
 
@@ -25,7 +25,7 @@ Generated at: 2026-05-07T18:49:18.605Z
 - Completed order crate delivery reward motion: Issue #432, PR #450, main CI `25514890197`
 - WorkUnit: `items/0242-third-plot-expansion-unlock.md`
 - GitHub issue: #451 `Phaser v1 third plot expansion unlock`
-- Draft PR: pending
+- Draft PR: #452 `Phaser v1 third plot expansion unlock`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0451-third-plot-expansion-unlock/visual-report-20260508.md`
@@ -43,22 +43,22 @@ Generated at: 2026-05-07T18:49:18.605Z
 ## Local state
 
 - Branch: codex/v1-third-plot-expansion-unlock
-- Latest commit: 3442243 세 번째 밭 확장을 다음 v1 작업으로 고정한다
+- Latest commit: 400f86d 세 번째 밭 확장으로 납품 보상을 성장에 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T18:48:33.505Z
-- Phase: phaser-v1-third-plot-expansion-unlock-verified
+- Timestamp: 2026-05-07T18:50:27.365Z
+- Phase: phaser-v1-third-plot-expansion-unlock-pr
 - Issue: 451
-- PR:
+- PR: 452
 - Item: items/0242-third-plot-expansion-unlock.md
-- Next action: gate: publish PR #451 and watch required checks
+- Next action: gate: watch PR #452 required checks and merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #452 draft Phaser v1 third plot expansion unlock — https://github.com/bborok1234/strange-seed-shop/pull/452
 
 ## Open issues
 

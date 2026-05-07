@@ -87,7 +87,7 @@ Browser Use `iab`가 노출되면 delivery -> third plot expansion을 직접 확
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/451
-- Draft PR: pending
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/452
 
 ## Evidence
 
