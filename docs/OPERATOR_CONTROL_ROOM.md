@@ -7,7 +7,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 
 ## Current mission
 
-현재 작업은 **다음 씨앗 목표 수령/심기 bridge**이다. #480 도감 기록 스탬프 FX plan-prompt는 PR #481 merge/main CI `25525145605`까지 통과했다. 다음 blocker는 clue album record 이후 `다음 씨앗 목표`가 visible surface로만 남고 실제 씨앗 수령/심기 verb로 닫히지 않는다는 점이다.
+현재 작업은 **달빛 새싹 수확 다음 발견 reveal**이다. #482 다음 씨앗 목표 수령/심기 bridge는 PR #483 merge/main CI `25525693860`까지 통과했다. 다음 blocker는 `seed_lunar_sprout_001`이 목표 씨앗으로 심긴 뒤 수확하면 일반 말랑잎 수확처럼 처리되어 다음 발견/reveal payoff가 사라지는 점이다.
 
 현재 evidence:
 
@@ -39,48 +39,49 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Completed research clue album record: Issue #476, PR #477, main CI `25524211510`
 - Completed research clue goal surface: Issue #478, PR #479, main CI `25524735364`
 - Completed album record stamp FX plan/prompt: Issue #480, PR #481, main CI `25525145605`
+- Completed next seed goal claim/plant bridge: Issue #482, PR #483, main CI `25525693860`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0257-next-seed-goal-claim-plant.md`
-- GitHub issue: #482 `다음 씨앗 목표 수령/심기 bridge`
-- Draft PR: #483 `다음 씨앗 목표 수령/심기 bridge`
+- WorkUnit: `items/0258-lunar-sprout-growth-reveal.md`
+- GitHub issue: #484 `달빛 새싹 수확이 다음 발견 reveal로 이어지게 만들기`
+- Draft PR: pending
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0482-next-seed-goal-claim-plant/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0484-lunar-sprout-growth-reveal/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #482는 next seed goal surface를 actual planting verb로 연결한다.
-2. album record 후 `목표 씨앗 받기` action이 보여야 한다.
-3. 수령 후 빈 밭에서 `목표 심기` action이 보여야 한다.
-4. planting 후 `researchNextGoalSeedClaimed`, `researchNextGoalSeedPlanted` telemetry와 `seed_lunar_sprout_001` plot state가 남아야 한다.
+1. Studio Campaign Gate: #484는 목표 씨앗 planting 이후 성장/수확/reveal-ready로 이어져야 한다.
+2. `seed_lunar_sprout_001` 수확은 일반 말랑잎 수확 branch와 분리한다.
+3. 수확 후 `researchNextGoalSeedHarvested`, `researchNextGoalRevealReady` telemetry가 남아야 한다.
+4. objective/receipt/action rail은 `달빛 새싹`과 `다음 발견`을 설명해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-next-seed-goal-claim-plant
-- Latest commit: d830b03 다음 씨앗 목표를 심기 루프로 잇는다
+- Branch: codex/v1-lunar-sprout-growth-reveal
+- Latest commit: f19460a 다음 씨앗 목표 수령/심기 bridge 병합
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T22:29:31.020Z
-- Phase: phaser-v1-next-seed-goal-claim-plant-pr
-- Issue: 482
-- PR: 483
-- Item: items/0257-next-seed-goal-claim-plant.md
-- Next action: PR gate 준비: wait checks then ready/merge #483
+- Timestamp: 2026-05-07T22:39:40.000Z
+- Phase: phaser-v1-lunar-sprout-growth-reveal-verify
+- Issue: 484
+- PR: pending
+- Item: items/0258-lunar-sprout-growth-reveal.md
+- Next action: verification gate: run check:ci and operator metadata checks before PR
 
 ## Open PRs
 
-- #483 draft 다음 씨앗 목표 수령/심기 bridge — https://github.com/bborok1234/strange-seed-shop/pull/483
+- N/A — #484 PR은 검증 통과 후 생성한다.
 
 ## Open issues
 
-- #482 다음 씨앗 목표 수령/심기 bridge — https://github.com/bborok1234/strange-seed-shop/issues/482
+- #484 달빛 새싹 수확이 다음 발견 reveal로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/484
 
 ## Playable mode
 

@@ -71,6 +71,8 @@ export interface GardenState {
   researchNextGoalSeedAvailable: boolean;
   researchNextGoalSeedClaimed: boolean;
   researchNextGoalSeedPlanted: boolean;
+  researchNextGoalSeedHarvested: boolean;
+  researchNextGoalRevealReady: boolean;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -226,7 +228,9 @@ export function createGardenState(): GardenState {
     researchClueGoalSurfaceVisible: false,
     researchNextGoalSeedAvailable: false,
     researchNextGoalSeedClaimed: false,
-    researchNextGoalSeedPlanted: false
+    researchNextGoalSeedPlanted: false,
+    researchNextGoalSeedHarvested: false,
+    researchNextGoalRevealReady: false
   };
 }
 
@@ -303,9 +307,15 @@ export function selectSlot(state: GardenState, slotId: string): void {
         ? "달빛 씨앗 단서 심기 · 다음 family clue 추적"
         : "말랑잎 씨앗을 심어 첫 생명체를 만나기";
   } else if (plot?.state === "planted" || plot?.state === "growing") {
-    state.objective = "밭을 돌봐 성장률을 올리기";
+    state.objective =
+      plot.seedId === "seed_lunar_sprout_001"
+        ? "달빛 새싹 돌보기 · 수확하면 다음 발견 준비"
+        : "밭을 돌봐 성장률을 올리기";
   } else if (plot?.state === "ready") {
-    state.objective = "수확해서 말랑잎 포리를 정원 actor로 맞이하기";
+    state.objective =
+      plot.seedId === "seed_lunar_sprout_001"
+        ? "달빛 새싹 수확 · 다음 발견 reveal 준비"
+        : "수확해서 말랑잎 포리를 정원 actor로 맞이하기";
   } else if (slot.id === "facility_workbench") {
     state.objective = state.actors.length > 0 ? "포리의 작업대 생산을 수령하기" : "첫 수확 후 포리가 작업대에서 일한다";
   }
@@ -336,6 +346,12 @@ export function careSelectedPlot(state: GardenState): void {
   plot.careCount += 1;
   plot.growth = Math.min(100, plot.growth + 34);
   plot.state = plot.growth >= 100 ? "ready" : "growing";
+  if (plot.seedId === "seed_lunar_sprout_001") {
+    state.objective =
+      plot.state === "ready" ? "달빛 새싹 수확 · 다음 발견 reveal 준비" : `달빛 새싹 성장 ${plot.growth}%`;
+    state.receipts.unshift(plot.state === "ready" ? "달빛 새싹 수확 준비 완료" : `달빛 새싹 돌보기 +34%`);
+    return;
+  }
   state.objective = plot.state === "ready" ? "수확해서 첫 actor를 정원에 합류시키기" : `성장 ${plot.growth}% - 한 번 더 돌보기`;
   state.receipts.unshift(plot.state === "ready" ? "수확 준비 완료" : `돌보기 +34% (${plot.careCount}회)`);
 }
@@ -348,17 +364,25 @@ export function harvestSelectedPlot(state: GardenState): void {
 
   const slot = getSlot(state, state.selectedSlotId);
   const clueHarvest = plot.seedId === "seed_lunar_clue_001";
+  const lunarSproutHarvest = plot.seedId === "seed_lunar_sprout_001";
   const firstPoriDiscovery = !state.actors.some((actor) => actor.id === "actor_pori");
   plot.state = "empty";
   plot.seedId = undefined;
   plot.growth = 0;
   plot.careCount = 0;
-  state.resources.leaves += clueHarvest ? 18 : 12;
+  state.resources.leaves += clueHarvest ? 18 : lunarSproutHarvest ? 22 : 12;
   if (clueHarvest) {
     state.researchClueHarvested = true;
     state.researchClueRecordReady = true;
     state.objective = "달빛 씨앗 family clue 발견 · 다음 WorkUnit에서 도감 단서로 연결";
     state.receipts.unshift("달빛 단서 수확 · 달빛 family clue +1 · 잎 +18");
+    return;
+  }
+  if (lunarSproutHarvest) {
+    state.researchNextGoalSeedHarvested = true;
+    state.researchNextGoalRevealReady = true;
+    state.objective = "달빛 새싹 발견 준비 · 다음 씨앗 family reveal 대기";
+    state.receipts.unshift("달빛 새싹 수확 · 다음 발견 준비 · 잎 +22");
     return;
   }
   if (firstPoriDiscovery) {

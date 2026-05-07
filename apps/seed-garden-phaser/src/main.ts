@@ -209,6 +209,10 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenResearchNextGoalSeedClaimed = gameState.researchNextGoalSeedClaimed;
     (window as unknown as { __seedGardenResearchNextGoalSeedPlanted?: boolean })
       .__seedGardenResearchNextGoalSeedPlanted = gameState.researchNextGoalSeedPlanted;
+    (window as unknown as { __seedGardenResearchNextGoalSeedHarvested?: boolean })
+      .__seedGardenResearchNextGoalSeedHarvested = gameState.researchNextGoalSeedHarvested;
+    (window as unknown as { __seedGardenResearchNextGoalRevealReady?: boolean })
+      .__seedGardenResearchNextGoalRevealReady = gameState.researchNextGoalRevealReady;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -636,6 +640,15 @@ class GardenBoardScene extends Phaser.Scene {
       .join("");
 
     const actions = this.getAvailableActions(gameState, selectedSlot);
+    if (gameState.researchNextGoalRevealReady) {
+      const revealSurface = document.createElement("div");
+      revealSurface.className = "collection-goal-surface";
+      revealSurface.innerHTML = `
+        <strong>달빛 새싹 수확됨</strong>
+        <span>다음 발견 준비 완료</span>
+      `;
+      this.hud.actions.appendChild(revealSurface);
+    }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
       goalSurface.className = "collection-goal-surface";
@@ -664,6 +677,8 @@ class GardenBoardScene extends Phaser.Scene {
             ? "빈 밭을 선택해 단서 심기"
           : selectedSlot.unlockState === "unlocked" && gameState.researchNextGoalSeedAvailable
             ? "빈 밭에 목표 심기"
+          : gameState.researchNextGoalRevealReady
+            ? "다음 발견 준비 완료"
           : selectedSlot.unlockState === "unlocked" && gameState.researchClueRecordReady
             ? "도감 기록 대기"
           : selectedSlot.unlockState === "unlocked"
