@@ -38,7 +38,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Phaser reboot foundation design | review | `docs/phaser/REBOOT_FOUNDATION_SPEC.md`, `docs/phaser/README.md`, `items/0233-phaser-reboot-foundation-design.md` | 기존 Stage 1/2/3 계획을 보류하고, expandable world topology, runtime plot/facility entity, actor task, camera/HUD, asset generation order를 Phaser 구현 하위 foundation으로 고정했다. 이제 `docs/GAME_BIBLE.md` 하위 문서로 취급한다 |
 | Garden board topology scaffold | done | Issue #433, PR #439, main CI `25507779300`, `items/0235-garden-board-topology-scaffold.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0433-garden-board-foundation/visual-report-20260508.md` | 신규 Phaser app이 placeholder에서 최소 3개 build slot, runtime plot/facility entity, starter seed 심기/돌보기/수확, `말랑잎 포리` actor task, contextual HUD/action rail을 가진 v1 board foundation으로 전환됐다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
 | Topology asset plan/prompt batch | done | Issue #440, PR #441, main CI `25508532265`, `items/0236-topology-asset-plan.md`, `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`, `scripts/check-topology-asset-plan.mjs` | #433 placeholder art를 production asset으로 굳히지 않도록 terrain, plot states, facility states, Pori/Momo actor strips, care/harvest FX strips, soft shadow의 14개 v1 topology asset plan/prompt를 추가했다. `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, PR checks, main CI가 통과했다 |
-| Topology asset generation/review | active | Issue #442, Draft PR #443, `items/0237-topology-asset-generation-review.md`, `reports/assets/topology_asset_contact_sheet_20260508.png`, `reports/assets/topology_asset_review_20260508.md`, `scripts/check-topology-generated-assets.mjs`, `assets/source/gpt_image_asset_provenance.json` | #440 plan/prompt의 14개 topology 후보 PNG를 `gpt-image-2`로 생성했다. `background=transparent`는 `transparent background is not supported for this model.`로 거부되어 `opaque` 후보로 저장했고, review report는 background 외 후보를 manifest 투입 전 알파/배경 후처리 또는 sprite normalization 대상으로 판정한다. `npm run check:topology-generated-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci` 통과했고 PR #443 checks 확인 중이다 |
+| Topology asset generation/review | done | Issue #442, PR #443, main CI `25511678907`, `items/0237-topology-asset-generation-review.md`, `reports/assets/topology_asset_contact_sheet_20260508.png`, `reports/assets/topology_asset_review_20260508.md`, `scripts/check-topology-generated-assets.mjs`, `assets/source/gpt_image_asset_provenance.json` | #440 plan/prompt의 14개 topology 후보 PNG를 `gpt-image-2`로 생성했다. `background=transparent`는 `transparent background is not supported for this model.`로 거부되어 `opaque` 후보로 저장했고, review report는 background 외 후보를 manifest 투입 전 알파/배경 후처리 또는 sprite normalization 대상으로 판정한다. `npm run check:topology-generated-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, PR checks, main CI가 통과했다 |
+| Topology alpha cleanup/runtime integration | active | Issue #444, `items/0238-topology-runtime-integration.md`, `apps/seed-garden-phaser/src/main.ts`, `scripts/postprocess-topology-runtime-assets.mjs`, `reports/assets/topology_runtime_alpha_contact_sheet_20260508.png`, `reports/visual/issue-0444-topology-runtime-integration/visual-report-20260508.md` | #442의 opaque topology 후보 중 plot/facility/shadow 9개를 edge-connected alpha cleanup으로 runtime layering 가능 상태로 만들고, Phaser board가 terrain/plot/facility generated raster art를 preload/render한다. `npm run build:phaser`, `npm run check:phaser` 통과 |
 | Phaser greenfield vertical slice spec | blocked | `docs/phaser/VERTICAL_SLICE_SPEC.md`, `items/0229-phaser-care-stage-foundation.md`, `items/0230-phaser-garden-view-mode.md`, `items/0231-phaser-carry-claim-reward-fx.md`, Issue #433/#434/#432 | 2026-05-07 리부트 설계로 보류됨. `plot_left`/`plot_right` 2개 밭 계획과 baked-in background risk가 있어 새 `garden board foundation` issue로 재작성 전 구현하지 않는다 |
 | Repo boundary split before Phaser Stage 1 | review | Issue #436, `items/0232-repo-boundary-split.md`, `apps/legacy-react-playable/`, `apps/seed-garden-phaser/`, `reports/visual/issue-0436-boundary-split/browser-use-smoke-20260507.md` | 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리해 #433이 root 기존 앱 코드나 legacy 문서를 active spec으로 오인하지 않게 했다. PR/merge/main CI 대기 |
 | Phaser care stage foundation | blocked | Historical Issue #433 body, `items/0229-phaser-care-stage-foundation.md` | 보류. 고정 2개 밭/낮은 카메라 계획을 그대로 구현하지 않는다. Issue #433은 `items/0235-garden-board-topology-scaffold.md` 기준의 v1 topology foundation으로 재작성됐다 |
@@ -368,7 +369,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **Phaser v1 topology asset generation/review**다. #440 topology asset plan/prompt batch는 PR #441로 merge/main CI까지 통과했고, 다음 blocker는 실제 후보 PNG를 생성하되 opaque/checkerboard 배경 후보를 곧바로 accepted manifest asset으로 오인하지 않게 review gate를 고정하는 것이다.
+현재 작업은 **Phaser v1 topology alpha cleanup/runtime integration**이다. #442 topology asset generation/review는 PR #443으로 merge/main CI까지 통과했고, 다음 blocker는 opaque/checkerboard source 후보를 runtime에 바로 보이게 alpha-clean 처리한 뒤 Phaser board가 실제 generated raster art로 읽히게 만드는 것이다.
 
 현재 evidence:
 
@@ -379,20 +380,20 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed foundation: Issue #433, PR #439, main CI `25507779300`
 - Completed plan/prompt batch: Issue #440, PR #441, main CI `25508532265`
 - WorkUnit: `items/0237-topology-asset-generation-review.md`
-- GitHub issue: #442 `Phaser v1 topology asset generation and review`
-- Draft PR: #443 `Phaser v1 topology asset generation review`
-- Generated candidates: `public/assets/game/**`
-- Raw generated files: `assets/source/generated/gpt-image/**`
-- Review report: `reports/assets/topology_asset_review_20260508.md`
-- Contact sheet: `reports/assets/topology_asset_contact_sheet_20260508.png`
-- Automated verifier: `scripts/check-topology-generated-assets.mjs`
-- Current validation: `npm run check:topology-generated-assets` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:asset-alpha` pass
+- Completed generation/review: Issue #442, PR #443, main CI `25511678907`
+- WorkUnit: `items/0238-topology-runtime-integration.md`
+- GitHub issue: #444 `Phaser v1 topology alpha cleanup and runtime integration`
+- Runtime source: `apps/seed-garden-phaser/src/main.ts`
+- Alpha cleanup script: `scripts/postprocess-topology-runtime-assets.mjs`
+- Alpha contact sheet: `reports/assets/topology_runtime_alpha_contact_sheet_20260508.png`
+- Visual report: `reports/visual/issue-0444-topology-runtime-integration/visual-report-20260508.md`
+- Current validation: `npm run build:phaser` pass, `npm run check:phaser` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #442는 terrain, plot states, facility states, actor strips, FX strips의 actual PNG 후보와 review evidence를 고정한다.
-2. `gpt-image-2` transparent background 미지원으로 생성된 opaque 후보는 background 외에 manifest accepted로 등록하지 않는다.
-3. 다음 WorkUnit은 plot/facility alpha cleanup, actor/FX strict strip normalization, manifest registration, Phaser runtime integration, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #444는 terrain, plot states, facility states의 runtime visual payoff를 만든다.
+2. Actor/FX 후보는 아직 accepted spritesheet가 아니므로 이번 runtime integration에서 manifest accepted로 등록하지 않는다.
+3. 다음 WorkUnit은 actor/FX strict strip normalization, manifest registration, order reward motion, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
