@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0478-research-clue-goal-surface";
+const OUT_DIR = "reports/visual/issue-0482-next-seed-goal-claim-plant";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -227,6 +227,29 @@ async function runSmoke() {
       researchClueGoalSurfaceVisible: window.__seedGardenResearchClueGoalSurfaceVisible ?? false
     }));
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-research-clue-goal-surface-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "목표 씨앗 받기" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-next-goal-seed-claimed-393.png`, fullPage: false });
+    const nextGoalSeedClaimed = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      seeds: document.querySelector('[data-hud="seeds"]')?.textContent ?? "",
+      researchNextGoalSeedAvailable: window.__seedGardenResearchNextGoalSeedAvailable ?? false,
+      researchNextGoalSeedClaimed: window.__seedGardenResearchNextGoalSeedClaimed ?? false
+    }));
+    await page.getByRole("button", { name: "목표 심기" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-next-goal-seed-planted-393.png`, fullPage: false });
+    const nextGoalSeedPlanted = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      seeds: document.querySelector('[data-hud="seeds"]')?.textContent ?? "",
+      researchClueGoalSurfaceVisible: window.__seedGardenResearchClueGoalSurfaceVisible ?? false,
+      researchNextGoalSeedAvailable: window.__seedGardenResearchNextGoalSeedAvailable ?? false,
+      researchNextGoalSeedClaimed: window.__seedGardenResearchNextGoalSeedClaimed ?? false,
+      researchNextGoalSeedPlanted: window.__seedGardenResearchNextGoalSeedPlanted ?? false,
+      plotStates: window.__seedGardenPlotStates ?? []
+    }));
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -251,6 +274,9 @@ async function runSmoke() {
       researchClueRecordReady: window.__seedGardenResearchClueRecordReady ?? false,
       researchClueAlbumRecorded: window.__seedGardenResearchClueAlbumRecorded ?? false,
       researchClueGoalSurfaceVisible: window.__seedGardenResearchClueGoalSurfaceVisible ?? false,
+      researchNextGoalSeedAvailable: window.__seedGardenResearchNextGoalSeedAvailable ?? false,
+      researchNextGoalSeedClaimed: window.__seedGardenResearchNextGoalSeedClaimed ?? false,
+      researchNextGoalSeedPlanted: window.__seedGardenResearchNextGoalSeedPlanted ?? false,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -327,7 +353,6 @@ async function runSmoke() {
       failures.push("missing research shelf preview receipt");
     }
     if (!clueBeforePlant.researchClueSeedAvailable) failures.push("research clue seed was not available before planting");
-    if (!clueBeforePlant.objective.includes("달빛 씨앗 단서 확보")) failures.push("missing clue seed availability objective");
     if (!evidence.researchShelfPreviewSeen) failures.push("research shelf preview was not marked seen");
     if (!evidence.researchClueSeedPlanted) failures.push("research clue seed was not marked planted");
     if (!evidence.researchClueHarvested) failures.push("research clue seed was not harvested");
@@ -336,11 +361,22 @@ async function runSmoke() {
     if (!clueBeforeRecord.railText.includes("도감 기록")) failures.push("missing album record action after clue harvest");
     if (!evidence.researchClueAlbumRecorded) failures.push("research clue was not recorded in album");
     if (evidence.researchClueRecordReady) failures.push("research clue record stayed ready after album record");
-    if (!evidence.researchClueGoalSurfaceVisible) failures.push("research clue goal surface telemetry was not visible");
+    if (!clueGoalSurface.researchClueGoalSurfaceVisible) failures.push("research clue goal surface telemetry was not visible");
     if (!clueGoalSurface.researchClueGoalSurfaceVisible) failures.push("research clue goal surface snapshot missed telemetry");
     if (!clueGoalSurface.railText.includes("달빛 단서 기록됨")) failures.push("missing recorded clue goal surface text");
     if (!clueGoalSurface.railText.includes("다음 씨앗 목표")) failures.push("missing next seed goal text in action rail");
+    if (!clueGoalSurface.railText.includes("목표 씨앗 받기")) failures.push("missing next goal seed claim action");
     if (!clueGoalSurface.objective.includes("다음 씨앗 목표")) failures.push("missing next seed goal objective");
+    if (!nextGoalSeedClaimed.researchNextGoalSeedClaimed) failures.push("next goal seed was not marked claimed");
+    if (!nextGoalSeedClaimed.researchNextGoalSeedAvailable) failures.push("next goal seed was not available after claim");
+    if (!nextGoalSeedClaimed.railText.includes("목표 심기")) failures.push("missing next goal seed planting action");
+    if (nextGoalSeedClaimed.seeds !== "1") failures.push(`expected one next-goal seed after claim, got ${nextGoalSeedClaimed.seeds}`);
+    if (!nextGoalSeedPlanted.researchNextGoalSeedPlanted) failures.push("next goal seed was not marked planted");
+    if (nextGoalSeedPlanted.researchNextGoalSeedAvailable) failures.push("next goal seed stayed available after planting");
+    if (nextGoalSeedPlanted.researchClueGoalSurfaceVisible) failures.push("goal surface stayed visible after next goal planting");
+    if (!nextGoalSeedPlanted.objective.includes("달빛 새싹 목표 재배 중")) {
+      failures.push("missing next goal planting objective");
+    }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
     }
@@ -350,12 +386,20 @@ async function runSmoke() {
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 도감 기록 · 다음 씨앗 목표 저장"))) {
       failures.push("missing research clue album record receipt");
     }
-    if (!evidence.objective.includes("달빛 단서 기록됨")) failures.push("missing research clue recorded objective");
+    if (!evidence.receipts.some((receipt) => receipt.includes("다음 목표 씨앗 수령"))) {
+      failures.push("missing next goal seed claim receipt");
+    }
+    if (!evidence.receipts.some((receipt) => receipt.includes("달빛 새싹 목표 씨앗을 심었다"))) {
+      failures.push("missing next goal seed planting receipt");
+    }
+    if (!evidence.researchNextGoalSeedClaimed) failures.push("next goal seed claim telemetry missing");
+    if (!evidence.researchNextGoalSeedPlanted) failures.push("next goal seed planting telemetry missing");
+    if (!evidence.objective.includes("달빛 새싹 목표 재배 중")) failures.push("missing next goal planted objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
-    if (!thirdPlot || thirdPlot.state !== "empty" || thirdPlot.growth !== 0) {
-      failures.push(`expected plot_03 harvested back to empty, got ${JSON.stringify(thirdPlot)}`);
+    if (!thirdPlot || thirdPlot.state !== "planted" || thirdPlot.growth !== 35 || thirdPlot.seedId !== "seed_lunar_sprout_001") {
+      failures.push(`expected plot_03 planted with next goal seed, got ${JSON.stringify(thirdPlot)}`);
     }
     const storage = evidence.facilityStates.find((facility) => facility.slotId === "facility_storage");
     if (!storage || storage.level !== 1 || storage.visualState !== "active") {
@@ -394,6 +438,8 @@ async function runSmoke() {
       clueBeforePlant,
       clueBeforeRecord,
       clueGoalSurface,
+      nextGoalSeedClaimed,
+      nextGoalSeedPlanted,
       overviewMode,
       manageReturn,
       evidence,
@@ -427,7 +473,9 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-research-clue-harvested-393.png`,
         `${OUT_DIR}/phaser-check-research-clue-record-ready-393.png`,
         `${OUT_DIR}/phaser-check-research-clue-recorded-393.png`,
-        `${OUT_DIR}/phaser-check-research-clue-goal-surface-393.png`
+        `${OUT_DIR}/phaser-check-research-clue-goal-surface-393.png`,
+        `${OUT_DIR}/phaser-check-next-goal-seed-claimed-393.png`,
+        `${OUT_DIR}/phaser-check-next-goal-seed-planted-393.png`
       ],
       failures
     };

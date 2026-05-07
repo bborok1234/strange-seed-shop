@@ -102,6 +102,7 @@ body {
 
 .action-buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   min-height: 40px;
 }
@@ -132,6 +133,8 @@ body {
 
 .collection-goal-surface {
   display: grid;
+  box-sizing: border-box;
+  flex: 1 0 100%;
   gap: 2px;
   width: 100%;
   border: 1px solid rgba(85, 122, 81, 0.22);
