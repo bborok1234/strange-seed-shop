@@ -35,7 +35,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Garden companion work scene motion | done | Issue #424, PR #425, main CI `25447396883`, `items/0225-garden-companion-work-scene-motion.md`, Browser Use evidence | production-ready 정원에서 동료 actor 2명이 카드 안 아이콘이 아니라 plot/crate/workbench에 anchor된 worker로 보이고, worker -> resource/order target motion path가 Browser Use before/after와 focused visual gate로 검증됨 |
 | Momo work/celebrate sprite actor | done | Issue #430, PR #431, main CI `25482709340`, `items/0228-momo-work-celebrate-sprite.md`, `reports/deliberation/momo-work-celebrate-sprite/`, `reports/visual/issue-0228-momo-work-celebrate-sprite/`, gpt-image-2 sprite strips | 방패새싹 모모가 정적 portrait가 아니라 gpt-image-2 work/celebrate strip과 support worker animation binding으로 정원 playfield에 보이고, Browser Use `iab`에서 work/celebrate 화면 증거를 남겼다. 다만 사용자 QA에서 기존 DOM/CSS overlay 기반의 한계가 확인되어 greenfield Phaser slice로 방향 전환함 |
 | Phaser greenfield vertical slice spec | active | `docs/PHASER_GREENFIELD_VERTICAL_SLICE_SPEC.md`, `items/0229-phaser-care-stage-foundation.md`, `items/0230-phaser-garden-view-mode.md`, `items/0231-phaser-carry-claim-reward-fx.md`, Issue #433/#434/#432 | 기존 React/CSS 정원 visual rewrite를 동결하고, 신규 Phaser-first app에서 낮은 관리 카메라, 감상 모드, 관리 actor/carry/reward FX를 3개 Studio WorkUnit으로 쪼갔다 |
-| Phaser care stage foundation | todo | Issue #433, `items/0229-phaser-care-stage-foundation.md` | `apps/seed-garden-phaser/` 신규 app에서 낮은 관리 카메라, 밭 2개, 작업대, 포리/모모 care actor, crop state 3단계, Browser Use visual evidence를 만든다 |
+| Repo boundary split before Phaser Stage 1 | active | Issue #436, `items/0232-repo-boundary-split.md` | 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리해 #433이 root 기존 앱 코드나 legacy 문서를 active spec으로 오인하지 않게 한다 |
+| Phaser care stage foundation | blocked | Issue #433, `items/0229-phaser-care-stage-foundation.md` | `apps/seed-garden-phaser/` 신규 app에서 낮은 관리 카메라, 밭 2개, 작업대, 포리/모모 care actor, crop state 3단계, Browser Use visual evidence를 만든다. Issue #436 boundary split merge 전 구현 시작 금지 |
 | Phaser garden view mode | todo | Issue #434, `items/0230-phaser-garden-view-mode.md` | Stage 1 위에 감상 모드, HUD 접기, overview camera, decoration prop을 추가해 전체 정원 감상/꾸미기 foundation을 만든다 |
 | Phaser carry claim reward FX | todo | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | Stage 1/2 위에 carry, claim, celebrate, crate state, leaf reward flyout을 추가해 수확/수령 순간을 actor state와 FX로 연결한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
@@ -361,27 +362,28 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **Phaser 신규 정원 관리 카메라와 actor loop**다. Issue #433 / `items/0229-phaser-care-stage-foundation.md`에서 기존 React/CSS 정원 visual rewrite를 멈추고, `apps/seed-garden-phaser/` 신규 Phaser-first vertical slice의 Stage 1을 시작한다. 목표는 낮은 관리 카메라에서 밭 2개, 작업대, 포리/모모 care actor, crop state 3단계, Browser Use `iab` visual evidence를 한 WorkUnit으로 닫는 것이다.
+현재 작업은 **Legacy React app / Phaser / Studio code and source-of-truth boundary split**이다. Issue #436 / `items/0232-repo-boundary-split.md`에서 root의 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리한다. #436이 merge되기 전까지 Issue #433 Phaser Stage 1 구현은 시작하지 않는다.
 
 현재 evidence:
 
-- User decision: 기존 기반에서 계속 덧붙이는 방식은 폐기하고, 현재 앱은 legacy/reference로 두며 Phaser 기반 신규 프로젝트를 시작한다.
+- User decision: 기존 기반에서 계속 덧붙이는 방식은 폐기하고, 현재 앱은 legacy/reference로 두며 Phaser 기반 신규 프로젝트를 시작한다. 그 전에 기존 게임 코드와 설계 문서를 함께 분리하지 않으면 계속 꼬인다는 판단으로 boundary split을 선행한다.
 - Master spec: `docs/PHASER_GREENFIELD_VERTICAL_SLICE_SPEC.md`
+- Boundary split item: `items/0232-repo-boundary-split.md`
 - Stage 1 item: `items/0229-phaser-care-stage-foundation.md`
 - Stage 2 item: `items/0230-phaser-garden-view-mode.md`
 - Stage 3 item: `items/0231-phaser-carry-claim-reward-fx.md`
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
-- GitHub issue: #433 — https://github.com/bborok1234/strange-seed-shop/issues/433
-- PR: #435 — https://github.com/bborok1234/strange-seed-shop/pull/435
+- GitHub issue: #436 — https://github.com/bborok1234/strange-seed-shop/issues/436
+- Blocked next issue: #433 — https://github.com/bborok1234/strange-seed-shop/issues/433
 - Follow-up issue: #434 — https://github.com/bborok1234/strange-seed-shop/issues/434
 - Follow-up issue: #432 — https://github.com/bborok1234/strange-seed-shop/issues/432
-- Current validation: `npm run check:docs` pass, `npm run check:dashboard` pass, `npm run check:github-metadata` pass, `npm run check:ci` pass. PR #435 required checks 진행 중.
+- Current validation: Issue #436 plan artifact and GitHub issue created. `npm run check:docs`, `npm run check:dashboard`, `npm run check:github-metadata`, `npm run check:ops-live`, `npm run check:ci` pass.
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. PR #435를 green/merge하고 main CI를 확인한다.
-2. Studio Campaign Gate로 Issue #433을 다음 실행 WorkUnit으로 선택한다.
+1. Issue #436 구현 PR을 만들고 기존 React app code, legacy docs, Phaser app lane, Studio/operator source ownership을 package scripts/README/checker로 분리한다.
+2. Issue #436 merge/main CI 이후 Studio Campaign Gate로 Issue #433을 실행 WorkUnit으로 재개한다.
 3. Issue #433 구현 전 `Game Studio Department Signoff`, asset plan/prompt/provenance, Browser Use `iab` QA 계획을 보강한다.
 4. Stage 1이 기존 앱보다 시각적으로 명확히 낫지 않으면 Stage 2/3 진행을 보류하고 greenfield 방향을 재평가한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 이번 greenfield campaign에서 금지한다. 다음 WorkUnit은 낮은 관리 카메라, actor care loop, asset/FX, Browser Use playtest 중 하나 이상의 concrete visual/game-feel payoff를 포함해야 한다.

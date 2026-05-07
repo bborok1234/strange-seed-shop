@@ -3,62 +3,55 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T09:10:14.251Z
+Generated at: 2026-05-07T11:55:16.122Z
 
 ## Current mission
 
-현재 작업은 **Momo work/celebrate sprite actor**다. Issue #430 / `items/0228-momo-work-celebrate-sprite.md`에서 방패새싹 모모를 정적 portrait가 아니라 정원 playfield의 독립 support worker actor로 만든다. 신규 gpt-image-2 work/celebrate sprite strip, accepted manifest animation binding, support worker runtime contract, Browser Use `iab` visible QA를 한 WorkUnit으로 닫는다.
+현재 작업은 **Legacy React app / Phaser / Studio code and source-of-truth boundary split**이다. Issue #436 / `items/0232-repo-boundary-split.md`에서 root의 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리한다. 이 boundary split이 merge되기 전까지 Issue #433 Phaser Stage 1 구현은 시작하지 않는다.
 
 현재 evidence:
 
-- User decision: 전체를 뜯어고쳐도 goal 달성이 우선이며, Browser Use `iab`는 fallback 없는 필수 QA 경로다.
-- Handoff: `docs/studio/HANDOFF.md`
-- User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
+- User decision: 기존 앱은 legacy/reference로 두고 Phaser 기반 신규 프로젝트를 시작한다. 단, 기존 게임 코드와 설계 문서를 함께 분리하지 않으면 Studio가 다시 꼬인다는 판단으로 boundary split을 선행한다.
+- Boundary split item: `items/0232-repo-boundary-split.md`
+- Phaser spec: `docs/PHASER_GREENFIELD_VERTICAL_SLICE_SPEC.md`
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
-- GitHub issue: #430 — https://github.com/bborok1234/strange-seed-shop/issues/430
-- PR: #431 — https://github.com/bborok1234/strange-seed-shop/pull/431
-- Previous PR: #429 merged — https://github.com/bborok1234/strange-seed-shop/pull/429
-- Previous main CI: `25473096297` success
-- Plan artifact: `items/0228-momo-work-celebrate-sprite.md`
-- Branch: `codex/momo-work-celebrate-sprite`
-- Studio deliberation: `reports/deliberation/momo-work-celebrate-sprite/spec.md`
-- gpt-image-2 assets: `public/assets/game/sprites/production/creature_herb_common_002_work_strip.png`, `public/assets/game/sprites/production/creature_herb_common_002_celebrate_strip.png`
-- Browser Use before/current: `reports/deliberation/momo-work-celebrate-sprite/browser-use-current-garden-20260507.png`
-- Browser Use after work: `reports/visual/issue-0228-momo-work-celebrate-sprite/browser-use-after-momo-work-loaded-20260507.png`
-- Browser Use after celebrate: `reports/visual/issue-0228-momo-work-celebrate-sprite/browser-use-after-momo-celebrate-loaded-20260507.png`
-- Browser Use findings: `reports/visual/issue-0228-momo-work-celebrate-sprite/browser-use-findings-20260507.md`
-- Current validation: `check:asset-*` pass, `npm run build` pass, focused mobile visual regression 2 passed, focused desktop support actor regression 3 passed. `npm run check:ci` gate 진행 중.
+- GitHub issue: #436 — https://github.com/bborok1234/strange-seed-shop/issues/436
+- Blocked next issue: #433 — https://github.com/bborok1234/strange-seed-shop/issues/433
+- Follow-up issue: #434 — https://github.com/bborok1234/strange-seed-shop/issues/434
+- Follow-up issue: #432 — https://github.com/bborok1234/strange-seed-shop/issues/432
+- Current validation: Issue #436 plan artifact and GitHub issue created. `npm run check:docs`, `npm run check:dashboard`, `npm run check:github-metadata`, `npm run check:ops-live`, `npm run check:ci` pass.
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. PR #431 required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
-2. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
-3. Issue #430과 WorkUnit evidence를 닫고 다음 WorkUnit을 plan-first로 선택한다.
-4. Studio Campaign Gate: 다음 WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+1. Issue #436 구현 PR을 만들고 기존 React app code, legacy docs, Phaser app lane, Studio/operator source ownership을 package scripts/README/checker로 분리한다.
+2. Issue #436 merge/main CI 이후 Studio Campaign Gate로 Issue #433을 실행 WorkUnit으로 재개한다.
+3. Issue #433 구현 전 `Game Studio Department Signoff`, asset plan/prompt/provenance, Browser Use `iab` QA 계획을 보강한다.
+4. 단순 주문 추가, copy tweak, test-only 작업은 이번 greenfield campaign에서 금지한다.
 
 ## Local state
 
-- Branch: codex/phaser-greenfield-studio-spec
-- Latest commit: c223630 모모가 정원에서 일하고 반응하게 한다 (#431)
+- Branch: codex/repo-boundary-split-plan
+- Latest commit: current branch commit `Phaser 전환 전에 문서 경계를 먼저 나눈다`
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T09:09:52.071Z
-- Phase: greenfield-intake-planned
-- Issue: 433
-- PR: 435
-- Item: items/0229-phaser-care-stage-foundation.md
-- Next action: gate: watch PR #435 required checks, merge when green, then start Issue #433 Stage 1
+- Timestamp: 2026-05-07T11:55:16.122Z
+- Phase: code-doc-boundary-planned
+- Issue: 436
+- PR: 
+- Item: items/0232-repo-boundary-split.md
+- Next action: gate: implement Issue #436 by moving legacy React app out of root before resuming Issue #433
 
 ## Open PRs
 
-- #435 ready Phaser 신규 정원을 스튜디오 벤치마크로 전환 — https://github.com/bborok1234/strange-seed-shop/pull/435
+- unavailable or none
 
 ## Open issues
 
+- #436 Legacy와 Phaser 신규 정원의 source-of-truth를 분리하기 — https://github.com/bborok1234/strange-seed-shop/issues/436
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 - #433 Phaser 신규 정원을 낮은 관리 카메라와 actor loop로 시작하기 — https://github.com/bborok1234/strange-seed-shop/issues/433
 - #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
