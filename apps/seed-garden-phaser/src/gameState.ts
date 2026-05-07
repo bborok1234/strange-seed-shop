@@ -357,6 +357,7 @@ export function unlockThirdPlot(state: GardenState): void {
       careCount: 0
     });
   }
-  state.objective = "3번 밭 확장 완료 · 다음 씨앗 준비";
-  state.receipts.unshift("3번 밭 확장 · 잎 -60 · 새 재배 자리 +1");
+  state.resources.starterSeeds += 1;
+  state.objective = "3번 햇살 밭에 새 씨앗 심기";
+  state.receipts.unshift("3번 밭 확장 · 잎 -60 · 씨앗 +1 · 새 재배 자리 +1");
 }

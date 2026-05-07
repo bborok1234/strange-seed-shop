@@ -171,6 +171,13 @@ class GardenBoardScene extends Phaser.Scene {
     (window as unknown as { __seedGardenPlotIds?: string[] }).__seedGardenPlotIds = gameState.plots.map(
       (plot) => plot.slotId
     );
+    (window as unknown as { __seedGardenPlotStates?: Array<Pick<PlotEntity, "slotId" | "state" | "growth">> })
+      .__seedGardenPlotStates = gameState.plots.map((plot) => ({
+        slotId: plot.slotId,
+        state: plot.state,
+        growth: plot.growth
+      }));
+    (window as unknown as { __seedGardenReceipts?: string[] }).__seedGardenReceipts = gameState.receipts;
     this.updateHud();
   }
 
