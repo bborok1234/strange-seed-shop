@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T21:15:16.031Z
+Generated at: 2026-05-07T21:16:33.363Z
 
 ## Current mission
 
@@ -36,6 +36,7 @@ Generated at: 2026-05-07T21:15:16.031Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0251-research-shelf-preview-bridge.md`
 - GitHub issue: #470 `연구 선반 preview bridge`
+- Draft PR: #471 `연구 선반 preview bridge`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
@@ -54,22 +55,22 @@ Generated at: 2026-05-07T21:15:16.031Z
 ## Local state
 
 - Branch: codex/v1-research-shelf-preview-bridge
-- Latest commit: 2488b28 Merge pull request #469 from bborok1234/codex/v1-phaser-view-mode-hud-collapse
+- Latest commit: 26e9d44 연구 선반 preview로 발견 목표를 연다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T21:15:14.372Z
-- Phase: phaser-v1-research-shelf-preview-pr-prep
+- Timestamp: 2026-05-07T21:16:31.660Z
+- Phase: phaser-v1-research-shelf-preview-pr
 - Issue: 470
-- PR: pending
+- PR: 471
 - Item: items/0251-research-shelf-preview-bridge.md
-- Next action: prep PR gate for #470
+- Next action: gate PR #471 checks then merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #471 draft 연구 선반 preview bridge — https://github.com/bborok1234/strange-seed-shop/pull/471
 
 ## Open issues
 

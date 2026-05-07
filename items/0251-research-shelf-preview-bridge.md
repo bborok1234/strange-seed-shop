@@ -92,4 +92,4 @@ Browser Use execution tool이 이번 세션에 노출되지 않아 Playwright fa
 - Inspected screenshot: `reports/visual/issue-0470-research-shelf-preview-bridge/phaser-check-research-shelf-inspected-393.png`
 - Visual report: `reports/visual/issue-0470-research-shelf-preview-bridge/visual-report-20260508.md`
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/470
-- PR: pending
+- PR: https://github.com/bborok1234/strange-seed-shop/pull/471
