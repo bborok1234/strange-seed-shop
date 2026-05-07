@@ -10,6 +10,7 @@ import {
   getSlot,
   harvestSelectedPlot,
   inspectResearchShelfPreview,
+  plantResearchClueSeed,
   plantStarterSeed,
   selectSlot,
   STORAGE_BASKET_UNLOCK_COST,
@@ -187,6 +188,12 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.storageCapacity > 0 ? gameState.storedLeaves / gameState.storageCapacity : 0;
     (window as unknown as { __seedGardenResearchShelfPreviewSeen?: boolean }).__seedGardenResearchShelfPreviewSeen =
       gameState.researchShelfPreviewSeen;
+    (window as unknown as { __seedGardenResearchClueSeedAvailable?: boolean })
+      .__seedGardenResearchClueSeedAvailable = gameState.researchClueSeedAvailable;
+    (window as unknown as { __seedGardenResearchClueSeedPlanted?: boolean }).__seedGardenResearchClueSeedPlanted =
+      gameState.researchClueSeedPlanted;
+    (window as unknown as { __seedGardenResearchClueHarvested?: boolean }).__seedGardenResearchClueHarvested =
+      gameState.researchClueHarvested;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -338,6 +345,21 @@ class GardenBoardScene extends Phaser.Scene {
       bar.fillStyle(plot.state === "ready" ? 0xffc84b : 0x65a864, 1);
       bar.fillRoundedRect(-40, 29, Math.max(8, plot.growth * 0.8), 8, 4);
       container.add(bar);
+    }
+
+    if (plot?.seedId === "seed_lunar_clue_001") {
+      const clueChip = this.add
+        .text(0, -52, "단서", {
+          align: "center",
+          backgroundColor: "rgba(49, 67, 96, 0.82)",
+          color: "#f4f0c9",
+          fontFamily: "system-ui, sans-serif",
+          fontSize: "10px",
+          fontStyle: "800",
+          padding: { x: 6, y: 2 }
+        })
+        .setOrigin(0.5);
+      container.add(clueChip);
     }
 
     container.setSize(132, 112);
@@ -536,10 +558,13 @@ class GardenBoardScene extends Phaser.Scene {
       | "unlock_storage"
       | "claim_storage"
       | "inspect_research"
+      | "plant_clue"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
       plantStarterSeed(gameState);
+    } else if (action === "plant_clue") {
+      plantResearchClueSeed(gameState);
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -598,7 +623,11 @@ class GardenBoardScene extends Phaser.Scene {
           : selectedFacility?.kind === "storage" && selectedSlot.unlockState === "unlocked"
             ? `오프라인 보관 ${gameState.storedLeaves}/${gameState.storageCapacity}`
           : selectedFacility?.kind === "research_shelf" && selectedSlot.unlockState === "preview"
-            ? "다음 씨앗 단서 preview"
+            ? gameState.researchClueSeedAvailable
+              ? "빈 밭에 단서 심기"
+              : "다음 씨앗 단서 preview"
+          : selectedSlot.unlockState === "unlocked" && gameState.researchClueSeedAvailable
+            ? "빈 밭을 선택해 단서 심기"
           : selectedSlot.unlockState === "unlocked"
             ? "다른 slot을 선택"
             : "해금 preview";
@@ -629,7 +658,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "expand"
       | "unlock_storage"
       | "claim_storage"
-      | "inspect_research";
+      | "inspect_research"
+      | "plant_clue";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -658,6 +688,9 @@ class GardenBoardScene extends Phaser.Scene {
       !state.researchShelfPreviewSeen
     ) {
       return [{ id: "inspect_research", label: "살펴보기" }];
+    }
+    if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.researchClueSeedAvailable) {
+      return [{ id: "plant_clue", label: "단서 심기" }];
     }
     if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.resources.starterSeeds > 0) {
       return [{ id: "plant", label: "심기" }];
