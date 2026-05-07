@@ -41,6 +41,7 @@ Phase 이름은 서로 대체 관계가 아니라 층위다. 새 작업자는 �
 | `DESIGN.md` | Game-level UI/UX judgment rules, screen contracts, and production-ready design criteria | Before deciding whether a game screen is good enough |
 | `ART_HUD_PRODUCTION_SPEC.md` | Garden art/HUD production spec for plot, actor, label, motion, HUD budget, and visual QA | Before implementing garden, production, order, research, or expedition HUD moments |
 | `IDLE_CORE_PRODUCTION_SPEC.md` | Competitor-backed idle core gameplay spec for production loop, bottlenecks, upgrades, offline return, and long meta | Before choosing or implementing core gameplay WorkUnits |
+| `PHASER_GREENFIELD_VERTICAL_SLICE_SPEC.md` | Phaser-first 신규 정원 vertical slice 제작 규격: 기존 앱 visual rewrite 동결, 낮은 관리 카메라, 감상 모드, actor care/carry/reward FX stage plan | Before creating greenfield Phaser game WorkUnits or deciding whether to migrate away from the legacy playable |
 | `PRODUCTION_SLICE_READINESS.md` | Blocking readiness gate for the next core gameplay slice, starting with bottleneck-readable production graph | Before opening or merging the next core gameplay PR |
 | `DESIGN_SYSTEM.md` | Phase 0 UI usage rules, token draft, and visual QA contract | Before UI or visual hierarchy work |
 | `UX_REVIEW_20260427.md` | Devil's advocate UX review and Milestone 3.5 guardrails | Before design-system implementation |

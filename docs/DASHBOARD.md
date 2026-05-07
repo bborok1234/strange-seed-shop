@@ -38,9 +38,9 @@ Updated: 2026-05-07
 
 | 상태 | 개수 |
 | --- | ---: |
-| done | 136 |
-| review | 74 |
-| todo | 2 |
+| done | 137 |
+| review | 73 |
+| todo | 5 |
 | blocked | 0 |
 
 ## 다음 작업

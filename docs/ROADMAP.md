@@ -33,7 +33,11 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Production garden visual composition pass | done | Issue #418, PR #419, main CI `25420812339`, `items/0222-production-garden-visual-composition.md`, `reports/visual/issue-418-production-garden-visual-composition/visual-report-20260506.md`, `src/App.tsx`, `src/styles.css`, `tests/visual/p0-mobile-game-shell.spec.ts`, `tests/visual/desktop-art-share.spec.ts` | plot을 floor play area에 더 강하게 anchor하고, actor/order prop을 48px 이상으로 읽히게 유지하며, label plate 가독성/하단 action surface 밀도를 조정했다. Browser Use blocker와 mobile 393/360, desktop 1280 Playwright evidence를 남기고 PR #419 merge/main CI까지 통과함 |
 | Garden production asset/sprite redesign | done | Issue #422, PR #423, main CI `25443793542`, `items/0224-garden-production-redesign-asset-sprite-pass.md`, `reports/assets/issue-0224-postprocessed-contact-sheet.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-research-expedition-ready-final-clean-20260506.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-fresh-start-after-free-plant-20260506.png`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenPlayfieldHost.tsx`, `public/assets/manifest/assetManifest.json` | `gpt-image-2` raster PNG 12개와 actor/FX strips를 manifest에 연결하고, 데스크톱도 중앙 모바일 game frame만 보이게 유지하며, fresh start 잎 0 상태에서 첫 씨앗 무료 심기가 실제 Browser Use 클릭으로 성장 상태에 진입함. `check:asset-*`, `check:p0-ui-ux`, `check:art-share`, `build`, PR checks, main CI 통과 |
 | Garden companion work scene motion | done | Issue #424, PR #425, main CI `25447396883`, `items/0225-garden-companion-work-scene-motion.md`, Browser Use evidence | production-ready 정원에서 동료 actor 2명이 카드 안 아이콘이 아니라 plot/crate/workbench에 anchor된 worker로 보이고, worker -> resource/order target motion path가 Browser Use before/after와 focused visual gate로 검증됨 |
-| Momo work/celebrate sprite actor | review | Issue #430, PR #431, `items/0228-momo-work-celebrate-sprite.md`, `reports/deliberation/momo-work-celebrate-sprite/`, `reports/visual/issue-0228-momo-work-celebrate-sprite/`, gpt-image-2 sprite strips | 방패새싹 모모가 정적 portrait가 아니라 gpt-image-2 work/celebrate strip과 support worker animation binding으로 정원 playfield에 보이고, Browser Use `iab`에서 work/celebrate 화면 증거를 남김 |
+| Momo work/celebrate sprite actor | done | Issue #430, PR #431, main CI `25482709340`, `items/0228-momo-work-celebrate-sprite.md`, `reports/deliberation/momo-work-celebrate-sprite/`, `reports/visual/issue-0228-momo-work-celebrate-sprite/`, gpt-image-2 sprite strips | 방패새싹 모모가 정적 portrait가 아니라 gpt-image-2 work/celebrate strip과 support worker animation binding으로 정원 playfield에 보이고, Browser Use `iab`에서 work/celebrate 화면 증거를 남겼다. 다만 사용자 QA에서 기존 DOM/CSS overlay 기반의 한계가 확인되어 greenfield Phaser slice로 방향 전환함 |
+| Phaser greenfield vertical slice spec | active | `docs/PHASER_GREENFIELD_VERTICAL_SLICE_SPEC.md`, `items/0229-phaser-care-stage-foundation.md`, `items/0230-phaser-garden-view-mode.md`, `items/0231-phaser-carry-claim-reward-fx.md`, Issue #433/#434/#432 | 기존 React/CSS 정원 visual rewrite를 동결하고, 신규 Phaser-first app에서 낮은 관리 카메라, 감상 모드, 관리 actor/carry/reward FX를 3개 Studio WorkUnit으로 쪼갔다 |
+| Phaser care stage foundation | todo | Issue #433, `items/0229-phaser-care-stage-foundation.md` | `apps/seed-garden-phaser/` 신규 app에서 낮은 관리 카메라, 밭 2개, 작업대, 포리/모모 care actor, crop state 3단계, Browser Use visual evidence를 만든다 |
+| Phaser garden view mode | todo | Issue #434, `items/0230-phaser-garden-view-mode.md` | Stage 1 위에 감상 모드, HUD 접기, overview camera, decoration prop을 추가해 전체 정원 감상/꾸미기 foundation을 만든다 |
+| Phaser carry claim reward FX | todo | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | Stage 1/2 위에 carry, claim, celebrate, crate state, leaf reward flyout을 추가해 수확/수령 순간을 actor state와 FX로 연결한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
 | Offline return as garden state | review | Issue #420, `items/0223-offline-return-garden-state.md`, `reports/visual/issue-420-offline-return-garden-state/visual-report-20260506.md`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/types.ts`, `tests/visual/p0-mobile-game-shell.spec.ts`, `tests/visual/desktop-art-share.spec.ts` | 복귀 보상 modal 확인 후 `복귀 잎 보관` receipt와 playfield order crate `comeback-return` state가 정원에 남고, mobile 393/360 및 desktop 1280 중앙 mobile frame 회귀가 통과함 |
@@ -357,32 +361,27 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **Momo work/celebrate sprite actor**다. Issue #430 / `items/0228-momo-work-celebrate-sprite.md`에서 방패새싹 모모를 정적 portrait가 아니라 정원 playfield의 독립 support worker actor로 만든다. 신규 gpt-image-2 work/celebrate sprite strip, accepted manifest animation binding, support worker runtime contract, Browser Use `iab` visible QA를 한 WorkUnit으로 닫는다.
+현재 작업은 **Phaser 신규 정원 관리 카메라와 actor loop**다. Issue #433 / `items/0229-phaser-care-stage-foundation.md`에서 기존 React/CSS 정원 visual rewrite를 멈추고, `apps/seed-garden-phaser/` 신규 Phaser-first vertical slice의 Stage 1을 시작한다. 목표는 낮은 관리 카메라에서 밭 2개, 작업대, 포리/모모 care actor, crop state 3단계, Browser Use `iab` visual evidence를 한 WorkUnit으로 닫는 것이다.
 
 현재 evidence:
 
-- User decision: 전체를 뜯어고쳐도 goal 달성이 우선이며, Browser Use `iab`는 fallback 없는 필수 QA 경로다.
-- Handoff: `docs/studio/HANDOFF.md`
-- User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
+- User decision: 기존 기반에서 계속 덧붙이는 방식은 폐기하고, 현재 앱은 legacy/reference로 두며 Phaser 기반 신규 프로젝트를 시작한다.
+- Master spec: `docs/PHASER_GREENFIELD_VERTICAL_SLICE_SPEC.md`
+- Stage 1 item: `items/0229-phaser-care-stage-foundation.md`
+- Stage 2 item: `items/0230-phaser-garden-view-mode.md`
+- Stage 3 item: `items/0231-phaser-carry-claim-reward-fx.md`
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
-- GitHub issue: #430 — https://github.com/bborok1234/strange-seed-shop/issues/430
-- PR: #431 — https://github.com/bborok1234/strange-seed-shop/pull/431
-- Previous PR: #429 merged — https://github.com/bborok1234/strange-seed-shop/pull/429
-- Previous main CI: `25473096297` success
-- Plan artifact: `items/0228-momo-work-celebrate-sprite.md`
-- Branch: `codex/momo-work-celebrate-sprite`
-- Studio deliberation: `reports/deliberation/momo-work-celebrate-sprite/spec.md`
-- gpt-image-2 assets: `public/assets/game/sprites/production/creature_herb_common_002_work_strip.png`, `public/assets/game/sprites/production/creature_herb_common_002_celebrate_strip.png`
-- Browser Use before/current: `reports/deliberation/momo-work-celebrate-sprite/browser-use-current-garden-20260507.png`
-- Browser Use after work: `reports/visual/issue-0228-momo-work-celebrate-sprite/browser-use-after-momo-work-loaded-20260507.png`
-- Browser Use after celebrate: `reports/visual/issue-0228-momo-work-celebrate-sprite/browser-use-after-momo-celebrate-loaded-20260507.png`
-- Browser Use findings: `reports/visual/issue-0228-momo-work-celebrate-sprite/browser-use-findings-20260507.md`
-- Current validation: `check:asset-*` pass, `npm run build` pass, focused mobile visual regression 2 passed, focused desktop support actor regression 3 passed. `npm run check:ci` gate 진행 중.
+- GitHub issue: #433 — https://github.com/bborok1234/strange-seed-shop/issues/433
+- PR: #435 — https://github.com/bborok1234/strange-seed-shop/pull/435
+- Follow-up issue: #434 — https://github.com/bborok1234/strange-seed-shop/issues/434
+- Follow-up issue: #432 — https://github.com/bborok1234/strange-seed-shop/issues/432
+- Current validation: `npm run check:docs` pass, `npm run check:dashboard` pass, `npm run check:github-metadata` pass, `npm run check:ci` pass. PR #435 required checks 진행 중.
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. PR #431 required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
-2. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
-3. Issue #430과 WorkUnit evidence를 닫고 다음 WorkUnit을 plan-first로 선택한다.
-4. Studio Campaign Gate: 다음 WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
+1. PR #435를 green/merge하고 main CI를 확인한다.
+2. Studio Campaign Gate로 Issue #433을 다음 실행 WorkUnit으로 선택한다.
+3. Issue #433 구현 전 `Game Studio Department Signoff`, asset plan/prompt/provenance, Browser Use `iab` QA 계획을 보강한다.
+4. Stage 1이 기존 앱보다 시각적으로 명확히 낫지 않으면 Stage 2/3 진행을 보류하고 greenfield 방향을 재평가한다.
+5. 단순 주문 추가, copy tweak, test-only 작업은 이번 greenfield campaign에서 금지한다. 다음 WorkUnit은 낮은 관리 카메라, actor care loop, asset/FX, Browser Use playtest 중 하나 이상의 concrete visual/game-feel payoff를 포함해야 한다.

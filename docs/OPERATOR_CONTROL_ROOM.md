@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T07:34:20.852Z
+Generated at: 2026-05-07T09:10:14.251Z
 
 ## Current mission
 
@@ -39,27 +39,29 @@ Generated at: 2026-05-07T07:34:20.852Z
 
 ## Local state
 
-- Branch: codex/momo-work-celebrate-sprite
-- Latest commit: 3523e27 모모가 정원에서 일하고 반응하게 한다
+- Branch: codex/phaser-greenfield-studio-spec
+- Latest commit: c223630 모모가 정원에서 일하고 반응하게 한다 (#431)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T07:34:18.861Z
-- Phase: pr-published
-- Issue: 430
-- PR: 431
-- Item: items/0228-momo-work-celebrate-sprite.md
-- Next action: Bounded gate: watch PR #431 required checks, merge when green, then observe main CI
+- Timestamp: 2026-05-07T09:09:52.071Z
+- Phase: greenfield-intake-planned
+- Issue: 433
+- PR: 435
+- Item: items/0229-phaser-care-stage-foundation.md
+- Next action: gate: watch PR #435 required checks, merge when green, then start Issue #433 Stage 1
 
 ## Open PRs
 
-- #431 ready 모모 work/celebrate sprite actor — https://github.com/bborok1234/strange-seed-shop/pull/431
+- #435 ready Phaser 신규 정원을 스튜디오 벤치마크로 전환 — https://github.com/bborok1234/strange-seed-shop/pull/435
 
 ## Open issues
 
-- #430 모모 work/celebrate sprite로 두 번째 생명체를 정원 actor화 — https://github.com/bborok1234/strange-seed-shop/issues/430
+- #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
+- #433 Phaser 신규 정원을 낮은 관리 카메라와 actor loop로 시작하기 — https://github.com/bborok1234/strange-seed-shop/issues/433
+- #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
 
 ## Playable mode
 
@@ -115,12 +117,12 @@ The next Studio Harness v3 foreground operator issue must name at least one 경�
 
 Status: v1-live-control-room
 Owner: agent
-Last updated: 2026-05-01
+Last updated: 2026-05-07
 Applies to: 모든 장시간 `$ralph`, Studio Harness v3 foreground operator issue-to-PR loop, 24h dry run 전 운영
 
 ## 왜 필요한가
 
-4h trial은 자동화가 실제로 issue → branch → PR → CI → merge → report를 반복할 수 있음을 증명했다. 하지만 사람이 중간에 돌아왔을 때 “지금 무엇을, 왜, 어디까지 했는지”를 한눈에 보기 어려웠다. 이 문서는 자동화의 속도를 유지하면서도 사람이 언제든 이해·검수·플레이할 수 있게 만드는 control room 계약이다.
+이 문서는 자동화의 속도를 유지하면서도 사람이 언제든 “지금 무엇을, 왜, 어디까지 했는지”를 이해하게 만드는 control room 계약이다. ClawSweeper식 dashboard 원칙처럼 queue, review, apply, audit health가 한곳에 보여야 하며, GitHub Mission Control처럼 issue/PR/CI로 바로 이동할 수 있어야 한다. Ralph 계열 장시간 루프에서는 phase isolation, heartbeat, stale recovery가 없으면 계속 도는 작업이 사람에게 불투명해진다.
 
 ## 한눈에 보는 현재 미션 카드 계약
 
@@ -128,36 +130,16 @@ Applies to: 모든 장시간 `$ralph`, Studio Harness v3 foreground operator iss
 
 | 필드 | 현재 값 |
 | --- | --- |
-| 운영 북극성 | 에이전트가 안전하게 오래 일하되, 사람이 즉시 이해하고 멈출 수 있는 게임 스튜디오 |
-| 게임 북극성 | 첫 5분 안에 “귀엽다, 하나만 더 키우자”를 만드는 수집 idle game |
-| 현재 milestone | `Live Snapshot`의 Current mission |
-| Active issue | `Live Snapshot`의 Heartbeat issue 또는 open issue queue |
-| Active branch | `Live Snapshot`의 Local state branch |
-| 이번 small win | 현재 issue/item의 가장 작은 승리 |
-| 플레이어 가치 | 게임 북극성 또는 운영사 북극성과의 연결 |
-| 다음 안전 정지점 | goal-bounded stop condition 또는 blocker report |
-| 24h dry run gate | live heartbeat/control-room/readiness gate가 green일 때만 검토 |
-
-## Control Room 카드 형식
-
-모든 active mission은 아래 필드를 가져야 한다.
-
-| 필드 | 설명 |
-| --- | --- |
-| Mission | 사람이 읽는 한 줄 목표 |
-| Milestone | `docs/ROADMAP.md`의 어느 단계인지 |
+| Mission | `Live Snapshot`의 Current mission |
 | Issue / PR | GitHub issue, draft PR, merge PR 링크 |
 | Small win | 이번 PR이 만드는 가장 작은 승리 |
 | Why it matters | 게임 북극성 또는 운영사 북극성과의 연결 |
 | Phase | planning / implementing / verifying / PR / merged / blocked |
 | Evidence | 테스트, CI, report, screenshot 링크 |
-| Visual delta | before/after screenshot 또는 `N/A — 이유` |
-| Playable status | main 게임 실행 가능 여부와 명령 |
+| Visual evidence | before/after screenshot 또는 `N/A — 이유` |
+| Playable Mode | `npm run play:main`, port `5174`, 사람 플레이 가능 상태 |
 | Next stop gate | 사람이 멈춰도 되는 다음 지점 또는 승인이 필요한 경계 |
-| Next vertical slice queue | 이 작업 이후의 북극성 vertical slice 후보 |
-| Campaign source of truth | 현재 issue가 속한 campaign. 지금 기본값은 `P0.5 Idle Core + Creative Rescue` |
-| Game Studio Department Signoff | 기획팀/리서치팀/아트팀/개발팀/검수팀/마케팅팀/고객지원팀 중 필요한 부서 산출물 |
-| Subagent/Team Routing | Codex native subagents 또는 team mode 사용 여부와 이유 |
+| 24h dry run gate | live heartbeat/control-room/readiness gate가 green일 때만 검토 |
 
 ## Issue 작성 규칙
 
@@ -176,24 +158,6 @@ Issue는 한국어 우선으로 작성하고, 다음 섹션을 포함한다.
 11. 안전 범위
 12. 검증 명령
 
-## PR 작성 규칙
-
-PR은 사람이 60초 안에 리뷰 방향을 잡을 수 있어야 한다.
-
-필수 섹션:
-
-- 요약
-- Small win
-- 사용자/운영자 가치
-- Before / After 또는 Visual evidence
-- Playable mode
-- 검증
-- 안전 범위
-- 남은 위험
-- 연결된 issue
-
-UI/게임 변경 PR은 `reports/visual/`의 before/after screenshot을 연결한다. 문서·스크립트만 바꾸는 PR은 `N/A — UI 변화 없음`처럼 이유를 쓴다.
-
 ## Playable Mode / 사람 플레이 가능 모드
 
 Agent가 feature branch에서 장시간 작업 중이어도 사람은 main 기준 게임을 별도 worktree로 실행한다.
@@ -202,8 +166,6 @@ Agent가 feature branch에서 장시간 작업 중이어도 사람은 main 기�
 
 ```bash
 npm run play:main
-# dependencies가 없으면 한 번만:
-npm run play:main:install
 cd ../strange-seed-shop-play
 npm run dev -- --host 127.0.0.1 --port 5174
 ```
@@ -213,38 +175,16 @@ npm run dev -- --host 127.0.0.1 --port 5174
 - agent 작업 branch와 사람 플레이 branch를 분리한다.
 - 사람 플레이용 worktree는 `origin/main` detached 상태를 기본으로 한다.
 - 기본 포트는 agent dev server와 충돌을 피하기 위해 `5174`를 쓴다.
-- 플레이용 worktree가 dirty이면 script는 기본적으로 멈추고 덮어쓰지 않는다.
-- 사람이 플레이 중이면 agent는 같은 port를 점유하지 않는다.
-
-## Visual evidence 계약
-
-| 변경 유형 | Evidence |
-| --- | --- |
-| 게임 UI/UX | mobile 360px after screenshot + 가능하면 before screenshot |
-| desktop 영향 | desktop 1280px screenshot |
-| Phaser/playfield | Browser Use 우선, 차단 시 CDP fallback 이유와 screenshot |
-| 문서/운영 스크립트 | `N/A — UI 변화 없음`, 대신 report/check output |
-| Playable mode | 실행 명령과 port/worktree 상태 |
 
 ## 운영 리듬
 
 1. Issue 생성: small win과 visual/playable 계획 포함.
-2. Studio Campaign Gate: `P0.5 Idle Core + Creative Rescue` 같은 active campaign source of truth와 reference teardown을 기록.
-3. Department Signoff: 기획팀, 리서치팀, 아트팀, 개발팀, 검수팀, 마케팅팀, 고객지원팀 산출물과 role-debate note를 기록.
-4. Subagent/Team Routing: 병렬 리서치/QA/아트/구현 분리가 유효하면 Codex native subagents 또는 team mode를 사용하고, 사용하지 않으면 이유를 남김.
+2. Studio Campaign Gate: active campaign source of truth와 reference teardown을 기록.
+3. Department Signoff: 기획팀, 리서치팀, 아트팀, 개발팀, 검수팀, 마케팅팀, 고객지원팀 산출물과 role-debate note 기록.
+4. Subagent/Team Routing: 병렬 리서치/QA/아트/구현 분리가 유효하면 Codex native subagents 또는 team mode 사용.
 5. Branch 시작: heartbeat와 control room snapshot 기록.
 6. 구현: 작은 단위로 변경.
 7. 검증: local checks + visual/playable evidence.
-8. Draft PR: control room 형식의 PR 본문.
-9. Ready/merge: required checks 통과 후 branch protection 우회 없이 merge.
-10. Main 확인: main CI + local `npm run check:all`.
-11. Dashboard/roadmap 갱신: 다음 vertical slice queue와 stop gate를 분리해 명시.
-
-## 관련 리서치에서 가져온 원칙
-
-- ClawSweeper: dashboard는 장식이 아니라 queue/review/apply/audit health를 보여주는 운영 표면이다.
-- ClawSweeper: review lane은 proposal-only이고 apply lane만 mutation을 수행한다. Seed ops도 부서 signoff와 apply mutation gate를 분리한다.
-- gastory: asset/FX는 project style state, prompt/model sidecar, reference consistency, animation camera/composition lock, frames/spritesheet extraction까지 bundle로 관리한다.
-- GitHub Mission Control: agent task는 한 곳에서 시작·추적·PR jump가 가능해야 한다.
-- Ralph 계열: phase isolation, progress file, stale recovery가 없으면 “계속 도는 loop”가 사람에게 불투명해진다.
-- Agentic PR 연구: 작은 작업, green CI, reviewer engagement, 명확한 scope가 merge 가능성을 높인다.
+8. PR: required checks 확인.
+9. Merge: branch protection 우회 없이 merge.
+10. Main 확인: main CI 확인.
