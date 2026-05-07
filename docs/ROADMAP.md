@@ -46,7 +46,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Third plot expansion unlock | done | Issue #451, PR #452, main CI `25515782343`, `items/0242-third-plot-expansion-unlock.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0451-third-plot-expansion-unlock/visual-report-20260508.md` | #432 이후 첫 주문 납품 보상을 `3번 밭 확장` action으로 연결했다. 기존 generated plot raster state만 사용하고 runtime image generation/API/cache는 호출하지 않는다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
 | Third plot seed planting loop | done | Issue #453, PR #454, main CI `25516527365`, `items/0243-third-plot-seed-planting-loop.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0453-third-plot-seed-planting-loop/visual-report-20260508.md` | #451 이후 새로 열린 `3번 햇살 밭`에 즉시 씨앗을 심을 수 있게 하여 expansion payoff가 다시 planting loop로 이어지게 했다. 기존 generated plot raster state만 사용하고 runtime image generation/API/cache는 호출하지 않는다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
 | Repeat order after third plot harvest | done | Issue #455, PR #456, main CI `25517154782`, `items/0244-repeat-order-after-third-plot-harvest.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0455-repeat-order-after-third-plot-harvest/visual-report-20260508.md` | #453 이후 `3번 햇살 밭` 수확이 반복 주문 납품으로 이어지게 했다. 반복 수확 receipt/objective와 두 번째 납품 copy/state를 구분하고, existing generated plot/order crate/FX raster states만 사용한다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
-| Storage basket unlock affordance | active | Issue #457, Draft PR #458, `items/0245-storage-basket-unlock-affordance.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0457-storage-basket-unlock-affordance/visual-report-20260508.md` | #455 이후 `보관 바구니 준비` objective를 실제 board action으로 연결한다. 두 번째 납품 후 `보관 바구니`를 선택해 `정리 80잎`으로 unlock하고, storage/offline-cap 준비 receipt와 selected facility state를 남긴다. `npm run check:phaser`와 `npm run check:ci`가 storage unlock evidence를 통과했다 |
+| Storage basket unlock affordance | done | Issue #457, PR #458, main CI `25517800360`, `items/0245-storage-basket-unlock-affordance.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0457-storage-basket-unlock-affordance/visual-report-20260508.md` | #455 이후 `보관 바구니 준비` objective를 실제 board action으로 연결했다. 두 번째 납품 후 `보관 바구니`를 선택해 `정리 80잎`으로 unlock하고, storage/offline-cap 준비 receipt와 selected facility state를 남긴다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
+| Storage buffer production fill | active | Issue #459, `items/0246-storage-buffer-production-fill.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0459-storage-buffer-production-fill/visual-report-20260508.md` | #457 이후 storage unlock이 다음 작업대 수령의 `오프라인 보관 n/24` buffer fill로 이어지게 한다. 새 accepted manifest asset 없이 existing generated facility raster와 HUD/receipt affordance만 사용하고 runtime image generation/API/cache는 호출하지 않는다 |
 | Phaser greenfield vertical slice spec | blocked | `docs/phaser/VERTICAL_SLICE_SPEC.md`, `items/0229-phaser-care-stage-foundation.md`, `items/0230-phaser-garden-view-mode.md`, `items/0231-phaser-carry-claim-reward-fx.md`, Issue #433/#434/#432 | 2026-05-07 리부트 설계로 보류됨. `plot_left`/`plot_right` 2개 밭 계획과 baked-in background risk가 있어 새 `garden board foundation` issue로 재작성 전 구현하지 않는다 |
 | Repo boundary split before Phaser Stage 1 | review | Issue #436, `items/0232-repo-boundary-split.md`, `apps/legacy-react-playable/`, `apps/seed-garden-phaser/`, `reports/visual/issue-0436-boundary-split/browser-use-smoke-20260507.md` | 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리해 #433이 root 기존 앱 코드나 legacy 문서를 active spec으로 오인하지 않게 했다. PR/merge/main CI 대기 |
 | Phaser care stage foundation | blocked | Historical Issue #433 body, `items/0229-phaser-care-stage-foundation.md` | 보류. 고정 2개 밭/낮은 카메라 계획을 그대로 구현하지 않는다. Issue #433은 `items/0235-garden-board-topology-scaffold.md` 기준의 v1 topology foundation으로 재작성됐다 |
@@ -376,7 +377,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **Phaser v1 storage basket unlock affordance**이다. #455 repeat order after third plot harvest는 PR #456으로 merge/main CI까지 통과했고, 다음 blocker는 `보관 바구니 준비` objective가 아직 실제 board unlock action으로 이어지지 않는 것이다.
+현재 작업은 **Phaser v1 storage buffer production fill**이다. #457 storage basket unlock affordance는 PR #458로 merge/main CI까지 통과했고, 다음 blocker는 storage capacity가 열렸지만 다음 작업대 수령이 아직 `오프라인 보관 n/24` buffer를 채우지 않는 것이다.
 
 현재 evidence:
 
@@ -395,19 +396,20 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed third plot expansion unlock: Issue #451, PR #452, main CI `25515782343`
 - Completed third plot seed planting loop: Issue #453, PR #454, main CI `25516527365`
 - Completed repeat order after third plot harvest: Issue #455, PR #456, main CI `25517154782`
-- WorkUnit: `items/0245-storage-basket-unlock-affordance.md`
-- GitHub issue: #457 `Phaser v1 storage basket unlock affordance`
-- Draft PR: #458 `Phaser v1 storage basket unlock affordance`
+- Completed storage basket unlock affordance: Issue #457, PR #458, main CI `25517800360`
+- WorkUnit: `items/0246-storage-buffer-production-fill.md`
+- GitHub issue: #459 `Phaser v1 storage buffer production fill`
+- Draft PR: pending
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0457-storage-basket-unlock-affordance/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
+- Visual report: `reports/visual/issue-0459-storage-buffer-production-fill/visual-report-20260508.md`
+- Current validation: plan-first pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #457은 repeat order payoff를 storage basket unlock affordance로 연결한다.
-2. Storage state는 existing generated facility raster와 HUD/receipt affordance를 사용하고 runtime image generation/API/cache를 호출하지 않는다.
-3. 다음 WorkUnit은 dedicated storage raster asset, offline/storage cap, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #459는 storage unlock payoff를 production fill feedback으로 연결한다.
+2. Storage buffer state는 existing generated facility raster와 HUD/receipt affordance를 사용하고 runtime image generation/API/cache를 호출하지 않는다.
+3. 다음 WorkUnit은 dedicated storage raster asset, offline comeback reward, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
