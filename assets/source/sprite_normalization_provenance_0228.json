@@ -1,0 +1,53 @@
+{
+  "batchId": "momo_work_celebrate_sprite_0228",
+  "issue": 430,
+  "generated_at": "2026-05-07T06:38:03.469Z",
+  "records": [
+    {
+      "asset_id": "sprite_creature_herb_common_002_work_strip",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "selected_raw_output": "assets/source/generated/gpt-image/sprite_creature_herb_common_002_work_strip/2026-05-07T06-31-32-165Z-alpha.png",
+      "normalized_output_path": "public/assets/game/sprites/production/creature_herb_common_002_work_strip.png",
+      "source_bbox": {
+        "left": 5,
+        "top": 378,
+        "width": 1011,
+        "height": 242
+      },
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 10,
+        "repeat": -1,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 576,
+        "expectedHeight": 96
+      }
+    },
+    {
+      "asset_id": "sprite_creature_herb_common_002_celebrate_strip",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "selected_raw_output": "assets/source/generated/gpt-image/sprite_creature_herb_common_002_celebrate_strip/2026-05-07T06-34-17-929Z-alpha.png",
+      "normalized_output_path": "public/assets/game/sprites/production/creature_herb_common_002_celebrate_strip.png",
+      "source_bbox": {
+        "left": 2,
+        "top": 352,
+        "width": 1017,
+        "height": 263
+      },
+      "normalization": {
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 576,
+        "expectedHeight": 96
+      }
+    }
+  ]
+}

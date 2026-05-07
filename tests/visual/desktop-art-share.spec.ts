@@ -133,9 +133,13 @@ for (const viewport of DESKTOP_VIEWPORTS) {
 
     const workstage = page.locator(".playfield-companion-workstage");
     const supportActors = page.locator(".playfield-workstage-support");
+    const momoSupport = page.locator('.playfield-workstage-support[data-worker-id="creature_herb_common_002"]');
     await expect(workstage).toBeVisible();
     const supportCount = await supportActors.count();
     expect(supportCount).toBeGreaterThan(0);
+    await expect(momoSupport).toHaveAttribute("data-animation-asset", "sprite_creature_herb_common_002_work_strip");
+    await expect(momoSupport).toHaveAttribute("data-frame-count", "6");
+    await expect(momoSupport.locator(".playfield-workstage-support-sprite")).toBeVisible();
     await expect(page.locator(".playfield-workstage-trail")).toHaveCount(2);
 
     const stageRect = await workstage.boundingBox();

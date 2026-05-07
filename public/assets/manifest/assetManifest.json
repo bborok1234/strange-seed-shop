@@ -4,7 +4,7 @@
   "source_plan": "assets/source/asset_plan.json",
   "source_prompts": "assets/source/asset_prompts.json",
   "generated_from": "assets/source/asset_generation_status.json",
-  "reviewed_at": "2026-05-06",
+  "reviewed_at": "2026-05-07",
   "runtime_generation_allowed": false,
   "assets": {
     "creature_herb_common_001": {
@@ -1349,6 +1349,86 @@
           "slot": "order_receipt_fx",
           "actions": [
             "deliver_order"
+          ]
+        }
+      }
+    },
+    "sprite_creature_herb_common_002_work_strip": {
+      "path": "/assets/game/sprites/production/creature_herb_common_002_work_strip.png",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "production_support_actor_work_strip",
+      "width": 576,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "phase0_5",
+        "issue_0228",
+        "sprite_strip",
+        "support_actor",
+        "work",
+        "gpt-image-2",
+        "screen_moment:production_garden",
+        "player_verb:watch_auto_production"
+      ],
+      "notes": "Issue #430 momo work/celebrate sprite asset; generated via gpt-image-2; productionSupportActor.state=work; strict_strip=true; text_safe_zone=none; must_not_obscure=plot_label,bottom_action",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "sprite_creature_herb_common_002_work_strip",
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 10,
+        "repeat": -1,
+        "sourceAssetIds": [
+          "creature_herb_common_002"
+        ],
+        "binding": {
+          "target": "actor",
+          "slot": "work",
+          "creatureIds": [
+            "creature_herb_common_002"
+          ]
+        }
+      }
+    },
+    "sprite_creature_herb_common_002_celebrate_strip": {
+      "path": "/assets/game/sprites/production/creature_herb_common_002_celebrate_strip.png",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "intended_use": "production_support_actor_celebrate_strip",
+      "width": 576,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "phase0_5",
+        "issue_0228",
+        "sprite_strip",
+        "support_actor",
+        "celebrate",
+        "gpt-image-2",
+        "screen_moment:production_claim",
+        "player_verb:claim_reward"
+      ],
+      "notes": "Issue #430 momo work/celebrate sprite asset; generated via gpt-image-2; productionSupportActor.state=celebrate; strict_strip=true; text_safe_zone=none; must_not_obscure=resource_hud,bottom_action",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "sprite_creature_herb_common_002_celebrate_strip",
+        "frames": 6,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "creature_herb_common_002"
+        ],
+        "binding": {
+          "target": "actor",
+          "slot": "celebrate",
+          "creatureIds": [
+            "creature_herb_common_002"
           ]
         }
       }
