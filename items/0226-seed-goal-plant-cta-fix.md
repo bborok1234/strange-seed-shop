@@ -3,6 +3,7 @@
 - ID: `0226`
 - Status: review
 - GitHub issue: local user-reported regression
+- Draft PR: #426 — https://github.com/bborok1234/strange-seed-shop/pull/426
 - Branch: `codex/seed-goal-plant-cta-fix`
 - Campaign source: P0.5 Idle Core + Creative Rescue
 - Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:game-playtest`
@@ -49,6 +50,13 @@ npm run check:ci
 - After button ready: `reports/visual/issue-seed-goal-plant-cta/browser-use-after-button-ready-20260507.png`
 - After one-tap planted: `reports/visual/issue-seed-goal-plant-cta/browser-use-after-one-tap-planted-20260507.png`
 - Report: `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`
+
+## Implementation Evidence
+
+- Commit: `ace282c` — 씨앗 목표 CTA one-tap 구매/심기, focused regression, 중복 CI 제거.
+- PR body artifact: `reports/operations/github-bodies/pr-seed-goal-plant-cta-fix-20260507.md`
+- Draft PR: #426 — https://github.com/bborok1234/strange-seed-shop/pull/426
+- Local verification: Browser Use `iab` before/after, `npm run build`, focused mobile visual regression 3 passed, `npm run check:governance`, `npm run check:closed-workunit-mirrors`, `npm run check:ci`, `git diff --check`.
 
 ## Risks
 

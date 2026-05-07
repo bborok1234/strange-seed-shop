@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T01:07:29.847Z
+Generated at: 2026-05-07T01:13:15.023Z
 
 ## Current mission
 
@@ -16,6 +16,7 @@ Generated at: 2026-05-07T01:07:29.847Z
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
 - GitHub issue: local user-reported regression
+- Draft PR: #426 — https://github.com/bborok1234/strange-seed-shop/pull/426
 - Previous PR: #425 merged — https://github.com/bborok1234/strange-seed-shop/pull/425
 - Previous main CI: `25447396883` success
 - Plan artifact: `items/0226-seed-goal-plant-cta-fix.md`
@@ -37,22 +38,22 @@ Generated at: 2026-05-07T01:07:29.847Z
 ## Local state
 
 - Branch: codex/seed-goal-plant-cta-fix
-- Latest commit: 1f39062 #424 정원 동료를 workstage 장면으로 끌어내기 (#425)
+- Latest commit: 0b10854 씨앗 CTA PR 본문 증거를 남긴다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T01:02:57.162Z
-- Phase: verify-gate
+- Timestamp: 2026-05-07T01:13:13.040Z
+- Phase: pr-check-gate
 - Issue: local-seed-goal-plant-cta
-- PR: 
+- PR: 426
 - Item: items/0226-seed-goal-plant-cta-fix.md
-- Next action: check:ci gate 준비
+- Next action: PR #426 required checks gate 준비
 
 ## Open PRs
 
-- unavailable or none
+- #426 draft 씨앗 목표 CTA를 실제 심기 액션으로 만든다 — https://github.com/bborok1234/strange-seed-shop/pull/426
 
 ## Open issues
 
