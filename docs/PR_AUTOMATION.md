@@ -9,7 +9,7 @@
 ## 현재 구성
 
 - `.github/workflows/ci.yml`: PR과 `main` push에서 CI용 기본 검증인 `npm run check:ci`를 실행한다.
-- `.github/workflows/agent-automerge.yml`: PR이 자동 머지 후보인지 확인하고, 저장소 변수가 켜진 경우에만 GitHub native auto-merge를 요청한다. 후보 판정 직전에 `gh pr view`로 현재 PR label을 다시 읽어, PR 생성 직후 label 이벤트 순서 차이로 후보 판정이 실패하지 않게 한다. Draft PR 또는 `agent-automerge` label이 없는 PR은 자동 머지만 의도적으로 skip하고 CI용 기본 검증은 계속 실행한다.
+- `.github/workflows/agent-automerge.yml`: PR이 자동 머지 후보인지 확인하고, 저장소 변수가 켜진 경우에만 GitHub native auto-merge를 요청한다. 후보 판정 직전에 `gh pr view`로 현재 PR label을 다시 읽어, PR 생성 직후 label 이벤트 순서 차이로 후보 판정이 실패하지 않게 한다. Draft PR 또는 `agent-automerge` label이 없는 PR은 자동 머지만 의도적으로 skip한다. CI용 기본 검증은 `.github/workflows/ci.yml`의 `Verify game baseline`에서 한 번만 실행한다.
 - `scripts/check-automerge-readiness.mjs`: 자동 머지 후보 조건을 로컬에서도 검증할 수 있게 만든다.
 - `docs/AUTOMERGE_GOVERNANCE.md`: Branch protection, required checks, 저장소 변수 운영 조건을 정의한다.
 - `scripts/check-governance.mjs`: 자동 머지 운영 정책과 workflow 핵심 문구가 유지되는지 확인한다.
@@ -24,7 +24,7 @@
 - PR label에 `agent-automerge`가 있다.
 - head branch가 `codex/` 또는 `agent/`로 시작한다.
 - PR이 draft가 아니다.
-- `npm run check:ci`가 통과한다.
+- `.github/workflows/ci.yml`의 `Verify game baseline`에서 `npm run check:ci`가 통과한다.
 - UI/visual 변경이면 PR 본문과 report에 Browser Use QA 및 `npm run check:visual` evidence 또는 명시 blocker가 있다.
 - 저장소 변수 `ENABLE_AGENT_AUTOMERGE`가 `true`다.
 

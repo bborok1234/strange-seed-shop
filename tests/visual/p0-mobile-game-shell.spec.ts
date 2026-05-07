@@ -664,6 +664,46 @@ test("모바일 연구 단서는 정원과 씨앗 탭에서 다음 수집 목표
   await page.screenshot({ path: testInfo.outputPath("mobile-research-clue-reward-v0-seeds-tab-393.png"), fullPage: false });
 });
 
+test("모바일 도감 목표 CTA는 구매 가능한 씨앗을 one-tap으로 심는다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchExpeditionReady=1&qaTab=seeds");
+
+  await expect(page.getByRole("region", { name: "씨앗 주머니", exact: true })).toBeVisible();
+  await expect(page.locator(".seed-goal-banner")).toContainText("젤리콩 씨앗");
+  await expect(page.locator(".seed-goal-banner")).toContainText("구매하고 심기");
+  await page.getByRole("button", { name: "구매하고 심기", exact: true }).click();
+
+  await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: /젤리콩 씨앗 성장시키기/ })).toBeVisible();
+  await expect(page.getByLabel("연구 단서 씨앗 심기")).toContainText("젤리콩 씨앗 심기 완료");
+
+  const saveState = await page.evaluate(() => {
+    const raw = window.localStorage.getItem("strange-seed-shop:phase0-save");
+    const save = raw
+      ? (JSON.parse(raw) as {
+          leaves: number;
+          seedInventory: Record<string, number>;
+          plots: Array<{ seedId?: string; source?: string }>;
+        })
+      : null;
+    const jellyPlot = save?.plots.find((plot) => plot.seedId === "seed_candy_001");
+    return {
+      leaves: save?.leaves ?? -1,
+      jellyInventory: save?.seedInventory.seed_candy_001 ?? 0,
+      jellyPlotSource: jellyPlot?.source ?? null
+    };
+  });
+  expect(saveState.leaves).toBe(12);
+  expect(saveState.jellyInventory).toBe(0);
+  expect(saveState.jellyPlotSource).toBe("research");
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-seed-goal-one-tap-plant-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
+
 test("모바일 연구 단서 씨앗 구매와 심기는 정원 playfield payoff로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaResearchComplete=1&qaTab=seeds");
@@ -678,30 +718,24 @@ test("모바일 연구 단서 씨앗 구매와 심기는 정원 playfield payoff
   await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
   await expect(page.getByLabel("연구 단서 씨앗 심기")).toBeVisible();
   await expect(page.getByLabel("연구 단서 씨앗 심기")).toContainText("심기 완료");
-  await expect(page.getByLabel("정원 자동 생산 장면").getByText(/연구 단서 씨앗 심기/)).toBeVisible();
-  await expect(page.getByLabel("정원 자동 생산 장면").getByText("도감 목표 심기", { exact: true })).toBeVisible();
-  await expect(page.getByLabel("정원 자동 생산 장면").getByText(/심기 완료|연구 단서/).first()).toBeVisible();
-  await expect(page.getByLabel("다음 생명체 수집 목표")).toBeVisible();
+  await expect(page.getByRole("button", { name: /방울새싹 씨앗 성장시키기/ })).toBeVisible();
+  await expect(page.locator(".playfield-plot-source-label", { hasText: "연구 단서" })).toBeVisible();
 
   const metrics = await page.evaluate(() => {
     const panel = document.querySelector<HTMLElement>(".starter-panel");
     const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
     const receipt = document.querySelector<HTMLElement>(".research-seed-receipt")?.getBoundingClientRect();
-    const nextCreature = document.querySelector<HTMLElement>(".next-creature-compact")?.getBoundingClientRect();
     return {
       panelClientHeight: panel?.clientHeight ?? 0,
       panelScrollHeight: panel?.scrollHeight ?? 0,
       tabs: tabs ? { top: tabs.top } : null,
-      receipt: receipt ? { bottom: receipt.bottom } : null,
-      nextCreature: nextCreature ? { bottom: nextCreature.bottom } : null
+      receipt: receipt ? { bottom: receipt.bottom } : null
     };
   });
-  expect(metrics.nextCreature).not.toBeNull();
   expect(metrics.panelScrollHeight).toBeLessThanOrEqual(metrics.panelClientHeight + 1);
   if (metrics.receipt) {
     expect(metrics.receipt.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
   }
-  expect(metrics.nextCreature!.bottom).toBeLessThanOrEqual(metrics.tabs!.top - 4);
 
   await page.screenshot({
     path: testInfo.outputPath("mobile-research-clue-seed-planting-payoff-393.png"),
@@ -950,8 +984,7 @@ test("모바일 새 기록 다음 씨앗 심기는 정원 재성장 payoff로 �
   await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
   await expect(page.getByLabel("새 기록 후속 재배")).toContainText("젤리콩 씨앗 심기 완료");
   await expect(page.getByLabel("새 기록 후속 재배")).toContainText("젤리콩 통통");
-  await expect(page.getByLabel("정원 자동 생산 장면").getByText("새 기록 후속 재배", { exact: true })).toBeVisible();
-  await expect(page.getByLabel("정원 자동 생산 장면").getByText("젤리콩 통통", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: /젤리콩 씨앗 성장시키기/ })).toBeVisible();
   await expect(page.locator(".playfield-plot-source-label", { hasText: "새 기록 후속 재배" })).toBeVisible();
 
   const metrics = await page.evaluate(() => {

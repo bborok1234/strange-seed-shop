@@ -23,9 +23,32 @@ function readJson(filePath) {
   const raw = read(filePath);
   if (!raw) return null;
   try {
+    if (filePath.endsWith(".jsonl")) {
+      const lines = raw.split("\n").filter(Boolean);
+      return JSON.parse(lines.at(-1));
+    }
+
     return JSON.parse(raw);
   } catch (error) {
     failures.push(`${filePath} has invalid JSON: ${error.message}`);
+    return null;
+  }
+}
+
+function readHeartbeat(filePath) {
+  if (!fs.existsSync(filePath)) return null;
+  const raw = fs.readFileSync(filePath, "utf8").trim();
+  if (!raw) return null;
+
+  try {
+    if (filePath.endsWith(".jsonl")) {
+      const lines = raw.split("\n").filter(Boolean);
+      return JSON.parse(lines.at(-1));
+    }
+
+    return JSON.parse(raw);
+  } catch (error) {
+    failures.push(`${filePath} has invalid heartbeat JSON: ${error.message}`);
     return null;
   }
 }
@@ -36,6 +59,17 @@ function latestManifest() {
   return fs
     .readdirSync(dir)
     .filter((name) => /^closed-workunit-mirror-manifest-\d{8}\.json$/.test(name))
+    .sort()
+    .map((name) => path.join(dir, name))
+    .at(-1) ?? "";
+}
+
+function latestHeartbeatReport() {
+  const dir = "reports/operations";
+  if (!fs.existsSync(dir)) return "";
+  return fs
+    .readdirSync(dir)
+    .filter((name) => /^operator-heartbeat-\d{8}\.jsonl$/.test(name))
     .sort()
     .map((name) => path.join(dir, name))
     .at(-1) ?? "";
@@ -60,6 +94,10 @@ const roadmap = read("docs/ROADMAP.md");
 const controlRoom = read("docs/OPERATOR_CONTROL_ROOM.md");
 const rows = roadmapRows(roadmap);
 const currentNext = section(roadmap, "Current Next Action");
+const heartbeatPath = fs.existsSync(".omx/state/operator-heartbeat.json")
+  ? ".omx/state/operator-heartbeat.json"
+  : latestHeartbeatReport();
+const heartbeat = heartbeatPath ? readHeartbeat(heartbeatPath) : null;
 
 if (manifest) {
   if (manifest.source && !/GitHub/.test(manifest.source)) {
@@ -98,8 +136,9 @@ if (manifest) {
     }
   }
 
-  const activeIssue = `#${manifest.activeWorkUnit?.issue}`;
-  const activeItem = manifest.activeWorkUnit?.item ?? "";
+  const activeIssueSource = heartbeat?.issue || manifest.activeWorkUnit?.issue || "";
+  const activeIssue = /^\d+$/.test(String(activeIssueSource)) ? `#${activeIssueSource}` : "";
+  const activeItem = heartbeat?.item || manifest.activeWorkUnit?.item || "";
   if (activeIssue && !currentNext.includes(activeIssue)) failures.push(`Current Next Action missing active issue ${activeIssue}`);
   if (activeItem && !currentNext.includes(activeItem)) failures.push(`Current Next Action missing active item ${activeItem}`);
   if (activeIssue && !controlRoom.includes(activeIssue)) failures.push(`control room missing active issue ${activeIssue}`);

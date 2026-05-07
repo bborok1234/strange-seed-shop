@@ -77,9 +77,6 @@ jobs:
         run: |
           echo "Automerge is intentionally skipped: ${{ steps.candidate.outputs.reason }}"
 
-      - name: Run CI project checks
-        run: npm run check:ci
-
       - name: Enable native GitHub automerge
         if: ${{ steps.candidate.outputs.eligible == 'true' && vars.ENABLE_AGENT_AUTOMERGE == 'true' && github.event.pull_request.draft == false }}
         env:

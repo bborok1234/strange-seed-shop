@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-06T15:21:13.164Z
+Generated at: 2026-05-07T01:13:15.023Z
 
 ## Current mission
 
-현재 작업은 **garden companion work scene motion**이다. #424는 `?qaResearchExpeditionReady=1` production-ready 정원에서 `말랑잎 포리`와 `방패새싹 모모`가 카드 안 아이콘이 아니라 plot/crate/workbench에 anchor된 worker actor로 보이게 하고, worker -> resource/order target motion path를 만들어 “정원 동료가 실제로 일하는 장면”을 강화하는 slice다.
+현재 작업은 **seed goal one-tap planting CTA**다. 사용자가 `?qaResearchExpeditionReady=1`에서 씨앗 메뉴의 `젤리콩 씨앗` 목표 CTA를 눌렀을 때 정원으로만 이동하고 실제 심기가 일어나지 않는 회귀를 Browser Use `iab`로 재현했고, 목표 CTA를 구매 가능 상태에서는 `구매하고 심기`, 보유 상태에서는 `정원에 심기`, 불가능 상태에서는 disabled 이유를 보여주는 실제 행동 버튼으로 고친다.
 
 현재 evidence:
 
@@ -15,46 +15,49 @@ Generated at: 2026-05-06T15:21:13.164Z
 - Handoff: `docs/studio/HANDOFF.md`
 - User preferences: `docs/studio/USER_PREFERENCES.md` P8 standing delegation
 - Codex skill: `.codex/skills/studio-operate/SKILL.md`
-- GitHub issue: #424 — https://github.com/bborok1234/strange-seed-shop/issues/424
-- Draft PR: #425 — https://github.com/bborok1234/strange-seed-shop/pull/425
-- Plan artifact: `items/0225-garden-companion-work-scene-motion.md`
-- Previous PR: #423 merged — https://github.com/bborok1234/strange-seed-shop/pull/423
-- Previous main CI: `25443793542` success
-- Previous Browser Use evidence: `reports/visual/issue-0224-garden-production-redesign/browser-use-production-actor-static-wrapper-20260506.png`
-- Heartbeat: `reports/operations/operator-heartbeat-20260506.jsonl`, `.omx/state/operator-heartbeat.json`
-- Runner evidence: `reports/operations/studio-v3-live-runner-20260506.md`
-- Current validation: Browser Use `iab` live screenshot pass, `npm run build` pass, `npm run check:p0-ui-ux` pass, focused production visual regression 9 passed, `npm run check:art-share` 17 passed, `npm run check:ci` pass.
+- GitHub issue: local user-reported regression
+- Draft PR: #426 — https://github.com/bborok1234/strange-seed-shop/pull/426
+- Previous PR: #425 merged — https://github.com/bborok1234/strange-seed-shop/pull/425
+- Previous main CI: `25447396883` success
+- Plan artifact: `items/0226-seed-goal-plant-cta-fix.md`
+- Branch: `codex/seed-goal-plant-cta-fix`
+- Browser Use before: `reports/visual/issue-seed-goal-plant-cta/browser-use-before-noop-20260507.png`
+- Browser Use after: `reports/visual/issue-seed-goal-plant-cta/browser-use-after-one-tap-planted-20260507.png`
+- Visual report: `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`
+- Current validation: Browser Use `iab` before/after pass, `npm run build` pass, focused mobile visual regression 3 passed, `npm run check:governance` pass, `npm run check:ci` pass.
+- Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. PR #425 required checks를 확인한다.
-2. Green이면 ready/merge gate를 진행한다.
-3. main CI 관찰 뒤 local main으로 복귀한다.
+1. 변경분을 커밋하고 draft PR을 생성한다.
+2. PR required checks를 확인하고 red check가 있으면 같은 브랜치에서 복구한다.
+3. PR green/merge 이후 main CI를 관찰하고 local main으로 복귀한다.
 4. 다음 WorkUnit은 `방패새싹 모모` work/celebrate sprite strip 또는 더 강한 creature interaction behavior를 plan-first로 고른다.
+5. Studio Campaign Gate: 다음 implementation WorkUnit도 `P0.5 Idle Core + Creative Rescue` campaign source of truth에서 출발하며, 단순 주문 추가, copy tweak, test-only 작업은 concrete visual/game-feel payoff와 production blocker 제거를 동반하지 않으면 선택하지 않는다.
 
 ## Local state
 
-- Branch: codex/0225-garden-companion-work-scene-motion
-- Latest commit: b36ff20 #424 PR 본문 evidence를 남긴다
+- Branch: codex/seed-goal-plant-cta-fix
+- Latest commit: 0b10854 씨앗 CTA PR 본문 증거를 남긴다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-06T15:21:11.541Z
-- Phase: planning
-- Issue: 424
-- PR: 
-- Item: items/0225-garden-companion-work-scene-motion.md
-- Next action: plan checkpoint gate: commit #424 plan, then Browser Use before screenshot gate before implementation
+- Timestamp: 2026-05-07T01:13:13.040Z
+- Phase: pr-check-gate
+- Issue: local-seed-goal-plant-cta
+- PR: 426
+- Item: items/0226-seed-goal-plant-cta-fix.md
+- Next action: PR #426 required checks gate 준비
 
 ## Open PRs
 
-- unavailable or none
+- #426 draft 씨앗 목표 CTA를 실제 심기 액션으로 만든다 — https://github.com/bborok1234/strange-seed-shop/pull/426
 
 ## Open issues
 
-- #424 정원 동료 work scene motion — https://github.com/bborok1234/strange-seed-shop/issues/424
+- unavailable or none
 
 ## Playable mode
 
