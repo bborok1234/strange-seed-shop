@@ -171,6 +171,8 @@ class GardenBoardScene extends Phaser.Scene {
     (window as unknown as { __seedGardenStorageCapacity?: number }).__seedGardenStorageCapacity =
       gameState.storageCapacity;
     (window as unknown as { __seedGardenStoredLeaves?: number }).__seedGardenStoredLeaves = gameState.storedLeaves;
+    (window as unknown as { __seedGardenStorageFillRatio?: number }).__seedGardenStorageFillRatio =
+      gameState.storageCapacity > 0 ? gameState.storedLeaves / gameState.storageCapacity : 0;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -355,6 +357,31 @@ class GardenBoardScene extends Phaser.Scene {
       bar.fillStyle(facility.progress >= 100 ? 0xffc84b : 0x7cae70, 1);
       bar.fillRoundedRect(-36, 26, Math.max(6, facility.progress * 0.72), 7, 4);
       container.add(bar);
+    }
+
+    if (facility?.kind === "storage" && slot.unlockState === "unlocked") {
+      const ratio = gameState.storageCapacity > 0 ? gameState.storedLeaves / gameState.storageCapacity : 0;
+      const storageBar = this.add.graphics();
+      storageBar.fillStyle(0xffffff, 0.86);
+      storageBar.fillRoundedRect(-40, 20, 80, 12, 6);
+      storageBar.lineStyle(1, 0x6f8f63, 0.55);
+      storageBar.strokeRoundedRect(-40, 20, 80, 12, 6);
+      if (ratio > 0) {
+        storageBar.fillStyle(0x7cae70, 1);
+        storageBar.fillRoundedRect(-38, 22, Math.max(6, ratio * 76), 8, 4);
+      }
+      container.add(storageBar);
+
+      const storageText = this.add
+        .text(0, 26, `${gameState.storedLeaves}/${gameState.storageCapacity}`, {
+          align: "center",
+          color: "#203b2f",
+          fontFamily: "system-ui, sans-serif",
+          fontSize: "9px",
+          fontStyle: "800"
+        })
+        .setOrigin(0.5);
+      container.add(storageText);
     }
 
     container.setSize(118, 104);

@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0461-offline-storage-reward-claim";
+const OUT_DIR = "reports/visual/issue-0463-storage-playfield-fill-state";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -138,6 +138,12 @@ async function runSmoke() {
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-fill-claim-393.png`, fullPage: false });
     await page.mouse.click(304, 502);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-buffer-393.png`, fullPage: false });
+    const storageBeforeClaim = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      storedLeaves: window.__seedGardenStoredLeaves ?? 0,
+      storageFillRatio: window.__seedGardenStorageFillRatio ?? 0
+    }));
     await page.getByRole("button", { name: "회수" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-storage-claimed-393.png`, fullPage: false });
@@ -157,6 +163,7 @@ async function runSmoke() {
       completedDeliveries: window.__seedGardenCompletedDeliveries ?? 0,
       storageCapacity: window.__seedGardenStorageCapacity ?? 0,
       storedLeaves: window.__seedGardenStoredLeaves ?? 0,
+      storageFillRatio: window.__seedGardenStorageFillRatio ?? 0,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
       plotIds: window.__seedGardenPlotIds ?? [],
@@ -199,6 +206,13 @@ async function runSmoke() {
     if (!evidence.receipts.some((receipt) => receipt.includes("보관 +4/24"))) {
       failures.push("missing storage fill receipt");
     }
+    if (storageBeforeClaim.storedLeaves !== 4) {
+      failures.push(`expected stored leaves 4 before claim, got ${storageBeforeClaim.storedLeaves}`);
+    }
+    if (Math.abs(storageBeforeClaim.storageFillRatio - 4 / 24) > 0.001) {
+      failures.push(`expected storage fill ratio 4/24 before claim, got ${storageBeforeClaim.storageFillRatio}`);
+    }
+    if (!storageBeforeClaim.railText.includes("회수")) failures.push("missing storage claim action before claim");
     if (!evidence.receipts.some((receipt) => receipt.includes("오프라인 보관 회수 · 잎 +4"))) {
       failures.push("missing storage claim receipt");
     }
@@ -220,6 +234,9 @@ async function runSmoke() {
     if (evidence.storedLeaves !== 0) {
       failures.push(`expected stored leaves 0 after claim, got ${evidence.storedLeaves}`);
     }
+    if (evidence.storageFillRatio !== 0) {
+      failures.push(`expected storage fill ratio 0 after claim, got ${evidence.storageFillRatio}`);
+    }
     if (!evidence.unlockedSlotIds.includes("facility_storage")) failures.push("storage slot did not unlock");
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
       if (!evidence.topologyAssets.includes(assetId)) {
@@ -233,6 +250,7 @@ async function runSmoke() {
     const result = {
       ok: failures.length === 0,
       url: URL,
+      storageBeforeClaim,
       evidence,
       screenshots: [
         `${OUT_DIR}/phaser-check-fresh-start-393.png`,

@@ -112,4 +112,7 @@ Browser Use `iab`가 현재 도구 목록에 직접 노출되지 않으면 `tool
 
 ## Evidence
 
-- pending
+- `npm run check:phaser` pass
+- `reports/visual/issue-0463-storage-playfield-fill-state/phaser-check-storage-buffer-393.png`
+- `reports/visual/issue-0463-storage-playfield-fill-state/phaser-check-storage-claimed-393.png`
+- `reports/visual/issue-0463-storage-playfield-fill-state/visual-report-20260508.md`
