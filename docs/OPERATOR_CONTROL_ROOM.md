@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T21:49:42.684Z
+Generated at: 2026-05-07T21:51:39.465Z
 
 ## Current mission
 
@@ -39,6 +39,7 @@ Generated at: 2026-05-07T21:49:42.684Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0254-research-clue-album-record.md`
 - GitHub issue: #476 `연구 단서 도감 기록 bridge`
+- Draft PR: #477 `연구 단서 도감 기록 bridge`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
@@ -57,22 +58,22 @@ Generated at: 2026-05-07T21:49:42.684Z
 ## Local state
 
 - Branch: codex/v1-research-clue-album-record
-- Latest commit: e70efc6 Merge pull request #475 from bborok1234/codex/v1-research-clue-seed-planting
+- Latest commit: e51e8e1 연구 단서를 도감 기록으로 저장한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T21:49:40.946Z
-- Phase: phaser-v1-research-clue-album-record-verify
+- Timestamp: 2026-05-07T21:51:37.840Z
+- Phase: phaser-v1-research-clue-album-record-pr
 - Issue: 476
-- PR: pending
+- PR: 477
 - Item: items/0254-research-clue-album-record.md
-- Next action: prep PR gate for #476 after check:ci
+- Next action: gate PR #477 checks then merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #477 draft 연구 단서 도감 기록 bridge — https://github.com/bborok1234/strange-seed-shop/pull/477
 
 ## Open issues
 

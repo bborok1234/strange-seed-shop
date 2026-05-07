@@ -92,4 +92,4 @@ Browser Use execution tool이 이번 세션에 노출되지 않으면 Playwright
 - Recorded screenshot: `reports/visual/issue-0476-research-clue-album-record/phaser-check-research-clue-recorded-393.png`
 - Visual report: `reports/visual/issue-0476-research-clue-album-record/visual-report-20260508.md`
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/476
-- PR: pending
+- PR: https://github.com/bborok1234/strange-seed-shop/pull/477
