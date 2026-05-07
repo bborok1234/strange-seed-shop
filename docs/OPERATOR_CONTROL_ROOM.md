@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T17:39:17.534Z
+Generated at: 2026-05-07T17:43:09.346Z
 
 ## Current mission
 
@@ -21,6 +21,7 @@ Generated at: 2026-05-07T17:39:17.534Z
 - Completed generation/review: Issue #442, PR #443, main CI `25511678907`
 - WorkUnit: `items/0238-topology-runtime-integration.md`
 - GitHub issue: #444 `Phaser v1 topology alpha cleanup and runtime integration`
+- Draft PR: #445 `Phaser v1 topology runtime integration`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Alpha cleanup script: `scripts/postprocess-topology-runtime-assets.mjs`
 - Alpha contact sheet: `reports/assets/topology_runtime_alpha_contact_sheet_20260508.png`
@@ -39,22 +40,22 @@ Generated at: 2026-05-07T17:39:17.534Z
 ## Local state
 
 - Branch: codex/v1-topology-runtime-integration
-- Latest commit: af6d25b Phaser v1 topology asset generation review (#443)
+- Latest commit: 583f1e4 Phaser board가 topology 생성 에셋으로 읽히게 만든다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T17:39:09.780Z
-- Phase: phaser-v1-topology-runtime-integration
+- Timestamp: 2026-05-07T17:42:55.953Z
+- Phase: phaser-v1-topology-runtime-integration-pr
 - Issue: 444
-- PR:
+- PR: 445
 - Item: items/0238-topology-runtime-integration.md
-- Next action: gate: run full check:ci then open PR #444
+- Next action: gate: watch PR #445 checks and merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #445 draft Phaser v1 topology runtime integration — https://github.com/bborok1234/strange-seed-shop/pull/445
 
 ## Open issues
 

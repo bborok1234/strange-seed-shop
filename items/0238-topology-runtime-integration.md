@@ -93,7 +93,7 @@ Browser Use `iab`가 노출되면 first screen, after plant, ready, workbench cl
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/444
-- Draft PR: pending
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/445
 
 ## Evidence
 
@@ -108,3 +108,4 @@ Browser Use `iab`가 노출되면 first screen, after plant, ready, workbench cl
 - `npm run check:asset-alpha` — pass
 - `npm run check:ci` — pass
 - Issue checkpoint comment: https://github.com/bborok1234/strange-seed-shop/issues/444#issuecomment-4399592192
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/445
