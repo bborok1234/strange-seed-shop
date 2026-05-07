@@ -738,62 +738,122 @@
         {
           "asset_id": "actor_pori_caretaker_strip_v1",
           "output_path": "public/assets/game/sprites/actor_pori_caretaker_strip_v1.png",
-          "status": "manifest_candidate_requires_alpha_review",
-          "width": 1024,
-          "height": 1024,
-          "channels": 3,
-          "has_alpha": false,
+          "status": "normalized_runtime_strip",
+          "width": 768,
+          "height": 128,
+          "channels": 4,
+          "has_alpha": true,
           "provider": "openai_images_api",
           "model": "gpt-image-2",
           "raw_output_path": "assets/source/generated/gpt-image/actor_pori_caretaker_strip_v1/2026-05-07T17-00-50-848Z.png",
           "review_required": true,
-          "post_processing": [],
-          "notes": "Issue #442 topology candidate generated with gpt-image-2 opaque background; manifest/runtime integration requires alpha/background cleanup or sprite normalization first."
+          "post_processing": [
+            "edge_connected_checkerboard_alpha_cleanup",
+            "strict_strip_normalization"
+          ],
+          "notes": "Issue #446 normalized strict runtime strip from gpt-image-2 source candidate.",
+          "normalization": {
+            "frames": 6,
+            "frameWidth": 128,
+            "frameHeight": 128,
+            "frameRate": 8,
+            "repeat": -1,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 128,
+            "binding": "actor.task.care_plot"
+          }
         },
         {
           "asset_id": "actor_momo_carrier_strip_v1",
           "output_path": "public/assets/game/sprites/actor_momo_carrier_strip_v1.png",
-          "status": "manifest_candidate_requires_alpha_review",
-          "width": 1024,
-          "height": 1024,
-          "channels": 3,
-          "has_alpha": false,
+          "status": "normalized_runtime_strip",
+          "width": 768,
+          "height": 128,
+          "channels": 4,
+          "has_alpha": true,
           "provider": "openai_images_api",
           "model": "gpt-image-2",
           "raw_output_path": "assets/source/generated/gpt-image/actor_momo_carrier_strip_v1/2026-05-07T17-04-05-947Z.png",
           "review_required": true,
-          "post_processing": [],
-          "notes": "Issue #442 topology candidate generated with gpt-image-2 opaque background; manifest/runtime integration requires alpha/background cleanup or sprite normalization first."
+          "post_processing": [
+            "edge_connected_checkerboard_alpha_cleanup",
+            "strict_strip_normalization"
+          ],
+          "notes": "Issue #446 normalized strict runtime strip from gpt-image-2 source candidate.",
+          "normalization": {
+            "frames": 6,
+            "frameWidth": 128,
+            "frameHeight": 128,
+            "frameRate": 8,
+            "repeat": -1,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 128,
+            "binding": "actor.task.carry_leaves"
+          }
         },
         {
           "asset_id": "fx_care_spark_strip_v1",
           "output_path": "public/assets/game/fx/fx_care_spark_strip_v1.png",
-          "status": "manifest_candidate_requires_alpha_review",
-          "width": 1024,
-          "height": 1024,
-          "channels": 3,
-          "has_alpha": false,
+          "status": "normalized_runtime_strip",
+          "width": 576,
+          "height": 96,
+          "channels": 4,
+          "has_alpha": true,
           "provider": "openai_images_api",
           "model": "gpt-image-2",
           "raw_output_path": "assets/source/generated/gpt-image/fx_care_spark_strip_v1/2026-05-07T17-07-07-463Z.png",
           "review_required": true,
-          "post_processing": [],
-          "notes": "Issue #442 topology candidate generated with gpt-image-2 opaque background; manifest/runtime integration requires alpha/background cleanup or sprite normalization first."
+          "post_processing": [
+            "edge_connected_checkerboard_alpha_cleanup",
+            "strict_strip_normalization"
+          ],
+          "notes": "Issue #446 normalized strict runtime strip from gpt-image-2 source candidate.",
+          "normalization": {
+            "frames": 6,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 12,
+            "repeat": 0,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 576,
+            "expectedHeight": 96,
+            "binding": "plot.action.care_tapped"
+          }
         },
         {
           "asset_id": "fx_harvest_leaf_flyout_strip_v1",
           "output_path": "public/assets/game/fx/fx_harvest_leaf_flyout_strip_v1.png",
-          "status": "manifest_candidate_requires_alpha_review",
-          "width": 1024,
-          "height": 1024,
-          "channels": 3,
-          "has_alpha": false,
+          "status": "normalized_runtime_strip",
+          "width": 768,
+          "height": 96,
+          "channels": 4,
+          "has_alpha": true,
           "provider": "openai_images_api",
           "model": "gpt-image-2",
           "raw_output_path": "assets/source/generated/gpt-image/fx_harvest_leaf_flyout_strip_v1/2026-05-07T17-09-56-065Z.png",
           "review_required": true,
-          "post_processing": [],
-          "notes": "Issue #442 topology candidate generated with gpt-image-2 opaque background; manifest/runtime integration requires alpha/background cleanup or sprite normalization first."
+          "post_processing": [
+            "edge_connected_checkerboard_alpha_cleanup",
+            "strict_strip_normalization"
+          ],
+          "notes": "Issue #446 normalized strict runtime strip from gpt-image-2 source candidate.",
+          "normalization": {
+            "frames": 8,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 14,
+            "repeat": 0,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 96,
+            "binding": "plot.action.harvest_reward"
+          }
         },
         {
           "asset_id": "ui_shadow_soft_v1",

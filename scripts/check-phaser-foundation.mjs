@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0444-topology-runtime-integration";
+const OUT_DIR = "reports/visual/issue-0446-actor-fx-runtime-strips";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -15,7 +15,11 @@ const REQUIRED_TOPOLOGY_ASSETS = [
   "facility_workbench_v1",
   "facility_order_crate_empty_v1",
   "facility_order_crate_filled_v1",
-  "ui_shadow_soft_v1"
+  "ui_shadow_soft_v1",
+  "actor_pori_caretaker_strip_v1",
+  "actor_momo_carrier_strip_v1",
+  "fx_care_spark_strip_v1",
+  "fx_harvest_leaf_flyout_strip_v1"
 ];
 
 function waitForServer(url, timeoutMs = 30_000) {
@@ -80,8 +84,11 @@ async function runSmoke() {
         await careButton.click();
       }
     }
+    await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-ready-393.png`, fullPage: false });
     await page.getByRole("button", { name: "수확" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-after-harvest-393.png`, fullPage: false });
     await page.mouse.click(112, 612);
     await page.getByRole("button", { name: "수령" }).click();
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-workbench-claim-393.png`, fullPage: false });
@@ -123,6 +130,7 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-fresh-start-393.png`,
         `${OUT_DIR}/phaser-check-after-plant-393.png`,
         `${OUT_DIR}/phaser-check-ready-393.png`,
+        `${OUT_DIR}/phaser-check-after-harvest-393.png`,
         `${OUT_DIR}/phaser-check-workbench-claim-393.png`
       ],
       failures

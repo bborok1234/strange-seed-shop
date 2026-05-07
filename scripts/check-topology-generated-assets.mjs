@@ -23,6 +23,12 @@ const provenancePath = "assets/source/gpt_image_asset_provenance.json";
 const statusPath = "assets/source/asset_generation_status.json";
 const reportPath = "reports/assets/topology_asset_review_20260508.md";
 const contactSheetPath = "reports/assets/topology_asset_contact_sheet_20260508.png";
+const normalizedDimensions = new Map([
+  ["actor_pori_caretaker_strip_v1", { width: 768, height: 128 }],
+  ["actor_momo_carrier_strip_v1", { width: 768, height: 128 }],
+  ["fx_care_spark_strip_v1", { width: 576, height: 96 }],
+  ["fx_harvest_leaf_flyout_strip_v1", { width: 768, height: 96 }]
+]);
 
 const readJson = (filePath) => JSON.parse(fs.readFileSync(filePath, "utf8"));
 const exists = (filePath) => fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
@@ -65,8 +71,9 @@ for (const assetId of requiredAssetIds) {
     failures.push(`${assetId} missing generated PNG: ${prompt.output_path}`);
   } else {
     const metadata = await sharp(prompt.output_path).metadata();
-    if (metadata.width !== 1024 || metadata.height !== 1024) {
-      failures.push(`${assetId} expected 1024x1024 candidate PNG, got ${metadata.width}x${metadata.height}`);
+    const expected = normalizedDimensions.get(assetId) ?? { width: 1024, height: 1024 };
+    if (metadata.width !== expected.width || metadata.height !== expected.height) {
+      failures.push(`${assetId} expected ${expected.width}x${expected.height} candidate PNG, got ${metadata.width}x${metadata.height}`);
     }
   }
 
@@ -87,7 +94,10 @@ for (const assetId of requiredAssetIds) {
       failures.push(`${assetId} accepted_output_path must match prompt output and exist`);
     }
     if (record.review_required !== true) {
-      failures.push(`${assetId} must remain review_required before manifest integration`);
+      const normalized = record.post_processing?.includes("strict_strip_normalization");
+      if (!normalized) {
+        failures.push(`${assetId} must remain review_required before manifest integration`);
+      }
     }
   }
 
