@@ -59,4 +59,8 @@ Browser Use `iab`가 노출되면 expansion -> plot_03 planting을 직접 확인
 
 ## Evidence
 
-- pending
+- `npm run check:phaser` pass
+- `npm run check:ci` pass
+- `reports/visual/issue-0453-third-plot-seed-planting-loop/phaser-check-third-plot-expanded-393.png`
+- `reports/visual/issue-0453-third-plot-seed-planting-loop/phaser-check-third-plot-planted-393.png`
+- `reports/visual/issue-0453-third-plot-seed-planting-loop/visual-report-20260508.md`

@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0451-third-plot-expansion-unlock";
+const OUT_DIR = "reports/visual/issue-0453-third-plot-seed-planting-loop";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -104,6 +104,9 @@ async function runSmoke() {
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-expand-ready-393.png`, fullPage: false });
     await page.getByRole("button", { name: "확장 60잎" }).click();
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-third-plot-expanded-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "심기" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-third-plot-planted-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -119,7 +122,9 @@ async function runSmoke() {
       orderCrateProgress: window.__seedGardenOrderCrateProgress ?? 0,
       completedDeliveries: window.__seedGardenCompletedDeliveries ?? 0,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
-      plotIds: window.__seedGardenPlotIds ?? []
+      plotIds: window.__seedGardenPlotIds ?? [],
+      plotStates: window.__seedGardenPlotStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
     }));
 
     await browser.close();
@@ -127,8 +132,10 @@ async function runSmoke() {
     const failures = [];
     if (evidence.canvasCount !== 1) failures.push("expected one Phaser canvas");
     if (evidence.leaves !== "14") failures.push(`expected 14 leaves after delivery and third plot expansion, got ${evidence.leaves}`);
-    if (evidence.seeds !== "0") failures.push(`expected starter seed spent, got ${evidence.seeds}`);
-    if (!evidence.railText.includes("주문 상자 납품")) failures.push("missing order crate delivery receipt");
+    if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
+    if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
+      failures.push("missing order crate delivery receipt");
+    }
     if (!evidence.actorIds.includes("actor_pori")) failures.push("missing Pori actor after harvest");
     if (!evidence.actorIds.includes("actor_momo")) failures.push("missing Momo carrier after workbench claim");
     if (evidence.orderCrateProgress !== 0) {
@@ -137,10 +144,17 @@ async function runSmoke() {
     if (evidence.completedDeliveries !== 1) {
       failures.push(`expected one completed delivery, got ${evidence.completedDeliveries}`);
     }
-    if (!evidence.railText.includes("3번 밭 확장")) failures.push("missing third plot expansion receipt");
-    if (!evidence.objective.includes("3번 밭 확장 완료")) failures.push("missing third plot expansion objective");
+    if (!evidence.receipts.some((receipt) => receipt.includes("3번 밭 확장"))) {
+      failures.push("missing third plot expansion receipt");
+    }
+    if (!evidence.railText.includes("말랑잎 씨앗을 심었다")) failures.push("missing third plot planting receipt");
+    if (!evidence.objective.includes("톡톡 돌보면")) failures.push("missing third plot planted objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
+    const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
+    if (!thirdPlot || thirdPlot.state !== "planted" || thirdPlot.growth !== 20) {
+      failures.push(`expected plot_03 planted at 20 growth, got ${JSON.stringify(thirdPlot)}`);
+    }
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
       if (!evidence.topologyAssets.includes(assetId)) {
         failures.push(`missing loaded topology asset key: ${assetId}`);
@@ -163,7 +177,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-crate-ready-393.png`,
         `${OUT_DIR}/phaser-check-delivery-claim-393.png`,
         `${OUT_DIR}/phaser-check-expand-ready-393.png`,
-        `${OUT_DIR}/phaser-check-third-plot-expanded-393.png`
+        `${OUT_DIR}/phaser-check-third-plot-expanded-393.png`,
+        `${OUT_DIR}/phaser-check-third-plot-planted-393.png`
       ],
       failures
     };
