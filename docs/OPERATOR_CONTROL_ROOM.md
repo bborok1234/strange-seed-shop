@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T19:44:04.038Z
+Generated at: 2026-05-07T19:46:49.792Z
 
 ## Current mission
 
@@ -29,7 +29,7 @@ Generated at: 2026-05-07T19:44:04.038Z
 - Completed storage basket unlock affordance: Issue #457, PR #458, main CI `25517800360`
 - WorkUnit: `items/0246-storage-buffer-production-fill.md`
 - GitHub issue: #459 `Phaser v1 storage buffer production fill`
-- Draft PR: pending
+- Draft PR: #460 `Phaser v1 storage buffer production fill`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0459-storage-buffer-production-fill/visual-report-20260508.md`
@@ -47,22 +47,22 @@ Generated at: 2026-05-07T19:44:04.038Z
 ## Local state
 
 - Branch: codex/v1-storage-buffer-production-fill
-- Latest commit: a23ad09 보관 버퍼 채우기를 다음 v1 작업으로 고정한다
+- Latest commit: 5e69849 보관 버퍼 PR 증거를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T19:43:54.335Z
-- Phase: phaser-v1-storage-buffer-production-fill-verified
+- Timestamp: 2026-05-07T19:46:47.993Z
+- Phase: phaser-v1-storage-buffer-production-fill-pr
 - Issue: 459
-- PR:
+- PR: 460
 - Item: items/0246-storage-buffer-production-fill.md
-- Next action: gate: publish draft PR for #459 and watch checks
+- Next action: gate: mark PR #460 ready, watch checks, merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #460 draft Phaser v1 storage buffer production fill — https://github.com/bborok1234/strange-seed-shop/pull/460
 
 ## Open issues
 

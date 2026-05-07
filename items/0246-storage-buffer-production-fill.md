@@ -76,7 +76,7 @@ Browser Use `iab`가 노출되면 storage unlock -> workbench claim -> storage s
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/459
-- Draft PR: pending
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/460
 
 ## Evidence
 
