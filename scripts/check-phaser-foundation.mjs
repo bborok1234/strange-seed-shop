@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0446-actor-fx-runtime-strips";
+const OUT_DIR = "reports/visual/issue-0448-momo-carrier-order-motion";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -102,7 +102,9 @@ async function runSmoke() {
       documentScrollHeight: document.documentElement.scrollHeight,
       innerHeight: window.innerHeight,
       canvasCount: document.querySelectorAll("canvas").length,
-      topologyAssets: window.__seedGardenTopologyAssets ?? []
+      topologyAssets: window.__seedGardenTopologyAssets ?? [],
+      actorIds: window.__seedGardenActorIds ?? [],
+      orderCrateProgress: window.__seedGardenOrderCrateProgress ?? 0
     }));
 
     await browser.close();
@@ -112,7 +114,13 @@ async function runSmoke() {
     if (evidence.leaves !== "20") failures.push(`expected 20 leaves after harvest + claim, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected starter seed spent, got ${evidence.seeds}`);
     if (!evidence.railText.includes("포리 작업 수령")) failures.push("missing workbench claim receipt");
+    if (!evidence.railText.includes("모모 운반 시작")) failures.push("missing Momo carrier receipt");
     if (!evidence.objective.includes("3번 밭 확장")) failures.push("missing third-slot continuation objective");
+    if (!evidence.actorIds.includes("actor_pori")) failures.push("missing Pori actor after harvest");
+    if (!evidence.actorIds.includes("actor_momo")) failures.push("missing Momo carrier after workbench claim");
+    if (evidence.orderCrateProgress !== 25) {
+      failures.push(`expected order crate progress 25 after workbench claim, got ${evidence.orderCrateProgress}`);
+    }
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
       if (!evidence.topologyAssets.includes(assetId)) {
         failures.push(`missing loaded topology asset key: ${assetId}`);
