@@ -16,7 +16,7 @@ The product goal is to build **이상한 씨앗상회**, a browser-first idle co
 The operating goal is to evolve this repository toward a ClawSweeper-style autonomous project system: agents should be able to inspect the current state, choose the next scoped item, propose changes, apply safe changes, verify results, recover failures, create draft PRs, and leave durable evidence without the human restating context every time.
 
 The shared north star for both projects is documented in `docs/NORTH_STAR.md`. Treat it as the top-level product/operating charter before choosing roadmap work.
-The active game design source of truth is documented in `docs/GAME_BIBLE.md`. Treat Phaser, P0/P0.5, UI/HUD, economy, and asset documents as implementation or reference layers under the game bible unless a safety contract explicitly overrides it.
+The active game design source of truth is documented in `docs/GAME_BIBLE.md`. The production companion spec is documented in `docs/GAME_PRODUCTION_SPEC.md`. Treat Phaser, P0/P0.5, UI/HUD, economy, and asset documents as implementation or reference layers under the game bible unless a safety contract explicitly overrides it.
 
 ## Required Reading Order
 
@@ -25,11 +25,12 @@ Before substantial work, read these files in order:
 1. `docs/README.md` - document index and current source of truth
 2. `docs/NORTH_STAR.md` - dual north star for the game and agent-native studio/operator
 3. `docs/GAME_BIBLE.md` - active game design source of truth
-4. `docs/ROADMAP.md` - milestone status and next work
-5. `docs/PROJECT_COMMANDS.md` - project-specific mode commands (`$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`)
-6. `docs/PRD_PHASE0.md` - Phase 0 product contract
-7. `docs/ECONOMY_PHASE0.md` - Phase 0 economy contract
-8. `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` - agent-management model
+4. `docs/GAME_PRODUCTION_SPEC.md` - production companion spec for screen states, data model, content, economy, telemetry, and WorkUnit split
+5. `docs/ROADMAP.md` - milestone status and next work
+6. `docs/PROJECT_COMMANDS.md` - project-specific mode commands (`$seed-ops`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`)
+7. `docs/PRD_PHASE0.md` - Phase 0 product contract
+8. `docs/ECONOMY_PHASE0.md` - Phase 0 economy contract
+9. `docs/AUTONOMOUS_PROJECT_OPERATING_MODEL.md` - agent-management model
 
 For image asset work, also read the relevant project-local skill:
 
@@ -66,7 +67,7 @@ For game work, use the Game Studio plugin as the product-quality routing layer b
 ## Product Direction
 
 - Build Phase 0 first; do not jump to full live-service scope.
-- For game design and implementation decisions, follow `docs/GAME_BIBLE.md` first. `docs/phaser/REBOOT_FOUNDATION_SPEC.md` implements the bible; old P0/P0.5/Phaser Stage documents are reference unless explicitly re-imported.
+- For game design and implementation decisions, follow `docs/GAME_BIBLE.md` first and `docs/GAME_PRODUCTION_SPEC.md` for production screen/data/content/economy/QA details. `docs/phaser/REBOOT_FOUNDATION_SPEC.md` implements the bible; old P0/P0.5/Phaser Stage documents are reference unless explicitly re-imported.
 - Keep the first playable loop narrow: plant, tap, harvest, collect, upgrade, expedition teaser, offline reward.
 - Runtime gameplay must not call image generation tools or APIs.
 - Static assets should be produced ahead of time through Codex native image generation skills by default.

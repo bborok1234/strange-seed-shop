@@ -1,6 +1,6 @@
 :root {
   color: #203b2f;
-  background: #d7e2bc;
+  background: #a7bc92;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -14,4 +14,107 @@ body,
 
 body {
   overflow: hidden;
+}
+
+#game-root canvas {
+  display: block;
+  box-shadow: 0 18px 48px rgba(31, 54, 41, 0.24);
+}
+
+.garden-hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  width: min(100vw, calc(100vh * 393 / 852));
+  height: min(100vh, calc(100vw * 852 / 393));
+  margin: auto;
+  color: #203b2f;
+}
+
+.hud-top {
+  display: flex;
+  gap: 8px;
+  padding: 18px 18px 0;
+}
+
+.resource-chip,
+.objective-chip {
+  border: 1px solid rgba(32, 59, 47, 0.18);
+  background: rgba(250, 255, 235, 0.88);
+  box-shadow: 0 8px 24px rgba(44, 70, 52, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.resource-chip {
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-size: 13px;
+}
+
+.objective-chip {
+  justify-self: start;
+  max-width: calc(100% - 36px);
+  margin: 10px 18px 0;
+  border-radius: 14px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.action-rail {
+  pointer-events: auto;
+  margin: 0 14px 18px;
+  border: 1px solid rgba(32, 59, 47, 0.18);
+  border-radius: 18px;
+  background: rgba(250, 255, 235, 0.94);
+  box-shadow: 0 14px 36px rgba(44, 70, 52, 0.16);
+  padding: 12px;
+}
+
+.selected-entity {
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  min-height: 40px;
+}
+
+.action-buttons button {
+  min-width: 96px;
+  border: 0;
+  border-radius: 12px;
+  background: #315b45;
+  color: #fff8e7;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 10px 14px;
+}
+
+.action-buttons button:active {
+  transform: translateY(1px);
+}
+
+.action-note {
+  align-self: center;
+  color: #5d6d58;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.receipt-stack {
+  min-height: 34px;
+  padding-top: 8px;
+  color: #45664f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
 }

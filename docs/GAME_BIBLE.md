@@ -1,7 +1,7 @@
 # 이상한 씨앗상회 게임 바이블
 
 Status: active game source-of-truth
-Updated: 2026-05-07
+Updated: 2026-05-08
 Owner: Studio
 Game Studio route: `game-studio:game-studio` -> `game-studio:web-game-foundations` -> `game-studio:game-ui-frontend` -> `game-studio:phaser-2d-game` -> `game-studio:sprite-pipeline` -> `game-studio:game-playtest`
 
@@ -9,8 +9,11 @@ Game Studio route: `game-studio:game-studio` -> `game-studio:web-game-foundation
 
 `이상한 씨앗상회`의 active game design source-of-truth는 이 문서다. `docs/NORTH_STAR.md`는 게임과 운영사의 최상위 헌장이고, 이 문서는 그중 게임 제품을 처음부터 끝까지 정의한다.
 
+실제 제작용 세부 표, 화면 상태, 데이터 모델, 콘텐츠 수량, telemetry, WorkUnit 분해 기준은 `docs/GAME_PRODUCTION_SPEC.md`가 이 문서의 companion spec으로 소유한다. 충돌하면 정체성/금지선/루프 판단은 이 문서가 우선하고, 세부 수치와 제작 checklist는 `GAME_PRODUCTION_SPEC.md`를 먼저 갱신한다.
+
 이 문서보다 하위다:
 
+- `docs/GAME_PRODUCTION_SPEC.md`: 제작용 화면 상태, 데이터 모델, 콘텐츠/경제/QA 세부 계약
 - `docs/phaser/REBOOT_FOUNDATION_SPEC.md`: Phaser 구현 foundation
 - `docs/DESIGN.md`: 과거/참고 UI 판단 기준
 - `docs/ART_HUD_PRODUCTION_SPEC.md`: 과거/참고 정원 HUD 제작 기준
@@ -467,4 +470,3 @@ v1 초기에는 실제 결제와 real store를 넣지 않는다. 광고도 구�
 - playtest findings severity order
 - GAME_BIBLE rubric 결과
 - 후속 issue가 plan-first로 존재
-

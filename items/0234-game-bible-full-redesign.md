@@ -15,6 +15,7 @@
 - 온실 세계 확장을 엔드게임 방향으로 고정한다.
 - 기존 P0/P0.5/Phaser Stage 문서는 하위 참고로 내린다.
 - 다음 구현 issue가 `GAME_BIBLE.md`를 먼저 읽고 topology, asset, sprite, playable slice 순서로 진행하게 한다.
+- `docs/GAME_PRODUCTION_SPEC.md`에 제작용 화면 상태, 데이터 모델, v1 콘텐츠 수량, 경제 기준값, telemetry, WorkUnit 분해 기준을 남긴다.
 
 ## Game Studio Route
 
@@ -45,21 +46,24 @@
 ## Plan
 
 1. `docs/GAME_BIBLE.md`를 작성한다.
-2. `docs/README.md`의 source hierarchy에서 `GAME_BIBLE.md`를 게임 설계 최상위 문서로 등록한다.
-3. `AGENTS.md` Required Reading Order에 `GAME_BIBLE.md`를 추가한다.
-4. `docs/phaser/README.md`에서 Phaser foundation이 `GAME_BIBLE.md`의 하위 구현 문서임을 명시한다.
-5. `docs/ROADMAP.md`에 `Full game bible redesign` active row를 추가하고, 기존 `Phaser reboot foundation design`은 하위 foundation으로 정리한다.
-6. Current Next Action을 `GAME_BIBLE.md` 승인/검증으로 갱신한다.
-7. 운영 heartbeat/control room/dashboard를 새 item으로 갱신한다.
-8. 문서/운영/CI 검증을 실행한다.
+2. `docs/GAME_PRODUCTION_SPEC.md`를 작성해 실제 제작 표를 분리한다.
+3. `docs/README.md`의 source hierarchy에서 `GAME_BIBLE.md`와 companion spec을 등록한다.
+4. `AGENTS.md` Required Reading Order에 `GAME_BIBLE.md`를 추가한다.
+5. `docs/phaser/README.md`에서 Phaser foundation이 `GAME_BIBLE.md`의 하위 구현 문서임을 명시한다.
+6. `docs/ROADMAP.md`에 `Full game bible redesign` active row를 추가하고, 기존 `Phaser reboot foundation design`은 하위 foundation으로 정리한다.
+7. Current Next Action을 `GAME_BIBLE.md` 승인/검증으로 갱신한다.
+8. 운영 heartbeat/control room/dashboard를 새 item으로 갱신한다.
+9. 문서/운영/CI 검증을 실행한다.
 
 ## Acceptance Criteria
 
 - `docs/GAME_BIBLE.md`가 존재하고 active game source-of-truth임을 명시한다.
+- `docs/GAME_PRODUCTION_SPEC.md`가 존재하고 `GAME_BIBLE.md`의 제작 companion spec임을 명시한다.
 - 게임 정체성, player fantasy, core loop, first 5m/D1/D7/D30/D30+ progression이 정의된다.
 - world/board topology와 온실 세계 확장 구조가 정의된다.
 - seed family, creature role, facility, task queue, production bottleneck, order, research, expedition, offline, decoration이 정의된다.
 - UI/HUD, art tone, motion/FX, asset production policy, 광고/수익화 금지선이 정의된다.
+- 화면 상태, 데이터 모델, save state, v1 콘텐츠 수량, 경제 기준값, telemetry, playtest report 항목, WorkUnit 분해 기준이 표로 정의된다.
 - `docs/README.md`, `docs/ROADMAP.md`, `docs/phaser/README.md`, `AGENTS.md`가 새 위계를 가리킨다.
 - `npm run check:docs`, `npm run check:dashboard`, `npm run check:app-boundaries`, `npm run check:seed-ops-queue`, `npm run check:closed-workunit-mirrors`, `npm run check:ci`가 통과한다.
 
@@ -90,6 +94,15 @@
 ## Evidence
 
 - Source spec: `docs/GAME_BIBLE.md`
+- Production companion spec: `docs/GAME_PRODUCTION_SPEC.md`
+- 2026-05-08 fresh verification after production companion spec update:
+  - `npm run check:docs` — pass
+  - `npm run check:app-boundaries` — pass
+  - `npm run check:dashboard` — pass
+  - `npm run check:seed-ops-queue` — pass
+  - `npm run check:closed-workunit-mirrors` — pass
+  - `npm run check:ops-live` — pass after refreshing `.omx/state/operator-heartbeat.json` to branch `main`
+  - `npm run check:ci` — pass
 - `npm run check:docs` — pass
 - `npm run check:dashboard` — pass
 - `npm run check:app-boundaries` — pass

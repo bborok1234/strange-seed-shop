@@ -63,7 +63,7 @@ npm run studio:v3:operate -- --axis garden-respecting-hud-assets --cycle-a-appro
 3. 새 게임 issue를 고르기 전에 `Studio Campaign Gate`를 적용한다. 현재 campaign source of truth는 `P0.5 Idle Core + Creative Rescue`다.
 4. 게임 기능/UI/에셋/QA issue이면 `game-studio:game-studio`로 먼저 분류하고, 즉시 specialist route를 고정한다.
 5. 다음 issue를 선택하거나 만든다. 이때 선택 기준은 "안전하고 작은 작업"이 아니라 `docs/NORTH_STAR.md`의 Production Bar와 `docs/IDLE_CORE_CREATIVE_GUIDE.md`의 vertical slice workflow다.
-6. 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`, Game Studio route, Game Studio Department Signoff, Subagent/Team Routing, 수용 기준, 검증 명령, 금지 범위를 적는다.
+6. 구현 전에 `items/<id>.md` 또는 동등 문서에 `## Plan`, Game Studio route, `## Department Scorecard`, 필요 시 `## Role Debate`, Subagent/Team Routing, 수용 기준, 검증 명령, 금지 범위를 적는다.
 7. branch에서 작업한다.
 8. 로컬 검증과 필요한 visual evidence를 남긴다. UI/visual 변경이면 Browser Use `iab` QA를 먼저 시도하고, 처음 도구가 보이지 않으면 `tool_search`로 Node REPL `js`를 lazy-load한 뒤 재시도한다.
 9. PR을 만들고 GitHub checks를 확인한다.
@@ -165,21 +165,39 @@ Issue/PR 제목은 운영사 evidence surface다. 게임 issue/PR 제목은 한�
 
 PR 제목은 연결 issue 제목의 의도를 유지한다. issue와 PR이 서로 다른 언어/스코프/증거 단계처럼 보이면 PR body에 `Title Contract` 보정 사유를 적고, 가능하면 PR 제목을 고친다.
 
-### Game Studio Department Signoff
+### Game Studio Department Signoff / Department Scorecard
 
-기존 `Intake / Review / Apply / Verify / Audit`는 실행 stage이고, 아래 부서는 ownership axis다. 각 부서는 의견만 내는 역할이 아니라 plan artifact의 특정 산출물을 소유한다.
+기존 `Intake / Review / Apply / Verify / Audit`는 실행 stage이고, 아래 부서는 ownership axis다. 각 부서는 의견만 내는 역할이 아니라 plan artifact의 특정 산출물을 소유한다. 새 게임 WorkUnit은 `Game Studio Department Signoff` 대신 더 엄격한 `Department Scorecard`를 사용한다. 각 부서는 `approve/revise/block` 중 하나와 근거 artifact를 남긴다.
 
-| 부서 | 책임 | 필수 산출물 |
-| --- | --- | --- |
-| 기획팀 | player verb, loop, reward timing | player value, production/progression role, first 5 minutes moment |
-| 리서치팀 | 경쟁작 production gap과 reference | reference teardown, 비교 기준, rejected alternative |
-| 아트팀 | style consistency와 asset/FX | art direction, gpt-image-2 default/fallback, manifest/animation plan |
-| 개발팀 | runtime/save/economy boundary | implementation tranche, touched files, rollback boundary |
-| 검수팀 | Browser Use와 regression | playtest evidence, screenshot/report/checks |
-| 마케팅팀 | mock-only player-facing promise | devlog/release-note angle, no real channel action |
-| 고객지원팀 | confusion/support risk | support risk, FAQ note, first 5 minutes confusion |
+| 부서 | 책임 | 필수 산출물 | block 조건 |
+| --- | --- | --- | --- |
+| 기획팀 | player verb, loop, reward timing | player value, production/progression role, first 5 minutes moment | player verb 또는 screen moment 없음 |
+| 리서치팀 | 경쟁작 production gap과 reference | reference teardown, 비교 기준, rejected alternative | reference 없이 직전 issue 인접 기능 자동 선택 |
+| 아트팀 | style consistency와 asset/FX | art direction, gpt-image-2 default/fallback, manifest/animation plan | asset/FX payoff인데 raster/sprite/manifest/animation plan 없음 |
+| 개발팀 | runtime/save/economy boundary | implementation tranche, touched files, rollback boundary | touched files와 state boundary 불명확 |
+| 검수팀 | Browser Use와 regression | playtest evidence, screenshot/report/checks, rubric scoring | UI/visual claim인데 Browser Use evidence 또는 current blocker 없음 |
+| 마케팅팀 | mock-only player-facing promise | devlog/release-note angle, no real channel action | 실채널/실결제/광고/과장 promise 위험 |
+| 고객지원팀 | confusion/support risk | support risk, FAQ note, first 5 minutes confusion | 다음 행동이나 변화 의미가 플레이어에게 설명되지 않음 |
 
-충돌이 있으면 `role-debate note`를 남긴다. 예: 아트팀 요구와 개발 scope가 충돌하면 최종 선택과 거절한 대안을 plan에 기록한다.
+충돌이 있으면 `## Role Debate`를 남긴다. 예: 아트팀 요구와 개발 scope가 충돌하면 최종 선택과 거절한 대안을 plan에 기록한다. 두 부서 이상이 `revise` 또는 `block`이면 구현 전에 debate를 닫아야 한다.
+
+### Hard problem self-evaluation loop
+
+OpenAI Codex game-development use case 기준으로 어려운 게임 문제는 한 번에 해결했다고 주장하지 않는다.
+
+- 참고: `https://developers.openai.com/codex/use-cases/collections/game-development`
+- 참고: `https://developers.openai.com/codex/use-cases/iterate-on-difficult-problems`
+
+economy, actor task routing, sprite/FX, QA harness, first-5m confusion 같은 난제 WorkUnit은 구현 전에 아래를 적는다.
+
+1. `claim`: 무엇이 좋아졌다고 주장할 것인가.
+2. `smallest verifier`: 그 주장을 증명하는 가장 작은 deterministic check 또는 scripted playtest.
+3. `rubric`: pass/fail 또는 점수 기준.
+4. `artifact path`: screenshot/report/log/output 위치.
+5. `iteration log`: 실패와 수정 이력.
+6. `stop condition`: 충분히 좋아진 기준 또는 blocker.
+
+통과한 checker가 실제 player-facing claim을 덮지 않으면 green check를 completion evidence로 쓰지 않는다.
 
 ### Subagent/Team Routing
 

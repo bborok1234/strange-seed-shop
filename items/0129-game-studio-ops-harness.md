@@ -42,6 +42,14 @@ Campaign completion 기준:
 | 마케팅팀 | 실채널 action 없이 player-facing promise를 plan에 남기게 한다 | mock-only 문구가 유지됨 |
 | 고객지원팀 | 첫 5분 혼란/support risk를 issue plan에 남기게 한다 | confusion/support risk 문구가 있음 |
 
+## v3 Department Scorecard Hardening
+
+2026-05-08 이후 Studio Harness v3는 기존 Game Studio Department Signoff를 더 엄격한 `Department Scorecard`로 보강한다.
+
+- 각 부서는 `approve/revise/block` 중 하나를 고르고 근거 artifact를 남긴다.
+- 두 부서 이상이 `revise` 또는 `block`이면 구현 전에 `Role Debate`를 닫는다.
+- 어려운 gameplay/economy/routing/sprite/QA harness 문제는 self-evaluation loop를 요구한다: claim, smallest verifier, rubric, artifact path, iteration log, stop condition.
+
 ## Plan
 
 1. Reference review report를 작성해 ClawSweeper와 사용자가 준 agent/asset workflow 레퍼런스에서 운영 원칙을 추출한다.

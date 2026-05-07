@@ -27,6 +27,7 @@ Phase 이름은 서로 대체 관계가 아니라 층위다. 새 작업자는 �
 | --- | --- | --- | --- |
 | 0 | `NORTH_STAR.md` | 게임/운영사 최상위 방향과 production bar | 항상 우선 |
 | 1 | `GAME_BIBLE.md` | `이상한 씨앗상회` 전체 게임 설계: 정체성, loop, 30일 progression, world, system, UI/HUD, art, asset policy | 게임 설계 판단에서 우선 |
+| 1A | `GAME_PRODUCTION_SPEC.md` | `GAME_BIBLE.md`의 제작 companion: 화면 상태, 데이터 모델, v1 콘텐츠 수량, 경제 기준값, telemetry, WorkUnit 분해 기준 | 세부 수치/상태/제작 checklist는 여기서 우선 갱신하되, 정체성과 금지선은 Tier 1을 따름 |
 | 2 | `PRD_PHASE0.md`, `ECONOMY_PHASE0.md` | Phase 0 baseline product/economy/safety contract: 첫 루프, 저장, mock monetization, 결제/로그인/런타임 이미지 생성 금지 | `GAME_BIBLE.md`도 안전 계약을 넘을 수 없음 |
 | 3 | `docs/phaser/README.md`, `docs/phaser/REBOOT_FOUNDATION_SPEC.md` | 신규 Phaser greenfield implementation source-of-truth | `GAME_BIBLE.md`를 구현하는 하위 문서다. 충돌하면 `GAME_BIBLE.md` 우선 |
 | 3L | `DESIGN.md`, `ART_HUD_PRODUCTION_SPEC.md`, `IDLE_CORE_PRODUCTION_SPEC.md` | legacy/reference production overlay: 기존 React playable rescue와 경쟁작 리서치 기록 | `GAME_BIBLE.md`나 `docs/phaser/*`에서 명시적으로 import한 기준만 active spec으로 승격 |
@@ -50,6 +51,7 @@ Phase 이름은 서로 대체 관계가 아니라 층위다. 새 작업자는 �
 | `../campaigns/active.json` | Single active campaign registry | Before `seed-studio` gate transitions |
 | `NORTH_STAR.md` | Dual north star for the game and the agent-native studio/operator | Before choosing strategy or roadmap work |
 | `GAME_BIBLE.md` | Active game source-of-truth: 살아있는 정원 상회, v1+30일 progression, 온실 세계 확장, system/UI/art/asset policy | Before any game design, Phaser implementation, UI/HUD, content, economy, asset, or playtest work |
+| `GAME_PRODUCTION_SPEC.md` | 제작용 companion spec: player journey, screen states, data model, content counts, economy targets, asset/FX gates, telemetry, WorkUnit split | Before turning game design into implementation, content, asset, balance, or QA tasks |
 | `ROADMAP.md` | Milestone tracking, next tasks, current status | Before deciding what to do next |
 | `PROJECT_COMMANDS.md` | 프로젝트 전용 명령어와 v3 운영 진입점: `npm run studio:v3:operate`, `$seed-brief`, `$seed-design`, `$seed-qa`, `$seed-play`; `$seed-ops`는 deprecated adapter | Before choosing operating/report/design/QA/playable mode |
 | `PRD_PHASE0.md` | Phase 0 product requirements and UX contract | Before product or UI work |

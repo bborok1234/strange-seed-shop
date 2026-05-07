@@ -1,20 +1,22 @@
 # Studio Harness v3 Live Runner Report
 
-- Runner: `studio-v3-1778134070222`
+- Runner: `studio-v3-1778169066131`
 - Iteration: 1
-- Updated: 2026-05-07T06:07:53.549Z
+- Updated: 2026-05-07T15:51:08.901Z
 - Source of truth: github-authoritative
 - Dry run: true
 - Queue empty is stop: false
-- Decision: `production-game-intake-required`
-- Target: new GitHub issue
-- Next action: Intake gate: create a production game quality WorkUnit from P0.5 Idle Core + Creative Rescue
+- Decision: `select-github-workunit`
+- Target: Issue #434
+- Next action: implementation gate: plan-first for GitHub issue #434
 
 ## Open GitHub issues
 
 | Issue | Title | Labels | URL |
 | --- | --- | --- | --- |
-| none | GitHub queue empty |  |  |
+| #434 | Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 |  | https://github.com/bborok1234/strange-seed-shop/issues/434 |
+| #433 | Phaser 신규 정원을 낮은 관리 카메라와 actor loop로 시작하기 |  | https://github.com/bborok1234/strange-seed-shop/issues/433 |
+| #432 | Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 |  | https://github.com/bborok1234/strange-seed-shop/issues/432 |
 
 ## Open GitHub PRs
 
@@ -26,11 +28,11 @@
 
 | Run | Workflow | Status | Conclusion | URL |
 | --- | --- | --- | --- | --- |
+| 25496891668 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25496891668 |
+| 25494783226 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25494783226 |
+| 25487691984 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25487691984 |
+| 25482709340 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25482709340 |
 | 25473096297 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25473096297 |
-| 25471509348 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25471509348 |
-| 25470691461 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25470691461 |
-| 25447396883 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25447396883 |
-| 25443793542 | CI | completed | success | https://github.com/bborok1234/strange-seed-shop/actions/runs/25443793542 |
 
 ## Production game quality intake rule
 

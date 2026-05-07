@@ -34,11 +34,12 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Garden production asset/sprite redesign | done | Issue #422, PR #423, main CI `25443793542`, `items/0224-garden-production-redesign-asset-sprite-pass.md`, `reports/assets/issue-0224-postprocessed-contact-sheet.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-research-expedition-ready-final-clean-20260506.png`, `reports/visual/issue-0224-garden-production-redesign/browser-use-fresh-start-after-free-plant-20260506.png`, `src/App.tsx`, `src/styles.css`, `src/game/playfield/GardenPlayfieldHost.tsx`, `public/assets/manifest/assetManifest.json` | `gpt-image-2` raster PNG 12개와 actor/FX strips를 manifest에 연결하고, 데스크톱도 중앙 모바일 game frame만 보이게 유지하며, fresh start 잎 0 상태에서 첫 씨앗 무료 심기가 실제 Browser Use 클릭으로 성장 상태에 진입함. `check:asset-*`, `check:p0-ui-ux`, `check:art-share`, `build`, PR checks, main CI 통과 |
 | Garden companion work scene motion | done | Issue #424, PR #425, main CI `25447396883`, `items/0225-garden-companion-work-scene-motion.md`, Browser Use evidence | production-ready 정원에서 동료 actor 2명이 카드 안 아이콘이 아니라 plot/crate/workbench에 anchor된 worker로 보이고, worker -> resource/order target motion path가 Browser Use before/after와 focused visual gate로 검증됨 |
 | Momo work/celebrate sprite actor | done | Issue #430, PR #431, main CI `25482709340`, `items/0228-momo-work-celebrate-sprite.md`, `reports/deliberation/momo-work-celebrate-sprite/`, `reports/visual/issue-0228-momo-work-celebrate-sprite/`, gpt-image-2 sprite strips | 방패새싹 모모가 정적 portrait가 아니라 gpt-image-2 work/celebrate strip과 support worker animation binding으로 정원 playfield에 보이고, Browser Use `iab`에서 work/celebrate 화면 증거를 남겼다. 다만 사용자 QA에서 기존 DOM/CSS overlay 기반의 한계가 확인되어 greenfield Phaser slice로 방향 전환함 |
-| Full game bible redesign | active | `docs/GAME_BIBLE.md`, `items/0234-game-bible-full-redesign.md` | 기존 P0/P0.5/Phaser Stage 기획을 하위 참고로 내리고, 컨셉만 유지한 전체 게임 source-of-truth를 만든다. 정체성은 살아있는 정원 상회, v1 범위는 출시+30일 retention, 엔드게임은 온실 세계 확장으로 고정한다 |
+| Full game bible redesign | review | `docs/GAME_BIBLE.md`, `docs/GAME_PRODUCTION_SPEC.md`, `items/0234-game-bible-full-redesign.md` | 기존 P0/P0.5/Phaser Stage 기획을 하위 참고로 내리고, 컨셉만 유지한 전체 게임 source-of-truth와 제작 companion spec을 만든다. 정체성은 살아있는 정원 상회, v1 범위는 출시+30일 retention, 엔드게임은 온실 세계 확장으로 고정하고, 화면 상태/데이터 모델/콘텐츠 수량/경제 기준값/telemetry/WorkUnit 분해 기준을 세부 표로 고정한다 |
 | Phaser reboot foundation design | review | `docs/phaser/REBOOT_FOUNDATION_SPEC.md`, `docs/phaser/README.md`, `items/0233-phaser-reboot-foundation-design.md` | 기존 Stage 1/2/3 계획을 보류하고, expandable world topology, runtime plot/facility entity, actor task, camera/HUD, asset generation order를 Phaser 구현 하위 foundation으로 고정했다. 이제 `docs/GAME_BIBLE.md` 하위 문서로 취급한다 |
+| Garden board topology scaffold | active | Issue #433, `items/0235-garden-board-topology-scaffold.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0433-garden-board-foundation/visual-report-20260508.md` | 신규 Phaser app이 placeholder에서 최소 3개 build slot, runtime plot/facility entity, starter seed 심기/돌보기/수확, `말랑잎 포리` actor task, contextual HUD/action rail을 가진 v1 board foundation으로 전환된다. `npm run check:phaser`가 build와 fresh-start smoke를 함께 검증한다 |
 | Phaser greenfield vertical slice spec | blocked | `docs/phaser/VERTICAL_SLICE_SPEC.md`, `items/0229-phaser-care-stage-foundation.md`, `items/0230-phaser-garden-view-mode.md`, `items/0231-phaser-carry-claim-reward-fx.md`, Issue #433/#434/#432 | 2026-05-07 리부트 설계로 보류됨. `plot_left`/`plot_right` 2개 밭 계획과 baked-in background risk가 있어 새 `garden board foundation` issue로 재작성 전 구현하지 않는다 |
 | Repo boundary split before Phaser Stage 1 | review | Issue #436, `items/0232-repo-boundary-split.md`, `apps/legacy-react-playable/`, `apps/seed-garden-phaser/`, `reports/visual/issue-0436-boundary-split/browser-use-smoke-20260507.md` | 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리해 #433이 root 기존 앱 코드나 legacy 문서를 active spec으로 오인하지 않게 했다. PR/merge/main CI 대기 |
-| Phaser care stage foundation | blocked | Issue #433, `items/0229-phaser-care-stage-foundation.md` | 보류. 고정 2개 밭/낮은 카메라 계획을 그대로 구현하지 않는다. 새 foundation은 최소 3개 build slot, runtime plot/facility entity, actor task/path, third slot unlock preview를 먼저 요구한다 |
+| Phaser care stage foundation | blocked | Historical Issue #433 body, `items/0229-phaser-care-stage-foundation.md` | 보류. 고정 2개 밭/낮은 카메라 계획을 그대로 구현하지 않는다. Issue #433은 `items/0235-garden-board-topology-scaffold.md` 기준의 v1 topology foundation으로 재작성됐다 |
 | Phaser garden view mode | blocked | Issue #434, `items/0230-phaser-garden-view-mode.md` | 보류. overview mode는 새 board topology와 decoration slot spec 이후 재작성한다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
@@ -148,6 +149,7 @@ Goal: P0가 단순히 기능이 돌아가는 상태가 아니라, 첫 화면이 
 | Asset alpha/background quality gate | active | asset checker, asset review follow-up | creature/seed/icon/fx는 alpha 필요 조건 또는 명시 예외를 검증하고, checkerboard/배경 오염 asset은 후속 cutout/remaster 대상으로 기록됨 |
 | P0 PR evidence contract | active | PR template/control room/report links | UI 변경 PR마다 small win, viewport, screenshot, verification, 남은 리스크가 한 곳에 연결됨 |
 | Studio campaign routing contract | active | `items/0129-game-studio-ops-harness.md`, `docs/PROJECT_COMMANDS.md`, `AGENTS.md` | Game Studio Department Signoff, Subagent/Team Routing, Codex native subagents, team mode, role-debate note, reference teardown, creative brief, QA/playtest plan, gastory style state, prompt/model sidecar, reference image consistency, animation camera/composition lock, frame/GIF/spritesheet extraction이 visual/gameplay WorkUnit의 선택·검수 문맥으로 유지됨 |
+| Studio department scorecard hardening | active | `scripts/studio-v3-operator.mjs`, `scripts/check-studio-v3-operator.mjs`, `docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md`, `docs/PROJECT_COMMANDS.md` | `studio:v3:operate` prompt가 OpenAI Codex game-development pattern(first playable loop -> UI/control tuning -> difficult game-logic eval loop -> real-signal bug triage -> PR review before merge)을 따르고, 전문팀이 `Department Scorecard`에서 `approve/revise/block`과 artifact를 남기며, 두 부서 이상 revise/block이면 `Role Debate`, 난제면 self-evaluation loop를 요구함 |
 | First harvest reveal reward polish | done | Issue #103, PR #108, `items/0062-harvest-reveal-polish.md`, visual evidence, main CI `25063830331` | 첫 수확 reveal이 일반 모달이 아니라 수집형 게임 보상 화면처럼 읽히고 CTA가 393/360에서 잘리지 않음 |
 | Playfield tap/harvest feedback | done | Issue #109, PR #110, `items/0063-playfield-tap-harvest-feedback.md`, `reports/visual/p0-playfield-tap-harvest-feedback-20260429.md`, main CI `25066468406` | 성장 탭과 ready 수확 탭이 `qaFxTelemetry=1` Playwright gate와 mobile screenshot으로 즉시 피드백을 검증함 |
 | Mobile tab card polish | done | Issue #111, PR #112, `items/0064-mobile-tab-card-polish.md`, `reports/visual/p0-mobile-tab-card-polish-20260429.md`, main CI `25067574458` | seeds/album 탭이 수집 게임 메뉴처럼 읽히고 full-screen tab regression이 유지됨 |
@@ -364,30 +366,27 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **이상한 씨앗상회 전체 게임 바이블 리디자인**이다. `items/0234-game-bible-full-redesign.md`와 `docs/GAME_BIBLE.md`가 기존 P0/P0.5/Phaser Stage 기획을 하위 참고로 내리고, 컨셉만 유지한 전체 게임 source-of-truth를 만든다.
+현재 작업은 **Phaser v1 garden board foundation 구현**이다. `studio:v3:runner -- --once --dry-run`은 open GitHub WorkUnit을 확인했고, #434는 감상 모드라 #433 foundation 이후 작업이므로 Issue #433을 `items/0235-garden-board-topology-scaffold.md` 기준으로 재작성해 v1 구현의 첫 runtime blocker를 제거한다.
 
 현재 evidence:
 
-- User decision: 부분 UI/Phaser foundation 설계가 아니라 게임 자체를 처음부터 끝까지 다시 설계한다.
-- Active game bible: `docs/GAME_BIBLE.md`
-- Reboot foundation spec: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Superseded spec: `docs/phaser/VERTICAL_SLICE_SPEC.md`
-- Legacy app lane: `apps/legacy-react-playable/`
-- Phaser app lane: `apps/seed-garden-phaser/`
-- Game bible item: `items/0234-game-bible-full-redesign.md`
-- Reboot item: `items/0233-phaser-reboot-foundation-design.md`
-- Blocked old item: `items/0229-phaser-care-stage-foundation.md`
-- Blocked old item: `items/0230-phaser-garden-view-mode.md`
-- Blocked old item: `items/0231-phaser-carry-claim-reward-fx.md`
-- Codex skill: `game-studio:game-studio`
-- Current validation: `npm run check:docs` pass, `npm run check:dashboard` pass, `npm run check:app-boundaries` pass, `npm run check:seed-ops-queue` pass, `npm run check:closed-workunit-mirrors` pass, `npm run check:ci` pass
+- User decision: studio operate로 게임 v1 버전을 끝까지 구현한다.
+- Active game source: `docs/GAME_BIBLE.md`
+- Production companion: `docs/GAME_PRODUCTION_SPEC.md`
+- Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
+- WorkUnit: `items/0235-garden-board-topology-scaffold.md`
+- GitHub issue: #433 `Phaser garden board foundation을 v1 topology로 시작하기`
+- Runtime implementation: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`
+- Automated verifier: `scripts/check-phaser-foundation.mjs`
+- Visual report: `reports/visual/issue-0433-garden-board-foundation/visual-report-20260508.md`
+- Current validation: `npm run build:phaser` pass, `npm run check:phaser` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: `docs/GAME_BIBLE.md`를 게임 설계 최상위 source-of-truth로 등록한다.
-2. 기존 P0/P0.5/Phaser Stage 문서는 reference/historical로 내리고, 새 구현 판단은 `GAME_BIBLE.md`를 먼저 따른다.
-3. 다음 WorkUnit은 `garden board topology scaffold`이지만, `GAME_BIBLE.md` 검증이 green인 뒤에만 시작한다.
-4. asset generation은 topology scaffold 이후에 시작한다. blank terrain, modular plot tile, facility prop, actor seed frame, sprite strip normalization 순서로 진행한다.
-5. Browser Use `iab` visual/gameplay evidence 없이는 Phaser visual/gameplay 완료를 주장하지 않는다.
-6. 단순 주문 추가, copy tweak, test-only 작업은 이번 greenfield campaign에서 금지한다. 다음 WorkUnit은 world topology, actor task, asset/FX, Browser Use playtest 중 하나 이상의 concrete visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #433 foundation은 placeholder text가 아니라 최소 3개 build slot, runtime plot/facility entity, starter seed 심기/돌보기/수확, 첫 actor task를 보여야 한다.
+2. `npm run check:phaser`는 build뿐 아니라 393x852 fresh-start smoke를 실행해 잎 20, 씨앗 0, `포리 작업 수령`, no-scroll, one canvas를 검증한다.
+3. Browser Use `iab`가 세션에 노출되지 않으면 blocker를 visual report에 남기고 Playwright fallback screenshot을 남긴다.
+4. 다음 WorkUnit은 accepted raster asset/sprite bundle 또는 first 5m vertical slice로 진행해야 하며, placeholder를 production art로 주장하지 않는다.
+5. #434 overview mode와 #432 reward FX는 #433 foundation과 asset/FX bundle 이후 진행한다.
+6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.

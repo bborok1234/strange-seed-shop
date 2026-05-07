@@ -3,53 +3,50 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T14:54:16.397Z
+Generated at: 2026-05-07T16:01:36.896Z
 
 ## Current mission
 
-현재 작업은 **이상한 씨앗상회 전체 게임 바이블 리디자인**이다. `items/0234-game-bible-full-redesign.md`와 `docs/GAME_BIBLE.md`가 기존 P0/P0.5/Phaser Stage 기획을 하위 참고로 내리고, 컨셉만 유지한 전체 게임 source-of-truth를 만든다.
+현재 작업은 **Phaser v1 garden board foundation 구현**이다. `studio:v3:runner -- --once --dry-run`은 open GitHub WorkUnit을 확인했고, #434는 감상 모드라 #433 foundation 이후 작업이므로 Issue #433을 `items/0235-garden-board-topology-scaffold.md` 기준으로 재작성해 v1 구현의 첫 runtime blocker를 제거한다.
 
 현재 evidence:
 
-- User decision: 부분 UI/Phaser foundation 설계가 아니라 게임 자체를 처음부터 끝까지 다시 설계한다.
-- Active game bible: `docs/GAME_BIBLE.md`
-- Reboot foundation spec: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Superseded spec: `docs/phaser/VERTICAL_SLICE_SPEC.md`
-- Legacy app lane: `apps/legacy-react-playable/`
-- Phaser app lane: `apps/seed-garden-phaser/`
-- Game bible item: `items/0234-game-bible-full-redesign.md`
-- Reboot item: `items/0233-phaser-reboot-foundation-design.md`
-- Blocked old item: `items/0229-phaser-care-stage-foundation.md`
-- Blocked old item: `items/0230-phaser-garden-view-mode.md`
-- Blocked old item: `items/0231-phaser-carry-claim-reward-fx.md`
-- Codex skill: `game-studio:game-studio`
-- Current validation: `npm run check:docs` pass, `npm run check:dashboard` pass, `npm run check:app-boundaries` pass, `npm run check:seed-ops-queue` pass, `npm run check:closed-workunit-mirrors` pass, `npm run check:ci` pass
+- User decision: studio operate로 게임 v1 버전을 끝까지 구현한다.
+- Active game source: `docs/GAME_BIBLE.md`
+- Production companion: `docs/GAME_PRODUCTION_SPEC.md`
+- Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
+- WorkUnit: `items/0235-garden-board-topology-scaffold.md`
+- GitHub issue: #433 `Phaser garden board foundation을 v1 topology로 시작하기`
+- Runtime implementation: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`
+- Automated verifier: `scripts/check-phaser-foundation.mjs`
+- Visual report: `reports/visual/issue-0433-garden-board-foundation/visual-report-20260508.md`
+- Current validation: `npm run build:phaser` pass, `npm run check:phaser` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: `docs/GAME_BIBLE.md`를 게임 설계 최상위 source-of-truth로 등록한다.
-2. 기존 P0/P0.5/Phaser Stage 문서는 reference/historical로 내리고, 새 구현 판단은 `GAME_BIBLE.md`를 먼저 따른다.
-3. 다음 WorkUnit은 `garden board topology scaffold`이지만, `GAME_BIBLE.md` 검증이 green인 뒤에만 시작한다.
-4. asset generation은 topology scaffold 이후에 시작한다. blank terrain, modular plot tile, facility prop, actor seed frame, sprite strip normalization 순서로 진행한다.
-5. Browser Use `iab` visual/gameplay evidence 없이는 Phaser visual/gameplay 완료를 주장하지 않는다.
-6. 단순 주문 추가, copy tweak, test-only 작업은 이번 greenfield campaign에서 금지한다. 다음 WorkUnit은 world topology, actor task, asset/FX, Browser Use playtest 중 하나 이상의 concrete visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #433 foundation은 placeholder text가 아니라 최소 3개 build slot, runtime plot/facility entity, starter seed 심기/돌보기/수확, 첫 actor task를 보여야 한다.
+2. `npm run check:phaser`는 build뿐 아니라 393x852 fresh-start smoke를 실행해 잎 20, 씨앗 0, `포리 작업 수령`, no-scroll, one canvas를 검증한다.
+3. Browser Use `iab`가 세션에 노출되지 않으면 blocker를 visual report에 남기고 Playwright fallback screenshot을 남긴다.
+4. 다음 WorkUnit은 accepted raster asset/sprite bundle 또는 first 5m vertical slice로 진행해야 하며, placeholder를 production art로 주장하지 않는다.
+5. #434 overview mode와 #432 reward FX는 #433 foundation과 asset/FX bundle 이후 진행한다.
+6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/phaser-care-stage-foundation
-- Latest commit: e532cdb 기존 React 앱을 legacy lane으로 분리한다
+- Branch: codex/v1-garden-board-foundation
+- Latest commit: b0bd142 게임 전체 설계의 기준점을 바이블로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T14:53:50.811Z
-- Phase: game-bible-full-redesign-verified
-- Issue: game-bible
+- Timestamp: 2026-05-07T16:00:18.625Z
+- Phase: phaser-v1-garden-board-foundation
+- Issue: 433
 - PR: 
-- Item: items/0234-game-bible-full-redesign.md
-- Next action: gate: split next issue into garden board topology scaffold
+- Item: items/0235-garden-board-topology-scaffold.md
+- Next action: gate: run check:ci and prepare PR for Issue #433
 
 ## Open PRs
 
@@ -58,7 +55,7 @@ Generated at: 2026-05-07T14:54:16.397Z
 ## Open issues
 
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
-- #433 Phaser 신규 정원을 낮은 관리 카메라와 actor loop로 시작하기 — https://github.com/bborok1234/strange-seed-shop/issues/433
+- #433 Phaser garden board foundation을 v1 topology로 시작하기 — https://github.com/bborok1234/strange-seed-shop/issues/433
 - #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
 
 ## Playable mode
@@ -84,7 +81,7 @@ assistant final publication ask is a regression: final로 GitHub 게시 확인�
 
 ## Studio Campaign Gate
 
-The next game issue is a child of the active campaign, not a neighbor of the previous issue. Active campaign source of truth: P0.5 Idle Core + Creative Rescue. Before implementation, the next plan artifact must include reference teardown, creative brief, Game Studio Department Signoff, role-debate note when roles disagree, Subagent/Team Routing decision, and QA/playtest plan.
+The next game issue is a child of the active campaign, not a neighbor of the previous issue. Active campaign source of truth: P0.5 Idle Core + Creative Rescue. Before implementation, the next plan artifact must include reference teardown, creative brief, Game Studio Department Signoff, Department Scorecard with approve/revise/block, Role Debate when roles disagree, Subagent/Team Routing decision, and QA/playtest plan.
 
 ## Game Studio Department Signoff
 
@@ -95,6 +92,10 @@ The next game issue is a child of the active campaign, not a neighbor of the pre
 - 검수팀: Browser Use/playtest evidence, screenshot/report/check list.
 - 마케팅팀: mock-only player-facing promise, no real channel action.
 - 고객지원팀: first 5 minutes confusion/support risk and FAQ note.
+
+## Department Scorecard
+
+Each department must mark approve/revise/block and cite an artifact. Two or more revise/block decisions require a Role Debate before implementation. Hard gameplay/economy/routing/sprite/QA harness problems require a self-evaluation loop: claim, smallest verifier, rubric, artifact path, iteration log, and stop condition.
 
 ## Subagent/Team Routing
 

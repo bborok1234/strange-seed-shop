@@ -135,6 +135,49 @@ Deliberation-first branch:
 4. Apply the standing delegation rules in \`docs/studio/USER_PREFERENCES.md\` P8 and \`docs/studio/DELIBERATION_WORKFLOW.md\` Phase 5. Do not invent user approval; write \`user-review.md\` only when the source message or ledger supports it.
 5. After spec synthesis and review-gate evidence, continue into plan-first implementation or the next safe local operator action. Do not use a final response as a checkpoint.
 ` : "";
+  const codexGameOpsPattern = `
+Codex game-development operating pattern:
+- Use the official Codex game-development pattern as the loop shape: first playable loop -> UI/control tuning -> difficult game-logic eval loop -> real-signal bug triage -> PR review before merge.
+- Source links for the pattern:
+  - https://developers.openai.com/codex/use-cases/collections/game-development
+  - https://developers.openai.com/codex/use-cases/iterate-on-difficult-problems
+- For difficult gameplay, economy, routing, sprite, or QA harness problems, do not rely on one-shot intuition. Create a self-evaluation loop with deterministic scripts, reviewable artifacts, rubric scoring, running notes, and an explicit stop condition.
+- Treat tests/checkers as evidence only when they cover the claimed requirement. If a green check does not evaluate the actual player-facing claim, write the gap and add the smallest useful verifier or playtest evidence.
+`;
+  const departmentContract = `
+전문팀 운영 계약:
+각 전문팀은 이름표가 아니라 gate owner다. 게임 WorkUnit plan에는 아래 Department Scorecard가 있어야 하며, 각 부서는 \`approve\`, \`revise\`, \`block\` 중 하나와 근거 artifact를 남긴다.
+
+| 부서 | 반드시 소유하는 산출물 | block 조건 |
+| --- | --- | --- |
+| 기획팀 | player verb, loop role, reward timing, success metric | player verb가 없거나 첫 5분/D1/D7/D30 중 어느 moment를 개선하는지 불명확 |
+| 리서치팀 | reference teardown, production gap, rejected alternatives | 경쟁작/내부 reference 없이 작은 기능을 자동 선택 |
+| 아트팀 | visual target, asset/FX bundle, provenance/generation plan, small-size readability | asset/FX payoff 주장인데 raster/sprite/manifest/animation plan 없음 |
+| 개발팀 | runtime architecture, simulation/render/save/economy boundary, implementation tranche, rollback boundary | touched files와 state boundary가 모호하거나 migration risk가 숨겨짐 |
+| 검수팀 | Browser Use/playtest plan, deterministic regression, screenshot/report paths, rubric scoring | UI/visual claim인데 Browser Use 현재 세션 evidence 또는 blocker가 없음 |
+| 마케팅팀 | mock-only player promise, release/devlog angle, no real-channel action | 외부 채널/실결제/광고/과장 promise를 만들 위험 |
+| 고객지원팀 | first-5m confusion risk, support FAQ note, user screenshot/source-of-truth handling | 플레이어가 무엇을 해야 하는지/무엇이 바뀌었는지 설명할 수 없음 |
+
+Department Scorecard 형식:
+\`\`\`md
+## Department Scorecard
+| 부서 | 판정 | 근거 artifact | blocker / rejected alternative |
+| --- | --- | --- | --- |
+| 기획팀 | approve/revise/block | ... | ... |
+...
+\`\`\`
+
+Role-debate rule:
+- 두 부서 이상이 \`revise\` 또는 \`block\`이면 구현 전에 \`## Role Debate\`를 쓰고 최종 선택, 거절 대안, 범위 축소/확대 사유를 적는다.
+- 아트팀이 신규 asset/FX를 요구하고 개발팀이 scope를 줄이려 하면, asset-free 대안이 production payoff를 실제로 유지하는지 검수팀이 판정한다.
+- 리서치팀 production gap과 기획팀 player verb가 연결되지 않으면 그 WorkUnit은 선택 실패다.
+
+Autonomous studio quality gate:
+- 다음 WorkUnit 후보는 최소 3개를 비교하고, 하나는 큰 방향 점프 후보여야 한다.
+- 선택된 후보는 \`player verb + production/progression role + screen moment + asset/FX + playtest evidence\` 중 최소 3개를 만족해야 한다.
+- \`safe\`, \`작다\`, \`CI가 빠르다\`는 선택 이유가 아니라 승인/복구 조건이다.
+- 부서별 모든 판정이 approve가 아니어도 진행할 수 있지만, revise/block을 무시하면 harness defect로 후속 issue를 만든다.
+`;
   return `Studio Harness v3 foreground operator — 이상한 씨앗상회 AI 네이티브 게임 운영사
 
 목표:
@@ -153,16 +196,20 @@ Deliberation-first branch:
 - Routine git/GitHub actions(issue/PR/comment body-file publication, branch push, checks watch, merge when green)는 agent responsibility다. credential/tool/destructive/external-production/payment/customer-data boundary가 아니면 사람에게 일반 git/GitHub 명령을 떠넘기지 않는다.
 ${initialIssue}
 ${selectedAxis}
+${codexGameOpsPattern}
+${departmentContract}
 작업 루프:
 1. docs/STUDIO_HARNESS_V3_AUTONOMOUS_DESIGN.md, docs/STUDIO_HARNESS_V3_RUNNER_USAGE.md, docs/NORTH_STAR.md, docs/IDLE_CORE_CREATIVE_GUIDE.md를 빠르게 확인한다.
 2. 선택된 deliberation axis가 있으면 먼저 \`$studio-deliberate\` 경로로 brief/proposals/critiques/spec/review evidence를 정리한다.
 3. npm run studio:v3:runner -- --once --dry-run 으로 GitHub queue/PR/CI snapshot과 next action을 확인한다.
 4. GitHub issue queue에서 합법 WorkUnit을 선택한다. 없으면 queue empty를 종료가 아니라 production game quality Intake WorkUnit 생성으로 처리한다.
-5. 구현 전 items/<id>.md 또는 동등 plan artifact에 ## Plan, 수용 기준, 검증 명령, 리스크, Game Studio route(visible gameplay일 때), Subagent/Team Routing을 작성한다.
-6. branch를 만들고 scope 안에서 구현한다.
-7. visible gameplay/HUD/playfield/assets/QA는 Game Studio route를 먼저 고정하고 Browser Use iab를 우선 사용한다. Codex CLI에서 Browser Use가 안 보이면 node_repl MCP js readiness를 확인하고 현재 세션 blocker를 reports/visual/에 기록한다. Playwright는 반복 regression gate이지 Browser Use hands-on QA 대체재가 아니다.
-8. focused checks -> 필요한 full checks -> PR body-file 작성 -> branch push -> PR create/update -> GitHub checks watch/repair -> merge when green -> main CI observation을 수행한다.
-9. Release/Retro/daily report/merge/queue empty는 checkpoint일 뿐 종료 사유가 아니다. stop rule이 없으면 즉시 다음 GitHub WorkUnit을 plan-first로 이어간다.
+5. 구현 전 items/<id>.md 또는 동등 plan artifact에 ## Plan, 수용 기준, 검증 명령, 리스크, Game Studio route(visible gameplay일 때), Department Scorecard, Role Debate(필요 시), Subagent/Team Routing을 작성한다.
+6. 난제면 eval loop를 먼저 만든다: claim, smallest verifier, rubric, artifact path, iteration log, stop condition.
+7. branch를 만들고 scope 안에서 구현한다.
+8. visible gameplay/HUD/playfield/assets/QA는 Game Studio route를 먼저 고정하고 Browser Use iab를 우선 사용한다. Codex CLI에서 Browser Use가 안 보이면 node_repl MCP js readiness를 확인하고 현재 세션 blocker를 reports/visual/에 기록한다. Playwright는 반복 regression gate이지 Browser Use hands-on QA 대체재가 아니다.
+9. focused checks -> 필요한 full checks -> PR body-file 작성 -> branch push -> PR create/update -> GitHub checks watch/repair -> merge when green -> main CI observation을 수행한다.
+10. PR 전에는 Department Scorecard의 revise/block이 해소되었는지 확인한다. 남은 block이 있으면 PR body와 issue에 known risk/follow-up을 명시한다.
+11. Release/Retro/daily report/merge/queue empty는 checkpoint일 뿐 종료 사유가 아니다. stop rule이 없으면 즉시 다음 GitHub WorkUnit을 plan-first로 이어간다.
 
 중단 사유:
 - user stop/close/interrupt/cancel
