@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T21:51:39.465Z
+Generated at: 2026-05-07T22:03:11.446Z
 
 ## Current mission
 
-현재 작업은 **연구 단서 도감 기록 bridge**이다. #474 연구 단서 씨앗 심기 bridge는 PR #475 merge/main CI까지 통과했다. 다음 blocker는 clue seed 수확 후 family clue가 아직 도감/collection meta에 저장되지 않아 discovery reward가 receipt surface에서 멈춘다는 점이다.
+현재 작업은 **연구 단서 목표 surface**이다. #476 연구 단서 도감 기록 bridge는 PR #477 merge/main CI `25524211510`까지 통과했다. 다음 blocker는 clue album record 후 다음 seed goal이 visible surface로 남지 않아 collection meta loop가 다시 끊긴다는 점이다.
 
 현재 evidence:
 
@@ -36,48 +36,49 @@ Generated at: 2026-05-07T21:51:39.465Z
 - Completed research shelf preview bridge: Issue #470, PR #471, main CI `25522696541`
 - Completed research shelf asset plan/prompt: Issue #472, PR #473, main CI `25523174826`
 - Completed research clue seed planting: Issue #474, PR #475, main CI `25523742630`
+- Completed research clue album record: Issue #476, PR #477, main CI `25524211510`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0254-research-clue-album-record.md`
-- GitHub issue: #476 `연구 단서 도감 기록 bridge`
-- Draft PR: #477 `연구 단서 도감 기록 bridge`
+- WorkUnit: `items/0255-research-clue-goal-surface.md`
+- GitHub issue: #478 `연구 단서 목표 surface`
+- Draft PR: pending
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0476-research-clue-album-record/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass
+- Visual report: `reports/visual/issue-0478-research-clue-goal-surface/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #476은 clue seed harvest reward를 collection meta 저장으로 연결한다.
-2. clue seed harvest 후 `researchClueRecordReady` telemetry와 `도감 기록` action affordance가 생겨야 한다.
-3. album record 후 `researchClueAlbumRecorded` telemetry, receipt, objective가 남아야 한다.
+1. Studio Campaign Gate: #478은 clue album record reward를 visible next seed goal surface로 연결한다.
+2. album record 후 `researchClueGoalSurfaceVisible` telemetry가 true여야 한다.
+3. action rail/objective에 `달빛 단서 기록됨`과 `다음 씨앗 목표`가 보여야 한다.
 4. Browser Use execution tool이 노출되지 않으면 Playwright fallback screenshot과 telemetry를 evidence로 남긴다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-research-clue-album-record
-- Latest commit: e51e8e1 연구 단서를 도감 기록으로 저장한다
+- Branch: codex/v1-research-clue-goal-surface
+- Latest commit: bb48aa3 Merge pull request #477 from bborok1234/codex/v1-research-clue-album-record
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T21:51:37.840Z
-- Phase: phaser-v1-research-clue-album-record-pr
-- Issue: 476
-- PR: 477
-- Item: items/0254-research-clue-album-record.md
-- Next action: gate PR #477 checks then merge when green
+- Timestamp: 2026-05-07T22:03:09.788Z
+- Phase: phaser-v1-research-clue-goal-surface-pr-gate
+- Issue: 478
+- PR: pending
+- Item: items/0255-research-clue-goal-surface.md
+- Next action: PR gate 준비: commit push draft PR #478
 
 ## Open PRs
 
-- #477 draft 연구 단서 도감 기록 bridge — https://github.com/bborok1234/strange-seed-shop/pull/477
+- unavailable or none
 
 ## Open issues
 
-- #476 연구 단서 도감 기록 bridge — https://github.com/bborok1234/strange-seed-shop/issues/476
+- #478 연구 단서 목표 surface — https://github.com/bborok1234/strange-seed-shop/issues/478
 
 ## Playable mode
 

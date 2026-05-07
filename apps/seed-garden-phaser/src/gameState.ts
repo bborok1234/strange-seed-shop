@@ -67,6 +67,7 @@ export interface GardenState {
   researchClueHarvested: boolean;
   researchClueRecordReady: boolean;
   researchClueAlbumRecorded: boolean;
+  researchClueGoalSurfaceVisible: boolean;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -218,7 +219,8 @@ export function createGardenState(): GardenState {
     researchClueSeedPlanted: false,
     researchClueHarvested: false,
     researchClueRecordReady: false,
-    researchClueAlbumRecorded: false
+    researchClueAlbumRecorded: false,
+    researchClueGoalSurfaceVisible: false
   };
 }
 
@@ -389,7 +391,8 @@ export function recordResearchClueInAlbum(state: GardenState): void {
 
   state.researchClueRecordReady = false;
   state.researchClueAlbumRecorded = true;
-  state.objective = "달빛 단서 도감 기록 완료 · 다음 씨앗 목표 저장";
+  state.researchClueGoalSurfaceVisible = true;
+  state.objective = "달빛 단서 기록됨 · 다음 씨앗 목표: 달빛 새싹";
   state.receipts.unshift("달빛 단서 도감 기록 · 다음 씨앗 목표 저장");
 }
 

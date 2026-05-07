@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0476-research-clue-album-record";
+const OUT_DIR = "reports/visual/issue-0478-research-clue-goal-surface";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -221,6 +221,12 @@ async function runSmoke() {
     await page.getByRole("button", { name: "도감 기록" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-research-clue-recorded-393.png`, fullPage: false });
+    const clueGoalSurface = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      researchClueGoalSurfaceVisible: window.__seedGardenResearchClueGoalSurfaceVisible ?? false
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-research-clue-goal-surface-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -244,6 +250,7 @@ async function runSmoke() {
       researchClueHarvested: window.__seedGardenResearchClueHarvested ?? false,
       researchClueRecordReady: window.__seedGardenResearchClueRecordReady ?? false,
       researchClueAlbumRecorded: window.__seedGardenResearchClueAlbumRecorded ?? false,
+      researchClueGoalSurfaceVisible: window.__seedGardenResearchClueGoalSurfaceVisible ?? false,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -329,6 +336,11 @@ async function runSmoke() {
     if (!clueBeforeRecord.railText.includes("도감 기록")) failures.push("missing album record action after clue harvest");
     if (!evidence.researchClueAlbumRecorded) failures.push("research clue was not recorded in album");
     if (evidence.researchClueRecordReady) failures.push("research clue record stayed ready after album record");
+    if (!evidence.researchClueGoalSurfaceVisible) failures.push("research clue goal surface telemetry was not visible");
+    if (!clueGoalSurface.researchClueGoalSurfaceVisible) failures.push("research clue goal surface snapshot missed telemetry");
+    if (!clueGoalSurface.railText.includes("달빛 단서 기록됨")) failures.push("missing recorded clue goal surface text");
+    if (!clueGoalSurface.railText.includes("다음 씨앗 목표")) failures.push("missing next seed goal text in action rail");
+    if (!clueGoalSurface.objective.includes("다음 씨앗 목표")) failures.push("missing next seed goal objective");
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
     }
@@ -338,7 +350,7 @@ async function runSmoke() {
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 도감 기록 · 다음 씨앗 목표 저장"))) {
       failures.push("missing research clue album record receipt");
     }
-    if (!evidence.objective.includes("달빛 단서 도감 기록 완료")) failures.push("missing research clue album record objective");
+    if (!evidence.objective.includes("달빛 단서 기록됨")) failures.push("missing research clue recorded objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
@@ -381,6 +393,7 @@ async function runSmoke() {
       storageBeforeClaim,
       clueBeforePlant,
       clueBeforeRecord,
+      clueGoalSurface,
       overviewMode,
       manageReturn,
       evidence,
@@ -413,7 +426,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-research-clue-ready-393.png`,
         `${OUT_DIR}/phaser-check-research-clue-harvested-393.png`,
         `${OUT_DIR}/phaser-check-research-clue-record-ready-393.png`,
-        `${OUT_DIR}/phaser-check-research-clue-recorded-393.png`
+        `${OUT_DIR}/phaser-check-research-clue-recorded-393.png`,
+        `${OUT_DIR}/phaser-check-research-clue-goal-surface-393.png`
       ],
       failures
     };
