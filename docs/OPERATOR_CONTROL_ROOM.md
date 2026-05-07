@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T18:00:35.881Z
+Generated at: 2026-05-07T18:12:46.920Z
 
 ## Current mission
 
-현재 작업은 **Phaser v1 actor/FX runtime strip normalization**이다. #444 topology alpha cleanup/runtime integration은 PR #445로 merge/main CI까지 통과했고, 다음 blocker는 actor와 care/harvest feedback이 여전히 source candidate/placeholder에 머무는 것이다.
+현재 작업은 **Phaser v1 Momo carrier and order crate motion**이다. #446 actor/FX runtime strip normalization은 PR #447로 merge/main CI까지 통과했고, 다음 blocker는 Momo carrier strip이 runtime production chain에 연결되지 않아 workbench -> order crate 흐름이 텍스트 중심으로만 읽히는 것이다.
 
 현재 evidence:
 
@@ -20,47 +20,47 @@ Generated at: 2026-05-07T18:00:35.881Z
 - WorkUnit: `items/0237-topology-asset-generation-review.md`
 - Completed generation/review: Issue #442, PR #443, main CI `25511678907`
 - Completed topology runtime integration: Issue #444, PR #445, main CI `25512501021`
-- WorkUnit: `items/0239-actor-fx-runtime-strips.md`
-- GitHub issue: #446 `Phaser v1 actor and FX runtime strip normalization`
-- Draft PR: #447 `Phaser v1 actor FX runtime strips`
+- Completed actor/FX strip normalization: Issue #446, PR #447, main CI `25513369383`
+- WorkUnit: `items/0240-momo-carrier-order-motion.md`
+- GitHub issue: #448 `Phaser v1 Momo carrier and order crate motion`
+- Draft PR: pending
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
-- Strip normalization script: `scripts/normalize-actor-fx-runtime-strips.mjs`
-- Strip contact sheet: `reports/assets/actor_fx_runtime_strip_contact_sheet_20260508.png`
-- Visual report: `reports/visual/issue-0446-actor-fx-runtime-strips/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass
+- State source: `apps/seed-garden-phaser/src/gameState.ts`
+- Visual report: `reports/visual/issue-0448-momo-carrier-order-motion/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #446은 actor/FX strict strip normalization과 runtime motion payoff를 만든다.
-2. Momo strip은 normalized source까지 허용하지만 runtime actor 연결은 Pori 우선이다.
-3. 다음 WorkUnit은 manifest registration, order reward motion, Momo carrier task, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #448은 Momo carrier task와 order crate progress payoff를 만든다.
+2. Momo strip은 generated runtime spritesheet로만 사용하고 runtime image generation/API/cache를 호출하지 않는다.
+3. 다음 WorkUnit은 manifest registration, order reward motion, order crate delivery claim, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-actor-fx-runtime-strips
-- Latest commit: d324025 Phaser actor와 FX를 생성 스트립으로 움직이게 만든다
+- Branch: codex/v1-momo-carrier-order-motion
+- Latest commit: a32d67f Phaser v1 actor FX runtime strips (#447)
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T18:00:25.182Z
-- Phase: phaser-v1-actor-fx-runtime-strips-pr
-- Issue: 446
-- PR: 447
-- Item: items/0239-actor-fx-runtime-strips.md
-- Next action: gate: watch PR #447 checks and merge if green
+- Timestamp: 2026-05-07T18:12:40.116Z
+- Phase: phaser-v1-momo-carrier-order-motion
+- Issue: 448
+- PR:
+- Item: items/0240-momo-carrier-order-motion.md
+- Next action: gate: run full check:ci then open PR #448
 
 ## Open PRs
 
-- #447 draft Phaser v1 actor FX runtime strips — https://github.com/bborok1234/strange-seed-shop/pull/447
+- unavailable or none
 
 ## Open issues
 
-- #446 Phaser v1 actor and FX runtime strip normalization — https://github.com/bborok1234/strange-seed-shop/issues/446
+- #448 Phaser v1 Momo carrier and order crate motion — https://github.com/bborok1234/strange-seed-shop/issues/448
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 - #432 Phaser 신규 정원 수확을 나르기와 보상 FX로 연결하기 — https://github.com/bborok1234/strange-seed-shop/issues/432
 

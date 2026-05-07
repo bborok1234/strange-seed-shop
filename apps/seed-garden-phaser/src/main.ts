@@ -155,6 +155,11 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderSlots();
     this.renderActors();
     this.renderPendingFx();
+    (window as unknown as { __seedGardenActorIds?: string[] }).__seedGardenActorIds = gameState.actors.map(
+      (actor) => actor.id
+    );
+    (window as unknown as { __seedGardenOrderCrateProgress?: number }).__seedGardenOrderCrateProgress =
+      getFacilityBySlot(gameState, "facility_order_crate")?.progress ?? 0;
     this.updateHud();
   }
 
@@ -162,6 +167,12 @@ class GardenBoardScene extends Phaser.Scene {
     this.anims.create({
       key: "pori-care-loop",
       frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.actors.pori.key, { start: 0, end: 5 }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.anims.create({
+      key: "momo-carry-loop",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.actors.momo.key, { start: 0, end: 5 }),
       frameRate: 8,
       repeat: -1
     });
@@ -351,9 +362,10 @@ class GardenBoardScene extends Phaser.Scene {
     shadow.fillEllipse(0, 42, 54, 18);
     container.add(shadow);
 
-    const sprite = this.add.sprite(0, 4, TOPOLOGY_ASSETS.actors.pori.key);
-    sprite.setDisplaySize(64, 64);
-    sprite.play("pori-care-loop");
+    const textureKey = actor.role === "carrier" ? TOPOLOGY_ASSETS.actors.momo.key : TOPOLOGY_ASSETS.actors.pori.key;
+    const sprite = this.add.sprite(0, 4, textureKey);
+    sprite.setDisplaySize(actor.role === "carrier" ? 72 : 64, actor.role === "carrier" ? 72 : 64);
+    sprite.play(actor.role === "carrier" ? "momo-carry-loop" : "pori-care-loop");
     container.add(sprite);
 
     const label = this.add

@@ -288,6 +288,16 @@ export function claimWorkbenchProduction(state: GardenState): void {
     orderCrate.progress = Math.min(100, orderCrate.progress + 25);
     orderCrate.visualState = orderCrate.progress >= 100 ? "active" : "preview";
   }
+  if (!state.actors.some((actor) => actor.id === "actor_momo")) {
+    state.actors.push({
+      id: "actor_momo",
+      name: "방패새싹 모모",
+      role: "carrier",
+      slotId: "facility_workbench",
+      targetSlotId: "facility_order_crate",
+      task: "carry_leaves"
+    });
+  }
   state.objective = orderCrate && orderCrate.progress >= 100 ? "주문 상자 납품은 다음 slice에서 연결" : "잎을 모아 3번 밭 확장을 준비하기";
-  state.receipts.unshift("포리 작업 수령 · 잎 +8 · 주문 상자 +25%");
+  state.receipts.unshift("포리 작업 수령 · 모모 운반 시작 · 잎 +8 · 주문 상자 +25%");
 }
