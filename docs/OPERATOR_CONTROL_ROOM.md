@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T18:30:52.062Z
+Generated at: 2026-05-07T18:32:36.718Z
 
 ## Current mission
 
@@ -24,7 +24,7 @@ Generated at: 2026-05-07T18:30:52.062Z
 - Completed Momo carrier/order crate motion: Issue #448, PR #449, main CI `25514108801`
 - WorkUnit: `items/0241-order-crate-delivery-reward-motion.md`
 - GitHub issue: #432 `Phaser v1 order crate delivery reward motion`
-- Draft PR: pending
+- Draft PR: #450 `Phaser v1 order crate delivery reward motion`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0432-order-crate-delivery-reward-motion/visual-report-20260508.md`
@@ -42,22 +42,22 @@ Generated at: 2026-05-07T18:30:52.062Z
 ## Local state
 
 - Branch: codex/v1-order-crate-delivery-reward-motion
-- Latest commit: b3585e2 주문 상자 납품 보상 작업을 계획한다
+- Latest commit: b4a440d 주문 상자 납품으로 첫 생산 체인을 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T18:29:56.417Z
-- Phase: phaser-v1-order-crate-delivery-reward-motion-verified
+- Timestamp: 2026-05-07T18:32:15.977Z
+- Phase: phaser-v1-order-crate-delivery-reward-motion-pr
 - Issue: 432
-- PR:
+- PR: 450
 - Item: items/0241-order-crate-delivery-reward-motion.md
-- Next action: gate: publish PR #432 and watch required checks
+- Next action: gate: watch PR #450 required checks and merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #450 draft Phaser v1 order crate delivery reward motion — https://github.com/bborok1234/strange-seed-shop/pull/450
 
 ## Open issues
 
