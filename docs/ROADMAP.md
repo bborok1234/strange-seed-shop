@@ -37,6 +37,7 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Full game bible redesign | review | `docs/GAME_BIBLE.md`, `docs/GAME_PRODUCTION_SPEC.md`, `items/0234-game-bible-full-redesign.md` | 기존 P0/P0.5/Phaser Stage 기획을 하위 참고로 내리고, 컨셉만 유지한 전체 게임 source-of-truth와 제작 companion spec을 만든다. 정체성은 살아있는 정원 상회, v1 범위는 출시+30일 retention, 엔드게임은 온실 세계 확장으로 고정하고, 화면 상태/데이터 모델/콘텐츠 수량/경제 기준값/telemetry/WorkUnit 분해 기준을 세부 표로 고정한다 |
 | Phaser reboot foundation design | review | `docs/phaser/REBOOT_FOUNDATION_SPEC.md`, `docs/phaser/README.md`, `items/0233-phaser-reboot-foundation-design.md` | 기존 Stage 1/2/3 계획을 보류하고, expandable world topology, runtime plot/facility entity, actor task, camera/HUD, asset generation order를 Phaser 구현 하위 foundation으로 고정했다. 이제 `docs/GAME_BIBLE.md` 하위 문서로 취급한다 |
 | Garden board topology scaffold | active | Issue #433, Draft PR #439, `items/0235-garden-board-topology-scaffold.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0433-garden-board-foundation/visual-report-20260508.md` | 신규 Phaser app이 placeholder에서 최소 3개 build slot, runtime plot/facility entity, starter seed 심기/돌보기/수확, `말랑잎 포리` actor task, contextual HUD/action rail을 가진 v1 board foundation으로 전환된다. `npm run check:phaser`와 `npm run check:ci`가 통과했고 PR #439 checks 확인 중이다 |
+| Topology asset plan/prompt batch | active | Issue #440, `items/0236-topology-asset-plan.md`, `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`, `scripts/check-topology-asset-plan.mjs` | #433 placeholder art를 production asset으로 굳히지 않도록 terrain, plot states, facility states, Pori/Momo actor strips, care/harvest FX strips, soft shadow의 14개 v1 topology asset plan/prompt를 추가한다. `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style` 통과 |
 | Phaser greenfield vertical slice spec | blocked | `docs/phaser/VERTICAL_SLICE_SPEC.md`, `items/0229-phaser-care-stage-foundation.md`, `items/0230-phaser-garden-view-mode.md`, `items/0231-phaser-carry-claim-reward-fx.md`, Issue #433/#434/#432 | 2026-05-07 리부트 설계로 보류됨. `plot_left`/`plot_right` 2개 밭 계획과 baked-in background risk가 있어 새 `garden board foundation` issue로 재작성 전 구현하지 않는다 |
 | Repo boundary split before Phaser Stage 1 | review | Issue #436, `items/0232-repo-boundary-split.md`, `apps/legacy-react-playable/`, `apps/seed-garden-phaser/`, `reports/visual/issue-0436-boundary-split/browser-use-smoke-20260507.md` | 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리해 #433이 root 기존 앱 코드나 legacy 문서를 active spec으로 오인하지 않게 했다. PR/merge/main CI 대기 |
 | Phaser care stage foundation | blocked | Historical Issue #433 body, `items/0229-phaser-care-stage-foundation.md` | 보류. 고정 2개 밭/낮은 카메라 계획을 그대로 구현하지 않는다. Issue #433은 `items/0235-garden-board-topology-scaffold.md` 기준의 v1 topology foundation으로 재작성됐다 |
@@ -366,7 +367,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **Phaser v1 garden board foundation 구현**이다. `studio:v3:runner -- --once --dry-run`은 open GitHub WorkUnit을 확인했고, #434는 감상 모드라 #433 foundation 이후 작업이므로 Issue #433을 `items/0235-garden-board-topology-scaffold.md` 기준으로 재작성해 v1 구현의 첫 runtime blocker를 제거한다.
+현재 작업은 **Phaser v1 topology asset plan/prompt batch**다. #433 garden board foundation은 PR #439로 merge/main CI까지 통과했고, 다음 blocker는 placeholder art를 accepted game asset으로 오해하지 않게 topology raster asset bundle을 먼저 계획하는 것이다.
 
 현재 evidence:
 
@@ -374,20 +375,20 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- WorkUnit: `items/0235-garden-board-topology-scaffold.md`
-- GitHub issue: #433 `Phaser garden board foundation을 v1 topology로 시작하기`
-- Draft PR: #439 `Phaser v1 garden board foundation`
-- Runtime implementation: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`
-- Automated verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0433-garden-board-foundation/visual-report-20260508.md`
-- Current validation: `npm run build:phaser` pass, `npm run check:phaser` pass, `npm run check:ci` pass
+- Completed foundation: Issue #433, PR #439, main CI `25507779300`
+- WorkUnit: `items/0236-topology-asset-plan.md`
+- GitHub issue: #440 `Phaser v1 topology asset plan/prompt batch`
+- Asset plan: `assets/source/asset_plan.json`
+- Asset prompts: `assets/source/asset_prompts.json`
+- Automated verifier: `scripts/check-topology-asset-plan.mjs`
+- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #433 foundation은 placeholder text가 아니라 최소 3개 build slot, runtime plot/facility entity, starter seed 심기/돌보기/수확, 첫 actor task를 보여야 한다.
-2. `npm run check:phaser`는 build뿐 아니라 393x852 fresh-start smoke를 실행해 잎 20, 씨앗 0, `포리 작업 수령`, no-scroll, one canvas를 검증한다.
-3. Browser Use `iab`가 세션에 노출되지 않으면 blocker를 visual report에 남기고 Playwright fallback screenshot을 남긴다.
-4. 다음 WorkUnit은 accepted raster asset/sprite bundle 또는 first 5m vertical slice로 진행해야 하며, placeholder를 production art로 주장하지 않는다.
-5. PR #439 required checks를 확인하고, #434 overview mode와 #432 reward FX는 #433 foundation과 asset/FX bundle 이후 진행한다.
+1. Studio Campaign Gate: #440은 terrain, plot states, facility states, actor strips, FX strips의 accepted raster generation plan을 고정한다.
+2. asset plan/prompt ids는 exact match여야 하며, output path는 `public/assets/game/**.png` workspace path여야 한다.
+3. actor/FX strips는 frame count, frame size, fps, `animation.binding`을 가져야 한다.
+4. background prompt는 gameplay object baked-in 금지를 명시해야 한다.
+5. 다음 WorkUnit은 gpt-image-2 또는 Codex native image generation으로 실제 PNG를 생성하고 review/manifest gate로 이어간다.
 6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.

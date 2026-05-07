@@ -3,8 +3,8 @@
   "project": "이상한 씨앗상회",
   "batch": {
     "id": "milestone1_style_validation_001",
-    "purpose": "Validate and extend static Phase 0/P0.5 assets, including source-linked lunar greenhouse planting assets and garden-respecting plot HUD marker assets for production/playfield payoff.",
-    "target_asset_count": 49,
+    "purpose": "Validate and extend static Phase 0/P0.5/v1 assets, including Phaser garden board topology runtime terrain, plot states, facility states, actor strips, and FX strips.",
+    "target_asset_count": 67,
     "generation_mode": "openai_images_api_with_static_workspace_outputs",
     "runtime_generation_allowed": false
   },
@@ -1034,6 +1034,325 @@
       "provenance": [
         "gpt-image-2"
       ]
+    },
+    {
+      "id": "bg_garden_terrain_open_v1",
+      "category": "background",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_terrain_background",
+      "output_path": "public/assets/game/backgrounds/bg_garden_terrain_open_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "terrain",
+        "background",
+        "topology_foundation_0236"
+      ],
+      "notes": "Open greenhouse terrain only. Must not bake in plots, workbench, order crate, storage, research desk, expedition gate, or active gameplay object."
+    },
+    {
+      "id": "tile_plot_empty_v1",
+      "category": "plot_tile",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "empty",
+      "intended_use": "phaser_runtime_plot_state",
+      "output_path": "public/assets/game/tiles/tile_plot_empty_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "plot",
+        "empty",
+        "topology_foundation_0236"
+      ],
+      "notes": "Runtime plot tile for empty unlocked slot. 256x192 target."
+    },
+    {
+      "id": "tile_plot_sprout_v1",
+      "category": "plot_tile",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "sprout",
+      "intended_use": "phaser_runtime_plot_state",
+      "output_path": "public/assets/game/tiles/tile_plot_sprout_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "plot",
+        "sprout",
+        "topology_foundation_0236"
+      ],
+      "notes": "Runtime plot tile for freshly planted starter seed. 256x192 target."
+    },
+    {
+      "id": "tile_plot_growing_v1",
+      "category": "plot_tile",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "growing",
+      "intended_use": "phaser_runtime_plot_state",
+      "output_path": "public/assets/game/tiles/tile_plot_growing_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "plot",
+        "growing",
+        "topology_foundation_0236"
+      ],
+      "notes": "Runtime plot tile for visible growth progress. 256x192 target."
+    },
+    {
+      "id": "tile_plot_ready_v1",
+      "category": "plot_tile",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "ready",
+      "intended_use": "phaser_runtime_plot_state",
+      "output_path": "public/assets/game/tiles/tile_plot_ready_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "plot",
+        "ready",
+        "topology_foundation_0236"
+      ],
+      "notes": "Runtime plot tile for harvest-ready state with readable payoff. 256x192 target."
+    },
+    {
+      "id": "tile_plot_locked_preview_v1",
+      "category": "plot_tile",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "locked_preview",
+      "intended_use": "phaser_runtime_plot_state",
+      "output_path": "public/assets/game/tiles/tile_plot_locked_preview_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "plot",
+        "locked_preview",
+        "topology_foundation_0236"
+      ],
+      "notes": "Runtime plot tile for third-slot preview. 256x192 target."
+    },
+    {
+      "id": "facility_workbench_v1",
+      "category": "facility",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_runtime_facility",
+      "output_path": "public/assets/game/facilities/facility_workbench_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "facility",
+        "workbench",
+        "topology_foundation_0236"
+      ],
+      "notes": "Runtime workbench prop. 320x220 target."
+    },
+    {
+      "id": "facility_order_crate_empty_v1",
+      "category": "facility",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_runtime_order_crate_state",
+      "output_path": "public/assets/game/facilities/facility_order_crate_empty_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "facility",
+        "order_crate",
+        "empty",
+        "topology_foundation_0236"
+      ],
+      "notes": "Runtime order crate empty state. 192x160 target."
+    },
+    {
+      "id": "facility_order_crate_filled_v1",
+      "category": "facility",
+      "family": "sun_greenhouse",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_runtime_order_crate_state",
+      "output_path": "public/assets/game/facilities/facility_order_crate_filled_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "facility",
+        "order_crate",
+        "filled",
+        "topology_foundation_0236"
+      ],
+      "notes": "Runtime order crate filled/sealed preview state. 192x160 target."
+    },
+    {
+      "id": "actor_pori_caretaker_strip_v1",
+      "category": "sprite_strip",
+      "family": "malang_leaf",
+      "rarity": "common",
+      "growth_stage": "complete",
+      "intended_use": "phaser_actor_caretaker",
+      "output_path": "public/assets/game/sprites/actor_pori_caretaker_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "actor",
+        "pori",
+        "caretaker",
+        "topology_foundation_0236"
+      ],
+      "frame_count": 6,
+      "frame_size": "128x128",
+      "intended_fps": 8,
+      "animation": {
+        "binding": "actor.task.care_plot",
+        "behavior": "loop"
+      },
+      "notes": "Horizontal sprite strip, 6 frames, bottom-center anchor, no clipping."
+    },
+    {
+      "id": "actor_momo_carrier_strip_v1",
+      "category": "sprite_strip",
+      "family": "shield_sprout",
+      "rarity": "common",
+      "growth_stage": "complete",
+      "intended_use": "phaser_actor_carrier",
+      "output_path": "public/assets/game/sprites/actor_momo_carrier_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "actor",
+        "momo",
+        "carrier",
+        "topology_foundation_0236"
+      ],
+      "frame_count": 6,
+      "frame_size": "128x128",
+      "intended_fps": 8,
+      "animation": {
+        "binding": "actor.task.carry_leaves",
+        "behavior": "loop"
+      },
+      "notes": "Horizontal sprite strip, 6 frames, bottom-center anchor, no clipping."
+    },
+    {
+      "id": "fx_care_spark_strip_v1",
+      "category": "fx_strip",
+      "family": "care",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_care_feedback_fx",
+      "output_path": "public/assets/game/fx/fx_care_spark_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "fx",
+        "care",
+        "topology_foundation_0236"
+      ],
+      "frame_count": 6,
+      "frame_size": "96x96",
+      "intended_fps": 12,
+      "animation": {
+        "binding": "plot.action.care_tapped",
+        "behavior": "once"
+      },
+      "notes": "Horizontal FX strip for plot care/tap feedback."
+    },
+    {
+      "id": "fx_harvest_leaf_flyout_strip_v1",
+      "category": "fx_strip",
+      "family": "reward",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_harvest_reward_fx",
+      "output_path": "public/assets/game/fx/fx_harvest_leaf_flyout_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "fx",
+        "harvest",
+        "reward",
+        "topology_foundation_0236"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 14,
+      "animation": {
+        "binding": "plot.action.harvest_reward",
+        "behavior": "once"
+      },
+      "notes": "Horizontal FX strip for leaf flyout from plot/actor to HUD."
+    },
+    {
+      "id": "ui_shadow_soft_v1",
+      "category": "utility",
+      "family": "ui",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_actor_entity_grounding_shadow",
+      "output_path": "public/assets/game/ui/ui_shadow_soft_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "utility",
+        "shadow",
+        "topology_foundation_0236"
+      ],
+      "notes": "Soft transparent grounding shadow for actors/entities. 128x64 target."
+    },
+    {
+      "id": "creature_herb_common_001_actor_work_idle_strip",
+      "category": "sprite_strip",
+      "family": "herb",
+      "rarity": "common",
+      "growth_stage": "complete",
+      "intended_use": "phaser_actor_work_idle_alias",
+      "output_path": "public/assets/game/sprites/starter/creature_herb_common_ready_strip.png",
+      "manifest_tags": [
+        "phase0",
+        "p0_5",
+        "sprite",
+        "actor",
+        "alias"
+      ],
+      "frame_count": 4,
+      "frame_size": "96x96",
+      "intended_fps": 8,
+      "animation": {
+        "binding": "actor.task.work_idle",
+        "behavior": "loop"
+      },
+      "notes": "Plan alias for an existing accepted raster strip reused as actor work_idle binding; no new generation required."
+    },
+    {
+      "id": "fx_lunar_harvest_moonburst_001",
+      "category": "fx_strip",
+      "family": "lunar",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_harvest_moonburst_alias",
+      "output_path": "public/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+      "manifest_tags": [
+        "phase0",
+        "p0_5",
+        "fx",
+        "lunar",
+        "alias"
+      ],
+      "frame_count": 4,
+      "frame_size": "160x160",
+      "intended_fps": 12,
+      "animation": {
+        "binding": "plot.action.harvest_plot",
+        "behavior": "once"
+      },
+      "notes": "Plan alias for an existing accepted raster FX strip reused as lunar harvest moonburst fallback; no new generation required."
     }
   ]
 }
