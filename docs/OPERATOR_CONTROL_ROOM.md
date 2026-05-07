@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T18:32:36.718Z
+Generated at: 2026-05-07T18:50:49.495Z
 
 ## Current mission
 
-현재 작업은 **Phaser v1 order crate delivery reward motion**이다. #448 Momo carrier/order crate motion은 PR #449로 merge/main CI까지 통과했고, 다음 blocker는 주문 상자가 100%에 도달해도 납품 claim과 reward motion이 없어 첫 production chain payoff가 닫히지 않는 것이다.
+현재 작업은 **Phaser v1 third plot expansion unlock**이다. #432 order crate delivery reward motion은 PR #450으로 merge/main CI까지 통과했고, 다음 blocker는 납품 보상이 `3번 밭 확장`으로 실제 board progression을 만들지 못하는 것이다.
 
 현재 evidence:
 
@@ -22,47 +22,48 @@ Generated at: 2026-05-07T18:32:36.718Z
 - Completed topology runtime integration: Issue #444, PR #445, main CI `25512501021`
 - Completed actor/FX strip normalization: Issue #446, PR #447, main CI `25513369383`
 - Completed Momo carrier/order crate motion: Issue #448, PR #449, main CI `25514108801`
-- WorkUnit: `items/0241-order-crate-delivery-reward-motion.md`
-- GitHub issue: #432 `Phaser v1 order crate delivery reward motion`
-- Draft PR: #450 `Phaser v1 order crate delivery reward motion`
+- Completed order crate delivery reward motion: Issue #432, PR #450, main CI `25514890197`
+- WorkUnit: `items/0242-third-plot-expansion-unlock.md`
+- GitHub issue: #451 `Phaser v1 third plot expansion unlock`
+- Draft PR: #452 `Phaser v1 third plot expansion unlock`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0432-order-crate-delivery-reward-motion/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0451-third-plot-expansion-unlock/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #432는 order crate delivery claim과 reward motion payoff를 만든다.
-2. Delivery FX는 existing generated raster FX/crate asset만 사용하고 runtime image generation/API/cache를 호출하지 않는다.
-3. 다음 WorkUnit은 repeat order chain, manifest registration, storage unlock, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
+1. Studio Campaign Gate: #451은 third plot expansion unlock으로 board capacity payoff를 만든다.
+2. Expansion state는 existing generated plot raster states만 사용하고 runtime image generation/API/cache를 호출하지 않는다.
+3. 다음 WorkUnit은 new seed planting on plot 03, repeat order chain, storage unlock, Browser Use/playtest evidence 중 최소 하나의 visual/game-feel payoff를 포함해야 한다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-order-crate-delivery-reward-motion
-- Latest commit: b4a440d 주문 상자 납품으로 첫 생산 체인을 닫는다
+- Branch: codex/v1-third-plot-expansion-unlock
+- Latest commit: 400f86d 세 번째 밭 확장으로 납품 보상을 성장에 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T18:32:15.977Z
-- Phase: phaser-v1-order-crate-delivery-reward-motion-pr
-- Issue: 432
-- PR: 450
-- Item: items/0241-order-crate-delivery-reward-motion.md
-- Next action: gate: watch PR #450 required checks and merge if green
+- Timestamp: 2026-05-07T18:50:27.365Z
+- Phase: phaser-v1-third-plot-expansion-unlock-pr
+- Issue: 451
+- PR: 452
+- Item: items/0242-third-plot-expansion-unlock.md
+- Next action: gate: watch PR #452 required checks and merge if green
 
 ## Open PRs
 
-- #450 draft Phaser v1 order crate delivery reward motion — https://github.com/bborok1234/strange-seed-shop/pull/450
+- #452 draft Phaser v1 third plot expansion unlock — https://github.com/bborok1234/strange-seed-shop/pull/452
 
 ## Open issues
 
+- #451 Phaser v1 third plot expansion unlock — https://github.com/bborok1234/strange-seed-shop/issues/451
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
-- #432 Phaser v1 order crate delivery reward motion — https://github.com/bborok1234/strange-seed-shop/issues/432
 
 ## Playable mode
 

@@ -4,6 +4,8 @@ export type PlotState = "empty" | "planted" | "growing" | "ready";
 export type FacilityKind = "workbench" | "order_crate" | "storage";
 export type ActorRole = "caretaker" | "carrier";
 
+export const THIRD_PLOT_UNLOCK_COST = 60;
+
 export interface BoardSlot {
   id: string;
   kind: SlotKind;
@@ -214,6 +216,13 @@ export function selectSlot(state: GardenState, slotId: string): void {
     }
     return;
   }
+  if (slot.id === "plot_03" && slot.unlockState !== "unlocked") {
+    state.objective =
+      state.resources.leaves >= THIRD_PLOT_UNLOCK_COST
+        ? `${THIRD_PLOT_UNLOCK_COST}잎으로 3번 밭을 확장하기`
+        : `3번 밭 확장까지 잎 ${THIRD_PLOT_UNLOCK_COST - state.resources.leaves}개 부족`;
+    return;
+  }
   if (slot.unlockState === "preview") {
     state.objective = `${slot.label}: 첫 수확 후 확장 목표`;
     return;
@@ -328,4 +337,26 @@ export function claimOrderCrateDelivery(state: GardenState): void {
   state.resources.leaves += 30;
   state.objective = "첫 주문 납품 완료 · 3번 밭 확장 준비";
   state.receipts.unshift("주문 상자 납품 · 잎 +30 · 상회 평판 +1");
+}
+
+export function unlockThirdPlot(state: GardenState): void {
+  const slot = getSlot(state, "plot_03");
+  if (slot.unlockState === "unlocked" || state.resources.leaves < THIRD_PLOT_UNLOCK_COST) {
+    return;
+  }
+
+  state.resources.leaves -= THIRD_PLOT_UNLOCK_COST;
+  slot.unlockState = "unlocked";
+  slot.label = "3번 햇살 밭";
+  if (!getPlotBySlot(state, "plot_03")) {
+    state.plots.push({
+      id: "plot_entity_03",
+      slotId: "plot_03",
+      state: "empty",
+      growth: 0,
+      careCount: 0
+    });
+  }
+  state.objective = "3번 밭 확장 완료 · 다음 씨앗 준비";
+  state.receipts.unshift("3번 밭 확장 · 잎 -60 · 새 재배 자리 +1");
 }
