@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T21:38:21.411Z
+Generated at: 2026-05-07T21:40:31.666Z
 
 ## Current mission
 
@@ -38,6 +38,7 @@ Generated at: 2026-05-07T21:38:21.411Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0253-research-clue-seed-planting.md`
 - GitHub issue: #474 `연구 단서 씨앗 심기 bridge`
+- Draft PR: #475 `연구 단서 씨앗 심기 bridge`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
@@ -56,22 +57,22 @@ Generated at: 2026-05-07T21:38:21.411Z
 ## Local state
 
 - Branch: codex/v1-research-clue-seed-planting
-- Latest commit: aa3a8b0 Merge pull request #473 from bborok1234/codex/v1-research-shelf-asset-plan-prompt
+- Latest commit: 0c6598d 연구 단서 씨앗을 재배 행동으로 잇는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T21:38:19.810Z
-- Phase: phaser-v1-research-clue-seed-planting-verify
+- Timestamp: 2026-05-07T21:40:30.005Z
+- Phase: phaser-v1-research-clue-seed-planting-pr
 - Issue: 474
-- PR: pending
+- PR: 475
 - Item: items/0253-research-clue-seed-planting.md
-- Next action: prep PR gate for #474 after check:ci
+- Next action: gate PR #475 checks then merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #475 draft 연구 단서 씨앗 심기 bridge — https://github.com/bborok1234/strange-seed-shop/pull/475
 
 ## Open issues
 
