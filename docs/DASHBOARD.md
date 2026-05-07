@@ -40,8 +40,8 @@ Updated: 2026-05-07
 | --- | ---: |
 | done | 137 |
 | review | 73 |
-| todo | 5 |
-| blocked | 0 |
+| todo | 4 |
+| blocked | 1 |
 
 ## 다음 작업
 
