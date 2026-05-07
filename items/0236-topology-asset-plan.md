@@ -95,6 +95,7 @@ Stop condition:
 ## GitHub
 
 - Issue: https://github.com/bborok1234/strange-seed-shop/issues/440
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/441
 
 ## Evidence
 
@@ -102,3 +103,5 @@ Stop condition:
 - `npm run check:topology-asset-plan` — pass
 - `npm run check:asset-provenance` — pass
 - `npm run check:asset-style` — pass
+- Issue checkpoint comment: https://github.com/bborok1234/strange-seed-shop/issues/440#issuecomment-4398929198
+- Draft PR: https://github.com/bborok1234/strange-seed-shop/pull/441

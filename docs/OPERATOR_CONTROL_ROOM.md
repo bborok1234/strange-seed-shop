@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T16:20:01.038Z
+Generated at: 2026-05-07T16:23:06.670Z
 
 ## Current mission
 
@@ -18,6 +18,7 @@ Generated at: 2026-05-07T16:20:01.038Z
 - Completed foundation: Issue #433, PR #439, main CI `25507779300`
 - WorkUnit: `items/0236-topology-asset-plan.md`
 - GitHub issue: #440 `Phaser v1 topology asset plan/prompt batch`
+- Draft PR: #441 `Phaser v1 topology asset plan`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
 - Automated verifier: `scripts/check-topology-asset-plan.mjs`
@@ -36,22 +37,22 @@ Generated at: 2026-05-07T16:20:01.038Z
 ## Local state
 
 - Branch: codex/v1-topology-asset-plan
-- Latest commit: 1d8d4fd 게임 v1 구현을 바이블과 첫 Phaser foundation으로 연결한다
-- Dirty files: present
+- Latest commit: de4cd3e PR evidence를 topology asset plan에 연결한다
+- Dirty files: none
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T16:19:59.385Z
-- Phase: phaser-v1-topology-asset-plan
+- Timestamp: 2026-05-07T16:22:40.822Z
+- Phase: phaser-v1-topology-asset-plan-pr
 - Issue: 440
-- PR: 
+- PR: 441
 - Item: items/0236-topology-asset-plan.md
-- Next action: gate: run check:ci and publish PR for Issue #440
+- Next action: gate: watch PR #441 checks and merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #441 draft Phaser v1 topology asset plan — https://github.com/bborok1234/strange-seed-shop/pull/441
 
 ## Open issues
 
