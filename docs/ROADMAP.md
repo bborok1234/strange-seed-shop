@@ -49,7 +49,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | Storage basket unlock affordance | done | Issue #457, PR #458, main CI `25517800360`, `items/0245-storage-basket-unlock-affordance.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0457-storage-basket-unlock-affordance/visual-report-20260508.md` | #455 이후 `보관 바구니 준비` objective를 실제 board action으로 연결했다. 두 번째 납품 후 `보관 바구니`를 선택해 `정리 80잎`으로 unlock하고, storage/offline-cap 준비 receipt와 selected facility state를 남긴다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
 | Storage buffer production fill | done | Issue #459, PR #460, main CI `25518444184`, `items/0246-storage-buffer-production-fill.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0459-storage-buffer-production-fill/visual-report-20260508.md` | #457 이후 storage unlock이 다음 작업대 수령의 `오프라인 보관 n/24` buffer fill로 이어지게 했다. 새 accepted manifest asset 없이 existing generated facility raster와 HUD/receipt affordance만 사용하고 runtime image generation/API/cache는 호출하지 않는다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
 | 보관 바구니 오프라인 잎 회수 | done | Issue #461, PR #462, main CI `25519266912`, `items/0247-offline-storage-reward-claim.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0461-offline-storage-reward-claim/visual-report-20260508.md` | #459 이후 `오프라인 보관 4/24`가 보이기만 하고 player verb로 닫히지 않는 blocker를 해결했다. 보관 바구니 선택 시 `회수` action으로 stored leaves를 잎에 더하고 storage를 0으로 비워 offline comeback reward hook을 만든다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
-| 보관 바구니 playfield 채움 상태 | active | Issue #463, Draft PR #464, `items/0248-storage-playfield-fill-state.md`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0463-storage-playfield-fill-state/visual-report-20260508.md` | #461 이후 storage 상태가 action rail/objective를 읽어야만 보이는 blocker를 해결한다. 보관 바구니 prop 위에 storage fill bar/chip을 추가해 생산 수령 후 `4/24`, 회수 후 `0/24`가 playfield state로 보이게 한다. `npm run check:phaser`와 `npm run check:ci`가 local verification을 통과했다 |
+| 보관 바구니 playfield 채움 상태 | done | Issue #463, PR #464, main CI `25519876357`, `items/0248-storage-playfield-fill-state.md`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0463-storage-playfield-fill-state/visual-report-20260508.md` | #461 이후 storage 상태가 action rail/objective를 읽어야만 보이는 blocker를 해결했다. 보관 바구니 prop 위에 storage fill bar/chip을 추가해 생산 수령 후 `4/24`, 회수 후 `0/24`가 playfield state로 보이게 한다. `npm run check:phaser`, `npm run check:ci`, PR checks, main CI가 통과했다 |
+| 보관 잎 회수 reward motion | active | Issue #465, Draft PR #466, `items/0249-storage-claim-reward-motion.md`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0465-storage-claim-reward-motion/visual-report-20260508.md` | #463 이후 회수 순간이 아직 숫자/receipt 중심인 blocker를 해결한다. existing generated `fx_harvest_leaf_flyout_strip_v1`을 storage claim binding에 연결해 보관 바구니 위치에서 reward motion이 보이게 한다. `npm run check:phaser`와 `npm run check:ci`가 local verification을 통과했다 |
 | Phaser greenfield vertical slice spec | blocked | `docs/phaser/VERTICAL_SLICE_SPEC.md`, `items/0229-phaser-care-stage-foundation.md`, `items/0230-phaser-garden-view-mode.md`, `items/0231-phaser-carry-claim-reward-fx.md`, Issue #433/#434/#432 | 2026-05-07 리부트 설계로 보류됨. `plot_left`/`plot_right` 2개 밭 계획과 baked-in background risk가 있어 새 `garden board foundation` issue로 재작성 전 구현하지 않는다 |
 | Repo boundary split before Phaser Stage 1 | review | Issue #436, `items/0232-repo-boundary-split.md`, `apps/legacy-react-playable/`, `apps/seed-garden-phaser/`, `reports/visual/issue-0436-boundary-split/browser-use-smoke-20260507.md` | 기존 React playable 코드와 P0/P0.5 문서를 legacy/reference lane으로, 신규 Phaser game을 별도 active lane으로, Studio/operator 문서를 cross-game 운영 계층으로 분리해 #433이 root 기존 앱 코드나 legacy 문서를 active spec으로 오인하지 않게 했다. PR/merge/main CI 대기 |
 | Phaser care stage foundation | blocked | Historical Issue #433 body, `items/0229-phaser-care-stage-foundation.md` | 보류. 고정 2개 밭/낮은 카메라 계획을 그대로 구현하지 않는다. Issue #433은 `items/0235-garden-board-topology-scaffold.md` 기준의 v1 topology foundation으로 재작성됐다 |
@@ -379,7 +380,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **보관 바구니 playfield 채움 상태**이다. #461 보관 바구니 오프라인 잎 회수는 PR #462 merge/main CI까지 통과했고, 다음 blocker는 storage 상태가 아직 action rail/objective를 읽어야만 보인다는 점이다.
+현재 작업은 **보관 잎 회수 reward motion**이다. #463 보관 바구니 playfield 채움 상태는 PR #464 merge/main CI까지 통과했고, 다음 blocker는 `회수` 순간이 아직 숫자/receipt 중심이라 storage 위치 reward motion이 없다는 점이다.
 
 현재 evidence:
 
@@ -401,19 +402,20 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed storage basket unlock affordance: Issue #457, PR #458, main CI `25517800360`
 - Completed storage buffer production fill: Issue #459, PR #460, main CI `25518444184`
 - Completed offline storage reward claim: Issue #461, PR #462, main CI `25519266912`
-- WorkUnit: `items/0248-storage-playfield-fill-state.md`
-- GitHub issue: #463 `보관 바구니 채움 상태를 playfield에서 보여주기`
-- Draft PR: #464 `보관 바구니 채움 상태를 playfield에서 보여주기`
+- Completed storage playfield fill state: Issue #463, PR #464, main CI `25519876357`
+- WorkUnit: `items/0249-storage-claim-reward-motion.md`
+- GitHub issue: #465 `보관 잎 회수에 reward motion 붙이기`
+- Draft PR: #466 `보관 잎 회수에 reward motion 붙이기`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0463-storage-playfield-fill-state/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0465-storage-claim-reward-motion/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #463은 storage buffer/claim payoff를 playfield-readable fill state로 연결한다.
-2. Storage fill state는 Phaser playfield overlay로 구현하고 runtime image generation/API/cache를 호출하지 않는다.
-3. Dedicated storage raster asset 또는 storage-fill/claim FX는 API 키/asset generation path가 준비되는 다음 asset-specific WorkUnit 후보로 남긴다.
+1. Studio Campaign Gate: #465는 storage claim payoff를 reward motion으로 연결한다.
+2. Storage claim motion은 existing generated `fx_harvest_leaf_flyout_strip_v1`을 storage slot에 binding하고 runtime image generation/API/cache를 호출하지 않는다.
+3. Dedicated storage raster asset 또는 dedicated storage claim FX는 API 키/asset generation path가 준비되는 다음 asset-specific WorkUnit 후보로 남긴다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.

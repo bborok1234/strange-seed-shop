@@ -501,6 +501,7 @@ class GardenBoardScene extends Phaser.Scene {
       unlockStorageBasket(gameState);
     } else {
       claimStoredLeaves(gameState);
+      this.pendingFx = { kind: "delivery", slotId: selectedSlotId };
     }
     this.renderGarden();
   }

@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T20:16:51.052Z
+Generated at: 2026-05-07T20:28:27.379Z
 
 ## Current mission
 
-현재 작업은 **보관 바구니 playfield 채움 상태**이다. #461 보관 바구니 오프라인 잎 회수는 PR #462 merge/main CI까지 통과했고, 다음 blocker는 storage 상태가 아직 action rail/objective를 읽어야만 보인다는 점이다.
+현재 작업은 **보관 잎 회수 reward motion**이다. #463 보관 바구니 playfield 채움 상태는 PR #464 merge/main CI까지 통과했고, 다음 blocker는 `회수` 순간이 아직 숫자/receipt 중심이라 storage 위치 reward motion이 없다는 점이다.
 
 현재 evidence:
 
@@ -29,46 +29,47 @@ Generated at: 2026-05-07T20:16:51.052Z
 - Completed storage basket unlock affordance: Issue #457, PR #458, main CI `25517800360`
 - Completed storage buffer production fill: Issue #459, PR #460, main CI `25518444184`
 - Completed offline storage reward claim: Issue #461, PR #462, main CI `25519266912`
-- WorkUnit: `items/0248-storage-playfield-fill-state.md`
-- GitHub issue: #463 `보관 바구니 채움 상태를 playfield에서 보여주기`
-- Draft PR: #464 `보관 바구니 채움 상태를 playfield에서 보여주기`
+- Completed storage playfield fill state: Issue #463, PR #464, main CI `25519876357`
+- WorkUnit: `items/0249-storage-claim-reward-motion.md`
+- GitHub issue: #465 `보관 잎 회수에 reward motion 붙이기`
+- Draft PR: #466 `보관 잎 회수에 reward motion 붙이기`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
-- Visual report: `reports/visual/issue-0463-storage-playfield-fill-state/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0465-storage-claim-reward-motion/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #463은 storage buffer/claim payoff를 playfield-readable fill state로 연결한다.
-2. Storage fill state는 Phaser playfield overlay로 구현하고 runtime image generation/API/cache를 호출하지 않는다.
-3. Dedicated storage raster asset 또는 storage-fill/claim FX는 API 키/asset generation path가 준비되는 다음 asset-specific WorkUnit 후보로 남긴다.
+1. Studio Campaign Gate: #465는 storage claim payoff를 reward motion으로 연결한다.
+2. Storage claim motion은 existing generated `fx_harvest_leaf_flyout_strip_v1`을 storage slot에 binding하고 runtime image generation/API/cache를 호출하지 않는다.
+3. Dedicated storage raster asset 또는 dedicated storage claim FX는 API 키/asset generation path가 준비되는 다음 asset-specific WorkUnit 후보로 남긴다.
 4. Runtime gameplay는 image generation/API/cache를 호출하지 않고 workspace PNG 또는 manifest path만 사용해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-storage-playfield-fill-state
-- Latest commit: 90107f7 보관 채움 표시 PR 증거를 준비한다
+- Branch: codex/v1-storage-claim-reward-motion
+- Latest commit: b260b1e 보관 회수 모션 PR 증거를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T20:16:29.242Z
-- Phase: phaser-v1-storage-playfield-fill-state-pr
-- Issue: 463
-- PR: 464
-- Item: items/0248-storage-playfield-fill-state.md
-- Next action: gate: mark PR #464 ready, watch checks, merge if green
+- Timestamp: 2026-05-07T20:28:05.316Z
+- Phase: phaser-v1-storage-claim-reward-motion-pr
+- Issue: 465
+- PR: 466
+- Item: items/0249-storage-claim-reward-motion.md
+- Next action: gate: mark PR #466 ready, watch checks, merge if green
 
 ## Open PRs
 
-- #464 draft 보관 바구니 채움 상태를 playfield에서 보여주기 — https://github.com/bborok1234/strange-seed-shop/pull/464
+- #466 draft 보관 잎 회수에 reward motion 붙이기 — https://github.com/bborok1234/strange-seed-shop/pull/466
 
 ## Open issues
 
-- #463 보관 바구니 채움 상태를 playfield에서 보여주기 — https://github.com/bborok1234/strange-seed-shop/issues/463
+- #465 보관 잎 회수에 reward motion 붙이기 — https://github.com/bborok1234/strange-seed-shop/issues/465
 - #434 Phaser 신규 정원에 감상 모드와 HUD 접기를 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/434
 
 ## Playable mode
