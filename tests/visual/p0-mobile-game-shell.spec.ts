@@ -670,6 +670,8 @@ test("모바일 도감 목표 CTA는 구매 가능한 씨앗을 one-tap으로 �
 
   await expect(page.getByRole("region", { name: "씨앗 주머니", exact: true })).toBeVisible();
   await expect(page.locator(".seed-goal-banner")).toContainText("젤리콩 씨앗");
+  await expect(page.locator(".seed-goal-banner")).toContainText("60 잎 · 보유 72 잎");
+  await expect(page.locator(".seed-goal-banner")).toContainText("구매 후 열린 밭에 바로 심기");
   await expect(page.locator(".seed-goal-banner")).toContainText("구매하고 심기");
   await page.getByRole("button", { name: "구매하고 심기", exact: true }).click();
 
@@ -704,6 +706,43 @@ test("모바일 도감 목표 CTA는 구매 가능한 씨앗을 one-tap으로 �
   });
 });
 
+test("모바일 씨앗 경제 affordance는 비용 재화와 보유량과 결과를 같은 row에 보여준다", async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto("/?qaResearchExpeditionReady=1&qaTab=seeds");
+
+  const jellyRow = page.locator(".seed-inventory-row", { hasText: "젤리콩 씨앗" }).first();
+  await expect(jellyRow).toBeVisible();
+  await expect(jellyRow).toContainText("비용 60 잎 · 보유 72 잎");
+  await expect(jellyRow).toContainText("구매 후 보유 1개");
+  await expect(jellyRow.getByRole("button", { name: "구매 60 잎" })).toBeEnabled();
+  await expect(jellyRow.getByRole("button", { name: "보유 씨앗 없음" })).toBeDisabled();
+
+  await jellyRow.getByRole("button", { name: "구매 60 잎" }).click();
+
+  await expect(jellyRow).toContainText("보유 씨앗 1개 · 추가 구매 가능");
+  await expect(jellyRow.getByRole("button", { name: "정원에 심기" })).toBeEnabled();
+
+  const metrics = await page.evaluate(() => {
+    const row = document.querySelector<HTMLElement>(".seed-inventory-row");
+    const tabs = document.querySelector<HTMLElement>(".bottom-tabs")?.getBoundingClientRect();
+    const rowRect = row?.getBoundingClientRect();
+    return {
+      rowBottom: rowRect?.bottom ?? 0,
+      tabsTop: tabs?.top ?? 0,
+      rowScrollWidth: row?.scrollWidth ?? 0,
+      rowClientWidth: row?.clientWidth ?? 0
+    };
+  });
+  expect(metrics.rowBottom).toBeLessThanOrEqual(metrics.tabsTop);
+  expect(metrics.rowScrollWidth).toBeLessThanOrEqual(metrics.rowClientWidth + 1);
+
+  await page.screenshot({
+    path: testInfo.outputPath("mobile-seed-economy-affordance-393.png"),
+    fullPage: false,
+    animations: "disabled"
+  });
+});
+
 test("모바일 연구 단서 씨앗 구매와 심기는 정원 playfield payoff로 이어진다", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 393, height: 852 });
   await page.goto("/?qaResearchComplete=1&qaTab=seeds");
@@ -713,7 +752,7 @@ test("모바일 연구 단서 씨앗 구매와 심기는 정원 playfield payoff
   await expect(targetRow).toContainText("연구 단서:");
   await targetRow.getByRole("button", { name: /구매/ }).click();
   await expect(targetRow).toContainText("보유 1개");
-  await targetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await targetRow.getByRole("button", { name: /심기/ }).click();
 
   await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
   await expect(page.getByLabel("연구 단서 씨앗 심기")).toBeVisible();
@@ -750,7 +789,7 @@ test("모바일 연구 단서 성장 중에는 다음 생명체 수확 예고가
 
   const targetRow = page.locator(".seed-inventory-row-target").first();
   await targetRow.getByRole("button", { name: /구매/ }).click();
-  await targetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await targetRow.getByRole("button", { name: /심기/ }).click();
 
   await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
   await expect(page.getByLabel("정원 자동 생산 장면").getByText(/연구 단서 씨앗 심기/)).toBeVisible();
@@ -791,7 +830,7 @@ test("모바일 연구 단서 수확은 다음 생명체 발견 receipt로 이�
 
   const targetRow = page.locator(".seed-inventory-row-target").first();
   await targetRow.getByRole("button", { name: /구매/ }).click();
-  await targetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await targetRow.getByRole("button", { name: /심기/ }).click();
 
   await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
 
@@ -871,7 +910,7 @@ test("모바일 연구 단서 도감 기록은 새 단서 기록 highlight로 �
 
   const targetRow = page.locator(".seed-inventory-row-target").first();
   await targetRow.getByRole("button", { name: /구매/ }).click();
-  await targetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await targetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await expect(page.getByLabel("단서 생명체 발견")).toContainText("방패새싹 모모");
@@ -916,7 +955,7 @@ test("모바일 새 단서 기록 다음 씨앗 CTA는 구매와 심기 target r
 
   const targetRow = page.locator(".seed-inventory-row-target").first();
   await targetRow.getByRole("button", { name: /구매/ }).click();
-  await targetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await targetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -962,7 +1001,7 @@ test("모바일 새 기록 다음 씨앗 심기는 정원 재성장 payoff로 �
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
 
   for (let tapCount = 0; tapCount < 32; tapCount += 1) {
     if ((await page.getByRole("button", { name: /방울새싹 씨앗 수확/ }).count()) > 0) {
@@ -979,7 +1018,7 @@ test("모바일 새 기록 다음 씨앗 심기는 정원 재성장 payoff로 �
   await expect(albumTargetRow).toContainText("도감 기록 다음 씨앗 · 구매/심기 준비");
   await albumTargetRow.getByRole("button", { name: /구매/ }).click();
   await expect(albumTargetRow).toContainText("보유 1개");
-  await albumTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await albumTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
   await expect(page.getByLabel("새 기록 후속 재배")).toContainText("젤리콩 씨앗 심기 완료");
@@ -1028,7 +1067,7 @@ test("모바일 새 기록 후속 성장 중에는 다음 생명체 수확 예�
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
 
   for (let tapCount = 0; tapCount < 32; tapCount += 1) {
     if ((await page.getByRole("button", { name: /방울새싹 씨앗 수확/ }).count()) > 0) {
@@ -1043,7 +1082,7 @@ test("모바일 새 기록 후속 성장 중에는 다음 생명체 수확 예�
 
   const albumTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await albumTargetRow.getByRole("button", { name: /구매/ }).click();
-  await albumTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await albumTargetRow.getByRole("button", { name: /심기/ }).click();
   await page.getByRole("button", { name: /젤리콩 씨앗 성장시키기/ }).click();
 
   await expect(page.locator(".playfield-action-feedback")).toContainText("젤리콩 통통 수확 예고");
@@ -1092,14 +1131,14 @@ test("모바일 새 기록 후속 수확은 예고했던 생명체 발견 payoff
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
   await page.getByRole("button", { name: "다음 씨앗 목표: 젤리콩 통통" }).click();
 
   const albumTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await albumTargetRow.getByRole("button", { name: /구매/ }).click();
-  await albumTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await albumTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.waitForFunction(() => {
@@ -1169,14 +1208,14 @@ test("모바일 새 기록 후속 저장은 다음 기록 목표 재순환으로
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
   await page.getByRole("button", { name: "다음 씨앗 목표: 젤리콩 통통" }).click();
 
   const albumTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await albumTargetRow.getByRole("button", { name: /구매/ }).click();
-  await albumTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await albumTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.waitForFunction(() => {
@@ -1239,14 +1278,14 @@ test("모바일 다음 기록 목표 씨앗은 이슬연금 라미 수확 payoff
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
   await page.getByRole("button", { name: "다음 씨앗 목표: 젤리콩 통통" }).click();
 
   const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
-  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await jellyTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1256,7 +1295,7 @@ test("모바일 다음 기록 목표 씨앗은 이슬연금 라미 수확 payoff
   await expect(ramiTargetRow).toContainText("다음 기록 재순환 · 이슬연금 라미 준비");
   await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
   await expect(ramiTargetRow).toContainText("보유 1개");
-  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await ramiTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
   await expect(page.getByLabel("새 기록 후속 재배")).toContainText("방울새싹 씨앗 심기 완료");
@@ -1334,7 +1373,7 @@ test("모바일 라미 도감 저장은 포장잎 상인 다음 기록 목표로
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1342,7 +1381,7 @@ test("모바일 라미 도감 저장은 포장잎 상인 다음 기록 목표로
 
   const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
-  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await jellyTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1350,7 +1389,7 @@ test("모바일 라미 도감 저장은 포장잎 상인 다음 기록 목표로
 
   const ramiTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
-  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await ramiTargetRow.getByRole("button", { name: /심기/ }).click();
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
 
   await expect(page.getByLabel("새 기록 재순환 생명체 발견")).toContainText("이슬연금 라미");
@@ -1407,7 +1446,7 @@ test("모바일 포장잎 상인 수확은 주문상자 payoff로 이어진다",
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1415,7 +1454,7 @@ test("모바일 포장잎 상인 수확은 주문상자 payoff로 이어진다",
 
   const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
-  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await jellyTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1423,7 +1462,7 @@ test("모바일 포장잎 상인 수확은 주문상자 payoff로 이어진다",
 
   const ramiTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
-  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await ramiTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await expect(page.getByLabel("새 기록 재순환 생명체 발견")).toContainText("이슬연금 라미");
@@ -1433,7 +1472,7 @@ test("모바일 포장잎 상인 수확은 주문상자 payoff로 이어진다",
   const merchantTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await expect(merchantTargetRow).toContainText("다음 기록 재순환 · 포장잎 상인 준비");
   await merchantTargetRow.getByRole("button", { name: /구매/ }).click();
-  await merchantTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await merchantTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await expect(page.getByRole("region", { name: "정원", exact: true })).toBeVisible();
   await expect(page.getByLabel("새 기록 후속 재배")).toContainText("젤리콩 씨앗 심기 완료");
@@ -1505,7 +1544,7 @@ test("모바일 상인 주문상자 보상 수령은 HUD 보상 이동 FX로 이
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1513,7 +1552,7 @@ test("모바일 상인 주문상자 보상 수령은 HUD 보상 이동 FX로 이
 
   const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
-  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await jellyTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1521,7 +1560,7 @@ test("모바일 상인 주문상자 보상 수령은 HUD 보상 이동 FX로 이
 
   const ramiTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
-  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await ramiTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await expect(page.getByLabel("새 기록 재순환 생명체 발견")).toContainText("이슬연금 라미");
@@ -1530,7 +1569,7 @@ test("모바일 상인 주문상자 보상 수령은 HUD 보상 이동 FX로 이
 
   const merchantTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await merchantTargetRow.getByRole("button", { name: /구매/ }).click();
-  await merchantTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await merchantTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await expect(page.getByLabel("포장잎 상인 주문상자 payoff")).toContainText("보상 포장 완료");
@@ -1615,7 +1654,7 @@ test("모바일 상인 주문상자 보상은 단골 납품 주문으로 이어�
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1623,7 +1662,7 @@ test("모바일 상인 주문상자 보상은 단골 납품 주문으로 이어�
 
   const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
-  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await jellyTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1631,7 +1670,7 @@ test("모바일 상인 주문상자 보상은 단골 납품 주문으로 이어�
 
   const ramiTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
-  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await ramiTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await expect(page.getByLabel("새 기록 재순환 생명체 발견")).toContainText("이슬연금 라미");
@@ -1640,7 +1679,7 @@ test("모바일 상인 주문상자 보상은 단골 납품 주문으로 이어�
 
   const merchantTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await merchantTargetRow.getByRole("button", { name: /구매/ }).click();
-  await merchantTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await merchantTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "상인 주문상자 보상 받기" }).click();
@@ -1709,7 +1748,7 @@ test("모바일 단골 두 번째 chapter 의뢰가 상인 단골 납품 직후 
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1717,7 +1756,7 @@ test("모바일 단골 두 번째 chapter 의뢰가 상인 단골 납품 직후 
 
   const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
-  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await jellyTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1725,7 +1764,7 @@ test("모바일 단골 두 번째 chapter 의뢰가 상인 단골 납품 직후 
 
   const ramiTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
-  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await ramiTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await expect(page.getByLabel("새 기록 재순환 생명체 발견")).toContainText("이슬연금 라미");
@@ -1734,7 +1773,7 @@ test("모바일 단골 두 번째 chapter 의뢰가 상인 단골 납품 직후 
 
   const merchantTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await merchantTargetRow.getByRole("button", { name: /구매/ }).click();
-  await merchantTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await merchantTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "상인 주문상자 보상 받기" }).click();
@@ -1825,7 +1864,7 @@ test("모바일 단골 시퀀스 마침이 정원 자동 생산에 영구 +10% �
 
   const researchTargetRow = page.locator(".seed-inventory-row-target").first();
   await researchTargetRow.getByRole("button", { name: /구매/ }).click();
-  await researchTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await researchTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1833,7 +1872,7 @@ test("모바일 단골 시퀀스 마침이 정원 자동 생산에 영구 +10% �
 
   const jellyTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await jellyTargetRow.getByRole("button", { name: /구매/ }).click();
-  await jellyTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await jellyTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "도감에 기록하기" }).click();
@@ -1841,7 +1880,7 @@ test("모바일 단골 시퀀스 마침이 정원 자동 생산에 영구 +10% �
 
   const ramiTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await ramiTargetRow.getByRole("button", { name: /구매/ }).click();
-  await ramiTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await ramiTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "방울새싹 씨앗", 40);
   await expect(page.getByLabel("새 기록 재순환 생명체 발견")).toContainText("이슬연금 라미");
@@ -1850,7 +1889,7 @@ test("모바일 단골 시퀀스 마침이 정원 자동 생산에 영구 +10% �
 
   const merchantTargetRow = page.locator(".seed-inventory-row-record-next").first();
   await merchantTargetRow.getByRole("button", { name: /구매/ }).click();
-  await merchantTargetRow.getByRole("button", { name: "심기", exact: true }).click();
+  await merchantTargetRow.getByRole("button", { name: /심기/ }).click();
 
   await growAndHarvestSeed(page, "젤리콩 씨앗", 40);
   await page.getByRole("button", { name: "상인 주문상자 보상 받기" }).click();
@@ -2466,7 +2505,7 @@ test("모바일 달빛 씨앗은 구매와 심기로 다음 수집 행동을 닫
   const lunarRow = page.locator(".seed-inventory-row", { hasText: "달방울 씨앗" }).first();
   await expect(lunarRow).toContainText("다음 발견");
   await expect(lunarRow).toContainText("구매 가능");
-  await lunarRow.getByRole("button", { name: "구매 300" }).click();
+  await lunarRow.getByRole("button", { name: "구매 300 잎" }).click();
   await expect(lunarRow).toContainText("보유 1개");
   await expect(lunarRow).toContainText("열린 밭에 바로 심을 수 있어요");
 
@@ -2483,7 +2522,7 @@ test("모바일 달빛 씨앗은 구매와 심기로 다음 수집 행동을 닫
     )
     .toEqual({ leaves: 192, lunarSeeds: 1 });
 
-  await lunarRow.getByRole("button", { name: "심기" }).click();
+  await lunarRow.getByRole("button", { name: /심기/ }).click();
   await expect
     .poll(async () =>
       page.evaluate(() => {
@@ -4248,9 +4287,9 @@ test("모바일 온실 단서 달방울 씨앗은 신규 asset과 FX로 밭에 �
   await expect(lunarRow).toContainText("구매 가능");
   await expect(lunarRow.locator("img")).toBeVisible();
   await expect(lunarRow.locator(".asset-fallback")).toHaveCount(0);
-  await lunarRow.getByRole("button", { name: "구매 300" }).click();
+  await lunarRow.getByRole("button", { name: "구매 300 잎" }).click();
   await expect(lunarRow).toContainText("보유 1개");
-  await lunarRow.getByRole("button", { name: "심기" }).click();
+  await lunarRow.getByRole("button", { name: /심기/ }).click();
 
   await expect(page.locator(".garden-playfield-host")).toBeVisible();
   await expect(page.getByRole("button", { name: /달방울 씨앗 성장시키기/ })).toBeVisible();
@@ -4333,7 +4372,7 @@ test("모바일 복귀 보상 씨앗 바로 구매는 다음 목표 row를 심�
   const targetRow = page.locator(".seed-inventory-row", { hasText: "방울새싹 씨앗" }).first();
   await expect(targetRow).toContainText("보유 1개");
   await expect(targetRow).toContainText("열린 밭에 바로 심을 수 있어요");
-  await expect(targetRow.getByRole("button", { name: "심기" })).toBeEnabled();
+  await expect(targetRow.getByRole("button", { name: /심기/ })).toBeEnabled();
   await expect
     .poll(async () =>
       page.evaluate(() => {

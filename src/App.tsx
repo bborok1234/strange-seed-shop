@@ -875,6 +875,19 @@ export default function App() {
           : seedGoalLeafShortfall > 0
             ? `${seedGoalLeafShortfall} 잎 부족`
             : "구매하고 심기";
+  const seedGoalEconomyLabel =
+    save && seedGoalSeed ? `${seedGoalCostLeaves} 잎 · 보유 ${save.leaves} 잎` : "비용과 보유 잎 확인 중";
+  const seedGoalOutcomeLabel = !seedGoalSeed
+    ? "다음 씨앗을 고르는 중"
+    : !seedGoalUnlocked
+      ? "선행 기록을 먼저 열어야 해요"
+      : !hasOpenPlot
+        ? "밭을 비우면 바로 심을 수 있어요"
+        : seedGoalOwned > 0
+          ? `보유 ${seedGoalOwned}개 · 열린 밭에 심기`
+          : seedGoalLeafShortfall > 0
+            ? `${seedGoalLeafShortfall} 잎을 더 모으면 구매 가능`
+            : "구매 후 열린 밭에 바로 심기";
   const researchGrowthPreview = hasResearchSeedPlot && nextCreatureGoal
     ? `${nextCreatureGoal.seed.name} 수확 예고 · ${nextCreatureGoal.creature.name} 단서 추적 중`
     : null;
@@ -3249,6 +3262,8 @@ export default function App() {
                       <span className="lunar-source-line">온실 단서 source: {lunarRewardSourceLabel}</span>
                     )}
                     {researchClue && <span className="research-clue-line">연구 단서: {researchClue}</span>}
+                    <span className="seed-goal-economy-line">{seedGoalEconomyLabel}</span>
+                    <span className="seed-goal-outcome-line">{seedGoalOutcomeLabel}</span>
                     <button
                       className="seed-goal-action-button"
                       disabled={seedGoalActionDisabled}
@@ -3266,6 +3281,16 @@ export default function App() {
                   const costLeaves = getSeedPurchaseCost(seed);
                   const currentLeaves = save?.leaves ?? 0;
                   const leafShortfall = Math.max(0, costLeaves - currentLeaves);
+                  const seedUnlocked = save?.unlockedSeedIds.includes(seed.id) ?? false;
+                  const purchaseOutcomeLabel =
+                    owned > 0 ? `보유 씨앗 ${owned}개 · 추가 구매 가능` : `구매 후 보유 ${owned + 1}개`;
+                  const plantActionLabel =
+                    owned <= 0 ? "보유 씨앗 없음" : !hasOpenPlot ? "밭 비우기 필요" : "정원에 심기";
+                  const buyActionLabel = !seedUnlocked
+                    ? "씨앗 잠금"
+                    : leafShortfall > 0
+                      ? `${leafShortfall} 잎 부족`
+                      : `구매 ${costLeaves} 잎`;
                   const targetSeed = seed.id === nextCreatureGoal?.seed.id;
                   const previewCreature = targetSeed && nextCreatureGoal ? nextCreatureGoal.creature : getDeterministicCreatureForSeed(seed);
                   const previewDiscovered = previewCreature ? (save?.discoveredCreatureIds.includes(previewCreature.id) ?? false) : false;
@@ -3288,6 +3313,8 @@ export default function App() {
                       <div>
                         <strong>{seed.name}</strong>
                         <span>보유 {owned}개 · {getSeedHarvestSummary(seed)}</span>
+                        <span className="seed-economy-line">비용 {costLeaves} 잎 · 보유 {currentLeaves} 잎</span>
+                        <span className="seed-purchase-outcome-line">{purchaseOutcomeLabel}</span>
                         {targetSeed && <span className="seed-target-badge">{albumRecordLoopTargetSeed ? "후속 기록 다음 목표" : albumRecordTargetSeed ? "새 기록 다음 목표" : "다음 발견"}</span>}
                         {albumRecordTargetSeed && (
                           <span className={albumRecordLoopTargetSeed ? "album-record-next-seed-line album-record-loop-line" : "album-record-next-seed-line"}>
@@ -3306,11 +3333,11 @@ export default function App() {
                         )}
                       </div>
                       <div className="seed-row-actions">
-                        <button disabled={!save || save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">
-                          {leafShortfall > 0 ? `${leafShortfall} 잎 부족` : `구매 ${costLeaves}`}
+                        <button disabled={!save || !seedUnlocked || save.leaves < costLeaves} onClick={() => buySeed(seed)} type="button">
+                          {buyActionLabel}
                         </button>
                         <button disabled={owned <= 0 || !hasOpenPlot} onClick={() => plantOwnedSeed(seed)} type="button">
-                          심기
+                          {plantActionLabel}
                         </button>
                       </div>
                     </article>

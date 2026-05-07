@@ -5327,6 +5327,27 @@ h1 {
   font-weight: 900;
 }
 
+.seed-goal-banner .seed-goal-economy-line,
+.seed-goal-banner .seed-goal-outcome-line {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  line-height: 1.25;
+}
+
+.seed-goal-banner .seed-goal-economy-line {
+  background: rgba(39, 86, 64, 0.12);
+  color: var(--action-primary-strong);
+}
+
+.seed-goal-banner .seed-goal-outcome-line {
+  background: rgba(255, 248, 196, 0.72);
+  color: #6a5432;
+}
+
 .seed-goal-action-button {
   width: fit-content;
   margin-top: 6px;
@@ -5423,6 +5444,29 @@ h1 {
   font-weight: 800;
 }
 
+.seed-inventory-row .seed-economy-line,
+.seed-inventory-row .seed-purchase-outcome-line {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 3px 4px 0 0;
+  padding: 3px 7px;
+  border-radius: var(--radius-pill);
+  line-height: 1.25;
+}
+
+.seed-inventory-row .seed-economy-line {
+  background: rgba(39, 86, 64, 0.12);
+  color: var(--action-primary-strong);
+  font-weight: 950;
+}
+
+.seed-inventory-row .seed-purchase-outcome-line {
+  background: rgba(255, 248, 196, 0.78);
+  color: #715729;
+  font-weight: 900;
+}
+
 .seed-inventory-row-target {
   border-color: rgba(39, 86, 64, 0.32);
   background:
@@ -5513,17 +5557,19 @@ h1 {
 .seed-row-actions {
   display: grid;
   gap: 6px;
-  min-width: 78px;
+  min-width: 108px;
 }
 
 .seed-row-actions button {
   min-height: 34px;
+  padding: 0 9px;
   border: 0;
   border-radius: var(--radius-control);
   background: var(--action-primary);
   color: #fff9de;
   font-size: 12px;
   font-weight: 900;
+  line-height: 1.15;
 }
 
 .seed-row-actions button + button {
@@ -6895,6 +6941,7 @@ h1 {
 
   .seed-row-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
   }
 
   .creature-list {
