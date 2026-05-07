@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T21:16:33.363Z
+Generated at: 2026-05-07T21:27:29.221Z
 
 ## Current mission
 
-현재 작업은 **연구 선반 preview bridge**이다. #434 Phaser 신규 정원 감상 모드와 HUD 접기는 PR #469 merge/main CI까지 통과했다. 다음 blocker는 storage/offline reward 회수 이후 board가 research/discovery로 이어지지 않아 D1-D7 씨앗 단서 실루엣이 없다는 점이다.
+현재 작업은 **연구 선반 raster와 단서 FX plan-prompt**이다. #470 연구 선반 preview bridge는 PR #471 merge/main CI까지 통과했다. 다음 blocker는 research shelf가 아직 existing workbench raster를 임시 stand-in으로 재사용해 D1-D7 research/discovery surface가 production prop/FX로 분리되지 않는다는 점이다.
 
 현재 evidence:
 
@@ -33,48 +33,48 @@ Generated at: 2026-05-07T21:16:33.363Z
 - Completed storage claim reward motion: Issue #465, PR #466, main CI `25520416464`
 - Completed storage asset plan/prompt: Issue #467, PR #468, main CI `25521182658`
 - Completed garden view mode: Issue #434, PR #469, main CI `25522031721`
+- Completed research shelf preview bridge: Issue #470, PR #471, main CI `25522696541`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0251-research-shelf-preview-bridge.md`
-- GitHub issue: #470 `연구 선반 preview bridge`
-- Draft PR: #471 `연구 선반 preview bridge`
-- Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
-- Runtime source: `apps/seed-garden-phaser/src/main.ts`
-- Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0470-research-shelf-preview-bridge/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass
+- WorkUnit: `items/0252-research-shelf-asset-plan-prompt.md`
+- GitHub issue: #472 `연구 선반 raster와 단서 FX plan-prompt`
+- Draft PR: #473 `연구 선반 raster와 단서 FX plan-prompt`
+- Asset plan source: `assets/source/asset_plan.json`
+- Prompt source: `assets/source/asset_prompts.json`
+- Asset plan checker: `scripts/check-topology-asset-plan.mjs`
+- Current validation: `npm run check:topology-asset-plan` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #470은 storage/offline reward를 D1 research/discovery bridge로 연결한다.
-2. `facility_research_shelf`는 storage claim 후 preview state로 열려야 하며, `살펴보기` action이 player verb를 닫아야 한다.
-3. dedicated research shelf raster는 아직 없으므로 existing accepted workbench raster는 임시 stand-in으로만 쓰고 asset debt를 남긴다.
-4. Browser Use execution tool이 노출되지 않으면 Playwright fallback screenshot과 telemetry를 evidence로 남긴다.
+1. Studio Campaign Gate: #472는 #470의 research/discovery bridge art debt를 generation-ready raster/FX contract로 전환한다.
+2. `facility_research_shelf_v1`은 workbench/storage/order crate와 다른 seed clue research prop으로 읽혀야 한다.
+3. `fx_research_clue_glimmer_strip_v1`은 `facility_research_shelf.action.inspect_clue`, 8 frames, 96x96, 12fps를 asset plan과 prompt 양쪽에서 보존해야 한다.
+4. Runtime UI 변경이 없으므로 Browser Use evidence는 다음 generation/runtime integration WorkUnit에서 요구한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-research-shelf-preview-bridge
-- Latest commit: 26e9d44 연구 선반 preview로 발견 목표를 연다
+- Branch: codex/v1-research-shelf-asset-plan-prompt
+- Latest commit: 9a4c488 연구 선반 에셋 생성을 계약화한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T21:16:31.660Z
-- Phase: phaser-v1-research-shelf-preview-pr
-- Issue: 470
-- PR: 471
-- Item: items/0251-research-shelf-preview-bridge.md
-- Next action: gate PR #471 checks then merge when green
+- Timestamp: 2026-05-07T21:27:27.532Z
+- Phase: phaser-v1-research-shelf-asset-plan-prompt-pr
+- Issue: 472
+- PR: 473
+- Item: items/0252-research-shelf-asset-plan-prompt.md
+- Next action: gate PR #473 checks then merge when green
 
 ## Open PRs
 
-- #471 draft 연구 선반 preview bridge — https://github.com/bborok1234/strange-seed-shop/pull/471
+- #473 draft 연구 선반 raster와 단서 FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/473
 
 ## Open issues
 
-- #470 연구 선반 preview bridge — https://github.com/bborok1234/strange-seed-shop/issues/470
+- #472 연구 선반 raster와 단서 FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/issues/472
 
 ## Playable mode
 

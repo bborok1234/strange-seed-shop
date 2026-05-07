@@ -1196,6 +1196,34 @@
         "animation.binding is facility_storage.action.claim_reward",
         "FX reads at 96px and does not obscure storage fill chip or bottom action rail"
       ]
+    },
+    {
+      "asset_id": "facility_research_shelf_v1",
+      "output_path": "public/assets/game/facilities/facility_research_shelf_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime facility prop\nPrimary request: Create facility_research_shelf_v1 for 이상한 씨앗상회 v1.\nSubject: A low cute greenhouse research shelf for inspecting the next strange seed clue, with tiny seed sample jars, a small magnifying lens, folded notes, and soft lunar clue glimmers, visibly different from a production workbench and storage basket.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood with gentle lunar discovery accents, clean edges, no text, no watermark.\nComposition/framing: Runtime prop with transparent or clean removable background, centered, generous padding, readable at 64px and 96px, designed to sit as a small left-side board facility preview without competing with HUD chips or action rail.\nColor palette: Warm cream wood, fresh herb green accents, pale moonlit blue, soft silver, tiny leaf yellow highlights.\nConstraints: No text, no UI label, no UI frame, no full background, no character, no production tools that make it look like a generic workbench. The prop should read as research/discovery and seed clue storage, not crafting.\nAvoid: Text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, tiny unreadable details, hard laboratory realism, large rectangular table silhouette.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield at 64px and 96px",
+        "clearly reads as research shelf rather than production workbench, storage basket, or order crate",
+        "prop can sit on terrain as a runtime entity without obscuring HUD chips or bottom action rail"
+      ]
+    },
+    {
+      "asset_id": "fx_research_clue_glimmer_strip_v1",
+      "output_path": "public/assets/game/fx/fx_research_clue_glimmer_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser FX sprite sheet\nPrimary request: Create fx_research_clue_glimmer_strip_v1 for 이상한 씨앗상회 v1.\nSubject: tiny moonlit clue glimmers and leaf-shaped sparkles rising gently from a research shelf inspect action, suggesting a next seed family clue being discovered.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game FX, soft rounded sparkles, crisp readable silhouettes, subtle lunar glow, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: One horizontal FX strip with exactly 8 frames, each frame 96x96, transparent background, consistent effect center, compact upward shimmer that stays inside frame and does not cover the facility label or bottom action rail.\nColor palette: Pale moonlit blue, soft silver, fresh herb green, warm leaf yellow, tiny cream glow.\nConstraints: Intended fps 12; animation.binding facility_research_shelf.action.inspect_clue; behavior once. No text, no UI frame, no full background, no character, no research shelf prop baked into the FX.\nAvoid: Text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, tiny unreadable details, large explosion, dark magical horror look.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "exactly 8 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is facility_research_shelf.action.inspect_clue",
+        "FX reads at 96px and does not obscure research shelf, HUD chips, or bottom action rail"
+      ]
     }
   ]
 }

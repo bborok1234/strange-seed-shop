@@ -1397,6 +1397,50 @@
         "behavior": "once"
       },
       "notes": "Horizontal FX strip for leaves flying out of the storage basket during offline reward claim. Must not obscure storage fill chip or bottom action rail."
+    },
+    {
+      "id": "facility_research_shelf_v1",
+      "category": "facility",
+      "family": "lunar",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_runtime_research_shelf_facility_prop",
+      "output_path": "public/assets/game/facilities/facility_research_shelf_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "facility",
+        "research",
+        "discovery",
+        "issue_0472"
+      ],
+      "notes": "Runtime research shelf prop for the storage-claim discovery bridge. Must read as seed clue research, distinct from the production workbench, without baked UI text."
+    },
+    {
+      "id": "fx_research_clue_glimmer_strip_v1",
+      "category": "fx_strip",
+      "family": "lunar",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_research_shelf_inspect_clue_fx",
+      "output_path": "public/assets/game/fx/fx_research_clue_glimmer_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "fx",
+        "research",
+        "discovery",
+        "lunar",
+        "issue_0472"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 12,
+      "animation": {
+        "binding": "facility_research_shelf.action.inspect_clue",
+        "behavior": "once"
+      },
+      "notes": "Horizontal FX strip for the research shelf inspect action. Small moonlit clue glimmers should rise from the shelf without obscuring the facility or action rail."
     }
   ]
 }
