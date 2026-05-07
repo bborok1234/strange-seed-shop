@@ -1,6 +1,6 @@
 # 달빛 family reveal이 원정 문 preview route로 이어지게 만들기
 
-Status: PR open
+Status: PR checks passed
 Owner: agent
 Created: 2026-05-08
 GitHub issue: #488
@@ -116,6 +116,7 @@ git diff --check
 - `npm run check:ci` pass
 - Draft PR: #489 `https://github.com/bborok1234/strange-seed-shop/pull/489`
 - Commit: `b9f277a`
+- PR checks: pass (`Verify game baseline`, `Art-share gate (stage-art-first enforcement)`, `Check automerge eligibility`)
 - Visual report: `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md`
 - Key screenshots:
   - `reports/visual/issue-0488-expedition-gate-preview-route/phaser-check-lunar-family-revealed-393.png`

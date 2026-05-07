@@ -59,5 +59,5 @@ Closes #488
 - [x] Browser Use blocker 또는 evidence 기록
 - [x] Screenshot evidence 저장
 - [x] Local verification 통과
-- [ ] PR checks 통과
+- [x] PR checks 통과
 - [ ] Merge 후 main CI 확인

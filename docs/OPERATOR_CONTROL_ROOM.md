@@ -51,7 +51,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
 - Visual report: `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass, PR #489 checks queued
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass, PR #489 checks pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -71,12 +71,12 @@ Generated at: 2026-05-07T22:29:32.719Z
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T23:18:26.000Z
-- Phase: phaser-v1-expedition-gate-preview-route-pr
+- Timestamp: 2026-05-07T23:22:40.000Z
+- Phase: phaser-v1-expedition-gate-preview-route-merge-gate
 - Issue: 488
 - PR: 489
 - Item: items/0260-expedition-gate-preview-route.md
-- Next action: PR gate: wait checks then ready/merge #489
+- Next action: merge gate: mark ready, merge #489, watch main CI
 
 ## Open PRs
 

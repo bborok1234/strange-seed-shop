@@ -435,7 +435,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
 - Visual report: `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass, PR #489 checks queued
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass, PR #489 checks pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
