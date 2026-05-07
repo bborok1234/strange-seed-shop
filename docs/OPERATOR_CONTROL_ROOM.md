@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T16:01:36.896Z
+Generated at: 2026-05-07T16:04:45.721Z
 
 ## Current mission
 
@@ -17,10 +17,11 @@ Generated at: 2026-05-07T16:01:36.896Z
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
 - WorkUnit: `items/0235-garden-board-topology-scaffold.md`
 - GitHub issue: #433 `Phaser garden board foundation을 v1 topology로 시작하기`
+- Draft PR: #439 `Phaser v1 garden board foundation`
 - Runtime implementation: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`
 - Automated verifier: `scripts/check-phaser-foundation.mjs`
 - Visual report: `reports/visual/issue-0433-garden-board-foundation/visual-report-20260508.md`
-- Current validation: `npm run build:phaser` pass, `npm run check:phaser` pass
+- Current validation: `npm run build:phaser` pass, `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -29,28 +30,28 @@ Generated at: 2026-05-07T16:01:36.896Z
 2. `npm run check:phaser`는 build뿐 아니라 393x852 fresh-start smoke를 실행해 잎 20, 씨앗 0, `포리 작업 수령`, no-scroll, one canvas를 검증한다.
 3. Browser Use `iab`가 세션에 노출되지 않으면 blocker를 visual report에 남기고 Playwright fallback screenshot을 남긴다.
 4. 다음 WorkUnit은 accepted raster asset/sprite bundle 또는 first 5m vertical slice로 진행해야 하며, placeholder를 production art로 주장하지 않는다.
-5. #434 overview mode와 #432 reward FX는 #433 foundation과 asset/FX bundle 이후 진행한다.
+5. PR #439 required checks를 확인하고, #434 overview mode와 #432 reward FX는 #433 foundation과 asset/FX bundle 이후 진행한다.
 6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
 - Branch: codex/v1-garden-board-foundation
-- Latest commit: b0bd142 게임 전체 설계의 기준점을 바이블로 고정한다
-- Dirty files: present
+- Latest commit: 1086a89 PR evidence를 v1 foundation 운영 상태에 연결한다
+- Dirty files: none
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T16:00:18.625Z
-- Phase: phaser-v1-garden-board-foundation
+- Timestamp: 2026-05-07T16:04:05.946Z
+- Phase: phaser-v1-garden-board-foundation-pr
 - Issue: 433
-- PR: 
+- PR: 439
 - Item: items/0235-garden-board-topology-scaffold.md
-- Next action: gate: run check:ci and prepare PR for Issue #433
+- Next action: gate: watch PR #439 checks and repair if red
 
 ## Open PRs
 
-- unavailable or none
+- #439 draft Phaser v1 garden board foundation — https://github.com/bborok1234/strange-seed-shop/pull/439
 
 ## Open issues
 
