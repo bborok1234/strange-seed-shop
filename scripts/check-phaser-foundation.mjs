@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0453-third-plot-seed-planting-loop";
+const OUT_DIR = "reports/visual/issue-0455-repeat-order-after-third-plot-harvest";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -107,6 +107,26 @@ async function runSmoke() {
     await page.getByRole("button", { name: "심기" }).click();
     await page.waitForTimeout(140);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-third-plot-planted-393.png`, fullPage: false });
+    for (let index = 0; index < 3; index += 1) {
+      const careButton = page.getByRole("button", { name: "돌보기" });
+      if ((await careButton.count()) > 0) {
+        await careButton.click();
+      }
+    }
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-third-plot-ready-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "수확" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-third-plot-harvested-393.png`, fullPage: false });
+    await page.mouse.click(112, 612);
+    for (let index = 0; index < 4; index += 1) {
+      await page.getByRole("button", { name: "수령" }).click();
+    }
+    await page.mouse.click(284, 606);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-second-crate-ready-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "납품" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-second-delivery-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -131,7 +151,7 @@ async function runSmoke() {
 
     const failures = [];
     if (evidence.canvasCount !== 1) failures.push("expected one Phaser canvas");
-    if (evidence.leaves !== "14") failures.push(`expected 14 leaves after delivery and third plot expansion, got ${evidence.leaves}`);
+    if (evidence.leaves !== "88") failures.push(`expected 88 leaves after second delivery loop, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
       failures.push("missing order crate delivery receipt");
@@ -141,19 +161,27 @@ async function runSmoke() {
     if (evidence.orderCrateProgress !== 0) {
       failures.push(`expected order crate progress reset to 0 after delivery, got ${evidence.orderCrateProgress}`);
     }
-    if (evidence.completedDeliveries !== 1) {
-      failures.push(`expected one completed delivery, got ${evidence.completedDeliveries}`);
+    if (evidence.completedDeliveries !== 2) {
+      failures.push(`expected two completed deliveries, got ${evidence.completedDeliveries}`);
     }
     if (!evidence.receipts.some((receipt) => receipt.includes("3번 밭 확장"))) {
       failures.push("missing third plot expansion receipt");
     }
-    if (!evidence.railText.includes("말랑잎 씨앗을 심었다")) failures.push("missing third plot planting receipt");
-    if (!evidence.objective.includes("톡톡 돌보면")) failures.push("missing third plot planted objective");
+    if (!evidence.receipts.some((receipt) => receipt.includes("말랑잎 씨앗을 심었다"))) {
+      failures.push("missing third plot planting receipt");
+    }
+    if (!evidence.receipts.some((receipt) => receipt.includes("3번 햇살 밭 수확"))) {
+      failures.push("missing third plot repeat harvest receipt");
+    }
+    if (!evidence.receipts.some((receipt) => receipt.includes("반복 주문 납품 #2"))) {
+      failures.push("missing repeat order delivery receipt");
+    }
+    if (!evidence.objective.includes("2번째 주문 납품 완료")) failures.push("missing second delivery objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
-    if (!thirdPlot || thirdPlot.state !== "planted" || thirdPlot.growth !== 20) {
-      failures.push(`expected plot_03 planted at 20 growth, got ${JSON.stringify(thirdPlot)}`);
+    if (!thirdPlot || thirdPlot.state !== "empty" || thirdPlot.growth !== 0) {
+      failures.push(`expected plot_03 harvested back to empty, got ${JSON.stringify(thirdPlot)}`);
     }
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
       if (!evidence.topologyAssets.includes(assetId)) {
@@ -178,7 +206,11 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-delivery-claim-393.png`,
         `${OUT_DIR}/phaser-check-expand-ready-393.png`,
         `${OUT_DIR}/phaser-check-third-plot-expanded-393.png`,
-        `${OUT_DIR}/phaser-check-third-plot-planted-393.png`
+        `${OUT_DIR}/phaser-check-third-plot-planted-393.png`,
+        `${OUT_DIR}/phaser-check-third-plot-ready-393.png`,
+        `${OUT_DIR}/phaser-check-third-plot-harvested-393.png`,
+        `${OUT_DIR}/phaser-check-second-crate-ready-393.png`,
+        `${OUT_DIR}/phaser-check-second-delivery-393.png`
       ],
       failures
     };
