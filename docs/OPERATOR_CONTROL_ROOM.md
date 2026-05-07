@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T19:17:24.331Z
+Generated at: 2026-05-07T19:19:43.594Z
 
 ## Current mission
 
@@ -27,7 +27,7 @@ Generated at: 2026-05-07T19:17:24.331Z
 - Completed third plot seed planting loop: Issue #453, PR #454, main CI `25516527365`
 - WorkUnit: `items/0244-repeat-order-after-third-plot-harvest.md`
 - GitHub issue: #455 `Phaser v1 repeat order after third plot harvest`
-- Draft PR: pending
+- Draft PR: #456 `Phaser v1 repeat order after third plot harvest`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0455-repeat-order-after-third-plot-harvest/visual-report-20260508.md`
@@ -45,22 +45,22 @@ Generated at: 2026-05-07T19:17:24.331Z
 ## Local state
 
 - Branch: codex/v1-repeat-order-after-third-plot-harvest
-- Latest commit: 7daecf7 세 번째 밭 수확 후 반복 주문을 다음 v1 작업으로 고정한다
+- Latest commit: 5d20eb8 반복 주문 PR 증거를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T19:17:16.386Z
-- Phase: phaser-v1-repeat-order-after-third-plot-harvest-verified
+- Timestamp: 2026-05-07T19:19:35.859Z
+- Phase: phaser-v1-repeat-order-after-third-plot-harvest-pr
 - Issue: 455
-- PR:
+- PR: 456
 - Item: items/0244-repeat-order-after-third-plot-harvest.md
-- Next action: gate: publish draft PR for #455 and watch checks
+- Next action: gate: mark PR #456 ready, watch checks, merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #456 draft Phaser v1 repeat order after third plot harvest — https://github.com/bborok1234/strange-seed-shop/pull/456
 
 ## Open issues
 
