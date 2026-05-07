@@ -44,7 +44,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0259-lunar-sprout-discovery-confirm.md`
 - GitHub issue: #486 `달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기`
-- Draft PR: pending
+- Draft PR: #487 `달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
@@ -72,13 +72,13 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Timestamp: 2026-05-07T22:55:20.000Z
 - Phase: phaser-v1-lunar-sprout-discovery-confirm-planning
 - Issue: 486
-- PR: pending
+- PR: 487
 - Item: items/0259-lunar-sprout-discovery-confirm.md
-- Next action: implementation gate: implement discovery confirm for #486
+- Next action: PR gate: wait checks then ready/merge #487
 
 ## Open PRs
 
-- N/A — 다음 PR은 #486 issue 생성 후 만든다.
+- #487 draft 달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/487
 
 ## Open issues
 

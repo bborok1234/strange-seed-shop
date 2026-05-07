@@ -50,6 +50,8 @@ dedicated 달빛 family reveal FX/portrait asset은 아직 없다. 현재 환경
 
 Closes #486
 
+PR: #487
+
 ## 작업 checklist
 
 - [x] Plan-first WorkUnit 작성

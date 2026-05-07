@@ -4,6 +4,7 @@ Status: active
 Owner: agent
 Created: 2026-05-08
 GitHub issue: #486
+GitHub PR: #487
 Branch: `codex/v1-lunar-sprout-discovery-confirm`
 Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:phaser-2d-game` -> `game-studio:game-playtest`
 
@@ -114,6 +115,7 @@ git diff --check
 
 - `npm run check:phaser` pass
 - `npm run check:ci` pass
+- Draft PR: #487
 - Visual report: `reports/visual/issue-0486-lunar-sprout-discovery-confirm/visual-report-20260508.md`
 - Key screenshots:
   - `reports/visual/issue-0486-lunar-sprout-discovery-confirm/phaser-check-lunar-sprout-harvested-393.png`
