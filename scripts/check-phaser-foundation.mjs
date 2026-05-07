@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0484-lunar-sprout-growth-reveal";
+const OUT_DIR = "reports/visual/issue-0486-lunar-sprout-discovery-confirm";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -273,6 +273,17 @@ async function runSmoke() {
       researchNextGoalRevealReady: window.__seedGardenResearchNextGoalRevealReady ?? false,
       plotStates: window.__seedGardenPlotStates ?? []
     }));
+    await page.getByRole("button", { name: "발견 확인" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-lunar-family-revealed-393.png`, fullPage: false });
+    const lunarFamilyRevealed = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      researchNextGoalRevealReady: window.__seedGardenResearchNextGoalRevealReady ?? true,
+      researchLunarFamilyRevealed: window.__seedGardenResearchLunarFamilyRevealed ?? false,
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      facilityStates: window.__seedGardenFacilityStates ?? []
+    }));
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -302,6 +313,7 @@ async function runSmoke() {
       researchNextGoalSeedPlanted: window.__seedGardenResearchNextGoalSeedPlanted ?? false,
       researchNextGoalSeedHarvested: window.__seedGardenResearchNextGoalSeedHarvested ?? false,
       researchNextGoalRevealReady: window.__seedGardenResearchNextGoalRevealReady ?? false,
+      researchLunarFamilyRevealed: window.__seedGardenResearchLunarFamilyRevealed ?? false,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -424,6 +436,27 @@ async function runSmoke() {
     if (!lunarSproutHarvested.railText.includes("다음 발견 준비 완료")) {
       failures.push("missing next discovery ready text");
     }
+    if (!lunarSproutHarvested.railText.includes("발견 확인")) {
+      failures.push("missing discovery confirm action");
+    }
+    if (lunarFamilyRevealed.researchNextGoalRevealReady) {
+      failures.push("reveal-ready stayed true after discovery confirm");
+    }
+    if (!lunarFamilyRevealed.researchLunarFamilyRevealed) {
+      failures.push("lunar family reveal telemetry missing");
+    }
+    if (!lunarFamilyRevealed.objective.includes("달빛 family reveal 완료")) {
+      failures.push("missing lunar family reveal objective");
+    }
+    if (!lunarFamilyRevealed.railText.includes("달빛 family reveal")) {
+      failures.push("missing lunar family reveal surface");
+    }
+    if (!lunarFamilyRevealed.railText.includes("다음 연구 목표")) {
+      failures.push("missing next research goal text");
+    }
+    if (lunarFamilyRevealed.selectedText !== "연구 선반") {
+      failures.push(`expected research shelf selected after discovery confirm, got ${lunarFamilyRevealed.selectedText}`);
+    }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
     }
@@ -442,11 +475,15 @@ async function runSmoke() {
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 새싹 수확 · 다음 발견 준비"))) {
       failures.push("missing lunar sprout harvest receipt");
     }
+    if (!evidence.receipts.some((receipt) => receipt.includes("달빛 새싹 발견 확인 · 달빛 family reveal"))) {
+      failures.push("missing lunar family reveal receipt");
+    }
     if (!evidence.researchNextGoalSeedClaimed) failures.push("next goal seed claim telemetry missing");
     if (!evidence.researchNextGoalSeedPlanted) failures.push("next goal seed planting telemetry missing");
     if (!evidence.researchNextGoalSeedHarvested) failures.push("lunar sprout harvest telemetry missing from final evidence");
-    if (!evidence.researchNextGoalRevealReady) failures.push("lunar sprout reveal-ready telemetry missing from final evidence");
-    if (!evidence.objective.includes("다음 씨앗 family reveal")) failures.push("missing next goal reveal-ready objective");
+    if (evidence.researchNextGoalRevealReady) failures.push("lunar sprout reveal-ready stayed true in final evidence");
+    if (!evidence.researchLunarFamilyRevealed) failures.push("lunar family reveal telemetry missing from final evidence");
+    if (!evidence.objective.includes("달빛 family reveal 완료")) failures.push("missing lunar family reveal final objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
@@ -494,6 +531,7 @@ async function runSmoke() {
       nextGoalSeedPlanted,
       lunarSproutReady,
       lunarSproutHarvested,
+      lunarFamilyRevealed,
       overviewMode,
       manageReturn,
       evidence,
@@ -531,7 +569,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-next-goal-seed-claimed-393.png`,
         `${OUT_DIR}/phaser-check-next-goal-seed-planted-393.png`,
         `${OUT_DIR}/phaser-check-lunar-sprout-ready-393.png`,
-        `${OUT_DIR}/phaser-check-lunar-sprout-harvested-393.png`
+        `${OUT_DIR}/phaser-check-lunar-sprout-harvested-393.png`,
+        `${OUT_DIR}/phaser-check-lunar-family-revealed-393.png`
       ],
       failures
     };

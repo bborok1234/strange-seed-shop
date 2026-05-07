@@ -73,6 +73,7 @@ export interface GardenState {
   researchNextGoalSeedPlanted: boolean;
   researchNextGoalSeedHarvested: boolean;
   researchNextGoalRevealReady: boolean;
+  researchLunarFamilyRevealed: boolean;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -230,7 +231,8 @@ export function createGardenState(): GardenState {
     researchNextGoalSeedClaimed: false,
     researchNextGoalSeedPlanted: false,
     researchNextGoalSeedHarvested: false,
-    researchNextGoalRevealReady: false
+    researchNextGoalRevealReady: false,
+    researchLunarFamilyRevealed: false
   };
 }
 
@@ -278,8 +280,9 @@ export function selectSlot(state: GardenState, slotId: string): void {
     return;
   }
   if (facility?.kind === "research_shelf") {
-    state.objective =
-      slot.unlockState === "preview"
+    state.objective = state.researchLunarFamilyRevealed
+      ? "달빛 family reveal 완료 · 다음 연구 목표: 원정 문 단서"
+      : slot.unlockState === "preview"
         ? "연구 선반 살펴보기 · 다음 씨앗 단서"
         : "오프라인 보상 회수 후 연구 선반 preview";
     return;
@@ -461,6 +464,18 @@ export function recordResearchClueInAlbum(state: GardenState): void {
   state.researchClueGoalSurfaceVisible = true;
   state.objective = "달빛 단서 기록됨 · 다음 씨앗 목표: 달빛 새싹";
   state.receipts.unshift("달빛 단서 도감 기록 · 다음 씨앗 목표 저장");
+}
+
+export function confirmLunarSproutDiscovery(state: GardenState): void {
+  if (!state.researchNextGoalRevealReady || state.researchLunarFamilyRevealed) {
+    return;
+  }
+
+  state.researchNextGoalRevealReady = false;
+  state.researchLunarFamilyRevealed = true;
+  state.selectedSlotId = "facility_research_shelf";
+  state.objective = "달빛 family reveal 완료 · 다음 연구 목표: 원정 문 단서";
+  state.receipts.unshift("달빛 새싹 발견 확인 · 달빛 family reveal");
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {

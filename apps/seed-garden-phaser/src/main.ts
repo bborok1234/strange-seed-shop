@@ -5,6 +5,7 @@ import {
   claimOrderCrateDelivery,
   claimStoredLeaves,
   claimWorkbenchProduction,
+  confirmLunarSproutDiscovery,
   createGardenState,
   getFacilityBySlot,
   getPlotBySlot,
@@ -213,6 +214,8 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenResearchNextGoalSeedHarvested = gameState.researchNextGoalSeedHarvested;
     (window as unknown as { __seedGardenResearchNextGoalRevealReady?: boolean })
       .__seedGardenResearchNextGoalRevealReady = gameState.researchNextGoalRevealReady;
+    (window as unknown as { __seedGardenResearchLunarFamilyRevealed?: boolean })
+      .__seedGardenResearchLunarFamilyRevealed = gameState.researchLunarFamilyRevealed;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -458,13 +461,28 @@ class GardenBoardScene extends Phaser.Scene {
 
     if (facility?.kind === "research_shelf" && slot.unlockState === "preview") {
       const clue = this.add.graphics();
-      clue.fillStyle(0x9fd6c8, 0.9);
+      clue.fillStyle(gameState.researchLunarFamilyRevealed ? 0x8dc6ff : 0x9fd6c8, 0.9);
       clue.fillCircle(-24, -28, 8);
       clue.fillStyle(0xffe1a1, 0.9);
       clue.fillCircle(2, -34, 6);
       clue.fillStyle(0x6d8ad4, 0.88);
       clue.fillCircle(24, -24, 7);
       container.add(clue);
+
+      if (gameState.researchLunarFamilyRevealed) {
+        const familyChip = this.add
+          .text(0, -55, "달빛", {
+            align: "center",
+            backgroundColor: "rgba(49, 67, 96, 0.86)",
+            color: "#f4f0c9",
+            fontFamily: "system-ui, sans-serif",
+            fontSize: "10px",
+            fontStyle: "800",
+            padding: { x: 7, y: 2 }
+          })
+          .setOrigin(0.5);
+        container.add(familyChip);
+      }
     }
 
     container.setSize(118, 104);
@@ -582,6 +600,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "record_clue"
       | "claim_goal_seed"
       | "plant_goal_seed"
+      | "confirm_discovery"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -594,6 +613,8 @@ class GardenBoardScene extends Phaser.Scene {
       claimResearchNextGoalSeed(gameState);
     } else if (action === "record_clue") {
       recordResearchClueInAlbum(gameState);
+    } else if (action === "confirm_discovery") {
+      confirmLunarSproutDiscovery(gameState);
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -649,6 +670,15 @@ class GardenBoardScene extends Phaser.Scene {
       `;
       this.hud.actions.appendChild(revealSurface);
     }
+    if (gameState.researchLunarFamilyRevealed) {
+      const familySurface = document.createElement("div");
+      familySurface.className = "collection-goal-surface";
+      familySurface.innerHTML = `
+        <strong>달빛 family reveal</strong>
+        <span>다음 연구 목표: 원정 문 단서</span>
+      `;
+      this.hud.actions.appendChild(familySurface);
+    }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
       goalSurface.className = "collection-goal-surface";
@@ -679,6 +709,8 @@ class GardenBoardScene extends Phaser.Scene {
             ? "빈 밭에 목표 심기"
           : gameState.researchNextGoalRevealReady
             ? "다음 발견 준비 완료"
+          : gameState.researchLunarFamilyRevealed
+            ? "달빛 family 연구 중"
           : selectedSlot.unlockState === "unlocked" && gameState.researchClueRecordReady
             ? "도감 기록 대기"
           : selectedSlot.unlockState === "unlocked"
@@ -715,11 +747,15 @@ class GardenBoardScene extends Phaser.Scene {
       | "plant_clue"
       | "record_clue"
       | "claim_goal_seed"
-      | "plant_goal_seed";
+      | "plant_goal_seed"
+      | "confirm_discovery";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
     const facility = getFacilityBySlot(state, selectedSlot.id);
+    if (state.researchNextGoalRevealReady && !state.researchLunarFamilyRevealed) {
+      return [{ id: "confirm_discovery", label: "발견 확인" }];
+    }
     if (
       state.researchClueGoalSurfaceVisible &&
       !state.researchNextGoalSeedAvailable &&

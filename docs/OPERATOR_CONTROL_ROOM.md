@@ -7,7 +7,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 
 ## Current mission
 
-현재 작업은 **달빛 새싹 수확 다음 발견 reveal**이다. #482 다음 씨앗 목표 수령/심기 bridge는 PR #483 merge/main CI `25525693860`까지 통과했다. 다음 blocker는 `seed_lunar_sprout_001`이 목표 씨앗으로 심긴 뒤 수확하면 일반 말랑잎 수확처럼 처리되어 다음 발견/reveal payoff가 사라지는 점이다.
+현재 작업은 **달빛 새싹 발견 확인 research family reveal**이다. #484 달빛 새싹 수확 다음 발견 reveal은 PR #485 merge/main CI `25526399609`까지 통과했다. 다음 blocker는 `달빛 새싹 발견 준비`가 action rail 안내로만 남고 실제 `발견 확인` player verb와 연구 선반 persistent reveal state로 닫히지 않는 점이다.
 
 현재 evidence:
 
@@ -40,48 +40,49 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Completed research clue goal surface: Issue #478, PR #479, main CI `25524735364`
 - Completed album record stamp FX plan/prompt: Issue #480, PR #481, main CI `25525145605`
 - Completed next seed goal claim/plant bridge: Issue #482, PR #483, main CI `25525693860`
+- Completed lunar sprout harvest reveal bridge: Issue #484, PR #485, main CI `25526399609`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0258-lunar-sprout-growth-reveal.md`
-- GitHub issue: #484 `달빛 새싹 수확이 다음 발견 reveal로 이어지게 만들기`
-- Draft PR: #485 `달빛 새싹 수확이 다음 발견 reveal로 이어지게 만들기`
+- WorkUnit: `items/0259-lunar-sprout-discovery-confirm.md`
+- GitHub issue: #486 `달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기`
+- Draft PR: #487 `달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: `reports/visual/issue-0484-lunar-sprout-growth-reveal/visual-report-20260508.md`
+- Visual report: `reports/visual/issue-0486-lunar-sprout-discovery-confirm/visual-report-20260508.md`
 - Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260507.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: #484는 목표 씨앗 planting 이후 성장/수확/reveal-ready로 이어져야 한다.
-2. `seed_lunar_sprout_001` 수확은 일반 말랑잎 수확 branch와 분리한다.
-3. 수확 후 `researchNextGoalSeedHarvested`, `researchNextGoalRevealReady` telemetry가 남아야 한다.
-4. objective/receipt/action rail은 `달빛 새싹`과 `다음 발견`을 설명해야 한다.
+1. Studio Campaign Gate: 새 WorkUnit은 reveal-ready 상태를 `발견 확인` player verb로 닫아야 한다.
+2. 클릭 후 `researchLunarFamilyRevealed=true`, `researchNextGoalRevealReady=false` telemetry가 남아야 한다.
+3. 연구 선반 playfield/HUD surface가 달빛 family reveal 상태를 보여야 한다.
+4. objective/receipt/action rail은 `달빛 family`와 `다음 연구 목표`를 설명해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-lunar-sprout-growth-reveal
-- Latest commit: f19460a 다음 씨앗 목표 수령/심기 bridge 병합
+- Branch: codex/v1-lunar-sprout-discovery-confirm
+- Latest commit: 90c87d5 달빛 새싹 수확 다음 발견 reveal 병합
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T22:39:40.000Z
-- Phase: phaser-v1-lunar-sprout-growth-reveal-verify
-- Issue: 484
-- PR: 485
-- Item: items/0258-lunar-sprout-growth-reveal.md
-- Next action: PR gate: wait checks then ready/merge #485
+- Timestamp: 2026-05-07T22:55:20.000Z
+- Phase: phaser-v1-lunar-sprout-discovery-confirm-planning
+- Issue: 486
+- PR: 487
+- Item: items/0259-lunar-sprout-discovery-confirm.md
+- Next action: PR gate: wait checks then ready/merge #487
 
 ## Open PRs
 
-- #485 draft 달빛 새싹 수확이 다음 발견 reveal로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/485
+- #487 draft 달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/487
 
 ## Open issues
 
-- #484 달빛 새싹 수확이 다음 발견 reveal로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/484
+- #486 달빛 새싹 발견 확인이 연구 선반 family reveal로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/486
 
 ## Playable mode
 
