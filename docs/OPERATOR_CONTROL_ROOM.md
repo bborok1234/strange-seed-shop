@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T20:00:24.625Z
+Generated at: 2026-05-07T20:03:31.916Z
 
 ## Current mission
 
@@ -30,7 +30,7 @@ Generated at: 2026-05-07T20:00:24.625Z
 - Completed storage buffer production fill: Issue #459, PR #460, main CI `25518444184`
 - WorkUnit: `items/0247-offline-storage-reward-claim.md`
 - GitHub issue: #461 `보관 바구니가 오프라인 잎을 회수하게 만들기`
-- Draft PR: pending
+- Draft PR: #462 `보관 바구니가 오프라인 잎을 회수하게 만들기`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - State source: `apps/seed-garden-phaser/src/gameState.ts`
 - Visual report: `reports/visual/issue-0461-offline-storage-reward-claim/visual-report-20260508.md`
@@ -48,22 +48,22 @@ Generated at: 2026-05-07T20:00:24.625Z
 ## Local state
 
 - Branch: codex/v1-offline-storage-reward-claim
-- Latest commit: c1d84f6 보관 회수 루프를 다음 v1 작업으로 고정한다
+- Latest commit: a2b6173 보관 회수 PR 증거를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-07T20:00:06.348Z
-- Phase: phaser-v1-offline-storage-reward-claim-verified
+- Timestamp: 2026-05-07T20:03:13.925Z
+- Phase: phaser-v1-offline-storage-reward-claim-pr
 - Issue: 461
-- PR: pending
+- PR: 462
 - Item: items/0247-offline-storage-reward-claim.md
-- Next action: gate: update evidence docs and prepare draft PR
+- Next action: gate: mark PR #462 ready, watch checks, merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #462 draft 보관 바구니가 오프라인 잎을 회수하게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/462
 
 ## Open issues
 
