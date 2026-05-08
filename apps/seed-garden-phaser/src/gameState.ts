@@ -101,6 +101,7 @@ export interface GardenState {
   nightGlassRoutePreviewId?: string;
   nightGlassAcquisitionState: NightGlassAcquisitionState;
   nightGlassSourceSeedAvailable: boolean;
+  nightGlassSourceSeedPlanted: boolean;
   nightGlassSourceAcquired: boolean;
   nightGlassRewardLeaves: number;
 }
@@ -299,6 +300,7 @@ export function createGardenState(): GardenState {
     nightGlassRoutePreviewId: undefined,
     nightGlassAcquisitionState: "locked",
     nightGlassSourceSeedAvailable: false,
+    nightGlassSourceSeedPlanted: false,
     nightGlassSourceAcquired: false,
     nightGlassRewardLeaves: 0
   };
@@ -409,23 +411,29 @@ export function selectSlot(state: GardenState, slotId: string): void {
   }
   const plot = getPlotBySlot(state, slotId);
   if (plot?.state === "empty") {
-    state.objective = state.lunarSourceSeedAvailable
-      ? "초승달순 source 심기 · 첫 원정 보상 재배"
-      : state.researchNextGoalSeedAvailable
+    state.objective = state.nightGlassSourceSeedAvailable
+      ? "밤유리 source 심기 · rare seed 재배 시작"
+      : state.lunarSourceSeedAvailable
+        ? "초승달순 source 심기 · 첫 원정 보상 재배"
+        : state.researchNextGoalSeedAvailable
         ? "달빛 새싹 목표 심기 · 다음 수집 루프 재개"
         : state.researchClueSeedAvailable
           ? "달빛 씨앗 단서 심기 · 다음 family clue 추적"
           : "말랑잎 씨앗을 심어 첫 생명체를 만나기";
   } else if (plot?.state === "planted" || plot?.state === "growing") {
     state.objective =
-      plot.seedId === LUNAR_SOURCE_SEED_ID
+      plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID
+        ? "밤유리 재배 중 · rare source 성장"
+        : plot.seedId === LUNAR_SOURCE_SEED_ID
         ? "초승달순 source 재배 중 · 다음 route 씨앗 성장"
         : plot.seedId === "seed_lunar_sprout_001"
         ? "달빛 새싹 돌보기 · 수확하면 다음 발견 준비"
         : "밭을 돌봐 성장률을 올리기";
   } else if (plot?.state === "ready") {
     state.objective =
-      plot.seedId === LUNAR_SOURCE_SEED_ID
+      plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID
+        ? "밤유리 수확 준비 · rare reveal 대기"
+        : plot.seedId === LUNAR_SOURCE_SEED_ID
         ? "초승달순 수확 · 은빛이끼 루미 reveal 준비"
         : plot.seedId === "seed_lunar_sprout_001"
         ? "달빛 새싹 수확 · 다음 발견 reveal 준비"
@@ -458,9 +466,17 @@ export function careSelectedPlot(state: GardenState): void {
   }
 
   plot.careCount += 1;
-  const growthDelta = plot.seedId === LUNAR_SOURCE_SEED_ID ? 36 : 34;
+  const growthDelta = plot.seedId === LUNAR_SOURCE_SEED_ID ? 36 : plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID ? 28 : 34;
   plot.growth = Math.min(100, plot.growth + growthDelta);
   plot.state = plot.growth >= 100 ? "ready" : "growing";
+  if (plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID) {
+    state.objective =
+      plot.state === "ready" ? "밤유리 수확 준비 · rare reveal 대기" : `밤유리 성장 ${plot.growth}% · source 결정화`;
+    state.receipts.unshift(
+      plot.state === "ready" ? "밤유리 수확 준비 완료 · rare reveal 대기" : `밤유리 돌보기 +${growthDelta}%`
+    );
+    return;
+  }
   if (plot.seedId === LUNAR_SOURCE_SEED_ID) {
     state.objective =
       plot.state === "ready"
@@ -601,6 +617,23 @@ export function plantLunarSourceSeed(state: GardenState): void {
   plot.careCount = 0;
   state.objective = "초승달순 source 재배 중 · 첫 rare route 씨앗";
   state.receipts.unshift("초승달순 씨앗을 심었다 · 첫 원정 source 소비");
+}
+
+export function plantNightGlassSourceSeed(state: GardenState): void {
+  const plot = getPlotBySlot(state, state.selectedSlotId);
+  const slot = getSlot(state, state.selectedSlotId);
+  if (!plot || slot.unlockState !== "unlocked" || plot.state !== "empty" || !state.nightGlassSourceSeedAvailable) {
+    return;
+  }
+
+  state.nightGlassSourceSeedAvailable = false;
+  state.nightGlassSourceSeedPlanted = true;
+  plot.seedId = NIGHT_GLASS_SOURCE_SEED_ID;
+  plot.state = "planted";
+  plot.growth = 24;
+  plot.careCount = 0;
+  state.objective = "밤유리 재배 중 · rare source 성장";
+  state.receipts.unshift("밤유리 source를 심었다 · seed_rare_001 재배 시작");
 }
 
 export function recordResearchClueInAlbum(state: GardenState): void {
