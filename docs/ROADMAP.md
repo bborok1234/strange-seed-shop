@@ -437,7 +437,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Branch: `codex/v1-lunar-source-planting-loop`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact exists, issue #498 opened, accepted `seed_lunar_002_icon` exists in manifest
+- Current validation: source seed inventory/action/render/checker implemented; `npm run check:phaser` passed with mobile 393 source planting screenshots; accepted `seed_lunar_002_icon` is preloaded/rendered
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:

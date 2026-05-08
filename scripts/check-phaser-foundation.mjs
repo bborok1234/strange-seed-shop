@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0496-expedition-return-source-bridge";
+const OUT_DIR = "reports/visual/issue-0498-lunar-source-planting-loop";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -12,6 +12,7 @@ const REQUIRED_TOPOLOGY_ASSETS = [
   "tile_plot_growing_v1",
   "tile_plot_ready_v1",
   "tile_plot_locked_preview_v1",
+  "seed_lunar_002_icon",
   "facility_workbench_v1",
   "facility_order_crate_empty_v1",
   "facility_order_crate_filled_v1",
@@ -353,6 +354,31 @@ async function runSmoke() {
       expeditionSourcePreviewVisible: window.__seedGardenExpeditionSourcePreviewVisible ?? false,
       nextExpeditionRoutePreviewId: window.__seedGardenNextExpeditionRoutePreviewId ?? "",
       lunarSourceSeedId: window.__seedGardenLunarSourceSeedId ?? "",
+      lunarSourceSeedAvailable: window.__seedGardenLunarSourceSeedAvailable ?? false,
+      lunarSourceSeedPlanted: window.__seedGardenLunarSourceSeedPlanted ?? false,
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await clickUntilAction(page, [[204, 546], [204, 590], [132, 344]], "초승달순 심기");
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-lunar-source-action-393.png`, fullPage: false });
+    const lunarSourceAction = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      lunarSourceSeedAvailable: window.__seedGardenLunarSourceSeedAvailable ?? false,
+      lunarSourceSeedPlanted: window.__seedGardenLunarSourceSeedPlanted ?? false,
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      plotStates: window.__seedGardenPlotStates ?? []
+    }));
+    await page.getByRole("button", { name: "초승달순 심기" }).click();
+    await page.waitForTimeout(160);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-lunar-source-planted-393.png`, fullPage: false });
+    const lunarSourcePlanted = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      lunarSourceSeedAvailable: window.__seedGardenLunarSourceSeedAvailable ?? false,
+      lunarSourceSeedPlanted: window.__seedGardenLunarSourceSeedPlanted ?? false,
+      lunarSourceSeedHarvested: window.__seedGardenLunarSourceSeedHarvested ?? false,
+      plotStates: window.__seedGardenPlotStates ?? [],
       receipts: window.__seedGardenReceipts ?? []
     }));
 
@@ -393,6 +419,9 @@ async function runSmoke() {
       expeditionSourcePreviewVisible: window.__seedGardenExpeditionSourcePreviewVisible ?? false,
       nextExpeditionRoutePreviewId: window.__seedGardenNextExpeditionRoutePreviewId ?? "",
       lunarSourceSeedId: window.__seedGardenLunarSourceSeedId ?? "",
+      lunarSourceSeedAvailable: window.__seedGardenLunarSourceSeedAvailable ?? false,
+      lunarSourceSeedPlanted: window.__seedGardenLunarSourceSeedPlanted ?? false,
+      lunarSourceSeedHarvested: window.__seedGardenLunarSourceSeedHarvested ?? false,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -664,6 +693,12 @@ async function runSmoke() {
     if (expeditionSourcePreview.lunarSourceSeedId !== "seed_lunar_002") {
       failures.push(`expected seed_lunar_002 source id, got ${expeditionSourcePreview.lunarSourceSeedId}`);
     }
+    if (!expeditionSourcePreview.lunarSourceSeedAvailable) {
+      failures.push("lunar source seed was not available after source preview");
+    }
+    if (expeditionSourcePreview.lunarSourceSeedPlanted) {
+      failures.push("lunar source seed was planted before planting action");
+    }
     if (!expeditionSourcePreview.objective.includes("초승달순 씨앗 source")) {
       failures.push("missing source preview objective");
     }
@@ -675,6 +710,44 @@ async function runSmoke() {
     }
     if (!expeditionSourcePreview.receipts.some((receipt) => receipt.includes("초승달순 단서 확인"))) {
       failures.push("missing source preview receipt");
+    }
+    if (!lunarSourceAction.lunarSourceSeedAvailable) {
+      failures.push("lunar source seed unavailable before planting action");
+    }
+    if (lunarSourceAction.lunarSourceSeedPlanted) {
+      failures.push("lunar source seed planted before planting click");
+    }
+    if (!lunarSourceAction.railText.includes("초승달순 심기")) {
+      failures.push("missing lunar source planting action");
+    }
+    if (!lunarSourceAction.selectedText.includes("밭")) {
+      failures.push(`expected an empty plot selected for lunar source planting, got ${lunarSourceAction.selectedText}`);
+    }
+    if (lunarSourcePlanted.lunarSourceSeedAvailable) {
+      failures.push("lunar source seed stayed available after planting");
+    }
+    if (!lunarSourcePlanted.lunarSourceSeedPlanted) {
+      failures.push("lunar source seed planted telemetry missing");
+    }
+    if (lunarSourcePlanted.lunarSourceSeedHarvested) {
+      failures.push("lunar source seed harvested during planting slice");
+    }
+    const lunarSourcePlot = lunarSourcePlanted.plotStates.find((plot) => plot.seedId === "seed_lunar_002");
+    if (
+      !lunarSourcePlot ||
+      lunarSourcePlot.state !== "planted" ||
+      lunarSourcePlot.growth !== 28
+    ) {
+      failures.push(`expected seed_lunar_002 planted on an empty plot, got ${JSON.stringify(lunarSourcePlot)}`);
+    }
+    if (!lunarSourcePlanted.objective.includes("초승달순 source 재배 중")) {
+      failures.push("missing lunar source planted objective");
+    }
+    if (!lunarSourcePlanted.railText.includes("초승달순 씨앗 source")) {
+      failures.push("missing lunar source HUD after planting");
+    }
+    if (!lunarSourcePlanted.receipts.some((receipt) => receipt.includes("초승달순 씨앗을 심었다"))) {
+      failures.push("missing lunar source planting receipt");
     }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
@@ -725,12 +798,21 @@ async function runSmoke() {
     if (evidence.lunarSourceSeedId !== "seed_lunar_002") {
       failures.push(`expected final lunar source seed id, got ${evidence.lunarSourceSeedId}`);
     }
-    if (!evidence.objective.includes("초승달순 씨앗 source")) failures.push("missing source preview final objective");
+    if (evidence.lunarSourceSeedAvailable) {
+      failures.push("lunar source seed stayed available in final evidence");
+    }
+    if (!evidence.lunarSourceSeedPlanted) {
+      failures.push("lunar source seed planted telemetry missing from final evidence");
+    }
+    if (evidence.lunarSourceSeedHarvested) {
+      failures.push("lunar source seed harvested in final evidence");
+    }
+    if (!evidence.objective.includes("초승달순 source 재배 중")) failures.push("missing source planting final objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
-    const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
-    if (!thirdPlot || thirdPlot.state !== "empty" || thirdPlot.growth !== 0 || thirdPlot.seedId) {
-      failures.push(`expected plot_03 empty after lunar sprout harvest, got ${JSON.stringify(thirdPlot)}`);
+    const sourcePlot = evidence.plotStates.find((plot) => plot.seedId === "seed_lunar_002");
+    if (!sourcePlot || sourcePlot.state !== "planted" || sourcePlot.growth !== 28) {
+      failures.push(`expected a plot to hold planted seed_lunar_002, got ${JSON.stringify(sourcePlot)}`);
     }
     const storage = evidence.facilityStates.find((facility) => facility.slotId === "facility_storage");
     if (!storage || storage.level !== 1 || storage.visualState !== "active") {
@@ -782,6 +864,8 @@ async function runSmoke() {
       expeditionReturned,
       expeditionClaimed,
       expeditionSourcePreview,
+      lunarSourceAction,
+      lunarSourcePlanted,
       overviewMode,
       manageReturn,
       evidence,
@@ -825,7 +909,9 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-expedition-traveling-393.png`,
         `${OUT_DIR}/phaser-check-expedition-returned-393.png`,
         `${OUT_DIR}/phaser-check-expedition-claimed-393.png`,
-        `${OUT_DIR}/phaser-check-expedition-source-preview-393.png`
+        `${OUT_DIR}/phaser-check-expedition-source-preview-393.png`,
+        `${OUT_DIR}/phaser-check-lunar-source-action-393.png`,
+        `${OUT_DIR}/phaser-check-lunar-source-planted-393.png`
       ],
       failures
     };

@@ -85,6 +85,9 @@ export interface GardenState {
   expeditionSourcePreviewVisible: boolean;
   nextExpeditionRoutePreviewId?: string;
   lunarSourceSeedId?: string;
+  lunarSourceSeedAvailable: boolean;
+  lunarSourceSeedPlanted: boolean;
+  lunarSourceSeedHarvested: boolean;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -270,7 +273,10 @@ export function createGardenState(): GardenState {
     expeditionSourceClueAvailable: false,
     expeditionSourcePreviewVisible: false,
     nextExpeditionRoutePreviewId: undefined,
-    lunarSourceSeedId: undefined
+    lunarSourceSeedId: undefined,
+    lunarSourceSeedAvailable: false,
+    lunarSourceSeedPlanted: false,
+    lunarSourceSeedHarvested: false
   };
 }
 
@@ -363,14 +369,18 @@ export function selectSlot(state: GardenState, slotId: string): void {
   }
   const plot = getPlotBySlot(state, slotId);
   if (plot?.state === "empty") {
-    state.objective = state.researchNextGoalSeedAvailable
-      ? "달빛 새싹 목표 심기 · 다음 수집 루프 재개"
-      : state.researchClueSeedAvailable
-        ? "달빛 씨앗 단서 심기 · 다음 family clue 추적"
-        : "말랑잎 씨앗을 심어 첫 생명체를 만나기";
+    state.objective = state.lunarSourceSeedAvailable
+      ? "초승달순 source 심기 · 첫 원정 보상 재배"
+      : state.researchNextGoalSeedAvailable
+        ? "달빛 새싹 목표 심기 · 다음 수집 루프 재개"
+        : state.researchClueSeedAvailable
+          ? "달빛 씨앗 단서 심기 · 다음 family clue 추적"
+          : "말랑잎 씨앗을 심어 첫 생명체를 만나기";
   } else if (plot?.state === "planted" || plot?.state === "growing") {
     state.objective =
-      plot.seedId === "seed_lunar_sprout_001"
+      plot.seedId === LUNAR_SOURCE_SEED_ID
+        ? "초승달순 source 재배 중 · 다음 route 씨앗 성장"
+        : plot.seedId === "seed_lunar_sprout_001"
         ? "달빛 새싹 돌보기 · 수확하면 다음 발견 준비"
         : "밭을 돌봐 성장률을 올리기";
   } else if (plot?.state === "ready") {
@@ -513,6 +523,23 @@ export function plantResearchNextGoalSeed(state: GardenState): void {
   state.receipts.unshift("달빛 새싹 목표 씨앗을 심었다");
 }
 
+export function plantLunarSourceSeed(state: GardenState): void {
+  const plot = getPlotBySlot(state, state.selectedSlotId);
+  const slot = getSlot(state, state.selectedSlotId);
+  if (!plot || slot.unlockState !== "unlocked" || plot.state !== "empty" || !state.lunarSourceSeedAvailable) {
+    return;
+  }
+
+  state.lunarSourceSeedAvailable = false;
+  state.lunarSourceSeedPlanted = true;
+  plot.seedId = LUNAR_SOURCE_SEED_ID;
+  plot.state = "planted";
+  plot.growth = 28;
+  plot.careCount = 0;
+  state.objective = "초승달순 source 재배 중 · 첫 rare route 씨앗";
+  state.receipts.unshift("초승달순 씨앗을 심었다 · 첫 원정 source 소비");
+}
+
 export function recordResearchClueInAlbum(state: GardenState): void {
   if (!state.researchClueRecordReady || state.researchClueAlbumRecorded) {
     return;
@@ -632,8 +659,9 @@ export function previewExpeditionSourceClue(state: GardenState): void {
   state.expeditionSourcePreviewVisible = true;
   state.nextExpeditionRoutePreviewId = NEXT_EXPEDITION_ROUTE_PREVIEW_ID;
   state.lunarSourceSeedId = LUNAR_SOURCE_SEED_ID;
+  state.lunarSourceSeedAvailable = !state.lunarSourceSeedPlanted;
   state.selectedSlotId = "facility_expedition_gate";
-  state.objective = "초승달순 씨앗 source 발견 · 다음 route: 달빛 울타리 잠김";
+  state.objective = "초승달순 씨앗 source 발견 · 빈 밭에 심기";
   state.receipts.unshift("초승달순 단서 확인 · 달빛 울타리 route 잠김");
 }
 

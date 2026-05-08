@@ -14,6 +14,7 @@ import {
   harvestSelectedPlot,
   inspectResearchShelfPreview,
   markBackyardGapExpeditionReturned,
+  plantLunarSourceSeed,
   plantResearchNextGoalSeed,
   plantResearchClueSeed,
   plantStarterSeed,
@@ -47,6 +48,12 @@ const TOPOLOGY_ASSETS = {
     growing: { key: "tile_plot_growing_v1", path: "/assets/game/tiles/tile_plot_growing_v1.png" },
     ready: { key: "tile_plot_ready_v1", path: "/assets/game/tiles/tile_plot_ready_v1.png" },
     locked: { key: "tile_plot_locked_preview_v1", path: "/assets/game/tiles/tile_plot_locked_preview_v1.png" }
+  },
+  seeds: {
+    lunarSource: {
+      key: "seed_lunar_002_icon",
+      path: "/assets/game/seeds/seed_lunar_002_icon.png"
+    }
   },
   facilities: {
     workbench: { key: "facility_workbench_v1", path: "/assets/game/facilities/facility_workbench_v1.png" },
@@ -107,6 +114,7 @@ const TOPOLOGY_ASSETS = {
 const TOPOLOGY_ASSET_KEYS = [
   TOPOLOGY_ASSETS.terrain.key,
   ...Object.values(TOPOLOGY_ASSETS.plots).map((asset) => asset.key),
+  ...Object.values(TOPOLOGY_ASSETS.seeds).map((asset) => asset.key),
   ...Object.values(TOPOLOGY_ASSETS.facilities).map((asset) => asset.key),
   ...Object.values(TOPOLOGY_ASSETS.actors).map((asset) => asset.key),
   ...Object.values(TOPOLOGY_ASSETS.fx).map((asset) => asset.key)
@@ -168,6 +176,7 @@ class GardenBoardScene extends Phaser.Scene {
   preload() {
     this.load.image(TOPOLOGY_ASSETS.terrain.key, TOPOLOGY_ASSETS.terrain.path);
     Object.values(TOPOLOGY_ASSETS.plots).forEach((asset) => this.load.image(asset.key, asset.path));
+    Object.values(TOPOLOGY_ASSETS.seeds).forEach((asset) => this.load.image(asset.key, asset.path));
     Object.values(TOPOLOGY_ASSETS.facilities).forEach((asset) => this.load.image(asset.key, asset.path));
     Object.values(TOPOLOGY_ASSETS.actors).forEach((asset) =>
       this.load.spritesheet(asset.key, asset.path, { frameWidth: asset.frameWidth, frameHeight: asset.frameHeight })
@@ -251,6 +260,12 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenNextExpeditionRoutePreviewId = gameState.nextExpeditionRoutePreviewId ?? "";
     (window as unknown as { __seedGardenLunarSourceSeedId?: string }).__seedGardenLunarSourceSeedId =
       gameState.lunarSourceSeedId ?? "";
+    (window as unknown as { __seedGardenLunarSourceSeedAvailable?: boolean }).__seedGardenLunarSourceSeedAvailable =
+      gameState.lunarSourceSeedAvailable;
+    (window as unknown as { __seedGardenLunarSourceSeedPlanted?: boolean }).__seedGardenLunarSourceSeedPlanted =
+      gameState.lunarSourceSeedPlanted;
+    (window as unknown as { __seedGardenLunarSourceSeedHarvested?: boolean }).__seedGardenLunarSourceSeedHarvested =
+      gameState.lunarSourceSeedHarvested;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -425,6 +440,26 @@ class GardenBoardScene extends Phaser.Scene {
         })
         .setOrigin(0.5);
       container.add(clueChip);
+    }
+
+    if (plot?.seedId === "seed_lunar_002") {
+      const sourceIcon = this.add.image(0, -18, TOPOLOGY_ASSETS.seeds.lunarSource.key);
+      sourceIcon.setDisplaySize(58, 58);
+      sourceIcon.setAlpha(plot.state === "ready" ? 1 : 0.94);
+      container.add(sourceIcon);
+
+      const sourceChip = this.add
+        .text(0, -52, "초승달순", {
+          align: "center",
+          backgroundColor: "rgba(39, 57, 93, 0.88)",
+          color: "#f4f0c9",
+          fontFamily: "system-ui, sans-serif",
+          fontSize: "10px",
+          fontStyle: "800",
+          padding: { x: 7, y: 2 }
+        })
+        .setOrigin(0.5);
+      container.add(sourceChip);
     }
 
     container.setSize(132, 112);
@@ -758,6 +793,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "start_expedition"
       | "claim_expedition"
       | "preview_source"
+      | "plant_lunar_source"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -786,6 +822,9 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "preview_source") {
       previewExpeditionSourceClue(gameState);
       this.pendingFx = { kind: "expeditionReturn", slotId: selectedSlotId };
+    } else if (action === "plant_lunar_source") {
+      plantLunarSourceSeed(gameState);
+      this.pendingFx = { kind: "care", slotId: selectedSlotId };
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -871,7 +910,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (gameState.expeditionSourceClueAvailable) {
       const sourceText = gameState.expeditionSourcePreviewVisible
-        ? "첫 원정 보상 · 다음 route: 달빛 울타리 잠김"
+        ? gameState.lunarSourceSeedPlanted
+          ? "첫 원정 보상 · 초승달순 재배 중"
+          : "첫 원정 보상 · 빈 밭에 심기 · 달빛 울타리 잠김"
         : "귀환 상자에서 새 source 단서 발견";
       const sourceSurface = document.createElement("div");
       sourceSurface.className = "collection-goal-surface";
@@ -909,6 +950,8 @@ class GardenBoardScene extends Phaser.Scene {
             ? "빈 밭을 선택해 단서 심기"
           : selectedSlot.unlockState === "unlocked" && gameState.researchNextGoalSeedAvailable
             ? "빈 밭에 목표 심기"
+          : selectedSlot.unlockState === "unlocked" && gameState.lunarSourceSeedAvailable
+            ? "빈 밭에 초승달순 심기"
           : gameState.researchNextGoalRevealReady
             ? "다음 발견 준비 완료"
           : gameState.researchLunarFamilyRevealed
@@ -964,7 +1007,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "preview_expedition"
       | "start_expedition"
       | "claim_expedition"
-      | "preview_source";
+      | "preview_source"
+      | "plant_lunar_source";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -1026,6 +1070,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.researchNextGoalSeedAvailable) {
       return [{ id: "plant_goal_seed", label: "목표 심기" }];
+    }
+    if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.lunarSourceSeedAvailable) {
+      return [{ id: "plant_lunar_source", label: "초승달순 심기" }];
     }
     if (selectedSlot.unlockState === "unlocked" && state.researchClueRecordReady && !state.researchClueAlbumRecorded) {
       return [{ id: "record_clue", label: "도감 기록" }];

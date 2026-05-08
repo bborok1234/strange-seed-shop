@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: planned
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:web-game-foundations -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #498
 - Branch: `codex/v1-lunar-source-planting-loop`
@@ -55,14 +55,35 @@
 
 - Solo execute. 변경 범위가 `gameState`, Phaser scene, checker, evidence 문서로 좁고 독립 병렬 탐색 이득이 낮다.
 
+## 구현 결과
+
+- `GardenState`에 `lunarSourceSeedAvailable`, `lunarSourceSeedPlanted`, `lunarSourceSeedHarvested`를 추가했다.
+- `previewExpeditionSourceClue()`가 `seed_lunar_002` source seed를 지급한다.
+- 빈 unlocked plot에서 `초승달순 심기` action을 제공하고, action 후 selected plot에 `seed_lunar_002`를 심는다.
+- Phaser runtime은 accepted `seed_lunar_002_icon`을 preload하고 plot 위에 source seed icon/chip으로 표시한다.
+- `scripts/check-phaser-foundation.mjs`는 source preview -> source planting까지 mobile 393 screenshot과 telemetry를 검증한다.
+- Browser Use plugin tool은 현재 세션에 노출되지 않아 Playwright 기반 `npm run check:phaser`를 fallback evidence로 사용했다.
+
+## Evidence
+
+- Visual report: `reports/visual/issue-0498-lunar-source-planting-loop/visual-report-20260508.md`
+- Source planting screenshot: `reports/visual/issue-0498-lunar-source-planting-loop/phaser-check-lunar-source-planted-393.png`
+- Phaser smoke result: `npm run check:phaser` pass, `failures: []`
+- Final telemetry:
+  - `lunarSourceSeedAvailable`: `false`
+  - `lunarSourceSeedPlanted`: `true`
+  - `lunarSourceSeedHarvested`: `false`
+  - planted plot: `seed_lunar_002`, `growth: 28`
+  - topology asset: `seed_lunar_002_icon`
+
 ## 검증 명령
 
-- `npm run check:phaser`
-- `npm run check:ci`
-- `npm run check:control-room`
-- `npm run check:ops-live`
-- `npm run check:github-metadata`
-- `git diff --check`
+- [x] `npm run check:phaser`
+- [x] `npm run check:ci`
+- [x] `npm run check:control-room`
+- [x] `npm run check:ops-live`
+- [x] `npm run check:github-metadata`
+- [x] `git diff --check`
 
 ## 리스크
 
