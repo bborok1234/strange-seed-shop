@@ -5,6 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:web-game-foundations -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #496
+- GitHub PR: #497
 - Branch: `codex/v1-expedition-return-source-bridge`
 - 연결: Issue #494, PR #495, main CI `25534928297`
 
@@ -63,6 +64,7 @@
 
 - Visual report: `reports/visual/issue-0496-expedition-return-source-bridge/visual-report-20260508.md`
 - Source preview screenshot: `reports/visual/issue-0496-expedition-return-source-bridge/phaser-check-expedition-source-preview-393.png`
+- Draft PR: #497
 - Phaser smoke result: `npm run check:phaser` pass, `failures: []`
 - Full gate: `npm run check:ci` pass
 - Whitespace: `git diff --check` pass
