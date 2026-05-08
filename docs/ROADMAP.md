@@ -65,7 +65,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 다음 씨앗 목표 수령/심기 bridge | done | Issue #482, PR #483, main CI `25525693860`, `items/0257-next-seed-goal-claim-plant.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `apps/seed-garden-phaser/src/styles.css`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0482-next-seed-goal-claim-plant/visual-report-20260508.md` | #478 이후 next seed goal surface가 보기에서 멈추는 blocker를 해결했다. `목표 씨앗 받기`와 빈 밭 `목표 심기` action으로 collection meta를 다음 planting loop에 연결했고, PR checks/merge/main CI가 통과했다 |
 | 달빛 새싹 수확 다음 발견 reveal | done | Issue #484, PR #485, main CI `25526399609`, `items/0258-lunar-sprout-growth-reveal.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0484-lunar-sprout-growth-reveal/visual-report-20260508.md` | #482 이후 `seed_lunar_sprout_001` 수확이 일반 말랑잎 수확으로 떨어지는 blocker를 해결했다. 목표 씨앗 수확을 `달빛 새싹 발견 준비` receipt/objective/telemetry로 연결했고, PR checks/merge/main CI가 통과했다 |
 | 달빛 새싹 발견 확인 research family reveal | done | Issue #486, PR #487, main CI `25526968559`, `items/0259-lunar-sprout-discovery-confirm.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0486-lunar-sprout-discovery-confirm/visual-report-20260508.md` | #484 이후 reveal-ready 상태가 action rail 안내에 머무르는 blocker를 해결했다. `발견 확인` action으로 달빛 family reveal을 확정하고 연구 선반 playfield/HUD surface에 persistent state를 남겼으며, PR checks/merge/main CI가 통과했다 |
-| 달빛 family reveal 원정 문 preview route | active | Issue #488, `items/0260-expedition-gate-preview-route.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md` | #486 이후 다음 장기 route가 text promise에 머무르는 blocker를 해결한다. `원정 문 단서 보기` action과 preview-only board state로 D7 expedition route 실루엣을 만든다 |
+| 달빛 family reveal 원정 문 preview route | done | Issue #488, PR #489, main CI `25527621378`, `items/0260-expedition-gate-preview-route.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md` | #486 이후 다음 장기 route가 text promise에 머무르는 blocker를 해결했다. `원정 문 단서 보기` action과 preview-only board state로 D7 expedition route 실루엣을 만들었고, PR checks/merge/main CI가 통과했다 |
+| 첫 원정 보상 source preview bridge | review | Issue #496, `items/0264-expedition-return-source-bridge.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0496-expedition-return-source-bridge/visual-report-20260508.md` | #495 이후 귀환 상자 claim이 receipt에서 멈추는 blocker를 해결했다. `초승달순 단서 보기` action, `seed_lunar_002` source clue, `expedition_moon_fence_locked` route lock telemetry, playfield source/route marker를 추가했고 `npm run check:phaser`, `npm run check:ci`, `git diff --check`가 통과했다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -391,7 +392,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **첫 원정 보상 source preview bridge**이다. #494 첫 원정 문/귀환 상자 raster 후보 생성/리뷰는 PR #495 merge/main CI `25534928297`까지 통과했다. 다음 blocker는 귀환 상자 claim이 `꽃가루 단서 후보` receipt에서 멈추지 않고 `초승달순 씨앗 source`와 다음 달빛 route lock preview로 이어지게 만드는 점이다.
+현재 작업은 **첫 원정 보상 source preview bridge**이다. #494 첫 원정 문/귀환 상자 raster 후보 생성/리뷰는 PR #495 merge/main CI `25534928297`까지 통과했다. #496 구현은 귀환 상자 claim이 `꽃가루 단서 후보` receipt에서 멈추지 않고 `초승달순 씨앗 source`와 다음 달빛 route lock preview로 이어지는지 검증하는 단계다.
 
 현재 evidence:
 
@@ -435,13 +436,13 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Branch: `codex/v1-expedition-return-source-bridge`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact exists, issue #496 opened
+- Current validation: #496 implementation pass complete, `npm run check:phaser` pass, `npm run check:ci` pass, `git diff --check` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: 첫 원정 claim 후 source preview action이 실제 player verb로 보여야 한다.
-2. 초승달순 source preview와 다음 route lock이 HUD와 playfield 원정 문 상태에 모두 남아야 한다.
-3. `scripts/check-phaser-foundation.mjs`가 source preview telemetry와 screenshot을 검증해야 한다.
+1. PR publication gate: #496 변경을 draft PR로 게시하고 GitHub checks를 확인해야 한다.
+2. Studio Campaign Gate: 첫 원정 claim 후 source preview action이 실제 player verb로 보여야 한다.
+3. 초승달순 source preview와 다음 route lock이 HUD와 playfield 원정 문 상태에 모두 남아야 한다.
 4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.

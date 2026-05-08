@@ -7,6 +7,8 @@ export type ExpeditionState = "locked" | "ready" | "traveling" | "returned" | "c
 
 export const THIRD_PLOT_UNLOCK_COST = 60;
 export const STORAGE_BASKET_UNLOCK_COST = 80;
+export const LUNAR_SOURCE_SEED_ID = "seed_lunar_002";
+export const NEXT_EXPEDITION_ROUTE_PREVIEW_ID = "expedition_moon_fence_locked";
 
 export interface BoardSlot {
   id: string;
@@ -79,6 +81,10 @@ export interface GardenState {
   expeditionState: ExpeditionState;
   activeExpeditionRouteId?: string;
   expeditionRewardLeaves: number;
+  expeditionSourceClueAvailable: boolean;
+  expeditionSourcePreviewVisible: boolean;
+  nextExpeditionRoutePreviewId?: string;
+  lunarSourceSeedId?: string;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -260,7 +266,11 @@ export function createGardenState(): GardenState {
     expeditionGatePreviewVisible: false,
     expeditionState: "locked",
     activeExpeditionRouteId: undefined,
-    expeditionRewardLeaves: 0
+    expeditionRewardLeaves: 0,
+    expeditionSourceClueAvailable: false,
+    expeditionSourcePreviewVisible: false,
+    nextExpeditionRoutePreviewId: undefined,
+    lunarSourceSeedId: undefined
   };
 }
 
@@ -325,7 +335,9 @@ export function selectSlot(state: GardenState, slotId: string): void {
     } else if (state.expeditionState === "returned") {
       state.objective = "귀환 상자 도착 · 보상 열기";
     } else if (state.expeditionState === "claimed") {
-      state.objective = "첫 원정 완료 · 다음 달빛 route 실루엣";
+      state.objective = state.expeditionSourcePreviewVisible
+        ? "초승달순 씨앗 source 발견 · 다음 route: 달빛 울타리 잠김"
+        : "첫 원정 완료 · 초승달순 source 단서 확인";
     } else {
       state.objective =
         slot.unlockState === "preview"
@@ -604,8 +616,25 @@ export function claimBackyardGapExpeditionReward(state: GardenState): void {
   state.resources.leaves += rewardLeaves;
   state.expeditionRewardLeaves = 0;
   state.expeditionState = "claimed";
-  state.objective = "첫 원정 완료 · 다음 달빛 route 실루엣";
-  state.receipts.unshift(`귀환 상자 열기 · 잎 +${rewardLeaves} · 꽃가루 단서 후보`);
+  state.expeditionSourceClueAvailable = true;
+  state.expeditionSourcePreviewVisible = false;
+  state.nextExpeditionRoutePreviewId = undefined;
+  state.lunarSourceSeedId = LUNAR_SOURCE_SEED_ID;
+  state.objective = "첫 원정 완료 · 초승달순 source 단서 확인";
+  state.receipts.unshift(`귀환 상자 열기 · 잎 +${rewardLeaves} · 초승달순 source 단서`);
+}
+
+export function previewExpeditionSourceClue(state: GardenState): void {
+  if (!state.expeditionSourceClueAvailable || state.expeditionSourcePreviewVisible) {
+    return;
+  }
+
+  state.expeditionSourcePreviewVisible = true;
+  state.nextExpeditionRoutePreviewId = NEXT_EXPEDITION_ROUTE_PREVIEW_ID;
+  state.lunarSourceSeedId = LUNAR_SOURCE_SEED_ID;
+  state.selectedSlotId = "facility_expedition_gate";
+  state.objective = "초승달순 씨앗 source 발견 · 다음 route: 달빛 울타리 잠김";
+  state.receipts.unshift("초승달순 단서 확인 · 달빛 울타리 route 잠김");
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {

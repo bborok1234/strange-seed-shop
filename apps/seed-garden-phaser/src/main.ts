@@ -18,6 +18,7 @@ import {
   plantResearchClueSeed,
   plantStarterSeed,
   previewExpeditionGateRoute,
+  previewExpeditionSourceClue,
   recordResearchClueInAlbum,
   selectSlot,
   startBackyardGapExpedition,
@@ -242,6 +243,14 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.activeExpeditionRouteId ?? "";
     (window as unknown as { __seedGardenExpeditionRewardLeaves?: number }).__seedGardenExpeditionRewardLeaves =
       gameState.expeditionRewardLeaves;
+    (window as unknown as { __seedGardenExpeditionSourceClueAvailable?: boolean })
+      .__seedGardenExpeditionSourceClueAvailable = gameState.expeditionSourceClueAvailable;
+    (window as unknown as { __seedGardenExpeditionSourcePreviewVisible?: boolean })
+      .__seedGardenExpeditionSourcePreviewVisible = gameState.expeditionSourcePreviewVisible;
+    (window as unknown as { __seedGardenNextExpeditionRoutePreviewId?: string })
+      .__seedGardenNextExpeditionRoutePreviewId = gameState.nextExpeditionRoutePreviewId ?? "";
+    (window as unknown as { __seedGardenLunarSourceSeedId?: string }).__seedGardenLunarSourceSeedId =
+      gameState.lunarSourceSeedId ?? "";
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -570,6 +579,50 @@ class GardenBoardScene extends Phaser.Scene {
         returnCrate.setDepth(2);
         container.add(returnCrate);
       }
+
+      if (gameState.expeditionSourceClueAvailable) {
+        const source = this.add.graphics();
+        source.fillStyle(0x27395d, gameState.expeditionSourcePreviewVisible ? 0.92 : 0.58);
+        source.fillCircle(-41, -20, 15);
+        source.fillStyle(0xf7e9a6, 0.95);
+        source.fillCircle(-35, -24, 9);
+        source.fillStyle(0x27395d, 0.96);
+        source.fillCircle(-31, -26, 9);
+        source.lineStyle(2, 0xf7e9a6, gameState.expeditionSourcePreviewVisible ? 0.92 : 0.46);
+        source.strokeRoundedRect(12, -31, 42, 24, 10);
+        source.fillStyle(0xf7e9a6, gameState.expeditionSourcePreviewVisible ? 0.95 : 0.48);
+        source.fillCircle(31, -19, 5);
+        container.add(source);
+
+        const sourceLabel = this.add
+          .text(gameState.expeditionSourcePreviewVisible ? -6 : -41, gameState.expeditionSourcePreviewVisible ? -56 : -44, gameState.expeditionSourcePreviewVisible ? "초승달순" : "단서", {
+            align: "center",
+            backgroundColor: "rgba(39, 57, 93, 0.88)",
+            color: "#f4f0c9",
+            fontFamily: "system-ui, sans-serif",
+            fontSize: "10px",
+            fontStyle: "800",
+            padding: { x: 7, y: 2 }
+          })
+          .setOrigin(0.5);
+        container.add(sourceLabel);
+
+        if (gameState.expeditionSourcePreviewVisible) {
+          const routeLock = this.add
+            .text(33, 0, "달빛 울타리\n잠김", {
+              align: "center",
+              backgroundColor: "rgba(37, 86, 71, 0.88)",
+              color: "#f4f0c9",
+              fontFamily: "system-ui, sans-serif",
+              fontSize: "9px",
+              fontStyle: "800",
+              lineSpacing: 1,
+              padding: { x: 6, y: 3 }
+            })
+            .setOrigin(0.5);
+          container.add(routeLock);
+        }
+      }
     }
 
     container.setSize(118, 104);
@@ -704,6 +757,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "preview_expedition"
       | "start_expedition"
       | "claim_expedition"
+      | "preview_source"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -728,6 +782,9 @@ class GardenBoardScene extends Phaser.Scene {
       });
     } else if (action === "claim_expedition") {
       claimBackyardGapExpeditionReward(gameState);
+      this.pendingFx = { kind: "expeditionReturn", slotId: selectedSlotId };
+    } else if (action === "preview_source") {
+      previewExpeditionSourceClue(gameState);
       this.pendingFx = { kind: "expeditionReturn", slotId: selectedSlotId };
     } else if (action === "care") {
       careSelectedPlot(gameState);
@@ -812,6 +869,18 @@ class GardenBoardScene extends Phaser.Scene {
       `;
       this.hud.actions.appendChild(expeditionSurface);
     }
+    if (gameState.expeditionSourceClueAvailable) {
+      const sourceText = gameState.expeditionSourcePreviewVisible
+        ? "첫 원정 보상 · 다음 route: 달빛 울타리 잠김"
+        : "귀환 상자에서 새 source 단서 발견";
+      const sourceSurface = document.createElement("div");
+      sourceSurface.className = "collection-goal-surface";
+      sourceSurface.innerHTML = `
+        <strong>초승달순 씨앗 source</strong>
+        <span>${sourceText}</span>
+      `;
+      this.hud.actions.appendChild(sourceSurface);
+    }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
       goalSurface.className = "collection-goal-surface";
@@ -849,7 +918,9 @@ class GardenBoardScene extends Phaser.Scene {
                 : gameState.expeditionState === "returned"
                   ? "귀환 상자 대기"
                   : gameState.expeditionState === "claimed"
-                    ? "첫 원정 완료"
+                    ? gameState.expeditionSourcePreviewVisible
+                      ? "초승달순 source 확인됨"
+                      : "초승달순 단서 대기"
                     : "원정 문 preview 표시됨"
               : "달빛 family 연구 중"
           : selectedSlot.unlockState === "unlocked" && gameState.researchClueRecordReady
@@ -892,7 +963,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "confirm_discovery"
       | "preview_expedition"
       | "start_expedition"
-      | "claim_expedition";
+      | "claim_expedition"
+      | "preview_source";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -908,6 +980,14 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (facility?.kind === "expedition_gate" && state.expeditionState === "returned") {
       return [{ id: "claim_expedition", label: "귀환 상자 열기" }];
+    }
+    if (
+      facility?.kind === "expedition_gate" &&
+      state.expeditionState === "claimed" &&
+      state.expeditionSourceClueAvailable &&
+      !state.expeditionSourcePreviewVisible
+    ) {
+      return [{ id: "preview_source", label: "초승달순 단서 보기" }];
     }
     if (
       state.researchClueGoalSurfaceVisible &&

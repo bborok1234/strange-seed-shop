@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: planned
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:web-game-foundations -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #496
 - Branch: `codex/v1-expedition-return-source-bridge`
@@ -32,22 +32,40 @@
 
 ## 수용 기준
 
-- 첫 원정 claim 후 `expeditionSourceClueAvailable === true`가 된다.
-- claim 직후 player가 수행할 수 있는 `초승달순 단서 보기` action이 보인다.
-- action 후 `expeditionSourcePreviewVisible === true`와 `nextExpeditionRoutePreviewId`가 telemetry로 검증된다.
-- HUD/action rail이 초승달순 씨앗 source와 다음 route lock을 표시한다.
-- Playfield 원정 문이 source preview/route lock 상태를 world object로 보여준다.
-- `npm run check:phaser`가 source preview screenshot을 저장한다.
-- `npm run check:ci`와 `git diff --check`가 통과한다.
+- [x] 첫 원정 claim 후 `expeditionSourceClueAvailable === true`가 된다.
+- [x] claim 직후 player가 수행할 수 있는 `초승달순 단서 보기` action이 보인다.
+- [x] action 후 `expeditionSourcePreviewVisible === true`와 `nextExpeditionRoutePreviewId`가 telemetry로 검증된다.
+- [x] HUD/action rail이 초승달순 씨앗 source와 다음 route lock을 표시한다.
+- [x] Playfield 원정 문이 source preview/route lock 상태를 world object로 보여준다.
+- [x] `npm run check:phaser`가 source preview screenshot을 저장한다.
+- [x] `npm run check:ci`와 `git diff --check`가 통과한다.
 
 ## 검증 명령
 
-- `npm run check:phaser`
-- `npm run check:ci`
-- `npm run check:control-room`
-- `npm run check:ops-live`
-- `npm run check:github-metadata`
-- `git diff --check`
+- [x] `npm run check:phaser`
+- [x] `npm run check:ci`
+- [x] `git diff --check`
+
+## 구현 결과
+
+- `GardenState`에 첫 원정 source preview 상태를 추가했다.
+  - `expeditionSourceClueAvailable`
+  - `expeditionSourcePreviewVisible`
+  - `nextExpeditionRoutePreviewId`
+  - `lunarSourceSeedId`
+- `claimBackyardGapExpeditionReward()`가 잎 보상과 함께 `seed_lunar_002` source 단서를 지급한다.
+- `초승달순 단서 보기` action이 source preview를 열고 `expedition_moon_fence_locked` route lock telemetry를 남긴다.
+- HUD/action rail은 `초승달순 씨앗 source`와 `첫 원정 보상 · 다음 route: 달빛 울타리 잠김`을 표시한다.
+- Playfield 원정 문은 초승달 source marker와 달빛 울타리 잠김 world state를 표시한다.
+- Browser Use plugin tool은 현재 세션에 노출되지 않아 Playwright 기반 `npm run check:phaser`를 fallback evidence로 사용했다.
+
+## Evidence
+
+- Visual report: `reports/visual/issue-0496-expedition-return-source-bridge/visual-report-20260508.md`
+- Source preview screenshot: `reports/visual/issue-0496-expedition-return-source-bridge/phaser-check-expedition-source-preview-393.png`
+- Phaser smoke result: `npm run check:phaser` pass, `failures: []`
+- Full gate: `npm run check:ci` pass
+- Whitespace: `git diff --check` pass
 
 ## 리스크
 
