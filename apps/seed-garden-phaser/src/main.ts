@@ -2,6 +2,7 @@ import * as Phaser from "phaser";
 import {
   careSelectedPlot,
   claimBackyardGapExpeditionReward,
+  claimNightGlassSourceReward,
   claimResearchNextGoalSeed,
   claimOrderCrateDelivery,
   claimStoredLeaves,
@@ -15,6 +16,7 @@ import {
   inspectResearchShelfPreview,
   LUNAR_SOURCE_SEED_ID,
   markBackyardGapExpeditionReturned,
+  markNightGlassSourceExpeditionReturned,
   NIGHT_GLASS_ROUTE_PREVIEW_ID,
   NIGHT_GLASS_SOURCE_SEED_ID,
   plantLunarSourceSeed,
@@ -27,6 +29,7 @@ import {
   recordResearchClueInAlbum,
   selectSlot,
   startBackyardGapExpedition,
+  startNightGlassSourceExpedition,
   STORAGE_BASKET_UNLOCK_COST,
   THIRD_PLOT_UNLOCK_COST,
   unlockStorageBasket,
@@ -197,7 +200,10 @@ function createHud(): HudElements {
 class GardenBoardScene extends Phaser.Scene {
   private hud?: HudElements;
   private renderLayer?: Phaser.GameObjects.Container;
-  private pendingFx?: { kind: "care" | "harvest" | "delivery" | "expeditionReturn" | "lunarHarvest"; slotId: string };
+  private pendingFx?: {
+    kind: "care" | "harvest" | "delivery" | "expeditionReturn" | "lunarHarvest" | "nightGlassAcquire";
+    slotId: string;
+  };
   private viewMode: ViewMode = "manage";
 
   constructor() {
@@ -233,6 +239,7 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderTerrain();
     this.renderSlots();
     this.renderNightGlassSourcePreview();
+    this.renderNightGlassAcquisitionMarker();
     this.renderLunarSourceReveal();
     this.renderActors();
     this.renderPendingFx();
@@ -318,6 +325,14 @@ class GardenBoardScene extends Phaser.Scene {
         : "";
     (window as unknown as { __seedGardenNightGlassSourceFxKey?: string }).__seedGardenNightGlassSourceFxKey =
       gameState.nightGlassSourcePreviewVisible ? TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key : "";
+    (window as unknown as { __seedGardenNightGlassAcquisitionState?: string })
+      .__seedGardenNightGlassAcquisitionState = gameState.nightGlassAcquisitionState;
+    (window as unknown as { __seedGardenNightGlassSourceSeedAvailable?: boolean })
+      .__seedGardenNightGlassSourceSeedAvailable = gameState.nightGlassSourceSeedAvailable;
+    (window as unknown as { __seedGardenNightGlassSourceAcquired?: boolean }).__seedGardenNightGlassSourceAcquired =
+      gameState.nightGlassSourceAcquired;
+    (window as unknown as { __seedGardenNightGlassRewardLeaves?: number }).__seedGardenNightGlassRewardLeaves =
+      gameState.nightGlassRewardLeaves;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -800,7 +815,7 @@ class GardenBoardScene extends Phaser.Scene {
     container.add(sourceIcon);
 
     const lockLabel = this.add
-      .text(0, 49, "밤유리 source\n잠김", {
+      .text(0, 49, `밤유리 source\n${this.getNightGlassStateLabel()}`, {
         align: "center",
         backgroundColor: "rgba(37, 48, 82, 0.88)",
         color: "#f4f0c9",
@@ -828,6 +843,68 @@ class GardenBoardScene extends Phaser.Scene {
     container.add(routeLabel);
 
     this.renderLayer?.add(container);
+  }
+
+  private getNightGlassStateLabel() {
+    if (gameState.nightGlassAcquisitionState === "traveling") {
+      return "조사중";
+    }
+    if (gameState.nightGlassAcquisitionState === "returned") {
+      return "귀환";
+    }
+    if (gameState.nightGlassAcquisitionState === "claimed") {
+      return "획득";
+    }
+    return "조사 준비";
+  }
+
+  private renderNightGlassAcquisitionMarker() {
+    if (!gameState.nightGlassSourcePreviewVisible || gameState.nightGlassAcquisitionState === "ready") {
+      return;
+    }
+
+    const container = this.add.container(314, 306);
+    container.setDepth(50);
+
+    const fill =
+      gameState.nightGlassAcquisitionState === "claimed"
+        ? 0x2f7b5f
+        : gameState.nightGlassAcquisitionState === "returned"
+          ? 0x9a5d3d
+          : 0x27395d;
+    const badge = this.add.graphics();
+    badge.fillStyle(fill, 0.9);
+    badge.fillRoundedRect(-58, -22, 116, 44, 14);
+    badge.lineStyle(2, 0xf4d77d, 0.72);
+    badge.strokeRoundedRect(-58, -22, 116, 44, 14);
+    container.add(badge);
+
+    const icon = this.add.image(-38, 0, TOPOLOGY_ASSETS.seeds.nightGlassSource.key);
+    icon.setDisplaySize(28, 28);
+    container.add(icon);
+
+    const label = this.add
+      .text(-16, -10, this.getNightGlassMarkerText(), {
+        align: "left",
+        color: "#f4f0c9",
+        fontFamily: "system-ui, sans-serif",
+        fontSize: "9px",
+        fontStyle: "800",
+        lineSpacing: 0
+      })
+      .setOrigin(0, 0);
+    container.add(label);
+    this.renderLayer?.add(container);
+  }
+
+  private getNightGlassMarkerText() {
+    if (gameState.nightGlassAcquisitionState === "traveling") {
+      return "밤유리 조사\n진행 중";
+    }
+    if (gameState.nightGlassAcquisitionState === "returned") {
+      return "귀환 상자\n도착";
+    }
+    return "source\n획득";
   }
 
   private renderTaskPath(from: BoardSlot, to: BoardSlot) {
@@ -887,6 +964,8 @@ class GardenBoardScene extends Phaser.Scene {
     const key =
       this.pendingFx.kind === "care"
         ? TOPOLOGY_ASSETS.fx.care.key
+        : this.pendingFx.kind === "nightGlassAcquire"
+          ? TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key
         : this.pendingFx.kind === "lunarHarvest"
           ? TOPOLOGY_ASSETS.fx.lunarHarvest.key
         : this.pendingFx.kind === "expeditionReturn"
@@ -895,6 +974,8 @@ class GardenBoardScene extends Phaser.Scene {
     const animation =
       this.pendingFx.kind === "care"
         ? "care-spark-once"
+        : this.pendingFx.kind === "nightGlassAcquire"
+          ? "night-glass-source-unlock-once"
         : this.pendingFx.kind === "lunarHarvest"
           ? "lunar-harvest-moonburst-once"
         : this.pendingFx.kind === "expeditionReturn"
@@ -905,6 +986,8 @@ class GardenBoardScene extends Phaser.Scene {
     const fxWidth =
       this.pendingFx.kind === "care"
         ? 96
+        : this.pendingFx.kind === "nightGlassAcquire"
+          ? 132
         : this.pendingFx.kind === "expeditionReturn"
           ? 132
           : this.pendingFx.kind === "lunarHarvest"
@@ -913,6 +996,8 @@ class GardenBoardScene extends Phaser.Scene {
     const fxHeight =
       this.pendingFx.kind === "care"
         ? 96
+        : this.pendingFx.kind === "nightGlassAcquire"
+          ? 108
         : this.pendingFx.kind === "expeditionReturn"
           ? 92
           : this.pendingFx.kind === "lunarHarvest"
@@ -923,7 +1008,8 @@ class GardenBoardScene extends Phaser.Scene {
     if (
       this.pendingFx.kind === "delivery" ||
       this.pendingFx.kind === "expeditionReturn" ||
-      this.pendingFx.kind === "lunarHarvest"
+      this.pendingFx.kind === "lunarHarvest" ||
+      this.pendingFx.kind === "nightGlassAcquire"
     ) {
       this.tweens.add({
         targets: sprite,
@@ -971,6 +1057,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "preview_source"
       | "plant_lunar_source"
       | "preview_night_glass"
+      | "start_night_glass"
+      | "claim_night_glass"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -1005,6 +1093,15 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "preview_night_glass") {
       previewNightGlassSource(gameState);
       this.pendingFx = { kind: "lunarHarvest", slotId: "facility_expedition_gate" };
+    } else if (action === "start_night_glass") {
+      startNightGlassSourceExpedition(gameState);
+      this.time.delayedCall(420, () => {
+        markNightGlassSourceExpeditionReturned(gameState);
+        this.renderGarden();
+      });
+    } else if (action === "claim_night_glass") {
+      claimNightGlassSourceReward(gameState);
+      this.pendingFx = { kind: "nightGlassAcquire", slotId: selectedSlotId };
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -1118,11 +1215,19 @@ class GardenBoardScene extends Phaser.Scene {
       this.hud.actions.appendChild(lunarRevealSurface);
     }
     if (gameState.nightGlassSourcePreviewVisible) {
+      const nightGlassStateText =
+        gameState.nightGlassAcquisitionState === "claimed"
+          ? `${NIGHT_GLASS_SOURCE_SEED_ID} source 획득 · 다음 planting loop 대기`
+          : gameState.nightGlassAcquisitionState === "returned"
+            ? `${NIGHT_GLASS_ROUTE_PREVIEW_ID} 귀환 상자 도착`
+            : gameState.nightGlassAcquisitionState === "traveling"
+              ? `${NIGHT_GLASS_ROUTE_PREVIEW_ID} 조사 중`
+              : `${NIGHT_GLASS_SOURCE_SEED_ID} · research_rare_glass · ${NIGHT_GLASS_ROUTE_PREVIEW_ID} 조사 준비`;
       const nightGlassSurface = document.createElement("div");
       nightGlassSurface.className = "collection-goal-surface";
       nightGlassSurface.innerHTML = `
         <strong>밤유리 source</strong>
-        <span>${NIGHT_GLASS_SOURCE_SEED_ID} · research_rare_glass · ${NIGHT_GLASS_ROUTE_PREVIEW_ID} 잠김</span>
+        <span>${nightGlassStateText}</span>
       `;
       this.hud.actions.appendChild(nightGlassSurface);
     }
@@ -1141,7 +1246,11 @@ class GardenBoardScene extends Phaser.Scene {
       empty.className = "action-note";
       empty.textContent =
         gameState.nightGlassSourcePreviewVisible
-          ? "밤유리 source route 잠김"
+          ? gameState.nightGlassAcquisitionState === "claimed"
+            ? "밤유리 source 보관됨"
+            : gameState.nightGlassAcquisitionState === "traveling"
+              ? "밤유리 조사 중"
+              : "밤유리 source route 대기"
         : selectedFacility?.kind === "order_crate"
           ? selectedFacility.progress > 0
             ? `주문 준비 ${selectedFacility.progress}%`
@@ -1217,7 +1326,9 @@ class GardenBoardScene extends Phaser.Scene {
       | "claim_expedition"
       | "preview_source"
       | "plant_lunar_source"
-      | "preview_night_glass";
+      | "preview_night_glass"
+      | "start_night_glass"
+      | "claim_night_glass";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -1227,6 +1338,20 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (state.researchLunarFamilyRevealed && !state.expeditionGatePreviewVisible) {
       return [{ id: "preview_expedition", label: "원정 문 단서 보기" }];
+    }
+    if (
+      facility?.kind === "expedition_gate" &&
+      state.nightGlassSourcePreviewVisible &&
+      state.nightGlassAcquisitionState === "ready"
+    ) {
+      return [{ id: "start_night_glass", label: "밤유리 조사 보내기" }];
+    }
+    if (
+      facility?.kind === "expedition_gate" &&
+      state.nightGlassSourcePreviewVisible &&
+      state.nightGlassAcquisitionState === "returned"
+    ) {
+      return [{ id: "claim_night_glass", label: "밤유리 귀환 상자 열기" }];
     }
     if (facility?.kind === "expedition_gate" && state.expeditionState === "ready") {
       return [{ id: "start_expedition", label: "틈새길 보내기" }];

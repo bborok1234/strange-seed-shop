@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T08:47:53.275Z
+Generated at: 2026-05-08T08:56:44.619Z
 
 ## Current mission
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-08T08:47:53.275Z
 - Branch: `codex/v1-night-glass-source-acquisition-route`
 - Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
 - Planned visual evidence: `reports/visual/issue-0510-night-glass-source-acquisition-route/`
-- Current validation: #510 plan-first intake complete; implementation pending
+- Current validation: #510 implementation complete; `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -74,18 +74,18 @@ Generated at: 2026-05-08T08:47:53.275Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-acquisition-route
-- Latest commit: c812986 Merge pull request #509 from bborok1234/codex/v1-night-glass-source-runtime-binding
+- Latest commit: 29a9a25 밤유리 source 획득 route 작업을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T08:47:48.138Z
-- Phase: phaser-v1-night-glass-source-acquisition-route-planning
+- Timestamp: 2026-05-08T08:56:32.339Z
+- Phase: phaser-v1-night-glass-source-acquisition-route-pr-ready
 - Issue: 510
 - PR:
 - Item: items/0271-night-glass-source-acquisition-route.md
-- Next action: implementation gate: add night glass acquisition route state/action/render/checker for #510
+- Next action: PR publication gate: commit, push, create draft PR for #510, then watch checks
 
 ## Open PRs
 

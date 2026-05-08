@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: todo
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #510
 - PR: TBD
@@ -70,6 +70,15 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 Evidence
+
+- `apps/seed-garden-phaser/src/gameState.ts`에 `nightGlassAcquisitionState`, `nightGlassSourceSeedAvailable`, `nightGlassSourceAcquired`, `nightGlassRewardLeaves`와 route start/return/claim reducer를 추가했다.
+- `apps/seed-garden-phaser/src/main.ts`에 `밤유리 조사 보내기`, `밤유리 귀환 상자 열기`, source 획득 marker, HUD progression surface, telemetry를 연결했다.
+- `scripts/check-phaser-foundation.mjs`는 `reports/visual/issue-0510-night-glass-source-acquisition-route/`로 screenshot evidence를 저장하고 night glass route start/return/acquire 상태를 검증한다.
+- Browser Use: 현재 tool surface에서 `browser-use:browser`/`iab` callable이 노출되지 않아 `reports/visual/issue-0510-night-glass-source-acquisition-route/browser-use-blocker-20260508.md`를 남겼다.
+- Playwright fallback: `npm run check:phaser` 통과. 최종 screenshot `reports/visual/issue-0510-night-glass-source-acquisition-route/phaser-check-night-glass-source-acquired-393.png`에서 `seed_rare_001 source 획득` state를 확인했다.
+- Local gate: `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` 통과.
 
 ## 리스크
 

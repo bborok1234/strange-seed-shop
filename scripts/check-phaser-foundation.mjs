@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0508-night-glass-source-runtime-binding";
+const OUT_DIR = "reports/visual/issue-0510-night-glass-source-acquisition-route";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -432,9 +432,56 @@ async function runSmoke() {
       nightGlassSourcePreviewAvailable: window.__seedGardenNightGlassSourcePreviewAvailable ?? false,
       nightGlassSourcePreviewVisible: window.__seedGardenNightGlassSourcePreviewVisible ?? false,
       nightGlassRoutePreviewId: window.__seedGardenNightGlassRoutePreviewId ?? "",
+      nightGlassAcquisitionState: window.__seedGardenNightGlassAcquisitionState ?? "",
+      nightGlassSourceSeedAvailable: window.__seedGardenNightGlassSourceSeedAvailable ?? false,
+      nightGlassSourceAcquired: window.__seedGardenNightGlassSourceAcquired ?? false,
+      nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
       nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
       nightGlassSourceFxKey: window.__seedGardenNightGlassSourceFxKey ?? "",
       topologyAssets: window.__seedGardenTopologyAssets ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.getByRole("button", { name: "밤유리 조사 보내기" }).click();
+    await page.waitForTimeout(100);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-night-glass-traveling-393.png`, fullPage: false });
+    const nightGlassTraveling = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      nightGlassAcquisitionState: window.__seedGardenNightGlassAcquisitionState ?? "",
+      nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
+      facilityStates: window.__seedGardenFacilityStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.waitForTimeout(520);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-night-glass-returned-393.png`, fullPage: false });
+    const nightGlassReturned = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      nightGlassAcquisitionState: window.__seedGardenNightGlassAcquisitionState ?? "",
+      nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
+      facilityStates: window.__seedGardenFacilityStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.getByRole("button", { name: "밤유리 귀환 상자 열기" }).click();
+    await page.waitForTimeout(180);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-night-glass-source-acquired-393.png`, fullPage: false });
+    const nightGlassAcquired = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      leaves: document.querySelector('[data-hud="leaves"]')?.textContent ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      nightGlassAcquisitionState: window.__seedGardenNightGlassAcquisitionState ?? "",
+      nightGlassSourceSeedAvailable: window.__seedGardenNightGlassSourceSeedAvailable ?? false,
+      nightGlassSourceAcquired: window.__seedGardenNightGlassSourceAcquired ?? false,
+      nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
+      nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
+      nightGlassSourceFxKey: window.__seedGardenNightGlassSourceFxKey ?? "",
+      facilityStates: window.__seedGardenFacilityStates ?? [],
       receipts: window.__seedGardenReceipts ?? []
     }));
 
@@ -484,6 +531,10 @@ async function runSmoke() {
       nightGlassSourcePreviewAvailable: window.__seedGardenNightGlassSourcePreviewAvailable ?? false,
       nightGlassSourcePreviewVisible: window.__seedGardenNightGlassSourcePreviewVisible ?? false,
       nightGlassRoutePreviewId: window.__seedGardenNightGlassRoutePreviewId ?? "",
+      nightGlassAcquisitionState: window.__seedGardenNightGlassAcquisitionState ?? "",
+      nightGlassSourceSeedAvailable: window.__seedGardenNightGlassSourceSeedAvailable ?? false,
+      nightGlassSourceAcquired: window.__seedGardenNightGlassSourceAcquired ?? false,
+      nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
       nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
       nightGlassSourceFxKey: window.__seedGardenNightGlassSourceFxKey ?? "",
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
@@ -517,7 +568,7 @@ async function runSmoke() {
     ) {
       failures.push("overview mode has body/document scroll");
     }
-    if (evidence.leaves !== "139") failures.push(`expected 139 leaves after lunar source harvest, got ${evidence.leaves}`);
+    if (evidence.leaves !== "203") failures.push(`expected 203 leaves after night glass source acquisition, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
       failures.push("missing order crate delivery receipt");
@@ -915,8 +966,83 @@ async function runSmoke() {
     if (nightGlassSourcePreview.nightGlassSourceFxKey !== "fx_night_glass_source_unlock_strip_v1") {
       failures.push(`expected night glass source FX key, got ${nightGlassSourcePreview.nightGlassSourceFxKey}`);
     }
+    if (nightGlassSourcePreview.nightGlassAcquisitionState !== "ready") {
+      failures.push(`expected night glass acquisition ready after preview, got ${nightGlassSourcePreview.nightGlassAcquisitionState}`);
+    }
+    if (nightGlassSourcePreview.nightGlassSourceSeedAvailable) {
+      failures.push("night glass source seed was available before route acquisition");
+    }
+    if (nightGlassSourcePreview.nightGlassSourceAcquired) {
+      failures.push("night glass source was acquired before route acquisition");
+    }
+    if (!nightGlassSourcePreview.railText.includes("밤유리 조사 보내기")) {
+      failures.push("missing night glass route start action after source preview");
+    }
     if (!nightGlassSourcePreview.receipts.some((receipt) => receipt.includes("밤유리 source 보기"))) {
       failures.push("missing night glass source preview receipt");
+    }
+    if (nightGlassTraveling.nightGlassAcquisitionState !== "traveling") {
+      failures.push(`expected night glass traveling state, got ${nightGlassTraveling.nightGlassAcquisitionState}`);
+    }
+    if (nightGlassTraveling.expeditionState !== "traveling") {
+      failures.push(`expected expedition traveling during night glass route, got ${nightGlassTraveling.expeditionState}`);
+    }
+    if (nightGlassTraveling.activeExpeditionRouteId !== "expedition_night_glass") {
+      failures.push(`expected active night glass route, got ${nightGlassTraveling.activeExpeditionRouteId}`);
+    }
+    if (nightGlassTraveling.nightGlassRewardLeaves !== 64) {
+      failures.push(`expected night glass reward leaves 64 while traveling, got ${nightGlassTraveling.nightGlassRewardLeaves}`);
+    }
+    if (!nightGlassTraveling.objective.includes("밤유리 온실 조사 중")) {
+      failures.push("missing night glass traveling objective");
+    }
+    if (!nightGlassTraveling.railText.includes("조사 중")) {
+      failures.push("missing night glass traveling HUD state");
+    }
+    if (!nightGlassTraveling.receipts.some((receipt) => receipt.includes("밤유리 온실 조사 출발"))) {
+      failures.push("missing night glass route start receipt");
+    }
+    if (nightGlassReturned.nightGlassAcquisitionState !== "returned") {
+      failures.push(`expected night glass returned state, got ${nightGlassReturned.nightGlassAcquisitionState}`);
+    }
+    if (nightGlassReturned.expeditionState !== "returned") {
+      failures.push(`expected expedition returned during night glass route, got ${nightGlassReturned.expeditionState}`);
+    }
+    if (!nightGlassReturned.railText.includes("밤유리 귀환 상자 열기")) {
+      failures.push("missing night glass return claim action");
+    }
+    if (!nightGlassReturned.objective.includes("밤유리 귀환 상자 도착")) {
+      failures.push("missing night glass returned objective");
+    }
+    if (!nightGlassReturned.receipts.some((receipt) => receipt.includes("밤유리 온실 조사 귀환"))) {
+      failures.push("missing night glass returned receipt");
+    }
+    if (nightGlassAcquired.nightGlassAcquisitionState !== "claimed") {
+      failures.push(`expected night glass claimed state, got ${nightGlassAcquired.nightGlassAcquisitionState}`);
+    }
+    if (nightGlassAcquired.expeditionState !== "claimed") {
+      failures.push(`expected expedition claimed after night glass source acquisition, got ${nightGlassAcquired.expeditionState}`);
+    }
+    if (!nightGlassAcquired.nightGlassSourceSeedAvailable) {
+      failures.push("night glass source seed availability telemetry missing after acquisition");
+    }
+    if (!nightGlassAcquired.nightGlassSourceAcquired) {
+      failures.push("night glass source acquired telemetry missing");
+    }
+    if (nightGlassAcquired.nightGlassRewardLeaves !== 0) {
+      failures.push(`expected night glass reward leaves reset, got ${nightGlassAcquired.nightGlassRewardLeaves}`);
+    }
+    if (nightGlassAcquired.leaves !== "203") {
+      failures.push(`expected 203 leaves after night glass acquisition, got ${nightGlassAcquired.leaves}`);
+    }
+    if (!nightGlassAcquired.objective.includes("밤유리 source 획득")) {
+      failures.push("missing night glass acquired objective");
+    }
+    if (!nightGlassAcquired.railText.includes("seed_rare_001 source 획득")) {
+      failures.push("missing night glass acquired HUD surface");
+    }
+    if (!nightGlassAcquired.receipts.some((receipt) => receipt.includes("밤유리 귀환 상자 열기"))) {
+      failures.push("missing night glass source acquisition receipt");
     }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
@@ -949,7 +1075,7 @@ async function runSmoke() {
     if (!evidence.researchLunarFamilyRevealed) failures.push("lunar family reveal telemetry missing from final evidence");
     if (!evidence.expeditionGatePreviewVisible) failures.push("expedition gate preview telemetry missing from final evidence");
     if (evidence.expeditionState !== "claimed") failures.push(`expected final expedition claimed state, got ${evidence.expeditionState}`);
-    if (evidence.activeExpeditionRouteId !== "expedition_backyard_gap") {
+    if (evidence.activeExpeditionRouteId !== "expedition_night_glass") {
       failures.push(`expected final expedition route id, got ${evidence.activeExpeditionRouteId}`);
     }
     if (evidence.expeditionRewardLeaves !== 0) {
@@ -1000,7 +1126,19 @@ async function runSmoke() {
     if (evidence.nightGlassSourceFxKey !== "fx_night_glass_source_unlock_strip_v1") {
       failures.push(`expected final night glass source FX asset, got ${evidence.nightGlassSourceFxKey}`);
     }
-    if (!evidence.objective.includes("밤유리 source")) failures.push("missing night glass final objective");
+    if (evidence.nightGlassAcquisitionState !== "claimed") {
+      failures.push(`expected final night glass acquisition claimed, got ${evidence.nightGlassAcquisitionState}`);
+    }
+    if (!evidence.nightGlassSourceSeedAvailable) {
+      failures.push("final night glass source seed availability missing");
+    }
+    if (!evidence.nightGlassSourceAcquired) {
+      failures.push("final night glass source acquired telemetry missing");
+    }
+    if (evidence.nightGlassRewardLeaves !== 0) {
+      failures.push(`expected final night glass reward leaves 0, got ${evidence.nightGlassRewardLeaves}`);
+    }
+    if (!evidence.objective.includes("밤유리 source 획득")) failures.push("missing night glass final objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const sourcePlot = evidence.plotStates.find((plot) => plot.seedId === "seed_lunar_002");
@@ -1062,6 +1200,9 @@ async function runSmoke() {
       lunarSourceReady,
       lunarSourceHarvested,
       nightGlassSourcePreview,
+      nightGlassTraveling,
+      nightGlassReturned,
+      nightGlassAcquired,
       overviewMode,
       manageReturn,
       evidence,
@@ -1110,7 +1251,10 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-lunar-source-planted-393.png`,
         `${OUT_DIR}/phaser-check-lunar-source-ready-393.png`,
         `${OUT_DIR}/phaser-check-lunar-source-harvested-393.png`,
-        `${OUT_DIR}/phaser-check-night-glass-source-preview-393.png`
+        `${OUT_DIR}/phaser-check-night-glass-source-preview-393.png`,
+        `${OUT_DIR}/phaser-check-night-glass-traveling-393.png`,
+        `${OUT_DIR}/phaser-check-night-glass-returned-393.png`,
+        `${OUT_DIR}/phaser-check-night-glass-source-acquired-393.png`
       ],
       failures
     };
