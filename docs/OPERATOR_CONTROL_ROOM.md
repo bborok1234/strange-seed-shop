@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T04:21:38.168Z
+Generated at: 2026-05-08T07:18:47.060Z
 
 ## Current mission
 
-현재 작업은 **초승달순 source harvest reveal bridge**이다. #498 초승달순 source planting loop는 PR #499 merge/main CI `25536106865`까지 통과했다. 다음 blocker는 `seed_lunar_002`가 planted state에서 멈추지 않고 `초승달순 수확`, accepted lunar creature reveal, harvest moonburst FX, 다음 rare route promise로 이어지게 만드는 점이다.
+현재 작업은 **밤유리 source preview bridge**이다. #500 초승달순 source harvest reveal bridge는 PR #501 merge/main CI `25542469948`까지 통과했다. 다음 blocker는 `은빛이끼 루미` reveal 뒤 `밤유리 source`가 텍스트 hint에 머물지 않고 `밤유리 source 보기`, rare route locked node, accepted rare silhouette marker로 이어지게 만드는 점이다.
 
 현재 evidence:
 
@@ -48,45 +48,46 @@ Generated at: 2026-05-08T04:21:38.168Z
 - Completed expedition gate raster/runtime binding: Issue #494, PR #495, main CI `25534928297`
 - Completed expedition return source preview bridge: Issue #496, PR #497, main CI `25535517659`
 - Completed lunar source planting loop: Issue #498, PR #499, main CI `25536106865`
-- WorkUnit: `items/0266-lunar-source-harvest-reveal.md`
-- GitHub issue: #500 `초승달순 source harvest reveal bridge`
-- Branch: `codex/v1-lunar-source-harvest-reveal`
+- Completed lunar source harvest reveal: Issue #500, PR #501, main CI `25542469948`
+- WorkUnit: `items/0267-night-glass-source-preview.md`
+- GitHub issue: #502 `밤유리 source preview bridge`
+- Branch: `codex/v1-night-glass-source-preview`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: source seed ready/harvest/reveal implemented; `npm run check:phaser` passed with mobile 393 lunar source harvest screenshots; accepted `creature_lunar_uncommon_001` and `fx_lunar_harvest_moonburst_001` are preloaded/rendered
+- Current validation: plan-first artifact exists, issue #502 opened, accepted `creature_lunar_rare_001` exists in manifest
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: planted source seed 후 `초승달순 수확` action이 실제 player verb로 보여야 한다.
-2. accepted lunar creature raster와 lunar harvest moonburst FX를 Phaser runtime에서 preload/render해야 한다.
-3. harvest reveal 후 달방울 creature payoff와 다음 rare route hint가 HUD/playfield/action rail에 남아야 한다.
+1. Studio Campaign Gate: 루미 reveal 후 `밤유리 source 보기` action이 실제 player verb로 보여야 한다.
+2. accepted `creature_lunar_rare_001`을 rare route silhouette/locked marker로 Phaser runtime에서 preload/render해야 한다.
+3. preview 후 `seed_rare_001`, `research_rare_glass`, `expedition_night_glass` promise가 HUD/playfield/action rail에 남아야 한다.
 4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-lunar-source-harvest-reveal
-- Latest commit: 0d3b0e4 PR evidence 본문을 초승달순 수확 reveal에 맞춘다
+- Branch: codex/v1-night-glass-source-preview
+- Latest commit: 9bd79af Merge pull request #501 from bborok1234/codex/v1-lunar-source-harvest-reveal
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T04:21:22.199Z
-- Phase: phaser-v1-lunar-source-harvest-reveal-pr-checks
-- Issue: 500
-- PR: 501
-- Item: items/0266-lunar-source-harvest-reveal.md
-- Next action: PR checks gate: watch PR #501 checks and ready/merge when green
+- Timestamp: 2026-05-08T07:18:41.190Z
+- Phase: phaser-v1-night-glass-source-preview-planning
+- Issue: 502
+- PR:
+- Item: items/0267-night-glass-source-preview.md
+- Next action: implementation gate: add night glass rare source preview action, marker, and checker for #502
 
 ## Open PRs
 
-- #501 draft 초승달순 source harvest reveal bridge — https://github.com/bborok1234/strange-seed-shop/pull/501
+- unavailable or none
 
 ## Open issues
 
-- #500 초승달순 source harvest reveal bridge — https://github.com/bborok1234/strange-seed-shop/issues/500
+- #502 밤유리 source preview bridge — https://github.com/bborok1234/strange-seed-shop/issues/502
 
 ## Playable mode
 
