@@ -391,7 +391,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **첫 원정 문/귀환 상자 asset plan-prompt**이다. #490 첫 원정 출발/귀환 route는 PR #491 merge/main CI `25531093879`까지 통과했다. 다음 blocker는 원정 문과 귀환 상자가 아직 order crate stand-in에 기대고 있어 D7 route prop identity가 약한 점이다.
+현재 작업은 **첫 원정 문/귀환 상자 raster 후보 생성/리뷰**이다. #493 첫 원정 문/귀환 상자 asset plan-prompt는 PR merge/main CI `25531773472`까지 통과했고, #494는 3개 gpt-image-2 후보를 생성/후처리/manifest/runtime binding까지 연결했다. 다음 blocker는 전체 CI와 PR merge gate를 통과해 main에 반영하는 점이다.
 
 현재 evidence:
 
@@ -428,21 +428,22 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed lunar sprout discovery confirm: Issue #486, PR #487, main CI `25526968559`
 - Completed expedition gate preview route: Issue #488, PR #489, main CI `25527621378`
 - Completed first expedition depart/return route: Issue #490, PR #491, main CI `25531093879`
-- Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0262-expedition-gate-asset-plan-prompt.md`
-- GitHub issue: #492 `첫 원정 문/귀환 상자 asset plan-prompt 만들기`
-- Draft PR: #493 `https://github.com/bborok1234/strange-seed-shop/pull/493`
-- Commit: `ded6820`
-- Branch: `codex/v1-expedition-gate-asset-plan-prompt`
+- Completed expedition gate asset plan/prompt: Issue #492, PR #493, main CI `25531773472`
+- WorkUnit: `items/0263-expedition-gate-raster-review.md`
+- GitHub issue: #494 `첫 원정 문/귀환 상자 raster 후보 생성/리뷰`
+- Branch: `codex/v1-expedition-gate-raster-review`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass, PR #493 checks pass
+- Generated assets: `facility_expedition_gate_v1`, `facility_expedition_return_crate_v1`, `fx_expedition_return_reward_strip_v1`
+- Asset review: `reports/assets/expedition_gate_asset_review_20260508.md`, `reports/assets/expedition_gate_asset_contact_sheet_20260508.png`
+- Visual evidence: `reports/visual/issue-0494-expedition-gate-raster-review/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:asset-alpha` pass, `npm run check:topology-asset-plan` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: 새 WorkUnit은 첫 원정 route의 dedicated prop/FX 후보를 plan/prompt로 남겨야 한다.
-2. expedition gate, return crate, return reward FX strip 3개 asset id가 plan/prompt에 모두 있어야 한다.
-3. FX strip metadata는 frame count, frame size, fps, animation binding을 포함해야 한다.
-4. output path는 workspace PNG 경로여야 하며 runtime generation 지시가 없어야 한다.
+1. Studio Campaign Gate: 전체 CI가 `npm run check:ci`까지 통과해야 한다.
+2. PR body에는 gpt-image-2 transparent blocker, opaque 재시도, alpha cleanup, strict strip normalization, visual evidence를 모두 기록해야 한다.
+3. PR merge 후 main CI를 관찰해야 한다.
+4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.

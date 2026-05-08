@@ -2,8 +2,8 @@
   "source_prompts": "assets/source/asset_prompts.json",
   "generated_at": "2026-05-08",
   "generation_mode": "hybrid_codex_native_and_openai_images_api",
-  "total": 65,
-  "completed": 65,
+  "total": 68,
+  "completed": 68,
   "missing": [],
   "blocked": false,
   "notes": [
@@ -16,7 +16,8 @@
     "art_team_api_lever_validated_2026-05-04: After #340 the gpt-image-1 path was confirmed end-to-end. Following individual verification propagation, gpt-image-2 was unblocked and rerun via SEED_ASSET_IMAGE_BACKGROUND=opaque + scripts/chroma-key-asset.mjs to produce RGBA assets at production quality. gpt-image-1 remains a usable alpha-native fallback; gpt-image-2 + chroma-key is the preferred high-quality path.",
     "issue_0224_garden_production_redesign: 12 gpt-image-2 UI/sprite/FX assets generated, alpha-cut, sprite/FX normalized, and registered as accepted manifest assets for the production scene redesign.",
     "issue_0228_momo_work_celebrate_sprite: 2 gpt-image-2 support actor sprite strips generated, alpha-cut, strict-strip normalized, and registered as accepted manifest assets for Momo work/celebrate gameplay.",
-    "issue_0237_topology_asset_generation_review: 14 gpt-image-2 topology candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque after transparent background was rejected; review report marks non-background assets for alpha/background cleanup before manifest/runtime integration."
+    "issue_0237_topology_asset_generation_review: 14 gpt-image-2 topology candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque after transparent background was rejected; review report marks non-background assets for alpha/background cleanup before manifest/runtime integration.",
+    "issue_0494_expedition_gate_raster_review: 3 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque after transparent background was rejected; facilities alpha-cleaned and FX normalized to strict 8x96x96 strip for review."
   ],
   "outputs": [
     "public/assets/game/creatures/creature_herb_common_001.png",
@@ -83,7 +84,10 @@
     "public/assets/game/sprites/actor_momo_carrier_strip_v1.png",
     "public/assets/game/fx/fx_care_spark_strip_v1.png",
     "public/assets/game/fx/fx_harvest_leaf_flyout_strip_v1.png",
-    "public/assets/game/ui/ui_shadow_soft_v1.png"
+    "public/assets/game/ui/ui_shadow_soft_v1.png",
+    "public/assets/game/facilities/facility_expedition_gate_v1.png",
+    "public/assets/game/facilities/facility_expedition_return_crate_v1.png",
+    "public/assets/game/fx/fx_expedition_return_reward_strip_v1.png"
   ],
   "batches": {
     "p0_5_core_asset_generation_first_pass": {
@@ -871,6 +875,97 @@
             "edge_connected_checkerboard_alpha_cleanup"
           ],
           "notes": "Issue #442 topology candidate generated with gpt-image-2 opaque background; manifest/runtime integration requires alpha/background cleanup or sprite normalization first. Postprocessed in #444 for Phaser runtime layering."
+        }
+      ]
+    },
+    "issue_0494_expedition_gate_raster_review": {
+      "total": 3,
+      "completed": 3,
+      "missing": [],
+      "blocked": false,
+      "generated_at": "2026-05-08T02:04:09.919Z",
+      "completed_assets": [
+        {
+          "asset_id": "facility_expedition_gate_v1",
+          "output_path": "public/assets/game/facilities/facility_expedition_gate_v1.png",
+          "status": "manifest_candidate_requires_alpha_review",
+          "width": 1024,
+          "height": 1024,
+          "channels": 4,
+          "has_alpha": true,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/facility_expedition_gate_v1/2026-05-08T01-45-47-015Z.png",
+          "review_required": true,
+          "post_processing": [
+            "edge_connected_checkerboard_alpha_cleanup"
+          ],
+          "notes": "Issue #494 gpt-image-2 opaque candidate with edge-connected checkerboard alpha cleanup; review required before manifest/runtime binding.",
+          "cleanup": {
+            "width": 1024,
+            "height": 1024,
+            "clearedPixels": 608904,
+            "clearedPercent": 58.07
+          }
+        },
+        {
+          "asset_id": "facility_expedition_return_crate_v1",
+          "output_path": "public/assets/game/facilities/facility_expedition_return_crate_v1.png",
+          "status": "manifest_candidate_requires_alpha_review",
+          "width": 1024,
+          "height": 1024,
+          "channels": 4,
+          "has_alpha": true,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/facility_expedition_return_crate_v1/2026-05-08T01-49-17-822Z.png",
+          "review_required": true,
+          "post_processing": [
+            "edge_connected_checkerboard_alpha_cleanup"
+          ],
+          "notes": "Issue #494 gpt-image-2 opaque candidate with edge-connected checkerboard alpha cleanup; review required before manifest/runtime binding.",
+          "cleanup": {
+            "width": 1024,
+            "height": 1024,
+            "clearedPixels": 647337,
+            "clearedPercent": 61.73
+          }
+        },
+        {
+          "asset_id": "fx_expedition_return_reward_strip_v1",
+          "output_path": "public/assets/game/fx/fx_expedition_return_reward_strip_v1.png",
+          "status": "normalized_runtime_strip_requires_review",
+          "width": 768,
+          "height": 96,
+          "channels": 4,
+          "has_alpha": true,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/fx_expedition_return_reward_strip_v1/2026-05-08T01-52-30-792Z.png",
+          "review_required": true,
+          "post_processing": [
+            "edge_connected_checkerboard_alpha_cleanup",
+            "strict_strip_normalization"
+          ],
+          "notes": "Issue #494 normalized strict runtime strip from gpt-image-2 source candidate; review required before manifest/runtime binding.",
+          "cleanup": {
+            "width": 1024,
+            "height": 1024,
+            "clearedPixels": 986780,
+            "clearedPercent": 94.11
+          },
+          "normalization": {
+            "frames": 8,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 14,
+            "repeat": 0,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 96,
+            "binding": "facility_expedition_gate.action.claim_return_crate"
+          }
         }
       ]
     }
