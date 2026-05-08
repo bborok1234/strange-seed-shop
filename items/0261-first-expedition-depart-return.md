@@ -1,6 +1,6 @@
 # 원정 문 preview가 첫 원정 출발/귀환 crate로 이어지게 만들기
 
-Status: PR open
+Status: PR checks passed
 Owner: agent
 Created: 2026-05-08
 GitHub issue: #490
@@ -120,6 +120,7 @@ git diff --check
 - `npm run check:ci` pass
 - Draft PR: #491 `https://github.com/bborok1234/strange-seed-shop/pull/491`
 - Commit: `6cec9dc`
+- PR checks: pass (`Verify game baseline`, `Art-share gate (stage-art-first enforcement)`, `Check automerge eligibility`)
 - Visual report: `reports/visual/issue-0490-first-expedition-depart-return/visual-report-20260508.md`
 - Key screenshots:
   - `reports/visual/issue-0490-first-expedition-depart-return/phaser-check-expedition-traveling-393.png`
