@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T08:32:39.535Z
+Generated at: 2026-05-08T08:35:20.350Z
 
 ## Current mission
 
@@ -73,22 +73,22 @@ Generated at: 2026-05-08T08:32:39.535Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-runtime-binding
-- Latest commit: cfa63d7 밤유리 source runtime binding 작업을 고정한다
+- Latest commit: d14e032 밤유리 source icon과 unlock FX를 runtime에 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T08:32:27.158Z
-- Phase: phaser-v1-night-glass-source-runtime-binding-review
+- Timestamp: 2026-05-08T08:35:18.978Z
+- Phase: phaser-v1-night-glass-source-runtime-binding-pr-checks
 - Issue: 508
-- PR:
+- PR: 509
 - Item: items/0270-night-glass-source-runtime-binding.md
-- Next action: verification gate: run check:ci, publish draft PR for #508 when green
+- Next action: PR checks gate: watch PR #509 checks and ready/merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #509 draft 밤유리 source icon/FX runtime binding — https://github.com/bborok1234/strange-seed-shop/pull/509
 
 ## Open issues
 

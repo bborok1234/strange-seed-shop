@@ -5,6 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #508
+- PR: #509
 - Branch: `codex/v1-night-glass-source-runtime-binding`
 - 연결: Issue #506, PR #507, main CI `25545174297`
 
