@@ -186,6 +186,19 @@
       ]
     },
     {
+      "asset_id": "seed_rare_001_icon",
+      "output_path": "public/assets/game/seeds/seed_rare_001_icon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game rare source seed icon\nPrimary request: Create seed_rare_001_icon for 밤유리 씨앗, the rare Lunar/night-glass source seed preview.\nSubject: A small glassy night-bloom seed with crescent highlight, translucent dark-blue shell, tiny silver root, pale mint sprout, and soft inner moon glow. It should feel rare and collectible without becoming a creature.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game icon, soft rounded shapes, crisp readable silhouette, subtle painterly texture, clean raster PNG edges, no text.\nComposition/framing: Centered single seed icon, generous padding, transparent or clean removable background, readable at 48px and 96px, no UI frame or label baked in.\nColor palette: night glass blue, silver lavender, pale mint, cream moon glow, tiny greenhouse teal accents.\nConstraints: Raster PNG output only; no SVG/vector/code-native accepted game graphic; no text, letters, numbers, logo, watermark, UI label, full background, or face. Must stay distinct from seed_lunar_001_icon and seed_lunar_002_icon.\nAvoid: Photorealistic glass, dark horror, occult symbols, existing characters, cluttered particles, hard neon, low contrast, gemstone loot icon cliché.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "reads as a rare Lunar/night-glass seed at 48px and 96px",
+        "distinct from seed_lunar_001_icon and seed_lunar_002_icon",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "centered with generous padding and clean removable background",
+        "matches cute-strange greenhouse collectible style"
+      ]
+    },
+    {
       "asset_id": "background_greenhouse_day_001",
       "output_path": "public/assets/game/backgrounds/background_greenhouse_day_001.png",
       "prompt": "Use case: stylized-concept\nAsset type: mobile idle game garden screen background\nPrimary request: Create the primary daytime greenhouse background for 이상한 씨앗상회.\nScene/backdrop: A cozy small greenhouse interior with warm daylight, soft glass panels, shelves of strange seed jars, and open floor space for a 3x3 plot grid overlay.\nSubject: Environment only, no characters, no readable text.\nStyle/medium: Polished 2D game background, cute-strange greenhouse mood, soft painterly texture, clean mobile UI readability.\nComposition/framing: Vertical mobile-friendly composition, lower-middle area intentionally open for plots, upper area with gentle greenhouse detail, edges safe for UI overlays.\nColor palette: Warm greens, cream sunlight, soft yellow, deep greenhouse teal accents.\nConstraints: No text, no logo, no watermark, avoid clutter where plots/buttons will appear, no strong focal character.\nAvoid: Photorealism, dark atmosphere, brand signs, complex tiny props, heavy perspective distortion.",
@@ -438,6 +451,25 @@
       "width": 640,
       "height": 160,
       "notes": "No new raster file generated in this run because OPENAI_API_KEY and SEED_ASSET_IMAGE_MODEL are missing. This prompt documents the accepted fallback binding to the existing Codex native raster FX strip."
+    },
+    {
+      "asset_id": "fx_night_glass_source_unlock_strip_v1",
+      "output_path": "public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser FX sprite sheet\nPrimary request: Create fx_night_glass_source_unlock_strip_v1 for the 밤유리 source preview unlock moment.\nSubject: A compact rare source unlock pulse: glassy crescent shimmer, tiny silver-mint pollen motes, night-blue leaf glints, and a soft lock-opening ring that suggests seed_rare_001 has been previewed but not acquired.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game FX, soft rounded particles, crisp readable silhouettes, subtle lunar/night-glass glow, clean raster PNG edges, no text.\nComposition/framing: One horizontal FX strip with exactly 8 frames, each frame 96x96, total 768x96 PNG, transparent background, consistent center, compact motion that stays inside frame and is safe near a playfield locked route marker and bottom action rail.\nColor palette: night glass blue, silver lavender, pale mint, cream moon glow, small greenhouse teal sparkles.\nConstraints: Intended fps 12; animation.binding night_glass_source.action.preview_unlock; behavior once. Raster PNG output only; no SVG/vector/code-native accepted game graphic; no text, UI label, frame, full background, character, seed icon baked into the FX, logo, or watermark.\nAvoid: Large explosion, hard neon, dark horror magic, occult symbols, realistic broken glass, cluttered particles, unreadable tiny details, baked UI button/card, copyrighted character resemblance.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "exactly 8 frames in one horizontal strip",
+        "each frame is 96x96 and total strip is 768x96",
+        "intended fps is 12",
+        "animation.binding is night_glass_source.action.preview_unlock",
+        "FX reads as night-glass rare source unlock at 96px",
+        "does not obscure playfield locked marker or bottom action rail",
+        "no text, watermark, logo, or copyrighted character resemblance"
+      ],
+      "category": "fx_strip",
+      "width": 768,
+      "height": 96,
+      "notes": "Generation-ready dedicated FX strip for #504. Actual PNG generation, manifest acceptance, and Phaser runtime binding are deferred to a follow-up WorkUnit."
     },
     {
       "asset_id": "ui_hud_plot_seedbed_empty_001",
