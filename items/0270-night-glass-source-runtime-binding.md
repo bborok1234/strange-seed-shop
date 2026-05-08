@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: active
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #508
 - Branch: `codex/v1-night-glass-source-runtime-binding`
@@ -55,6 +55,16 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 Evidence
+
+- `public/assets/manifest/assetManifest.json`에 `seed_rare_001_icon`과 `fx_night_glass_source_unlock_strip_v1` accepted entry를 추가했다.
+- `apps/seed-garden-phaser/src/main.ts`의 `TOPOLOGY_ASSETS`에 dedicated source icon/FX를 추가하고 preload/animation에 연결했다.
+- `renderNightGlassSourcePreview`를 accepted rare creature silhouette 중심에서 `seed_rare_001_icon` + `night-glass-source-unlock-once` 중심으로 교체했다.
+- telemetry에 `__seedGardenNightGlassSourceRenderedAssetKey`와 `__seedGardenNightGlassSourceFxKey`를 추가했다.
+- `scripts/check-phaser-foundation.mjs`가 `seed_rare_001_icon`, `fx_night_glass_source_unlock_strip_v1`, rendered asset key, FX key를 검증한다.
+- Browser Use: 현재 tool surface에서 `browser-use:browser`/`iab` callable이 노출되지 않아 `reports/visual/issue-0508-night-glass-source-runtime-binding/browser-use-blocker-20260508.md`를 남겼다.
+- Playwright fallback: `npm run check:phaser` 통과, screenshot `reports/visual/issue-0508-night-glass-source-runtime-binding/phaser-check-night-glass-source-preview-393.png`에서 dedicated icon/FX preview를 확인했다.
 
 ## 리스크
 
