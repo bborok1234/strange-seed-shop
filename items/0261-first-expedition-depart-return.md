@@ -1,9 +1,10 @@
 # 원정 문 preview가 첫 원정 출발/귀환 crate로 이어지게 만들기
 
-Status: verified
+Status: PR open
 Owner: agent
 Created: 2026-05-08
 GitHub issue: #490
+GitHub PR: #491
 Branch: `codex/v1-first-expedition-depart-return`
 Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:phaser-2d-game` -> `game-studio:game-playtest`
 
@@ -117,6 +118,8 @@ git diff --check
 
 - `npm run check:phaser` pass
 - `npm run check:ci` pass
+- Draft PR: #491 `https://github.com/bborok1234/strange-seed-shop/pull/491`
+- Commit: `6cec9dc`
 - Visual report: `reports/visual/issue-0490-first-expedition-depart-return/visual-report-20260508.md`
 - Key screenshots:
   - `reports/visual/issue-0490-first-expedition-depart-return/phaser-check-expedition-traveling-393.png`

@@ -46,12 +46,14 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0261-first-expedition-depart-return.md`
 - GitHub issue: #490 `원정 문 preview가 첫 원정 출발/귀환 crate로 이어지게 만들기`
+- Draft PR: #491 `https://github.com/bborok1234/strange-seed-shop/pull/491`
+- Commit: `6cec9dc`
 - Branch: `codex/v1-first-expedition-depart-return`
 - Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
 - Visual report: pending at `reports/visual/issue-0490-first-expedition-depart-return/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass, PR #491 checks queued
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -71,16 +73,16 @@ Generated at: 2026-05-07T22:29:32.719Z
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T01:07:29.000Z
-- Phase: phaser-v1-first-expedition-depart-return-pr-gate
+- Timestamp: 2026-05-08T01:09:00.000Z
+- Phase: phaser-v1-first-expedition-depart-return-pr
 - Issue: 490
-- PR: pending
+- PR: 491
 - Item: items/0261-first-expedition-depart-return.md
-- Next action: PR gate: commit, push, open draft PR, watch checks
+- Next action: PR gate: wait checks then ready/merge #491
 
 ## Open PRs
 
-- N/A — #490 implementation PR pending.
+- #491 원정 문 preview가 첫 원정 출발/귀환 crate로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/491
 
 ## Open issues
 
