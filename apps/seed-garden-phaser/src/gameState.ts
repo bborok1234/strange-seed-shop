@@ -10,6 +10,9 @@ export const STORAGE_BASKET_UNLOCK_COST = 80;
 export const LUNAR_SOURCE_SEED_ID = "seed_lunar_002";
 export const LUNAR_SOURCE_CREATURE_ID = "creature_lunar_uncommon_001";
 export const NEXT_EXPEDITION_ROUTE_PREVIEW_ID = "expedition_moon_fence_locked";
+export const NIGHT_GLASS_SOURCE_SEED_ID = "seed_rare_001";
+export const NIGHT_GLASS_ROUTE_PREVIEW_ID = "expedition_night_glass";
+export const NIGHT_GLASS_RESEARCH_PREVIEW_ID = "research_rare_glass";
 
 export interface BoardSlot {
   id: string;
@@ -91,6 +94,9 @@ export interface GardenState {
   lunarSourceSeedHarvested: boolean;
   lunarSourceCreatureRevealed: boolean;
   lunarSourceCreatureId?: string;
+  nightGlassSourcePreviewAvailable: boolean;
+  nightGlassSourcePreviewVisible: boolean;
+  nightGlassRoutePreviewId?: string;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -281,7 +287,10 @@ export function createGardenState(): GardenState {
     lunarSourceSeedPlanted: false,
     lunarSourceSeedHarvested: false,
     lunarSourceCreatureRevealed: false,
-    lunarSourceCreatureId: undefined
+    lunarSourceCreatureId: undefined,
+    nightGlassSourcePreviewAvailable: false,
+    nightGlassSourcePreviewVisible: false,
+    nightGlassRoutePreviewId: undefined
   };
 }
 
@@ -329,10 +338,12 @@ export function selectSlot(state: GardenState, slotId: string): void {
     return;
   }
   if (facility?.kind === "research_shelf") {
-    state.objective = state.researchLunarFamilyRevealed
-      ? state.expeditionGatePreviewVisible
-        ? "원정 문 preview 확인됨 · D7 원정 route 잠금"
-        : "달빛 family reveal 완료 · 다음 연구 목표: 원정 문 단서"
+    state.objective = state.nightGlassSourcePreviewVisible
+      ? "밤유리 배양 기록 잠김 · research_rare_glass rare source preview"
+      : state.researchLunarFamilyRevealed
+        ? state.expeditionGatePreviewVisible
+          ? "원정 문 preview 확인됨 · D7 원정 route 잠금"
+          : "달빛 family reveal 완료 · 다음 연구 목표: 원정 문 단서"
       : slot.unlockState === "preview"
         ? "연구 선반 살펴보기 · 다음 씨앗 단서"
         : "오프라인 보상 회수 후 연구 선반 preview";
@@ -346,7 +357,9 @@ export function selectSlot(state: GardenState, slotId: string): void {
     } else if (state.expeditionState === "returned") {
       state.objective = "귀환 상자 도착 · 보상 열기";
     } else if (state.expeditionState === "claimed") {
-      state.objective = state.expeditionSourcePreviewVisible
+      state.objective = state.nightGlassSourcePreviewVisible
+        ? "밤유리 source preview · expedition_night_glass 잠김"
+        : state.expeditionSourcePreviewVisible
         ? "초승달순 씨앗 source 발견 · 다음 route: 달빛 울타리 잠김"
         : "첫 원정 완료 · 초승달순 source 단서 확인";
     } else {
@@ -480,6 +493,7 @@ export function harvestSelectedPlot(state: GardenState): void {
     state.lunarSourceSeedHarvested = true;
     state.lunarSourceCreatureRevealed = true;
     state.lunarSourceCreatureId = LUNAR_SOURCE_CREATURE_ID;
+    state.nightGlassSourcePreviewAvailable = true;
     state.objective = "은빛이끼 루미 발견 · 다음 rare route: 밤유리 source";
     state.receipts.unshift("초승달순 수확 · 은빛이끼 루미 발견 · 잎 +44");
     return;
@@ -690,6 +704,24 @@ export function previewExpeditionSourceClue(state: GardenState): void {
   state.selectedSlotId = "facility_expedition_gate";
   state.objective = "초승달순 씨앗 source 발견 · 빈 밭에 심기";
   state.receipts.unshift("초승달순 단서 확인 · 달빛 울타리 route 잠김");
+}
+
+export function previewNightGlassSource(state: GardenState): void {
+  if (
+    !state.lunarSourceCreatureRevealed ||
+    !state.nightGlassSourcePreviewAvailable ||
+    state.nightGlassSourcePreviewVisible
+  ) {
+    return;
+  }
+
+  state.nightGlassSourcePreviewVisible = true;
+  state.nightGlassRoutePreviewId = NIGHT_GLASS_ROUTE_PREVIEW_ID;
+  state.selectedSlotId = "facility_expedition_gate";
+  state.objective = "밤유리 source preview · expedition_night_glass 잠김";
+  state.receipts.unshift(
+    `밤유리 source 보기 · ${NIGHT_GLASS_SOURCE_SEED_ID} · ${NIGHT_GLASS_RESEARCH_PREVIEW_ID} 잠김`
+  );
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {

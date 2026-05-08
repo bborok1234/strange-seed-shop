@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: planned
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:web-game-foundations -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #502
 - Branch: `codex/v1-night-glass-source-preview`
@@ -54,12 +54,22 @@
 
 ## 검증 명령
 
-- `npm run check:phaser`
-- `npm run check:ci`
+- `npm run check:phaser` - pass, `reports/visual/issue-0502-night-glass-source-preview/phaser-check-night-glass-source-preview-393.png`
+- `npm run check:ci` - pass
 - `npm run check:control-room`
 - `npm run check:ops-live`
 - `npm run check:github-metadata`
 - `git diff --check`
+
+## 구현 Evidence
+
+- `GardenState`에 `nightGlassSourcePreviewAvailable`, `nightGlassSourcePreviewVisible`, `nightGlassRoutePreviewId`를 추가했다.
+- `초승달순 수확 · 은빛이끼 루미 발견` 직후 `밤유리 source 보기` action이 열린다.
+- action 후 `nightGlassSourcePreviewVisible === true`, `nightGlassRoutePreviewId === expedition_night_glass`, `nightGlassSourceSeedId === seed_rare_001` telemetry가 남는다.
+- Phaser runtime은 accepted `creature_lunar_rare_001`을 preload하고, playfield 왼쪽 source node에 rare silhouette/lock marker로 표시한다.
+- HUD에는 `밤유리 source`, `seed_rare_001`, `research_rare_glass`, `expedition_night_glass` locked promise가 남는다.
+- Browser Use iab 도구는 이번 Codex tool surface에 노출되지 않았다. `tool_search` 결과가 Computer Use/Node REPL/GitHub만 반환하여 Playwright fallback과 저장된 screenshot inspection을 사용했다.
+- Visual report: `reports/visual/issue-0502-night-glass-source-preview/visual-report-20260508.md`
 
 ## 리스크
 

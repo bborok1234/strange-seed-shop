@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0500-lunar-source-harvest-reveal";
+const OUT_DIR = "reports/visual/issue-0502-night-glass-source-preview";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -14,6 +14,7 @@ const REQUIRED_TOPOLOGY_ASSETS = [
   "tile_plot_locked_preview_v1",
   "seed_lunar_002_icon",
   "creature_lunar_uncommon_001",
+  "creature_lunar_rare_001",
   "facility_workbench_v1",
   "facility_order_crate_empty_v1",
   "facility_order_crate_filled_v1",
@@ -411,7 +412,25 @@ async function runSmoke() {
       lunarSourceSeedHarvested: window.__seedGardenLunarSourceSeedHarvested ?? false,
       lunarSourceCreatureRevealed: window.__seedGardenLunarSourceCreatureRevealed ?? false,
       lunarSourceCreatureId: window.__seedGardenLunarSourceCreatureId ?? "",
+      nightGlassSourceSeedId: window.__seedGardenNightGlassSourceSeedId ?? "",
+      nightGlassSourcePreviewAvailable: window.__seedGardenNightGlassSourcePreviewAvailable ?? false,
+      nightGlassSourcePreviewVisible: window.__seedGardenNightGlassSourcePreviewVisible ?? false,
+      nightGlassRoutePreviewId: window.__seedGardenNightGlassRoutePreviewId ?? "",
       plotStates: window.__seedGardenPlotStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.getByRole("button", { name: "밤유리 source 보기" }).click();
+    await page.waitForTimeout(180);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-night-glass-source-preview-393.png`, fullPage: false });
+    const nightGlassSourcePreview = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      nightGlassSourceSeedId: window.__seedGardenNightGlassSourceSeedId ?? "",
+      nightGlassSourcePreviewAvailable: window.__seedGardenNightGlassSourcePreviewAvailable ?? false,
+      nightGlassSourcePreviewVisible: window.__seedGardenNightGlassSourcePreviewVisible ?? false,
+      nightGlassRoutePreviewId: window.__seedGardenNightGlassRoutePreviewId ?? "",
+      topologyAssets: window.__seedGardenTopologyAssets ?? [],
       receipts: window.__seedGardenReceipts ?? []
     }));
 
@@ -457,6 +476,10 @@ async function runSmoke() {
       lunarSourceSeedHarvested: window.__seedGardenLunarSourceSeedHarvested ?? false,
       lunarSourceCreatureRevealed: window.__seedGardenLunarSourceCreatureRevealed ?? false,
       lunarSourceCreatureId: window.__seedGardenLunarSourceCreatureId ?? "",
+      nightGlassSourceSeedId: window.__seedGardenNightGlassSourceSeedId ?? "",
+      nightGlassSourcePreviewAvailable: window.__seedGardenNightGlassSourcePreviewAvailable ?? false,
+      nightGlassSourcePreviewVisible: window.__seedGardenNightGlassSourcePreviewVisible ?? false,
+      nightGlassRoutePreviewId: window.__seedGardenNightGlassRoutePreviewId ?? "",
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -824,8 +847,56 @@ async function runSmoke() {
     if (!lunarSourceHarvested.railText.includes("밤유리 source")) {
       failures.push("missing lunar source rare route hint");
     }
+    if (!lunarSourceHarvested.nightGlassSourcePreviewAvailable) {
+      failures.push("night glass source preview was not available after lunar source harvest");
+    }
+    if (lunarSourceHarvested.nightGlassSourcePreviewVisible) {
+      failures.push("night glass source preview was visible before night glass action");
+    }
+    if (lunarSourceHarvested.nightGlassRoutePreviewId) {
+      failures.push(`night glass route id was set before action: ${lunarSourceHarvested.nightGlassRoutePreviewId}`);
+    }
+    if (lunarSourceHarvested.nightGlassSourceSeedId !== "seed_rare_001") {
+      failures.push(`expected night glass seed id seed_rare_001, got ${lunarSourceHarvested.nightGlassSourceSeedId}`);
+    }
+    if (!lunarSourceHarvested.railText.includes("밤유리 source 보기")) {
+      failures.push("missing night glass source preview action after Lumi reveal");
+    }
     if (!lunarSourceHarvested.receipts.some((receipt) => receipt.includes("초승달순 수확 · 은빛이끼 루미 발견"))) {
       failures.push("missing lunar source harvest receipt");
+    }
+    if (!nightGlassSourcePreview.nightGlassSourcePreviewAvailable) {
+      failures.push("night glass source preview availability disappeared after action");
+    }
+    if (!nightGlassSourcePreview.nightGlassSourcePreviewVisible) {
+      failures.push("night glass source preview telemetry missing after action");
+    }
+    if (nightGlassSourcePreview.nightGlassRoutePreviewId !== "expedition_night_glass") {
+      failures.push(`expected expedition_night_glass route preview id, got ${nightGlassSourcePreview.nightGlassRoutePreviewId}`);
+    }
+    if (nightGlassSourcePreview.nightGlassSourceSeedId !== "seed_rare_001") {
+      failures.push(`expected seed_rare_001 preview source id, got ${nightGlassSourcePreview.nightGlassSourceSeedId}`);
+    }
+    if (nightGlassSourcePreview.selectedText !== "원정 문") {
+      failures.push(`expected expedition gate selected after night glass preview, got ${nightGlassSourcePreview.selectedText}`);
+    }
+    if (!nightGlassSourcePreview.railText.includes("밤유리 source")) {
+      failures.push("missing night glass source HUD surface");
+    }
+    if (!nightGlassSourcePreview.railText.includes("seed_rare_001")) {
+      failures.push("missing seed_rare_001 HUD surface");
+    }
+    if (!nightGlassSourcePreview.railText.includes("expedition_night_glass")) {
+      failures.push("missing expedition_night_glass HUD surface");
+    }
+    if (!nightGlassSourcePreview.railText.includes("research_rare_glass")) {
+      failures.push("missing research_rare_glass HUD surface");
+    }
+    if (!nightGlassSourcePreview.topologyAssets.includes("creature_lunar_rare_001")) {
+      failures.push("missing night glass rare creature topology asset key");
+    }
+    if (!nightGlassSourcePreview.receipts.some((receipt) => receipt.includes("밤유리 source 보기"))) {
+      failures.push("missing night glass source preview receipt");
     }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
@@ -891,7 +962,19 @@ async function runSmoke() {
     if (evidence.lunarSourceCreatureId !== "creature_lunar_uncommon_001") {
       failures.push(`expected final lunar source creature id, got ${evidence.lunarSourceCreatureId}`);
     }
-    if (!evidence.objective.includes("은빛이끼 루미")) failures.push("missing source harvest final objective");
+    if (!evidence.nightGlassSourcePreviewAvailable) {
+      failures.push("night glass preview availability missing from final evidence");
+    }
+    if (!evidence.nightGlassSourcePreviewVisible) {
+      failures.push("night glass preview visibility missing from final evidence");
+    }
+    if (evidence.nightGlassRoutePreviewId !== "expedition_night_glass") {
+      failures.push(`expected final night glass route id expedition_night_glass, got ${evidence.nightGlassRoutePreviewId}`);
+    }
+    if (evidence.nightGlassSourceSeedId !== "seed_rare_001") {
+      failures.push(`expected final night glass seed id seed_rare_001, got ${evidence.nightGlassSourceSeedId}`);
+    }
+    if (!evidence.objective.includes("밤유리 source")) failures.push("missing night glass final objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const sourcePlot = evidence.plotStates.find((plot) => plot.seedId === "seed_lunar_002");
@@ -952,6 +1035,7 @@ async function runSmoke() {
       lunarSourcePlanted,
       lunarSourceReady,
       lunarSourceHarvested,
+      nightGlassSourcePreview,
       overviewMode,
       manageReturn,
       evidence,
@@ -999,7 +1083,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-lunar-source-action-393.png`,
         `${OUT_DIR}/phaser-check-lunar-source-planted-393.png`,
         `${OUT_DIR}/phaser-check-lunar-source-ready-393.png`,
-        `${OUT_DIR}/phaser-check-lunar-source-harvested-393.png`
+        `${OUT_DIR}/phaser-check-lunar-source-harvested-393.png`,
+        `${OUT_DIR}/phaser-check-night-glass-source-preview-393.png`
       ],
       failures
     };

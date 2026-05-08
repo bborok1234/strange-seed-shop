@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T07:18:47.060Z
+Generated at: 2026-05-08T07:26:55.182Z
 
 ## Current mission
 
@@ -54,32 +54,32 @@ Generated at: 2026-05-08T07:18:47.060Z
 - Branch: `codex/v1-night-glass-source-preview`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact exists, issue #502 opened, accepted `creature_lunar_rare_001` exists in manifest
+- Current validation: #502 local implementation complete; `npm run check:phaser`, `npm run check:ci` pass; mobile 393 screenshot `reports/visual/issue-0502-night-glass-source-preview/phaser-check-night-glass-source-preview-393.png`; accepted `creature_lunar_rare_001` preloaded/rendered as locked silhouette marker
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: 루미 reveal 후 `밤유리 source 보기` action이 실제 player verb로 보여야 한다.
-2. accepted `creature_lunar_rare_001`을 rare route silhouette/locked marker로 Phaser runtime에서 preload/render해야 한다.
-3. preview 후 `seed_rare_001`, `research_rare_glass`, `expedition_night_glass` promise가 HUD/playfield/action rail에 남아야 한다.
+1. PR publication gate: #502 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+2. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
+3. merge 후 다음 blocker는 실제 `seed_rare_001` 전용 source icon/FX plan-generation 또는 `expedition_night_glass` 실행 loop 중 North Star payoff가 큰 쪽으로 plan-first 선택한다.
 4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
 - Branch: codex/v1-night-glass-source-preview
-- Latest commit: 9bd79af Merge pull request #501 from bborok1234/codex/v1-lunar-source-harvest-reveal
+- Latest commit: 488d74e 밤유리 source preview 계획을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T07:18:41.190Z
-- Phase: phaser-v1-night-glass-source-preview-planning
+- Timestamp: 2026-05-08T07:26:48.541Z
+- Phase: phaser-v1-night-glass-source-preview-review
 - Issue: 502
 - PR:
 - Item: items/0267-night-glass-source-preview.md
-- Next action: implementation gate: add night glass rare source preview action, marker, and checker for #502
+- Next action: PR publication gate: publish draft PR for #502 and watch GitHub checks
 
 ## Open PRs
 

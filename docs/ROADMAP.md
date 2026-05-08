@@ -67,6 +67,9 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 달빛 새싹 발견 확인 research family reveal | done | Issue #486, PR #487, main CI `25526968559`, `items/0259-lunar-sprout-discovery-confirm.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0486-lunar-sprout-discovery-confirm/visual-report-20260508.md` | #484 이후 reveal-ready 상태가 action rail 안내에 머무르는 blocker를 해결했다. `발견 확인` action으로 달빛 family reveal을 확정하고 연구 선반 playfield/HUD surface에 persistent state를 남겼으며, PR checks/merge/main CI가 통과했다 |
 | 달빛 family reveal 원정 문 preview route | done | Issue #488, PR #489, main CI `25527621378`, `items/0260-expedition-gate-preview-route.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0488-expedition-gate-preview-route/visual-report-20260508.md` | #486 이후 다음 장기 route가 text promise에 머무르는 blocker를 해결했다. `원정 문 단서 보기` action과 preview-only board state로 D7 expedition route 실루엣을 만들었고, PR checks/merge/main CI가 통과했다 |
 | 첫 원정 보상 source preview bridge | review | Issue #496, `items/0264-expedition-return-source-bridge.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0496-expedition-return-source-bridge/visual-report-20260508.md` | #495 이후 귀환 상자 claim이 receipt에서 멈추는 blocker를 해결했다. `초승달순 단서 보기` action, `seed_lunar_002` source clue, `expedition_moon_fence_locked` route lock telemetry, playfield source/route marker를 추가했고 `npm run check:phaser`, `npm run check:ci`, `git diff --check`가 통과했다 |
+| 초승달순 source planting loop | done | Issue #498, PR #499, main CI `25536106865`, `items/0265-lunar-source-planting-loop.md` | 첫 원정 source clue가 `seed_lunar_002` 빈 밭 planting loop로 이어지고 PR checks/merge/main CI가 통과했다 |
+| 초승달순 source harvest reveal | done | Issue #500, PR #501, main CI `25542469948`, `items/0266-lunar-source-harvest-reveal.md` | `seed_lunar_002` 수확 후 accepted `creature_lunar_uncommon_001` 루미 reveal과 `밤유리 source` hint가 남고 PR checks/merge/main CI가 통과했다 |
+| 밤유리 source preview bridge | review | Issue #502, `items/0267-night-glass-source-preview.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0502-night-glass-source-preview/visual-report-20260508.md` | #501 이후 `밤유리 source`가 텍스트 hint에 머무르는 blocker를 해결했다. `밤유리 source 보기` action, `seed_rare_001`, `research_rare_glass`, `expedition_night_glass`, accepted `creature_lunar_rare_001` silhouette marker를 추가했고 `npm run check:phaser`, `npm run check:ci`가 통과했다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -439,13 +442,13 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Branch: `codex/v1-night-glass-source-preview`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact exists, issue #502 opened, accepted `creature_lunar_rare_001` exists in manifest
+- Current validation: #502 local implementation complete; `npm run check:phaser`, `npm run check:ci` pass; mobile 393 screenshot `reports/visual/issue-0502-night-glass-source-preview/phaser-check-night-glass-source-preview-393.png`; accepted `creature_lunar_rare_001` preloaded/rendered as locked silhouette marker
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: 루미 reveal 후 `밤유리 source 보기` action이 실제 player verb로 보여야 한다.
-2. accepted `creature_lunar_rare_001`을 rare route silhouette/locked marker로 Phaser runtime에서 preload/render해야 한다.
-3. preview 후 `seed_rare_001`, `research_rare_glass`, `expedition_night_glass` promise가 HUD/playfield/action rail에 남아야 한다.
+1. PR publication gate: #502 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+2. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
+3. merge 후 다음 blocker는 실제 `seed_rare_001` 전용 source icon/FX plan-generation 또는 `expedition_night_glass` 실행 loop 중 North Star payoff가 큰 쪽으로 plan-first 선택한다.
 4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
