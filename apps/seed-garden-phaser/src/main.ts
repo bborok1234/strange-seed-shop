@@ -17,6 +17,8 @@ import {
   LUNAR_SOURCE_SEED_ID,
   markBackyardGapExpeditionReturned,
   markNightGlassSourceExpeditionReturned,
+  NIGHT_GLASS_RARE_CREATURE_ID,
+  NIGHT_GLASS_RARE_CREATURE_NAME,
   NIGHT_GLASS_ROUTE_PREVIEW_ID,
   NIGHT_GLASS_SOURCE_SEED_ID,
   plantLunarSourceSeed,
@@ -242,6 +244,7 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderNightGlassSourcePreview();
     this.renderNightGlassAcquisitionMarker();
     this.renderLunarSourceReveal();
+    this.renderNightGlassRareReveal();
     this.renderActors();
     this.renderPendingFx();
     this.applyViewModeCamera();
@@ -332,8 +335,16 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenNightGlassSourceSeedAvailable = gameState.nightGlassSourceSeedAvailable;
     (window as unknown as { __seedGardenNightGlassSourceSeedPlanted?: boolean })
       .__seedGardenNightGlassSourceSeedPlanted = gameState.nightGlassSourceSeedPlanted;
+    (window as unknown as { __seedGardenNightGlassSourceSeedHarvested?: boolean })
+      .__seedGardenNightGlassSourceSeedHarvested = gameState.nightGlassSourceSeedHarvested;
     (window as unknown as { __seedGardenNightGlassSourceAcquired?: boolean }).__seedGardenNightGlassSourceAcquired =
       gameState.nightGlassSourceAcquired;
+    (window as unknown as { __seedGardenNightGlassRareCreatureRevealed?: boolean })
+      .__seedGardenNightGlassRareCreatureRevealed = gameState.nightGlassRareCreatureRevealed;
+    (window as unknown as { __seedGardenNightGlassRareCreatureId?: string }).__seedGardenNightGlassRareCreatureId =
+      gameState.nightGlassRareCreatureId ?? "";
+    (window as unknown as { __seedGardenNightGlassRareCreatureName?: string }).__seedGardenNightGlassRareCreatureName =
+      gameState.nightGlassRareCreatureRevealed ? NIGHT_GLASS_RARE_CREATURE_NAME : "";
     (window as unknown as { __seedGardenNightGlassRewardLeaves?: number }).__seedGardenNightGlassRewardLeaves =
       gameState.nightGlassRewardLeaves;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
@@ -809,6 +820,45 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderLayer?.add(container);
   }
 
+  private renderNightGlassRareReveal() {
+    if (!gameState.nightGlassRareCreatureRevealed) {
+      return;
+    }
+    const container = this.add.container(302, 236);
+    container.setDepth(56);
+
+    const aura = this.add.sprite(0, -4, TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key);
+    aura.setDisplaySize(126, 104);
+    aura.setAlpha(0.88);
+    aura.play("night-glass-source-unlock-once");
+    container.add(aura);
+
+    const shadow = this.add.image(0, 54, TOPOLOGY_ASSETS.facilities.shadow.key);
+    shadow.setDisplaySize(96, 34);
+    shadow.setAlpha(0.42);
+    container.add(shadow);
+
+    const creature = this.add.image(0, 0, TOPOLOGY_ASSETS.creatures.lunarRare.key);
+    creature.setDisplaySize(92, 92);
+    creature.setAlpha(0.99);
+    container.add(creature);
+
+    const label = this.add
+      .text(0, 58, `${NIGHT_GLASS_RARE_CREATURE_NAME}\n발견`, {
+        align: "center",
+        backgroundColor: "rgba(42, 36, 84, 0.9)",
+        color: "#f9e9ff",
+        fontFamily: "system-ui, sans-serif",
+        fontSize: "11px",
+        fontStyle: "800",
+        lineSpacing: 1,
+        padding: { x: 8, y: 3 }
+      })
+      .setOrigin(0.5);
+    container.add(label);
+    this.renderLayer?.add(container);
+  }
+
   private renderNightGlassSourcePreview() {
     if (!gameState.nightGlassSourcePreviewVisible) {
       return;
@@ -1136,7 +1186,12 @@ class GardenBoardScene extends Phaser.Scene {
       const harvestedSeedId = getPlotBySlot(gameState, selectedSlotId)?.seedId;
       harvestSelectedPlot(gameState);
       this.pendingFx = {
-        kind: harvestedSeedId === LUNAR_SOURCE_SEED_ID ? "lunarHarvest" : "harvest",
+        kind:
+          harvestedSeedId === NIGHT_GLASS_SOURCE_SEED_ID
+            ? "nightGlassAcquire"
+            : harvestedSeedId === LUNAR_SOURCE_SEED_ID
+              ? "lunarHarvest"
+              : "harvest",
         slotId: selectedSlotId
       };
     } else if (action === "claim") {
@@ -1243,7 +1298,11 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (gameState.nightGlassSourcePreviewVisible) {
       const nightGlassStateText =
-        gameState.nightGlassSourceSeedPlanted
+        gameState.nightGlassRareCreatureRevealed
+          ? `${NIGHT_GLASS_RARE_CREATURE_NAME} 발견 · ${NIGHT_GLASS_RARE_CREATURE_ID}`
+          : gameState.nightGlassSourceSeedHarvested
+            ? `${NIGHT_GLASS_SOURCE_SEED_ID} 수확 완료 · rare reveal 저장`
+            : gameState.nightGlassSourceSeedPlanted
           ? `${NIGHT_GLASS_SOURCE_SEED_ID} 재배 중 · 밤유리 rare source`
           : gameState.nightGlassAcquisitionState === "claimed"
           ? `${NIGHT_GLASS_SOURCE_SEED_ID} source 획득 · 빈 밭에 밤유리 심기`
@@ -1276,7 +1335,11 @@ class GardenBoardScene extends Phaser.Scene {
       if (selectedSlot.unlockState === "unlocked" && gameState.nightGlassSourceSeedAvailable) {
         empty.textContent = "빈 밭에 밤유리 심기";
       } else if (gameState.nightGlassSourcePreviewVisible) {
-        empty.textContent = gameState.nightGlassSourceSeedPlanted
+        empty.textContent = gameState.nightGlassRareCreatureRevealed
+          ? `${NIGHT_GLASS_RARE_CREATURE_NAME} 발견`
+          : gameState.nightGlassSourceSeedHarvested
+            ? "밤유리 수확 완료"
+            : gameState.nightGlassSourceSeedPlanted
           ? "밤유리 재배 중"
           : gameState.nightGlassAcquisitionState === "claimed"
             ? "밤유리 source 보관됨"
@@ -1464,6 +1527,9 @@ class GardenBoardScene extends Phaser.Scene {
       return [{ id: "care", label: "돌보기" }];
     }
     if (plot?.state === "ready") {
+      if (plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID) {
+        return [{ id: "harvest", label: "밤유리 수확" }];
+      }
       if (plot.seedId === LUNAR_SOURCE_SEED_ID) {
         return [{ id: "harvest", label: "초승달순 수확" }];
       }
