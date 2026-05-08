@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0498-lunar-source-planting-loop";
+const OUT_DIR = "reports/visual/issue-0500-lunar-source-harvest-reveal";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -13,6 +13,7 @@ const REQUIRED_TOPOLOGY_ASSETS = [
   "tile_plot_ready_v1",
   "tile_plot_locked_preview_v1",
   "seed_lunar_002_icon",
+  "creature_lunar_uncommon_001",
   "facility_workbench_v1",
   "facility_order_crate_empty_v1",
   "facility_order_crate_filled_v1",
@@ -23,6 +24,7 @@ const REQUIRED_TOPOLOGY_ASSETS = [
   "actor_momo_carrier_strip_v1",
   "fx_care_spark_strip_v1",
   "fx_harvest_leaf_flyout_strip_v1",
+  "fx_lunar_harvest_moonburst_001",
   "fx_expedition_return_reward_strip_v1"
 ];
 
@@ -378,6 +380,37 @@ async function runSmoke() {
       lunarSourceSeedAvailable: window.__seedGardenLunarSourceSeedAvailable ?? false,
       lunarSourceSeedPlanted: window.__seedGardenLunarSourceSeedPlanted ?? false,
       lunarSourceSeedHarvested: window.__seedGardenLunarSourceSeedHarvested ?? false,
+      lunarSourceCreatureRevealed: window.__seedGardenLunarSourceCreatureRevealed ?? false,
+      lunarSourceCreatureId: window.__seedGardenLunarSourceCreatureId ?? "",
+      plotStates: window.__seedGardenPlotStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.getByRole("button", { name: "돌보기" }).click();
+    await page.waitForTimeout(120);
+    await page.getByRole("button", { name: "돌보기" }).click();
+    await page.waitForTimeout(160);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-lunar-source-ready-393.png`, fullPage: false });
+    const lunarSourceReady = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      lunarSourceSeedHarvested: window.__seedGardenLunarSourceSeedHarvested ?? false,
+      lunarSourceCreatureRevealed: window.__seedGardenLunarSourceCreatureRevealed ?? false,
+      lunarSourceCreatureId: window.__seedGardenLunarSourceCreatureId ?? "",
+      plotStates: window.__seedGardenPlotStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.getByRole("button", { name: "초승달순 수확" }).click();
+    await page.waitForTimeout(180);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-lunar-source-harvested-393.png`, fullPage: false });
+    const lunarSourceHarvested = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      leaves: document.querySelector('[data-hud="leaves"]')?.textContent ?? "",
+      lunarSourceSeedAvailable: window.__seedGardenLunarSourceSeedAvailable ?? false,
+      lunarSourceSeedPlanted: window.__seedGardenLunarSourceSeedPlanted ?? false,
+      lunarSourceSeedHarvested: window.__seedGardenLunarSourceSeedHarvested ?? false,
+      lunarSourceCreatureRevealed: window.__seedGardenLunarSourceCreatureRevealed ?? false,
+      lunarSourceCreatureId: window.__seedGardenLunarSourceCreatureId ?? "",
       plotStates: window.__seedGardenPlotStates ?? [],
       receipts: window.__seedGardenReceipts ?? []
     }));
@@ -422,6 +455,8 @@ async function runSmoke() {
       lunarSourceSeedAvailable: window.__seedGardenLunarSourceSeedAvailable ?? false,
       lunarSourceSeedPlanted: window.__seedGardenLunarSourceSeedPlanted ?? false,
       lunarSourceSeedHarvested: window.__seedGardenLunarSourceSeedHarvested ?? false,
+      lunarSourceCreatureRevealed: window.__seedGardenLunarSourceCreatureRevealed ?? false,
+      lunarSourceCreatureId: window.__seedGardenLunarSourceCreatureId ?? "",
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -453,7 +488,7 @@ async function runSmoke() {
     ) {
       failures.push("overview mode has body/document scroll");
     }
-    if (evidence.leaves !== "95") failures.push(`expected 95 leaves after expedition reward, got ${evidence.leaves}`);
+    if (evidence.leaves !== "139") failures.push(`expected 139 leaves after lunar source harvest, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
       failures.push("missing order crate delivery receipt");
@@ -732,6 +767,9 @@ async function runSmoke() {
     if (lunarSourcePlanted.lunarSourceSeedHarvested) {
       failures.push("lunar source seed harvested during planting slice");
     }
+    if (lunarSourcePlanted.lunarSourceCreatureRevealed) {
+      failures.push("lunar source creature revealed during planting slice");
+    }
     const lunarSourcePlot = lunarSourcePlanted.plotStates.find((plot) => plot.seedId === "seed_lunar_002");
     if (
       !lunarSourcePlot ||
@@ -748,6 +786,46 @@ async function runSmoke() {
     }
     if (!lunarSourcePlanted.receipts.some((receipt) => receipt.includes("초승달순 씨앗을 심었다"))) {
       failures.push("missing lunar source planting receipt");
+    }
+    const lunarSourceReadyPlot = lunarSourceReady.plotStates.find((plot) => plot.seedId === "seed_lunar_002");
+    if (!lunarSourceReadyPlot || lunarSourceReadyPlot.state !== "ready" || lunarSourceReadyPlot.growth !== 100) {
+      failures.push(`expected seed_lunar_002 ready after care actions, got ${JSON.stringify(lunarSourceReadyPlot)}`);
+    }
+    if (!lunarSourceReady.railText.includes("초승달순 수확")) {
+      failures.push("missing lunar source harvest action");
+    }
+    if (!lunarSourceReady.objective.includes("초승달순 수확")) {
+      failures.push("missing lunar source ready objective");
+    }
+    if (lunarSourceReady.lunarSourceSeedHarvested) {
+      failures.push("lunar source seed harvested before harvest click");
+    }
+    if (lunarSourceReady.lunarSourceCreatureRevealed) {
+      failures.push("lunar source creature revealed before harvest click");
+    }
+    if (!lunarSourceReady.receipts.some((receipt) => receipt.includes("초승달순 수확 준비 완료"))) {
+      failures.push("missing lunar source ready receipt");
+    }
+    if (!lunarSourceHarvested.lunarSourceSeedHarvested) {
+      failures.push("lunar source seed harvest telemetry missing");
+    }
+    if (!lunarSourceHarvested.lunarSourceCreatureRevealed) {
+      failures.push("lunar source creature reveal telemetry missing");
+    }
+    if (lunarSourceHarvested.lunarSourceCreatureId !== "creature_lunar_uncommon_001") {
+      failures.push(`expected lunar source creature id creature_lunar_uncommon_001, got ${lunarSourceHarvested.lunarSourceCreatureId}`);
+    }
+    if (!lunarSourceHarvested.objective.includes("은빛이끼 루미")) {
+      failures.push("missing lunar source harvest objective");
+    }
+    if (!lunarSourceHarvested.railText.includes("은빛이끼 루미 발견")) {
+      failures.push("missing lunar source reveal HUD");
+    }
+    if (!lunarSourceHarvested.railText.includes("밤유리 source")) {
+      failures.push("missing lunar source rare route hint");
+    }
+    if (!lunarSourceHarvested.receipts.some((receipt) => receipt.includes("초승달순 수확 · 은빛이끼 루미 발견"))) {
+      failures.push("missing lunar source harvest receipt");
     }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
@@ -804,15 +882,21 @@ async function runSmoke() {
     if (!evidence.lunarSourceSeedPlanted) {
       failures.push("lunar source seed planted telemetry missing from final evidence");
     }
-    if (evidence.lunarSourceSeedHarvested) {
-      failures.push("lunar source seed harvested in final evidence");
+    if (!evidence.lunarSourceSeedHarvested) {
+      failures.push("lunar source seed harvest telemetry missing from final evidence");
     }
-    if (!evidence.objective.includes("초승달순 source 재배 중")) failures.push("missing source planting final objective");
+    if (!evidence.lunarSourceCreatureRevealed) {
+      failures.push("lunar source creature reveal telemetry missing from final evidence");
+    }
+    if (evidence.lunarSourceCreatureId !== "creature_lunar_uncommon_001") {
+      failures.push(`expected final lunar source creature id, got ${evidence.lunarSourceCreatureId}`);
+    }
+    if (!evidence.objective.includes("은빛이끼 루미")) failures.push("missing source harvest final objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const sourcePlot = evidence.plotStates.find((plot) => plot.seedId === "seed_lunar_002");
-    if (!sourcePlot || sourcePlot.state !== "planted" || sourcePlot.growth !== 28) {
-      failures.push(`expected a plot to hold planted seed_lunar_002, got ${JSON.stringify(sourcePlot)}`);
+    if (sourcePlot) {
+      failures.push(`expected seed_lunar_002 plot to be cleared after harvest, got ${JSON.stringify(sourcePlot)}`);
     }
     const storage = evidence.facilityStates.find((facility) => facility.slotId === "facility_storage");
     if (!storage || storage.level !== 1 || storage.visualState !== "active") {
@@ -866,6 +950,8 @@ async function runSmoke() {
       expeditionSourcePreview,
       lunarSourceAction,
       lunarSourcePlanted,
+      lunarSourceReady,
+      lunarSourceHarvested,
       overviewMode,
       manageReturn,
       evidence,
@@ -911,7 +997,9 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-expedition-claimed-393.png`,
         `${OUT_DIR}/phaser-check-expedition-source-preview-393.png`,
         `${OUT_DIR}/phaser-check-lunar-source-action-393.png`,
-        `${OUT_DIR}/phaser-check-lunar-source-planted-393.png`
+        `${OUT_DIR}/phaser-check-lunar-source-planted-393.png`,
+        `${OUT_DIR}/phaser-check-lunar-source-ready-393.png`,
+        `${OUT_DIR}/phaser-check-lunar-source-harvested-393.png`
       ],
       failures
     };
