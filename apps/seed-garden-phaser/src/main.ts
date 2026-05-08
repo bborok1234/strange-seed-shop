@@ -15,12 +15,15 @@ import {
   inspectResearchShelfPreview,
   LUNAR_SOURCE_SEED_ID,
   markBackyardGapExpeditionReturned,
+  NIGHT_GLASS_ROUTE_PREVIEW_ID,
+  NIGHT_GLASS_SOURCE_SEED_ID,
   plantLunarSourceSeed,
   plantResearchNextGoalSeed,
   plantResearchClueSeed,
   plantStarterSeed,
   previewExpeditionGateRoute,
   previewExpeditionSourceClue,
+  previewNightGlassSource,
   recordResearchClueInAlbum,
   selectSlot,
   startBackyardGapExpedition,
@@ -60,6 +63,10 @@ const TOPOLOGY_ASSETS = {
     lunarSource: {
       key: "creature_lunar_uncommon_001",
       path: "/assets/game/creatures/creature_lunar_uncommon_001.png"
+    },
+    lunarRare: {
+      key: "creature_lunar_rare_001",
+      path: "/assets/game/creatures/creature_lunar_rare_001.png"
     }
   },
   facilities: {
@@ -215,6 +222,7 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderLayer = this.add.container(0, 0);
     this.renderTerrain();
     this.renderSlots();
+    this.renderNightGlassSourcePreview();
     this.renderLunarSourceReveal();
     this.renderActors();
     this.renderPendingFx();
@@ -286,6 +294,14 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenLunarSourceCreatureRevealed = gameState.lunarSourceCreatureRevealed;
     (window as unknown as { __seedGardenLunarSourceCreatureId?: string }).__seedGardenLunarSourceCreatureId =
       gameState.lunarSourceCreatureId ?? "";
+    (window as unknown as { __seedGardenNightGlassSourceSeedId?: string }).__seedGardenNightGlassSourceSeedId =
+      NIGHT_GLASS_SOURCE_SEED_ID;
+    (window as unknown as { __seedGardenNightGlassSourcePreviewAvailable?: boolean })
+      .__seedGardenNightGlassSourcePreviewAvailable = gameState.nightGlassSourcePreviewAvailable;
+    (window as unknown as { __seedGardenNightGlassSourcePreviewVisible?: boolean })
+      .__seedGardenNightGlassSourcePreviewVisible = gameState.nightGlassSourcePreviewVisible;
+    (window as unknown as { __seedGardenNightGlassRoutePreviewId?: string }).__seedGardenNightGlassRoutePreviewId =
+      gameState.nightGlassRoutePreviewId ?? "";
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -733,6 +749,60 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderLayer?.add(container);
   }
 
+  private renderNightGlassSourcePreview() {
+    if (!gameState.nightGlassSourcePreviewVisible) {
+      return;
+    }
+
+    const container = this.add.container(104, 258);
+    container.setDepth(47);
+
+    const lockAura = this.add.graphics();
+    lockAura.fillStyle(0x27395d, 0.28);
+    lockAura.fillEllipse(0, 8, 112, 86);
+    lockAura.lineStyle(3, 0xf4d77d, 0.62);
+    lockAura.strokeEllipse(0, 4, 96, 70);
+    lockAura.lineStyle(2, 0x27395d, 0.52);
+    lockAura.strokeRoundedRect(-46, -38, 92, 76, 24);
+    container.add(lockAura);
+
+    const creature = this.add.image(0, -4, TOPOLOGY_ASSETS.creatures.lunarRare.key);
+    creature.setDisplaySize(76, 76);
+    creature.setAlpha(0.66);
+    creature.setTint(0x46516f);
+    container.add(creature);
+
+    const lockLabel = this.add
+      .text(0, 49, "밤유리 source\n잠김", {
+        align: "center",
+        backgroundColor: "rgba(37, 48, 82, 0.88)",
+        color: "#f4f0c9",
+        fontFamily: "system-ui, sans-serif",
+        fontSize: "10px",
+        fontStyle: "800",
+        lineSpacing: 1,
+        padding: { x: 8, y: 3 }
+      })
+      .setOrigin(0.5);
+    container.add(lockLabel);
+
+    const routeLabel = this.add
+      .text(72, 0, NIGHT_GLASS_ROUTE_PREVIEW_ID, {
+        align: "center",
+        backgroundColor: "rgba(32, 59, 47, 0.84)",
+        color: "#f4f0c9",
+        fontFamily: "system-ui, sans-serif",
+        fontSize: "8px",
+        fontStyle: "800",
+        padding: { x: 5, y: 2 }
+      })
+      .setOrigin(0.5);
+    routeLabel.setRotation(-0.08);
+    container.add(routeLabel);
+
+    this.renderLayer?.add(container);
+  }
+
   private renderTaskPath(from: BoardSlot, to: BoardSlot) {
     const path = this.add.graphics();
     path.lineStyle(3, 0x4f8d6d, 0.42);
@@ -873,6 +943,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "claim_expedition"
       | "preview_source"
       | "plant_lunar_source"
+      | "preview_night_glass"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -904,6 +975,9 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "plant_lunar_source") {
       plantLunarSourceSeed(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
+    } else if (action === "preview_night_glass") {
+      previewNightGlassSource(gameState);
+      this.pendingFx = { kind: "lunarHarvest", slotId: "facility_expedition_gate" };
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -1012,9 +1086,18 @@ class GardenBoardScene extends Phaser.Scene {
       lunarRevealSurface.className = "collection-goal-surface";
       lunarRevealSurface.innerHTML = `
         <strong>은빛이끼 루미 발견</strong>
-        <span>다음 rare route: 밤유리 source</span>
+        <span>${gameState.nightGlassSourcePreviewVisible ? "밤유리 source route 고정됨" : "다음 rare route: 밤유리 source"}</span>
       `;
       this.hud.actions.appendChild(lunarRevealSurface);
+    }
+    if (gameState.nightGlassSourcePreviewVisible) {
+      const nightGlassSurface = document.createElement("div");
+      nightGlassSurface.className = "collection-goal-surface";
+      nightGlassSurface.innerHTML = `
+        <strong>밤유리 source</strong>
+        <span>${NIGHT_GLASS_SOURCE_SEED_ID} · research_rare_glass · ${NIGHT_GLASS_ROUTE_PREVIEW_ID} 잠김</span>
+      `;
+      this.hud.actions.appendChild(nightGlassSurface);
     }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
@@ -1030,7 +1113,9 @@ class GardenBoardScene extends Phaser.Scene {
       const empty = document.createElement("span");
       empty.className = "action-note";
       empty.textContent =
-        selectedFacility?.kind === "order_crate"
+        gameState.nightGlassSourcePreviewVisible
+          ? "밤유리 source route 잠김"
+        : selectedFacility?.kind === "order_crate"
           ? selectedFacility.progress > 0
             ? `주문 준비 ${selectedFacility.progress}%`
             : "다음 상자 준비"
@@ -1060,6 +1145,8 @@ class GardenBoardScene extends Phaser.Scene {
                       : "초승달순 단서 대기"
                     : "원정 문 preview 표시됨"
               : "달빛 family 연구 중"
+          : gameState.nightGlassSourcePreviewAvailable && !gameState.nightGlassSourcePreviewVisible
+            ? "밤유리 source 보기 대기"
           : selectedSlot.unlockState === "unlocked" && gameState.researchClueRecordReady
             ? "도감 기록 대기"
           : selectedSlot.unlockState === "unlocked"
@@ -1102,7 +1189,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "start_expedition"
       | "claim_expedition"
       | "preview_source"
-      | "plant_lunar_source";
+      | "plant_lunar_source"
+      | "preview_night_glass";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -1126,6 +1214,13 @@ class GardenBoardScene extends Phaser.Scene {
       !state.expeditionSourcePreviewVisible
     ) {
       return [{ id: "preview_source", label: "초승달순 단서 보기" }];
+    }
+    if (
+      state.lunarSourceCreatureRevealed &&
+      state.nightGlassSourcePreviewAvailable &&
+      !state.nightGlassSourcePreviewVisible
+    ) {
+      return [{ id: "preview_night_glass", label: "밤유리 source 보기" }];
     }
     if (
       state.researchClueGoalSurfaceVisible &&
