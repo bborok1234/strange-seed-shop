@@ -5,6 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #506
+- PR: #507
 - Branch: `codex/v1-night-glass-source-asset-generation`
 - 연결: Issue #504, PR #505, main CI `25544082346`
 

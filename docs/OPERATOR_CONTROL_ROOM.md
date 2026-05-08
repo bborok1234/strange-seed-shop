@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T08:11:49.433Z
+Generated at: 2026-05-08T08:15:00.674Z
 
 ## Current mission
 
@@ -73,22 +73,22 @@ Generated at: 2026-05-08T08:11:49.433Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-asset-generation
-- Latest commit: 9e3971c 밤유리 source asset generation 작업을 고정한다
+- Latest commit: 691119b 밤유리 source icon과 unlock FX 후보를 생성한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T08:10:45.644Z
-- Phase: phaser-v1-night-glass-source-asset-generation-review
+- Timestamp: 2026-05-08T08:14:21.169Z
+- Phase: phaser-v1-night-glass-source-asset-generation-pr-checks
 - Issue: 506
-- PR:
+- PR: 507
 - Item: items/0269-night-glass-source-asset-generation-review.md
-- Next action: verification gate: rerun check:ci, then publish draft PR for #506
+- Next action: PR checks gate: watch PR #507 checks and ready/merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #507 draft 밤유리 source icon/FX generation-review — https://github.com/bborok1234/strange-seed-shop/pull/507
 
 ## Open issues
 
