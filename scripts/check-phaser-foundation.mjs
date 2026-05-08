@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0494-expedition-gate-raster-review";
+const OUT_DIR = "reports/visual/issue-0496-expedition-return-source-bridge";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -335,7 +335,24 @@ async function runSmoke() {
       expeditionState: window.__seedGardenExpeditionState ?? "",
       activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
       expeditionRewardLeaves: window.__seedGardenExpeditionRewardLeaves ?? 0,
+      expeditionSourceClueAvailable: window.__seedGardenExpeditionSourceClueAvailable ?? false,
+      expeditionSourcePreviewVisible: window.__seedGardenExpeditionSourcePreviewVisible ?? false,
+      nextExpeditionRoutePreviewId: window.__seedGardenNextExpeditionRoutePreviewId ?? "",
+      lunarSourceSeedId: window.__seedGardenLunarSourceSeedId ?? "",
       facilityStates: window.__seedGardenFacilityStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.getByRole("button", { name: "초승달순 단서 보기" }).click();
+    await page.waitForTimeout(160);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-expedition-source-preview-393.png`, fullPage: false });
+    const expeditionSourcePreview = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      expeditionSourceClueAvailable: window.__seedGardenExpeditionSourceClueAvailable ?? false,
+      expeditionSourcePreviewVisible: window.__seedGardenExpeditionSourcePreviewVisible ?? false,
+      nextExpeditionRoutePreviewId: window.__seedGardenNextExpeditionRoutePreviewId ?? "",
+      lunarSourceSeedId: window.__seedGardenLunarSourceSeedId ?? "",
       receipts: window.__seedGardenReceipts ?? []
     }));
 
@@ -372,6 +389,10 @@ async function runSmoke() {
       expeditionState: window.__seedGardenExpeditionState ?? "",
       activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
       expeditionRewardLeaves: window.__seedGardenExpeditionRewardLeaves ?? 0,
+      expeditionSourceClueAvailable: window.__seedGardenExpeditionSourceClueAvailable ?? false,
+      expeditionSourcePreviewVisible: window.__seedGardenExpeditionSourcePreviewVisible ?? false,
+      nextExpeditionRoutePreviewId: window.__seedGardenNextExpeditionRoutePreviewId ?? "",
+      lunarSourceSeedId: window.__seedGardenLunarSourceSeedId ?? "",
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -608,8 +629,52 @@ async function runSmoke() {
     if (!expeditionClaimed.railText.includes("첫 원정 완료")) {
       failures.push("missing expedition claimed HUD surface");
     }
+    if (!expeditionClaimed.expeditionSourceClueAvailable) {
+      failures.push("expedition source clue was not available after return crate claim");
+    }
+    if (expeditionClaimed.expeditionSourcePreviewVisible) {
+      failures.push("source preview was visible before source action");
+    }
+    if (expeditionClaimed.nextExpeditionRoutePreviewId) {
+      failures.push(`next route preview id was set before source action: ${expeditionClaimed.nextExpeditionRoutePreviewId}`);
+    }
+    if (expeditionClaimed.lunarSourceSeedId !== "seed_lunar_002") {
+      failures.push(`expected lunar source seed id after claim, got ${expeditionClaimed.lunarSourceSeedId}`);
+    }
+    if (!expeditionClaimed.railText.includes("초승달순 단서 보기")) {
+      failures.push("missing lunar source preview action after expedition claim");
+    }
+    if (!expeditionClaimed.railText.includes("초승달순 씨앗 source")) {
+      failures.push("missing lunar source surface after expedition claim");
+    }
     if (!expeditionClaimed.receipts.some((receipt) => receipt.includes("귀환 상자 열기 · 잎 +35"))) {
       failures.push("missing expedition reward receipt");
+    }
+    if (!expeditionSourcePreview.expeditionSourcePreviewVisible) {
+      failures.push("expedition source preview telemetry missing after source action");
+    }
+    if (!expeditionSourcePreview.expeditionSourceClueAvailable) {
+      failures.push("expedition source clue disappeared after source action");
+    }
+    if (expeditionSourcePreview.nextExpeditionRoutePreviewId !== "expedition_moon_fence_locked") {
+      failures.push(
+        `expected moon fence route preview id, got ${expeditionSourcePreview.nextExpeditionRoutePreviewId}`
+      );
+    }
+    if (expeditionSourcePreview.lunarSourceSeedId !== "seed_lunar_002") {
+      failures.push(`expected seed_lunar_002 source id, got ${expeditionSourcePreview.lunarSourceSeedId}`);
+    }
+    if (!expeditionSourcePreview.objective.includes("초승달순 씨앗 source")) {
+      failures.push("missing source preview objective");
+    }
+    if (!expeditionSourcePreview.railText.includes("초승달순 씨앗 source")) {
+      failures.push("missing source preview HUD surface");
+    }
+    if (!expeditionSourcePreview.railText.includes("달빛 울타리 잠김")) {
+      failures.push("missing moon fence route lock HUD text");
+    }
+    if (!expeditionSourcePreview.receipts.some((receipt) => receipt.includes("초승달순 단서 확인"))) {
+      failures.push("missing source preview receipt");
     }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
@@ -648,7 +713,19 @@ async function runSmoke() {
     if (evidence.expeditionRewardLeaves !== 0) {
       failures.push(`expected final expedition reward leaves 0, got ${evidence.expeditionRewardLeaves}`);
     }
-    if (!evidence.objective.includes("첫 원정 완료")) failures.push("missing expedition claimed final objective");
+    if (!evidence.expeditionSourceClueAvailable) {
+      failures.push("expedition source clue missing from final evidence");
+    }
+    if (!evidence.expeditionSourcePreviewVisible) {
+      failures.push("source preview missing from final evidence");
+    }
+    if (evidence.nextExpeditionRoutePreviewId !== "expedition_moon_fence_locked") {
+      failures.push(`expected final moon fence route preview id, got ${evidence.nextExpeditionRoutePreviewId}`);
+    }
+    if (evidence.lunarSourceSeedId !== "seed_lunar_002") {
+      failures.push(`expected final lunar source seed id, got ${evidence.lunarSourceSeedId}`);
+    }
+    if (!evidence.objective.includes("초승달순 씨앗 source")) failures.push("missing source preview final objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
@@ -704,6 +781,7 @@ async function runSmoke() {
       expeditionTraveling,
       expeditionReturned,
       expeditionClaimed,
+      expeditionSourcePreview,
       overviewMode,
       manageReturn,
       evidence,
@@ -746,7 +824,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-expedition-gate-preview-393.png`,
         `${OUT_DIR}/phaser-check-expedition-traveling-393.png`,
         `${OUT_DIR}/phaser-check-expedition-returned-393.png`,
-        `${OUT_DIR}/phaser-check-expedition-claimed-393.png`
+        `${OUT_DIR}/phaser-check-expedition-claimed-393.png`,
+        `${OUT_DIR}/phaser-check-expedition-source-preview-393.png`
       ],
       failures
     };

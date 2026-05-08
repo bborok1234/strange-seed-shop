@@ -7,7 +7,7 @@ Generated at: 2026-05-08T02:09:00.000Z
 
 ## Current mission
 
-현재 작업은 **첫 원정 문/귀환 상자 raster 후보 생성/리뷰**이다. #493 첫 원정 문/귀환 상자 asset plan-prompt는 PR merge/main CI `25531773472`까지 통과했고, #494는 3개 gpt-image-2 후보를 생성/후처리/manifest/runtime binding까지 연결했다. 다음 blocker는 전체 CI와 PR merge gate를 통과해 main에 반영하는 점이다.
+현재 작업은 **첫 원정 보상 source preview bridge**이다. #494 첫 원정 문/귀환 상자 raster 후보 생성/리뷰는 PR #495 merge/main CI `25534928297`까지 통과했다. 다음 blocker는 귀환 상자 claim이 `꽃가루 단서 후보` receipt에서 멈추지 않고 `초승달순 씨앗 source`와 다음 달빛 route lock preview로 이어지게 만드는 점이다.
 
 현재 evidence:
 
@@ -45,40 +45,38 @@ Generated at: 2026-05-08T02:09:00.000Z
 - Completed expedition gate preview route: Issue #488, PR #489, main CI `25527621378`
 - Completed first expedition depart/return route: Issue #490, PR #491, main CI `25531093879`
 - Completed expedition gate asset plan/prompt: Issue #492, PR #493, main CI `25531773472`
-- WorkUnit: `items/0263-expedition-gate-raster-review.md`
-- GitHub issue: #494 `첫 원정 문/귀환 상자 raster 후보 생성/리뷰`
-- Branch: `codex/v1-expedition-gate-raster-review`
+- Completed expedition gate raster/runtime binding: Issue #494, PR #495, main CI `25534928297`
+- WorkUnit: `items/0264-expedition-return-source-bridge.md`
+- GitHub issue: #496 `첫 원정 보상 source preview bridge`
+- Branch: `codex/v1-expedition-return-source-bridge`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Generated assets: `facility_expedition_gate_v1`, `facility_expedition_return_crate_v1`, `fx_expedition_return_reward_strip_v1`
-- Asset review: `reports/assets/expedition_gate_asset_review_20260508.md`, `reports/assets/expedition_gate_asset_contact_sheet_20260508.png`
-- Visual evidence: `reports/visual/issue-0494-expedition-gate-raster-review/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:asset-alpha` pass, `npm run check:topology-asset-plan` pass
+- Current validation: plan-first artifact exists, issue #496 opened
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. 전체 CI가 `npm run check:ci`까지 통과해야 한다.
-2. PR body에는 gpt-image-2 transparent blocker, opaque 재시도, alpha cleanup, strict strip normalization, visual evidence를 모두 기록해야 한다.
-3. PR merge 후 main CI를 관찰해야 한다.
+1. Studio Campaign Gate: 첫 원정 claim 후 source preview action이 실제 player verb로 보여야 한다.
+2. 초승달순 source preview와 다음 route lock이 HUD와 playfield 원정 문 상태에 모두 남아야 한다.
+3. `scripts/check-phaser-foundation.mjs`가 source preview telemetry와 screenshot을 검증해야 한다.
 4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-expedition-gate-raster-review
-- Latest commit: 040fd5f Merge pull request #493 from bborok1234/codex/v1-expedition-gate-asset-plan-prompt
+- Branch: codex/v1-expedition-return-source-bridge
+- Latest commit: de2f5d6 Merge pull request #495 from bborok1234/codex/v1-expedition-gate-raster-review
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
 - Timestamp: 2026-05-08T02:09:00.000Z
-- Phase: phaser-v1-expedition-gate-raster-review-pr-gate
-- Issue: 494
+- Phase: phaser-v1-expedition-return-source-bridge-planning
+- Issue: 496
 - PR:
-- Item: items/0263-expedition-gate-raster-review.md
-- Next action: run check:ci, commit implementation, push PR for #494
+- Item: items/0264-expedition-return-source-bridge.md
+- Next action: implementation gate: add source preview state/action/HUD/playfield/checker for #496
 
 ## Open PRs
 
@@ -86,7 +84,7 @@ Generated at: 2026-05-08T02:09:00.000Z
 
 ## Open issues
 
-- #494 첫 원정 문/귀환 상자 raster 후보 생성/리뷰 — https://github.com/bborok1234/strange-seed-shop/issues/494
+- #496 첫 원정 보상 source preview bridge — https://github.com/bborok1234/strange-seed-shop/issues/496
 
 ## Playable mode
 
