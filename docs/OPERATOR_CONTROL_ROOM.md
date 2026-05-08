@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T09:32:29.962Z
+Generated at: 2026-05-08T09:45:10.310Z
 
 ## Current mission
 
@@ -19,9 +19,9 @@ Generated at: 2026-05-08T09:32:29.962Z
 - WorkUnit: `items/0273-night-glass-source-harvest-reveal.md`
 - GitHub issue: #514 `밤유리 source harvest reveal`
 - Branch: `codex/v1-night-glass-source-harvest-reveal`
-- Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Planned visual evidence: `reports/visual/issue-0514-night-glass-source-harvest-reveal/`
-- Current validation: #514 plan-first intake complete; implementation pending
+- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
+- Visual evidence: `reports/visual/issue-0514-night-glass-source-harvest-reveal/visual-report-20260508.md`
+- Current validation: #514 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR publication pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -34,21 +34,23 @@ Generated at: 2026-05-08T09:32:29.962Z
 5. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 6. `creature_lunar_rare_001` reveal과 `fx_night_glass_source_unlock_strip_v1` harvest binding이 스크린샷에서 약하면 dedicated reveal FX WorkUnit을 후속으로 분리한다.
 
+다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
+
 ## Local state
 
 - Branch: codex/v1-night-glass-source-harvest-reveal
-- Latest commit: ad12b73 Merge pull request #513 from bborok1234/codex/v1-night-glass-source-planting-loop
+- Latest commit: 21d4dda 밤유리 source 수확 reveal 작업을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T09:32:28.682Z
-- Phase: phaser-v1-night-glass-source-harvest-reveal-planning
+- Timestamp: 2026-05-08T09:45:08.994Z
+- Phase: phaser-v1-night-glass-source-harvest-reveal-ready-for-pr
 - Issue: 514
 - PR:
 - Item: items/0273-night-glass-source-harvest-reveal.md
-- Next action: implementation gate: add night glass source harvest reveal action, rare creature marker, and checker
+- Next action: PR publication gate: commit implementation evidence and create draft PR for #514
 
 ## Open PRs
 

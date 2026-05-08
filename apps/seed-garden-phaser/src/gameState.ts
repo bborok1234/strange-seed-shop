@@ -12,6 +12,8 @@ export const LUNAR_SOURCE_SEED_ID = "seed_lunar_002";
 export const LUNAR_SOURCE_CREATURE_ID = "creature_lunar_uncommon_001";
 export const NEXT_EXPEDITION_ROUTE_PREVIEW_ID = "expedition_moon_fence_locked";
 export const NIGHT_GLASS_SOURCE_SEED_ID = "seed_rare_001";
+export const NIGHT_GLASS_RARE_CREATURE_ID = "creature_lunar_rare_001";
+export const NIGHT_GLASS_RARE_CREATURE_NAME = "밤유리 오로";
 export const NIGHT_GLASS_ROUTE_PREVIEW_ID = "expedition_night_glass";
 export const NIGHT_GLASS_RESEARCH_PREVIEW_ID = "research_rare_glass";
 export const NIGHT_GLASS_SOURCE_REWARD_LEAVES = 64;
@@ -102,7 +104,10 @@ export interface GardenState {
   nightGlassAcquisitionState: NightGlassAcquisitionState;
   nightGlassSourceSeedAvailable: boolean;
   nightGlassSourceSeedPlanted: boolean;
+  nightGlassSourceSeedHarvested: boolean;
   nightGlassSourceAcquired: boolean;
+  nightGlassRareCreatureRevealed: boolean;
+  nightGlassRareCreatureId?: string;
   nightGlassRewardLeaves: number;
 }
 
@@ -301,7 +306,10 @@ export function createGardenState(): GardenState {
     nightGlassAcquisitionState: "locked",
     nightGlassSourceSeedAvailable: false,
     nightGlassSourceSeedPlanted: false,
+    nightGlassSourceSeedHarvested: false,
     nightGlassSourceAcquired: false,
+    nightGlassRareCreatureRevealed: false,
+    nightGlassRareCreatureId: undefined,
     nightGlassRewardLeaves: 0
   };
 }
@@ -507,12 +515,13 @@ export function harvestSelectedPlot(state: GardenState): void {
   const clueHarvest = plot.seedId === "seed_lunar_clue_001";
   const lunarSproutHarvest = plot.seedId === "seed_lunar_sprout_001";
   const lunarSourceHarvest = plot.seedId === LUNAR_SOURCE_SEED_ID;
+  const nightGlassSourceHarvest = plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID;
   const firstPoriDiscovery = !state.actors.some((actor) => actor.id === "actor_pori");
   plot.state = "empty";
   plot.seedId = undefined;
   plot.growth = 0;
   plot.careCount = 0;
-  state.resources.leaves += clueHarvest ? 18 : lunarSproutHarvest ? 22 : lunarSourceHarvest ? 44 : 12;
+  state.resources.leaves += clueHarvest ? 18 : lunarSproutHarvest ? 22 : lunarSourceHarvest ? 44 : nightGlassSourceHarvest ? 96 : 12;
   if (clueHarvest) {
     state.researchClueHarvested = true;
     state.researchClueRecordReady = true;
@@ -534,6 +543,15 @@ export function harvestSelectedPlot(state: GardenState): void {
     state.nightGlassSourcePreviewAvailable = true;
     state.objective = "은빛이끼 루미 발견 · 다음 rare route: 밤유리 source";
     state.receipts.unshift("초승달순 수확 · 은빛이끼 루미 발견 · 잎 +44");
+    return;
+  }
+  if (nightGlassSourceHarvest) {
+    state.nightGlassSourceSeedPlanted = false;
+    state.nightGlassSourceSeedHarvested = true;
+    state.nightGlassRareCreatureRevealed = true;
+    state.nightGlassRareCreatureId = NIGHT_GLASS_RARE_CREATURE_ID;
+    state.objective = `${NIGHT_GLASS_RARE_CREATURE_NAME} 발견 · 밤유리 rare route 완성`;
+    state.receipts.unshift(`밤유리 수확 · ${NIGHT_GLASS_RARE_CREATURE_NAME} 발견 · 잎 +96`);
     return;
   }
   if (firstPoriDiscovery) {

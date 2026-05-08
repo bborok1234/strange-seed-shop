@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: todo
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #514
 - PR: TBD
@@ -65,6 +65,29 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 결과
+
+- `GardenState`에 `nightGlassSourceSeedHarvested`, `nightGlassRareCreatureRevealed`, `nightGlassRareCreatureId`와 deterministic `밤유리 오로` reveal contract를 추가했다.
+- ready `seed_rare_001` plot은 `밤유리 수확` action을 노출하고, 수확 후 잎 +96, receipt/objective, rare creature reveal telemetry를 남긴다.
+- 수확 후 source plot은 empty로 돌아가며 `nightGlassSourceSeedPlanted=false`, `nightGlassSourceSeedHarvested=true`로 상태 의미를 분리했다.
+- Phaser playfield에 accepted `creature_lunar_rare_001` reveal marker와 기존 `fx_night_glass_source_unlock_strip_v1` aura를 표시한다.
+- HUD/action rail은 `밤유리 오로 발견 · creature_lunar_rare_001`과 `밤유리 오로 발견` action note를 표시한다.
+- `scripts/check-phaser-foundation.mjs`는 #512 planting 이후 `돌보기` 반복, ready screenshot, `밤유리 수확`, reveal screenshot/telemetry assertion을 추가했다.
+
+## 검증 결과
+
+- `npm run build:phaser`: 통과
+- `npm run check:phaser`: 통과
+- `npm run check:content`: 통과
+- `npm run check:asset-provenance`: 통과
+- `npm run check:asset-style`: 통과
+- `npm run check:ci`: 통과
+- `git diff --check`: 통과
+- Ready evidence: `reports/visual/issue-0514-night-glass-source-harvest-reveal/phaser-check-night-glass-ready-393.png`
+- Reveal evidence: `reports/visual/issue-0514-night-glass-source-harvest-reveal/phaser-check-night-glass-revealed-393.png`
+- Visual report: `reports/visual/issue-0514-night-glass-source-harvest-reveal/visual-report-20260508.md`
+- Browser Use blocker: `reports/visual/issue-0514-night-glass-source-harvest-reveal/browser-use-blocker-20260508.md`
 
 ## 리스크
 
