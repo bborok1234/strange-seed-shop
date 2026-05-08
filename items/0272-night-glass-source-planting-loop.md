@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #512
-- PR: TBD
+- PR: #513
 - Branch: `codex/v1-night-glass-source-planting-loop`
 - 연결: Issue #510, PR #511, main CI `25547115055`
 
@@ -84,6 +84,7 @@
 - `npm run check:asset-style`: pass
 - `npm run check:ci`: pass
 - `git diff --check`: pass
+- Draft PR: #513 `https://github.com/bborok1234/strange-seed-shop/pull/513`
 - Browser Use blocker: `reports/visual/issue-0512-night-glass-source-planting-loop/browser-use-blocker-20260508.md`
 - Visual report: `reports/visual/issue-0512-night-glass-source-planting-loop/visual-report-20260508.md`
 - Key screenshots:

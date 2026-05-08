@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T09:20:07.465Z
+Generated at: 2026-05-08T09:21:54.427Z
 
 ## Current mission
 
@@ -59,7 +59,7 @@ Generated at: 2026-05-08T09:20:07.465Z
 - Branch: `codex/v1-night-glass-source-planting-loop`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
 - Visual evidence: `reports/visual/issue-0512-night-glass-source-planting-loop/visual-report-20260508.md`
-- Current validation: #512 implementation and local verification complete; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass. Remaining gate: draft PR publication, PR checks, merge, main CI observation.
+- Current validation: #512 implementation/local verification complete and draft PR #513 published. `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass. Remaining gate: PR checks, merge, main CI observation.
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -67,7 +67,7 @@ Generated at: 2026-05-08T09:20:07.465Z
 0. Studio Campaign Gate: #512는 #511 이후 `seed_rare_001 source`가 receipt에 머무르는 production gap을 빈 밭 planting loop로 해소한다.
 1. Implementation gate: `GardenState`, Phaser action/render/HUD, checker 연결 완료.
 2. Local verification gate: `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` 통과 완료.
-3. PR publication gate: #512 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+3. PR publication gate: draft PR #513 게시 완료. PR checks를 감시한다.
 4. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 5. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
@@ -75,22 +75,22 @@ Generated at: 2026-05-08T09:20:07.465Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-planting-loop
-- Latest commit: dffdeec 밤유리 source 심기 loop 작업을 고정한다
+- Latest commit: 756d814 밤유리 source 심기 PR evidence를 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T09:20:06.121Z
-- Phase: phaser-v1-night-glass-source-planting-loop-ready-for-pr
+- Timestamp: 2026-05-08T09:21:52.958Z
+- Phase: phaser-v1-night-glass-source-planting-loop-pr-checks
 - Issue: 512
-- PR:
+- PR: 513
 - Item: items/0272-night-glass-source-planting-loop.md
-- Next action: PR publication gate: commit implementation evidence and create draft PR for #512
+- Next action: PR checks gate: watch #513 checks, mark ready when green, then merge and observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #513 draft 밤유리 source planting loop — https://github.com/bborok1234/strange-seed-shop/pull/513
 
 ## Open issues
 
