@@ -1,6 +1,6 @@
 # 첫 원정 문/귀환 상자 asset plan-prompt 만들기
 
-Status: planning
+Status: verified
 Owner: agent
 Created: 2026-05-08
 GitHub issue: #492
@@ -86,6 +86,7 @@ Asset route: `gpt-game-asset-plan` -> `gpt-game-asset-prompt`
 - artifact path: `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`
 - iteration log:
   - 2026-05-08: plan-first artifact 작성.
+  - 2026-05-08: `asset_plan.json`/`asset_prompts.json`에 `facility_expedition_gate_v1`, `facility_expedition_return_crate_v1`, `fx_expedition_return_reward_strip_v1` 추가. `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci` pass.
 - stop condition: local asset/check CI, GitHub checks, merge, main CI green.
 
 ## Acceptance Criteria
@@ -116,4 +117,11 @@ git diff --check
 
 ## Evidence
 
-- Pending implementation.
+- `npm run check:topology-asset-plan` pass: planCount `75`, promptCount `75`
+- `npm run check:asset-provenance` pass
+- `npm run check:asset-style` pass
+- `npm run check:ci` pass
+- Added plan/prompt ids:
+  - `facility_expedition_gate_v1`
+  - `facility_expedition_return_crate_v1`
+  - `fx_expedition_return_reward_strip_v1`

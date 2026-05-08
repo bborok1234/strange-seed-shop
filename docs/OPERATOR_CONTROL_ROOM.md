@@ -50,7 +50,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Branch: `codex/v1-expedition-gate-asset-plan-prompt`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact and GitHub issue #492 created
+- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -70,12 +70,12 @@ Generated at: 2026-05-07T22:29:32.719Z
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T01:20:06.000Z
-- Phase: phaser-v1-expedition-gate-asset-plan-prompt-planning
+- Timestamp: 2026-05-08T01:24:48.000Z
+- Phase: phaser-v1-expedition-gate-asset-plan-prompt-pr-gate
 - Issue: 492
 - PR: pending
 - Item: items/0262-expedition-gate-asset-plan-prompt.md
-- Next action: implementation gate: add expedition gate/return crate/FX plan prompts for #492
+- Next action: PR gate: commit, push, open draft PR, watch checks
 
 ## Open PRs
 

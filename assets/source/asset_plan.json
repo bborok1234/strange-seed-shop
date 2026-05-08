@@ -4,7 +4,7 @@
   "batch": {
     "id": "milestone1_style_validation_001",
     "purpose": "Validate and extend static Phase 0/P0.5/v1 assets, including Phaser garden board topology runtime terrain, plot states, facility states, actor strips, and FX strips.",
-    "target_asset_count": 68,
+    "target_asset_count": 75,
     "generation_mode": "openai_images_api_with_static_workspace_outputs",
     "runtime_generation_allowed": false
   },
@@ -1467,6 +1467,69 @@
         "behavior": "once"
       },
       "notes": "Horizontal FX strip for confirming a lunar clue album record. Compact stamp/sparkle motion should sit near the action rail without obscuring the recorded clue goal surface."
+    },
+    {
+      "id": "facility_expedition_gate_v1",
+      "category": "facility",
+      "family": "lunar",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_runtime_expedition_gate_facility_prop",
+      "output_path": "public/assets/game/facilities/facility_expedition_gate_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "facility",
+        "expedition",
+        "d7",
+        "issue_0492"
+      ],
+      "notes": "Runtime expedition gate prop for the first D7 route. Must read as a small moonlit garden threshold, distinct from workbench, research shelf, storage basket, and order crate, without baked UI text."
+    },
+    {
+      "id": "facility_expedition_return_crate_v1",
+      "category": "facility",
+      "family": "expedition",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_expedition_return_crate_reward_prop",
+      "output_path": "public/assets/game/facilities/facility_expedition_return_crate_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "facility",
+        "expedition",
+        "return_crate",
+        "reward",
+        "issue_0492"
+      ],
+      "notes": "Return crate prop shown when expedition_backyard_gap comes back. Must read as expedition reward cargo, distinct from order crate delivery state."
+    },
+    {
+      "id": "fx_expedition_return_reward_strip_v1",
+      "category": "fx_strip",
+      "family": "reward",
+      "rarity": "common",
+      "growth_stage": "not_applicable",
+      "intended_use": "phaser_expedition_return_reward_fx",
+      "output_path": "public/assets/game/fx/fx_expedition_return_reward_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "fx",
+        "expedition",
+        "return_crate",
+        "reward",
+        "issue_0492"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 14,
+      "animation": {
+        "binding": "facility_expedition_gate.action.claim_return_crate",
+        "behavior": "once"
+      },
+      "notes": "Horizontal FX strip for opening the first expedition return crate. Leaf and pollen particles should feel like a small D7 long-meta reward without obscuring the gate or bottom action rail."
     }
   ]
 }
