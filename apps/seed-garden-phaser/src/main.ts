@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 import {
   careSelectedPlot,
+  claimBackyardGapExpeditionReward,
   claimResearchNextGoalSeed,
   claimOrderCrateDelivery,
   claimStoredLeaves,
@@ -12,12 +13,14 @@ import {
   getSlot,
   harvestSelectedPlot,
   inspectResearchShelfPreview,
+  markBackyardGapExpeditionReturned,
   plantResearchNextGoalSeed,
   plantResearchClueSeed,
   plantStarterSeed,
   previewExpeditionGateRoute,
   recordResearchClueInAlbum,
   selectSlot,
+  startBackyardGapExpedition,
   STORAGE_BASKET_UNLOCK_COST,
   THIRD_PLOT_UNLOCK_COST,
   unlockStorageBasket,
@@ -219,18 +222,25 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenResearchLunarFamilyRevealed = gameState.researchLunarFamilyRevealed;
     (window as unknown as { __seedGardenExpeditionGatePreviewVisible?: boolean })
       .__seedGardenExpeditionGatePreviewVisible = gameState.expeditionGatePreviewVisible;
+    (window as unknown as { __seedGardenExpeditionState?: string }).__seedGardenExpeditionState =
+      gameState.expeditionState;
+    (window as unknown as { __seedGardenActiveExpeditionRouteId?: string }).__seedGardenActiveExpeditionRouteId =
+      gameState.activeExpeditionRouteId ?? "";
+    (window as unknown as { __seedGardenExpeditionRewardLeaves?: number }).__seedGardenExpeditionRewardLeaves =
+      gameState.expeditionRewardLeaves;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
     (window as unknown as { __seedGardenPreviewSlotIds?: string[] }).__seedGardenPreviewSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "preview")
       .map((slot) => slot.id);
-    (window as unknown as { __seedGardenFacilityStates?: Array<Pick<FacilityEntity, "slotId" | "kind" | "level" | "visualState">> })
+    (window as unknown as { __seedGardenFacilityStates?: Array<Pick<FacilityEntity, "slotId" | "kind" | "level" | "visualState" | "progress">> })
       .__seedGardenFacilityStates = gameState.facilities.map((facility) => ({
         slotId: facility.slotId,
         kind: facility.kind,
         level: facility.level,
-        visualState: facility.visualState
+        visualState: facility.visualState,
+        progress: facility.progress
       }));
     (window as unknown as { __seedGardenPlotIds?: string[] }).__seedGardenPlotIds = gameState.plots.map(
       (plot) => plot.slotId
@@ -503,6 +513,38 @@ class GardenBoardScene extends Phaser.Scene {
       container.add(gateChip);
     }
 
+    if (facility?.kind === "expedition_gate" && slot.unlockState === "unlocked") {
+      const stateLabel =
+        gameState.expeditionState === "traveling"
+          ? "원정중"
+          : gameState.expeditionState === "returned"
+            ? "귀환"
+            : gameState.expeditionState === "claimed"
+              ? "완료"
+              : "출발";
+      const routeChip = this.add
+        .text(0, -55, stateLabel, {
+          align: "center",
+          backgroundColor: "rgba(37, 86, 71, 0.9)",
+          color: "#f4f0c9",
+          fontFamily: "system-ui, sans-serif",
+          fontSize: "10px",
+          fontStyle: "800",
+          padding: { x: 7, y: 2 }
+        })
+        .setOrigin(0.5);
+      container.add(routeChip);
+
+      if (gameState.expeditionState === "traveling" || gameState.expeditionState === "returned") {
+        const bar = this.add.graphics();
+        bar.fillStyle(0xffffff, 0.86);
+        bar.fillRoundedRect(-36, 24, 72, 8, 4);
+        bar.fillStyle(gameState.expeditionState === "returned" ? 0xffc84b : 0x7cae70, 1);
+        bar.fillRoundedRect(-36, 24, gameState.expeditionState === "returned" ? 72 : 44, 8, 4);
+        container.add(bar);
+      }
+    }
+
     container.setSize(118, 104);
     container.setInteractive(new Phaser.Geom.Rectangle(-59, -48, 118, 104), Phaser.Geom.Rectangle.Contains);
     container.on("pointerdown", () => this.selectAndRender(slot.id));
@@ -620,6 +662,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "plant_goal_seed"
       | "confirm_discovery"
       | "preview_expedition"
+      | "start_expedition"
+      | "claim_expedition"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -636,6 +680,15 @@ class GardenBoardScene extends Phaser.Scene {
       confirmLunarSproutDiscovery(gameState);
     } else if (action === "preview_expedition") {
       previewExpeditionGateRoute(gameState);
+    } else if (action === "start_expedition") {
+      startBackyardGapExpedition(gameState);
+      this.time.delayedCall(420, () => {
+        markBackyardGapExpeditionReturned(gameState);
+        this.renderGarden();
+      });
+    } else if (action === "claim_expedition") {
+      claimBackyardGapExpeditionReward(gameState);
+      this.pendingFx = { kind: "delivery", slotId: selectedSlotId };
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -701,11 +754,21 @@ class GardenBoardScene extends Phaser.Scene {
       this.hud.actions.appendChild(familySurface);
     }
     if (gameState.expeditionGatePreviewVisible) {
+      const stateText =
+        gameState.expeditionState === "ready"
+          ? "뒷마당 틈새길 출발 가능"
+          : gameState.expeditionState === "traveling"
+            ? "뒷마당 틈새길 원정 중"
+            : gameState.expeditionState === "returned"
+              ? "귀환 상자 도착"
+              : gameState.expeditionState === "claimed"
+                ? "첫 원정 완료 · 다음 route 잠금"
+                : "D7 route 잠금 · 전용 asset 후보 필요";
       const expeditionSurface = document.createElement("div");
       expeditionSurface.className = "collection-goal-surface";
       expeditionSurface.innerHTML = `
         <strong>원정 문 preview</strong>
-        <span>D7 route 잠금 · 전용 asset 후보 필요</span>
+        <span>${stateText}</span>
       `;
       this.hud.actions.appendChild(expeditionSurface);
     }
@@ -741,7 +804,13 @@ class GardenBoardScene extends Phaser.Scene {
             ? "다음 발견 준비 완료"
           : gameState.researchLunarFamilyRevealed
             ? gameState.expeditionGatePreviewVisible
-              ? "원정 문 preview 표시됨"
+              ? gameState.expeditionState === "traveling"
+                ? "뒷마당 틈새길 원정 중"
+                : gameState.expeditionState === "returned"
+                  ? "귀환 상자 대기"
+                  : gameState.expeditionState === "claimed"
+                    ? "첫 원정 완료"
+                    : "원정 문 preview 표시됨"
               : "달빛 family 연구 중"
           : selectedSlot.unlockState === "unlocked" && gameState.researchClueRecordReady
             ? "도감 기록 대기"
@@ -781,7 +850,9 @@ class GardenBoardScene extends Phaser.Scene {
       | "claim_goal_seed"
       | "plant_goal_seed"
       | "confirm_discovery"
-      | "preview_expedition";
+      | "preview_expedition"
+      | "start_expedition"
+      | "claim_expedition";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -791,6 +862,12 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (state.researchLunarFamilyRevealed && !state.expeditionGatePreviewVisible) {
       return [{ id: "preview_expedition", label: "원정 문 단서 보기" }];
+    }
+    if (facility?.kind === "expedition_gate" && state.expeditionState === "ready") {
+      return [{ id: "start_expedition", label: "틈새길 보내기" }];
+    }
+    if (facility?.kind === "expedition_gate" && state.expeditionState === "returned") {
+      return [{ id: "claim_expedition", label: "귀환 상자 열기" }];
     }
     if (
       state.researchClueGoalSurfaceVisible &&

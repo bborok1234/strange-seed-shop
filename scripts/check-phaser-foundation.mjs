@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0488-expedition-gate-preview-route";
+const OUT_DIR = "reports/visual/issue-0490-first-expedition-depart-return";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -292,9 +292,48 @@ async function runSmoke() {
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
       railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
       expeditionGatePreviewVisible: window.__seedGardenExpeditionGatePreviewVisible ?? false,
+      expeditionState: window.__seedGardenExpeditionState ?? "",
       selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? []
+    }));
+    await page.getByRole("button", { name: "틈새길 보내기" }).click();
+    await page.waitForTimeout(80);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-expedition-traveling-393.png`, fullPage: false });
+    const expeditionTraveling = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionRewardLeaves: window.__seedGardenExpeditionRewardLeaves ?? 0,
+      unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
+      facilityStates: window.__seedGardenFacilityStates ?? [],
+      actorIds: window.__seedGardenActorIds ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.waitForTimeout(520);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-expedition-returned-393.png`, fullPage: false });
+    const expeditionReturned = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionRewardLeaves: window.__seedGardenExpeditionRewardLeaves ?? 0,
+      facilityStates: window.__seedGardenFacilityStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.getByRole("button", { name: "귀환 상자 열기" }).click();
+    await page.waitForTimeout(140);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-expedition-claimed-393.png`, fullPage: false });
+    const expeditionClaimed = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      leaves: document.querySelector('[data-hud="leaves"]')?.textContent ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionRewardLeaves: window.__seedGardenExpeditionRewardLeaves ?? 0,
+      facilityStates: window.__seedGardenFacilityStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
     }));
 
     const evidence = await page.evaluate(() => ({
@@ -327,6 +366,9 @@ async function runSmoke() {
       researchNextGoalRevealReady: window.__seedGardenResearchNextGoalRevealReady ?? false,
       researchLunarFamilyRevealed: window.__seedGardenResearchLunarFamilyRevealed ?? false,
       expeditionGatePreviewVisible: window.__seedGardenExpeditionGatePreviewVisible ?? false,
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionRewardLeaves: window.__seedGardenExpeditionRewardLeaves ?? 0,
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -358,7 +400,7 @@ async function runSmoke() {
     ) {
       failures.push("overview mode has body/document scroll");
     }
-    if (evidence.leaves !== "60") failures.push(`expected 60 leaves after lunar sprout harvest, got ${evidence.leaves}`);
+    if (evidence.leaves !== "95") failures.push(`expected 95 leaves after expedition reward, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
       failures.push("missing order crate delivery receipt");
@@ -479,6 +521,9 @@ async function runSmoke() {
     if (!expeditionGatePreview.expeditionGatePreviewVisible) {
       failures.push("expedition gate preview telemetry missing");
     }
+    if (expeditionGatePreview.expeditionState !== "ready") {
+      failures.push(`expected expedition ready after preview, got ${expeditionGatePreview.expeditionState}`);
+    }
     if (expeditionGatePreview.selectedText !== "원정 문") {
       failures.push(`expected expedition gate selected after preview action, got ${expeditionGatePreview.selectedText}`);
     }
@@ -496,6 +541,72 @@ async function runSmoke() {
     }
     if (!expeditionGatePreview.railText.includes("원정 문 preview")) {
       failures.push("missing expedition gate preview surface");
+    }
+    if (!expeditionGatePreview.railText.includes("틈새길 보내기")) {
+      failures.push("missing backyard gap depart action");
+    }
+    if (expeditionTraveling.expeditionState !== "traveling") {
+      failures.push(`expected expedition traveling state, got ${expeditionTraveling.expeditionState}`);
+    }
+    if (expeditionTraveling.activeExpeditionRouteId !== "expedition_backyard_gap") {
+      failures.push(`expected backyard gap route id, got ${expeditionTraveling.activeExpeditionRouteId}`);
+    }
+    if (expeditionTraveling.expeditionRewardLeaves !== 35) {
+      failures.push(`expected expedition reward leaves 35 while traveling, got ${expeditionTraveling.expeditionRewardLeaves}`);
+    }
+    if (!expeditionTraveling.unlockedSlotIds.includes("facility_expedition_gate")) {
+      failures.push("expedition gate did not unlock on depart");
+    }
+    if (!expeditionTraveling.objective.includes("뒷마당 틈새길 원정 중")) {
+      failures.push("missing expedition traveling objective");
+    }
+    if (!expeditionTraveling.railText.includes("원정 중")) {
+      failures.push("missing expedition traveling HUD text");
+    }
+    if (!expeditionTraveling.receipts.some((receipt) => receipt.includes("뒷마당 틈새길 출발"))) {
+      failures.push("missing expedition depart receipt");
+    }
+    const travelingGate = expeditionTraveling.facilityStates.find(
+      (facility) => facility.slotId === "facility_expedition_gate"
+    );
+    if (!travelingGate || travelingGate.visualState !== "active" || travelingGate.level !== 1) {
+      failures.push(`expected active expedition gate while traveling, got ${JSON.stringify(travelingGate)}`);
+    }
+    if (expeditionReturned.expeditionState !== "returned") {
+      failures.push(`expected expedition returned state, got ${expeditionReturned.expeditionState}`);
+    }
+    if (!expeditionReturned.railText.includes("귀환 상자 열기")) {
+      failures.push("missing return crate claim action");
+    }
+    if (!expeditionReturned.objective.includes("귀환 상자 도착")) {
+      failures.push("missing expedition returned objective");
+    }
+    if (!expeditionReturned.receipts.some((receipt) => receipt.includes("뒷마당 틈새길 귀환"))) {
+      failures.push("missing expedition returned receipt");
+    }
+    const returnedGate = expeditionReturned.facilityStates.find(
+      (facility) => facility.slotId === "facility_expedition_gate"
+    );
+    if (!returnedGate || returnedGate.progress !== 100) {
+      failures.push(`expected expedition gate progress 100 when returned, got ${JSON.stringify(returnedGate)}`);
+    }
+    if (expeditionClaimed.expeditionState !== "claimed") {
+      failures.push(`expected expedition claimed state, got ${expeditionClaimed.expeditionState}`);
+    }
+    if (expeditionClaimed.expeditionRewardLeaves !== 0) {
+      failures.push(`expected expedition reward leaves reset, got ${expeditionClaimed.expeditionRewardLeaves}`);
+    }
+    if (expeditionClaimed.leaves !== "95") {
+      failures.push(`expected 95 leaves after return crate claim, got ${expeditionClaimed.leaves}`);
+    }
+    if (!expeditionClaimed.objective.includes("첫 원정 완료")) {
+      failures.push("missing expedition claimed objective");
+    }
+    if (!expeditionClaimed.railText.includes("첫 원정 완료")) {
+      failures.push("missing expedition claimed HUD surface");
+    }
+    if (!expeditionClaimed.receipts.some((receipt) => receipt.includes("귀환 상자 열기 · 잎 +35"))) {
+      failures.push("missing expedition reward receipt");
     }
     if (!evidence.receipts.some((receipt) => receipt.includes("달빛 단서 씨앗을 심었다"))) {
       failures.push("missing research clue seed planting receipt");
@@ -527,7 +638,14 @@ async function runSmoke() {
     if (evidence.researchNextGoalRevealReady) failures.push("lunar sprout reveal-ready stayed true in final evidence");
     if (!evidence.researchLunarFamilyRevealed) failures.push("lunar family reveal telemetry missing from final evidence");
     if (!evidence.expeditionGatePreviewVisible) failures.push("expedition gate preview telemetry missing from final evidence");
-    if (!evidence.objective.includes("원정 문 preview")) failures.push("missing expedition gate preview final objective");
+    if (evidence.expeditionState !== "claimed") failures.push(`expected final expedition claimed state, got ${evidence.expeditionState}`);
+    if (evidence.activeExpeditionRouteId !== "expedition_backyard_gap") {
+      failures.push(`expected final expedition route id, got ${evidence.activeExpeditionRouteId}`);
+    }
+    if (evidence.expeditionRewardLeaves !== 0) {
+      failures.push(`expected final expedition reward leaves 0, got ${evidence.expeditionRewardLeaves}`);
+    }
+    if (!evidence.objective.includes("첫 원정 완료")) failures.push("missing expedition claimed final objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const thirdPlot = evidence.plotStates.find((plot) => plot.slotId === "plot_03");
@@ -551,8 +669,8 @@ async function runSmoke() {
     if (!evidence.previewSlotIds.includes("facility_research_shelf")) {
       failures.push("research shelf did not enter preview state");
     }
-    if (!evidence.previewSlotIds.includes("facility_expedition_gate")) {
-      failures.push("expedition gate did not enter preview state");
+    if (!evidence.unlockedSlotIds.includes("facility_expedition_gate")) {
+      failures.push("expedition gate did not enter unlocked state after depart");
     }
     const researchShelf = evidence.facilityStates.find((facility) => facility.slotId === "facility_research_shelf");
     if (!researchShelf || researchShelf.kind !== "research_shelf" || researchShelf.visualState !== "preview") {
@@ -580,6 +698,9 @@ async function runSmoke() {
       lunarSproutHarvested,
       lunarFamilyRevealed,
       expeditionGatePreview,
+      expeditionTraveling,
+      expeditionReturned,
+      expeditionClaimed,
       overviewMode,
       manageReturn,
       evidence,
@@ -619,7 +740,10 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-lunar-sprout-ready-393.png`,
         `${OUT_DIR}/phaser-check-lunar-sprout-harvested-393.png`,
         `${OUT_DIR}/phaser-check-lunar-family-revealed-393.png`,
-        `${OUT_DIR}/phaser-check-expedition-gate-preview-393.png`
+        `${OUT_DIR}/phaser-check-expedition-gate-preview-393.png`,
+        `${OUT_DIR}/phaser-check-expedition-traveling-393.png`,
+        `${OUT_DIR}/phaser-check-expedition-returned-393.png`,
+        `${OUT_DIR}/phaser-check-expedition-claimed-393.png`
       ],
       failures
     };

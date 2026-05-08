@@ -3,6 +3,7 @@ export type UnlockState = "unlocked" | "preview" | "locked";
 export type PlotState = "empty" | "planted" | "growing" | "ready";
 export type FacilityKind = "workbench" | "order_crate" | "storage" | "research_shelf" | "expedition_gate";
 export type ActorRole = "caretaker" | "carrier";
+export type ExpeditionState = "locked" | "ready" | "traveling" | "returned" | "claimed";
 
 export const THIRD_PLOT_UNLOCK_COST = 60;
 export const STORAGE_BASKET_UNLOCK_COST = 80;
@@ -43,7 +44,7 @@ export interface ActorEntity {
   role: ActorRole;
   slotId: string;
   targetSlotId: string;
-  task: "care_plot" | "carry_leaves" | "idle";
+  task: "care_plot" | "carry_leaves" | "expedition" | "idle";
 }
 
 export interface GardenState {
@@ -75,6 +76,9 @@ export interface GardenState {
   researchNextGoalRevealReady: boolean;
   researchLunarFamilyRevealed: boolean;
   expeditionGatePreviewVisible: boolean;
+  expeditionState: ExpeditionState;
+  activeExpeditionRouteId?: string;
+  expeditionRewardLeaves: number;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -253,7 +257,10 @@ export function createGardenState(): GardenState {
     researchNextGoalSeedHarvested: false,
     researchNextGoalRevealReady: false,
     researchLunarFamilyRevealed: false,
-    expeditionGatePreviewVisible: false
+    expeditionGatePreviewVisible: false,
+    expeditionState: "locked",
+    activeExpeditionRouteId: undefined,
+    expeditionRewardLeaves: 0
   };
 }
 
@@ -311,10 +318,20 @@ export function selectSlot(state: GardenState, slotId: string): void {
     return;
   }
   if (facility?.kind === "expedition_gate") {
-    state.objective =
-      slot.unlockState === "preview"
-        ? "원정 문 preview · D7 원정 route 잠금"
-        : "달빛 family reveal 후 원정 문 단서";
+    if (state.expeditionState === "ready") {
+      state.objective = "원정 문 준비 · 뒷마당 틈새길 tutorial route";
+    } else if (state.expeditionState === "traveling") {
+      state.objective = "뒷마당 틈새길 원정 중 · 귀환 상자 대기";
+    } else if (state.expeditionState === "returned") {
+      state.objective = "귀환 상자 도착 · 보상 열기";
+    } else if (state.expeditionState === "claimed") {
+      state.objective = "첫 원정 완료 · 다음 달빛 route 실루엣";
+    } else {
+      state.objective =
+        slot.unlockState === "preview"
+          ? "원정 문 preview · D7 원정 route 잠금"
+          : "달빛 family reveal 후 원정 문 단서";
+    }
     return;
   }
   if (slot.id === "plot_03" && slot.unlockState !== "unlocked") {
@@ -520,9 +537,75 @@ export function previewExpeditionGateRoute(state: GardenState): void {
     expeditionGate.visualState = "preview";
   }
   state.expeditionGatePreviewVisible = true;
+  state.expeditionState = "ready";
   state.selectedSlotId = "facility_expedition_gate";
-  state.objective = "원정 문 preview 열림 · D7 원정 route 잠금";
+  state.objective = "원정 문 preview 열림 · 첫 원정 route 준비";
   state.receipts.unshift("원정 문 단서 확인 · preview route 표시");
+}
+
+export function startBackyardGapExpedition(state: GardenState): void {
+  if (!state.expeditionGatePreviewVisible || state.expeditionState !== "ready") {
+    return;
+  }
+
+  const expeditionSlot = getSlot(state, "facility_expedition_gate");
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  expeditionSlot.unlockState = "unlocked";
+  if (expeditionGate) {
+    expeditionGate.level = 1;
+    expeditionGate.visualState = "active";
+    expeditionGate.progress = 50;
+  }
+  const expeditionActor = state.actors.find((actor) => actor.id === "actor_momo") ?? state.actors[0];
+  if (expeditionActor) {
+    expeditionActor.targetSlotId = "facility_expedition_gate";
+    expeditionActor.task = "expedition";
+  }
+  state.selectedSlotId = "facility_expedition_gate";
+  state.activeExpeditionRouteId = "expedition_backyard_gap";
+  state.expeditionRewardLeaves = 35;
+  state.expeditionState = "traveling";
+  state.objective = "뒷마당 틈새길 원정 중 · 귀환 상자 준비";
+  state.receipts.unshift("뒷마당 틈새길 출발 · actor 1명 원정 중");
+}
+
+export function markBackyardGapExpeditionReturned(state: GardenState): void {
+  if (state.activeExpeditionRouteId !== "expedition_backyard_gap" || state.expeditionState !== "traveling") {
+    return;
+  }
+
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  if (expeditionGate) {
+    expeditionGate.progress = 100;
+    expeditionGate.visualState = "active";
+  }
+  state.selectedSlotId = "facility_expedition_gate";
+  state.expeditionState = "returned";
+  state.objective = "귀환 상자 도착 · 보상 열기";
+  state.receipts.unshift("뒷마당 틈새길 귀환 · 상자 대기");
+}
+
+export function claimBackyardGapExpeditionReward(state: GardenState): void {
+  if (state.activeExpeditionRouteId !== "expedition_backyard_gap" || state.expeditionState !== "returned") {
+    return;
+  }
+
+  const rewardLeaves = state.expeditionRewardLeaves;
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  if (expeditionGate) {
+    expeditionGate.progress = 0;
+    expeditionGate.visualState = "active";
+  }
+  const expeditionActor = state.actors.find((actor) => actor.task === "expedition");
+  if (expeditionActor) {
+    expeditionActor.targetSlotId = "facility_order_crate";
+    expeditionActor.task = expeditionActor.role === "carrier" ? "carry_leaves" : "care_plot";
+  }
+  state.resources.leaves += rewardLeaves;
+  state.expeditionRewardLeaves = 0;
+  state.expeditionState = "claimed";
+  state.objective = "첫 원정 완료 · 다음 달빛 route 실루엣";
+  state.receipts.unshift(`귀환 상자 열기 · 잎 +${rewardLeaves} · 꽃가루 단서 후보`);
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {
