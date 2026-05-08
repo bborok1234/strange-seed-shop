@@ -392,7 +392,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **첫 원정 보상 source preview bridge**이다. #494 첫 원정 문/귀환 상자 raster 후보 생성/리뷰는 PR #495 merge/main CI `25534928297`까지 통과했다. #496 구현은 귀환 상자 claim이 `꽃가루 단서 후보` receipt에서 멈추지 않고 `초승달순 씨앗 source`와 다음 달빛 route lock preview로 이어지는지 검증하는 단계다.
+현재 작업은 **초승달순 source planting loop**이다. #496 첫 원정 보상 source preview bridge는 PR #497 merge/main CI `25535517659`까지 통과했다. 다음 blocker는 `초승달순 씨앗 source`가 `seed_lunar_002` telemetry와 route preview에서 멈추지 않고 실제 빈 plot의 `초승달순 심기` action과 playfield seed state로 이어지게 만드는 점이다.
 
 현재 evidence:
 
@@ -431,18 +431,19 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed first expedition depart/return route: Issue #490, PR #491, main CI `25531093879`
 - Completed expedition gate asset plan/prompt: Issue #492, PR #493, main CI `25531773472`
 - Completed expedition gate raster/runtime binding: Issue #494, PR #495, main CI `25534928297`
-- WorkUnit: `items/0264-expedition-return-source-bridge.md`
-- GitHub issue: #496 `첫 원정 보상 source preview bridge`
-- Branch: `codex/v1-expedition-return-source-bridge`
+- Completed expedition return source preview bridge: Issue #496, PR #497, main CI `25535517659`
+- WorkUnit: `items/0265-lunar-source-planting-loop.md`
+- GitHub issue: #498 `초승달순 source planting loop`
+- Branch: `codex/v1-lunar-source-planting-loop`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: #496 implementation pass complete, `npm run check:phaser` pass, `npm run check:ci` pass, `git diff --check` pass
+- Current validation: plan-first artifact exists, issue #498 opened, accepted `seed_lunar_002_icon` exists in manifest
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. PR publication gate: #496 변경을 draft PR로 게시하고 GitHub checks를 확인해야 한다.
-2. Studio Campaign Gate: 첫 원정 claim 후 source preview action이 실제 player verb로 보여야 한다.
-3. 초승달순 source preview와 다음 route lock이 HUD와 playfield 원정 문 상태에 모두 남아야 한다.
+1. Studio Campaign Gate: source preview 후 source seed inventory와 `초승달순 심기` action이 실제 player verb로 보여야 한다.
+2. accepted `seed_lunar_002_icon`을 Phaser runtime에서 preload/render해야 한다.
+3. 빈 plot playfield에 초승달순 source seed state가 HUD/action rail과 함께 남아야 한다.
 4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
