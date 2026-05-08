@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: todo
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #512
 - PR: TBD
@@ -66,3 +66,26 @@
 
 - `seed_rare_001` harvest/reveal까지 포함하면 scope가 커진다. 이번 slice는 planting/growing 상태까지만 검증한다.
 - dedicated rare sprout/growing plot asset은 아직 없다. 이번 slice는 source icon overlay/chip으로 구분하고, 약하면 후속 asset plan-prompt로 분리한다.
+
+## 구현 결과
+
+- `GardenState`에 `nightGlassSourceSeedPlanted` telemetry와 `plantNightGlassSourceSeed` reducer를 추가했다.
+- source 획득 후 빈 밭에서 `밤유리 심기` action을 제공하고, 심기 후 `seed_rare_001` plot `state=planted`, `growth=24`로 전환한다.
+- Phaser plot renderer는 `seed_rare_001_icon` overlay와 `밤유리` chip을 표시한다.
+- HUD/source surface는 `seed_rare_001 source 획득`에서 `seed_rare_001 재배 중 · 밤유리 rare source`로 전환한다.
+- `scripts/check-phaser-foundation.mjs`는 acquisition 이후 empty plot selection, `밤유리 심기`, planted telemetry/screenshot을 검증한다.
+
+## 검증 evidence
+
+- `npm run build:phaser`: pass
+- `npm run check:phaser`: pass
+- `npm run check:content`: pass
+- `npm run check:asset-provenance`: pass
+- `npm run check:asset-style`: pass
+- `npm run check:ci`: pass
+- `git diff --check`: pass
+- Browser Use blocker: `reports/visual/issue-0512-night-glass-source-planting-loop/browser-use-blocker-20260508.md`
+- Visual report: `reports/visual/issue-0512-night-glass-source-planting-loop/visual-report-20260508.md`
+- Key screenshots:
+  - `reports/visual/issue-0512-night-glass-source-planting-loop/phaser-check-night-glass-plant-action-393.png`
+  - `reports/visual/issue-0512-night-glass-source-planting-loop/phaser-check-night-glass-planted-393.png`

@@ -20,6 +20,7 @@ import {
   NIGHT_GLASS_ROUTE_PREVIEW_ID,
   NIGHT_GLASS_SOURCE_SEED_ID,
   plantLunarSourceSeed,
+  plantNightGlassSourceSeed,
   plantResearchNextGoalSeed,
   plantResearchClueSeed,
   plantStarterSeed,
@@ -329,6 +330,8 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenNightGlassAcquisitionState = gameState.nightGlassAcquisitionState;
     (window as unknown as { __seedGardenNightGlassSourceSeedAvailable?: boolean })
       .__seedGardenNightGlassSourceSeedAvailable = gameState.nightGlassSourceSeedAvailable;
+    (window as unknown as { __seedGardenNightGlassSourceSeedPlanted?: boolean })
+      .__seedGardenNightGlassSourceSeedPlanted = gameState.nightGlassSourceSeedPlanted;
     (window as unknown as { __seedGardenNightGlassSourceAcquired?: boolean }).__seedGardenNightGlassSourceAcquired =
       gameState.nightGlassSourceAcquired;
     (window as unknown as { __seedGardenNightGlassRewardLeaves?: number }).__seedGardenNightGlassRewardLeaves =
@@ -532,6 +535,26 @@ class GardenBoardScene extends Phaser.Scene {
           align: "center",
           backgroundColor: "rgba(39, 57, 93, 0.88)",
           color: "#f4f0c9",
+          fontFamily: "system-ui, sans-serif",
+          fontSize: "10px",
+          fontStyle: "800",
+          padding: { x: 7, y: 2 }
+        })
+        .setOrigin(0.5);
+      container.add(sourceChip);
+    }
+
+    if (plot?.seedId === NIGHT_GLASS_SOURCE_SEED_ID) {
+      const sourceIcon = this.add.image(0, -18, TOPOLOGY_ASSETS.seeds.nightGlassSource.key);
+      sourceIcon.setDisplaySize(60, 60);
+      sourceIcon.setAlpha(plot.state === "ready" ? 1 : 0.96);
+      container.add(sourceIcon);
+
+      const sourceChip = this.add
+        .text(0, -52, "밤유리", {
+          align: "center",
+          backgroundColor: "rgba(51, 43, 92, 0.9)",
+          color: "#f9e9ff",
           fontFamily: "system-ui, sans-serif",
           fontSize: "10px",
           fontStyle: "800",
@@ -1056,6 +1079,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "claim_expedition"
       | "preview_source"
       | "plant_lunar_source"
+      | "plant_night_glass_source"
       | "preview_night_glass"
       | "start_night_glass"
       | "claim_night_glass"
@@ -1090,6 +1114,9 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "plant_lunar_source") {
       plantLunarSourceSeed(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
+    } else if (action === "plant_night_glass_source") {
+      plantNightGlassSourceSeed(gameState);
+      this.pendingFx = { kind: "nightGlassAcquire", slotId: selectedSlotId };
     } else if (action === "preview_night_glass") {
       previewNightGlassSource(gameState);
       this.pendingFx = { kind: "lunarHarvest", slotId: "facility_expedition_gate" };
@@ -1216,8 +1243,10 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (gameState.nightGlassSourcePreviewVisible) {
       const nightGlassStateText =
-        gameState.nightGlassAcquisitionState === "claimed"
-          ? `${NIGHT_GLASS_SOURCE_SEED_ID} source 획득 · 다음 planting loop 대기`
+        gameState.nightGlassSourceSeedPlanted
+          ? `${NIGHT_GLASS_SOURCE_SEED_ID} 재배 중 · 밤유리 rare source`
+          : gameState.nightGlassAcquisitionState === "claimed"
+          ? `${NIGHT_GLASS_SOURCE_SEED_ID} source 획득 · 빈 밭에 밤유리 심기`
           : gameState.nightGlassAcquisitionState === "returned"
             ? `${NIGHT_GLASS_ROUTE_PREVIEW_ID} 귀환 상자 도착`
             : gameState.nightGlassAcquisitionState === "traveling"
@@ -1244,50 +1273,56 @@ class GardenBoardScene extends Phaser.Scene {
       const selectedFacility = getFacilityBySlot(gameState, selectedSlot.id);
       const empty = document.createElement("span");
       empty.className = "action-note";
-      empty.textContent =
-        gameState.nightGlassSourcePreviewVisible
-          ? gameState.nightGlassAcquisitionState === "claimed"
+      if (selectedSlot.unlockState === "unlocked" && gameState.nightGlassSourceSeedAvailable) {
+        empty.textContent = "빈 밭에 밤유리 심기";
+      } else if (gameState.nightGlassSourcePreviewVisible) {
+        empty.textContent = gameState.nightGlassSourceSeedPlanted
+          ? "밤유리 재배 중"
+          : gameState.nightGlassAcquisitionState === "claimed"
             ? "밤유리 source 보관됨"
             : gameState.nightGlassAcquisitionState === "traveling"
               ? "밤유리 조사 중"
-              : "밤유리 source route 대기"
-        : selectedFacility?.kind === "order_crate"
-          ? selectedFacility.progress > 0
-            ? `주문 준비 ${selectedFacility.progress}%`
-            : "다음 상자 준비"
-          : selectedFacility?.kind === "storage" && selectedSlot.unlockState === "unlocked"
-            ? `오프라인 보관 ${gameState.storedLeaves}/${gameState.storageCapacity}`
-          : selectedFacility?.kind === "research_shelf" && selectedSlot.unlockState === "preview"
-            ? gameState.researchClueSeedAvailable
-              ? "빈 밭에 단서 심기"
-              : "다음 씨앗 단서 preview"
-          : selectedSlot.unlockState === "unlocked" && gameState.researchClueSeedAvailable
-            ? "빈 밭을 선택해 단서 심기"
-          : selectedSlot.unlockState === "unlocked" && gameState.researchNextGoalSeedAvailable
-            ? "빈 밭에 목표 심기"
-          : selectedSlot.unlockState === "unlocked" && gameState.lunarSourceSeedAvailable
-            ? "빈 밭에 초승달순 심기"
-          : gameState.researchNextGoalRevealReady
-            ? "다음 발견 준비 완료"
-          : gameState.researchLunarFamilyRevealed
-            ? gameState.expeditionGatePreviewVisible
-              ? gameState.expeditionState === "traveling"
-                ? "뒷마당 틈새길 원정 중"
-                : gameState.expeditionState === "returned"
-                  ? "귀환 상자 대기"
-                  : gameState.expeditionState === "claimed"
-                    ? gameState.expeditionSourcePreviewVisible
-                      ? "초승달순 source 확인됨"
-                      : "초승달순 단서 대기"
-                    : "원정 문 preview 표시됨"
-              : "달빛 family 연구 중"
-          : gameState.nightGlassSourcePreviewAvailable && !gameState.nightGlassSourcePreviewVisible
-            ? "밤유리 source 보기 대기"
-          : selectedSlot.unlockState === "unlocked" && gameState.researchClueRecordReady
-            ? "도감 기록 대기"
-          : selectedSlot.unlockState === "unlocked"
-            ? "다른 slot을 선택"
-            : "해금 preview";
+              : "밤유리 source route 대기";
+      } else {
+        empty.textContent =
+          selectedFacility?.kind === "order_crate"
+            ? selectedFacility.progress > 0
+              ? `주문 준비 ${selectedFacility.progress}%`
+              : "다음 상자 준비"
+            : selectedFacility?.kind === "storage" && selectedSlot.unlockState === "unlocked"
+              ? `오프라인 보관 ${gameState.storedLeaves}/${gameState.storageCapacity}`
+              : selectedFacility?.kind === "research_shelf" && selectedSlot.unlockState === "preview"
+                ? gameState.researchClueSeedAvailable
+                  ? "빈 밭에 단서 심기"
+                  : "다음 씨앗 단서 preview"
+                : selectedSlot.unlockState === "unlocked" && gameState.researchClueSeedAvailable
+                  ? "빈 밭을 선택해 단서 심기"
+                  : selectedSlot.unlockState === "unlocked" && gameState.researchNextGoalSeedAvailable
+                    ? "빈 밭에 목표 심기"
+                    : selectedSlot.unlockState === "unlocked" && gameState.lunarSourceSeedAvailable
+                      ? "빈 밭에 초승달순 심기"
+                      : gameState.researchNextGoalRevealReady
+                        ? "다음 발견 준비 완료"
+                        : gameState.researchLunarFamilyRevealed
+                          ? gameState.expeditionGatePreviewVisible
+                            ? gameState.expeditionState === "traveling"
+                              ? "뒷마당 틈새길 원정 중"
+                              : gameState.expeditionState === "returned"
+                                ? "귀환 상자 대기"
+                                : gameState.expeditionState === "claimed"
+                                  ? gameState.expeditionSourcePreviewVisible
+                                    ? "초승달순 source 확인됨"
+                                    : "초승달순 단서 대기"
+                                  : "원정 문 preview 표시됨"
+                            : "달빛 family 연구 중"
+                          : gameState.nightGlassSourcePreviewAvailable && !gameState.nightGlassSourcePreviewVisible
+                            ? "밤유리 source 보기 대기"
+                            : selectedSlot.unlockState === "unlocked" && gameState.researchClueRecordReady
+                              ? "도감 기록 대기"
+                              : selectedSlot.unlockState === "unlocked"
+                                ? "다른 slot을 선택"
+                                : "해금 preview";
+      }
       this.hud.actions.appendChild(empty);
       return;
     }
@@ -1326,6 +1361,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "claim_expedition"
       | "preview_source"
       | "plant_lunar_source"
+      | "plant_night_glass_source"
       | "preview_night_glass"
       | "start_night_glass"
       | "claim_night_glass";
@@ -1414,6 +1450,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.lunarSourceSeedAvailable) {
       return [{ id: "plant_lunar_source", label: "초승달순 심기" }];
+    }
+    if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.nightGlassSourceSeedAvailable) {
+      return [{ id: "plant_night_glass_source", label: "밤유리 심기" }];
     }
     if (selectedSlot.unlockState === "unlocked" && state.researchClueRecordReady && !state.researchClueAlbumRecorded) {
       return [{ id: "record_clue", label: "도감 기록" }];

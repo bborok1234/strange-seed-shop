@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T09:11:01.072Z
+Generated at: 2026-05-08T09:20:07.465Z
 
 ## Current mission
 
@@ -57,16 +57,16 @@ Generated at: 2026-05-08T09:11:01.072Z
 - WorkUnit: `items/0272-night-glass-source-planting-loop.md`
 - GitHub issue: #512 `밤유리 source planting loop`
 - Branch: `codex/v1-night-glass-source-planting-loop`
-- Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Planned visual evidence: `reports/visual/issue-0512-night-glass-source-planting-loop/`
-- Current validation: #512 plan-first intake complete; implementation pending
+- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
+- Visual evidence: `reports/visual/issue-0512-night-glass-source-planting-loop/visual-report-20260508.md`
+- Current validation: #512 implementation and local verification complete; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass. Remaining gate: draft PR publication, PR checks, merge, main CI observation.
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
 0. Studio Campaign Gate: #512는 #511 이후 `seed_rare_001 source`가 receipt에 머무르는 production gap을 빈 밭 planting loop로 해소한다.
-1. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
-2. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+1. Implementation gate: `GardenState`, Phaser action/render/HUD, checker 연결 완료.
+2. Local verification gate: `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` 통과 완료.
 3. PR publication gate: #512 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 4. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 5. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
@@ -75,18 +75,18 @@ Generated at: 2026-05-08T09:11:01.072Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-planting-loop
-- Latest commit: 6edb9c7 Merge pull request #511 from bborok1234/codex/v1-night-glass-source-acquisition-route
+- Latest commit: dffdeec 밤유리 source 심기 loop 작업을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T09:10:45.637Z
-- Phase: phaser-v1-night-glass-source-planting-loop-planning
+- Timestamp: 2026-05-08T09:20:06.121Z
+- Phase: phaser-v1-night-glass-source-planting-loop-ready-for-pr
 - Issue: 512
 - PR:
 - Item: items/0272-night-glass-source-planting-loop.md
-- Next action: implementation gate: add night glass source planting action, plot overlay, and checker for #512
+- Next action: PR publication gate: commit implementation evidence and create draft PR for #512
 
 ## Open PRs
 
