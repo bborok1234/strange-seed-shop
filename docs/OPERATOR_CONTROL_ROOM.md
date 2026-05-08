@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T08:35:20.350Z
+Generated at: 2026-05-08T08:47:53.275Z
 
 ## Current mission
 
-현재 작업은 **밤유리 source icon/FX runtime binding**이다. #506 밤유리 source icon/FX generation-review는 PR #507 merge/main CI `25545174297`까지 통과했다. 다음 blocker는 dedicated `seed_rare_001_icon`과 `fx_night_glass_source_unlock_strip_v1` 후보가 manifest/Phaser runtime에 아직 binding되지 않아 preview 화면이 accepted rare creature silhouette stand-in에 머무른다는 점이다.
+현재 작업은 **밤유리 source acquisition route bridge**이다. #508 밤유리 source icon/FX runtime binding은 PR #509 merge/main CI `25546054078`까지 통과했다. 다음 blocker는 `밤유리 source`가 dedicated icon/FX preview 후에도 `expedition_night_glass 잠김` promise에 멈춰 실제 source 획득 route로 이어지지 않는다는 점이다.
 
 현재 evidence:
 
@@ -52,47 +52,48 @@ Generated at: 2026-05-08T08:35:20.350Z
 - Completed night glass source preview bridge: Issue #502, PR #503, main CI `25543463552`
 - Completed night glass source asset plan/prompt: Issue #504, PR #505, main CI `25544082346`
 - Completed night glass source asset generation-review: Issue #506, PR #507, main CI `25545174297`
-- WorkUnit: `items/0270-night-glass-source-runtime-binding.md`
-- GitHub issue: #508 `밤유리 source icon/FX runtime binding`
-- Branch: `codex/v1-night-glass-source-runtime-binding`
-- Runtime binding: `public/assets/manifest/assetManifest.json`, `apps/seed-garden-phaser/src/main.ts`
-- Visual evidence: `reports/visual/issue-0508-night-glass-source-runtime-binding/phaser-check-night-glass-source-preview-393.png`
-- Current validation: #508 runtime binding complete; dedicated source icon/FX asset keys are in topology telemetry and `npm run check:phaser` passes; full verification/PR gate pending
+- Completed night glass source runtime binding: Issue #508, PR #509, main CI `25546054078`
+- WorkUnit: `items/0271-night-glass-source-acquisition-route.md`
+- GitHub issue: #510 `밤유리 source acquisition route bridge`
+- Branch: `codex/v1-night-glass-source-acquisition-route`
+- Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
+- Planned visual evidence: `reports/visual/issue-0510-night-glass-source-acquisition-route/`
+- Current validation: #510 plan-first intake complete; implementation pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: #508은 #503의 `밤유리 source` locked preview가 placeholder로 읽히는 production gap을 전용 rare seed icon/FX runtime binding으로 해소한다.
-1. Local verification gate: `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
-2. PR publication gate: #508 구현 branch를 draft PR로 게시하고 checks를 감시한다.
-3. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
-4. merge 후 다음 blocker는 `밤유리 source` 실제 acquisition 또는 next rare route progression 중 North Star payoff가 큰 쪽으로 plan-first 선택한다.
+0. Studio Campaign Gate: #510은 #509 이후 `밤유리 source`가 preview promise에 멈추는 production gap을 조사/귀환/source 획득 route로 해소한다.
+1. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
+2. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+3. PR publication gate: #510 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+4. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 5. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-night-glass-source-runtime-binding
-- Latest commit: d14e032 밤유리 source icon과 unlock FX를 runtime에 연결한다
+- Branch: codex/v1-night-glass-source-acquisition-route
+- Latest commit: c812986 Merge pull request #509 from bborok1234/codex/v1-night-glass-source-runtime-binding
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T08:35:18.978Z
-- Phase: phaser-v1-night-glass-source-runtime-binding-pr-checks
-- Issue: 508
-- PR: 509
-- Item: items/0270-night-glass-source-runtime-binding.md
-- Next action: PR checks gate: watch PR #509 checks and ready/merge when green
+- Timestamp: 2026-05-08T08:47:48.138Z
+- Phase: phaser-v1-night-glass-source-acquisition-route-planning
+- Issue: 510
+- PR:
+- Item: items/0271-night-glass-source-acquisition-route.md
+- Next action: implementation gate: add night glass acquisition route state/action/render/checker for #510
 
 ## Open PRs
 
-- #509 draft 밤유리 source icon/FX runtime binding — https://github.com/bborok1234/strange-seed-shop/pull/509
+- unavailable or none
 
 ## Open issues
 
-- #508 밤유리 source icon/FX runtime binding — https://github.com/bborok1234/strange-seed-shop/issues/508
+- #510 밤유리 source acquisition route bridge — https://github.com/bborok1234/strange-seed-shop/issues/510
 
 ## Playable mode
 
