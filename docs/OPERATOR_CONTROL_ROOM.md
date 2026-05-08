@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T02:09:00.000Z
+Generated at: 2026-05-08T04:02:47.642Z
 
 ## Current mission
 
-현재 작업은 **첫 원정 보상 source preview bridge**이다. #494 첫 원정 문/귀환 상자 raster 후보 생성/리뷰는 PR #495 merge/main CI `25534928297`까지 통과했다. 다음 blocker는 귀환 상자 claim이 `꽃가루 단서 후보` receipt에서 멈추지 않고 `초승달순 씨앗 source`와 다음 달빛 route lock preview로 이어지게 만드는 점이다.
+현재 작업은 **초승달순 source planting loop**이다. #496 첫 원정 보상 source preview bridge는 PR #497 merge/main CI `25535517659`까지 통과했다. 다음 blocker는 `초승달순 씨앗 source`가 `seed_lunar_002` telemetry와 route preview에서 멈추지 않고 실제 빈 plot의 `초승달순 심기` action과 playfield seed state로 이어지게 만드는 점이다.
 
 현재 evidence:
 
@@ -46,45 +46,46 @@ Generated at: 2026-05-08T02:09:00.000Z
 - Completed first expedition depart/return route: Issue #490, PR #491, main CI `25531093879`
 - Completed expedition gate asset plan/prompt: Issue #492, PR #493, main CI `25531773472`
 - Completed expedition gate raster/runtime binding: Issue #494, PR #495, main CI `25534928297`
-- WorkUnit: `items/0264-expedition-return-source-bridge.md`
-- GitHub issue: #496 `첫 원정 보상 source preview bridge`
-- Branch: `codex/v1-expedition-return-source-bridge`
+- Completed expedition return source preview bridge: Issue #496, PR #497, main CI `25535517659`
+- WorkUnit: `items/0265-lunar-source-planting-loop.md`
+- GitHub issue: #498 `초승달순 source planting loop`
+- Branch: `codex/v1-lunar-source-planting-loop`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact exists, issue #496 opened
+- Current validation: source seed inventory/action/render/checker implemented; `npm run check:phaser` passed with mobile 393 source planting screenshots; accepted `seed_lunar_002_icon` is preloaded/rendered
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: 첫 원정 claim 후 source preview action이 실제 player verb로 보여야 한다.
-2. 초승달순 source preview와 다음 route lock이 HUD와 playfield 원정 문 상태에 모두 남아야 한다.
-3. `scripts/check-phaser-foundation.mjs`가 source preview telemetry와 screenshot을 검증해야 한다.
+1. Studio Campaign Gate: source preview 후 source seed inventory와 `초승달순 심기` action이 실제 player verb로 보여야 한다.
+2. accepted `seed_lunar_002_icon`을 Phaser runtime에서 preload/render해야 한다.
+3. 빈 plot playfield에 초승달순 source seed state가 HUD/action rail과 함께 남아야 한다.
 4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-expedition-return-source-bridge
-- Latest commit: de2f5d6 Merge pull request #495 from bborok1234/codex/v1-expedition-gate-raster-review
+- Branch: codex/v1-lunar-source-planting-loop
+- Latest commit: 39bdc8e PR evidence 본문을 초승달순 심기 루프에 맞춘다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T02:09:00.000Z
-- Phase: phaser-v1-expedition-return-source-bridge-planning
-- Issue: 496
-- PR:
-- Item: items/0264-expedition-return-source-bridge.md
-- Next action: implementation gate: add source preview state/action/HUD/playfield/checker for #496
+- Timestamp: 2026-05-08T04:02:35.675Z
+- Phase: phaser-v1-lunar-source-planting-loop-pr-checks
+- Issue: 498
+- PR: 499
+- Item: items/0265-lunar-source-planting-loop.md
+- Next action: PR checks gate: watch PR #499 checks and ready/merge when green
 
 ## Open PRs
 
-- None
+- #499 draft 초승달순 source planting loop — https://github.com/bborok1234/strange-seed-shop/pull/499
 
 ## Open issues
 
-- #496 첫 원정 보상 source preview bridge — https://github.com/bborok1234/strange-seed-shop/issues/496
+- #498 초승달순 source planting loop — https://github.com/bborok1234/strange-seed-shop/issues/498
 
 ## Playable mode
 
