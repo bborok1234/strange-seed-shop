@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T04:02:47.642Z
+Generated at: 2026-05-08T04:11:43.952Z
 
 ## Current mission
 
-현재 작업은 **초승달순 source planting loop**이다. #496 첫 원정 보상 source preview bridge는 PR #497 merge/main CI `25535517659`까지 통과했다. 다음 blocker는 `초승달순 씨앗 source`가 `seed_lunar_002` telemetry와 route preview에서 멈추지 않고 실제 빈 plot의 `초승달순 심기` action과 playfield seed state로 이어지게 만드는 점이다.
+현재 작업은 **초승달순 source harvest reveal bridge**이다. #498 초승달순 source planting loop는 PR #499 merge/main CI `25536106865`까지 통과했다. 다음 blocker는 `seed_lunar_002`가 planted state에서 멈추지 않고 `초승달순 수확`, accepted lunar creature reveal, harvest moonburst FX, 다음 rare route promise로 이어지게 만드는 점이다.
 
 현재 evidence:
 
@@ -47,45 +47,46 @@ Generated at: 2026-05-08T04:02:47.642Z
 - Completed expedition gate asset plan/prompt: Issue #492, PR #493, main CI `25531773472`
 - Completed expedition gate raster/runtime binding: Issue #494, PR #495, main CI `25534928297`
 - Completed expedition return source preview bridge: Issue #496, PR #497, main CI `25535517659`
-- WorkUnit: `items/0265-lunar-source-planting-loop.md`
-- GitHub issue: #498 `초승달순 source planting loop`
-- Branch: `codex/v1-lunar-source-planting-loop`
+- Completed lunar source planting loop: Issue #498, PR #499, main CI `25536106865`
+- WorkUnit: `items/0266-lunar-source-harvest-reveal.md`
+- GitHub issue: #500 `초승달순 source harvest reveal bridge`
+- Branch: `codex/v1-lunar-source-harvest-reveal`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: source seed inventory/action/render/checker implemented; `npm run check:phaser` passed with mobile 393 source planting screenshots; accepted `seed_lunar_002_icon` is preloaded/rendered
+- Current validation: plan-first artifact exists, issue #500 opened, accepted `creature_lunar_uncommon_001` and `fx_lunar_harvest_moonburst_001` exist in manifest
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: source preview 후 source seed inventory와 `초승달순 심기` action이 실제 player verb로 보여야 한다.
-2. accepted `seed_lunar_002_icon`을 Phaser runtime에서 preload/render해야 한다.
-3. 빈 plot playfield에 초승달순 source seed state가 HUD/action rail과 함께 남아야 한다.
+1. Studio Campaign Gate: planted source seed 후 `초승달순 수확` action이 실제 player verb로 보여야 한다.
+2. accepted lunar creature raster와 lunar harvest moonburst FX를 Phaser runtime에서 preload/render해야 한다.
+3. harvest reveal 후 달방울 creature payoff와 다음 rare route hint가 HUD/playfield/action rail에 남아야 한다.
 4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-lunar-source-planting-loop
-- Latest commit: 39bdc8e PR evidence 본문을 초승달순 심기 루프에 맞춘다
+- Branch: codex/v1-lunar-source-harvest-reveal
+- Latest commit: 2545efa Merge pull request #499 from bborok1234/codex/v1-lunar-source-planting-loop
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T04:02:35.675Z
-- Phase: phaser-v1-lunar-source-planting-loop-pr-checks
-- Issue: 498
-- PR: 499
-- Item: items/0265-lunar-source-planting-loop.md
-- Next action: PR checks gate: watch PR #499 checks and ready/merge when green
+- Timestamp: 2026-05-08T04:11:38.580Z
+- Phase: phaser-v1-lunar-source-harvest-reveal-planning
+- Issue: 500
+- PR:
+- Item: items/0266-lunar-source-harvest-reveal.md
+- Next action: implementation gate: add lunar source ready/harvest reveal, creature/FX binding, and checker for #500
 
 ## Open PRs
 
-- #499 draft 초승달순 source planting loop — https://github.com/bborok1234/strange-seed-shop/pull/499
+- unavailable or none
 
 ## Open issues
 
-- #498 초승달순 source planting loop — https://github.com/bborok1234/strange-seed-shop/issues/498
+- #500 초승달순 source harvest reveal bridge — https://github.com/bborok1234/strange-seed-shop/issues/500
 
 ## Playable mode
 
