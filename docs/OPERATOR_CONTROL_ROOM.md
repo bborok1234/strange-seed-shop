@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T01:44:57.000Z
+Generated at: 2026-05-08T02:09:00.000Z
 
 ## Current mission
 
-현재 작업은 **첫 원정 문/귀환 상자 raster 후보 생성/리뷰**이다. #493 첫 원정 문/귀환 상자 asset plan-prompt는 PR merge/main CI `25531773472`까지 통과했다. 다음 blocker는 prompt-only 계약을 실제 workspace PNG 후보, provenance, review evidence로 전환해 D7 route prop identity를 runtime 통합 가능한 상태로 만드는 점이다.
+현재 작업은 **첫 원정 문/귀환 상자 raster 후보 생성/리뷰**이다. #493 첫 원정 문/귀환 상자 asset plan-prompt는 PR merge/main CI `25531773472`까지 통과했고, #494는 3개 gpt-image-2 후보를 생성/후처리/manifest/runtime binding까지 연결했다. 다음 blocker는 전체 CI와 PR merge gate를 통과해 main에 반영하는 점이다.
 
 현재 evidence:
 
@@ -45,21 +45,23 @@ Generated at: 2026-05-08T01:44:57.000Z
 - Completed expedition gate preview route: Issue #488, PR #489, main CI `25527621378`
 - Completed first expedition depart/return route: Issue #490, PR #491, main CI `25531093879`
 - Completed expedition gate asset plan/prompt: Issue #492, PR #493, main CI `25531773472`
-- Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0263-expedition-gate-raster-review.md`
 - GitHub issue: #494 `첫 원정 문/귀환 상자 raster 후보 생성/리뷰`
 - Branch: `codex/v1-expedition-gate-raster-review`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact exists, issue #494 opened, `.env` contains `OPENAI_API_KEY` and `SEED_ASSET_IMAGE_MODEL`
+- Generated assets: `facility_expedition_gate_v1`, `facility_expedition_return_crate_v1`, `fx_expedition_return_reward_strip_v1`
+- Asset review: `reports/assets/expedition_gate_asset_review_20260508.md`, `reports/assets/expedition_gate_asset_contact_sheet_20260508.png`
+- Visual evidence: `reports/visual/issue-0494-expedition-gate-raster-review/visual-report-20260508.md`
+- Current validation: `npm run check:phaser` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:asset-alpha` pass, `npm run check:topology-asset-plan` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. `facility_expedition_gate_v1`, `facility_expedition_return_crate_v1`, `fx_expedition_return_reward_strip_v1` 3개를 실제 PNG workspace path에 생성해야 한다.
-2. provenance/status/review report가 provider, model, raw output, accepted output, alpha/background/strip readiness를 기록해야 한다.
-3. FX strip은 8 frames, 96x96, 14fps, `facility_expedition_gate.action.claim_return_crate` binding 계약을 유지해야 한다.
-4. runtime generation 지시가 없어야 하며 manifest/runtime binding은 review 통과 후에만 허용한다.
+1. 전체 CI가 `npm run check:ci`까지 통과해야 한다.
+2. PR body에는 gpt-image-2 transparent blocker, opaque 재시도, alpha cleanup, strict strip normalization, visual evidence를 모두 기록해야 한다.
+3. PR merge 후 main CI를 관찰해야 한다.
+4. runtime generation 지시가 없어야 하며 manifest/runtime은 workspace PNG만 preload/render해야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
@@ -71,12 +73,12 @@ Generated at: 2026-05-08T01:44:57.000Z
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T01:44:57.000Z
-- Phase: phaser-v1-expedition-gate-raster-review-plan
+- Timestamp: 2026-05-08T02:09:00.000Z
+- Phase: phaser-v1-expedition-gate-raster-review-pr-gate
 - Issue: 494
 - PR:
 - Item: items/0263-expedition-gate-raster-review.md
-- Next action: generate 3 expedition gate raster candidates and review them
+- Next action: run check:ci, commit implementation, push PR for #494
 
 ## Open PRs
 

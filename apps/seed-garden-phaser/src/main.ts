@@ -57,6 +57,14 @@ const TOPOLOGY_ASSETS = {
       key: "facility_order_crate_filled_v1",
       path: "/assets/game/facilities/facility_order_crate_filled_v1.png"
     },
+    expeditionGate: {
+      key: "facility_expedition_gate_v1",
+      path: "/assets/game/facilities/facility_expedition_gate_v1.png"
+    },
+    expeditionReturnCrate: {
+      key: "facility_expedition_return_crate_v1",
+      path: "/assets/game/facilities/facility_expedition_return_crate_v1.png"
+    },
     shadow: { key: "ui_shadow_soft_v1", path: "/assets/game/ui/ui_shadow_soft_v1.png" }
   },
   actors: {
@@ -83,6 +91,12 @@ const TOPOLOGY_ASSETS = {
     harvest: {
       key: "fx_harvest_leaf_flyout_strip_v1",
       path: "/assets/game/fx/fx_harvest_leaf_flyout_strip_v1.png",
+      frameWidth: 96,
+      frameHeight: 96
+    },
+    expeditionReturn: {
+      key: "fx_expedition_return_reward_strip_v1",
+      path: "/assets/game/fx/fx_expedition_return_reward_strip_v1.png",
       frameWidth: 96,
       frameHeight: 96
     }
@@ -143,7 +157,7 @@ function createHud(): HudElements {
 class GardenBoardScene extends Phaser.Scene {
   private hud?: HudElements;
   private renderLayer?: Phaser.GameObjects.Container;
-  private pendingFx?: { kind: "care" | "harvest" | "delivery"; slotId: string };
+  private pendingFx?: { kind: "care" | "harvest" | "delivery" | "expeditionReturn"; slotId: string };
   private viewMode: ViewMode = "manage";
 
   constructor() {
@@ -291,6 +305,12 @@ class GardenBoardScene extends Phaser.Scene {
     this.anims.create({
       key: "harvest-leaf-flyout-once",
       frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.harvest.key, { start: 0, end: 7 }),
+      frameRate: 14,
+      repeat: 0
+    });
+    this.anims.create({
+      key: "expedition-return-reward-once",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.expeditionReturn.key, { start: 0, end: 7 }),
       frameRate: 14,
       repeat: 0
     });
@@ -543,6 +563,13 @@ class GardenBoardScene extends Phaser.Scene {
         bar.fillRoundedRect(-36, 24, gameState.expeditionState === "returned" ? 72 : 44, 8, 4);
         container.add(bar);
       }
+
+      if (gameState.expeditionState === "returned") {
+        const returnCrate = this.add.image(35, 15, TOPOLOGY_ASSETS.facilities.expeditionReturnCrate.key);
+        returnCrate.setDisplaySize(58, 46);
+        returnCrate.setDepth(2);
+        container.add(returnCrate);
+      }
     }
 
     container.setSize(118, 104);
@@ -614,13 +641,26 @@ class GardenBoardScene extends Phaser.Scene {
       return;
     }
     const slot = getSlot(gameState, this.pendingFx.slotId);
-    const key = this.pendingFx.kind === "care" ? TOPOLOGY_ASSETS.fx.care.key : TOPOLOGY_ASSETS.fx.harvest.key;
-    const animation = this.pendingFx.kind === "care" ? "care-spark-once" : "harvest-leaf-flyout-once";
+    const key =
+      this.pendingFx.kind === "care"
+        ? TOPOLOGY_ASSETS.fx.care.key
+        : this.pendingFx.kind === "expeditionReturn"
+          ? TOPOLOGY_ASSETS.fx.expeditionReturn.key
+          : TOPOLOGY_ASSETS.fx.harvest.key;
+    const animation =
+      this.pendingFx.kind === "care"
+        ? "care-spark-once"
+        : this.pendingFx.kind === "expeditionReturn"
+          ? "expedition-return-reward-once"
+          : "harvest-leaf-flyout-once";
     const sprite = this.add.sprite(slot.x, slot.y - 28, key);
     sprite.setDepth(60);
-    sprite.setDisplaySize(this.pendingFx.kind === "care" ? 96 : 144, this.pendingFx.kind === "care" ? 96 : 104);
+    sprite.setDisplaySize(
+      this.pendingFx.kind === "care" ? 96 : this.pendingFx.kind === "expeditionReturn" ? 132 : 144,
+      this.pendingFx.kind === "care" ? 96 : this.pendingFx.kind === "expeditionReturn" ? 92 : 104
+    );
     sprite.play(animation);
-    if (this.pendingFx.kind === "delivery") {
+    if (this.pendingFx.kind === "delivery" || this.pendingFx.kind === "expeditionReturn") {
       this.tweens.add({
         targets: sprite,
         y: slot.y - 62,
@@ -688,7 +728,7 @@ class GardenBoardScene extends Phaser.Scene {
       });
     } else if (action === "claim_expedition") {
       claimBackyardGapExpeditionReward(gameState);
-      this.pendingFx = { kind: "delivery", slotId: selectedSlotId };
+      this.pendingFx = { kind: "expeditionReturn", slotId: selectedSlotId };
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -954,7 +994,7 @@ class GardenBoardScene extends Phaser.Scene {
       return TOPOLOGY_ASSETS.facilities.workbench.key;
     }
     if (facility.kind === "expedition_gate") {
-      return TOPOLOGY_ASSETS.facilities.orderCrateEmpty.key;
+      return TOPOLOGY_ASSETS.facilities.expeditionGate.key;
     }
     return TOPOLOGY_ASSETS.facilities.orderCrateEmpty.key;
   }

@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: planned
+- Status: implemented
 - Game Studio route: `game-studio:game-studio -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #494
 - Branch: `codex/v1-expedition-gate-raster-review`
@@ -30,11 +30,12 @@
 
 ## 수용 기준
 
-- 3개 output path가 모두 PNG workspace file로 존재한다.
-- `assets/source/gpt_image_asset_provenance.json`에 3개 asset의 provider/model/raw/accepted output 기록이 있다.
-- `assets/source/asset_generation_status.json`에 이번 issue batch가 `completed: 3`, `missing: []`, `blocked: false` 또는 concrete blocker로 기록된다.
-- review report가 각 asset의 style, small-size readability, text/watermark, background/alpha, manifest readiness를 판정한다.
-- runtime image generation/API/cache 의존이 없음을 검증한다.
+- [x] 3개 output path가 모두 PNG workspace file로 존재한다.
+- [x] `assets/source/gpt_image_asset_provenance.json`에 3개 asset의 provider/model/raw/accepted output 기록이 있다.
+- [x] `assets/source/asset_generation_status.json`에 이번 issue batch가 `completed: 3`, `missing: []`, `blocked: false`로 기록된다.
+- [x] review report가 각 asset의 style, small-size readability, text/watermark, background/alpha, manifest readiness를 판정한다.
+- [x] runtime image generation/API/cache 의존이 없음을 검증한다.
+- [x] Phaser runtime이 `facility_expedition_gate_v1`, `facility_expedition_return_crate_v1`, `fx_expedition_return_reward_strip_v1`를 preload/render한다.
 
 ## 검증 명령
 
@@ -45,7 +46,17 @@
 - `npm run check:asset-style`
 - `npm run check:asset-alpha`
 - `npm run check:topology-asset-plan`
+- `npm run check:phaser`
 - `git diff --check`
+
+## 구현 evidence
+
+- Transparent background 최초 요청은 `gpt-image-2` 제한으로 거부됐고, `SEED_ASSET_IMAGE_BACKGROUND=opaque`로 3개 후보를 생성했다.
+- `scripts/postprocess-expedition-gate-assets.mjs`가 시설 alpha cleanup과 FX strict 8x96x96 normalization을 수행했다.
+- `reports/assets/expedition_gate_asset_contact_sheet_20260508.png`
+- `reports/assets/expedition_gate_asset_review_20260508.md`
+- `reports/visual/issue-0494-expedition-gate-raster-review/visual-report-20260508.md`
+- `npm run check:phaser` pass: expedition gate preview/traveling/returned/claimed screenshots 생성.
 
 ## 리스크
 
