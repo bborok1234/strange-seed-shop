@@ -4,6 +4,7 @@ export type PlotState = "empty" | "planted" | "growing" | "ready";
 export type FacilityKind = "workbench" | "order_crate" | "storage" | "research_shelf" | "expedition_gate";
 export type ActorRole = "caretaker" | "carrier";
 export type ExpeditionState = "locked" | "ready" | "traveling" | "returned" | "claimed";
+export type NightGlassAcquisitionState = "locked" | "ready" | "traveling" | "returned" | "claimed";
 
 export const THIRD_PLOT_UNLOCK_COST = 60;
 export const STORAGE_BASKET_UNLOCK_COST = 80;
@@ -13,6 +14,7 @@ export const NEXT_EXPEDITION_ROUTE_PREVIEW_ID = "expedition_moon_fence_locked";
 export const NIGHT_GLASS_SOURCE_SEED_ID = "seed_rare_001";
 export const NIGHT_GLASS_ROUTE_PREVIEW_ID = "expedition_night_glass";
 export const NIGHT_GLASS_RESEARCH_PREVIEW_ID = "research_rare_glass";
+export const NIGHT_GLASS_SOURCE_REWARD_LEAVES = 64;
 
 export interface BoardSlot {
   id: string;
@@ -97,6 +99,10 @@ export interface GardenState {
   nightGlassSourcePreviewAvailable: boolean;
   nightGlassSourcePreviewVisible: boolean;
   nightGlassRoutePreviewId?: string;
+  nightGlassAcquisitionState: NightGlassAcquisitionState;
+  nightGlassSourceSeedAvailable: boolean;
+  nightGlassSourceAcquired: boolean;
+  nightGlassRewardLeaves: number;
 }
 
 export const boardSlots: BoardSlot[] = [
@@ -290,7 +296,11 @@ export function createGardenState(): GardenState {
     lunarSourceCreatureId: undefined,
     nightGlassSourcePreviewAvailable: false,
     nightGlassSourcePreviewVisible: false,
-    nightGlassRoutePreviewId: undefined
+    nightGlassRoutePreviewId: undefined,
+    nightGlassAcquisitionState: "locked",
+    nightGlassSourceSeedAvailable: false,
+    nightGlassSourceAcquired: false,
+    nightGlassRewardLeaves: 0
   };
 }
 
@@ -350,6 +360,18 @@ export function selectSlot(state: GardenState, slotId: string): void {
     return;
   }
   if (facility?.kind === "expedition_gate") {
+    if (state.nightGlassSourcePreviewVisible) {
+      if (state.nightGlassAcquisitionState === "ready") {
+        state.objective = "밤유리 온실 조사 준비 · expedition_night_glass";
+      } else if (state.nightGlassAcquisitionState === "traveling") {
+        state.objective = "밤유리 온실 조사 중 · rare source 귀환 대기";
+      } else if (state.nightGlassAcquisitionState === "returned") {
+        state.objective = "밤유리 귀환 상자 도착 · source 확인";
+      } else if (state.nightGlassAcquisitionState === "claimed") {
+        state.objective = "밤유리 source 획득 · seed_rare_001 source 보관";
+      }
+      return;
+    }
     if (state.expeditionState === "ready") {
       state.objective = "원정 문 준비 · 뒷마당 틈새길 tutorial route";
     } else if (state.expeditionState === "traveling") {
@@ -717,11 +739,82 @@ export function previewNightGlassSource(state: GardenState): void {
 
   state.nightGlassSourcePreviewVisible = true;
   state.nightGlassRoutePreviewId = NIGHT_GLASS_ROUTE_PREVIEW_ID;
+  state.nightGlassAcquisitionState = "ready";
   state.selectedSlotId = "facility_expedition_gate";
-  state.objective = "밤유리 source preview · expedition_night_glass 잠김";
+  state.objective = "밤유리 source preview · expedition_night_glass 조사 준비";
   state.receipts.unshift(
-    `밤유리 source 보기 · ${NIGHT_GLASS_SOURCE_SEED_ID} · ${NIGHT_GLASS_RESEARCH_PREVIEW_ID} 잠김`
+    `밤유리 source 보기 · ${NIGHT_GLASS_SOURCE_SEED_ID} · ${NIGHT_GLASS_RESEARCH_PREVIEW_ID} 조사 준비`
   );
+}
+
+export function startNightGlassSourceExpedition(state: GardenState): void {
+  if (!state.nightGlassSourcePreviewVisible || state.nightGlassAcquisitionState !== "ready") {
+    return;
+  }
+
+  const expeditionSlot = getSlot(state, "facility_expedition_gate");
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  expeditionSlot.unlockState = "unlocked";
+  if (expeditionGate) {
+    expeditionGate.level = Math.max(expeditionGate.level, 1);
+    expeditionGate.visualState = "active";
+    expeditionGate.progress = 50;
+  }
+  const expeditionActor = state.actors.find((actor) => actor.id === "actor_momo") ?? state.actors[0];
+  if (expeditionActor) {
+    expeditionActor.targetSlotId = "facility_expedition_gate";
+    expeditionActor.task = "expedition";
+  }
+  state.selectedSlotId = "facility_expedition_gate";
+  state.activeExpeditionRouteId = NIGHT_GLASS_ROUTE_PREVIEW_ID;
+  state.expeditionState = "traveling";
+  state.nightGlassAcquisitionState = "traveling";
+  state.nightGlassRewardLeaves = NIGHT_GLASS_SOURCE_REWARD_LEAVES;
+  state.objective = "밤유리 온실 조사 중 · rare source 귀환 대기";
+  state.receipts.unshift("밤유리 온실 조사 출발 · explorer/researcher route");
+}
+
+export function markNightGlassSourceExpeditionReturned(state: GardenState): void {
+  if (state.activeExpeditionRouteId !== NIGHT_GLASS_ROUTE_PREVIEW_ID || state.nightGlassAcquisitionState !== "traveling") {
+    return;
+  }
+
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  if (expeditionGate) {
+    expeditionGate.progress = 100;
+    expeditionGate.visualState = "active";
+  }
+  state.selectedSlotId = "facility_expedition_gate";
+  state.expeditionState = "returned";
+  state.nightGlassAcquisitionState = "returned";
+  state.objective = "밤유리 귀환 상자 도착 · source 확인";
+  state.receipts.unshift("밤유리 온실 조사 귀환 · rare source 상자 대기");
+}
+
+export function claimNightGlassSourceReward(state: GardenState): void {
+  if (state.activeExpeditionRouteId !== NIGHT_GLASS_ROUTE_PREVIEW_ID || state.nightGlassAcquisitionState !== "returned") {
+    return;
+  }
+
+  const rewardLeaves = state.nightGlassRewardLeaves || NIGHT_GLASS_SOURCE_REWARD_LEAVES;
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  if (expeditionGate) {
+    expeditionGate.progress = 0;
+    expeditionGate.visualState = "active";
+  }
+  const expeditionActor = state.actors.find((actor) => actor.task === "expedition");
+  if (expeditionActor) {
+    expeditionActor.targetSlotId = "facility_order_crate";
+    expeditionActor.task = expeditionActor.role === "carrier" ? "carry_leaves" : "care_plot";
+  }
+  state.resources.leaves += rewardLeaves;
+  state.expeditionState = "claimed";
+  state.nightGlassAcquisitionState = "claimed";
+  state.nightGlassRewardLeaves = 0;
+  state.nightGlassSourceSeedAvailable = true;
+  state.nightGlassSourceAcquired = true;
+  state.objective = "밤유리 source 획득 · seed_rare_001 source 보관";
+  state.receipts.unshift(`밤유리 귀환 상자 열기 · 잎 +${rewardLeaves} · ${NIGHT_GLASS_SOURCE_SEED_ID} source 획득`);
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {
