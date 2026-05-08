@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T04:11:43.952Z
+Generated at: 2026-05-08T04:19:00.607Z
 
 ## Current mission
 
@@ -53,7 +53,7 @@ Generated at: 2026-05-08T04:11:43.952Z
 - Branch: `codex/v1-lunar-source-harvest-reveal`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact exists, issue #500 opened, accepted `creature_lunar_uncommon_001` and `fx_lunar_harvest_moonburst_001` exist in manifest
+- Current validation: source seed ready/harvest/reveal implemented; `npm run check:phaser` passed with mobile 393 lunar source harvest screenshots; accepted `creature_lunar_uncommon_001` and `fx_lunar_harvest_moonburst_001` are preloaded/rendered
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -67,18 +67,18 @@ Generated at: 2026-05-08T04:11:43.952Z
 ## Local state
 
 - Branch: codex/v1-lunar-source-harvest-reveal
-- Latest commit: 2545efa Merge pull request #499 from bborok1234/codex/v1-lunar-source-planting-loop
+- Latest commit: c095959 초승달순 수확 reveal 계획을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T04:11:38.580Z
-- Phase: phaser-v1-lunar-source-harvest-reveal-planning
+- Timestamp: 2026-05-08T04:18:54.617Z
+- Phase: phaser-v1-lunar-source-harvest-reveal-review
 - Issue: 500
 - PR:
 - Item: items/0266-lunar-source-harvest-reveal.md
-- Next action: implementation gate: add lunar source ready/harvest reveal, creature/FX binding, and checker for #500
+- Next action: PR publication gate: publish draft PR for #500 and watch GitHub checks
 
 ## Open PRs
 

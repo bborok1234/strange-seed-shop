@@ -438,7 +438,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Branch: `codex/v1-lunar-source-harvest-reveal`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact exists, issue #500 opened, accepted `creature_lunar_uncommon_001` and `fx_lunar_harvest_moonburst_001` exist in manifest
+- Current validation: source seed ready/harvest/reveal implemented; `npm run check:phaser` passed with mobile 393 lunar source harvest screenshots; accepted `creature_lunar_uncommon_001` and `fx_lunar_harvest_moonburst_001` are preloaded/rendered
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:

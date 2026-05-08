@@ -13,6 +13,7 @@ import {
   getSlot,
   harvestSelectedPlot,
   inspectResearchShelfPreview,
+  LUNAR_SOURCE_SEED_ID,
   markBackyardGapExpeditionReturned,
   plantLunarSourceSeed,
   plantResearchNextGoalSeed,
@@ -53,6 +54,12 @@ const TOPOLOGY_ASSETS = {
     lunarSource: {
       key: "seed_lunar_002_icon",
       path: "/assets/game/seeds/seed_lunar_002_icon.png"
+    }
+  },
+  creatures: {
+    lunarSource: {
+      key: "creature_lunar_uncommon_001",
+      path: "/assets/game/creatures/creature_lunar_uncommon_001.png"
     }
   },
   facilities: {
@@ -107,6 +114,12 @@ const TOPOLOGY_ASSETS = {
       path: "/assets/game/fx/fx_expedition_return_reward_strip_v1.png",
       frameWidth: 96,
       frameHeight: 96
+    },
+    lunarHarvest: {
+      key: "fx_lunar_harvest_moonburst_001",
+      path: "/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
+      frameWidth: 160,
+      frameHeight: 160
     }
   }
 } as const;
@@ -115,6 +128,7 @@ const TOPOLOGY_ASSET_KEYS = [
   TOPOLOGY_ASSETS.terrain.key,
   ...Object.values(TOPOLOGY_ASSETS.plots).map((asset) => asset.key),
   ...Object.values(TOPOLOGY_ASSETS.seeds).map((asset) => asset.key),
+  ...Object.values(TOPOLOGY_ASSETS.creatures).map((asset) => asset.key),
   ...Object.values(TOPOLOGY_ASSETS.facilities).map((asset) => asset.key),
   ...Object.values(TOPOLOGY_ASSETS.actors).map((asset) => asset.key),
   ...Object.values(TOPOLOGY_ASSETS.fx).map((asset) => asset.key)
@@ -166,7 +180,7 @@ function createHud(): HudElements {
 class GardenBoardScene extends Phaser.Scene {
   private hud?: HudElements;
   private renderLayer?: Phaser.GameObjects.Container;
-  private pendingFx?: { kind: "care" | "harvest" | "delivery" | "expeditionReturn"; slotId: string };
+  private pendingFx?: { kind: "care" | "harvest" | "delivery" | "expeditionReturn" | "lunarHarvest"; slotId: string };
   private viewMode: ViewMode = "manage";
 
   constructor() {
@@ -177,6 +191,7 @@ class GardenBoardScene extends Phaser.Scene {
     this.load.image(TOPOLOGY_ASSETS.terrain.key, TOPOLOGY_ASSETS.terrain.path);
     Object.values(TOPOLOGY_ASSETS.plots).forEach((asset) => this.load.image(asset.key, asset.path));
     Object.values(TOPOLOGY_ASSETS.seeds).forEach((asset) => this.load.image(asset.key, asset.path));
+    Object.values(TOPOLOGY_ASSETS.creatures).forEach((asset) => this.load.image(asset.key, asset.path));
     Object.values(TOPOLOGY_ASSETS.facilities).forEach((asset) => this.load.image(asset.key, asset.path));
     Object.values(TOPOLOGY_ASSETS.actors).forEach((asset) =>
       this.load.spritesheet(asset.key, asset.path, { frameWidth: asset.frameWidth, frameHeight: asset.frameHeight })
@@ -200,6 +215,7 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderLayer = this.add.container(0, 0);
     this.renderTerrain();
     this.renderSlots();
+    this.renderLunarSourceReveal();
     this.renderActors();
     this.renderPendingFx();
     this.applyViewModeCamera();
@@ -266,6 +282,10 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.lunarSourceSeedPlanted;
     (window as unknown as { __seedGardenLunarSourceSeedHarvested?: boolean }).__seedGardenLunarSourceSeedHarvested =
       gameState.lunarSourceSeedHarvested;
+    (window as unknown as { __seedGardenLunarSourceCreatureRevealed?: boolean })
+      .__seedGardenLunarSourceCreatureRevealed = gameState.lunarSourceCreatureRevealed;
+    (window as unknown as { __seedGardenLunarSourceCreatureId?: string }).__seedGardenLunarSourceCreatureId =
+      gameState.lunarSourceCreatureId ?? "";
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -336,6 +356,12 @@ class GardenBoardScene extends Phaser.Scene {
       key: "expedition-return-reward-once",
       frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.expeditionReturn.key, { start: 0, end: 7 }),
       frameRate: 14,
+      repeat: 0
+    });
+    this.anims.create({
+      key: "lunar-harvest-moonburst-once",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.lunarHarvest.key, { start: 0, end: 3 }),
+      frameRate: 10,
       repeat: 0
     });
   }
@@ -675,6 +701,38 @@ class GardenBoardScene extends Phaser.Scene {
     });
   }
 
+  private renderLunarSourceReveal() {
+    if (!gameState.lunarSourceCreatureRevealed) {
+      return;
+    }
+    const container = this.add.container(304, 234);
+    container.setDepth(48);
+
+    const shadow = this.add.image(0, 52, TOPOLOGY_ASSETS.facilities.shadow.key);
+    shadow.setDisplaySize(88, 32);
+    shadow.setAlpha(0.42);
+    container.add(shadow);
+
+    const creature = this.add.image(0, 0, TOPOLOGY_ASSETS.creatures.lunarSource.key);
+    creature.setDisplaySize(88, 88);
+    creature.setAlpha(0.98);
+    container.add(creature);
+
+    const label = this.add
+      .text(0, 55, "은빛이끼 루미", {
+        align: "center",
+        backgroundColor: "rgba(37, 48, 82, 0.86)",
+        color: "#f4f0c9",
+        fontFamily: "system-ui, sans-serif",
+        fontSize: "11px",
+        fontStyle: "800",
+        padding: { x: 8, y: 3 }
+      })
+      .setOrigin(0.5);
+    container.add(label);
+    this.renderLayer?.add(container);
+  }
+
   private renderTaskPath(from: BoardSlot, to: BoardSlot) {
     const path = this.add.graphics();
     path.lineStyle(3, 0x4f8d6d, 0.42);
@@ -732,23 +790,44 @@ class GardenBoardScene extends Phaser.Scene {
     const key =
       this.pendingFx.kind === "care"
         ? TOPOLOGY_ASSETS.fx.care.key
+        : this.pendingFx.kind === "lunarHarvest"
+          ? TOPOLOGY_ASSETS.fx.lunarHarvest.key
         : this.pendingFx.kind === "expeditionReturn"
           ? TOPOLOGY_ASSETS.fx.expeditionReturn.key
           : TOPOLOGY_ASSETS.fx.harvest.key;
     const animation =
       this.pendingFx.kind === "care"
         ? "care-spark-once"
+        : this.pendingFx.kind === "lunarHarvest"
+          ? "lunar-harvest-moonburst-once"
         : this.pendingFx.kind === "expeditionReturn"
           ? "expedition-return-reward-once"
           : "harvest-leaf-flyout-once";
     const sprite = this.add.sprite(slot.x, slot.y - 28, key);
     sprite.setDepth(60);
-    sprite.setDisplaySize(
-      this.pendingFx.kind === "care" ? 96 : this.pendingFx.kind === "expeditionReturn" ? 132 : 144,
-      this.pendingFx.kind === "care" ? 96 : this.pendingFx.kind === "expeditionReturn" ? 92 : 104
-    );
+    const fxWidth =
+      this.pendingFx.kind === "care"
+        ? 96
+        : this.pendingFx.kind === "expeditionReturn"
+          ? 132
+          : this.pendingFx.kind === "lunarHarvest"
+            ? 156
+            : 144;
+    const fxHeight =
+      this.pendingFx.kind === "care"
+        ? 96
+        : this.pendingFx.kind === "expeditionReturn"
+          ? 92
+          : this.pendingFx.kind === "lunarHarvest"
+            ? 156
+            : 104;
+    sprite.setDisplaySize(fxWidth, fxHeight);
     sprite.play(animation);
-    if (this.pendingFx.kind === "delivery" || this.pendingFx.kind === "expeditionReturn") {
+    if (
+      this.pendingFx.kind === "delivery" ||
+      this.pendingFx.kind === "expeditionReturn" ||
+      this.pendingFx.kind === "lunarHarvest"
+    ) {
       this.tweens.add({
         targets: sprite,
         y: slot.y - 62,
@@ -829,8 +908,12 @@ class GardenBoardScene extends Phaser.Scene {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
     } else if (action === "harvest") {
+      const harvestedSeedId = getPlotBySlot(gameState, selectedSlotId)?.seedId;
       harvestSelectedPlot(gameState);
-      this.pendingFx = { kind: "harvest", slotId: selectedSlotId };
+      this.pendingFx = {
+        kind: harvestedSeedId === LUNAR_SOURCE_SEED_ID ? "lunarHarvest" : "harvest",
+        slotId: selectedSlotId
+      };
     } else if (action === "claim") {
       claimWorkbenchProduction(gameState);
     } else if (action === "deliver") {
@@ -910,7 +993,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (gameState.expeditionSourceClueAvailable) {
       const sourceText = gameState.expeditionSourcePreviewVisible
-        ? gameState.lunarSourceSeedPlanted
+        ? gameState.lunarSourceSeedHarvested
+          ? "수확 완료 · 은빛이끼 루미 발견 · 밤유리 source 예고"
+          : gameState.lunarSourceSeedPlanted
           ? "첫 원정 보상 · 초승달순 재배 중"
           : "첫 원정 보상 · 빈 밭에 심기 · 달빛 울타리 잠김"
         : "귀환 상자에서 새 source 단서 발견";
@@ -921,6 +1006,15 @@ class GardenBoardScene extends Phaser.Scene {
         <span>${sourceText}</span>
       `;
       this.hud.actions.appendChild(sourceSurface);
+    }
+    if (gameState.lunarSourceCreatureRevealed) {
+      const lunarRevealSurface = document.createElement("div");
+      lunarRevealSurface.className = "collection-goal-surface";
+      lunarRevealSurface.innerHTML = `
+        <strong>은빛이끼 루미 발견</strong>
+        <span>다음 rare route: 밤유리 source</span>
+      `;
+      this.hud.actions.appendChild(lunarRevealSurface);
     }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
@@ -1084,6 +1178,9 @@ class GardenBoardScene extends Phaser.Scene {
       return [{ id: "care", label: "돌보기" }];
     }
     if (plot?.state === "ready") {
+      if (plot.seedId === LUNAR_SOURCE_SEED_ID) {
+        return [{ id: "harvest", label: "초승달순 수확" }];
+      }
       return [{ id: "harvest", label: "수확" }];
     }
     if (selectedSlot.id === "facility_workbench" && state.actors.length > 0) {

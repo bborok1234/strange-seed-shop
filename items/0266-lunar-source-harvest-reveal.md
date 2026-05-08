@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: planned
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:web-game-foundations -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #500
 - Branch: `codex/v1-lunar-source-harvest-reveal`
@@ -54,14 +54,35 @@
 
 - Solo execute. 변경 범위가 `gameState`, Phaser runtime, checker, evidence 문서로 좁고 독립 병렬화 이득이 낮다.
 
+## 구현 결과
+
+- `GardenState`에 lunar source creature reveal state와 deterministic `creature_lunar_uncommon_001` id를 추가했다.
+- `seed_lunar_002`는 source 전용 care progression으로 ready 상태가 되고 `초승달순 수확` action을 제공한다.
+- harvest 후 `lunarSourceSeedHarvested`, `lunarSourceCreatureRevealed`, `lunarSourceCreatureId` telemetry를 남기고 잎 +44를 지급한다.
+- Phaser runtime은 accepted `creature_lunar_uncommon_001` raster와 `fx_lunar_harvest_moonburst_001` FX binding을 preload/render한다.
+- `scripts/check-phaser-foundation.mjs`는 source planting -> ready -> harvest reveal까지 mobile 393 screenshot과 telemetry를 검증한다.
+- Browser Use plugin tool은 현재 세션에 노출되지 않아 Playwright 기반 `npm run check:phaser`를 fallback evidence로 사용했다.
+
+## Evidence
+
+- Visual report: `reports/visual/issue-0500-lunar-source-harvest-reveal/visual-report-20260508.md`
+- Source harvested screenshot: `reports/visual/issue-0500-lunar-source-harvest-reveal/phaser-check-lunar-source-harvested-393.png`
+- Phaser smoke result: `npm run check:phaser` pass, `failures: []`
+- Final telemetry:
+  - `lunarSourceSeedHarvested`: `true`
+  - `lunarSourceCreatureRevealed`: `true`
+  - `lunarSourceCreatureId`: `creature_lunar_uncommon_001`
+  - final leaves: `139`
+  - topology assets: `creature_lunar_uncommon_001`, `fx_lunar_harvest_moonburst_001`
+
 ## 검증 명령
 
-- `npm run check:phaser`
-- `npm run check:ci`
-- `npm run check:control-room`
-- `npm run check:ops-live`
-- `npm run check:github-metadata`
-- `git diff --check`
+- [x] `npm run check:phaser`
+- [x] `npm run check:ci`
+- [x] `npm run check:control-room`
+- [x] `npm run check:ops-live`
+- [x] `npm run check:github-metadata`
+- [x] `git diff --check`
 
 ## 리스크
 
