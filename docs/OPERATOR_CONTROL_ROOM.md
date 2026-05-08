@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T07:46:35.835Z
+Generated at: 2026-05-08T07:47:45.900Z
 
 ## Current mission
 
@@ -70,22 +70,22 @@ Generated at: 2026-05-08T07:46:35.835Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-asset-plan
-- Latest commit: 4fff6bc 밤유리 source asset plan-prompt 작업을 고정한다
+- Latest commit: cd89cdf 밤유리 source icon과 unlock FX prompt를 추가한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T07:46:34.251Z
-- Phase: phaser-v1-night-glass-source-asset-plan-review
+- Timestamp: 2026-05-08T07:47:44.343Z
+- Phase: phaser-v1-night-glass-source-asset-plan-pr-checks
 - Issue: 504
-- PR:
+- PR: 505
 - Item: items/0268-night-glass-source-asset-plan-prompt.md
-- Next action: PR publication gate: publish draft PR for #504 and watch GitHub checks
+- Next action: PR checks gate: watch PR #505 checks and ready/merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #505 draft 밤유리 source icon/FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/505
 
 ## Open issues
 
