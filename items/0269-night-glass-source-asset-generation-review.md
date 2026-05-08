@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: active
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #506
 - Branch: `codex/v1-night-glass-source-asset-generation`
@@ -57,7 +57,17 @@
 - `npm run check:ci`
 - `git diff --check`
 
+## 구현 Evidence
+
+- `SEED_ASSET_IMAGE_BACKGROUND=opaque npm run asset:generate:gpt-image -- --asset-id=seed_rare_001_icon`로 `public/assets/game/seeds/seed_rare_001_icon.png` 후보를 생성했다.
+- `SEED_ASSET_IMAGE_BACKGROUND=opaque npm run asset:generate:gpt-image -- --asset-id=fx_night_glass_source_unlock_strip_v1`로 `public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png` 후보를 생성했다.
+- `node scripts/postprocess-night-glass-source-assets.mjs`로 checkerboard background를 edge-connected alpha cleanup하고, FX를 `768x96` strict 8-frame strip으로 정규화했다.
+- `assets/source/gpt_image_asset_provenance.json`에 두 asset의 `openai_images_api` / `gpt-image-2` record, raw output, accepted output, post_processing evidence가 기록됐다.
+- `assets/source/asset_generation_status.json`에 `issue_0506_night_glass_source_asset_generation_review` batch가 기록됐다.
+- `reports/assets/night_glass_source_asset_contact_sheet_20260508.png`와 `reports/assets/night_glass_source_asset_review_20260508.md`를 남겼다.
+- Browser Use: runtime 화면 변경이 아닌 asset candidate generation/review slice라 N/A. 후속 Phaser runtime binding에서 Browser Use 또는 blocker+Playwright visual QA를 수행한다.
+
 ## 리스크
 
-- `gpt-image-2`가 transparent background를 거부하거나 strip geometry를 정확히 맞추지 못하면 generation은 성공해도 manifest/runtime binding 전 alpha cleanup 또는 strip normalization WorkUnit이 필요하다.
+- `gpt-image-2`는 `transparent` 대신 `opaque`로 생성했고, checkerboard는 후처리로 alpha cleanup했다. 후속 manifest/runtime binding 전 small-size visual QA와 Phaser rendering 검수가 필요하다.
 - 이번 slice는 runtime 화면을 바꾸지 않는다. Browser Use QA와 Phaser screenshot은 후속 runtime binding PR에서 수행한다.
