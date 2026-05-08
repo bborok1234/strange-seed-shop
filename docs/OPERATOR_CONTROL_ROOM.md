@@ -51,7 +51,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Runtime source: `apps/seed-garden-phaser/src/main.ts`
 - Smoke verifier: `scripts/check-phaser-foundation.mjs`
 - Visual report: pending at `reports/visual/issue-0490-first-expedition-depart-return/visual-report-20260508.md`
-- Current validation: plan-first artifact and GitHub issue #490 created
+- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -71,12 +71,12 @@ Generated at: 2026-05-07T22:29:32.719Z
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T01:02:02.000Z
-- Phase: phaser-v1-first-expedition-depart-return-planning
+- Timestamp: 2026-05-08T01:07:29.000Z
+- Phase: phaser-v1-first-expedition-depart-return-pr-gate
 - Issue: 490
 - PR: pending
 - Item: items/0261-first-expedition-depart-return.md
-- Next action: implementation gate: implement first expedition depart/return route for #490
+- Next action: PR gate: commit, push, open draft PR, watch checks
 
 ## Open PRs
 

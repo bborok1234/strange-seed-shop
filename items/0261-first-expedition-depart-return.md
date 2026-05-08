@@ -1,6 +1,6 @@
 # 원정 문 preview가 첫 원정 출발/귀환 crate로 이어지게 만들기
 
-Status: planning
+Status: verified
 Owner: agent
 Created: 2026-05-08
 GitHub issue: #490
@@ -82,6 +82,7 @@ Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -
 - artifact path: `reports/visual/issue-0490-first-expedition-depart-return/`
 - iteration log:
   - 2026-05-08: plan-first artifact 작성.
+  - 2026-05-08: `npm run check:phaser` pass. #489 scripted path 이후 `틈새길 보내기`, 자동 귀환, `귀환 상자 열기`까지 클릭하고 traveling/returned/claimed telemetry와 screenshot을 `reports/visual/issue-0490-first-expedition-depart-return/`에 저장했다.
 - stop condition: local phaser smoke, CI checker, GitHub checks, merge, main CI green.
 
 ## Acceptance Criteria
@@ -114,4 +115,10 @@ git diff --check
 
 ## Evidence
 
-- Pending implementation.
+- `npm run check:phaser` pass
+- `npm run check:ci` pass
+- Visual report: `reports/visual/issue-0490-first-expedition-depart-return/visual-report-20260508.md`
+- Key screenshots:
+  - `reports/visual/issue-0490-first-expedition-depart-return/phaser-check-expedition-traveling-393.png`
+  - `reports/visual/issue-0490-first-expedition-depart-return/phaser-check-expedition-returned-393.png`
+  - `reports/visual/issue-0490-first-expedition-depart-return/phaser-check-expedition-claimed-393.png`
