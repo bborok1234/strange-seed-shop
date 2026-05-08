@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T07:26:55.182Z
+Generated at: 2026-05-08T07:29:21.321Z
 
 ## Current mission
 
@@ -68,22 +68,22 @@ Generated at: 2026-05-08T07:26:55.182Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-preview
-- Latest commit: 488d74e 밤유리 source preview 계획을 고정한다
+- Latest commit: 7e56ab2 밤유리 source preview를 player verb로 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T07:26:48.541Z
-- Phase: phaser-v1-night-glass-source-preview-review
+- Timestamp: 2026-05-08T07:29:19.737Z
+- Phase: phaser-v1-night-glass-source-preview-pr-checks
 - Issue: 502
-- PR:
+- PR: 503
 - Item: items/0267-night-glass-source-preview.md
-- Next action: PR publication gate: publish draft PR for #502 and watch GitHub checks
+- Next action: PR checks gate: watch PR #503 checks and ready/merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #503 draft 밤유리 source preview bridge — https://github.com/bborok1234/strange-seed-shop/pull/503
 
 ## Open issues
 
