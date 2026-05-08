@@ -7,7 +7,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 
 ## Current mission
 
-현재 작업은 **첫 원정 출발/귀환 crate route**이다. #488 원정 문 preview route는 PR #489 merge/main CI `25527621378`까지 통과했다. 다음 blocker는 원정 문이 preview로만 끝나고 v1 Launch Slice의 `depart -> traveling -> returned crate` playable route state가 없는 점이다.
+현재 작업은 **첫 원정 문/귀환 상자 asset plan-prompt**이다. #490 첫 원정 출발/귀환 route는 PR #491 merge/main CI `25531093879`까지 통과했다. 다음 blocker는 원정 문과 귀환 상자가 아직 order crate stand-in에 기대고 있어 D7 route prop identity가 약한 점이다.
 
 현재 evidence:
 
@@ -43,50 +43,47 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Completed lunar sprout harvest reveal bridge: Issue #484, PR #485, main CI `25526399609`
 - Completed lunar sprout discovery confirm: Issue #486, PR #487, main CI `25526968559`
 - Completed expedition gate preview route: Issue #488, PR #489, main CI `25527621378`
+- Completed first expedition depart/return route: Issue #490, PR #491, main CI `25531093879`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0261-first-expedition-depart-return.md`
-- GitHub issue: #490 `원정 문 preview가 첫 원정 출발/귀환 crate로 이어지게 만들기`
-- Draft PR: #491 `https://github.com/bborok1234/strange-seed-shop/pull/491`
-- Commit: `6cec9dc`
-- Branch: `codex/v1-first-expedition-depart-return`
-- Runtime state source: `apps/seed-garden-phaser/src/gameState.ts`
-- Runtime source: `apps/seed-garden-phaser/src/main.ts`
-- Smoke verifier: `scripts/check-phaser-foundation.mjs`
-- Visual report: pending at `reports/visual/issue-0490-first-expedition-depart-return/visual-report-20260508.md`
-- Current validation: `npm run check:phaser` pass, `npm run check:ci` pass, PR #491 checks pass
+- WorkUnit: `items/0262-expedition-gate-asset-plan-prompt.md`
+- GitHub issue: #492 `첫 원정 문/귀환 상자 asset plan-prompt 만들기`
+- Branch: `codex/v1-expedition-gate-asset-plan-prompt`
+- Asset plan: `assets/source/asset_plan.json`
+- Asset prompts: `assets/source/asset_prompts.json`
+- Current validation: plan-first artifact and GitHub issue #492 created
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: 새 WorkUnit은 원정 문 preview 이후 첫 tutorial route를 출발/귀환 crate state로 남겨야 한다.
-2. `틈새길 보내기` action과 `activeExpeditionRouteId=expedition_backyard_gap` telemetry가 있어야 한다.
-3. traveling/returned/claimed 상태가 board/HUD/objective/receipt에서 읽혀야 한다.
-4. `귀환 상자 열기` 보상 수령이 잎 보상과 receipt로 확인되어야 한다.
+1. Studio Campaign Gate: 새 WorkUnit은 첫 원정 route의 dedicated prop/FX 후보를 plan/prompt로 남겨야 한다.
+2. expedition gate, return crate, return reward FX strip 3개 asset id가 plan/prompt에 모두 있어야 한다.
+3. FX strip metadata는 frame count, frame size, fps, animation binding을 포함해야 한다.
+4. output path는 workspace PNG 경로여야 하며 runtime generation 지시가 없어야 한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-first-expedition-depart-return
-- Latest commit: d09440a Merge pull request #489 from bborok1234/codex/v1-expedition-gate-preview-route
+- Branch: codex/v1-expedition-gate-asset-plan-prompt
+- Latest commit: 5120fc4 Merge pull request #491 from bborok1234/codex/v1-first-expedition-depart-return
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T01:12:28.000Z
-- Phase: phaser-v1-first-expedition-depart-return-merge-gate
-- Issue: 490
-- PR: 491
-- Item: items/0261-first-expedition-depart-return.md
-- Next action: merge gate: mark ready, merge #491, watch main CI
+- Timestamp: 2026-05-08T01:20:06.000Z
+- Phase: phaser-v1-expedition-gate-asset-plan-prompt-planning
+- Issue: 492
+- PR: pending
+- Item: items/0262-expedition-gate-asset-plan-prompt.md
+- Next action: implementation gate: add expedition gate/return crate/FX plan prompts for #492
 
 ## Open PRs
 
-- #491 원정 문 preview가 첫 원정 출발/귀환 crate로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/491
+- N/A — #492 implementation PR pending.
 
 ## Open issues
 
-- #490 원정 문 preview가 첫 원정 출발/귀환 crate로 이어지게 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/490
+- #492 첫 원정 문/귀환 상자 asset plan-prompt 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/492
 
 ## Playable mode
 
