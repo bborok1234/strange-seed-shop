@@ -1,9 +1,10 @@
 # 첫 원정 문/귀환 상자 asset plan-prompt 만들기
 
-Status: verified
+Status: PR open
 Owner: agent
 Created: 2026-05-08
 GitHub issue: #492
+GitHub PR: #493
 Branch: `codex/v1-expedition-gate-asset-plan-prompt`
 Game Studio route: `game-studio:game-studio` -> `game-studio:game-ui-frontend` -> `game-studio:phaser-2d-game` -> `game-studio:game-playtest`
 Asset route: `gpt-game-asset-plan` -> `gpt-game-asset-prompt`
@@ -121,6 +122,8 @@ git diff --check
 - `npm run check:asset-provenance` pass
 - `npm run check:asset-style` pass
 - `npm run check:ci` pass
+- Draft PR: #493 `https://github.com/bborok1234/strange-seed-shop/pull/493`
+- Commit: `ded6820`
 - Added plan/prompt ids:
   - `facility_expedition_gate_v1`
   - `facility_expedition_return_crate_v1`

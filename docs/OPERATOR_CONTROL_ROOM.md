@@ -47,10 +47,12 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
 - WorkUnit: `items/0262-expedition-gate-asset-plan-prompt.md`
 - GitHub issue: #492 `첫 원정 문/귀환 상자 asset plan-prompt 만들기`
+- Draft PR: #493 `https://github.com/bborok1234/strange-seed-shop/pull/493`
+- Commit: `ded6820`
 - Branch: `codex/v1-expedition-gate-asset-plan-prompt`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass
+- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass, PR #493 checks queued
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -70,16 +72,16 @@ Generated at: 2026-05-07T22:29:32.719Z
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T01:24:48.000Z
-- Phase: phaser-v1-expedition-gate-asset-plan-prompt-pr-gate
+- Timestamp: 2026-05-08T01:26:00.000Z
+- Phase: phaser-v1-expedition-gate-asset-plan-prompt-pr
 - Issue: 492
-- PR: pending
+- PR: 493
 - Item: items/0262-expedition-gate-asset-plan-prompt.md
-- Next action: PR gate: commit, push, open draft PR, watch checks
+- Next action: PR gate: wait checks then ready/merge #493
 
 ## Open PRs
 
-- N/A — #492 implementation PR pending.
+- #493 첫 원정 문/귀환 상자 asset plan-prompt 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/493
 
 ## Open issues
 
