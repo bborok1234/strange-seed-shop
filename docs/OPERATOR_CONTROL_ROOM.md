@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-07T22:29:32.719Z
+Generated at: 2026-05-08T01:44:57.000Z
 
 ## Current mission
 
-현재 작업은 **첫 원정 문/귀환 상자 asset plan-prompt**이다. #490 첫 원정 출발/귀환 route는 PR #491 merge/main CI `25531093879`까지 통과했다. 다음 blocker는 원정 문과 귀환 상자가 아직 order crate stand-in에 기대고 있어 D7 route prop identity가 약한 점이다.
+현재 작업은 **첫 원정 문/귀환 상자 raster 후보 생성/리뷰**이다. #493 첫 원정 문/귀환 상자 asset plan-prompt는 PR merge/main CI `25531773472`까지 통과했다. 다음 blocker는 prompt-only 계약을 실제 workspace PNG 후보, provenance, review evidence로 전환해 D7 route prop identity를 runtime 통합 가능한 상태로 만드는 점이다.
 
 현재 evidence:
 
@@ -44,48 +44,47 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Completed lunar sprout discovery confirm: Issue #486, PR #487, main CI `25526968559`
 - Completed expedition gate preview route: Issue #488, PR #489, main CI `25527621378`
 - Completed first expedition depart/return route: Issue #490, PR #491, main CI `25531093879`
+- Completed expedition gate asset plan/prompt: Issue #492, PR #493, main CI `25531773472`
 - Asset generation blocker: `reports/operations/asset-generation-blocker-0467-20260508.md`
-- WorkUnit: `items/0262-expedition-gate-asset-plan-prompt.md`
-- GitHub issue: #492 `첫 원정 문/귀환 상자 asset plan-prompt 만들기`
-- Draft PR: #493 `https://github.com/bborok1234/strange-seed-shop/pull/493`
-- Commit: `ded6820`
-- Branch: `codex/v1-expedition-gate-asset-plan-prompt`
+- WorkUnit: `items/0263-expedition-gate-raster-review.md`
+- GitHub issue: #494 `첫 원정 문/귀환 상자 raster 후보 생성/리뷰`
+- Branch: `codex/v1-expedition-gate-raster-review`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass, PR #493 checks pass
+- Current validation: plan-first artifact exists, issue #494 opened, `.env` contains `OPENAI_API_KEY` and `SEED_ASSET_IMAGE_MODEL`
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-1. Studio Campaign Gate: 새 WorkUnit은 첫 원정 route의 dedicated prop/FX 후보를 plan/prompt로 남겨야 한다.
-2. expedition gate, return crate, return reward FX strip 3개 asset id가 plan/prompt에 모두 있어야 한다.
-3. FX strip metadata는 frame count, frame size, fps, animation binding을 포함해야 한다.
-4. output path는 workspace PNG 경로여야 하며 runtime generation 지시가 없어야 한다.
+1. `facility_expedition_gate_v1`, `facility_expedition_return_crate_v1`, `fx_expedition_return_reward_strip_v1` 3개를 실제 PNG workspace path에 생성해야 한다.
+2. provenance/status/review report가 provider, model, raw output, accepted output, alpha/background/strip readiness를 기록해야 한다.
+3. FX strip은 8 frames, 96x96, 14fps, `facility_expedition_gate.action.claim_return_crate` binding 계약을 유지해야 한다.
+4. runtime generation 지시가 없어야 하며 manifest/runtime binding은 review 통과 후에만 허용한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-expedition-gate-asset-plan-prompt
-- Latest commit: 5120fc4 Merge pull request #491 from bborok1234/codex/v1-first-expedition-depart-return
+- Branch: codex/v1-expedition-gate-raster-review
+- Latest commit: 040fd5f Merge pull request #493 from bborok1234/codex/v1-expedition-gate-asset-plan-prompt
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T01:33:55.000Z
-- Phase: phaser-v1-expedition-gate-asset-plan-prompt-merge-gate
-- Issue: 492
-- PR: 493
-- Item: items/0262-expedition-gate-asset-plan-prompt.md
-- Next action: merge gate: mark ready, merge #493, watch main CI
+- Timestamp: 2026-05-08T01:44:57.000Z
+- Phase: phaser-v1-expedition-gate-raster-review-plan
+- Issue: 494
+- PR:
+- Item: items/0263-expedition-gate-raster-review.md
+- Next action: generate 3 expedition gate raster candidates and review them
 
 ## Open PRs
 
-- #493 첫 원정 문/귀환 상자 asset plan-prompt 만들기 — https://github.com/bborok1234/strange-seed-shop/pull/493
+- None
 
 ## Open issues
 
-- #492 첫 원정 문/귀환 상자 asset plan-prompt 만들기 — https://github.com/bborok1234/strange-seed-shop/issues/492
+- #494 첫 원정 문/귀환 상자 raster 후보 생성/리뷰 — https://github.com/bborok1234/strange-seed-shop/issues/494
 
 ## Playable mode
 
