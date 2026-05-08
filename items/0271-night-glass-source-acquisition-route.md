@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #510
-- PR: TBD
+- PR: #511
 - Branch: `codex/v1-night-glass-source-acquisition-route`
 - 연결: Issue #508, PR #509, main CI `25546054078`
 

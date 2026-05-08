@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T08:56:44.619Z
+Generated at: 2026-05-08T08:58:59.275Z
 
 ## Current mission
 
@@ -58,7 +58,7 @@ Generated at: 2026-05-08T08:56:44.619Z
 - Branch: `codex/v1-night-glass-source-acquisition-route`
 - Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
 - Planned visual evidence: `reports/visual/issue-0510-night-glass-source-acquisition-route/`
-- Current validation: #510 implementation complete; `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR gate pending
+- Current validation: #510 implementation complete; draft PR #511 created; local `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -74,22 +74,22 @@ Generated at: 2026-05-08T08:56:44.619Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-acquisition-route
-- Latest commit: 29a9a25 밤유리 source 획득 route 작업을 고정한다
+- Latest commit: 8979016 밤유리 source 획득 route PR 게이트를 기록한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T08:56:32.339Z
-- Phase: phaser-v1-night-glass-source-acquisition-route-pr-ready
+- Timestamp: 2026-05-08T08:58:52.204Z
+- Phase: phaser-v1-night-glass-source-acquisition-route-pr-checks
 - Issue: 510
-- PR:
+- PR: 511
 - Item: items/0271-night-glass-source-acquisition-route.md
-- Next action: PR publication gate: commit, push, create draft PR for #510, then watch checks
+- Next action: PR checks gate: watch PR #511 checks and ready/merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #511 draft 밤유리 source acquisition route bridge — https://github.com/bborok1234/strange-seed-shop/pull/511
 
 ## Open issues
 
