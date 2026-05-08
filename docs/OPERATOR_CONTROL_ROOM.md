@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T04:19:00.607Z
+Generated at: 2026-05-08T04:21:38.168Z
 
 ## Current mission
 
@@ -67,22 +67,22 @@ Generated at: 2026-05-08T04:19:00.607Z
 ## Local state
 
 - Branch: codex/v1-lunar-source-harvest-reveal
-- Latest commit: c095959 초승달순 수확 reveal 계획을 고정한다
+- Latest commit: 0d3b0e4 PR evidence 본문을 초승달순 수확 reveal에 맞춘다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T04:18:54.617Z
-- Phase: phaser-v1-lunar-source-harvest-reveal-review
+- Timestamp: 2026-05-08T04:21:22.199Z
+- Phase: phaser-v1-lunar-source-harvest-reveal-pr-checks
 - Issue: 500
-- PR:
+- PR: 501
 - Item: items/0266-lunar-source-harvest-reveal.md
-- Next action: PR publication gate: publish draft PR for #500 and watch GitHub checks
+- Next action: PR checks gate: watch PR #501 checks and ready/merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #501 draft 초승달순 source harvest reveal bridge — https://github.com/bborok1234/strange-seed-shop/pull/501
 
 ## Open issues
 

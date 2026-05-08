@@ -5,6 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:web-game-foundations -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #500
+- GitHub PR: #501
 - Branch: `codex/v1-lunar-source-harvest-reveal`
 - 연결: Issue #498, PR #499, main CI `25536106865`
 
@@ -66,6 +67,7 @@
 ## Evidence
 
 - Visual report: `reports/visual/issue-0500-lunar-source-harvest-reveal/visual-report-20260508.md`
+- Draft PR: #501 `https://github.com/bborok1234/strange-seed-shop/pull/501`
 - Source harvested screenshot: `reports/visual/issue-0500-lunar-source-harvest-reveal/phaser-check-lunar-source-harvested-393.png`
 - Phaser smoke result: `npm run check:phaser` pass, `failures: []`
 - Final telemetry:
