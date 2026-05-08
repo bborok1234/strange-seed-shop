@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T09:45:10.310Z
+Generated at: 2026-05-08T09:47:29.035Z
 
 ## Current mission
 
@@ -18,10 +18,11 @@ Generated at: 2026-05-08T09:45:10.310Z
 - Completed night glass source planting loop: Issue #512, PR #513, main CI `25547958765`
 - WorkUnit: `items/0273-night-glass-source-harvest-reveal.md`
 - GitHub issue: #514 `밤유리 source harvest reveal`
+- Draft PR: #515 `밤유리 source harvest reveal`
 - Branch: `codex/v1-night-glass-source-harvest-reveal`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
 - Visual evidence: `reports/visual/issue-0514-night-glass-source-harvest-reveal/visual-report-20260508.md`
-- Current validation: #514 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR publication pending
+- Current validation: #514 implementation complete locally; PR #515 published as draft; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,22 +40,22 @@ Generated at: 2026-05-08T09:45:10.310Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-harvest-reveal
-- Latest commit: 21d4dda 밤유리 source 수확 reveal 작업을 고정한다
+- Latest commit: 5ae2ba7 밤유리 source harvest reveal PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T09:45:08.994Z
-- Phase: phaser-v1-night-glass-source-harvest-reveal-ready-for-pr
+- Timestamp: 2026-05-08T09:47:27.682Z
+- Phase: phaser-v1-night-glass-source-harvest-reveal-pr-published
 - Issue: 514
-- PR:
+- PR: 515
 - Item: items/0273-night-glass-source-harvest-reveal.md
-- Next action: PR publication gate: commit implementation evidence and create draft PR for #514
+- Next action: Watch PR #515 checks, mark ready, merge, and observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #515 draft 밤유리 source harvest reveal — https://github.com/bborok1234/strange-seed-shop/pull/515
 
 ## Open issues
 

@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #514
-- PR: TBD
+- PR: #515
 - Branch: `codex/v1-night-glass-source-harvest-reveal`
 - 연결: Issue #512, PR #513, main CI `25547958765`
 
