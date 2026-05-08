@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T09:47:29.035Z
+Generated at: 2026-05-08T09:51:19.562Z
 
 ## Current mission
 
@@ -40,18 +40,18 @@ Generated at: 2026-05-08T09:47:29.035Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-harvest-reveal
-- Latest commit: 5ae2ba7 밤유리 source harvest reveal PR evidence를 준비한다
+- Latest commit: b730e48 밤유리 source harvest reveal PR 체크포인트를 기록한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T09:47:27.682Z
-- Phase: phaser-v1-night-glass-source-harvest-reveal-pr-published
+- Timestamp: 2026-05-08T09:51:18.153Z
+- Phase: phaser-v1-night-glass-source-harvest-reveal-pr-check-repair
 - Issue: 514
 - PR: 515
 - Item: items/0273-night-glass-source-harvest-reveal.md
-- Next action: Watch PR #515 checks, mark ready, merge, and observe main CI
+- Next action: Merge gate: watch PR #515 checks, mark ready, merge, and observe main CI
 
 ## Open PRs
 
