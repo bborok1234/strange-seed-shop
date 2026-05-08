@@ -57,6 +57,10 @@ const TOPOLOGY_ASSETS = {
     lunarSource: {
       key: "seed_lunar_002_icon",
       path: "/assets/game/seeds/seed_lunar_002_icon.png"
+    },
+    nightGlassSource: {
+      key: "seed_rare_001_icon",
+      path: "/assets/game/seeds/seed_rare_001_icon.png"
     }
   },
   creatures: {
@@ -127,6 +131,12 @@ const TOPOLOGY_ASSETS = {
       path: "/assets/game/fx/fx_lunar_greenhouse_planting_pulse_001_strip.png",
       frameWidth: 160,
       frameHeight: 160
+    },
+    nightGlassSourceUnlock: {
+      key: "fx_night_glass_source_unlock_strip_v1",
+      path: "/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png",
+      frameWidth: 96,
+      frameHeight: 96
     }
   }
 } as const;
@@ -302,6 +312,12 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenNightGlassSourcePreviewVisible = gameState.nightGlassSourcePreviewVisible;
     (window as unknown as { __seedGardenNightGlassRoutePreviewId?: string }).__seedGardenNightGlassRoutePreviewId =
       gameState.nightGlassRoutePreviewId ?? "";
+    (window as unknown as { __seedGardenNightGlassSourceRenderedAssetKey?: string })
+      .__seedGardenNightGlassSourceRenderedAssetKey = gameState.nightGlassSourcePreviewVisible
+        ? TOPOLOGY_ASSETS.seeds.nightGlassSource.key
+        : "";
+    (window as unknown as { __seedGardenNightGlassSourceFxKey?: string }).__seedGardenNightGlassSourceFxKey =
+      gameState.nightGlassSourcePreviewVisible ? TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key : "";
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
       .filter((slot) => slot.unlockState === "unlocked")
       .map((slot) => slot.id);
@@ -378,6 +394,12 @@ class GardenBoardScene extends Phaser.Scene {
       key: "lunar-harvest-moonburst-once",
       frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.lunarHarvest.key, { start: 0, end: 3 }),
       frameRate: 10,
+      repeat: 0
+    });
+    this.anims.create({
+      key: "night-glass-source-unlock-once",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key, { start: 0, end: 7 }),
+      frameRate: 12,
       repeat: 0
     });
   }
@@ -758,19 +780,24 @@ class GardenBoardScene extends Phaser.Scene {
     container.setDepth(47);
 
     const lockAura = this.add.graphics();
-    lockAura.fillStyle(0x27395d, 0.28);
-    lockAura.fillEllipse(0, 8, 112, 86);
-    lockAura.lineStyle(3, 0xf4d77d, 0.62);
-    lockAura.strokeEllipse(0, 4, 96, 70);
-    lockAura.lineStyle(2, 0x27395d, 0.52);
-    lockAura.strokeRoundedRect(-46, -38, 92, 76, 24);
+    lockAura.fillStyle(0x27395d, 0.24);
+    lockAura.fillEllipse(0, 10, 118, 90);
+    lockAura.lineStyle(3, 0xf4d77d, 0.7);
+    lockAura.strokeEllipse(0, 3, 98, 72);
+    lockAura.lineStyle(2, 0x70c4bc, 0.48);
+    lockAura.strokeRoundedRect(-48, -38, 96, 78, 26);
     container.add(lockAura);
 
-    const creature = this.add.image(0, -4, TOPOLOGY_ASSETS.creatures.lunarRare.key);
-    creature.setDisplaySize(76, 76);
-    creature.setAlpha(0.66);
-    creature.setTint(0x46516f);
-    container.add(creature);
+    const unlockFx = this.add.sprite(0, -7, TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key);
+    unlockFx.setDisplaySize(116, 92);
+    unlockFx.setAlpha(0.84);
+    unlockFx.play("night-glass-source-unlock-once");
+    container.add(unlockFx);
+
+    const sourceIcon = this.add.image(0, -9, TOPOLOGY_ASSETS.seeds.nightGlassSource.key);
+    sourceIcon.setDisplaySize(72, 72);
+    sourceIcon.setAlpha(0.98);
+    container.add(sourceIcon);
 
     const lockLabel = this.add
       .text(0, 49, "밤유리 source\n잠김", {
@@ -787,7 +814,7 @@ class GardenBoardScene extends Phaser.Scene {
     container.add(lockLabel);
 
     const routeLabel = this.add
-      .text(72, 0, NIGHT_GLASS_ROUTE_PREVIEW_ID, {
+      .text(78, -36, NIGHT_GLASS_ROUTE_PREVIEW_ID, {
         align: "center",
         backgroundColor: "rgba(32, 59, 47, 0.84)",
         color: "#f4f0c9",
@@ -797,7 +824,7 @@ class GardenBoardScene extends Phaser.Scene {
         padding: { x: 5, y: 2 }
       })
       .setOrigin(0.5);
-    routeLabel.setRotation(-0.08);
+    routeLabel.setRotation(-0.04);
     container.add(routeLabel);
 
     this.renderLayer?.add(container);

@@ -71,7 +71,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 초승달순 source harvest reveal | done | Issue #500, PR #501, main CI `25542469948`, `items/0266-lunar-source-harvest-reveal.md` | `seed_lunar_002` 수확 후 accepted `creature_lunar_uncommon_001` 루미 reveal과 `밤유리 source` hint가 남고 PR checks/merge/main CI가 통과했다 |
 | 밤유리 source preview bridge | done | Issue #502, PR #503, main CI `25543463552`, `items/0267-night-glass-source-preview.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0502-night-glass-source-preview/visual-report-20260508.md` | #501 이후 `밤유리 source`가 텍스트 hint에 머무르는 blocker를 해결했다. `밤유리 source 보기` action, `seed_rare_001`, `research_rare_glass`, `expedition_night_glass`, accepted `creature_lunar_rare_001` silhouette marker를 추가했고 PR checks/merge/main CI가 통과했다 |
 | 밤유리 source icon/FX plan-prompt | done | Issue #504, PR #505, main CI `25544082346`, `items/0268-night-glass-source-asset-plan-prompt.md`, `assets/source/asset_plan.json`, `assets/source/asset_prompts.json` | #503 이후 `밤유리 source` 전용 seed icon과 unlock FX가 asset pipeline에 없는 blocker를 해결했다. `seed_rare_001_icon`과 `fx_night_glass_source_unlock_strip_v1` prompt를 추가했고 PR checks/merge/main CI가 통과했다 |
-| 밤유리 source icon/FX generation-review | review | Issue #506, `items/0269-night-glass-source-asset-generation-review.md`, `public/assets/game/seeds/seed_rare_001_icon.png`, `public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png`, `reports/assets/night_glass_source_asset_contact_sheet_20260508.png`, `reports/assets/night_glass_source_asset_review_20260508.md` | #505 이후 dedicated PNG 후보가 없어 runtime binding을 못 하는 blocker를 해결한다. `gpt-image-2` opaque 후보를 생성하고 alpha cleanup/strict 8-frame FX normalization을 완료했으며, local verification/PR gate 대기 중이다 |
+| 밤유리 source icon/FX generation-review | done | Issue #506, PR #507, main CI `25545174297`, `items/0269-night-glass-source-asset-generation-review.md`, `public/assets/game/seeds/seed_rare_001_icon.png`, `public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png`, `reports/assets/night_glass_source_asset_contact_sheet_20260508.png`, `reports/assets/night_glass_source_asset_review_20260508.md` | #505 이후 dedicated PNG 후보가 없어 runtime binding을 못 하는 blocker를 해결했다. `gpt-image-2` opaque 후보를 생성하고 alpha cleanup/strict 8-frame FX normalization을 완료했으며 PR checks/merge/main CI가 통과했다 |
+| 밤유리 source icon/FX runtime binding | review | Issue #508, `items/0270-night-glass-source-runtime-binding.md`, `public/assets/manifest/assetManifest.json`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0508-night-glass-source-runtime-binding/phaser-check-night-glass-source-preview-393.png` | #507 이후 dedicated PNG 후보가 runtime에 보이지 않는 blocker를 해결한다. manifest accepted entry, Phaser preload/render/FX binding, telemetry/assertion을 추가했고 `npm run check:phaser`가 통과했다. Browser Use tool unavailable blocker와 Playwright fallback screenshot evidence를 남겼으며 full verification/PR gate 대기 중이다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -397,7 +398,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **밤유리 source icon/FX generation-review**이다. #504 밤유리 source icon/FX plan-prompt는 PR #505 merge/main CI `25544082346`까지 통과했다. 다음 blocker는 `seed_rare_001_icon`과 `fx_night_glass_source_unlock_strip_v1` 실제 PNG 후보가 없어 #503 runtime이 accepted rare creature silhouette stand-in에 머문다는 점이다.
+현재 작업은 **밤유리 source icon/FX runtime binding**이다. #506 밤유리 source icon/FX generation-review는 PR #507 merge/main CI `25545174297`까지 통과했다. 다음 blocker는 dedicated `seed_rare_001_icon`과 `fx_night_glass_source_unlock_strip_v1` 후보가 manifest/Phaser runtime에 아직 binding되지 않아 preview 화면이 accepted rare creature silhouette stand-in에 머무른다는 점이다.
 
 현재 evidence:
 
@@ -441,21 +442,21 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Completed lunar source harvest reveal: Issue #500, PR #501, main CI `25542469948`
 - Completed night glass source preview bridge: Issue #502, PR #503, main CI `25543463552`
 - Completed night glass source asset plan/prompt: Issue #504, PR #505, main CI `25544082346`
-- WorkUnit: `items/0269-night-glass-source-asset-generation-review.md`
-- GitHub issue: #506 `밤유리 source icon/FX generation-review`
-- Branch: `codex/v1-night-glass-source-asset-generation`
-- Generated asset: `public/assets/game/seeds/seed_rare_001_icon.png`
-- Generated asset: `public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png`
-- Asset review: `reports/assets/night_glass_source_asset_review_20260508.md`
-- Current validation: #506 generation/postprocess complete; `seed_rare_001_icon` is `1024x1024` RGBA, `fx_night_glass_source_unlock_strip_v1` is `768x96` RGBA strict 8-frame strip; local verification/PR gate pending
+- Completed night glass source asset generation-review: Issue #506, PR #507, main CI `25545174297`
+- WorkUnit: `items/0270-night-glass-source-runtime-binding.md`
+- GitHub issue: #508 `밤유리 source icon/FX runtime binding`
+- Branch: `codex/v1-night-glass-source-runtime-binding`
+- Runtime binding: `public/assets/manifest/assetManifest.json`, `apps/seed-garden-phaser/src/main.ts`
+- Visual evidence: `reports/visual/issue-0508-night-glass-source-runtime-binding/phaser-check-night-glass-source-preview-393.png`
+- Current validation: #508 runtime binding complete; dedicated source icon/FX asset keys are in topology telemetry and `npm run check:phaser` passes; full verification/PR gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: #506은 #503의 `밤유리 source` locked preview가 placeholder로 읽히는 production gap을 전용 rare seed icon/FX PNG 후보로 해소한다.
-1. Local verification gate: `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
-2. PR publication gate: #506 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+0. Studio Campaign Gate: #508은 #503의 `밤유리 source` locked preview가 placeholder로 읽히는 production gap을 전용 rare seed icon/FX runtime binding으로 해소한다.
+1. Local verification gate: `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+2. PR publication gate: #508 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 3. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
-4. merge 후 다음 blocker는 `seed_rare_001_icon` / `fx_night_glass_source_unlock_strip_v1` manifest acceptance와 Phaser runtime binding이다.
-5. runtime generation 지시가 없어야 하며 Browser Use/Playwright visual QA는 후속 runtime binding issue에서 수행한다.
+4. merge 후 다음 blocker는 `밤유리 source` 실제 acquisition 또는 next rare route progression 중 North Star payoff가 큰 쪽으로 plan-first 선택한다.
+5. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.

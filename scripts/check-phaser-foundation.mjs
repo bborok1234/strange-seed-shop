@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0502-night-glass-source-preview";
+const OUT_DIR = "reports/visual/issue-0508-night-glass-source-runtime-binding";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -13,6 +13,7 @@ const REQUIRED_TOPOLOGY_ASSETS = [
   "tile_plot_ready_v1",
   "tile_plot_locked_preview_v1",
   "seed_lunar_002_icon",
+  "seed_rare_001_icon",
   "creature_lunar_uncommon_001",
   "creature_lunar_rare_001",
   "facility_workbench_v1",
@@ -26,7 +27,8 @@ const REQUIRED_TOPOLOGY_ASSETS = [
   "fx_care_spark_strip_v1",
   "fx_harvest_leaf_flyout_strip_v1",
   "fx_lunar_harvest_moonburst_001",
-  "fx_expedition_return_reward_strip_v1"
+  "fx_expedition_return_reward_strip_v1",
+  "fx_night_glass_source_unlock_strip_v1"
 ];
 
 function waitForServer(url, timeoutMs = 30_000) {
@@ -430,6 +432,8 @@ async function runSmoke() {
       nightGlassSourcePreviewAvailable: window.__seedGardenNightGlassSourcePreviewAvailable ?? false,
       nightGlassSourcePreviewVisible: window.__seedGardenNightGlassSourcePreviewVisible ?? false,
       nightGlassRoutePreviewId: window.__seedGardenNightGlassRoutePreviewId ?? "",
+      nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
+      nightGlassSourceFxKey: window.__seedGardenNightGlassSourceFxKey ?? "",
       topologyAssets: window.__seedGardenTopologyAssets ?? [],
       receipts: window.__seedGardenReceipts ?? []
     }));
@@ -480,6 +484,8 @@ async function runSmoke() {
       nightGlassSourcePreviewAvailable: window.__seedGardenNightGlassSourcePreviewAvailable ?? false,
       nightGlassSourcePreviewVisible: window.__seedGardenNightGlassSourcePreviewVisible ?? false,
       nightGlassRoutePreviewId: window.__seedGardenNightGlassRoutePreviewId ?? "",
+      nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
+      nightGlassSourceFxKey: window.__seedGardenNightGlassSourceFxKey ?? "",
       unlockedSlotIds: window.__seedGardenUnlockedSlotIds ?? [],
       previewSlotIds: window.__seedGardenPreviewSlotIds ?? [],
       facilityStates: window.__seedGardenFacilityStates ?? [],
@@ -895,6 +901,20 @@ async function runSmoke() {
     if (!nightGlassSourcePreview.topologyAssets.includes("creature_lunar_rare_001")) {
       failures.push("missing night glass rare creature topology asset key");
     }
+    if (!nightGlassSourcePreview.topologyAssets.includes("seed_rare_001_icon")) {
+      failures.push("missing night glass dedicated seed icon topology asset key");
+    }
+    if (!nightGlassSourcePreview.topologyAssets.includes("fx_night_glass_source_unlock_strip_v1")) {
+      failures.push("missing night glass source unlock FX topology asset key");
+    }
+    if (nightGlassSourcePreview.nightGlassSourceRenderedAssetKey !== "seed_rare_001_icon") {
+      failures.push(
+        `expected night glass source rendered asset seed_rare_001_icon, got ${nightGlassSourcePreview.nightGlassSourceRenderedAssetKey}`
+      );
+    }
+    if (nightGlassSourcePreview.nightGlassSourceFxKey !== "fx_night_glass_source_unlock_strip_v1") {
+      failures.push(`expected night glass source FX key, got ${nightGlassSourcePreview.nightGlassSourceFxKey}`);
+    }
     if (!nightGlassSourcePreview.receipts.some((receipt) => receipt.includes("밤유리 source 보기"))) {
       failures.push("missing night glass source preview receipt");
     }
@@ -973,6 +993,12 @@ async function runSmoke() {
     }
     if (evidence.nightGlassSourceSeedId !== "seed_rare_001") {
       failures.push(`expected final night glass seed id seed_rare_001, got ${evidence.nightGlassSourceSeedId}`);
+    }
+    if (evidence.nightGlassSourceRenderedAssetKey !== "seed_rare_001_icon") {
+      failures.push(`expected final night glass source icon asset, got ${evidence.nightGlassSourceRenderedAssetKey}`);
+    }
+    if (evidence.nightGlassSourceFxKey !== "fx_night_glass_source_unlock_strip_v1") {
+      failures.push(`expected final night glass source FX asset, got ${evidence.nightGlassSourceFxKey}`);
     }
     if (!evidence.objective.includes("밤유리 source")) failures.push("missing night glass final objective");
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
