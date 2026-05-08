@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T07:47:45.900Z
+Generated at: 2026-05-08T08:15:00.674Z
 
 ## Current mission
 
-현재 작업은 **밤유리 source icon/FX plan-prompt**이다. #502 밤유리 source preview bridge는 PR #503 merge/main CI `25543463552`까지 통과했다. 다음 blocker는 `seed_rare_001` 전용 source icon과 `밤유리 source` unlock FX가 없어 #503 runtime이 accepted rare creature silhouette stand-in에 머문다는 점이다.
+현재 작업은 **밤유리 source icon/FX generation-review**이다. #504 밤유리 source icon/FX plan-prompt는 PR #505 merge/main CI `25544082346`까지 통과했다. 다음 blocker는 `seed_rare_001_icon`과 `fx_night_glass_source_unlock_strip_v1` 실제 PNG 후보가 없어 #503 runtime이 accepted rare creature silhouette stand-in에 머문다는 점이다.
 
 현재 evidence:
 
@@ -50,46 +50,49 @@ Generated at: 2026-05-08T07:47:45.900Z
 - Completed lunar source planting loop: Issue #498, PR #499, main CI `25536106865`
 - Completed lunar source harvest reveal: Issue #500, PR #501, main CI `25542469948`
 - Completed night glass source preview bridge: Issue #502, PR #503, main CI `25543463552`
-- WorkUnit: `items/0268-night-glass-source-asset-plan-prompt.md`
-- GitHub issue: #504 `밤유리 source icon/FX plan-prompt`
-- Branch: `codex/v1-night-glass-source-asset-plan`
-- Asset plan: `assets/source/asset_plan.json`
-- Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: #504 local implementation complete; `seed_rare_001_icon` and `fx_night_glass_source_unlock_strip_v1` added to asset plan/prompt; `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass
+- Completed night glass source asset plan/prompt: Issue #504, PR #505, main CI `25544082346`
+- WorkUnit: `items/0269-night-glass-source-asset-generation-review.md`
+- GitHub issue: #506 `밤유리 source icon/FX generation-review`
+- Branch: `codex/v1-night-glass-source-asset-generation`
+- Generated asset: `public/assets/game/seeds/seed_rare_001_icon.png`
+- Generated asset: `public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png`
+- Asset review: `reports/assets/night_glass_source_asset_review_20260508.md`
+- Current validation: #506 generation/postprocess complete; `seed_rare_001_icon` is `1024x1024` RGBA, `fx_night_glass_source_unlock_strip_v1` is `768x96` RGBA strict 8-frame strip; local verification/PR gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: #504는 #503의 `밤유리 source` locked preview가 placeholder로 읽히는 production gap을 전용 rare seed icon/FX production queue로 해소한다.
-1. PR publication gate: #504 구현 branch를 draft PR로 게시하고 checks를 감시한다.
-2. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
-3. merge 후 다음 blocker는 `seed_rare_001_icon` / `fx_night_glass_source_unlock_strip_v1` 실제 PNG generation-review 또는 Phaser runtime binding 중 North Star payoff가 큰 쪽으로 plan-first 선택한다.
-4. runtime generation 지시가 없어야 하며 manifest/runtime acceptance는 후속 generation/review issue로 분리한다.
-5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
+0. Studio Campaign Gate: #506은 #503의 `밤유리 source` locked preview가 placeholder로 읽히는 production gap을 전용 rare seed icon/FX PNG 후보로 해소한다.
+1. Local verification gate: `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+2. PR publication gate: #506 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+3. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
+4. merge 후 다음 blocker는 `seed_rare_001_icon` / `fx_night_glass_source_unlock_strip_v1` manifest acceptance와 Phaser runtime binding이다.
+5. runtime generation 지시가 없어야 하며 Browser Use/Playwright visual QA는 후속 runtime binding issue에서 수행한다.
+6. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
-- Branch: codex/v1-night-glass-source-asset-plan
-- Latest commit: cd89cdf 밤유리 source icon과 unlock FX prompt를 추가한다
+- Branch: codex/v1-night-glass-source-asset-generation
+- Latest commit: 691119b 밤유리 source icon과 unlock FX 후보를 생성한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T07:47:44.343Z
-- Phase: phaser-v1-night-glass-source-asset-plan-pr-checks
-- Issue: 504
-- PR: 505
-- Item: items/0268-night-glass-source-asset-plan-prompt.md
-- Next action: PR checks gate: watch PR #505 checks and ready/merge when green
+- Timestamp: 2026-05-08T08:14:21.169Z
+- Phase: phaser-v1-night-glass-source-asset-generation-pr-checks
+- Issue: 506
+- PR: 507
+- Item: items/0269-night-glass-source-asset-generation-review.md
+- Next action: PR checks gate: watch PR #507 checks and ready/merge when green
 
 ## Open PRs
 
-- #505 draft 밤유리 source icon/FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/505
+- #507 draft 밤유리 source icon/FX generation-review — https://github.com/bborok1234/strange-seed-shop/pull/507
 
 ## Open issues
 
-- #504 밤유리 source icon/FX plan-prompt — https://github.com/bborok1234/strange-seed-shop/issues/504
+- #506 밤유리 source icon/FX generation-review — https://github.com/bborok1234/strange-seed-shop/issues/506
 
 ## Playable mode
 
