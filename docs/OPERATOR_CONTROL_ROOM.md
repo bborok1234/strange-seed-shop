@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T04:00:09.761Z
+Generated at: 2026-05-08T04:02:47.642Z
 
 ## Current mission
 
@@ -66,22 +66,22 @@ Generated at: 2026-05-08T04:00:09.761Z
 ## Local state
 
 - Branch: codex/v1-lunar-source-planting-loop
-- Latest commit: 7735d46 초승달순 source planting loop 계획을 고정한다
+- Latest commit: 39bdc8e PR evidence 본문을 초승달순 심기 루프에 맞춘다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T04:00:04.518Z
-- Phase: phaser-v1-lunar-source-planting-loop-review
+- Timestamp: 2026-05-08T04:02:35.675Z
+- Phase: phaser-v1-lunar-source-planting-loop-pr-checks
 - Issue: 498
-- PR:
+- PR: 499
 - Item: items/0265-lunar-source-planting-loop.md
-- Next action: PR publication gate: publish draft PR for #498 and watch GitHub checks
+- Next action: PR checks gate: watch PR #499 checks and ready/merge when green
 
 ## Open PRs
 
-- unavailable or none
+- #499 draft 초승달순 source planting loop — https://github.com/bborok1234/strange-seed-shop/pull/499
 
 ## Open issues
 

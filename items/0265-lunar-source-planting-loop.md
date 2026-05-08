@@ -5,6 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:web-game-foundations -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #498
+- GitHub PR: #499
 - Branch: `codex/v1-lunar-source-planting-loop`
 - 연결: Issue #496, PR #497, main CI `25535517659`
 
@@ -67,6 +68,7 @@
 ## Evidence
 
 - Visual report: `reports/visual/issue-0498-lunar-source-planting-loop/visual-report-20260508.md`
+- Draft PR: #499 `https://github.com/bborok1234/strange-seed-shop/pull/499`
 - Source planting screenshot: `reports/visual/issue-0498-lunar-source-planting-loop/phaser-check-lunar-source-planted-393.png`
 - Phaser smoke result: `npm run check:phaser` pass, `failures: []`
 - Final telemetry:
