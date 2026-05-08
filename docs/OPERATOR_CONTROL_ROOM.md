@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T07:29:21.321Z
+Generated at: 2026-05-08T07:32:19.275Z
 
 ## Current mission
 
@@ -59,6 +59,7 @@ Generated at: 2026-05-08T07:29:21.321Z
 
 즉시 적용할 gate:
 
+0. Studio Campaign Gate: #502는 루미 reveal 후 `밤유리 source 보기` player verb, accepted rare silhouette marker, `seed_rare_001` / `research_rare_glass` / `expedition_night_glass` locked promise를 로컬에서 검증했다.
 1. PR publication gate: #502 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 2. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 3. merge 후 다음 blocker는 실제 `seed_rare_001` 전용 source icon/FX plan-generation 또는 `expedition_night_glass` 실행 loop 중 North Star payoff가 큰 쪽으로 plan-first 선택한다.
@@ -68,7 +69,7 @@ Generated at: 2026-05-08T07:29:21.321Z
 ## Local state
 
 - Branch: codex/v1-night-glass-source-preview
-- Latest commit: 7e56ab2 밤유리 source preview를 player verb로 고정한다
+- Latest commit: 0ced7a9 밤유리 source preview PR 게이트를 기록한다
 - Dirty files: present
 
 ## Heartbeat

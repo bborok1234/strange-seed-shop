@@ -447,6 +447,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 즉시 적용할 gate:
 
+0. Studio Campaign Gate: #502는 루미 reveal 후 `밤유리 source 보기` player verb, accepted rare silhouette marker, `seed_rare_001` / `research_rare_glass` / `expedition_night_glass` locked promise를 로컬에서 검증했다.
 1. PR publication gate: #502 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 2. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 3. merge 후 다음 blocker는 실제 `seed_rare_001` 전용 source icon/FX plan-generation 또는 `expedition_night_glass` 실행 loop 중 North Star payoff가 큰 쪽으로 plan-first 선택한다.
