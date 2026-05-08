@@ -52,7 +52,7 @@ Generated at: 2026-05-07T22:29:32.719Z
 - Branch: `codex/v1-expedition-gate-asset-plan-prompt`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass, PR #493 checks queued
+- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass, PR #493 checks pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -72,12 +72,12 @@ Generated at: 2026-05-07T22:29:32.719Z
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T01:26:00.000Z
-- Phase: phaser-v1-expedition-gate-asset-plan-prompt-pr
+- Timestamp: 2026-05-08T01:33:55.000Z
+- Phase: phaser-v1-expedition-gate-asset-plan-prompt-merge-gate
 - Issue: 492
 - PR: 493
 - Item: items/0262-expedition-gate-asset-plan-prompt.md
-- Next action: PR gate: wait checks then ready/merge #493
+- Next action: merge gate: mark ready, merge #493, watch main CI
 
 ## Open PRs
 

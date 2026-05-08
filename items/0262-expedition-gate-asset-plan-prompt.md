@@ -1,6 +1,6 @@
 # 첫 원정 문/귀환 상자 asset plan-prompt 만들기
 
-Status: PR open
+Status: PR checks passed
 Owner: agent
 Created: 2026-05-08
 GitHub issue: #492
@@ -124,6 +124,7 @@ git diff --check
 - `npm run check:ci` pass
 - Draft PR: #493 `https://github.com/bborok1234/strange-seed-shop/pull/493`
 - Commit: `ded6820`
+- PR checks: pass (`Verify game baseline`, `Art-share gate (stage-art-first enforcement)`, `Check automerge eligibility`)
 - Added plan/prompt ids:
   - `facility_expedition_gate_v1`
   - `facility_expedition_return_crate_v1`

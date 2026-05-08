@@ -436,7 +436,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Branch: `codex/v1-expedition-gate-asset-plan-prompt`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass, PR #493 checks queued
+- Current validation: `npm run check:topology-asset-plan` pass, `npm run check:asset-provenance` pass, `npm run check:asset-style` pass, `npm run check:ci` pass, PR #493 checks pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:

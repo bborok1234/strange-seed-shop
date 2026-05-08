@@ -58,5 +58,5 @@ Closes #492
 - [x] Asset route 기록
 - [x] Department Scorecard와 Role Debate 기록
 - [x] Local verification 통과
-- [ ] PR checks 통과
+- [x] PR checks 통과
 - [ ] Merge 후 main CI 확인
