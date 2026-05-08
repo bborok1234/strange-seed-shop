@@ -290,6 +290,24 @@
       "notes": "Icon for 은빛이끼 씨앗. Silver moss texture, readable at small size."
     },
     {
+      "id": "seed_rare_001_icon",
+      "category": "seed_icon",
+      "family": "lunar",
+      "rarity": "rare",
+      "growth_stage": "seed",
+      "intended_use": "night_glass_source_seed_icon",
+      "output_path": "public/assets/game/seeds/seed_rare_001_icon.png",
+      "manifest_tags": [
+        "v1",
+        "seed",
+        "lunar",
+        "rare",
+        "night_glass",
+        "source"
+      ],
+      "notes": "Generation-ready icon for 밤유리 씨앗 source preview. Must read as a rare night-glass lunar seed at 48px and 96px."
+    },
+    {
       "id": "background_greenhouse_day_001",
       "category": "background",
       "family": "greenhouse",
@@ -1353,6 +1371,32 @@
         "behavior": "once"
       },
       "notes": "Plan alias for an existing accepted raster FX strip reused as lunar harvest moonburst fallback; no new generation required."
+    },
+    {
+      "id": "fx_night_glass_source_unlock_strip_v1",
+      "category": "fx_strip",
+      "family": "lunar",
+      "rarity": "rare",
+      "growth_stage": "not_applicable",
+      "intended_use": "night_glass_source_preview_unlock_fx",
+      "output_path": "public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "fx",
+        "lunar",
+        "rare",
+        "night_glass",
+        "source"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 12,
+      "animation": {
+        "binding": "night_glass_source.action.preview_unlock",
+        "behavior": "once"
+      },
+      "notes": "Generation-ready horizontal FX strip for 밤유리 source locked-route preview unlock. Dedicated replacement for the reused lunar moonburst pulse."
     },
     {
       "id": "facility_storage_basket_v1",

@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: planned
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:game-ui-frontend -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #504
 - Branch: `codex/v1-night-glass-source-asset-plan`
@@ -63,6 +63,16 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 Evidence
+
+- `assets/source/asset_plan.json`에 `seed_rare_001_icon`을 추가했다.
+- `assets/source/asset_plan.json`에 `fx_night_glass_source_unlock_strip_v1`을 추가했다.
+- `assets/source/asset_prompts.json`에 두 asset의 generation-ready prompt와 acceptance를 추가했다.
+- `fx_night_glass_source_unlock_strip_v1` prompt는 horizontal 8-frame strip, 96x96 frame, 12fps, `night_glass_source.action.preview_unlock` binding을 명시한다.
+- `npm run check:topology-asset-plan` 결과: `planCount: 77`, `promptCount: 77`, failures 없음.
+- `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` 통과.
+- Browser Use: runtime 화면 변경이 아닌 plan/prompt source slice라 N/A.
 
 ## 리스크
 

@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T07:43:30.725Z
+Generated at: 2026-05-08T07:46:35.835Z
 
 ## Current mission
 
@@ -55,33 +55,33 @@ Generated at: 2026-05-08T07:43:30.725Z
 - Branch: `codex/v1-night-glass-source-asset-plan`
 - Asset plan: `assets/source/asset_plan.json`
 - Asset prompts: `assets/source/asset_prompts.json`
-- Current validation: plan-first artifact exists; issue #504 opened; #503 main CI `25543463552` is green; `seed_rare_001_icon` and `fx_night_glass_source_unlock_strip_v1` are not yet in asset plan/prompt
+- Current validation: #504 local implementation complete; `seed_rare_001_icon` and `fx_night_glass_source_unlock_strip_v1` added to asset plan/prompt; `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
 0. Studio Campaign Gate: #504는 #503의 `밤유리 source` locked preview가 placeholder로 읽히는 production gap을 전용 rare seed icon/FX production queue로 해소한다.
-1. `assets/source/asset_plan.json`에 `seed_rare_001_icon`, `fx_night_glass_source_unlock_strip_v1`를 추가한다.
-2. `assets/source/asset_prompts.json`에 두 asset의 strict prompt와 acceptance를 추가한다.
-3. `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+1. PR publication gate: #504 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+2. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
+3. merge 후 다음 blocker는 `seed_rare_001_icon` / `fx_night_glass_source_unlock_strip_v1` 실제 PNG generation-review 또는 Phaser runtime binding 중 North Star payoff가 큰 쪽으로 plan-first 선택한다.
 4. runtime generation 지시가 없어야 하며 manifest/runtime acceptance는 후속 generation/review issue로 분리한다.
 5. 단순 주문 추가, copy tweak, test-only 작업은 production vertical slice blocker를 제거하고 visual/game-feel payoff를 동반할 때만 허용한다.
 
 ## Local state
 
 - Branch: codex/v1-night-glass-source-asset-plan
-- Latest commit: 5c33b7f Merge pull request #503 from bborok1234/codex/v1-night-glass-source-preview
+- Latest commit: 4fff6bc 밤유리 source asset plan-prompt 작업을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T07:43:29.138Z
-- Phase: phaser-v1-night-glass-source-asset-plan-planning
+- Timestamp: 2026-05-08T07:46:34.251Z
+- Phase: phaser-v1-night-glass-source-asset-plan-review
 - Issue: 504
 - PR:
 - Item: items/0268-night-glass-source-asset-plan-prompt.md
-- Next action: implementation gate: add seed_rare_001 icon and night glass source unlock FX plan/prompt for #504
+- Next action: PR publication gate: publish draft PR for #504 and watch GitHub checks
 
 ## Open PRs
 
