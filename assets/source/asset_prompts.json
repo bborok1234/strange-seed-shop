@@ -1239,6 +1239,47 @@
         "animation.binding is album.clue_record.action.record",
         "FX reads at 96px and does not obscure the bottom action rail or recorded clue goal surface"
       ]
+    },
+    {
+      "asset_id": "facility_expedition_gate_v1",
+      "output_path": "public/assets/game/facilities/facility_expedition_gate_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime facility prop\nPrimary request: Create facility_expedition_gate_v1 for 이상한 씨앗상회 v1.\nSubject: A small moonlit greenhouse expedition gate, like a friendly garden threshold with rounded wood, crescent leaf charm, tiny stepping stones, and soft portal glow, clearly a place where plant-creatures depart for short routes.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood with gentle lunar accents, clean edges, no text, no watermark.\nComposition/framing: Runtime prop with transparent or clean removable background, centered, generous padding, readable at 64px and 96px, designed to sit as a small top-right board facility without competing with HUD chips or action rail.\nColor palette: Warm cream wood, fresh herb green accents, pale moonlit blue, soft silver lavender, tiny leaf yellow highlights, deep greenhouse teal shadows.\nConstraints: No text, no UI label, no UI frame, no full background, no character, no order forms or shipping markings. The prop must read as expedition gate, not order crate, workbench, storage basket, or research shelf.\nAvoid: Text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, tiny unreadable details, hard sci-fi portal, dark magical horror look.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield at 64px and 96px",
+        "clearly reads as expedition gate rather than order crate, workbench, storage basket, or research shelf",
+        "prop can sit on terrain as a runtime entity without obscuring HUD chips or bottom action rail"
+      ]
+    },
+    {
+      "asset_id": "facility_expedition_return_crate_v1",
+      "output_path": "public/assets/game/facilities/facility_expedition_return_crate_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: Phaser runtime facility prop\nPrimary request: Create facility_expedition_return_crate_v1 for 이상한 씨앗상회 v1.\nSubject: A cute expedition return crate from 뒷마당 틈새길, slightly dusty with small leaves, tied cloth, tiny pollen pouch, and moonlit route tag shape without readable text, clearly a reward cargo brought back from an expedition.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game art, soft rounded shapes, crisp readable silhouette, subtle painterly texture, warm whimsical garden shop mood with gentle expedition travel accents, clean edges, no text, no watermark.\nComposition/framing: Runtime prop with transparent or clean removable background, centered, generous padding, readable at 64px and 96px, designed to sit near the expedition gate as returned reward cargo.\nColor palette: Warm wood, leaf yellow, fresh herb green, cream highlights, pale moonlit blue accents, deep greenhouse teal shadows.\nConstraints: No text, no UI label, no UI frame, no full background, no character, no order invoice or delivery markings. The prop must read as expedition return crate, not normal order crate or storage basket.\nAvoid: Text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, tiny unreadable details, hard rectangular shipping-box silhouette, generic treasure chest fantasy cliché.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield at 64px and 96px",
+        "clearly reads as expedition return crate rather than order crate or storage basket",
+        "prop can sit near the expedition gate without obscuring HUD chips or bottom action rail"
+      ]
+    },
+    {
+      "asset_id": "fx_expedition_return_reward_strip_v1",
+      "output_path": "public/assets/game/fx/fx_expedition_return_reward_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser FX sprite sheet\nPrimary request: Create fx_expedition_return_reward_strip_v1 for 이상한 씨앗상회 v1.\nSubject: a compact reward burst from opening an expedition return crate, with leaf particles, tiny pollen motes, soft moonlit sparkles, and a short upward arc that suggests long-meta expedition payoff.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game FX, soft rounded particles, crisp readable silhouettes, subtle lunar glow, warm whimsical garden shop mood, clean edges, no text, no watermark.\nComposition/framing: One horizontal FX strip with exactly 8 frames, each frame 96x96, transparent background, consistent effect center, compact motion that stays inside frame and is safe to play near the expedition gate and bottom action rail.\nColor palette: Warm leaf yellow, fresh herb green, pale moonlit blue, soft silver lavender, cream glow, tiny greenhouse teal sparkle accents.\nConstraints: Intended fps 14; animation.binding facility_expedition_gate.action.claim_return_crate; behavior once. No text, no UI frame, no full background, no character, no crate prop baked into the FX.\nAvoid: Text, watermark, logos, brand marks, copyrighted characters, living artist imitation, photorealism, horror, cluttered backgrounds, low contrast, tiny unreadable details, large explosion, dark magical horror look, baked UI card or button.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "exactly 8 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is facility_expedition_gate.action.claim_return_crate",
+        "FX reads at 96px and does not obscure the expedition gate or bottom action rail"
+      ]
     }
   ]
 }
