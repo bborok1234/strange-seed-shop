@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #522
-- PR: TBD
+- PR: #523
 - Branch: `codex/v1-moon-fence-prep-delivery-payoff`
 - 연결: Issue #520, PR #521, main CI `25647585415`
 
