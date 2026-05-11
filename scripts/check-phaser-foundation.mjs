@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0526-moon-fence-route-unlock";
+const OUT_DIR = "reports/visual/issue-0528-moon-fence-first-expedition-payoff";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -689,10 +689,74 @@ async function runSmoke() {
       moonFenceRouteUnlocked: window.__seedGardenMoonFenceRouteUnlocked ?? false,
       moonFenceUnlockedRouteId: window.__seedGardenMoonFenceUnlockedRouteId ?? "",
       moonFenceUnlockedMarkerVisible: window.__seedGardenMoonFenceUnlockedMarkerVisible ?? false,
+      moonFenceExpeditionState: window.__seedGardenMoonFenceExpeditionState ?? "",
+      moonFenceRewardLeaves: window.__seedGardenMoonFenceRewardLeaves ?? 0,
+      moonFenceReturnCrateVisible: window.__seedGardenMoonFenceReturnCrateVisible ?? false,
+      moonFenceRewardClaimed: window.__seedGardenMoonFenceRewardClaimed ?? false,
+      moonFenceRewardMotionVisible: window.__seedGardenMoonFenceRewardMotionVisible ?? false,
+      moonFenceNextClueVisible: window.__seedGardenMoonFenceNextClueVisible ?? false,
+      moonFenceNextClueId: window.__seedGardenMoonFenceNextClueId ?? "",
       nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       receipts: window.__seedGardenReceipts ?? []
     }));
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-route-unlocked-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "월정 문 원정 보내기" }).click();
+    await page.waitForTimeout(180);
+    const moonFenceExpeditionTraveling = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionRewardLeaves: window.__seedGardenExpeditionRewardLeaves ?? 0,
+      moonFenceExpeditionState: window.__seedGardenMoonFenceExpeditionState ?? "",
+      moonFenceRewardLeaves: window.__seedGardenMoonFenceRewardLeaves ?? 0,
+      moonFenceReturnCrateVisible: window.__seedGardenMoonFenceReturnCrateVisible ?? false,
+      moonFenceRewardClaimed: window.__seedGardenMoonFenceRewardClaimed ?? false,
+      moonFenceRewardMotionVisible: window.__seedGardenMoonFenceRewardMotionVisible ?? false,
+      moonFenceNextClueVisible: window.__seedGardenMoonFenceNextClueVisible ?? false,
+      moonFenceNextClueId: window.__seedGardenMoonFenceNextClueId ?? "",
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-expedition-traveling-393.png`, fullPage: false });
+    await page.waitForTimeout(360);
+    const moonFenceExpeditionReturned = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionRewardLeaves: window.__seedGardenExpeditionRewardLeaves ?? 0,
+      moonFenceExpeditionState: window.__seedGardenMoonFenceExpeditionState ?? "",
+      moonFenceRewardLeaves: window.__seedGardenMoonFenceRewardLeaves ?? 0,
+      moonFenceReturnCrateVisible: window.__seedGardenMoonFenceReturnCrateVisible ?? false,
+      moonFenceRewardClaimed: window.__seedGardenMoonFenceRewardClaimed ?? false,
+      moonFenceRewardMotionVisible: window.__seedGardenMoonFenceRewardMotionVisible ?? false,
+      moonFenceNextClueVisible: window.__seedGardenMoonFenceNextClueVisible ?? false,
+      moonFenceNextClueId: window.__seedGardenMoonFenceNextClueId ?? "",
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-expedition-returned-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "월정 문 귀환 상자 열기" }).click();
+    await page.waitForTimeout(220);
+    const moonFenceExpeditionClaimed = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      leaves: document.querySelector('[data-hud="leaves"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      expeditionState: window.__seedGardenExpeditionState ?? "",
+      activeExpeditionRouteId: window.__seedGardenActiveExpeditionRouteId ?? "",
+      expeditionRewardLeaves: window.__seedGardenExpeditionRewardLeaves ?? 0,
+      moonFenceExpeditionState: window.__seedGardenMoonFenceExpeditionState ?? "",
+      moonFenceRewardLeaves: window.__seedGardenMoonFenceRewardLeaves ?? 0,
+      moonFenceReturnCrateVisible: window.__seedGardenMoonFenceReturnCrateVisible ?? false,
+      moonFenceRewardClaimed: window.__seedGardenMoonFenceRewardClaimed ?? false,
+      moonFenceRewardMotionVisible: window.__seedGardenMoonFenceRewardMotionVisible ?? false,
+      moonFenceNextClueVisible: window.__seedGardenMoonFenceNextClueVisible ?? false,
+      moonFenceNextClueId: window.__seedGardenMoonFenceNextClueId ?? "",
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-expedition-claimed-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -771,6 +835,13 @@ async function runSmoke() {
       moonFenceRouteUnlocked: window.__seedGardenMoonFenceRouteUnlocked ?? false,
       moonFenceUnlockedRouteId: window.__seedGardenMoonFenceUnlockedRouteId ?? "",
       moonFenceUnlockedMarkerVisible: window.__seedGardenMoonFenceUnlockedMarkerVisible ?? false,
+      moonFenceExpeditionState: window.__seedGardenMoonFenceExpeditionState ?? "",
+      moonFenceRewardLeaves: window.__seedGardenMoonFenceRewardLeaves ?? 0,
+      moonFenceReturnCrateVisible: window.__seedGardenMoonFenceReturnCrateVisible ?? false,
+      moonFenceRewardClaimed: window.__seedGardenMoonFenceRewardClaimed ?? false,
+      moonFenceRewardMotionVisible: window.__seedGardenMoonFenceRewardMotionVisible ?? false,
+      moonFenceNextClueVisible: window.__seedGardenMoonFenceNextClueVisible ?? false,
+      moonFenceNextClueId: window.__seedGardenMoonFenceNextClueId ?? "",
       moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
       nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
@@ -807,7 +878,7 @@ async function runSmoke() {
     ) {
       failures.push("overview mode has body/document scroll");
     }
-    if (evidence.leaves !== "299") failures.push(`expected 299 leaves after night glass rare reveal, got ${evidence.leaves}`);
+    if (evidence.leaves !== "387") failures.push(`expected 387 leaves after moon fence reward claim, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
       failures.push("missing order crate delivery receipt");
@@ -1572,6 +1643,60 @@ async function runSmoke() {
     if (!moonFenceRouteUnlocked.railText.includes("월정 문 열림")) {
       failures.push("missing moon fence unlocked HUD text");
     }
+    if (moonFenceRouteUnlocked.moonFenceExpeditionState !== "ready") {
+      failures.push(`expected moon fence expedition ready after route unlock, got ${moonFenceRouteUnlocked.moonFenceExpeditionState}`);
+    }
+    if (!moonFenceRouteUnlocked.railText.includes("월정 문 원정 보내기")) {
+      failures.push("missing moon fence expedition start action after route unlock");
+    }
+    if (moonFenceExpeditionTraveling.activeExpeditionRouteId !== "expedition_moon_fence_unlocked") {
+      failures.push(`expected moon fence active route after start, got ${moonFenceExpeditionTraveling.activeExpeditionRouteId}`);
+    }
+    if (moonFenceExpeditionTraveling.expeditionState !== "traveling") {
+      failures.push(`expected generic expedition traveling during moon fence run, got ${moonFenceExpeditionTraveling.expeditionState}`);
+    }
+    if (moonFenceExpeditionTraveling.moonFenceExpeditionState !== "traveling") {
+      failures.push(`expected moon fence expedition traveling, got ${moonFenceExpeditionTraveling.moonFenceExpeditionState}`);
+    }
+    if (moonFenceExpeditionTraveling.moonFenceRewardLeaves !== 88 || moonFenceExpeditionTraveling.expeditionRewardLeaves !== 88) {
+      failures.push(`expected moon fence reward leaves 88 while traveling, got moon=${moonFenceExpeditionTraveling.moonFenceRewardLeaves} generic=${moonFenceExpeditionTraveling.expeditionRewardLeaves}`);
+    }
+    if (!moonFenceExpeditionTraveling.objective.includes("월정 문 원정 중")) {
+      failures.push("missing moon fence traveling objective");
+    }
+    if (moonFenceExpeditionReturned.expeditionState !== "returned") {
+      failures.push(`expected generic expedition returned for moon fence crate, got ${moonFenceExpeditionReturned.expeditionState}`);
+    }
+    if (moonFenceExpeditionReturned.moonFenceExpeditionState !== "returned") {
+      failures.push(`expected moon fence expedition returned, got ${moonFenceExpeditionReturned.moonFenceExpeditionState}`);
+    }
+    if (!moonFenceExpeditionReturned.moonFenceReturnCrateVisible) {
+      failures.push("missing moon fence return crate telemetry");
+    }
+    if (!moonFenceExpeditionReturned.railText.includes("월정 문 귀환 상자 열기")) {
+      failures.push("missing moon fence return crate claim action");
+    }
+    if (moonFenceExpeditionClaimed.moonFenceExpeditionState !== "claimed") {
+      failures.push(`expected moon fence expedition claimed, got ${moonFenceExpeditionClaimed.moonFenceExpeditionState}`);
+    }
+    if (!moonFenceExpeditionClaimed.moonFenceRewardClaimed) {
+      failures.push("missing moon fence reward claimed telemetry");
+    }
+    if (!moonFenceExpeditionClaimed.moonFenceRewardMotionVisible) {
+      failures.push("missing moon fence reward motion telemetry");
+    }
+    if (!moonFenceExpeditionClaimed.moonFenceNextClueVisible) {
+      failures.push("missing moon fence next clue visibility");
+    }
+    if (moonFenceExpeditionClaimed.moonFenceNextClueId !== "clue_moon_grove_001") {
+      failures.push(`expected moon fence next clue clue_moon_grove_001, got ${moonFenceExpeditionClaimed.moonFenceNextClueId}`);
+    }
+    if (!moonFenceExpeditionClaimed.objective.includes("월정 문 보상 수령")) {
+      failures.push("missing moon fence reward claim objective");
+    }
+    if (!moonFenceExpeditionClaimed.receipts.some((receipt) => receipt.includes("월정 문 귀환 상자 열기"))) {
+      failures.push("missing moon fence reward claim receipt");
+    }
     if (nightGlassRevealed.plotStates.some((plot) => plot.seedId === "seed_rare_001")) {
       failures.push("seed_rare_001 plot stayed occupied after harvest");
     }
@@ -1609,7 +1734,7 @@ async function runSmoke() {
     if (!evidence.researchLunarFamilyRevealed) failures.push("lunar family reveal telemetry missing from final evidence");
     if (!evidence.expeditionGatePreviewVisible) failures.push("expedition gate preview telemetry missing from final evidence");
     if (evidence.expeditionState !== "claimed") failures.push(`expected final expedition claimed state, got ${evidence.expeditionState}`);
-    if (evidence.activeExpeditionRouteId !== "expedition_night_glass") {
+    if (evidence.activeExpeditionRouteId !== "expedition_moon_fence_unlocked") {
       failures.push(`expected final expedition route id, got ${evidence.activeExpeditionRouteId}`);
     }
     if (evidence.expeditionRewardLeaves !== 0) {
@@ -1747,14 +1872,35 @@ async function runSmoke() {
     if (!evidence.actorIds.includes("actor_oro")) {
       failures.push("final actor_oro missing");
     }
-    if (evidence.leaves !== "299") {
-      failures.push(`expected final leaves 299 after night glass rare reveal, got ${evidence.leaves}`);
+    if (evidence.moonFenceExpeditionState !== "claimed") {
+      failures.push(`expected final moon fence expedition claimed, got ${evidence.moonFenceExpeditionState}`);
+    }
+    if (evidence.moonFenceRewardLeaves !== 0) {
+      failures.push(`expected final moon fence reward leaves 0, got ${evidence.moonFenceRewardLeaves}`);
+    }
+    if (evidence.moonFenceReturnCrateVisible) {
+      failures.push("final moon fence return crate stayed visible after claim");
+    }
+    if (!evidence.moonFenceRewardClaimed) {
+      failures.push("final moon fence reward claimed telemetry missing");
+    }
+    if (!evidence.moonFenceRewardMotionVisible) {
+      failures.push("final moon fence reward motion telemetry missing");
+    }
+    if (!evidence.moonFenceNextClueVisible) {
+      failures.push("final moon fence next clue telemetry missing");
+    }
+    if (evidence.moonFenceNextClueId !== "clue_moon_grove_001") {
+      failures.push(`expected final moon fence next clue clue_moon_grove_001, got ${evidence.moonFenceNextClueId}`);
+    }
+    if (evidence.leaves !== "387") {
+      failures.push(`expected final leaves 387 after moon fence reward claim, got ${evidence.leaves}`);
     }
     if (evidence.nightGlassRewardLeaves !== 0) {
       failures.push(`expected final night glass reward leaves 0, got ${evidence.nightGlassRewardLeaves}`);
     }
-    if (!evidence.objective.includes("월정 문 열림") || !evidence.objective.includes("expedition_moon_fence_unlocked")) {
-      failures.push("missing moon fence route unlock final objective");
+    if (!evidence.objective.includes("월정 문 보상 수령") || !evidence.objective.includes("clue_moon_grove_001")) {
+      failures.push("missing moon fence first expedition final objective");
     }
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
@@ -1885,7 +2031,10 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-moon-fence-requirements-393.png`,
         `${OUT_DIR}/phaser-check-moon-fence-prep-delivery-393.png`,
         `${OUT_DIR}/phaser-check-moon-fence-second-clue-393.png`,
-        `${OUT_DIR}/phaser-check-moon-fence-route-unlocked-393.png`
+        `${OUT_DIR}/phaser-check-moon-fence-route-unlocked-393.png`,
+        `${OUT_DIR}/phaser-check-moon-fence-expedition-traveling-393.png`,
+        `${OUT_DIR}/phaser-check-moon-fence-expedition-returned-393.png`,
+        `${OUT_DIR}/phaser-check-moon-fence-expedition-claimed-393.png`
       ],
       failures
     };

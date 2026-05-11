@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T03:33:50.858Z
+Generated at: 2026-05-11T03:53:02.471Z
 
 ## Current mission
 
-현재 작업은 **월정 문 route unlock**이다. #524/#525는 `달빛 단서 포장`과 `단서 2/2 · 재료 3/3` ready state까지 merge/main CI `25648527223`로 통과했다. #526 구현은 요구 조건 완료 후 `월정 문 열기` action과 `expedition_moon_fence_unlocked` route state를 연결했고, 다음 gate는 PR publication/check/merge다.
+현재 작업은 **월정 문 첫 원정 payoff**다. #526/#527은 `월정 문 열기`와 `expedition_moon_fence_unlocked` route state까지 merge/main CI `25648977133`로 통과했다. 다음 blocker는 opened route가 실제 `월정 문 원정 보내기`, 귀환 상자, reward claim, 다음 clue/source promise로 이어지지 않는 점이다.
 
 현재 evidence:
 
@@ -15,21 +15,21 @@ Generated at: 2026-05-11T03:33:50.858Z
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed moon fence second clue payoff: Issue #524, PR #525, main CI `25648527223`
-- WorkUnit: `items/0279-moon-fence-route-unlock.md`
-- GitHub issue: #526 `월정 문 route unlock`
-- Draft PR: #527
-- Branch: `codex/v1-moon-fence-route-unlock`
+- Completed moon fence route unlock: Issue #526, PR #527, main CI `25648977133`
+- WorkUnit: `items/0280-moon-fence-first-expedition-payoff.md`
+- GitHub issue: #528 `월정 문 첫 원정 payoff`
+- Draft PR: #529
+- Branch: `codex/v1-moon-fence-first-expedition-payoff`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md`
-- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR #527 checks pending
+- Visual evidence: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md`
+- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR #529 checks pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #525 이후 ready requirements가 실제 unlock 행동 없이 멈추는 production gap을 해소한다.
-1. Intake gate: GitHub issue #526을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
-2. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
+0. Studio Campaign Gate: 다음 slice는 #527 이후 opened route가 실제 first expedition payoff 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue #528을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
+2. Implementation gate: `GardenState`, Phaser start/return/claim action/render/HUD, checker를 연결한다.
 3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
 4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
@@ -39,27 +39,27 @@ Generated at: 2026-05-11T03:33:50.858Z
 
 ## Local state
 
-- Branch: codex/v1-moon-fence-route-unlock
-- Latest commit: d408cd8 월정 문 route unlock PR evidence를 준비한다
+- Branch: codex/v1-moon-fence-first-expedition-payoff
+- Latest commit: 2d79ca6 월정 문 첫 원정 PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T03:33:43.995Z
-- Phase: phaser-v1-moon-fence-route-unlock-pr-checks
-- Issue: 526
-- PR: 527
-- Item: items/0279-moon-fence-route-unlock.md
-- Next action: PR checks gate: watch #527 checks, mark ready, merge, and observe main CI
+- Timestamp: 2026-05-11T03:52:53.842Z
+- Phase: phaser-v1-moon-fence-first-expedition-pr-checks
+- Issue: 528
+- PR: 529
+- Item: items/0280-moon-fence-first-expedition-payoff.md
+- Next action: PR checks gate: watch #529 checks, mark ready, merge, and observe main CI
 
 ## Open PRs
 
-- #527 draft 월정 문 route unlock — https://github.com/bborok1234/strange-seed-shop/pull/527
+- #529 draft 월정 문 첫 원정 payoff — https://github.com/bborok1234/strange-seed-shop/pull/529
 
 ## Open issues
 
-- #526 월정 문 route unlock — https://github.com/bborok1234/strange-seed-shop/issues/526
+- #528 월정 문 첫 원정 payoff — https://github.com/bborok1234/strange-seed-shop/issues/528
 
 ## Playable mode
 

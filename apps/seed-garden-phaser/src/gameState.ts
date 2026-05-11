@@ -21,6 +21,8 @@ export const NIGHT_GLASS_SOURCE_REWARD_LEAVES = 64;
 export const MOON_FENCE_REQUIRED_CLUES = 2;
 export const MOON_FENCE_REQUIRED_MATERIALS = 3;
 export const MOON_FENCE_UNLOCKED_ROUTE_ID = "expedition_moon_fence_unlocked";
+export const MOON_FENCE_FIRST_REWARD_LEAVES = 88;
+export const MOON_FENCE_NEXT_CLUE_ID = "clue_moon_grove_001";
 
 export interface BoardSlot {
   id: string;
@@ -135,6 +137,13 @@ export interface GardenState {
   moonFenceRouteUnlocked: boolean;
   moonFenceUnlockedRouteId?: string;
   moonFenceUnlockedMarkerVisible: boolean;
+  moonFenceExpeditionState: ExpeditionState;
+  moonFenceRewardLeaves: number;
+  moonFenceReturnCrateVisible: boolean;
+  moonFenceRewardClaimed: boolean;
+  moonFenceRewardMotionVisible: boolean;
+  moonFenceNextClueVisible: boolean;
+  moonFenceNextClueId?: string;
   moonFenceRequiredExplorerId?: string;
   nextRareRoutePreviewId?: string;
   nightGlassRewardLeaves: number;
@@ -362,6 +371,13 @@ export function createGardenState(): GardenState {
     moonFenceRouteUnlocked: false,
     moonFenceUnlockedRouteId: undefined,
     moonFenceUnlockedMarkerVisible: false,
+    moonFenceExpeditionState: "locked",
+    moonFenceRewardLeaves: 0,
+    moonFenceReturnCrateVisible: false,
+    moonFenceRewardClaimed: false,
+    moonFenceRewardMotionVisible: false,
+    moonFenceNextClueVisible: false,
+    moonFenceNextClueId: undefined,
     moonFenceRequiredExplorerId: undefined,
     nextRareRoutePreviewId: undefined,
     nightGlassRewardLeaves: 0
@@ -1059,10 +1075,92 @@ export function unlockMoonFenceRoute(state: GardenState): void {
   state.moonFenceRouteUnlocked = true;
   state.moonFenceUnlockedRouteId = MOON_FENCE_UNLOCKED_ROUTE_ID;
   state.moonFenceUnlockedMarkerVisible = true;
+  state.moonFenceExpeditionState = "ready";
   state.nextRareRoutePreviewId = MOON_FENCE_UNLOCKED_ROUTE_ID;
   state.nextExpeditionRoutePreviewId = MOON_FENCE_UNLOCKED_ROUTE_ID;
   state.objective = `월정 문 열림 · ${MOON_FENCE_UNLOCKED_ROUTE_ID} · 오로 explorer`;
   state.receipts.unshift(`월정 문 열림 · ${MOON_FENCE_UNLOCKED_ROUTE_ID} · 단서 ${state.moonFenceCurrentClues}/${MOON_FENCE_REQUIRED_CLUES} · 재료 ${state.moonFenceCurrentMaterials}/${MOON_FENCE_REQUIRED_MATERIALS}`);
+}
+
+export function startMoonFenceFirstExpedition(state: GardenState): void {
+  if (!state.moonFenceRouteUnlocked || state.moonFenceExpeditionState !== "ready") {
+    return;
+  }
+
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  if (expeditionGate) {
+    expeditionGate.level = Math.max(expeditionGate.level, 1);
+    expeditionGate.visualState = "active";
+    expeditionGate.progress = 50;
+  }
+
+  const oroActor = state.actors.find((actor) => actor.id === NIGHT_GLASS_ORO_ACTOR_ID);
+  if (oroActor) {
+    oroActor.slotId = "facility_expedition_gate";
+    oroActor.targetSlotId = "facility_expedition_gate";
+    oroActor.task = "expedition";
+  }
+
+  state.selectedSlotId = "facility_expedition_gate";
+  state.activeExpeditionRouteId = MOON_FENCE_UNLOCKED_ROUTE_ID;
+  state.expeditionState = "traveling";
+  state.expeditionRewardLeaves = MOON_FENCE_FIRST_REWARD_LEAVES;
+  state.moonFenceExpeditionState = "traveling";
+  state.moonFenceRewardLeaves = MOON_FENCE_FIRST_REWARD_LEAVES;
+  state.moonFenceReturnCrateVisible = false;
+  state.moonFenceRewardMotionVisible = false;
+  state.objective = `월정 문 원정 중 · ${MOON_FENCE_UNLOCKED_ROUTE_ID} · 오로 explorer`;
+  state.receipts.unshift(`월정 문 원정 출발 · ${MOON_FENCE_UNLOCKED_ROUTE_ID} · 오로 explorer`);
+}
+
+export function markMoonFenceFirstExpeditionReturned(state: GardenState): void {
+  if (state.activeExpeditionRouteId !== MOON_FENCE_UNLOCKED_ROUTE_ID || state.moonFenceExpeditionState !== "traveling") {
+    return;
+  }
+
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  if (expeditionGate) {
+    expeditionGate.progress = 100;
+    expeditionGate.visualState = "active";
+  }
+
+  state.selectedSlotId = "facility_expedition_gate";
+  state.expeditionState = "returned";
+  state.moonFenceExpeditionState = "returned";
+  state.moonFenceReturnCrateVisible = true;
+  state.objective = "월정 문 귀환 상자 도착 · 보상 수령 대기";
+  state.receipts.unshift("월정 문 원정 귀환 · 귀환 상자 대기");
+}
+
+export function claimMoonFenceFirstExpeditionReward(state: GardenState): void {
+  if (state.activeExpeditionRouteId !== MOON_FENCE_UNLOCKED_ROUTE_ID || state.moonFenceExpeditionState !== "returned") {
+    return;
+  }
+
+  const rewardLeaves = state.moonFenceRewardLeaves || MOON_FENCE_FIRST_REWARD_LEAVES;
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  if (expeditionGate) {
+    expeditionGate.progress = 0;
+    expeditionGate.visualState = "active";
+  }
+  const oroActor = state.actors.find((actor) => actor.id === NIGHT_GLASS_ORO_ACTOR_ID);
+  if (oroActor) {
+    oroActor.targetSlotId = "facility_expedition_gate";
+    oroActor.task = "idle";
+  }
+
+  state.resources.leaves += rewardLeaves;
+  state.expeditionState = "claimed";
+  state.expeditionRewardLeaves = 0;
+  state.moonFenceExpeditionState = "claimed";
+  state.moonFenceRewardLeaves = 0;
+  state.moonFenceReturnCrateVisible = false;
+  state.moonFenceRewardClaimed = true;
+  state.moonFenceRewardMotionVisible = true;
+  state.moonFenceNextClueVisible = true;
+  state.moonFenceNextClueId = MOON_FENCE_NEXT_CLUE_ID;
+  state.objective = `월정 문 보상 수령 · ${MOON_FENCE_NEXT_CLUE_ID} · 다음 source promise`;
+  state.receipts.unshift(`월정 문 귀환 상자 열기 · 잎 +${rewardLeaves} · ${MOON_FENCE_NEXT_CLUE_ID} source promise`);
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {
