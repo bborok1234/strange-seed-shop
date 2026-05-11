@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T02:05:10.516Z
+Generated at: 2026-05-11T02:23:55.804Z
 
 ## Current mission
 
-현재 작업은 **밤유리 오로 actor route handoff**이다. #514/#515는 `돌보기 -> 밤유리 수확 -> creature_lunar_rare_001 reveal`까지 merge/main CI `25549194431`로 통과했다. 다음 blocker는 `밤유리 오로 발견`이 아직 정원 actor, 다음 route affordance, 다음 행동으로 이어지지 않는다는 점이다.
+현재 작업은 **밤유리 오로 월정 문 route action**이다. #516/#517은 `밤유리 오로 발견 -> actor_oro 합류 -> expedition_moon_fence_locked preview`까지 merge/main CI `25646641343`로 통과했다. 다음 blocker는 `밤유리 오로 합류`가 아직 플레이어가 직접 누르는 route action과 locked route board state로 이어지지 않는다는 점이다.
 
 현재 evidence:
 
@@ -15,20 +15,20 @@ Generated at: 2026-05-11T02:05:10.516Z
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed night glass source harvest reveal: Issue #514, PR #515, main CI `25549194431`
-- WorkUnit: `items/0274-night-glass-oro-actor-route-handoff.md`
-- GitHub issue: #516 `밤유리 오로 actor route handoff`
-- Branch: `codex/v1-night-glass-oro-actor-route-handoff`
+- Completed night glass Oro actor route handoff: Issue #516, PR #517, main CI `25646641343`
+- WorkUnit: `items/0275-night-glass-oro-moon-fence-route-action.md`
+- GitHub issue: #518 `밤유리 오로 월정 문 route action`
+- Branch: `codex/v1-night-glass-oro-moon-fence-route-action`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/visual-report-20260511.md`
-- Current validation: #515 merge/main CI observed; #516 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; draft PR #517 open and PR checks pending
+- Visual evidence: `reports/visual/issue-0518-night-glass-oro-moon-fence-route-action/visual-report-20260511.md`
+- Current validation: #517 merge/main CI observed; #518 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; draft PR #519 open and PR checks pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #515 이후 rare 발견이 actor/route handoff 없이 멈추는 production gap을 해소한다.
+0. Studio Campaign Gate: 다음 slice는 #517 이후 rare actor handoff가 직접 route action 없이 멈추는 production gap을 해소한다.
 1. Intake gate: GitHub issue를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정한다.
-2. Implementation gate: `GardenState`, Phaser actor/render/HUD, checker를 연결한다.
+2. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
 3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
 4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
@@ -38,27 +38,27 @@ Generated at: 2026-05-11T02:05:10.516Z
 
 ## Local state
 
-- Branch: codex/v1-night-glass-oro-actor-route-handoff
-- Latest commit: 8e357f9 밤유리 오로 PR evidence를 준비한다
+- Branch: codex/v1-night-glass-oro-moon-fence-route-action
+- Latest commit: b51c3dc 밤유리 오로 route action PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T02:05:09.041Z
-- Phase: phaser-v1-night-glass-oro-actor-route-handoff-pr-open
-- Issue: 516
-- PR: 517
-- Item: items/0274-night-glass-oro-actor-route-handoff.md
-- Next action: PR checks gate: watch PR #517 required checks, mark ready, merge, then observe main CI
+- Timestamp: 2026-05-11T02:23:54.282Z
+- Phase: phaser-v1-night-glass-oro-moon-fence-route-action-pr-open
+- Issue: 518
+- PR: 519
+- Item: items/0275-night-glass-oro-moon-fence-route-action.md
+- Next action: PR checks gate: watch PR #519 required checks, mark ready, merge, then observe main CI
 
 ## Open PRs
 
-- #517 draft 밤유리 오로 actor route handoff — https://github.com/bborok1234/strange-seed-shop/pull/517
+- #519 draft 밤유리 오로 월정 문 route action — https://github.com/bborok1234/strange-seed-shop/pull/519
 
 ## Open issues
 
-- #516 밤유리 오로 actor route handoff — https://github.com/bborok1234/strange-seed-shop/issues/516
+- #518 밤유리 오로 월정 문 route action — https://github.com/bborok1234/strange-seed-shop/issues/518
 
 ## Playable mode
 

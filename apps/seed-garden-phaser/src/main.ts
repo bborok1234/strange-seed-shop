@@ -13,6 +13,7 @@ import {
   getPlotBySlot,
   getSlot,
   harvestSelectedPlot,
+  inspectMoonFenceRoute,
   inspectResearchShelfPreview,
   LUNAR_SOURCE_SEED_ID,
   markBackyardGapExpeditionReturned,
@@ -351,6 +352,12 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.nightGlassOroActorJoined;
     (window as unknown as { __seedGardenNightGlassOroRouteHandoffVisible?: boolean })
       .__seedGardenNightGlassOroRouteHandoffVisible = gameState.nightGlassOroRouteHandoffVisible;
+    (window as unknown as { __seedGardenNightGlassOroRouteActionAvailable?: boolean })
+      .__seedGardenNightGlassOroRouteActionAvailable = gameState.nightGlassOroRouteActionAvailable;
+    (window as unknown as { __seedGardenMoonFenceRoutePreviewVisible?: boolean }).__seedGardenMoonFenceRoutePreviewVisible =
+      gameState.moonFenceRoutePreviewVisible;
+    (window as unknown as { __seedGardenMoonFenceRouteInspected?: boolean }).__seedGardenMoonFenceRouteInspected =
+      gameState.moonFenceRouteInspected;
     (window as unknown as { __seedGardenNextRareRoutePreviewId?: string }).__seedGardenNextRareRoutePreviewId =
       gameState.nextRareRoutePreviewId ?? "";
     (window as unknown as { __seedGardenNightGlassRewardLeaves?: number }).__seedGardenNightGlassRewardLeaves =
@@ -779,6 +786,28 @@ class GardenBoardScene extends Phaser.Scene {
           container.add(routeLock);
         }
       }
+
+      if (gameState.moonFenceRoutePreviewVisible) {
+        const routeSpark = this.add.sprite(-34, 16, TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key);
+        routeSpark.setDisplaySize(52, 46);
+        routeSpark.setAlpha(0.58);
+        routeSpark.play("night-glass-source-unlock-once");
+        container.add(routeSpark);
+
+        const moonFence = this.add
+          .text(34, 20, "월정 문\n잠김", {
+            align: "center",
+            backgroundColor: "rgba(38, 50, 89, 0.9)",
+            color: "#f4f0c9",
+            fontFamily: "system-ui, sans-serif",
+            fontSize: "9px",
+            fontStyle: "800",
+            lineSpacing: 1,
+            padding: { x: 6, y: 3 }
+          })
+          .setOrigin(0.5);
+        container.add(moonFence);
+      }
     }
 
     container.setSize(118, 104);
@@ -1153,6 +1182,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "preview_night_glass"
       | "start_night_glass"
       | "claim_night_glass"
+      | "inspect_moon_fence"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -1199,6 +1229,9 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "claim_night_glass") {
       claimNightGlassSourceReward(gameState);
       this.pendingFx = { kind: "nightGlassAcquire", slotId: selectedSlotId };
+    } else if (action === "inspect_moon_fence") {
+      inspectMoonFenceRoute(gameState);
+      this.pendingFx = { kind: "nightGlassAcquire", slotId: "facility_expedition_gate" };
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -1344,11 +1377,25 @@ class GardenBoardScene extends Phaser.Scene {
     if (gameState.nightGlassOroRouteHandoffVisible) {
       const oroSurface = document.createElement("div");
       oroSurface.className = "collection-goal-surface";
+      const oroRouteText = gameState.moonFenceRouteInspected
+        ? `${gameState.nextRareRoutePreviewId ?? NEXT_EXPEDITION_ROUTE_PREVIEW_ID} locked · 월정 문 단서 확인됨`
+        : gameState.nightGlassOroRouteActionAvailable
+          ? `${gameState.nextRareRoutePreviewId ?? NEXT_EXPEDITION_ROUTE_PREVIEW_ID} preview · 월정 문 단서 보기 대기`
+          : `${gameState.nextRareRoutePreviewId ?? NEXT_EXPEDITION_ROUTE_PREVIEW_ID} preview · 월정 문 단서`;
       oroSurface.innerHTML = `
         <strong>밤유리 오로 합류</strong>
-        <span>${gameState.nextRareRoutePreviewId ?? NEXT_EXPEDITION_ROUTE_PREVIEW_ID} preview · 월정 문 단서</span>
+        <span>${oroRouteText}</span>
       `;
       this.hud.actions.appendChild(oroSurface);
+    }
+    if (gameState.moonFenceRoutePreviewVisible) {
+      const moonFenceSurface = document.createElement("div");
+      moonFenceSurface.className = "collection-goal-surface";
+      moonFenceSurface.innerHTML = `
+        <strong>월정 문 단서 확인</strong>
+        <span>${NEXT_EXPEDITION_ROUTE_PREVIEW_ID} locked · 다음 expedition route</span>
+      `;
+      this.hud.actions.appendChild(moonFenceSurface);
     }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
@@ -1367,7 +1414,11 @@ class GardenBoardScene extends Phaser.Scene {
         empty.textContent = "빈 밭에 밤유리 심기";
       } else if (gameState.nightGlassSourcePreviewVisible) {
         empty.textContent = gameState.nightGlassOroActorJoined
-          ? `${NIGHT_GLASS_RARE_CREATURE_NAME} 합류`
+          ? gameState.moonFenceRouteInspected
+            ? "월정 문 단서 확인됨"
+            : gameState.nightGlassOroRouteActionAvailable
+              ? "월정 문 단서 보기 대기"
+              : `${NIGHT_GLASS_RARE_CREATURE_NAME} 합류`
           : gameState.nightGlassRareCreatureRevealed
           ? `${NIGHT_GLASS_RARE_CREATURE_NAME} 발견`
           : gameState.nightGlassSourceSeedHarvested
@@ -1460,7 +1511,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "plant_night_glass_source"
       | "preview_night_glass"
       | "start_night_glass"
-      | "claim_night_glass";
+      | "claim_night_glass"
+      | "inspect_moon_fence";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -1484,6 +1536,9 @@ class GardenBoardScene extends Phaser.Scene {
       state.nightGlassAcquisitionState === "returned"
     ) {
       return [{ id: "claim_night_glass", label: "밤유리 귀환 상자 열기" }];
+    }
+    if (state.nightGlassOroRouteActionAvailable && !state.moonFenceRouteInspected) {
+      return [{ id: "inspect_moon_fence", label: "월정 문 단서 보기" }];
     }
     if (facility?.kind === "expedition_gate" && state.expeditionState === "ready") {
       return [{ id: "start_expedition", label: "틈새길 보내기" }];

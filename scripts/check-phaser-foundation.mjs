@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0516-night-glass-oro-actor-route-handoff";
+const OUT_DIR = "reports/visual/issue-0518-night-glass-oro-moon-fence-route-action";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -548,6 +548,9 @@ async function runSmoke() {
       nightGlassRareCreatureName: window.__seedGardenNightGlassRareCreatureName ?? "",
       nightGlassOroActorJoined: window.__seedGardenNightGlassOroActorJoined ?? false,
       nightGlassOroRouteHandoffVisible: window.__seedGardenNightGlassOroRouteHandoffVisible ?? false,
+      nightGlassOroRouteActionAvailable: window.__seedGardenNightGlassOroRouteActionAvailable ?? false,
+      moonFenceRoutePreviewVisible: window.__seedGardenMoonFenceRoutePreviewVisible ?? false,
+      moonFenceRouteInspected: window.__seedGardenMoonFenceRouteInspected ?? false,
       nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
       nightGlassSourceFxKey: window.__seedGardenNightGlassSourceFxKey ?? "",
@@ -557,6 +560,23 @@ async function runSmoke() {
     }));
     await page.waitForTimeout(160);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-night-glass-oro-handoff-393.png`, fullPage: false });
+    await clickUntilAction(page, [[204, 546], [262, 396], [304, 502], [120, 500]], "월정 문 단서 보기");
+    await page.getByRole("button", { name: "월정 문 단서 보기" }).click();
+    await page.waitForTimeout(180);
+    const moonFenceRoute = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      nightGlassOroActorJoined: window.__seedGardenNightGlassOroActorJoined ?? false,
+      nightGlassOroRouteActionAvailable: window.__seedGardenNightGlassOroRouteActionAvailable ?? false,
+      moonFenceRoutePreviewVisible: window.__seedGardenMoonFenceRoutePreviewVisible ?? false,
+      moonFenceRouteInspected: window.__seedGardenMoonFenceRouteInspected ?? false,
+      nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
+      actorIds: window.__seedGardenActorIds ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.waitForTimeout(160);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-route-action-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -614,6 +634,9 @@ async function runSmoke() {
       nightGlassRareCreatureName: window.__seedGardenNightGlassRareCreatureName ?? "",
       nightGlassOroActorJoined: window.__seedGardenNightGlassOroActorJoined ?? false,
       nightGlassOroRouteHandoffVisible: window.__seedGardenNightGlassOroRouteHandoffVisible ?? false,
+      nightGlassOroRouteActionAvailable: window.__seedGardenNightGlassOroRouteActionAvailable ?? false,
+      moonFenceRoutePreviewVisible: window.__seedGardenMoonFenceRoutePreviewVisible ?? false,
+      moonFenceRouteInspected: window.__seedGardenMoonFenceRouteInspected ?? false,
       nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
       nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
@@ -1234,6 +1257,9 @@ async function runSmoke() {
     if (!nightGlassRevealed.nightGlassOroRouteHandoffVisible) {
       failures.push("night glass Oro route handoff telemetry missing after reveal");
     }
+    if (!nightGlassRevealed.nightGlassOroRouteActionAvailable) {
+      failures.push("night glass Oro route action was not available after reveal");
+    }
     if (nightGlassRevealed.nextRareRoutePreviewId !== "expedition_moon_fence_locked") {
       failures.push(`expected next rare route preview expedition_moon_fence_locked, got ${nightGlassRevealed.nextRareRoutePreviewId}`);
     }
@@ -1242,6 +1268,36 @@ async function runSmoke() {
     }
     if (!nightGlassRevealed.railText.includes("밤유리 오로 합류")) {
       failures.push("missing night glass Oro actor join HUD surface");
+    }
+    if (!nightGlassRevealed.railText.includes("월정 문 단서 보기")) {
+      failures.push("missing moon fence route action after night glass Oro handoff");
+    }
+    if (!moonFenceRoute.nightGlassOroActorJoined) {
+      failures.push("moon fence route lost night glass Oro actor join telemetry");
+    }
+    if (moonFenceRoute.nightGlassOroRouteActionAvailable) {
+      failures.push("moon fence route action stayed available after inspection");
+    }
+    if (!moonFenceRoute.moonFenceRoutePreviewVisible) {
+      failures.push("moon fence route preview did not become visible");
+    }
+    if (!moonFenceRoute.moonFenceRouteInspected) {
+      failures.push("moon fence route inspection telemetry missing");
+    }
+    if (moonFenceRoute.nextRareRoutePreviewId !== "expedition_moon_fence_locked") {
+      failures.push(`expected moon fence next route id expedition_moon_fence_locked, got ${moonFenceRoute.nextRareRoutePreviewId}`);
+    }
+    if (!moonFenceRoute.actorIds.includes("actor_oro")) {
+      failures.push("actor_oro missing after moon fence route inspection");
+    }
+    if (!moonFenceRoute.objective.includes("월정 문 단서 확인")) {
+      failures.push("missing moon fence route objective");
+    }
+    if (!moonFenceRoute.railText.includes("월정 문 단서 확인")) {
+      failures.push("missing moon fence route HUD surface");
+    }
+    if (!moonFenceRoute.railText.includes("expedition_moon_fence_locked")) {
+      failures.push("missing moon fence route id in HUD surface");
     }
     if (nightGlassRevealed.plotStates.some((plot) => plot.seedId === "seed_rare_001")) {
       failures.push("seed_rare_001 plot stayed occupied after harvest");
@@ -1361,6 +1417,15 @@ async function runSmoke() {
     if (!evidence.nightGlassOroRouteHandoffVisible) {
       failures.push("final night glass Oro route handoff telemetry missing");
     }
+    if (evidence.nightGlassOroRouteActionAvailable) {
+      failures.push("final night glass Oro route action still available");
+    }
+    if (!evidence.moonFenceRoutePreviewVisible) {
+      failures.push("final moon fence route preview missing");
+    }
+    if (!evidence.moonFenceRouteInspected) {
+      failures.push("final moon fence route inspected telemetry missing");
+    }
     if (evidence.nextRareRoutePreviewId !== "expedition_moon_fence_locked") {
       failures.push(`expected final next rare route preview id expedition_moon_fence_locked, got ${evidence.nextRareRoutePreviewId}`);
     }
@@ -1373,8 +1438,8 @@ async function runSmoke() {
     if (evidence.nightGlassRewardLeaves !== 0) {
       failures.push(`expected final night glass reward leaves 0, got ${evidence.nightGlassRewardLeaves}`);
     }
-    if (!evidence.objective.includes("밤유리 오로") || !evidence.objective.includes("월정 문 preview")) {
-      failures.push("missing night glass Oro route handoff final objective");
+    if (!evidence.objective.includes("월정 문 단서 확인") || !evidence.objective.includes("expedition_moon_fence_locked")) {
+      failures.push("missing moon fence route action final objective");
     }
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
@@ -1500,7 +1565,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-night-glass-planted-393.png`,
         `${OUT_DIR}/phaser-check-night-glass-ready-393.png`,
         `${OUT_DIR}/phaser-check-night-glass-revealed-393.png`,
-        `${OUT_DIR}/phaser-check-night-glass-oro-handoff-393.png`
+        `${OUT_DIR}/phaser-check-night-glass-oro-handoff-393.png`,
+        `${OUT_DIR}/phaser-check-moon-fence-route-action-393.png`
       ],
       failures
     };
