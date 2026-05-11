@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T03:53:02.471Z
+Generated at: 2026-05-11T04:06:20.366Z
 
 ## Current mission
 
-현재 작업은 **월정 문 첫 원정 payoff**다. #526/#527은 `월정 문 열기`와 `expedition_moon_fence_unlocked` route state까지 merge/main CI `25648977133`로 통과했다. 다음 blocker는 opened route가 실제 `월정 문 원정 보내기`, 귀환 상자, reward claim, 다음 clue/source promise로 이어지지 않는 점이다.
+현재 작업은 **월정 문 source asset plan-prompt**다. #528/#529는 `월정 문 원정 보내기`, 귀환 상자, reward claim, `clue_moon_grove_001 source promise`까지 merge/main CI `25649482785`로 통과했다. 다음 blocker는 `clue_moon_grove_001`이 아직 concrete source seed icon/FX plan-prompt로 승격되지 않은 점이다.
 
 현재 evidence:
 
@@ -15,22 +15,21 @@ Generated at: 2026-05-11T03:53:02.471Z
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed moon fence route unlock: Issue #526, PR #527, main CI `25648977133`
-- WorkUnit: `items/0280-moon-fence-first-expedition-payoff.md`
-- GitHub issue: #528 `월정 문 첫 원정 payoff`
-- Draft PR: #529
-- Branch: `codex/v1-moon-fence-first-expedition-payoff`
-- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md`
-- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR #529 checks pending
+- Completed moon fence first expedition payoff: Issue #528, PR #529, main CI `25649482785`
+- WorkUnit: `items/0281-moon-grove-source-asset-plan-prompt.md`
+- GitHub issue: #530 `월정 문 source asset plan-prompt`
+- Branch: `codex/v1-moon-grove-source-asset-plan-prompt`
+- Runtime binding: N/A - asset plan/prompt only
+- Visual evidence: N/A - generation-ready prompt/plan document slice
+- Current validation: #529 merge/main CI observed; #530 asset plan/prompt local verification passed (`git diff --check`, `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`); PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #527 이후 opened route가 실제 first expedition payoff 없이 멈추는 production gap을 해소한다.
-1. Intake gate: GitHub issue #528을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
-2. Implementation gate: `GardenState`, Phaser start/return/claim action/render/HUD, checker를 연결한다.
-3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+0. Studio Campaign Gate: 다음 slice는 #529 이후 source promise가 asset pipeline 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue #530을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
+2. Implementation gate: `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`에 moon-grove source seed icon/FX 후보를 추가했다.
+3. Local verification gate: `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과했다.
 4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
@@ -39,27 +38,27 @@ Generated at: 2026-05-11T03:53:02.471Z
 
 ## Local state
 
-- Branch: codex/v1-moon-fence-first-expedition-payoff
-- Latest commit: 2d79ca6 월정 문 첫 원정 PR evidence를 준비한다
+- Branch: codex/v1-moon-grove-source-asset-plan-prompt
+- Latest commit: b16738e Merge pull request #529 from bborok1234/codex/v1-moon-fence-first-expedition-payoff
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T03:52:53.842Z
-- Phase: phaser-v1-moon-fence-first-expedition-pr-checks
-- Issue: 528
-- PR: 529
-- Item: items/0280-moon-fence-first-expedition-payoff.md
-- Next action: PR checks gate: watch #529 checks, mark ready, merge, and observe main CI
+- Timestamp: 2026-05-11T04:06:18.746Z
+- Phase: phaser-v1-moon-grove-source-asset-plan-prompt-ready-for-pr
+- Issue: 530
+- PR:
+- Item: items/0281-moon-grove-source-asset-plan-prompt.md
+- Next action: PR publication gate: create draft PR for #530 and watch checks
 
 ## Open PRs
 
-- #529 draft 월정 문 첫 원정 payoff — https://github.com/bborok1234/strange-seed-shop/pull/529
+- unavailable or none
 
 ## Open issues
 
-- #528 월정 문 첫 원정 payoff — https://github.com/bborok1234/strange-seed-shop/issues/528
+- #530 월정 문 source asset plan-prompt — https://github.com/bborok1234/strange-seed-shop/issues/530
 
 ## Playable mode
 

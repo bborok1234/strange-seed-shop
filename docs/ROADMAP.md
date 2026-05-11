@@ -82,7 +82,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 월정 문 준비 납품 material payoff | done | Issue #522, PR #523, main CI `25648143531`, `items/0277-moon-fence-prep-delivery-payoff.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/visual-report-20260511.md` | #521 이후 requirements surface가 `재료 2/3` 부족 상태에서 멈추는 blocker를 해결했다. `월정 문 준비 납품` player verb, expedition gate prep crate/chip state, material `3/3` ready telemetry, remaining `달빛 단서 1/2` blocker를 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
 | 월정 문 두 번째 달빛 단서 payoff | done | Issue #524, PR #525, main CI `25648527223`, `items/0278-moon-fence-second-clue-payoff.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0524-moon-fence-second-clue-payoff/visual-report-20260511.md` | #523 이후 material은 `3/3 ready`지만 `달빛 단서 1/2`가 남아 route unlock 전 마지막 blocker가 텍스트로만 남는 문제를 해결했다. `달빛 단서 포장` player verb, clue stamp/chip state, clue `2/2` ready telemetry를 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
 | 월정 문 route unlock | done | Issue #526, PR #527, main CI `25648977133`, `items/0279-moon-fence-route-unlock.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md` | #525 이후 단서/재료/explorer가 모두 ready지만 실제 `월정 문 열기` action과 unlocked route state가 없던 blocker를 해결했다. `월정 문 열기` player verb, `expedition_moon_fence_unlocked` route id, unlocked marker telemetry를 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
-| 월정 문 첫 원정 payoff | active | Issue #528, PR #529, `items/0280-moon-fence-first-expedition-payoff.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md` | #527 이후 `expedition_moon_fence_unlocked` route는 열렸지만 실제 `월정 문 원정 보내기`, 귀환 상자, reward claim, 다음 clue/source promise가 없던 blocker를 구현으로 해소했다. local checks가 통과했고 PR #529 check/merge gate로 이동한다 |
+| 월정 문 첫 원정 payoff | done | Issue #528, PR #529, main CI `25649482785`, `items/0280-moon-fence-first-expedition-payoff.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md` | #527 이후 `expedition_moon_fence_unlocked` route는 열렸지만 실제 `월정 문 원정 보내기`, 귀환 상자, reward claim, 다음 clue/source promise가 없던 blocker를 해결했다. local checks, PR checks, merge, main CI가 통과했다 |
+| 월정 문 source asset plan-prompt | active | Issue #530, `items/0281-moon-grove-source-asset-plan-prompt.md`, `assets/source/asset_plan.json`, `assets/source/asset_prompts.json` | #529 이후 `clue_moon_grove_001`은 promise telemetry에 머문다. `seed_moon_grove_001_icon`과 `fx_moon_grove_source_reward_strip_v1` plan/prompt를 추가했고 `git diff --check`, `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`가 통과했다. 다음 gate는 draft PR 게시와 checks 감시다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -408,7 +409,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **월정 문 첫 원정 payoff**다. #526/#527은 `월정 문 열기`와 `expedition_moon_fence_unlocked` route state까지 merge/main CI `25648977133`로 통과했다. 다음 blocker는 opened route가 실제 `월정 문 원정 보내기`, 귀환 상자, reward claim, 다음 clue/source promise로 이어지지 않는 점이다.
+현재 작업은 **월정 문 source asset plan-prompt**다. #528/#529는 `월정 문 원정 보내기`, 귀환 상자, reward claim, `clue_moon_grove_001 source promise`까지 merge/main CI `25649482785`로 통과했다. 다음 blocker는 `clue_moon_grove_001`이 아직 concrete source seed icon/FX plan-prompt로 승격되지 않은 점이다.
 
 현재 evidence:
 
@@ -416,22 +417,21 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed moon fence route unlock: Issue #526, PR #527, main CI `25648977133`
-- WorkUnit: `items/0280-moon-fence-first-expedition-payoff.md`
-- GitHub issue: #528 `월정 문 첫 원정 payoff`
-- Draft PR: #529
-- Branch: `codex/v1-moon-fence-first-expedition-payoff`
-- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md`
-- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR #529 checks pending
+- Completed moon fence first expedition payoff: Issue #528, PR #529, main CI `25649482785`
+- WorkUnit: `items/0281-moon-grove-source-asset-plan-prompt.md`
+- GitHub issue: #530 `월정 문 source asset plan-prompt`
+- Branch: `codex/v1-moon-grove-source-asset-plan-prompt`
+- Runtime binding: N/A - asset plan/prompt only
+- Visual evidence: N/A - generation-ready prompt/plan document slice
+- Current validation: #529 merge/main CI observed; #530 asset plan/prompt local verification passed (`git diff --check`, `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`); PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #527 이후 opened route가 실제 first expedition payoff 없이 멈추는 production gap을 해소한다.
-1. Intake gate: GitHub issue #528을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
-2. Implementation gate: `GardenState`, Phaser start/return/claim action/render/HUD, checker를 연결한다.
-3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+0. Studio Campaign Gate: 다음 slice는 #529 이후 source promise가 asset pipeline 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue #530을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
+2. Implementation gate: `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`에 moon-grove source seed icon/FX 후보를 추가했다.
+3. Local verification gate: `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과했다.
 4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.

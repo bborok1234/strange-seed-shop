@@ -1574,6 +1574,52 @@
         "behavior": "once"
       },
       "notes": "Horizontal FX strip for opening the first expedition return crate. Leaf and pollen particles should feel like a small D7 long-meta reward without obscuring the gate or bottom action rail."
+    },
+    {
+      "id": "seed_moon_grove_001_icon",
+      "category": "seed_icon",
+      "family": "lunar",
+      "rarity": "rare",
+      "growth_stage": "source",
+      "intended_use": "moon_fence_source_seed_preview",
+      "output_path": "public/assets/game/seeds/seed_moon_grove_001_icon.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "seed",
+        "source",
+        "lunar",
+        "moon_fence",
+        "issue_0530"
+      ],
+      "notes": "Generation-ready source seed icon for clue_moon_grove_001 after the first moon fence expedition reward. Must read as moon-grove source, distinct from seed_rare_001_icon and seed_lunar_002_icon."
+    },
+    {
+      "id": "fx_moon_grove_source_reward_strip_v1",
+      "category": "fx_strip",
+      "family": "lunar",
+      "rarity": "rare",
+      "growth_stage": "not_applicable",
+      "intended_use": "moon_fence_source_reward_fx",
+      "output_path": "public/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "fx",
+        "source",
+        "lunar",
+        "moon_fence",
+        "reward",
+        "issue_0530"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 12,
+      "animation": {
+        "binding": "moon_fence.reward.action.claim_source_clue",
+        "behavior": "once"
+      },
+      "notes": "Horizontal FX strip for claiming clue_moon_grove_001 after the first moon fence expedition reward. Should feel like a soft moon-grove source reveal, compact enough for the expedition gate and action rail."
     }
   ]
 }
