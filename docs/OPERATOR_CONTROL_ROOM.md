@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T03:31:28.284Z
+Generated at: 2026-05-11T03:33:50.858Z
 
 ## Current mission
 
@@ -18,10 +18,11 @@ Generated at: 2026-05-11T03:31:28.284Z
 - Completed moon fence second clue payoff: Issue #524, PR #525, main CI `25648527223`
 - WorkUnit: `items/0279-moon-fence-route-unlock.md`
 - GitHub issue: #526 `월정 문 route unlock`
+- Draft PR: #527
 - Branch: `codex/v1-moon-fence-route-unlock`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
 - Visual evidence: `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md`
-- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR publication gate pending
+- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR #527 checks pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,22 +40,22 @@ Generated at: 2026-05-11T03:31:28.284Z
 ## Local state
 
 - Branch: codex/v1-moon-fence-route-unlock
-- Latest commit: cb57701 월정 문 route unlock 작업을 고정한다
+- Latest commit: d408cd8 월정 문 route unlock PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T03:31:22.281Z
-- Phase: phaser-v1-moon-fence-route-unlock-ready-for-pr
+- Timestamp: 2026-05-11T03:33:43.995Z
+- Phase: phaser-v1-moon-fence-route-unlock-pr-checks
 - Issue: 526
-- PR:
+- PR: 527
 - Item: items/0279-moon-fence-route-unlock.md
-- Next action: PR publication gate: create draft PR for #526 and watch checks
+- Next action: PR checks gate: watch #527 checks, mark ready, merge, and observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #527 draft 월정 문 route unlock — https://github.com/bborok1234/strange-seed-shop/pull/527
 
 ## Open issues
 

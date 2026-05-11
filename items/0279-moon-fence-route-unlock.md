@@ -2,10 +2,10 @@
 
 ## 상태
 
-- Status: implemented/local-verified
+- Status: pr-open
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #526
-- PR: pending
+- PR: #527
 - Branch: `codex/v1-moon-fence-route-unlock`
 - 연결: Issue #524, PR #525, main CI `25648527223`
 
@@ -86,3 +86,8 @@
 - `git diff --check` pass
 - Visual evidence: `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md`
 - Browser Use blocker: `reports/visual/issue-0526-moon-fence-route-unlock/browser-use-blocker-20260511.md`
+
+## PR
+
+- Draft PR: #527
+- PR body: `reports/operations/github-bodies/pr-526-moon-fence-route-unlock-20260511.md`
