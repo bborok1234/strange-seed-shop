@@ -75,7 +75,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 밤유리 source icon/FX runtime binding | done | Issue #508, PR #509, main CI `25546054078`, `items/0270-night-glass-source-runtime-binding.md`, `public/assets/manifest/assetManifest.json`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0508-night-glass-source-runtime-binding/phaser-check-night-glass-source-preview-393.png` | #507 이후 dedicated PNG 후보가 runtime에 보이지 않는 blocker를 해결했다. manifest accepted entry, Phaser preload/render/FX binding, telemetry/assertion을 추가했고 `npm run check:phaser`, `npm run check:ci`, PR checks, merge, main CI가 통과했다. Browser Use tool unavailable blocker와 Playwright fallback screenshot evidence를 남겼다 |
 | 밤유리 source acquisition route bridge | done | Issue #510, PR #511, main CI `25547115055`, `items/0271-night-glass-source-acquisition-route.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0510-night-glass-source-acquisition-route/visual-report-20260508.md` | #509 이후 `밤유리 source`가 `expedition_night_glass 잠김` preview에 머무르는 blocker를 해결했다. `밤유리 조사 보내기 -> 귀환 상자 열기 -> seed_rare_001 source 획득` route state와 icon/FX reward motion을 연결했고 `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, PR checks, merge, main CI가 통과했다 |
 | 밤유리 source planting loop | done | Issue #512, PR #513, main CI `25547958765`, `items/0272-night-glass-source-planting-loop.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0512-night-glass-source-planting-loop/visual-report-20260508.md` | #511 이후 획득한 `seed_rare_001 source`가 inventory receipt에 머무르는 blocker를 해결했다. 빈 밭 `밤유리 심기` action, source availability 소비, `seed_rare_001_icon` plot overlay/chip, `nightGlassSourceSeedPlanted=true` deterministic screenshot/telemetry를 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
-| 밤유리 source harvest reveal | active | Issue #514, PR #515, `items/0273-night-glass-source-harvest-reveal.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0514-night-glass-source-harvest-reveal/visual-report-20260508.md` | #513 이후 `seed_rare_001` planted 상태가 harvest/reveal payoff 없이 멈추는 blocker를 해결한다. `돌보기 -> 밤유리 수확 -> creature_lunar_rare_001 reveal`, night-glass FX harvest binding, deterministic screenshot/telemetry를 구현했고 `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`가 통과했다. 남은 gate는 PR checks, merge/main CI다 |
+| 밤유리 source harvest reveal | done | Issue #514, PR #515, main CI `25549194431`, `items/0273-night-glass-source-harvest-reveal.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0514-night-glass-source-harvest-reveal/visual-report-20260508.md` | #513 이후 `seed_rare_001` planted 상태가 harvest/reveal payoff 없이 멈추는 blocker를 해결했다. `돌보기 -> 밤유리 수확 -> creature_lunar_rare_001 reveal`, night-glass FX harvest binding, deterministic screenshot/telemetry를 구현했고 local checks, PR checks, merge, main CI가 통과했다 |
+| 밤유리 오로 actor route handoff | active | Issue #516, `items/0274-night-glass-oro-actor-route-handoff.md`, planned `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, planned `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/` | #515 이후 `밤유리 오로 발견`이 reveal marker/HUD에서 멈추는 blocker를 해결한다. accepted `creature_lunar_rare_001`을 `actor_oro` playfield state로 승격하고 `expedition_moon_fence_locked` 다음 route affordance를 plan-first로 연결한다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -401,7 +402,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **밤유리 source harvest reveal**이다. #512/#513은 `seed_rare_001 source 획득 -> 빈 밭 밤유리 심기 -> seed_rare_001 planted`까지 merge/main CI `25547958765`로 통과했다. 다음 blocker는 심은 밤유리 source가 아직 `돌보기 -> 밤유리 수확 -> rare creature reveal` payoff로 이어지지 않는다는 점이다.
+현재 작업은 **밤유리 오로 actor route handoff**이다. #514/#515는 `돌보기 -> 밤유리 수확 -> creature_lunar_rare_001 reveal`까지 merge/main CI `25549194431`로 통과했다. 다음 blocker는 `밤유리 오로 발견`이 아직 정원 actor, 다음 route affordance, 다음 행동으로 이어지지 않는다는 점이다.
 
 현재 evidence:
 
@@ -409,24 +410,23 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed night glass source planting loop: Issue #512, PR #513, main CI `25547958765`
-- WorkUnit: `items/0273-night-glass-source-harvest-reveal.md`
-- GitHub issue: #514 `밤유리 source harvest reveal`
-- Draft PR: #515 `밤유리 source harvest reveal`
-- Branch: `codex/v1-night-glass-source-harvest-reveal`
-- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: `reports/visual/issue-0514-night-glass-source-harvest-reveal/visual-report-20260508.md`
-- Current validation: #514 implementation complete locally; PR #515 published as draft; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks pending
-- Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
+- Completed night glass source harvest reveal: Issue #514, PR #515, main CI `25549194431`
+- WorkUnit: `items/0274-night-glass-oro-actor-route-handoff.md`
+- GitHub issue: #516 `밤유리 오로 actor route handoff`
+- Branch: `codex/v1-night-glass-oro-actor-route-handoff`
+- Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
+- Planned visual evidence: `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/`
+- Current validation: #515 merge/main CI observed; #516 plan-first intake complete; implementation pending
+- Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: #514는 #513 이후 `seed_rare_001` planted 상태가 payoff 없이 멈추는 production gap을 rare harvest/reveal로 해소한다.
-1. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
-2. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
-3. PR publication gate: #514 구현 branch를 draft PR로 게시하고 checks를 감시한다.
-4. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
-5. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
-6. `creature_lunar_rare_001` reveal과 `fx_night_glass_source_unlock_strip_v1` harvest binding이 스크린샷에서 약하면 dedicated reveal FX WorkUnit을 후속으로 분리한다.
+0. Studio Campaign Gate: 다음 slice는 #515 이후 rare 발견이 actor/route handoff 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정한다.
+2. Implementation gate: `GardenState`, Phaser actor/render/HUD, checker를 연결한다.
+3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
+6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
