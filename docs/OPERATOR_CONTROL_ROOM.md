@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T03:02:09.688Z
+Generated at: 2026-05-11T03:16:57.262Z
 
 ## Current mission
 
-현재 작업은 **월정 문 준비 납품 material payoff**이다. #520/#521은 `개방 조건 보기`와 `오로 explorer · 달빛 단서 1/2 · 재료 2/3` requirements surface까지 merge/main CI `25647585415`로 통과했다. 다음 blocker는 부족한 `재료 1`을 정원 화면의 player verb와 crate state로 채우는 행동이 없다는 점이다.
+현재 작업은 **월정 문 두 번째 달빛 단서 payoff**이다. #522/#523은 `월정 문 준비 납품`과 `재료 3/3 ready`까지 merge/main CI `25648143531`로 통과했다. 다음 blocker는 `달빛 단서 1/2`가 route unlock 전 마지막 missing requirement로 남지만 이를 채우는 player verb와 clue stamp state가 없다는 점이다.
 
 현재 evidence:
 
@@ -15,23 +15,23 @@ Generated at: 2026-05-11T03:02:09.688Z
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed moon fence requirements surface: Issue #520, PR #521, main CI `25647585415`
-- WorkUnit: `items/0277-moon-fence-prep-delivery-payoff.md`
-- GitHub issue: #522 `월정 문 준비 납품 material payoff`
-- Draft PR: #523 `월정 문 준비 납품 material payoff`
-- Branch: `codex/v1-moon-fence-prep-delivery-payoff`
+- Completed moon fence prep delivery: Issue #522, PR #523, main CI `25648143531`
+- WorkUnit: `items/0278-moon-fence-second-clue-payoff.md`
+- GitHub issue: #524 `월정 문 두 번째 달빛 단서 payoff`
+- Draft PR: #525 `월정 문 두 번째 달빛 단서 payoff`
+- Branch: `codex/v1-moon-fence-second-clue-payoff`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/visual-report-20260511.md`
-- Current validation: #521 merge/main CI observed; #522 implementation complete locally; draft PR #523 open; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks gate pending
+- Visual evidence: `reports/visual/issue-0524-moon-fence-second-clue-payoff/visual-report-20260511.md`
+- Current validation: #523 merge/main CI observed; #524 implementation complete locally; draft PR #525 open; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #521 이후 `재료 2/3` requirements가 실제 납품 행동 없이 멈추는 production gap을 해소한다.
-1. Intake gate: GitHub issue #522를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
+0. Studio Campaign Gate: 다음 slice는 #523 이후 `달빛 단서 1/2` requirements가 실제 단서 행동 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue #524를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
 2. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
 3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
-4. PR publication gate: draft PR #523을 게시했고 checks를 감시한다.
+4. PR publication gate: draft PR #525를 게시했고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
@@ -39,27 +39,27 @@ Generated at: 2026-05-11T03:02:09.688Z
 
 ## Local state
 
-- Branch: codex/v1-moon-fence-prep-delivery-payoff
-- Latest commit: 47ff26c 월정 문 준비 납품 PR evidence를 준비한다
+- Branch: codex/v1-moon-fence-second-clue-payoff
+- Latest commit: 119e5f2 월정 문 두 번째 단서 PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T03:01:46.466Z
-- Phase: phaser-v1-moon-fence-prep-delivery-payoff-pr-open
-- Issue: 522
-- PR: 523
-- Item: items/0277-moon-fence-prep-delivery-payoff.md
-- Next action: PR checks gate: watch PR #523 required checks, mark ready, merge, then observe main CI
+- Timestamp: 2026-05-11T03:16:31.486Z
+- Phase: phaser-v1-moon-fence-second-clue-payoff-pr-open
+- Issue: 524
+- PR: 525
+- Item: items/0278-moon-fence-second-clue-payoff.md
+- Next action: PR checks gate: watch PR #525 required checks, mark ready, merge, then observe main CI
 
 ## Open PRs
 
-- #523 draft 월정 문 준비 납품 material payoff — https://github.com/bborok1234/strange-seed-shop/pull/523
+- #525 draft 월정 문 두 번째 달빛 단서 payoff — https://github.com/bborok1234/strange-seed-shop/pull/525
 
 ## Open issues
 
-- #522 월정 문 준비 납품 material payoff — https://github.com/bborok1234/strange-seed-shop/issues/522
+- #524 월정 문 두 번째 달빛 단서 payoff — https://github.com/bborok1234/strange-seed-shop/issues/524
 
 ## Playable mode
 
