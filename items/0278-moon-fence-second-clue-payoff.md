@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: plan
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #524
 - PR: TBD
@@ -91,6 +91,25 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 결과
+
+- `GardenState`에 `moonFenceSecondClueAvailable`, `moonFenceSecondCluePackaged`, `moonFenceClueStampVisible`, `moonFenceCluesReady` telemetry를 추가했다.
+- `월정 문 준비 납품` 이후 `달빛 단서 포장` action이 열리고, 실행 후 clue requirement가 `달빛 단서 2/2 ready`로 전환된다.
+- Phaser expedition gate 주변에 compact `단서 도장 · 2/2` chip을 표시하고, HUD/objective/receipt에 `달빛 단서 포장 완료 · 단서 2/2 · 재료 3/3 · 월정 문 열기 대기`를 남긴다.
+- `scripts/check-phaser-foundation.mjs`는 prep delivery 이후 second clue action click, telemetry, screenshot evidence를 assertion한다.
+
+## 검증 결과
+
+- `npm run build:phaser`: 통과
+- `npm run check:phaser`: 통과
+- `npm run check:content`: 통과
+- `npm run check:asset-provenance`: 통과
+- `npm run check:asset-style`: 통과
+- `npm run check:ci`: 통과
+- Second clue evidence: `reports/visual/issue-0524-moon-fence-second-clue-payoff/phaser-check-moon-fence-second-clue-393.png`
+- Visual report: `reports/visual/issue-0524-moon-fence-second-clue-payoff/visual-report-20260511.md`
+- Browser Use blocker: `reports/visual/issue-0524-moon-fence-second-clue-payoff/browser-use-blocker-20260511.md`
 
 ## 리스크
 
