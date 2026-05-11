@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T03:25:23.034Z
+Generated at: 2026-05-11T03:31:28.284Z
 
 ## Current mission
 
-현재 작업은 **월정 문 route unlock**이다. #524/#525는 `달빛 단서 포장`과 `단서 2/2 · 재료 3/3` ready state까지 merge/main CI `25648527223`로 통과했다. 다음 blocker는 요구 조건이 모두 준비됐지만 실제 `월정 문 열기` action과 unlocked route state가 없다는 점이다.
+현재 작업은 **월정 문 route unlock**이다. #524/#525는 `달빛 단서 포장`과 `단서 2/2 · 재료 3/3` ready state까지 merge/main CI `25648527223`로 통과했다. #526 구현은 요구 조건 완료 후 `월정 문 열기` action과 `expedition_moon_fence_unlocked` route state를 연결했고, 다음 gate는 PR publication/check/merge다.
 
 현재 evidence:
 
@@ -19,9 +19,9 @@ Generated at: 2026-05-11T03:25:23.034Z
 - WorkUnit: `items/0279-moon-fence-route-unlock.md`
 - GitHub issue: #526 `월정 문 route unlock`
 - Branch: `codex/v1-moon-fence-route-unlock`
-- Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Planned visual evidence: `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md`
-- Current validation: #525 merge/main CI observed; #526 plan artifact and GitHub issue created; implementation gate pending
+- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
+- Visual evidence: `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md`
+- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,18 +39,18 @@ Generated at: 2026-05-11T03:25:23.034Z
 ## Local state
 
 - Branch: codex/v1-moon-fence-route-unlock
-- Latest commit: c17c9eb Merge pull request #525 from bborok1234/codex/v1-moon-fence-second-clue-payoff
+- Latest commit: cb57701 월정 문 route unlock 작업을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T03:24:40.183Z
-- Phase: phaser-v1-moon-fence-route-unlock-plan
+- Timestamp: 2026-05-11T03:31:22.281Z
+- Phase: phaser-v1-moon-fence-route-unlock-ready-for-pr
 - Issue: 526
 - PR:
 - Item: items/0279-moon-fence-route-unlock.md
-- Next action: Implementation gate: connect moon fence unlock action, route unlocked state, marker, checker, and visual evidence for #526
+- Next action: PR publication gate: create draft PR for #526 and watch checks
 
 ## Open PRs
 

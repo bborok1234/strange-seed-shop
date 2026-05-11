@@ -2,10 +2,10 @@
 
 ## 상태
 
-- Status: plan
+- Status: implemented/local-verified
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #526
-- PR: TBD
+- PR: pending
 - Branch: `codex/v1-moon-fence-route-unlock`
 - 연결: Issue #524, PR #525, main CI `25648527223`
 
@@ -67,3 +67,22 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 결과
+
+- `GardenState`에 `moonFenceUnlockAvailable`, `moonFenceRouteUnlocked`, `moonFenceUnlockedRouteId`, `moonFenceUnlockedMarkerVisible`를 추가했다.
+- `달빛 단서 포장`과 `월정 문 준비 납품`이 모두 끝난 뒤 action rail에 `월정 문 열기`가 노출된다.
+- `월정 문 열기`는 expedition gate를 active/progress 100으로 전환하고 `expedition_moon_fence_unlocked`를 `nextRareRoutePreviewId`, `nextExpeditionRoutePreviewId`, unlocked route telemetry에 고정한다.
+- Phaser board marker는 `월정 문 잠김`에서 `월정 문 열림`으로 바뀌고, HUD surface는 `오로 explorer`, `단서 2/2 ready`, `재료 3/3 ready`를 함께 보여준다.
+- `scripts/check-phaser-foundation.mjs`는 second clue 이후 unlock action click, route unlocked telemetry, marker visibility, final objective/route id를 assertion하고 screenshot evidence를 남긴다.
+
+## 검증 결과
+
+- `npm run check:phaser` pass
+- `npm run check:content` pass
+- `npm run check:asset-provenance` pass
+- `npm run check:asset-style` pass
+- `npm run check:ci` pass
+- `git diff --check` pass
+- Visual evidence: `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md`
+- Browser Use blocker: `reports/visual/issue-0526-moon-fence-route-unlock/browser-use-blocker-20260511.md`

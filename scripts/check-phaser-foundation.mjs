@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0524-moon-fence-second-clue-payoff";
+const OUT_DIR = "reports/visual/issue-0526-moon-fence-route-unlock";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -606,6 +606,10 @@ async function runSmoke() {
       moonFenceSecondCluePackaged: window.__seedGardenMoonFenceSecondCluePackaged ?? false,
       moonFenceClueStampVisible: window.__seedGardenMoonFenceClueStampVisible ?? false,
       moonFenceCluesReady: window.__seedGardenMoonFenceCluesReady ?? false,
+      moonFenceUnlockAvailable: window.__seedGardenMoonFenceUnlockAvailable ?? false,
+      moonFenceRouteUnlocked: window.__seedGardenMoonFenceRouteUnlocked ?? false,
+      moonFenceUnlockedRouteId: window.__seedGardenMoonFenceUnlockedRouteId ?? "",
+      moonFenceUnlockedMarkerVisible: window.__seedGardenMoonFenceUnlockedMarkerVisible ?? false,
       moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
       receipts: window.__seedGardenReceipts ?? []
     }));
@@ -657,10 +661,38 @@ async function runSmoke() {
       moonFenceSecondCluePackaged: window.__seedGardenMoonFenceSecondCluePackaged ?? false,
       moonFenceClueStampVisible: window.__seedGardenMoonFenceClueStampVisible ?? false,
       moonFenceCluesReady: window.__seedGardenMoonFenceCluesReady ?? false,
+      moonFenceUnlockAvailable: window.__seedGardenMoonFenceUnlockAvailable ?? false,
+      moonFenceRouteUnlocked: window.__seedGardenMoonFenceRouteUnlocked ?? false,
+      moonFenceUnlockedRouteId: window.__seedGardenMoonFenceUnlockedRouteId ?? "",
+      moonFenceUnlockedMarkerVisible: window.__seedGardenMoonFenceUnlockedMarkerVisible ?? false,
       moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
       receipts: window.__seedGardenReceipts ?? []
     }));
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-second-clue-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "월정 문 열기" }).click();
+    await page.waitForTimeout(180);
+    const moonFenceRouteUnlocked = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      moonFenceRoutePreviewVisible: window.__seedGardenMoonFenceRoutePreviewVisible ?? false,
+      moonFenceRouteInspected: window.__seedGardenMoonFenceRouteInspected ?? false,
+      moonFenceRequirementSurfaceVisible: window.__seedGardenMoonFenceRequirementSurfaceVisible ?? false,
+      moonFenceRequirementsInspected: window.__seedGardenMoonFenceRequirementsInspected ?? false,
+      moonFenceRequiredClues: window.__seedGardenMoonFenceRequiredClues ?? 0,
+      moonFenceCurrentClues: window.__seedGardenMoonFenceCurrentClues ?? 0,
+      moonFenceRequiredMaterials: window.__seedGardenMoonFenceRequiredMaterials ?? 0,
+      moonFenceCurrentMaterials: window.__seedGardenMoonFenceCurrentMaterials ?? 0,
+      moonFenceMaterialsReady: window.__seedGardenMoonFenceMaterialsReady ?? false,
+      moonFenceCluesReady: window.__seedGardenMoonFenceCluesReady ?? false,
+      moonFenceUnlockAvailable: window.__seedGardenMoonFenceUnlockAvailable ?? false,
+      moonFenceRouteUnlocked: window.__seedGardenMoonFenceRouteUnlocked ?? false,
+      moonFenceUnlockedRouteId: window.__seedGardenMoonFenceUnlockedRouteId ?? "",
+      moonFenceUnlockedMarkerVisible: window.__seedGardenMoonFenceUnlockedMarkerVisible ?? false,
+      nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-route-unlocked-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -735,6 +767,10 @@ async function runSmoke() {
       moonFenceSecondCluePackaged: window.__seedGardenMoonFenceSecondCluePackaged ?? false,
       moonFenceClueStampVisible: window.__seedGardenMoonFenceClueStampVisible ?? false,
       moonFenceCluesReady: window.__seedGardenMoonFenceCluesReady ?? false,
+      moonFenceUnlockAvailable: window.__seedGardenMoonFenceUnlockAvailable ?? false,
+      moonFenceRouteUnlocked: window.__seedGardenMoonFenceRouteUnlocked ?? false,
+      moonFenceUnlockedRouteId: window.__seedGardenMoonFenceUnlockedRouteId ?? "",
+      moonFenceUnlockedMarkerVisible: window.__seedGardenMoonFenceUnlockedMarkerVisible ?? false,
       moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
       nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
@@ -1509,6 +1545,33 @@ async function runSmoke() {
     if (!moonFenceSecondClue.railText.includes("재료 3/3")) {
       failures.push("missing moon fence material ready HUD text after second clue packaging");
     }
+    if (!moonFenceSecondClue.moonFenceUnlockAvailable) {
+      failures.push("missing moon fence unlock action availability after second clue packaging");
+    }
+    if (moonFenceSecondClue.moonFenceRouteUnlocked) {
+      failures.push("moon fence route unlocked before clicking unlock action");
+    }
+    if (!moonFenceSecondClue.railText.includes("월정 문 열기")) {
+      failures.push("missing moon fence unlock action after second clue packaging");
+    }
+    if (!moonFenceRouteUnlocked.moonFenceRouteUnlocked) {
+      failures.push("moon fence route unlocked telemetry missing");
+    }
+    if (!moonFenceRouteUnlocked.moonFenceUnlockedMarkerVisible) {
+      failures.push("moon fence unlocked marker telemetry missing");
+    }
+    if (moonFenceRouteUnlocked.moonFenceUnlockedRouteId !== "expedition_moon_fence_unlocked") {
+      failures.push(`expected moon fence unlocked route id expedition_moon_fence_unlocked, got ${moonFenceRouteUnlocked.moonFenceUnlockedRouteId}`);
+    }
+    if (moonFenceRouteUnlocked.nextRareRoutePreviewId !== "expedition_moon_fence_unlocked") {
+      failures.push(`expected next rare route id expedition_moon_fence_unlocked, got ${moonFenceRouteUnlocked.nextRareRoutePreviewId}`);
+    }
+    if (!moonFenceRouteUnlocked.objective.includes("월정 문 열림")) {
+      failures.push("missing moon fence unlocked objective");
+    }
+    if (!moonFenceRouteUnlocked.railText.includes("월정 문 열림")) {
+      failures.push("missing moon fence unlocked HUD text");
+    }
     if (nightGlassRevealed.plotStates.some((plot) => plot.seedId === "seed_rare_001")) {
       failures.push("seed_rare_001 plot stayed occupied after harvest");
     }
@@ -1558,7 +1621,7 @@ async function runSmoke() {
     if (!evidence.expeditionSourcePreviewVisible) {
       failures.push("source preview missing from final evidence");
     }
-    if (evidence.nextExpeditionRoutePreviewId !== "expedition_moon_fence_locked") {
+    if (evidence.nextExpeditionRoutePreviewId !== "expedition_moon_fence_unlocked") {
       failures.push(`expected final moon fence route preview id, got ${evidence.nextExpeditionRoutePreviewId}`);
     }
     if (evidence.lunarSourceSeedId !== "seed_lunar_002") {
@@ -1666,11 +1729,20 @@ async function runSmoke() {
     if (!evidence.moonFenceCluesReady) {
       failures.push("final moon fence clues ready telemetry missing");
     }
+    if (!evidence.moonFenceRouteUnlocked) {
+      failures.push("final moon fence route unlocked telemetry missing");
+    }
+    if (!evidence.moonFenceUnlockedMarkerVisible) {
+      failures.push("final moon fence unlocked marker telemetry missing");
+    }
+    if (evidence.moonFenceUnlockedRouteId !== "expedition_moon_fence_unlocked") {
+      failures.push(`expected final moon fence unlocked route id expedition_moon_fence_unlocked, got ${evidence.moonFenceUnlockedRouteId}`);
+    }
     if (evidence.moonFenceRequiredExplorerId !== "actor_oro") {
       failures.push(`expected final moon fence explorer actor_oro, got ${evidence.moonFenceRequiredExplorerId}`);
     }
-    if (evidence.nextRareRoutePreviewId !== "expedition_moon_fence_locked") {
-      failures.push(`expected final next rare route preview id expedition_moon_fence_locked, got ${evidence.nextRareRoutePreviewId}`);
+    if (evidence.nextRareRoutePreviewId !== "expedition_moon_fence_unlocked") {
+      failures.push(`expected final next rare route preview id expedition_moon_fence_unlocked, got ${evidence.nextRareRoutePreviewId}`);
     }
     if (!evidence.actorIds.includes("actor_oro")) {
       failures.push("final actor_oro missing");
@@ -1681,8 +1753,8 @@ async function runSmoke() {
     if (evidence.nightGlassRewardLeaves !== 0) {
       failures.push(`expected final night glass reward leaves 0, got ${evidence.nightGlassRewardLeaves}`);
     }
-    if (!evidence.objective.includes("달빛 단서 포장 완료") || !evidence.objective.includes("단서 2/2")) {
-      failures.push("missing moon fence second clue final objective");
+    if (!evidence.objective.includes("월정 문 열림") || !evidence.objective.includes("expedition_moon_fence_unlocked")) {
+      failures.push("missing moon fence route unlock final objective");
     }
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
@@ -1812,7 +1884,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-moon-fence-route-action-393.png`,
         `${OUT_DIR}/phaser-check-moon-fence-requirements-393.png`,
         `${OUT_DIR}/phaser-check-moon-fence-prep-delivery-393.png`,
-        `${OUT_DIR}/phaser-check-moon-fence-second-clue-393.png`
+        `${OUT_DIR}/phaser-check-moon-fence-second-clue-393.png`,
+        `${OUT_DIR}/phaser-check-moon-fence-route-unlocked-393.png`
       ],
       failures
     };

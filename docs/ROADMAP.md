@@ -81,7 +81,7 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 월정 문 unlock requirements surface | done | Issue #520, PR #521, main CI `25647585415`, `items/0276-moon-fence-unlock-requirements-surface.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/visual-report-20260511.md` | #519 이후 `월정 문 단서 확인`이 locked marker에서 멈추는 blocker를 해결했다. `개방 조건 보기` player verb와 `오로 explorer`, `달빛 단서 1/2`, `재료 2/3` 요구 조건 surface를 HUD/playfield/telemetry/checker에 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
 | 월정 문 준비 납품 material payoff | done | Issue #522, PR #523, main CI `25648143531`, `items/0277-moon-fence-prep-delivery-payoff.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/visual-report-20260511.md` | #521 이후 requirements surface가 `재료 2/3` 부족 상태에서 멈추는 blocker를 해결했다. `월정 문 준비 납품` player verb, expedition gate prep crate/chip state, material `3/3` ready telemetry, remaining `달빛 단서 1/2` blocker를 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
 | 월정 문 두 번째 달빛 단서 payoff | done | Issue #524, PR #525, main CI `25648527223`, `items/0278-moon-fence-second-clue-payoff.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0524-moon-fence-second-clue-payoff/visual-report-20260511.md` | #523 이후 material은 `3/3 ready`지만 `달빛 단서 1/2`가 남아 route unlock 전 마지막 blocker가 텍스트로만 남는 문제를 해결했다. `달빛 단서 포장` player verb, clue stamp/chip state, clue `2/2` ready telemetry를 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
-| 월정 문 route unlock | active | Issue #526, `items/0279-moon-fence-route-unlock.md`, `reports/operations/github-bodies/issue-0279-moon-fence-route-unlock-20260511.md` | #525 이후 단서/재료/explorer가 모두 ready지만 실제 `월정 문 열기` action과 unlocked route state가 없다. `월정 문 열기` player verb, `expedition_moon_fence_unlocked` route id, unlocked marker telemetry를 구현할 계획이다 |
+| 월정 문 route unlock | active | Issue #526, `items/0279-moon-fence-route-unlock.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md` | #525 이후 단서/재료/explorer가 모두 ready지만 실제 `월정 문 열기` action과 unlocked route state가 없던 blocker를 구현으로 해소했다. `월정 문 열기` player verb, `expedition_moon_fence_unlocked` route id, unlocked marker telemetry가 local checks로 검증됐고 PR publication/check gate로 이동한다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -407,7 +407,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **월정 문 route unlock**이다. #524/#525는 `달빛 단서 포장`과 `단서 2/2 · 재료 3/3` ready state까지 merge/main CI `25648527223`로 통과했다. 다음 blocker는 요구 조건이 모두 준비됐지만 실제 `월정 문 열기` action과 unlocked route state가 없다는 점이다.
+현재 작업은 **월정 문 route unlock**이다. #524/#525는 `달빛 단서 포장`과 `단서 2/2 · 재료 3/3` ready state까지 merge/main CI `25648527223`로 통과했다. #526 구현은 요구 조건 완료 후 `월정 문 열기` action과 `expedition_moon_fence_unlocked` route state를 연결했고, 다음 gate는 PR publication/check/merge다.
 
 현재 evidence:
 
@@ -419,9 +419,9 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - WorkUnit: `items/0279-moon-fence-route-unlock.md`
 - GitHub issue: #526 `월정 문 route unlock`
 - Branch: `codex/v1-moon-fence-route-unlock`
-- Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Planned visual evidence: `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md`
-- Current validation: #525 merge/main CI observed; #526 plan artifact and GitHub issue created; implementation gate pending
+- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
+- Visual evidence: `reports/visual/issue-0526-moon-fence-route-unlock/visual-report-20260511.md`
+- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
