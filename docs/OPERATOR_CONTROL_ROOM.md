@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T02:21:58.118Z
+Generated at: 2026-05-11T02:23:55.804Z
 
 ## Current mission
 
@@ -21,7 +21,7 @@ Generated at: 2026-05-11T02:21:58.118Z
 - Branch: `codex/v1-night-glass-oro-moon-fence-route-action`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
 - Visual evidence: `reports/visual/issue-0518-night-glass-oro-moon-fence-route-action/visual-report-20260511.md`
-- Current validation: #517 merge/main CI observed; #518 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci` passed; PR publication gate pending
+- Current validation: #517 merge/main CI observed; #518 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; draft PR #519 open and PR checks pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,22 +39,22 @@ Generated at: 2026-05-11T02:21:58.118Z
 ## Local state
 
 - Branch: codex/v1-night-glass-oro-moon-fence-route-action
-- Latest commit: 17bf359 밤유리 오로 월정 문 route action 작업을 고정한다
+- Latest commit: b51c3dc 밤유리 오로 route action PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T02:21:56.320Z
-- Phase: phaser-v1-night-glass-oro-moon-fence-route-action-ready-for-pr
+- Timestamp: 2026-05-11T02:23:54.282Z
+- Phase: phaser-v1-night-glass-oro-moon-fence-route-action-pr-open
 - Issue: 518
-- PR:
+- PR: 519
 - Item: items/0275-night-glass-oro-moon-fence-route-action.md
-- Next action: PR publication gate: commit implementation evidence and create draft PR for #518
+- Next action: PR checks gate: watch PR #519 required checks, mark ready, merge, then observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #519 draft 밤유리 오로 월정 문 route action — https://github.com/bborok1234/strange-seed-shop/pull/519
 
 ## Open issues
 

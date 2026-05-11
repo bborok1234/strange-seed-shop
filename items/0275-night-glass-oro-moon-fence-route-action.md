@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #518
-- PR: TBD
+- PR: #519
 - Branch: `codex/v1-night-glass-oro-moon-fence-route-action`
 - 연결: Issue #516, PR #517, main CI `25646641343`
 
