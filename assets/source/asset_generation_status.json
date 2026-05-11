@@ -2,8 +2,8 @@
   "source_prompts": "assets/source/asset_prompts.json",
   "generated_at": "2026-05-08",
   "generation_mode": "hybrid_codex_native_and_openai_images_api",
-  "total": 70,
-  "completed": 70,
+  "total": 72,
+  "completed": 72,
   "missing": [],
   "blocked": false,
   "notes": [
@@ -18,7 +18,8 @@
     "issue_0228_momo_work_celebrate_sprite: 2 gpt-image-2 support actor sprite strips generated, alpha-cut, strict-strip normalized, and registered as accepted manifest assets for Momo work/celebrate gameplay.",
     "issue_0237_topology_asset_generation_review: 14 gpt-image-2 topology candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque after transparent background was rejected; review report marks non-background assets for alpha/background cleanup before manifest/runtime integration.",
     "issue_0494_expedition_gate_raster_review: 3 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque after transparent background was rejected; facilities alpha-cleaned and FX normalized to strict 8x96x96 strip for review.",
-    "issue_0506_night_glass_source_asset_generation_review: 2 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque; rare source icon alpha-cleaned and unlock FX normalized to strict 8x96x96 strip for review."
+    "issue_0506_night_glass_source_asset_generation_review: 2 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque; rare source icon alpha-cleaned and unlock FX normalized to strict 8x96x96 strip for review.",
+    "issue_0532_moon_grove_source_asset_generation_review: 2 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque; seed alpha-cleaned and reward FX normalized to strict 8x96x96 strip for review."
   ],
   "outputs": [
     "public/assets/game/creatures/creature_herb_common_001.png",
@@ -90,7 +91,9 @@
     "public/assets/game/facilities/facility_expedition_return_crate_v1.png",
     "public/assets/game/fx/fx_expedition_return_reward_strip_v1.png",
     "public/assets/game/seeds/seed_rare_001_icon.png",
-    "public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png"
+    "public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png",
+    "public/assets/game/seeds/seed_moon_grove_001_icon.png",
+    "public/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png"
   ],
   "batches": {
     "p0_5_core_asset_generation_first_pass": {
@@ -1036,6 +1039,76 @@
             "expectedWidth": 768,
             "expectedHeight": 96,
             "binding": "night_glass_source.action.preview_unlock"
+          }
+        }
+      ]
+    },
+    "issue_0532_moon_grove_source_asset_generation_review": {
+      "total": 2,
+      "completed": 2,
+      "missing": [],
+      "blocked": false,
+      "generated_at": "2026-05-11T04:26:08.870Z",
+      "completed_assets": [
+        {
+          "asset_id": "seed_moon_grove_001_icon",
+          "output_path": "public/assets/game/seeds/seed_moon_grove_001_icon.png",
+          "status": "manifest_candidate_requires_runtime_binding",
+          "width": 1024,
+          "height": 1024,
+          "channels": 4,
+          "has_alpha": true,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/seed_moon_grove_001_icon/2026-05-11T04-17-47-086Z.png",
+          "review_required": true,
+          "post_processing": [
+            "border_connected_checkerboard_alpha_cleanup"
+          ],
+          "notes": "Issue #532 gpt-image-2 opaque candidate with border-connected checkerboard alpha cleanup; manifest/runtime binding remains follow-up.",
+          "cleanup": {
+            "width": 1024,
+            "height": 1024,
+            "clearedPixels": 802459,
+            "clearedPercent": 76.53,
+            "backgroundSamples": 14
+          }
+        },
+        {
+          "asset_id": "fx_moon_grove_source_reward_strip_v1",
+          "output_path": "public/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png",
+          "status": "normalized_runtime_strip_requires_manifest_binding",
+          "width": 768,
+          "height": 96,
+          "channels": 4,
+          "has_alpha": true,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/fx_moon_grove_source_reward_strip_v1/2026-05-11T04-20-43-733Z.png",
+          "review_required": true,
+          "post_processing": [
+            "border_connected_checkerboard_alpha_cleanup",
+            "strict_strip_normalization"
+          ],
+          "notes": "Issue #532 normalized strict 8x96x96 runtime strip from gpt-image-2 opaque source candidate; manifest/runtime binding remains follow-up.",
+          "cleanup": {
+            "width": 1024,
+            "height": 1024,
+            "clearedPixels": 1010170,
+            "clearedPercent": 96.34,
+            "backgroundSamples": 13
+          },
+          "normalization": {
+            "frames": 8,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 12,
+            "repeat": 0,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 96,
+            "binding": "moon_fence.reward.action.claim_source_clue"
           }
         }
       ]

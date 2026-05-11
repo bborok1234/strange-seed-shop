@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T04:16:48.839Z
+Generated at: 2026-05-11T04:28:42.014Z
 
 ## Current mission
 
@@ -20,16 +20,16 @@ Generated at: 2026-05-11T04:16:48.839Z
 - GitHub issue: #532 `월정 숲 source asset generation-review`
 - Branch: `codex/v1-moon-grove-source-asset-generation-review`
 - Runtime binding: N/A - static asset generation/review only
-- Visual evidence: Pending - generated asset contact sheet/review report
-- Current validation: intake/plan-first complete; image generation/review pending
+- Visual evidence: `reports/assets/moon_grove_source_asset_contact_sheet_20260511.png`, `reports/assets/moon_grove_source_asset_review_20260511.md`
+- Current validation: generated/reviewed two moon-grove PNG candidates; `npm run check:moon-grove-source-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:topology-generated-assets`, `npm run check:ci`, `git diff --check` pass; PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
 0. Studio Campaign Gate: 다음 slice는 #531 이후 generation-ready prompt가 실제 PNG 후보 없이 멈추는 production gap을 해소한다.
 1. Intake gate: GitHub issue #532를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
-2. Implementation gate: `seed_moon_grove_001_icon.png`, `fx_moon_grove_source_reward_strip_v1.png`를 생성/리뷰한다.
-3. Local verification gate: `npm run check:topology-generated-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+2. Implementation gate: `seed_moon_grove_001_icon.png`, `fx_moon_grove_source_reward_strip_v1.png`를 생성/리뷰했다.
+3. Local verification gate: `npm run check:moon-grove-source-assets`, `npm run check:topology-generated-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과했다.
 4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
@@ -39,18 +39,18 @@ Generated at: 2026-05-11T04:16:48.839Z
 ## Local state
 
 - Branch: codex/v1-moon-grove-source-asset-generation-review
-- Latest commit: 670ac86 Merge pull request #531 from bborok1234/codex/v1-moon-grove-source-asset-plan-prompt
+- Latest commit: 0da1ad9 월정 숲 source asset 생성을 계획한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T04:16:47.329Z
-- Phase: phaser-v1-moon-grove-source-asset-generation-plan
+- Timestamp: 2026-05-11T04:28:40.475Z
+- Phase: phaser-v1-moon-grove-source-asset-generation-ready-for-pr
 - Issue: 532
 - PR:
 - Item: items/0282-moon-grove-source-asset-generation-review.md
-- Next action: Implementation gate: generate seed_moon_grove_001_icon and fx_moon_grove_source_reward_strip_v1 PNG assets
+- Next action: PR publication gate: create draft PR for #532 and watch checks
 
 ## Open PRs
 

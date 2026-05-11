@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: planned
+- Status: implemented/local-verified
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #532
 - PR: TBD
@@ -66,3 +66,23 @@
 
 - Codex native image generation save path가 workspace file로 확보되지 않거나, gpt-image-2 API가 quota/credential/model access로 막히면 blocker report를 남긴다.
 - 실제 runtime manifest accepted binding과 Phaser render 연결은 후속 WorkUnit에서 처리한다.
+
+## 구현 결과
+
+- `SEED_ASSET_IMAGE_BACKGROUND=opaque`와 gpt-image-2로 `seed_moon_grove_001_icon` 후보를 생성했다.
+- `SEED_ASSET_IMAGE_BACKGROUND=opaque`와 gpt-image-2로 `fx_moon_grove_source_reward_strip_v1` 후보를 생성했다.
+- `scripts/postprocess-moon-grove-source-assets.mjs`로 border-connected checkerboard alpha cleanup을 적용했다.
+- `fx_moon_grove_source_reward_strip_v1`을 8 frames, 96x96, 12fps, `moon_fence.reward.action.claim_source_clue` strict strip으로 정규화했다.
+- Review/contact sheet:
+  - `reports/assets/moon_grove_source_asset_review_20260511.md`
+  - `reports/assets/moon_grove_source_asset_contact_sheet_20260511.png`
+
+## 검증 결과
+
+- Pass: `npm run check:moon-grove-source-assets`
+- Pass: `npm run check:asset-provenance`
+- Pass: `npm run check:asset-style`
+- Pass: `npm run check:asset-alpha`
+- Pass: `npm run check:topology-generated-assets`
+- Pass: `npm run check:ci`
+- Pass: `git diff --check`
