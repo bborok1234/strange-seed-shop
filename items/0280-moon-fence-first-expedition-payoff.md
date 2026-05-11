@@ -2,10 +2,10 @@
 
 ## 상태
 
-- Status: implemented/local-verified
+- Status: pr-open
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #528
-- PR: TBD
+- PR: #529
 - Branch: `codex/v1-moon-fence-first-expedition-payoff`
 - 연결: Issue #526, PR #527, main CI `25648977133`
 
@@ -121,3 +121,8 @@
 - `git diff --check` pass
 - Visual evidence: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md`
 - Browser Use blocker: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/browser-use-blocker-20260511.md`
+
+## PR
+
+- Draft PR: #529
+- PR body: `reports/operations/github-bodies/pr-528-moon-fence-first-expedition-payoff-20260511.md`

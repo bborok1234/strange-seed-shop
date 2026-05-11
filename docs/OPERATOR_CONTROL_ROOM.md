@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T03:51:06.015Z
+Generated at: 2026-05-11T03:53:02.471Z
 
 ## Current mission
 
@@ -18,10 +18,11 @@ Generated at: 2026-05-11T03:51:06.015Z
 - Completed moon fence route unlock: Issue #526, PR #527, main CI `25648977133`
 - WorkUnit: `items/0280-moon-fence-first-expedition-payoff.md`
 - GitHub issue: #528 `월정 문 첫 원정 payoff`
+- Draft PR: #529
 - Branch: `codex/v1-moon-fence-first-expedition-payoff`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
 - Visual evidence: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md`
-- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR publication gate pending
+- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR #529 checks pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,22 +40,22 @@ Generated at: 2026-05-11T03:51:06.015Z
 ## Local state
 
 - Branch: codex/v1-moon-fence-first-expedition-payoff
-- Latest commit: 428e637 월정 문 첫 원정 payoff 작업을 고정한다
+- Latest commit: 2d79ca6 월정 문 첫 원정 PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T03:50:59.300Z
-- Phase: phaser-v1-moon-fence-first-expedition-ready-for-pr
+- Timestamp: 2026-05-11T03:52:53.842Z
+- Phase: phaser-v1-moon-fence-first-expedition-pr-checks
 - Issue: 528
-- PR:
+- PR: 529
 - Item: items/0280-moon-fence-first-expedition-payoff.md
-- Next action: PR publication gate: create draft PR for #528 and watch checks
+- Next action: PR checks gate: watch #529 checks, mark ready, merge, and observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #529 draft 월정 문 첫 원정 payoff — https://github.com/bborok1234/strange-seed-shop/pull/529
 
 ## Open issues
 
