@@ -14,6 +14,7 @@ import {
   getSlot,
   harvestSelectedPlot,
   inspectMoonFenceRoute,
+  inspectMoonFenceRequirements,
   inspectResearchShelfPreview,
   LUNAR_SOURCE_SEED_ID,
   markBackyardGapExpeditionReturned,
@@ -24,6 +25,8 @@ import {
   NIGHT_GLASS_ROUTE_PREVIEW_ID,
   NIGHT_GLASS_SOURCE_SEED_ID,
   NEXT_EXPEDITION_ROUTE_PREVIEW_ID,
+  MOON_FENCE_REQUIRED_CLUES,
+  MOON_FENCE_REQUIRED_MATERIALS,
   plantLunarSourceSeed,
   plantNightGlassSourceSeed,
   plantResearchNextGoalSeed,
@@ -358,6 +361,20 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.moonFenceRoutePreviewVisible;
     (window as unknown as { __seedGardenMoonFenceRouteInspected?: boolean }).__seedGardenMoonFenceRouteInspected =
       gameState.moonFenceRouteInspected;
+    (window as unknown as { __seedGardenMoonFenceRequirementSurfaceVisible?: boolean })
+      .__seedGardenMoonFenceRequirementSurfaceVisible = gameState.moonFenceRequirementSurfaceVisible;
+    (window as unknown as { __seedGardenMoonFenceRequirementsInspected?: boolean })
+      .__seedGardenMoonFenceRequirementsInspected = gameState.moonFenceRequirementsInspected;
+    (window as unknown as { __seedGardenMoonFenceRequiredClues?: number }).__seedGardenMoonFenceRequiredClues =
+      gameState.moonFenceRequiredClues;
+    (window as unknown as { __seedGardenMoonFenceCurrentClues?: number }).__seedGardenMoonFenceCurrentClues =
+      gameState.moonFenceCurrentClues;
+    (window as unknown as { __seedGardenMoonFenceRequiredMaterials?: number }).__seedGardenMoonFenceRequiredMaterials =
+      gameState.moonFenceRequiredMaterials;
+    (window as unknown as { __seedGardenMoonFenceCurrentMaterials?: number }).__seedGardenMoonFenceCurrentMaterials =
+      gameState.moonFenceCurrentMaterials;
+    (window as unknown as { __seedGardenMoonFenceRequiredExplorerId?: string }).__seedGardenMoonFenceRequiredExplorerId =
+      gameState.moonFenceRequiredExplorerId ?? "";
     (window as unknown as { __seedGardenNextRareRoutePreviewId?: string }).__seedGardenNextRareRoutePreviewId =
       gameState.nextRareRoutePreviewId ?? "";
     (window as unknown as { __seedGardenNightGlassRewardLeaves?: number }).__seedGardenNightGlassRewardLeaves =
@@ -807,6 +824,21 @@ class GardenBoardScene extends Phaser.Scene {
           })
           .setOrigin(0.5);
         container.add(moonFence);
+
+        if (gameState.moonFenceRequirementSurfaceVisible) {
+          const requirements = this.add
+            .text(0, 49, `조건 ${gameState.moonFenceCurrentClues}/${MOON_FENCE_REQUIRED_CLUES} · ${gameState.moonFenceCurrentMaterials}/${MOON_FENCE_REQUIRED_MATERIALS}`, {
+              align: "center",
+              backgroundColor: "rgba(245, 238, 194, 0.9)",
+              color: "#263259",
+              fontFamily: "system-ui, sans-serif",
+              fontSize: "9px",
+              fontStyle: "800",
+              padding: { x: 6, y: 2 }
+            })
+            .setOrigin(0.5);
+          container.add(requirements);
+        }
       }
     }
 
@@ -1183,6 +1215,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "start_night_glass"
       | "claim_night_glass"
       | "inspect_moon_fence"
+      | "inspect_moon_fence_requirements"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -1231,6 +1264,9 @@ class GardenBoardScene extends Phaser.Scene {
       this.pendingFx = { kind: "nightGlassAcquire", slotId: selectedSlotId };
     } else if (action === "inspect_moon_fence") {
       inspectMoonFenceRoute(gameState);
+      this.pendingFx = { kind: "nightGlassAcquire", slotId: "facility_expedition_gate" };
+    } else if (action === "inspect_moon_fence_requirements") {
+      inspectMoonFenceRequirements(gameState);
       this.pendingFx = { kind: "nightGlassAcquire", slotId: "facility_expedition_gate" };
     } else if (action === "care") {
       careSelectedPlot(gameState);
@@ -1391,11 +1427,23 @@ class GardenBoardScene extends Phaser.Scene {
     if (gameState.moonFenceRoutePreviewVisible) {
       const moonFenceSurface = document.createElement("div");
       moonFenceSurface.className = "collection-goal-surface";
+      const moonFenceText = gameState.moonFenceRequirementSurfaceVisible
+        ? `오로 explorer · 달빛 단서 ${gameState.moonFenceCurrentClues}/${gameState.moonFenceRequiredClues} · 재료 ${gameState.moonFenceCurrentMaterials}/${gameState.moonFenceRequiredMaterials}`
+        : `${NEXT_EXPEDITION_ROUTE_PREVIEW_ID} locked · 다음 expedition route`;
       moonFenceSurface.innerHTML = `
         <strong>월정 문 단서 확인</strong>
-        <span>${NEXT_EXPEDITION_ROUTE_PREVIEW_ID} locked · 다음 expedition route</span>
+        <span>${moonFenceText}</span>
       `;
       this.hud.actions.appendChild(moonFenceSurface);
+    }
+    if (gameState.moonFenceRequirementSurfaceVisible) {
+      const requirementSurface = document.createElement("div");
+      requirementSurface.className = "collection-goal-surface";
+      requirementSurface.innerHTML = `
+        <strong>월정 문 개방 조건</strong>
+        <span>오로 explorer · 달빛 단서 ${gameState.moonFenceCurrentClues}/${gameState.moonFenceRequiredClues} · 재료 ${gameState.moonFenceCurrentMaterials}/${gameState.moonFenceRequiredMaterials}</span>
+      `;
+      this.hud.actions.appendChild(requirementSurface);
     }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
@@ -1415,7 +1463,9 @@ class GardenBoardScene extends Phaser.Scene {
       } else if (gameState.nightGlassSourcePreviewVisible) {
         empty.textContent = gameState.nightGlassOroActorJoined
           ? gameState.moonFenceRouteInspected
-            ? "월정 문 단서 확인됨"
+            ? gameState.moonFenceRequirementsInspected
+              ? "월정 문 개방 조건 확인됨"
+              : "월정 문 개방 조건 대기"
             : gameState.nightGlassOroRouteActionAvailable
               ? "월정 문 단서 보기 대기"
               : `${NIGHT_GLASS_RARE_CREATURE_NAME} 합류`
@@ -1512,7 +1562,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "preview_night_glass"
       | "start_night_glass"
       | "claim_night_glass"
-      | "inspect_moon_fence";
+      | "inspect_moon_fence"
+      | "inspect_moon_fence_requirements";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -1539,6 +1590,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (state.nightGlassOroRouteActionAvailable && !state.moonFenceRouteInspected) {
       return [{ id: "inspect_moon_fence", label: "월정 문 단서 보기" }];
+    }
+    if (state.moonFenceRouteInspected && !state.moonFenceRequirementsInspected) {
+      return [{ id: "inspect_moon_fence_requirements", label: "개방 조건 보기" }];
     }
     if (facility?.kind === "expedition_gate" && state.expeditionState === "ready") {
       return [{ id: "start_expedition", label: "틈새길 보내기" }];

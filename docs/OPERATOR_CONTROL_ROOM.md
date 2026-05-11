@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T02:33:03.359Z
+Generated at: 2026-05-11T02:37:23.923Z
 
 ## Current mission
 
@@ -20,8 +20,8 @@ Generated at: 2026-05-11T02:33:03.359Z
 - GitHub issue: #520 `월정 문 unlock requirements surface`
 - Branch: `codex/v1-moon-fence-unlock-requirements-surface`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: pending
-- Current validation: #519 merge/main CI observed; #520 GitHub issue and plan artifact created; implementation gate pending
+- Visual evidence: `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/visual-report-20260511.md`
+- Current validation: #519 merge/main CI observed; #520 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci` passed; PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,18 +39,18 @@ Generated at: 2026-05-11T02:33:03.359Z
 ## Local state
 
 - Branch: codex/v1-moon-fence-unlock-requirements-surface
-- Latest commit: e968811 Merge pull request #519 from bborok1234/codex/v1-night-glass-oro-moon-fence-route-action
+- Latest commit: 4fabe8c 월정 문 unlock requirements 작업을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T02:33:01.880Z
-- Phase: phaser-v1-moon-fence-unlock-requirements-surface-plan
+- Timestamp: 2026-05-11T02:37:22.133Z
+- Phase: phaser-v1-moon-fence-unlock-requirements-surface-ready-for-pr
 - Issue: 520
 - PR:
 - Item: items/0276-moon-fence-unlock-requirements-surface.md
-- Next action: Implementation gate: connect moon fence unlock requirements action, HUD, checker, and visual evidence for #520
+- Next action: PR publication gate: commit implementation evidence and create draft PR for #520
 
 ## Open PRs
 

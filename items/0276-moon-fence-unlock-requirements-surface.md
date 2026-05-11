@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: plan
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #520
 - PR: TBD
@@ -64,6 +64,25 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 결과
+
+- `GardenState`에 `moonFenceRequirementSurfaceVisible`, `moonFenceRequirementsInspected`, required/current clue/material/explorer telemetry를 추가했다.
+- `월정 문 단서 보기` 이후 `개방 조건 보기` action이 열리고, 실행 후 `오로 explorer`, `달빛 단서 1/2`, `재료 2/3` 조건이 objective/HUD/playfield/telemetry에 남는다.
+- Phaser expedition gate는 existing gate/night-glass FX 위에 compact 조건 chip을 표시한다.
+- `scripts/check-phaser-foundation.mjs`는 #518 route action 이후 requirements action click, telemetry, screenshot evidence를 assertion한다.
+
+## 검증 결과
+
+- `npm run build:phaser`: 통과
+- `npm run check:phaser`: 통과
+- `npm run check:content`: 통과
+- `npm run check:asset-provenance`: 통과
+- `npm run check:asset-style`: 통과
+- `npm run check:ci`: 통과
+- Requirements evidence: `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/phaser-check-moon-fence-requirements-393.png`
+- Visual report: `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/visual-report-20260511.md`
+- Browser Use blocker: `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/browser-use-blocker-20260511.md`
 
 ## 리스크
 

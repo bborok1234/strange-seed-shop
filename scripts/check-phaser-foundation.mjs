@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0518-night-glass-oro-moon-fence-route-action";
+const OUT_DIR = "reports/visual/issue-0520-moon-fence-unlock-requirements-surface";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -551,6 +551,13 @@ async function runSmoke() {
       nightGlassOroRouteActionAvailable: window.__seedGardenNightGlassOroRouteActionAvailable ?? false,
       moonFenceRoutePreviewVisible: window.__seedGardenMoonFenceRoutePreviewVisible ?? false,
       moonFenceRouteInspected: window.__seedGardenMoonFenceRouteInspected ?? false,
+      moonFenceRequirementSurfaceVisible: window.__seedGardenMoonFenceRequirementSurfaceVisible ?? false,
+      moonFenceRequirementsInspected: window.__seedGardenMoonFenceRequirementsInspected ?? false,
+      moonFenceRequiredClues: window.__seedGardenMoonFenceRequiredClues ?? 0,
+      moonFenceCurrentClues: window.__seedGardenMoonFenceCurrentClues ?? 0,
+      moonFenceRequiredMaterials: window.__seedGardenMoonFenceRequiredMaterials ?? 0,
+      moonFenceCurrentMaterials: window.__seedGardenMoonFenceCurrentMaterials ?? 0,
+      moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
       nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
       nightGlassSourceFxKey: window.__seedGardenNightGlassSourceFxKey ?? "",
@@ -577,6 +584,24 @@ async function runSmoke() {
     }));
     await page.waitForTimeout(160);
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-route-action-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "개방 조건 보기" }).click();
+    await page.waitForTimeout(180);
+    const moonFenceRequirements = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      moonFenceRoutePreviewVisible: window.__seedGardenMoonFenceRoutePreviewVisible ?? false,
+      moonFenceRouteInspected: window.__seedGardenMoonFenceRouteInspected ?? false,
+      moonFenceRequirementSurfaceVisible: window.__seedGardenMoonFenceRequirementSurfaceVisible ?? false,
+      moonFenceRequirementsInspected: window.__seedGardenMoonFenceRequirementsInspected ?? false,
+      moonFenceRequiredClues: window.__seedGardenMoonFenceRequiredClues ?? 0,
+      moonFenceCurrentClues: window.__seedGardenMoonFenceCurrentClues ?? 0,
+      moonFenceRequiredMaterials: window.__seedGardenMoonFenceRequiredMaterials ?? 0,
+      moonFenceCurrentMaterials: window.__seedGardenMoonFenceCurrentMaterials ?? 0,
+      moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-requirements-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -637,6 +662,13 @@ async function runSmoke() {
       nightGlassOroRouteActionAvailable: window.__seedGardenNightGlassOroRouteActionAvailable ?? false,
       moonFenceRoutePreviewVisible: window.__seedGardenMoonFenceRoutePreviewVisible ?? false,
       moonFenceRouteInspected: window.__seedGardenMoonFenceRouteInspected ?? false,
+      moonFenceRequirementSurfaceVisible: window.__seedGardenMoonFenceRequirementSurfaceVisible ?? false,
+      moonFenceRequirementsInspected: window.__seedGardenMoonFenceRequirementsInspected ?? false,
+      moonFenceRequiredClues: window.__seedGardenMoonFenceRequiredClues ?? 0,
+      moonFenceCurrentClues: window.__seedGardenMoonFenceCurrentClues ?? 0,
+      moonFenceRequiredMaterials: window.__seedGardenMoonFenceRequiredMaterials ?? 0,
+      moonFenceCurrentMaterials: window.__seedGardenMoonFenceCurrentMaterials ?? 0,
+      moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
       nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
       nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
@@ -1299,6 +1331,39 @@ async function runSmoke() {
     if (!moonFenceRoute.railText.includes("expedition_moon_fence_locked")) {
       failures.push("missing moon fence route id in HUD surface");
     }
+    if (!moonFenceRoute.railText.includes("개방 조건 보기")) {
+      failures.push("missing moon fence requirements action after route inspection");
+    }
+    if (!moonFenceRequirements.moonFenceRoutePreviewVisible) {
+      failures.push("moon fence route preview disappeared after requirements inspection");
+    }
+    if (!moonFenceRequirements.moonFenceRequirementSurfaceVisible) {
+      failures.push("moon fence requirements surface did not become visible");
+    }
+    if (!moonFenceRequirements.moonFenceRequirementsInspected) {
+      failures.push("moon fence requirements inspected telemetry missing");
+    }
+    if (moonFenceRequirements.moonFenceRequiredClues !== 2 || moonFenceRequirements.moonFenceCurrentClues !== 1) {
+      failures.push(`expected moon fence clues 1/2, got ${moonFenceRequirements.moonFenceCurrentClues}/${moonFenceRequirements.moonFenceRequiredClues}`);
+    }
+    if (moonFenceRequirements.moonFenceRequiredMaterials !== 3 || moonFenceRequirements.moonFenceCurrentMaterials !== 2) {
+      failures.push(`expected moon fence materials 2/3, got ${moonFenceRequirements.moonFenceCurrentMaterials}/${moonFenceRequirements.moonFenceRequiredMaterials}`);
+    }
+    if (moonFenceRequirements.moonFenceRequiredExplorerId !== "actor_oro") {
+      failures.push(`expected moon fence required explorer actor_oro, got ${moonFenceRequirements.moonFenceRequiredExplorerId}`);
+    }
+    if (!moonFenceRequirements.objective.includes("월정 문 개방 조건 확인")) {
+      failures.push("missing moon fence requirements objective");
+    }
+    if (!moonFenceRequirements.railText.includes("오로 explorer")) {
+      failures.push("missing moon fence explorer requirement HUD text");
+    }
+    if (!moonFenceRequirements.railText.includes("달빛 단서 1/2")) {
+      failures.push("missing moon fence clue requirement HUD text");
+    }
+    if (!moonFenceRequirements.railText.includes("재료 2/3")) {
+      failures.push("missing moon fence material requirement HUD text");
+    }
     if (nightGlassRevealed.plotStates.some((plot) => plot.seedId === "seed_rare_001")) {
       failures.push("seed_rare_001 plot stayed occupied after harvest");
     }
@@ -1426,6 +1491,21 @@ async function runSmoke() {
     if (!evidence.moonFenceRouteInspected) {
       failures.push("final moon fence route inspected telemetry missing");
     }
+    if (!evidence.moonFenceRequirementSurfaceVisible) {
+      failures.push("final moon fence requirements surface missing");
+    }
+    if (!evidence.moonFenceRequirementsInspected) {
+      failures.push("final moon fence requirements inspected telemetry missing");
+    }
+    if (evidence.moonFenceRequiredClues !== 2 || evidence.moonFenceCurrentClues !== 1) {
+      failures.push(`expected final moon fence clues 1/2, got ${evidence.moonFenceCurrentClues}/${evidence.moonFenceRequiredClues}`);
+    }
+    if (evidence.moonFenceRequiredMaterials !== 3 || evidence.moonFenceCurrentMaterials !== 2) {
+      failures.push(`expected final moon fence materials 2/3, got ${evidence.moonFenceCurrentMaterials}/${evidence.moonFenceRequiredMaterials}`);
+    }
+    if (evidence.moonFenceRequiredExplorerId !== "actor_oro") {
+      failures.push(`expected final moon fence explorer actor_oro, got ${evidence.moonFenceRequiredExplorerId}`);
+    }
     if (evidence.nextRareRoutePreviewId !== "expedition_moon_fence_locked") {
       failures.push(`expected final next rare route preview id expedition_moon_fence_locked, got ${evidence.nextRareRoutePreviewId}`);
     }
@@ -1438,8 +1518,8 @@ async function runSmoke() {
     if (evidence.nightGlassRewardLeaves !== 0) {
       failures.push(`expected final night glass reward leaves 0, got ${evidence.nightGlassRewardLeaves}`);
     }
-    if (!evidence.objective.includes("월정 문 단서 확인") || !evidence.objective.includes("expedition_moon_fence_locked")) {
-      failures.push("missing moon fence route action final objective");
+    if (!evidence.objective.includes("월정 문 개방 조건 확인") || !evidence.objective.includes("달빛 단서 1/2")) {
+      failures.push("missing moon fence requirements final objective");
     }
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
@@ -1566,7 +1646,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-night-glass-ready-393.png`,
         `${OUT_DIR}/phaser-check-night-glass-revealed-393.png`,
         `${OUT_DIR}/phaser-check-night-glass-oro-handoff-393.png`,
-        `${OUT_DIR}/phaser-check-moon-fence-route-action-393.png`
+        `${OUT_DIR}/phaser-check-moon-fence-route-action-393.png`,
+        `${OUT_DIR}/phaser-check-moon-fence-requirements-393.png`
       ],
       failures
     };
