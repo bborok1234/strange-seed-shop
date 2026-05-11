@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-08T09:51:19.562Z
+Generated at: 2026-05-11T02:05:10.516Z
 
 ## Current mission
 
-현재 작업은 **밤유리 source harvest reveal**이다. #512/#513은 `seed_rare_001 source 획득 -> 빈 밭 밤유리 심기 -> seed_rare_001 planted`까지 merge/main CI `25547958765`로 통과했다. 다음 blocker는 심은 밤유리 source가 아직 `돌보기 -> 밤유리 수확 -> rare creature reveal` payoff로 이어지지 않는다는 점이다.
+현재 작업은 **밤유리 오로 actor route handoff**이다. #514/#515는 `돌보기 -> 밤유리 수확 -> creature_lunar_rare_001 reveal`까지 merge/main CI `25549194431`로 통과했다. 다음 blocker는 `밤유리 오로 발견`이 아직 정원 actor, 다음 route affordance, 다음 행동으로 이어지지 않는다는 점이다.
 
 현재 evidence:
 
@@ -15,51 +15,50 @@ Generated at: 2026-05-08T09:51:19.562Z
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed night glass source planting loop: Issue #512, PR #513, main CI `25547958765`
-- WorkUnit: `items/0273-night-glass-source-harvest-reveal.md`
-- GitHub issue: #514 `밤유리 source harvest reveal`
-- Draft PR: #515 `밤유리 source harvest reveal`
-- Branch: `codex/v1-night-glass-source-harvest-reveal`
+- Completed night glass source harvest reveal: Issue #514, PR #515, main CI `25549194431`
+- WorkUnit: `items/0274-night-glass-oro-actor-route-handoff.md`
+- GitHub issue: #516 `밤유리 오로 actor route handoff`
+- Branch: `codex/v1-night-glass-oro-actor-route-handoff`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: `reports/visual/issue-0514-night-glass-source-harvest-reveal/visual-report-20260508.md`
-- Current validation: #514 implementation complete locally; PR #515 published as draft; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks pending
-- Heartbeat: `reports/operations/operator-heartbeat-20260508.jsonl`, `.omx/state/operator-heartbeat.json`
+- Visual evidence: `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/visual-report-20260511.md`
+- Current validation: #515 merge/main CI observed; #516 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; draft PR #517 open and PR checks pending
+- Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: #514는 #513 이후 `seed_rare_001` planted 상태가 payoff 없이 멈추는 production gap을 rare harvest/reveal로 해소한다.
-1. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
-2. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
-3. PR publication gate: #514 구현 branch를 draft PR로 게시하고 checks를 감시한다.
-4. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
-5. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
-6. `creature_lunar_rare_001` reveal과 `fx_night_glass_source_unlock_strip_v1` harvest binding이 스크린샷에서 약하면 dedicated reveal FX WorkUnit을 후속으로 분리한다.
+0. Studio Campaign Gate: 다음 slice는 #515 이후 rare 발견이 actor/route handoff 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정한다.
+2. Implementation gate: `GardenState`, Phaser actor/render/HUD, checker를 연결한다.
+3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
+6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
 
 ## Local state
 
-- Branch: codex/v1-night-glass-source-harvest-reveal
-- Latest commit: b730e48 밤유리 source harvest reveal PR 체크포인트를 기록한다
+- Branch: codex/v1-night-glass-oro-actor-route-handoff
+- Latest commit: 8e357f9 밤유리 오로 PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-08T09:51:18.153Z
-- Phase: phaser-v1-night-glass-source-harvest-reveal-pr-check-repair
-- Issue: 514
-- PR: 515
-- Item: items/0273-night-glass-source-harvest-reveal.md
-- Next action: Merge gate: watch PR #515 checks, mark ready, merge, and observe main CI
+- Timestamp: 2026-05-11T02:05:09.041Z
+- Phase: phaser-v1-night-glass-oro-actor-route-handoff-pr-open
+- Issue: 516
+- PR: 517
+- Item: items/0274-night-glass-oro-actor-route-handoff.md
+- Next action: PR checks gate: watch PR #517 required checks, mark ready, merge, then observe main CI
 
 ## Open PRs
 
-- #515 draft 밤유리 source harvest reveal — https://github.com/bborok1234/strange-seed-shop/pull/515
+- #517 draft 밤유리 오로 actor route handoff — https://github.com/bborok1234/strange-seed-shop/pull/517
 
 ## Open issues
 
-- #514 밤유리 source harvest reveal — https://github.com/bborok1234/strange-seed-shop/issues/514
+- #516 밤유리 오로 actor route handoff — https://github.com/bborok1234/strange-seed-shop/issues/516
 
 ## Playable mode
 

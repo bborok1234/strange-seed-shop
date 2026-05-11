@@ -19,8 +19,10 @@ import {
   markNightGlassSourceExpeditionReturned,
   NIGHT_GLASS_RARE_CREATURE_ID,
   NIGHT_GLASS_RARE_CREATURE_NAME,
+  NIGHT_GLASS_ORO_ACTOR_ID,
   NIGHT_GLASS_ROUTE_PREVIEW_ID,
   NIGHT_GLASS_SOURCE_SEED_ID,
+  NEXT_EXPEDITION_ROUTE_PREVIEW_ID,
   plantLunarSourceSeed,
   plantNightGlassSourceSeed,
   plantResearchNextGoalSeed,
@@ -345,6 +347,12 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.nightGlassRareCreatureId ?? "";
     (window as unknown as { __seedGardenNightGlassRareCreatureName?: string }).__seedGardenNightGlassRareCreatureName =
       gameState.nightGlassRareCreatureRevealed ? NIGHT_GLASS_RARE_CREATURE_NAME : "";
+    (window as unknown as { __seedGardenNightGlassOroActorJoined?: boolean }).__seedGardenNightGlassOroActorJoined =
+      gameState.nightGlassOroActorJoined;
+    (window as unknown as { __seedGardenNightGlassOroRouteHandoffVisible?: boolean })
+      .__seedGardenNightGlassOroRouteHandoffVisible = gameState.nightGlassOroRouteHandoffVisible;
+    (window as unknown as { __seedGardenNextRareRoutePreviewId?: string }).__seedGardenNextRareRoutePreviewId =
+      gameState.nextRareRoutePreviewId ?? "";
     (window as unknown as { __seedGardenNightGlassRewardLeaves?: number }).__seedGardenNightGlassRewardLeaves =
       gameState.nightGlassRewardLeaves;
     (window as unknown as { __seedGardenUnlockedSlotIds?: string[] }).__seedGardenUnlockedSlotIds = gameState.slots
@@ -1001,11 +1009,23 @@ class GardenBoardScene extends Phaser.Scene {
     shadow.fillEllipse(0, 42, 54, 18);
     container.add(shadow);
 
-    const textureKey = actor.role === "carrier" ? TOPOLOGY_ASSETS.actors.momo.key : TOPOLOGY_ASSETS.actors.pori.key;
-    const sprite = this.add.sprite(0, 4, textureKey);
-    sprite.setDisplaySize(actor.role === "carrier" ? 72 : 64, actor.role === "carrier" ? 72 : 64);
-    sprite.play(actor.role === "carrier" ? "momo-carry-loop" : "pori-care-loop");
-    container.add(sprite);
+    if (actor.id === NIGHT_GLASS_ORO_ACTOR_ID) {
+      const aura = this.add.sprite(0, 3, TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key);
+      aura.setDisplaySize(72, 64);
+      aura.setAlpha(0.68);
+      aura.play("night-glass-source-unlock-once");
+      container.add(aura);
+
+      const creature = this.add.image(0, 0, TOPOLOGY_ASSETS.creatures.lunarRare.key);
+      creature.setDisplaySize(58, 58);
+      container.add(creature);
+    } else {
+      const textureKey = actor.role === "carrier" ? TOPOLOGY_ASSETS.actors.momo.key : TOPOLOGY_ASSETS.actors.pori.key;
+      const sprite = this.add.sprite(0, 4, textureKey);
+      sprite.setDisplaySize(actor.role === "carrier" ? 72 : 64, actor.role === "carrier" ? 72 : 64);
+      sprite.play(actor.role === "carrier" ? "momo-carry-loop" : "pori-care-loop");
+      container.add(sprite);
+    }
 
     const label = this.add
       .text(0, 59, actor.name, {
@@ -1298,7 +1318,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (gameState.nightGlassSourcePreviewVisible) {
       const nightGlassStateText =
-        gameState.nightGlassRareCreatureRevealed
+        gameState.nightGlassOroActorJoined
+          ? `${NIGHT_GLASS_RARE_CREATURE_NAME} 합류 · ${NIGHT_GLASS_RARE_CREATURE_ID} · ${NEXT_EXPEDITION_ROUTE_PREVIEW_ID}`
+          : gameState.nightGlassRareCreatureRevealed
           ? `${NIGHT_GLASS_RARE_CREATURE_NAME} 발견 · ${NIGHT_GLASS_RARE_CREATURE_ID}`
           : gameState.nightGlassSourceSeedHarvested
             ? `${NIGHT_GLASS_SOURCE_SEED_ID} 수확 완료 · rare reveal 저장`
@@ -1319,6 +1341,15 @@ class GardenBoardScene extends Phaser.Scene {
       `;
       this.hud.actions.appendChild(nightGlassSurface);
     }
+    if (gameState.nightGlassOroRouteHandoffVisible) {
+      const oroSurface = document.createElement("div");
+      oroSurface.className = "collection-goal-surface";
+      oroSurface.innerHTML = `
+        <strong>밤유리 오로 합류</strong>
+        <span>${gameState.nextRareRoutePreviewId ?? NEXT_EXPEDITION_ROUTE_PREVIEW_ID} preview · 월정 문 단서</span>
+      `;
+      this.hud.actions.appendChild(oroSurface);
+    }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
       goalSurface.className = "collection-goal-surface";
@@ -1335,7 +1366,9 @@ class GardenBoardScene extends Phaser.Scene {
       if (selectedSlot.unlockState === "unlocked" && gameState.nightGlassSourceSeedAvailable) {
         empty.textContent = "빈 밭에 밤유리 심기";
       } else if (gameState.nightGlassSourcePreviewVisible) {
-        empty.textContent = gameState.nightGlassRareCreatureRevealed
+        empty.textContent = gameState.nightGlassOroActorJoined
+          ? `${NIGHT_GLASS_RARE_CREATURE_NAME} 합류`
+          : gameState.nightGlassRareCreatureRevealed
           ? `${NIGHT_GLASS_RARE_CREATURE_NAME} 발견`
           : gameState.nightGlassSourceSeedHarvested
             ? "밤유리 수확 완료"
