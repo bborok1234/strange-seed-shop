@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: plan
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #522
 - PR: TBD
@@ -91,6 +91,25 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 결과
+
+- `GardenState`에 `moonFencePrepDeliveryAvailable`, `moonFencePrepDeliveryCompleted`, `moonFencePrepDeliveryCrateVisible`, `moonFenceMaterialsReady` telemetry를 추가했다.
+- `개방 조건 보기` 이후 `월정 문 준비 납품` action이 열리고, 실행 후 material requirement가 `재료 3/3 ready`로 전환된다.
+- Phaser expedition gate 주변에 compact `준비 상자 · 재료 3/3` chip을 표시하고, HUD/objective/receipt에 `월정 문 준비 납품 완료 · 재료 3/3 · 달빛 단서 1/2`을 남긴다.
+- `scripts/check-phaser-foundation.mjs`는 requirements action 이후 prep delivery click, telemetry, screenshot evidence를 assertion한다.
+
+## 검증 결과
+
+- `npm run build:phaser`: 통과
+- `npm run check:phaser`: 통과
+- `npm run check:content`: 통과
+- `npm run check:asset-provenance`: 통과
+- `npm run check:asset-style`: 통과
+- `npm run check:ci`: 통과
+- Prep delivery evidence: `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/phaser-check-moon-fence-prep-delivery-393.png`
+- Visual report: `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/visual-report-20260511.md`
+- Browser Use blocker: `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/browser-use-blocker-20260511.md`
 
 ## 리스크
 
