@@ -1312,6 +1312,34 @@
         "animation.binding is facility_expedition_gate.action.claim_return_crate",
         "FX reads at 96px and does not obscure the expedition gate or bottom action rail"
       ]
+    },
+    {
+      "asset_id": "seed_moon_grove_001_icon",
+      "output_path": "public/assets/game/seeds/seed_moon_grove_001_icon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game rare source seed icon\nPrimary request: Create seed_moon_grove_001_icon for clue_moon_grove_001, the source seed preview unlocked by the first 월정 문 expedition reward.\nSubject: A small moon-grove source seed with a pale crescent sprout, soft mossy lunar shell, tiny dew beads, and gentle inner glow. It should feel like a rare collectible seed found beyond the moon fence, not a creature.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game icon, soft rounded shapes, crisp readable silhouette, subtle painterly texture, clean raster PNG edges, no text.\nComposition/framing: Centered single seed icon with generous padding, transparent or clean removable background, readable at 48px and 96px, no UI frame or label baked in.\nColor palette: moonlit mint, soft silver lavender, pale cream glow, deep greenhouse teal shadow, tiny leaf-yellow highlights.\nConstraints: Raster PNG output only; no SVG/vector/code-native accepted game graphic; no text, letters, numbers, logo, watermark, UI label, full background, or face. Must stay distinct from seed_rare_001_icon and seed_lunar_002_icon.\nAvoid: Photorealistic gemstone, dark horror, occult symbols, existing characters, cluttered particles, hard neon, low contrast, generic acorn, baked UI frame.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield at 48px and 96px",
+        "clearly reads as moon-grove source seed rather than night-glass seed or lunar_002 seed",
+        "transparent or clean removable background with no UI frame"
+      ]
+    },
+    {
+      "asset_id": "fx_moon_grove_source_reward_strip_v1",
+      "output_path": "public/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser FX sprite sheet\nPrimary request: Create fx_moon_grove_source_reward_strip_v1 for the clue_moon_grove_001 reward reveal after the first 월정 문 expedition.\nSubject: A compact moon-grove source reveal pulse: crescent leaf shimmer, tiny dew motes, soft mint-silver pollen, and a short opening ring that suggests a new source clue has been claimed from the moon fence return crate.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game FX, soft rounded particles, crisp readable silhouettes, subtle lunar glow, clean raster PNG edges, no text.\nComposition/framing: One horizontal FX strip with exactly 8 frames, each frame 96x96, total 768x96 PNG, transparent background, consistent center, compact motion that stays inside frame and is safe near the expedition gate and bottom action rail.\nColor palette: moonlit mint, soft silver lavender, pale cream glow, tiny leaf-yellow sparkles, deep greenhouse teal accent.\nConstraints: Intended fps 12; animation.binding moon_fence.reward.action.claim_source_clue; behavior once. Raster PNG output only; no SVG/vector/code-native accepted game graphic; no text, UI label, frame, full background, character, seed icon baked into the FX, logo, or watermark.\nAvoid: Large explosion, hard neon, dark horror magic, occult symbols, realistic broken glass, cluttered particles, unreadable tiny details, baked UI button/card, copyrighted character resemblance.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable in a 393x852 mobile Phaser playfield",
+        "exactly 8 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is moon_fence.reward.action.claim_source_clue",
+        "FX reads at 96px and does not obscure the expedition gate or bottom action rail"
+      ]
     }
   ]
 }
