@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T04:08:06.097Z
+Generated at: 2026-05-11T04:16:48.839Z
 
 ## Current mission
 
-현재 작업은 **월정 문 source asset plan-prompt**다. #528/#529는 `월정 문 원정 보내기`, 귀환 상자, reward claim, `clue_moon_grove_001 source promise`까지 merge/main CI `25649482785`로 통과했다. 다음 blocker는 `clue_moon_grove_001`이 아직 concrete source seed icon/FX plan-prompt로 승격되지 않은 점이다.
+현재 작업은 **월정 숲 source asset generation-review**다. #530/#531은 `clue_moon_grove_001`을 `seed_moon_grove_001_icon`, `fx_moon_grove_source_reward_strip_v1` plan/prompt로 승격했고 main CI `25649871624`가 통과했다. 다음 blocker는 두 output path PNG가 아직 workspace에 없어서 runtime binding/manifest accepted 후보가 없다는 점이다.
 
 현재 evidence:
 
@@ -15,23 +15,22 @@ Generated at: 2026-05-11T04:08:06.097Z
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed moon fence first expedition payoff: Issue #528, PR #529, main CI `25649482785`
-- WorkUnit: `items/0281-moon-grove-source-asset-plan-prompt.md`
-- GitHub issue: #530 `월정 문 source asset plan-prompt`
-- Draft PR: #531
-- Branch: `codex/v1-moon-grove-source-asset-plan-prompt`
-- Runtime binding: N/A - asset plan/prompt only
-- Visual evidence: N/A - generation-ready prompt/plan document slice
-- Current validation: #529 merge/main CI observed; #530 asset plan/prompt local verification passed (`git diff --check`, `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`); Draft PR #531 publication complete, PR checks pending
+- Completed moon grove source asset plan-prompt: Issue #530, PR #531, main CI `25649871624`
+- WorkUnit: `items/0282-moon-grove-source-asset-generation-review.md`
+- GitHub issue: #532 `월정 숲 source asset generation-review`
+- Branch: `codex/v1-moon-grove-source-asset-generation-review`
+- Runtime binding: N/A - static asset generation/review only
+- Visual evidence: Pending - generated asset contact sheet/review report
+- Current validation: intake/plan-first complete; image generation/review pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #529 이후 source promise가 asset pipeline 없이 멈추는 production gap을 해소한다.
-1. Intake gate: GitHub issue #530을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
-2. Implementation gate: `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`에 moon-grove source seed icon/FX 후보를 추가했다.
-3. Local verification gate: `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과했다.
-4. PR publication gate: Draft PR #531을 게시했다. checks를 감시한다.
+0. Studio Campaign Gate: 다음 slice는 #531 이후 generation-ready prompt가 실제 PNG 후보 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue #532를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
+2. Implementation gate: `seed_moon_grove_001_icon.png`, `fx_moon_grove_source_reward_strip_v1.png`를 생성/리뷰한다.
+3. Local verification gate: `npm run check:topology-generated-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
@@ -39,27 +38,27 @@ Generated at: 2026-05-11T04:08:06.097Z
 
 ## Local state
 
-- Branch: codex/v1-moon-grove-source-asset-plan-prompt
-- Latest commit: f41baa7 월정 문 source PR evidence를 남긴다
+- Branch: codex/v1-moon-grove-source-asset-generation-review
+- Latest commit: 670ac86 Merge pull request #531 from bborok1234/codex/v1-moon-grove-source-asset-plan-prompt
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T04:08:04.509Z
-- Phase: phaser-v1-moon-grove-source-asset-plan-prompt-pr-checks
-- Issue: 530
-- PR: 531
-- Item: items/0281-moon-grove-source-asset-plan-prompt.md
-- Next action: PR checks gate: watch #531 checks, mark ready, merge, and observe main CI
+- Timestamp: 2026-05-11T04:16:47.329Z
+- Phase: phaser-v1-moon-grove-source-asset-generation-plan
+- Issue: 532
+- PR:
+- Item: items/0282-moon-grove-source-asset-generation-review.md
+- Next action: Implementation gate: generate seed_moon_grove_001_icon and fx_moon_grove_source_reward_strip_v1 PNG assets
 
 ## Open PRs
 
-- #531 draft 월정 문 source asset plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/531
+- unavailable or none
 
 ## Open issues
 
-- #530 월정 문 source asset plan-prompt — https://github.com/bborok1234/strange-seed-shop/issues/530
+- #532 월정 숲 source asset generation-review — https://github.com/bborok1234/strange-seed-shop/issues/532
 
 ## Playable mode
 
