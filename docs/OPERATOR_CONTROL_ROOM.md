@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T04:06:20.366Z
+Generated at: 2026-05-11T04:08:06.097Z
 
 ## Current mission
 
@@ -18,10 +18,11 @@ Generated at: 2026-05-11T04:06:20.366Z
 - Completed moon fence first expedition payoff: Issue #528, PR #529, main CI `25649482785`
 - WorkUnit: `items/0281-moon-grove-source-asset-plan-prompt.md`
 - GitHub issue: #530 `월정 문 source asset plan-prompt`
+- Draft PR: #531
 - Branch: `codex/v1-moon-grove-source-asset-plan-prompt`
 - Runtime binding: N/A - asset plan/prompt only
 - Visual evidence: N/A - generation-ready prompt/plan document slice
-- Current validation: #529 merge/main CI observed; #530 asset plan/prompt local verification passed (`git diff --check`, `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`); PR publication gate pending
+- Current validation: #529 merge/main CI observed; #530 asset plan/prompt local verification passed (`git diff --check`, `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`); Draft PR #531 publication complete, PR checks pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -30,7 +31,7 @@ Generated at: 2026-05-11T04:06:20.366Z
 1. Intake gate: GitHub issue #530을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
 2. Implementation gate: `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`에 moon-grove source seed icon/FX 후보를 추가했다.
 3. Local verification gate: `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과했다.
-4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+4. PR publication gate: Draft PR #531을 게시했다. checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
@@ -39,22 +40,22 @@ Generated at: 2026-05-11T04:06:20.366Z
 ## Local state
 
 - Branch: codex/v1-moon-grove-source-asset-plan-prompt
-- Latest commit: b16738e Merge pull request #529 from bborok1234/codex/v1-moon-fence-first-expedition-payoff
+- Latest commit: f41baa7 월정 문 source PR evidence를 남긴다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T04:06:18.746Z
-- Phase: phaser-v1-moon-grove-source-asset-plan-prompt-ready-for-pr
+- Timestamp: 2026-05-11T04:08:04.509Z
+- Phase: phaser-v1-moon-grove-source-asset-plan-prompt-pr-checks
 - Issue: 530
-- PR:
+- PR: 531
 - Item: items/0281-moon-grove-source-asset-plan-prompt.md
-- Next action: PR publication gate: create draft PR for #530 and watch checks
+- Next action: PR checks gate: watch #531 checks, mark ready, merge, and observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #531 draft 월정 문 source asset plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/531
 
 ## Open issues
 

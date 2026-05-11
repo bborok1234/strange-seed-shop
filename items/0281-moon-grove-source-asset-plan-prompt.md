@@ -5,7 +5,7 @@
 - Status: implemented/local-verified
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #530
-- PR: TBD
+- PR: #531
 - Branch: `codex/v1-moon-grove-source-asset-plan-prompt`
 - 연결: Issue #528, PR #529, main CI `25649482785`
 
@@ -71,3 +71,7 @@
 - Pass: `npm run check:asset-provenance`
 - Pass: `npm run check:asset-style`
 - Pass: `npm run check:ci`
+
+## PR evidence
+
+- Draft PR: #531 `월정 문 source asset plan-prompt`
