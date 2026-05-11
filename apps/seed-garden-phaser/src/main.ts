@@ -28,6 +28,7 @@ import {
   NEXT_EXPEDITION_ROUTE_PREVIEW_ID,
   MOON_FENCE_REQUIRED_CLUES,
   MOON_FENCE_REQUIRED_MATERIALS,
+  MOON_FENCE_UNLOCKED_ROUTE_ID,
   plantLunarSourceSeed,
   plantNightGlassSourceSeed,
   plantResearchNextGoalSeed,
@@ -44,6 +45,7 @@ import {
   STORAGE_BASKET_UNLOCK_COST,
   THIRD_PLOT_UNLOCK_COST,
   unlockStorageBasket,
+  unlockMoonFenceRoute,
   unlockThirdPlot,
   type ActorEntity,
   type BoardSlot,
@@ -391,6 +393,14 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenMoonFenceClueStampVisible = gameState.moonFenceClueStampVisible;
     (window as unknown as { __seedGardenMoonFenceCluesReady?: boolean }).__seedGardenMoonFenceCluesReady =
       gameState.moonFenceCluesReady;
+    (window as unknown as { __seedGardenMoonFenceUnlockAvailable?: boolean }).__seedGardenMoonFenceUnlockAvailable =
+      gameState.moonFenceUnlockAvailable;
+    (window as unknown as { __seedGardenMoonFenceRouteUnlocked?: boolean }).__seedGardenMoonFenceRouteUnlocked =
+      gameState.moonFenceRouteUnlocked;
+    (window as unknown as { __seedGardenMoonFenceUnlockedRouteId?: string }).__seedGardenMoonFenceUnlockedRouteId =
+      gameState.moonFenceUnlockedRouteId ?? "";
+    (window as unknown as { __seedGardenMoonFenceUnlockedMarkerVisible?: boolean })
+      .__seedGardenMoonFenceUnlockedMarkerVisible = gameState.moonFenceUnlockedMarkerVisible;
     (window as unknown as { __seedGardenMoonFenceRequiredExplorerId?: string }).__seedGardenMoonFenceRequiredExplorerId =
       gameState.moonFenceRequiredExplorerId ?? "";
     (window as unknown as { __seedGardenNextRareRoutePreviewId?: string }).__seedGardenNextRareRoutePreviewId =
@@ -830,9 +840,9 @@ class GardenBoardScene extends Phaser.Scene {
         container.add(routeSpark);
 
         const moonFence = this.add
-          .text(34, 20, "월정 문\n잠김", {
+          .text(34, 20, gameState.moonFenceRouteUnlocked ? "월정 문\n열림" : "월정 문\n잠김", {
             align: "center",
-            backgroundColor: "rgba(38, 50, 89, 0.9)",
+            backgroundColor: gameState.moonFenceRouteUnlocked ? "rgba(38, 88, 65, 0.92)" : "rgba(38, 50, 89, 0.9)",
             color: "#f4f0c9",
             fontFamily: "system-ui, sans-serif",
             fontSize: "9px",
@@ -888,6 +898,22 @@ class GardenBoardScene extends Phaser.Scene {
             })
             .setOrigin(0.5);
           container.add(clueStamp);
+        }
+
+        if (gameState.moonFenceUnlockedMarkerVisible) {
+          const unlocked = this.add
+            .text(0, 67, `${MOON_FENCE_UNLOCKED_ROUTE_ID}\nroute open`, {
+              align: "center",
+              backgroundColor: "rgba(227, 247, 194, 0.92)",
+              color: "#263259",
+              fontFamily: "system-ui, sans-serif",
+              fontSize: "8px",
+              fontStyle: "800",
+              lineSpacing: 1,
+              padding: { x: 6, y: 3 }
+            })
+            .setOrigin(0.5);
+          container.add(unlocked);
         }
       }
     }
@@ -1268,6 +1294,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "inspect_moon_fence_requirements"
       | "complete_moon_fence_prep_delivery"
       | "package_moon_fence_second_clue"
+      | "unlock_moon_fence_route"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -1326,6 +1353,9 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "package_moon_fence_second_clue") {
       packageMoonFenceSecondClue(gameState);
       this.pendingFx = { kind: "lunarHarvest", slotId: "facility_expedition_gate" };
+    } else if (action === "unlock_moon_fence_route") {
+      unlockMoonFenceRoute(gameState);
+      this.pendingFx = { kind: "expeditionReturn", slotId: "facility_expedition_gate" };
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -1521,6 +1551,15 @@ class GardenBoardScene extends Phaser.Scene {
       `;
       this.hud.actions.appendChild(clueSurface);
     }
+    if (gameState.moonFenceUnlockedMarkerVisible) {
+      const unlockSurface = document.createElement("div");
+      unlockSurface.className = "collection-goal-surface";
+      unlockSurface.innerHTML = `
+        <strong>월정 문 열림</strong>
+        <span>${gameState.moonFenceUnlockedRouteId ?? MOON_FENCE_UNLOCKED_ROUTE_ID} · 오로 explorer · 단서 ${gameState.moonFenceCurrentClues}/${gameState.moonFenceRequiredClues} ready · 재료 ${gameState.moonFenceCurrentMaterials}/${gameState.moonFenceRequiredMaterials} ready</span>
+      `;
+      this.hud.actions.appendChild(unlockSurface);
+    }
     if (gameState.researchClueGoalSurfaceVisible) {
       const goalSurface = document.createElement("div");
       goalSurface.className = "collection-goal-surface";
@@ -1542,7 +1581,9 @@ class GardenBoardScene extends Phaser.Scene {
             ? gameState.moonFenceRequirementsInspected
               ? gameState.moonFencePrepDeliveryCompleted
                 ? gameState.moonFenceSecondCluePackaged
-                  ? "달빛 단서 포장 완료"
+                  ? gameState.moonFenceRouteUnlocked
+                    ? "월정 문 열림"
+                    : "달빛 단서 포장 완료"
                   : "월정 문 준비 납품 완료"
                 : "월정 문 개방 조건 확인됨"
               : "월정 문 개방 조건 대기"
@@ -1645,7 +1686,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "inspect_moon_fence"
       | "inspect_moon_fence_requirements"
       | "complete_moon_fence_prep_delivery"
-      | "package_moon_fence_second_clue";
+      | "package_moon_fence_second_clue"
+      | "unlock_moon_fence_route";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -1681,6 +1723,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (state.moonFenceSecondClueAvailable && !state.moonFenceSecondCluePackaged) {
       return [{ id: "package_moon_fence_second_clue", label: "달빛 단서 포장" }];
+    }
+    if (state.moonFenceUnlockAvailable && !state.moonFenceRouteUnlocked) {
+      return [{ id: "unlock_moon_fence_route", label: "월정 문 열기" }];
     }
     if (facility?.kind === "expedition_gate" && state.expeditionState === "ready") {
       return [{ id: "start_expedition", label: "틈새길 보내기" }];
