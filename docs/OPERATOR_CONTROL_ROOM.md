@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T03:42:19.461Z
+Generated at: 2026-05-11T03:51:06.015Z
 
 ## Current mission
 
@@ -19,9 +19,9 @@ Generated at: 2026-05-11T03:42:19.461Z
 - WorkUnit: `items/0280-moon-fence-first-expedition-payoff.md`
 - GitHub issue: #528 `월정 문 첫 원정 payoff`
 - Branch: `codex/v1-moon-fence-first-expedition-payoff`
-- Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Planned visual evidence: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md`
-- Current validation: #527 merge/main CI observed; #528 plan artifact and GitHub issue created; implementation gate pending
+- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
+- Visual evidence: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md`
+- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass; PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,18 +39,18 @@ Generated at: 2026-05-11T03:42:19.461Z
 ## Local state
 
 - Branch: codex/v1-moon-fence-first-expedition-payoff
-- Latest commit: f84fdc6 Merge pull request #527 from bborok1234/codex/v1-moon-fence-route-unlock
+- Latest commit: 428e637 월정 문 첫 원정 payoff 작업을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T03:42:13.427Z
-- Phase: phaser-v1-moon-fence-first-expedition-plan
+- Timestamp: 2026-05-11T03:50:59.300Z
+- Phase: phaser-v1-moon-fence-first-expedition-ready-for-pr
 - Issue: 528
 - PR:
 - Item: items/0280-moon-fence-first-expedition-payoff.md
-- Next action: Implementation gate: connect moon fence first expedition start, return crate, reward claim, checker, and visual evidence for #528
+- Next action: PR publication gate: create draft PR for #528 and watch checks
 
 ## Open PRs
 

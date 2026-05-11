@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: plan
+- Status: implemented/local-verified
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #528
 - PR: TBD
@@ -101,3 +101,23 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 결과
+
+- `GardenState`에 `moonFenceExpeditionState`, `moonFenceRewardLeaves`, `moonFenceReturnCrateVisible`, `moonFenceRewardClaimed`, `moonFenceRewardMotionVisible`, `moonFenceNextClueVisible`, `moonFenceNextClueId` telemetry를 추가했다.
+- `월정 문 열기` 후 `moonFenceExpeditionState=ready`가 되고 action rail에 `월정 문 원정 보내기`가 노출된다.
+- `월정 문 원정 보내기`는 `activeExpeditionRouteId=expedition_moon_fence_unlocked`, `moonFenceExpeditionState=traveling`, reward leaves `88`로 전환한다.
+- delayed return path는 `moonFenceReturnCrateVisible=true`와 `월정 문 귀환 상자 열기` action을 보여준다.
+- claim path는 `clue_moon_grove_001 source promise`, reward motion telemetry, 최종 잎 `387`을 남긴다.
+- route unlock 이후 action rail에서 과거 월정 문 준비 surface를 접어 `월정 문 원정 보내기`가 모바일 viewport 밖으로 밀리지 않게 했다.
+
+## 검증 결과
+
+- `npm run check:phaser` pass
+- `npm run check:content` pass
+- `npm run check:asset-provenance` pass
+- `npm run check:asset-style` pass
+- `npm run check:ci` pass
+- `git diff --check` pass
+- Visual evidence: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md`
+- Browser Use blocker: `reports/visual/issue-0528-moon-fence-first-expedition-payoff/browser-use-blocker-20260511.md`
