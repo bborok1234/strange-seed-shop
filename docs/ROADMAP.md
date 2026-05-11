@@ -78,7 +78,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 밤유리 source harvest reveal | done | Issue #514, PR #515, main CI `25549194431`, `items/0273-night-glass-source-harvest-reveal.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0514-night-glass-source-harvest-reveal/visual-report-20260508.md` | #513 이후 `seed_rare_001` planted 상태가 harvest/reveal payoff 없이 멈추는 blocker를 해결했다. `돌보기 -> 밤유리 수확 -> creature_lunar_rare_001 reveal`, night-glass FX harvest binding, deterministic screenshot/telemetry를 구현했고 local checks, PR checks, merge, main CI가 통과했다 |
 | 밤유리 오로 actor route handoff | done | Issue #516, PR #517, main CI `25646641343`, `items/0274-night-glass-oro-actor-route-handoff.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/visual-report-20260511.md` | #515 이후 `밤유리 오로 발견`이 reveal marker/HUD에서 멈추는 blocker를 해결했다. accepted `creature_lunar_rare_001`을 `actor_oro` playfield state로 승격하고 `expedition_moon_fence_locked` 다음 route affordance를 구현했으며 local checks, PR checks, merge, main CI가 통과했다 |
 | 밤유리 오로 월정 문 route action | done | Issue #518, PR #519, main CI `25647140548`, `items/0275-night-glass-oro-moon-fence-route-action.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0518-night-glass-oro-moon-fence-route-action/visual-report-20260511.md` | #517 이후 `밤유리 오로 합류`가 route id preview에서 멈추는 blocker를 해결했다. `월정 문 단서 보기` player verb, `expedition_moon_fence_locked` locked route board state, HUD/objective/telemetry/screenshot assertion을 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
-| 월정 문 unlock requirements surface | active | Issue #520, draft PR #521, `items/0276-moon-fence-unlock-requirements-surface.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/visual-report-20260511.md` | #519 이후 `월정 문 단서 확인`이 locked marker에서 멈추는 blocker를 해결한다. `개방 조건 보기` player verb와 `오로 explorer`, `달빛 단서 1/2`, `재료 2/3` 요구 조건 surface를 HUD/playfield/telemetry/checker에 연결했고 `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`가 통과했다. 남은 gate는 PR checks, merge/main CI다 |
+| 월정 문 unlock requirements surface | done | Issue #520, PR #521, main CI `25647585415`, `items/0276-moon-fence-unlock-requirements-surface.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/visual-report-20260511.md` | #519 이후 `월정 문 단서 확인`이 locked marker에서 멈추는 blocker를 해결했다. `개방 조건 보기` player verb와 `오로 explorer`, `달빛 단서 1/2`, `재료 2/3` 요구 조건 surface를 HUD/playfield/telemetry/checker에 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
+| 월정 문 준비 납품 material payoff | active | Issue #522, draft PR #523, `items/0277-moon-fence-prep-delivery-payoff.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/visual-report-20260511.md` | #521 이후 requirements surface가 `재료 2/3` 부족 상태에서 멈추는 blocker를 해결한다. `월정 문 준비 납품` player verb, expedition gate prep crate/chip state, material `3/3` ready telemetry, remaining `달빛 단서 1/2` blocker를 연결했고 `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`가 통과했다. 남은 gate는 PR checks, merge/main CI다 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -404,7 +405,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **월정 문 unlock requirements surface**이다. #518/#519는 `밤유리 오로 합류 -> 월정 문 단서 보기 -> expedition_moon_fence_locked locked preview`까지 merge/main CI `25647140548`로 통과했다. 다음 blocker는 `월정 문 단서 확인` 이후 어떤 조건을 모아야 route가 열리는지 화면 state와 telemetry가 없다는 점이다.
+현재 작업은 **월정 문 준비 납품 material payoff**이다. #520/#521은 `개방 조건 보기`와 `오로 explorer · 달빛 단서 1/2 · 재료 2/3` requirements surface까지 merge/main CI `25647585415`로 통과했다. 다음 blocker는 부족한 `재료 1`을 정원 화면의 player verb와 crate state로 채우는 행동이 없다는 점이다.
 
 현재 evidence:
 
@@ -412,23 +413,23 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed night glass Oro moon fence route action: Issue #518, PR #519, main CI `25647140548`
-- WorkUnit: `items/0276-moon-fence-unlock-requirements-surface.md`
-- GitHub issue: #520 `월정 문 unlock requirements surface`
-- Draft PR: #521 `월정 문 unlock requirements surface`
-- Branch: `codex/v1-moon-fence-unlock-requirements-surface`
+- Completed moon fence requirements surface: Issue #520, PR #521, main CI `25647585415`
+- WorkUnit: `items/0277-moon-fence-prep-delivery-payoff.md`
+- GitHub issue: #522 `월정 문 준비 납품 material payoff`
+- Draft PR: #523 `월정 문 준비 납품 material payoff`
+- Branch: `codex/v1-moon-fence-prep-delivery-payoff`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/visual-report-20260511.md`
-- Current validation: #519 merge/main CI observed; #520 implementation complete locally; draft PR #521 open; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks gate pending
+- Visual evidence: `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/visual-report-20260511.md`
+- Current validation: #521 merge/main CI observed; #522 implementation complete locally; draft PR #523 open; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #519 이후 locked route가 unlock requirements 없이 멈추는 production gap을 해소한다.
-1. Intake gate: GitHub issue를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정한다.
+0. Studio Campaign Gate: 다음 slice는 #521 이후 `재료 2/3` requirements가 실제 납품 행동 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue #522를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
 2. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
 3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
-4. PR publication gate: draft PR #521을 게시했고 checks를 감시한다.
+4. PR publication gate: draft PR #523을 게시했고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
