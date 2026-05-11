@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T02:37:23.923Z
+Generated at: 2026-05-11T02:40:20.895Z
 
 ## Current mission
 
@@ -18,10 +18,11 @@ Generated at: 2026-05-11T02:37:23.923Z
 - Completed night glass Oro moon fence route action: Issue #518, PR #519, main CI `25647140548`
 - WorkUnit: `items/0276-moon-fence-unlock-requirements-surface.md`
 - GitHub issue: #520 `월정 문 unlock requirements surface`
+- Draft PR: #521 `월정 문 unlock requirements surface`
 - Branch: `codex/v1-moon-fence-unlock-requirements-surface`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
 - Visual evidence: `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/visual-report-20260511.md`
-- Current validation: #519 merge/main CI observed; #520 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci` passed; PR publication gate pending
+- Current validation: #519 merge/main CI observed; #520 implementation complete locally; draft PR #521 open; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -30,7 +31,7 @@ Generated at: 2026-05-11T02:37:23.923Z
 1. Intake gate: GitHub issue를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정한다.
 2. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
 3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
-4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+4. PR publication gate: draft PR #521을 게시했고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
@@ -39,22 +40,22 @@ Generated at: 2026-05-11T02:37:23.923Z
 ## Local state
 
 - Branch: codex/v1-moon-fence-unlock-requirements-surface
-- Latest commit: 4fabe8c 월정 문 unlock requirements 작업을 고정한다
+- Latest commit: 256e0e6 월정 문 requirements PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T02:37:22.133Z
-- Phase: phaser-v1-moon-fence-unlock-requirements-surface-ready-for-pr
+- Timestamp: 2026-05-11T02:40:14.462Z
+- Phase: phaser-v1-moon-fence-unlock-requirements-surface-pr-open
 - Issue: 520
-- PR:
+- PR: 521
 - Item: items/0276-moon-fence-unlock-requirements-surface.md
-- Next action: PR publication gate: commit implementation evidence and create draft PR for #520
+- Next action: PR checks gate: watch PR #521 required checks, mark ready, merge, then observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #521 draft 월정 문 unlock requirements surface — https://github.com/bborok1234/strange-seed-shop/pull/521
 
 ## Open issues
 

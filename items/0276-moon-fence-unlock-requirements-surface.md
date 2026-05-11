@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #520
-- PR: TBD
+- PR: #521
 - Branch: `codex/v1-moon-fence-unlock-requirements-surface`
 - 연결: Issue #518, PR #519, main CI `25647140548`
 
