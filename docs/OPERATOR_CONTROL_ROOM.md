@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T02:23:55.804Z
+Generated at: 2026-05-11T02:40:20.895Z
 
 ## Current mission
 
-현재 작업은 **밤유리 오로 월정 문 route action**이다. #516/#517은 `밤유리 오로 발견 -> actor_oro 합류 -> expedition_moon_fence_locked preview`까지 merge/main CI `25646641343`로 통과했다. 다음 blocker는 `밤유리 오로 합류`가 아직 플레이어가 직접 누르는 route action과 locked route board state로 이어지지 않는다는 점이다.
+현재 작업은 **월정 문 unlock requirements surface**이다. #518/#519는 `밤유리 오로 합류 -> 월정 문 단서 보기 -> expedition_moon_fence_locked locked preview`까지 merge/main CI `25647140548`로 통과했다. 다음 blocker는 `월정 문 단서 확인` 이후 어떤 조건을 모아야 route가 열리는지 화면 state와 telemetry가 없다는 점이다.
 
 현재 evidence:
 
@@ -15,22 +15,23 @@ Generated at: 2026-05-11T02:23:55.804Z
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed night glass Oro actor route handoff: Issue #516, PR #517, main CI `25646641343`
-- WorkUnit: `items/0275-night-glass-oro-moon-fence-route-action.md`
-- GitHub issue: #518 `밤유리 오로 월정 문 route action`
-- Branch: `codex/v1-night-glass-oro-moon-fence-route-action`
+- Completed night glass Oro moon fence route action: Issue #518, PR #519, main CI `25647140548`
+- WorkUnit: `items/0276-moon-fence-unlock-requirements-surface.md`
+- GitHub issue: #520 `월정 문 unlock requirements surface`
+- Draft PR: #521 `월정 문 unlock requirements surface`
+- Branch: `codex/v1-moon-fence-unlock-requirements-surface`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: `reports/visual/issue-0518-night-glass-oro-moon-fence-route-action/visual-report-20260511.md`
-- Current validation: #517 merge/main CI observed; #518 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; draft PR #519 open and PR checks pending
+- Visual evidence: `reports/visual/issue-0520-moon-fence-unlock-requirements-surface/visual-report-20260511.md`
+- Current validation: #519 merge/main CI observed; #520 implementation complete locally; draft PR #521 open; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR checks gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #517 이후 rare actor handoff가 직접 route action 없이 멈추는 production gap을 해소한다.
+0. Studio Campaign Gate: 다음 slice는 #519 이후 locked route가 unlock requirements 없이 멈추는 production gap을 해소한다.
 1. Intake gate: GitHub issue를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정한다.
 2. Implementation gate: `GardenState`, Phaser action/render/HUD, checker를 연결한다.
 3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`를 통과시킨다.
-4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+4. PR publication gate: draft PR #521을 게시했고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
@@ -38,27 +39,27 @@ Generated at: 2026-05-11T02:23:55.804Z
 
 ## Local state
 
-- Branch: codex/v1-night-glass-oro-moon-fence-route-action
-- Latest commit: b51c3dc 밤유리 오로 route action PR evidence를 준비한다
+- Branch: codex/v1-moon-fence-unlock-requirements-surface
+- Latest commit: 256e0e6 월정 문 requirements PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T02:23:54.282Z
-- Phase: phaser-v1-night-glass-oro-moon-fence-route-action-pr-open
-- Issue: 518
-- PR: 519
-- Item: items/0275-night-glass-oro-moon-fence-route-action.md
-- Next action: PR checks gate: watch PR #519 required checks, mark ready, merge, then observe main CI
+- Timestamp: 2026-05-11T02:40:14.462Z
+- Phase: phaser-v1-moon-fence-unlock-requirements-surface-pr-open
+- Issue: 520
+- PR: 521
+- Item: items/0276-moon-fence-unlock-requirements-surface.md
+- Next action: PR checks gate: watch PR #521 required checks, mark ready, merge, then observe main CI
 
 ## Open PRs
 
-- #519 draft 밤유리 오로 월정 문 route action — https://github.com/bborok1234/strange-seed-shop/pull/519
+- #521 draft 월정 문 unlock requirements surface — https://github.com/bborok1234/strange-seed-shop/pull/521
 
 ## Open issues
 
-- #518 밤유리 오로 월정 문 route action — https://github.com/bborok1234/strange-seed-shop/issues/518
+- #520 월정 문 unlock requirements surface — https://github.com/bborok1234/strange-seed-shop/issues/520
 
 ## Playable mode
 
