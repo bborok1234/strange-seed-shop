@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: plan
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #518
 - PR: TBD
@@ -64,6 +64,25 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 결과
+
+- `GardenState`에 `nightGlassOroRouteActionAvailable`, `moonFenceRoutePreviewVisible`, `moonFenceRouteInspected`를 추가했다.
+- 밤유리 수확 직후 `월정 문 단서 보기` action이 열리고, 실행 후 `expedition_moon_fence_locked` locked route preview가 objective/HUD/playfield/telemetry에 남는다.
+- Phaser expedition gate는 existing `facility_expedition_gate_v1`과 `fx_night_glass_source_unlock_strip_v1`로 월정 문 locked marker를 표시한다.
+- `scripts/check-phaser-foundation.mjs`는 #516 handoff 이후 route action click, telemetry, screenshot evidence를 assertion한다.
+
+## 검증 결과
+
+- `npm run build:phaser`: 통과
+- `npm run check:phaser`: 통과
+- `npm run check:content`: 통과
+- `npm run check:asset-provenance`: 통과
+- `npm run check:asset-style`: 통과
+- `npm run check:ci`: 통과
+- Route action evidence: `reports/visual/issue-0518-night-glass-oro-moon-fence-route-action/phaser-check-moon-fence-route-action-393.png`
+- Visual report: `reports/visual/issue-0518-night-glass-oro-moon-fence-route-action/visual-report-20260511.md`
+- Browser Use blocker: `reports/visual/issue-0518-night-glass-oro-moon-fence-route-action/browser-use-blocker-20260511.md`
 
 ## 리스크
 

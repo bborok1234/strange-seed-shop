@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T02:14:52.341Z
+Generated at: 2026-05-11T02:21:58.118Z
 
 ## Current mission
 
@@ -20,8 +20,8 @@ Generated at: 2026-05-11T02:14:52.341Z
 - GitHub issue: #518 `밤유리 오로 월정 문 route action`
 - Branch: `codex/v1-night-glass-oro-moon-fence-route-action`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Visual evidence: pending
-- Current validation: #517 merge/main CI observed; #518 GitHub issue and plan artifact created; implementation gate pending
+- Visual evidence: `reports/visual/issue-0518-night-glass-oro-moon-fence-route-action/visual-report-20260511.md`
+- Current validation: #517 merge/main CI observed; #518 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci` passed; PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,18 +39,18 @@ Generated at: 2026-05-11T02:14:52.341Z
 ## Local state
 
 - Branch: codex/v1-night-glass-oro-moon-fence-route-action
-- Latest commit: fa18949 Merge pull request #517 from bborok1234/codex/v1-night-glass-oro-actor-route-handoff
+- Latest commit: 17bf359 밤유리 오로 월정 문 route action 작업을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T02:14:50.857Z
-- Phase: phaser-v1-night-glass-oro-moon-fence-route-action-plan
+- Timestamp: 2026-05-11T02:21:56.320Z
+- Phase: phaser-v1-night-glass-oro-moon-fence-route-action-ready-for-pr
 - Issue: 518
 - PR:
 - Item: items/0275-night-glass-oro-moon-fence-route-action.md
-- Next action: Implementation gate: connect moon fence route action state, HUD, checker, and visual evidence for #518
+- Next action: PR publication gate: commit implementation evidence and create draft PR for #518
 
 ## Open PRs
 

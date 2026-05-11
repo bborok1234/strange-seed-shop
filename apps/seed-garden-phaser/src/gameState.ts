@@ -111,6 +111,9 @@ export interface GardenState {
   nightGlassRareCreatureId?: string;
   nightGlassOroActorJoined: boolean;
   nightGlassOroRouteHandoffVisible: boolean;
+  nightGlassOroRouteActionAvailable: boolean;
+  moonFenceRoutePreviewVisible: boolean;
+  moonFenceRouteInspected: boolean;
   nextRareRoutePreviewId?: string;
   nightGlassRewardLeaves: number;
 }
@@ -316,6 +319,9 @@ export function createGardenState(): GardenState {
     nightGlassRareCreatureId: undefined,
     nightGlassOroActorJoined: false,
     nightGlassOroRouteHandoffVisible: false,
+    nightGlassOroRouteActionAvailable: false,
+    moonFenceRoutePreviewVisible: false,
+    moonFenceRouteInspected: false,
     nextRareRoutePreviewId: undefined,
     nightGlassRewardLeaves: 0
   };
@@ -559,6 +565,7 @@ export function harvestSelectedPlot(state: GardenState): void {
     state.nightGlassRareCreatureId = NIGHT_GLASS_RARE_CREATURE_ID;
     state.nightGlassOroActorJoined = true;
     state.nightGlassOroRouteHandoffVisible = true;
+    state.nightGlassOroRouteActionAvailable = true;
     state.nextRareRoutePreviewId = NEXT_EXPEDITION_ROUTE_PREVIEW_ID;
     state.nextExpeditionRoutePreviewId = NEXT_EXPEDITION_ROUTE_PREVIEW_ID;
     if (!state.actors.some((actor) => actor.id === NIGHT_GLASS_ORO_ACTOR_ID)) {
@@ -888,6 +895,37 @@ export function claimNightGlassSourceReward(state: GardenState): void {
   state.nightGlassSourceAcquired = true;
   state.objective = "밤유리 source 획득 · seed_rare_001 source 보관";
   state.receipts.unshift(`밤유리 귀환 상자 열기 · 잎 +${rewardLeaves} · ${NIGHT_GLASS_SOURCE_SEED_ID} source 획득`);
+}
+
+export function inspectMoonFenceRoute(state: GardenState): void {
+  if (!state.nightGlassOroActorJoined || !state.nightGlassOroRouteActionAvailable || state.moonFenceRouteInspected) {
+    return;
+  }
+
+  const expeditionSlot = getSlot(state, "facility_expedition_gate");
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  expeditionSlot.unlockState = "unlocked";
+  if (expeditionGate) {
+    expeditionGate.visualState = "active";
+    expeditionGate.progress = Math.max(expeditionGate.progress, 35);
+  }
+
+  const oroActor = state.actors.find((actor) => actor.id === NIGHT_GLASS_ORO_ACTOR_ID);
+  if (oroActor) {
+    oroActor.slotId = "facility_expedition_gate";
+    oroActor.targetSlotId = "facility_expedition_gate";
+    oroActor.task = "expedition";
+  }
+
+  state.selectedSlotId = "facility_expedition_gate";
+  state.nightGlassOroRouteActionAvailable = false;
+  state.moonFenceRoutePreviewVisible = true;
+  state.moonFenceRouteInspected = true;
+  state.nightGlassOroRouteHandoffVisible = true;
+  state.nextRareRoutePreviewId = NEXT_EXPEDITION_ROUTE_PREVIEW_ID;
+  state.nextExpeditionRoutePreviewId = NEXT_EXPEDITION_ROUTE_PREVIEW_ID;
+  state.objective = `${NIGHT_GLASS_RARE_CREATURE_NAME}가 월정 문 단서 확인 · ${NEXT_EXPEDITION_ROUTE_PREVIEW_ID} locked`;
+  state.receipts.unshift(`${NIGHT_GLASS_RARE_CREATURE_NAME} route action · 월정 문 단서 확인`);
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {
