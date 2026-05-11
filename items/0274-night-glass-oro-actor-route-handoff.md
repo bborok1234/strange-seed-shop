@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #516
-- PR: TBD
+- PR: #517
 - Branch: `codex/v1-night-glass-oro-actor-route-handoff`
 - 연결: Issue #514, PR #515, main CI `25549194431`
 

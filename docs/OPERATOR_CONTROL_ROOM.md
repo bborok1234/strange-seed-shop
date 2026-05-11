@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T02:03:34.916Z
+Generated at: 2026-05-11T02:05:10.516Z
 
 ## Current mission
 
@@ -21,7 +21,7 @@ Generated at: 2026-05-11T02:03:34.916Z
 - Branch: `codex/v1-night-glass-oro-actor-route-handoff`
 - Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
 - Visual evidence: `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/visual-report-20260511.md`
-- Current validation: #515 merge/main CI observed; #516 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR publication gate pending
+- Current validation: #515 merge/main CI observed; #516 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; draft PR #517 open and PR checks pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,22 +39,22 @@ Generated at: 2026-05-11T02:03:34.916Z
 ## Local state
 
 - Branch: codex/v1-night-glass-oro-actor-route-handoff
-- Latest commit: 88290d6 밤유리 오로 route handoff 작업을 고정한다
+- Latest commit: 8e357f9 밤유리 오로 PR evidence를 준비한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T02:03:33.424Z
-- Phase: phaser-v1-night-glass-oro-actor-route-handoff-ready-for-pr
+- Timestamp: 2026-05-11T02:05:09.041Z
+- Phase: phaser-v1-night-glass-oro-actor-route-handoff-pr-open
 - Issue: 516
-- PR:
+- PR: 517
 - Item: items/0274-night-glass-oro-actor-route-handoff.md
-- Next action: PR publication gate: commit implementation evidence and create draft PR for #516
+- Next action: PR checks gate: watch PR #517 required checks, mark ready, merge, then observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #517 draft 밤유리 오로 actor route handoff — https://github.com/bborok1234/strange-seed-shop/pull/517
 
 ## Open issues
 
