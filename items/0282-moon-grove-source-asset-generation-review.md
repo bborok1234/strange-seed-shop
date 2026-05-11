@@ -5,7 +5,7 @@
 - Status: implemented/local-verified
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #532
-- PR: TBD
+- PR: #533
 - Branch: `codex/v1-moon-grove-source-asset-generation-review`
 - 연결: Issue #530, PR #531, main CI `25649871624`
 
@@ -86,3 +86,7 @@
 - Pass: `npm run check:topology-generated-assets`
 - Pass: `npm run check:ci`
 - Pass: `git diff --check`
+
+## PR evidence
+
+- Draft PR: #533 `월정 숲 source asset generation-review`
