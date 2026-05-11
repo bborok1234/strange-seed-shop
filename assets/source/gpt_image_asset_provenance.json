@@ -1204,7 +1204,66 @@
         "expectedHeight": 96,
         "binding": "night_glass_source.action.preview_unlock"
       }
+    },
+    {
+      "asset_id": "seed_moon_grove_001_icon",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/seed_moon_grove_001_icon/2026-05-11T04-17-47-086Z.png",
+      "accepted_output_path": "public/assets/game/seeds/seed_moon_grove_001_icon.png",
+      "generated_at": "2026-05-11T04:20:39.855Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "border_connected_checkerboard_alpha_cleanup"
+      ]
+    },
+    {
+      "asset_id": "fx_moon_grove_source_reward_strip_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/fx_moon_grove_source_reward_strip_v1/2026-05-11T04-20-43-733Z.png",
+      "accepted_output_path": "public/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png",
+      "generated_at": "2026-05-11T04:23:24.069Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "border_connected_checkerboard_alpha_cleanup",
+        "strict_strip_normalization"
+      ],
+      "normalization": {
+        "frames": 8,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 96,
+        "binding": "moon_fence.reward.action.claim_source_clue"
+      }
     }
   ],
-  "updated_at": "2026-05-08T08:08:21.885Z"
+  "updated_at": "2026-05-11T04:26:08.870Z"
 }
