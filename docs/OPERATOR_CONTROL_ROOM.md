@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T02:50:20.984Z
+Generated at: 2026-05-11T03:00:31.209Z
 
 ## Current mission
 
@@ -19,9 +19,9 @@ Generated at: 2026-05-11T02:50:20.984Z
 - WorkUnit: `items/0277-moon-fence-prep-delivery-payoff.md`
 - GitHub issue: #522 `월정 문 준비 납품 material payoff`
 - Branch: `codex/v1-moon-fence-prep-delivery-payoff`
-- Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Planned visual evidence: `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/visual-report-20260511.md`
-- Current validation: #521 merge/main CI observed; #522 plan artifact and GitHub issue created; implementation gate pending
+- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
+- Visual evidence: `reports/visual/issue-0522-moon-fence-prep-delivery-payoff/visual-report-20260511.md`
+- Current validation: #521 merge/main CI observed; #522 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci` passed; PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,18 +39,18 @@ Generated at: 2026-05-11T02:50:20.984Z
 ## Local state
 
 - Branch: codex/v1-moon-fence-prep-delivery-payoff
-- Latest commit: d5e658d Merge pull request #521 from bborok1234/codex/v1-moon-fence-unlock-requirements-surface
+- Latest commit: 6285cd8 월정 문 준비 납품을 material payoff로 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T02:49:40.327Z
-- Phase: phaser-v1-moon-fence-prep-delivery-payoff-plan
+- Timestamp: 2026-05-11T03:00:29.778Z
+- Phase: phaser-v1-moon-fence-prep-delivery-payoff-ready-for-pr
 - Issue: 522
 - PR:
 - Item: items/0277-moon-fence-prep-delivery-payoff.md
-- Next action: Implementation gate: connect moon fence prep delivery action, material 3/3 state, crate chip, checker, and visual evidence for #522
+- Next action: PR publication gate: commit implementation evidence and create draft PR for #522
 
 ## Open PRs
 
