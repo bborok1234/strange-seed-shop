@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0514-night-glass-source-harvest-reveal";
+const OUT_DIR = "reports/visual/issue-0516-night-glass-oro-actor-route-handoff";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -546,11 +546,17 @@ async function runSmoke() {
       nightGlassRareCreatureRevealed: window.__seedGardenNightGlassRareCreatureRevealed ?? false,
       nightGlassRareCreatureId: window.__seedGardenNightGlassRareCreatureId ?? "",
       nightGlassRareCreatureName: window.__seedGardenNightGlassRareCreatureName ?? "",
+      nightGlassOroActorJoined: window.__seedGardenNightGlassOroActorJoined ?? false,
+      nightGlassOroRouteHandoffVisible: window.__seedGardenNightGlassOroRouteHandoffVisible ?? false,
+      nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
       nightGlassSourceFxKey: window.__seedGardenNightGlassSourceFxKey ?? "",
+      actorIds: window.__seedGardenActorIds ?? [],
       plotStates: window.__seedGardenPlotStates ?? [],
       receipts: window.__seedGardenReceipts ?? []
     }));
+    await page.waitForTimeout(160);
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-night-glass-oro-handoff-393.png`, fullPage: false });
 
     const evidence = await page.evaluate(() => ({
       objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
@@ -606,6 +612,9 @@ async function runSmoke() {
       nightGlassRareCreatureRevealed: window.__seedGardenNightGlassRareCreatureRevealed ?? false,
       nightGlassRareCreatureId: window.__seedGardenNightGlassRareCreatureId ?? "",
       nightGlassRareCreatureName: window.__seedGardenNightGlassRareCreatureName ?? "",
+      nightGlassOroActorJoined: window.__seedGardenNightGlassOroActorJoined ?? false,
+      nightGlassOroRouteHandoffVisible: window.__seedGardenNightGlassOroRouteHandoffVisible ?? false,
+      nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
       nightGlassSourceRenderedAssetKey: window.__seedGardenNightGlassSourceRenderedAssetKey ?? "",
       nightGlassSourceFxKey: window.__seedGardenNightGlassSourceFxKey ?? "",
@@ -1219,6 +1228,21 @@ async function runSmoke() {
     if (!nightGlassRevealed.railText.includes("creature_lunar_rare_001")) {
       failures.push("missing night glass rare creature id in HUD surface");
     }
+    if (!nightGlassRevealed.nightGlassOroActorJoined) {
+      failures.push("night glass Oro actor join telemetry missing after reveal");
+    }
+    if (!nightGlassRevealed.nightGlassOroRouteHandoffVisible) {
+      failures.push("night glass Oro route handoff telemetry missing after reveal");
+    }
+    if (nightGlassRevealed.nextRareRoutePreviewId !== "expedition_moon_fence_locked") {
+      failures.push(`expected next rare route preview expedition_moon_fence_locked, got ${nightGlassRevealed.nextRareRoutePreviewId}`);
+    }
+    if (!nightGlassRevealed.actorIds.includes("actor_oro")) {
+      failures.push("missing actor_oro after night glass reveal");
+    }
+    if (!nightGlassRevealed.railText.includes("밤유리 오로 합류")) {
+      failures.push("missing night glass Oro actor join HUD surface");
+    }
     if (nightGlassRevealed.plotStates.some((plot) => plot.seedId === "seed_rare_001")) {
       failures.push("seed_rare_001 plot stayed occupied after harvest");
     }
@@ -1331,13 +1355,27 @@ async function runSmoke() {
     if (evidence.nightGlassRareCreatureName !== "밤유리 오로") {
       failures.push(`expected final night glass rare creature name 밤유리 오로, got ${evidence.nightGlassRareCreatureName}`);
     }
+    if (!evidence.nightGlassOroActorJoined) {
+      failures.push("final night glass Oro actor join telemetry missing");
+    }
+    if (!evidence.nightGlassOroRouteHandoffVisible) {
+      failures.push("final night glass Oro route handoff telemetry missing");
+    }
+    if (evidence.nextRareRoutePreviewId !== "expedition_moon_fence_locked") {
+      failures.push(`expected final next rare route preview id expedition_moon_fence_locked, got ${evidence.nextRareRoutePreviewId}`);
+    }
+    if (!evidence.actorIds.includes("actor_oro")) {
+      failures.push("final actor_oro missing");
+    }
     if (evidence.leaves !== "299") {
       failures.push(`expected final leaves 299 after night glass rare reveal, got ${evidence.leaves}`);
     }
     if (evidence.nightGlassRewardLeaves !== 0) {
       failures.push(`expected final night glass reward leaves 0, got ${evidence.nightGlassRewardLeaves}`);
     }
-    if (!evidence.objective.includes("밤유리 오로 발견")) failures.push("missing night glass final objective");
+    if (!evidence.objective.includes("밤유리 오로") || !evidence.objective.includes("월정 문 preview")) {
+      failures.push("missing night glass Oro route handoff final objective");
+    }
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
     const sourcePlot = evidence.plotStates.find((plot) => plot.seedId === "seed_lunar_002");
@@ -1461,7 +1499,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-night-glass-plant-action-393.png`,
         `${OUT_DIR}/phaser-check-night-glass-planted-393.png`,
         `${OUT_DIR}/phaser-check-night-glass-ready-393.png`,
-        `${OUT_DIR}/phaser-check-night-glass-revealed-393.png`
+        `${OUT_DIR}/phaser-check-night-glass-revealed-393.png`,
+        `${OUT_DIR}/phaser-check-night-glass-oro-handoff-393.png`
       ],
       failures
     };

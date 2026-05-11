@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-11T01:54:31.493Z
+Generated at: 2026-05-11T02:03:34.916Z
 
 ## Current mission
 
@@ -19,9 +19,9 @@ Generated at: 2026-05-11T01:54:31.493Z
 - WorkUnit: `items/0274-night-glass-oro-actor-route-handoff.md`
 - GitHub issue: #516 `밤유리 오로 actor route handoff`
 - Branch: `codex/v1-night-glass-oro-actor-route-handoff`
-- Planned runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
-- Planned visual evidence: `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/`
-- Current validation: #515 merge/main CI observed; #516 plan-first intake complete; implementation pending
+- Runtime binding: `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`
+- Visual evidence: `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/visual-report-20260511.md`
+- Current validation: #515 merge/main CI observed; #516 implementation complete locally; `npm run build:phaser`, `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` passed; PR publication gate pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260511.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -39,18 +39,18 @@ Generated at: 2026-05-11T01:54:31.493Z
 ## Local state
 
 - Branch: codex/v1-night-glass-oro-actor-route-handoff
-- Latest commit: 5901b41 Merge pull request #515 from bborok1234/codex/v1-night-glass-source-harvest-reveal
+- Latest commit: 88290d6 밤유리 오로 route handoff 작업을 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-11T01:54:30.029Z
-- Phase: phaser-v1-night-glass-oro-actor-route-handoff-planning
+- Timestamp: 2026-05-11T02:03:33.424Z
+- Phase: phaser-v1-night-glass-oro-actor-route-handoff-ready-for-pr
 - Issue: 516
 - PR:
 - Item: items/0274-night-glass-oro-actor-route-handoff.md
-- Next action: Implementation gate: add actor_oro playfield marker, route handoff HUD, and checker
+- Next action: PR publication gate: commit implementation evidence and create draft PR for #516
 
 ## Open PRs
 

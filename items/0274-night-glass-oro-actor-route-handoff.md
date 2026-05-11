@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: todo
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #516
 - PR: TBD
@@ -65,6 +65,27 @@
 - `npm run check:asset-style`
 - `npm run check:ci`
 - `git diff --check`
+
+## 구현 결과
+
+- `GardenState`에 `nightGlassOroActorJoined`, `nightGlassOroRouteHandoffVisible`, `nextRareRoutePreviewId`를 추가했다.
+- 밤유리 수확 성공 시 `actor_oro`가 `creature_lunar_rare_001` 기반 explorer actor로 합류하고 `expedition_moon_fence_locked` preview가 고정된다.
+- Phaser playfield는 오로 actor marker와 night-glass FX aura를 표시한다.
+- HUD/action rail은 `밤유리 오로 합류 · creature_lunar_rare_001 · expedition_moon_fence_locked`와 `월정 문 단서` surface를 표시한다.
+- `scripts/check-phaser-foundation.mjs`는 #515 reveal 이후 actor ids, route handoff telemetry, screenshot evidence를 assertion한다.
+
+## 검증 결과
+
+- `npm run build:phaser`: 통과
+- `npm run check:phaser`: 통과
+- `npm run check:content`: 통과
+- `npm run check:asset-provenance`: 통과
+- `npm run check:asset-style`: 통과
+- `npm run check:ci`: 통과
+- `git diff --check`: 통과
+- Actor handoff evidence: `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/phaser-check-night-glass-oro-handoff-393.png`
+- Visual report: `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/visual-report-20260511.md`
+- Browser Use blocker: `reports/visual/issue-0516-night-glass-oro-actor-route-handoff/browser-use-blocker-20260511.md`
 
 ## 리스크
 

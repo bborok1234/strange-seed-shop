@@ -2,7 +2,7 @@ export type SlotKind = "plot" | "facility" | "decor";
 export type UnlockState = "unlocked" | "preview" | "locked";
 export type PlotState = "empty" | "planted" | "growing" | "ready";
 export type FacilityKind = "workbench" | "order_crate" | "storage" | "research_shelf" | "expedition_gate";
-export type ActorRole = "caretaker" | "carrier";
+export type ActorRole = "caretaker" | "carrier" | "explorer";
 export type ExpeditionState = "locked" | "ready" | "traveling" | "returned" | "claimed";
 export type NightGlassAcquisitionState = "locked" | "ready" | "traveling" | "returned" | "claimed";
 
@@ -14,6 +14,7 @@ export const NEXT_EXPEDITION_ROUTE_PREVIEW_ID = "expedition_moon_fence_locked";
 export const NIGHT_GLASS_SOURCE_SEED_ID = "seed_rare_001";
 export const NIGHT_GLASS_RARE_CREATURE_ID = "creature_lunar_rare_001";
 export const NIGHT_GLASS_RARE_CREATURE_NAME = "밤유리 오로";
+export const NIGHT_GLASS_ORO_ACTOR_ID = "actor_oro";
 export const NIGHT_GLASS_ROUTE_PREVIEW_ID = "expedition_night_glass";
 export const NIGHT_GLASS_RESEARCH_PREVIEW_ID = "research_rare_glass";
 export const NIGHT_GLASS_SOURCE_REWARD_LEAVES = 64;
@@ -108,6 +109,9 @@ export interface GardenState {
   nightGlassSourceAcquired: boolean;
   nightGlassRareCreatureRevealed: boolean;
   nightGlassRareCreatureId?: string;
+  nightGlassOroActorJoined: boolean;
+  nightGlassOroRouteHandoffVisible: boolean;
+  nextRareRoutePreviewId?: string;
   nightGlassRewardLeaves: number;
 }
 
@@ -310,6 +314,9 @@ export function createGardenState(): GardenState {
     nightGlassSourceAcquired: false,
     nightGlassRareCreatureRevealed: false,
     nightGlassRareCreatureId: undefined,
+    nightGlassOroActorJoined: false,
+    nightGlassOroRouteHandoffVisible: false,
+    nextRareRoutePreviewId: undefined,
     nightGlassRewardLeaves: 0
   };
 }
@@ -550,7 +557,22 @@ export function harvestSelectedPlot(state: GardenState): void {
     state.nightGlassSourceSeedHarvested = true;
     state.nightGlassRareCreatureRevealed = true;
     state.nightGlassRareCreatureId = NIGHT_GLASS_RARE_CREATURE_ID;
-    state.objective = `${NIGHT_GLASS_RARE_CREATURE_NAME} 발견 · 밤유리 rare route 완성`;
+    state.nightGlassOroActorJoined = true;
+    state.nightGlassOroRouteHandoffVisible = true;
+    state.nextRareRoutePreviewId = NEXT_EXPEDITION_ROUTE_PREVIEW_ID;
+    state.nextExpeditionRoutePreviewId = NEXT_EXPEDITION_ROUTE_PREVIEW_ID;
+    if (!state.actors.some((actor) => actor.id === NIGHT_GLASS_ORO_ACTOR_ID)) {
+      state.actors.push({
+        id: NIGHT_GLASS_ORO_ACTOR_ID,
+        name: NIGHT_GLASS_RARE_CREATURE_NAME,
+        role: "explorer",
+        slotId: "facility_expedition_gate",
+        targetSlotId: "facility_research_shelf",
+        task: "idle"
+      });
+    }
+    state.objective = `${NIGHT_GLASS_RARE_CREATURE_NAME} 발견 · 오로 합류 · 월정 문 preview`;
+    state.receipts.unshift(`${NIGHT_GLASS_RARE_CREATURE_NAME} 합류 · ${NEXT_EXPEDITION_ROUTE_PREVIEW_ID} preview`);
     state.receipts.unshift(`밤유리 수확 · ${NIGHT_GLASS_RARE_CREATURE_NAME} 발견 · 잎 +96`);
     return;
   }
