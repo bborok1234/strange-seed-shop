@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #524
-- PR: TBD
+- PR: #525
 - Branch: `codex/v1-moon-fence-second-clue-payoff`
 - 연결: Issue #522, PR #523, main CI `25648143531`
 
