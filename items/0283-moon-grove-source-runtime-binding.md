@@ -2,10 +2,10 @@
 
 ## 상태
 
-- Status: planned
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #534
-- PR: TBD
+- PR: pending
 - Branch: `codex/v1-moon-grove-source-runtime-binding`
 - 연결: Issue #532, PR #533, main CI `25650492343`
 
@@ -58,15 +58,48 @@
 
 ## 검증 명령
 
-- `npm run check:phaser`
+- `npm run check:phaser` - PASS, 2026-05-15
 - `npm run check:content`
 - `npm run check:asset-provenance`
 - `npm run check:asset-style`
 - `npm run check:asset-alpha`
-- `npm run check:ci`
-- `git diff --check`
+- `npm run check:ci` - PASS, 2026-05-15
+- `git diff --check` - PASS, 2026-05-15
+
+## 구현 결과
+
+- `public/assets/manifest/assetManifest.json`
+  - `seed_moon_grove_001_icon` accepted entry 추가.
+  - `fx_moon_grove_source_reward_strip_v1` accepted entry와 animation binding 추가.
+- `apps/seed-garden-phaser/src/main.ts`
+  - `TOPOLOGY_ASSETS.seeds.moonGroveSource`, `TOPOLOGY_ASSETS.fx.moonGroveSourceReward` 추가.
+  - `moon-grove-source-reward-once` spritesheet animation 추가.
+  - `claim_moon_fence_expedition` reward motion을 dedicated 월정 숲 FX로 교체.
+  - `moonFenceNextClueVisible` 상태에서 source icon, source FX, telemetry를 렌더링.
+- `scripts/check-phaser-foundation.mjs`
+  - topology required asset, claim telemetry, final telemetry assertion 추가.
+  - `감상` 모드 fallback screenshot `phaser-check-moon-fence-source-overview-393.png` 추가.
+
+## 검증 결과
+
+- `npm run check:phaser` - PASS
+  - final `topologyAssets`에 `seed_moon_grove_001_icon`, `fx_moon_grove_source_reward_strip_v1` 포함.
+  - final `moonGroveSourceRenderedAssetKey=seed_moon_grove_001_icon`.
+  - final `moonGroveSourceFxKey=fx_moon_grove_source_reward_strip_v1`.
+  - source overview screenshot에서 `viewMode=overview`, `hudCollapsed=true`, `actionRailDisplay=none`, body scroll 없음.
+- `npm run check:content` - PASS.
+- `npm run check:asset-provenance` - PASS, accepted game assets 57, animated assets 22.
+- `npm run check:asset-style` - PASS.
+- `npm run check:asset-alpha` - PASS, checked 54, alphaPassed 54.
+- `npm run check:ci` - PASS.
+- `git diff --check` - PASS.
+- Browser Use current-session blocker:
+  - `reports/visual/issue-0534-moon-grove-source-runtime-binding/browser-use-blocker-20260515.md`
+- Playwright fallback visual report:
+  - `reports/visual/issue-0534-moon-grove-source-runtime-binding/visual-report-20260515.md`
+  - `reports/visual/issue-0534-moon-grove-source-runtime-binding/phaser-check-moon-fence-source-overview-393.png`
 
 ## Blocker boundary
 
-- Browser Use plugin이 현재 세션에 없으면 blocker report를 남기고 Playwright checker screenshot으로 fallback한다.
+- Browser Use plugin이 현재 세션에 없어 blocker report를 남기고 Playwright checker screenshot으로 fallback했다.
 - 실제 `seed_moon_grove_001` acquisition/planting/harvest loop는 후속 WorkUnit으로 분리한다.

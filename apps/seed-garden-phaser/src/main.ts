@@ -81,6 +81,10 @@ const TOPOLOGY_ASSETS = {
     nightGlassSource: {
       key: "seed_rare_001_icon",
       path: "/assets/game/seeds/seed_rare_001_icon.png"
+    },
+    moonGroveSource: {
+      key: "seed_moon_grove_001_icon",
+      path: "/assets/game/seeds/seed_moon_grove_001_icon.png"
     }
   },
   creatures: {
@@ -157,6 +161,12 @@ const TOPOLOGY_ASSETS = {
       path: "/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png",
       frameWidth: 96,
       frameHeight: 96
+    },
+    moonGroveSourceReward: {
+      key: "fx_moon_grove_source_reward_strip_v1",
+      path: "/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png",
+      frameWidth: 96,
+      frameHeight: 96
     }
   }
 } as const;
@@ -218,7 +228,14 @@ class GardenBoardScene extends Phaser.Scene {
   private hud?: HudElements;
   private renderLayer?: Phaser.GameObjects.Container;
   private pendingFx?: {
-    kind: "care" | "harvest" | "delivery" | "expeditionReturn" | "lunarHarvest" | "nightGlassAcquire";
+    kind:
+      | "care"
+      | "harvest"
+      | "delivery"
+      | "expeditionReturn"
+      | "lunarHarvest"
+      | "nightGlassAcquire"
+      | "moonGroveSource";
     slotId: string;
   };
   private viewMode: ViewMode = "manage";
@@ -419,6 +436,12 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.moonFenceNextClueVisible;
     (window as unknown as { __seedGardenMoonFenceNextClueId?: string }).__seedGardenMoonFenceNextClueId =
       gameState.moonFenceNextClueId ?? "";
+    (window as unknown as { __seedGardenMoonGroveSourceRenderedAssetKey?: string })
+      .__seedGardenMoonGroveSourceRenderedAssetKey = gameState.moonFenceNextClueVisible
+        ? TOPOLOGY_ASSETS.seeds.moonGroveSource.key
+        : "";
+    (window as unknown as { __seedGardenMoonGroveSourceFxKey?: string }).__seedGardenMoonGroveSourceFxKey =
+      gameState.moonFenceNextClueVisible ? TOPOLOGY_ASSETS.fx.moonGroveSourceReward.key : "";
     (window as unknown as { __seedGardenMoonFenceRequiredExplorerId?: string }).__seedGardenMoonFenceRequiredExplorerId =
       gameState.moonFenceRequiredExplorerId ?? "";
     (window as unknown as { __seedGardenNextRareRoutePreviewId?: string }).__seedGardenNextRareRoutePreviewId =
@@ -506,6 +529,12 @@ class GardenBoardScene extends Phaser.Scene {
     this.anims.create({
       key: "night-glass-source-unlock-once",
       frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key, { start: 0, end: 7 }),
+      frameRate: 12,
+      repeat: 0
+    });
+    this.anims.create({
+      key: "moon-grove-source-reward-once",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.moonGroveSourceReward.key, { start: 0, end: 7 }),
       frameRate: 12,
       repeat: 0
     });
@@ -951,16 +980,27 @@ class GardenBoardScene extends Phaser.Scene {
         }
 
         if (gameState.moonFenceRewardMotionVisible) {
-          const rewardFx = this.add.sprite(-42, 65, TOPOLOGY_ASSETS.fx.expeditionReturn.key);
-          rewardFx.setDisplaySize(54, 42);
-          rewardFx.setAlpha(0.74);
-          rewardFx.play("expedition-return-reward-once");
+          const rewardFx = this.add.sprite(-42, 65, TOPOLOGY_ASSETS.fx.moonGroveSourceReward.key);
+          rewardFx.setDisplaySize(58, 46);
+          rewardFx.setAlpha(0.82);
+          rewardFx.play("moon-grove-source-reward-once");
           container.add(rewardFx);
         }
 
         if (gameState.moonFenceNextClueVisible) {
+          const sourceFx = this.add.sprite(-42, 92, TOPOLOGY_ASSETS.fx.moonGroveSourceReward.key);
+          sourceFx.setDisplaySize(44, 38);
+          sourceFx.setAlpha(0.72);
+          sourceFx.play("moon-grove-source-reward-once");
+          container.add(sourceFx);
+
+          const sourceIcon = this.add.image(-42, 94, TOPOLOGY_ASSETS.seeds.moonGroveSource.key);
+          sourceIcon.setDisplaySize(28, 28);
+          sourceIcon.setDepth(4);
+          container.add(sourceIcon);
+
           const nextClue = this.add
-            .text(0, 94, `${MOON_FENCE_NEXT_CLUE_ID}\nsource promise`, {
+            .text(17, 94, `${MOON_FENCE_NEXT_CLUE_ID}\nsource promise`, {
               align: "center",
               backgroundColor: "rgba(38, 50, 89, 0.92)",
               color: "#f4f0c9",
@@ -1254,6 +1294,8 @@ class GardenBoardScene extends Phaser.Scene {
         ? TOPOLOGY_ASSETS.fx.care.key
         : this.pendingFx.kind === "nightGlassAcquire"
           ? TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key
+        : this.pendingFx.kind === "moonGroveSource"
+          ? TOPOLOGY_ASSETS.fx.moonGroveSourceReward.key
         : this.pendingFx.kind === "lunarHarvest"
           ? TOPOLOGY_ASSETS.fx.lunarHarvest.key
         : this.pendingFx.kind === "expeditionReturn"
@@ -1264,6 +1306,8 @@ class GardenBoardScene extends Phaser.Scene {
         ? "care-spark-once"
         : this.pendingFx.kind === "nightGlassAcquire"
           ? "night-glass-source-unlock-once"
+        : this.pendingFx.kind === "moonGroveSource"
+          ? "moon-grove-source-reward-once"
         : this.pendingFx.kind === "lunarHarvest"
           ? "lunar-harvest-moonburst-once"
         : this.pendingFx.kind === "expeditionReturn"
@@ -1276,6 +1320,8 @@ class GardenBoardScene extends Phaser.Scene {
         ? 96
         : this.pendingFx.kind === "nightGlassAcquire"
           ? 132
+        : this.pendingFx.kind === "moonGroveSource"
+          ? 132
         : this.pendingFx.kind === "expeditionReturn"
           ? 132
           : this.pendingFx.kind === "lunarHarvest"
@@ -1286,6 +1332,8 @@ class GardenBoardScene extends Phaser.Scene {
         ? 96
         : this.pendingFx.kind === "nightGlassAcquire"
           ? 108
+        : this.pendingFx.kind === "moonGroveSource"
+          ? 96
         : this.pendingFx.kind === "expeditionReturn"
           ? 92
           : this.pendingFx.kind === "lunarHarvest"
@@ -1297,7 +1345,8 @@ class GardenBoardScene extends Phaser.Scene {
       this.pendingFx.kind === "delivery" ||
       this.pendingFx.kind === "expeditionReturn" ||
       this.pendingFx.kind === "lunarHarvest" ||
-      this.pendingFx.kind === "nightGlassAcquire"
+      this.pendingFx.kind === "nightGlassAcquire" ||
+      this.pendingFx.kind === "moonGroveSource"
     ) {
       this.tweens.add({
         targets: sprite,
@@ -1424,7 +1473,7 @@ class GardenBoardScene extends Phaser.Scene {
       });
     } else if (action === "claim_moon_fence_expedition") {
       claimMoonFenceFirstExpeditionReward(gameState);
-      this.pendingFx = { kind: "expeditionReturn", slotId: "facility_expedition_gate" };
+      this.pendingFx = { kind: "moonGroveSource", slotId: "facility_expedition_gate" };
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
