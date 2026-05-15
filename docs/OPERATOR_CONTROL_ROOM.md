@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-15T05:25:04.602Z
+Generated at: 2026-05-15T05:35:43.490Z
 
 ## Current mission
 
-현재 작업은 **월정 숲 source acquisition bridge**다. #534/#535는 `clue_moon_grove_001` reward promise를 accepted `seed_moon_grove_001_icon`과 `fx_moon_grove_source_reward_strip_v1`로 runtime에 연결했고 PR #535 merge/main CI `25901742983`까지 통과했다. 다음 blocker는 아직 `월정 숲 source 확인` player verb와 `seed_moon_grove_001 source 획득` state가 없어 planting loop로 이어질 근거가 약한 점이다.
+현재 작업은 **월정 숲 source acquisition bridge**다. #534/#535는 `clue_moon_grove_001` reward promise를 accepted `seed_moon_grove_001_icon`과 `fx_moon_grove_source_reward_strip_v1`로 runtime에 연결했고 PR #535 merge/main CI `25901742983`까지 통과했다. #536 구현은 source promise를 `월정 숲 source 확인` player verb와 `seed_moon_grove_001 source 획득` state로 전환했으며, 다음 gate는 draft PR publication/check/merge다.
 
 현재 evidence:
 
@@ -20,38 +20,39 @@ Generated at: 2026-05-15T05:25:04.602Z
 - GitHub issue: #536 `월정 숲 source acquisition bridge`
 - Branch: `codex/v1-moon-grove-source-acquisition-bridge`
 - Runtime binding: Done - manifest accepted + Phaser render/telemetry
-- Current target: add source acquisition verb/state/telemetry
-- Visual evidence: Pending - Browser Use or current blocker + Playwright screenshot
-- Current validation: plan-first artifact and issue #536 created; implementation pending
+- Source acquisition bridge: Done locally - action/reducer/HUD/playfield/checker implemented
+- Visual evidence: `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/visual-report-20260515.md`
+- Browser Use: current-session blocker recorded at `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/browser-use-blocker-20260515.md`
+- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260515.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
 0. Studio Campaign Gate: 다음 slice는 #535 이후 source promise가 acquisition state 없이 멈추는 production gap을 해소한다.
 1. Intake gate: GitHub issue #536을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
-2. Implementation gate: `GardenState`, action rail, Phaser render, telemetry, checker를 source acquisition 기준으로 확장한다.
-3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+2. Implementation gate: 완료. `GardenState`, action rail, Phaser render, telemetry, checker를 source acquisition 기준으로 확장했다.
+3. Local verification gate: 완료. `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과했다.
 4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
-6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
+6. runtime generation 지시가 없어야 하며 Browser Use unavailable blocker report + Playwright fallback evidence를 유지한다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
 
 ## Local state
 
 - Branch: codex/v1-moon-grove-source-acquisition-bridge
-- Latest commit: d573500 Merge pull request #535 from bborok1234/codex/v1-moon-grove-source-runtime-binding
+- Latest commit: 839b5fc 월정 숲 source 획득 브리지를 계획한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-15T05:25:02.575Z
-- Phase: phaser-v1-moon-grove-source-acquisition-plan
+- Timestamp: 2026-05-15T05:35:41.747Z
+- Phase: phaser-v1-moon-grove-source-acquisition-pr
 - Issue: 536
 - PR:
 - Item: items/0284-moon-grove-source-acquisition-bridge.md
-- Next action: Implementation gate: add moon grove source acquisition verb/state/telemetry for Issue #536
+- Next action: Publish draft PR for Issue #536 and watch checks
 
 ## Open PRs
 

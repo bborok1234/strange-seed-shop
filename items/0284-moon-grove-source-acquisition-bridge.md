@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: planned
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #536
 - PR: TBD
@@ -77,13 +77,30 @@
 
 ## 검증 명령
 
-- `npm run check:phaser`
-- `npm run check:content`
-- `npm run check:asset-provenance`
-- `npm run check:asset-style`
-- `npm run check:asset-alpha`
-- `npm run check:ci`
-- `git diff --check`
+- `npm run check:phaser` - pass
+- `npm run check:content` - pass
+- `npm run check:asset-provenance` - pass
+- `npm run check:asset-style` - pass
+- `npm run check:asset-alpha` - pass
+- `npm run check:ci` - pass
+- `git diff --check` - pass
+
+## 구현 결과
+
+- `GardenState`에 `moonGroveSourceAcquired`, `moonGroveSourceSeedAvailable`, `moonGroveSourceSeedId`를 추가했다.
+- `월정 문 귀환 상자 열기` 이후 원정 문 action rail에 `월정 숲 source 확인` player verb를 추가했다.
+- `claimMoonGroveSource` reducer가 `seed_moon_grove_001 source 획득` objective/receipt와 source inventory telemetry를 남긴다.
+- Phaser playfield는 accepted `seed_moon_grove_001_icon`과 `fx_moon_grove_source_reward_strip_v1`을 획득 전후 marker/reward motion으로 렌더한다.
+- Overview에서는 축소 상태의 텍스트 겹침을 줄이기 위해 월정 문 주변의 긴 route/source 캔버스 텍스트를 관리 화면에만 표시한다.
+- `scripts/check-phaser-foundation.mjs`가 source 확인 전/후, overview telemetry, screenshot evidence를 검증한다.
+
+## 증거
+
+- Browser Use blocker: `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/browser-use-blocker-20260515.md`
+- Visual report: `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/visual-report-20260515.md`
+- Before action: `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/phaser-check-moon-fence-expedition-claimed-393.png`
+- After acquisition: `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/phaser-check-moon-grove-source-acquired-393.png`
+- Overview: `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/phaser-check-moon-fence-source-overview-393.png`
 
 ## 리스크
 

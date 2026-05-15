@@ -3,6 +3,7 @@ import {
   careSelectedPlot,
   claimBackyardGapExpeditionReward,
   claimMoonFenceFirstExpeditionReward,
+  claimMoonGroveSource,
   claimNightGlassSourceReward,
   claimResearchNextGoalSeed,
   claimOrderCrateDelivery,
@@ -32,6 +33,7 @@ import {
   MOON_FENCE_REQUIRED_MATERIALS,
   MOON_FENCE_NEXT_CLUE_ID,
   MOON_FENCE_UNLOCKED_ROUTE_ID,
+  MOON_GROVE_SOURCE_SEED_ID,
   plantLunarSourceSeed,
   plantNightGlassSourceSeed,
   plantResearchNextGoalSeed,
@@ -436,6 +438,12 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.moonFenceNextClueVisible;
     (window as unknown as { __seedGardenMoonFenceNextClueId?: string }).__seedGardenMoonFenceNextClueId =
       gameState.moonFenceNextClueId ?? "";
+    (window as unknown as { __seedGardenMoonGroveSourceAcquired?: boolean }).__seedGardenMoonGroveSourceAcquired =
+      gameState.moonGroveSourceAcquired;
+    (window as unknown as { __seedGardenMoonGroveSourceSeedAvailable?: boolean })
+      .__seedGardenMoonGroveSourceSeedAvailable = gameState.moonGroveSourceSeedAvailable;
+    (window as unknown as { __seedGardenMoonGroveSourceSeedId?: string }).__seedGardenMoonGroveSourceSeedId =
+      gameState.moonGroveSourceSeedId ?? "";
     (window as unknown as { __seedGardenMoonGroveSourceRenderedAssetKey?: string })
       .__seedGardenMoonGroveSourceRenderedAssetKey = gameState.moonFenceNextClueVisible
         ? TOPOLOGY_ASSETS.seeds.moonGroveSource.key
@@ -947,7 +955,7 @@ class GardenBoardScene extends Phaser.Scene {
           container.add(clueStamp);
         }
 
-        if (gameState.moonFenceUnlockedMarkerVisible) {
+        if (this.viewMode === "manage" && gameState.moonFenceUnlockedMarkerVisible) {
           const unlocked = this.add
             .text(0, 67, `${MOON_FENCE_UNLOCKED_ROUTE_ID}\nroute open`, {
               align: "center",
@@ -989,29 +997,41 @@ class GardenBoardScene extends Phaser.Scene {
 
         if (gameState.moonFenceNextClueVisible) {
           const sourceFx = this.add.sprite(-42, 92, TOPOLOGY_ASSETS.fx.moonGroveSourceReward.key);
-          sourceFx.setDisplaySize(44, 38);
-          sourceFx.setAlpha(0.72);
+          sourceFx.setDisplaySize(gameState.moonGroveSourceAcquired ? 52 : 44, gameState.moonGroveSourceAcquired ? 44 : 38);
+          sourceFx.setAlpha(gameState.moonGroveSourceAcquired ? 0.86 : 0.72);
           sourceFx.play("moon-grove-source-reward-once");
           container.add(sourceFx);
 
           const sourceIcon = this.add.image(-42, 94, TOPOLOGY_ASSETS.seeds.moonGroveSource.key);
-          sourceIcon.setDisplaySize(28, 28);
+          sourceIcon.setDisplaySize(gameState.moonGroveSourceAcquired ? 32 : 28, gameState.moonGroveSourceAcquired ? 32 : 28);
           sourceIcon.setDepth(4);
           container.add(sourceIcon);
 
-          const nextClue = this.add
-            .text(17, 94, `${MOON_FENCE_NEXT_CLUE_ID}\nsource promise`, {
-              align: "center",
-              backgroundColor: "rgba(38, 50, 89, 0.92)",
-              color: "#f4f0c9",
-              fontFamily: "system-ui, sans-serif",
-              fontSize: "8px",
-              fontStyle: "800",
-              lineSpacing: 1,
-              padding: { x: 6, y: 3 }
-            })
-            .setOrigin(0.5);
-          container.add(nextClue);
+          if (this.viewMode === "manage") {
+            const nextClue = this.add
+              .text(
+                17,
+                94,
+                gameState.moonGroveSourceAcquired ? "월정 숲\nsource 획득" : "source\n확인 대기",
+                {
+                  align: "center",
+                  backgroundColor: gameState.moonGroveSourceAcquired
+                    ? "rgba(226, 247, 201, 0.94)"
+                    : "rgba(38, 50, 89, 0.92)",
+                  color: "#f4f0c9",
+                  fontFamily: "system-ui, sans-serif",
+                  fontSize: "8px",
+                  fontStyle: "800",
+                  lineSpacing: 1,
+                  padding: { x: 6, y: 3 }
+                }
+              )
+              .setOrigin(0.5);
+            if (gameState.moonGroveSourceAcquired) {
+              nextClue.setColor("#263259");
+            }
+            container.add(nextClue);
+          }
         }
       }
     }
@@ -1404,6 +1424,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "unlock_moon_fence_route"
       | "start_moon_fence_expedition"
       | "claim_moon_fence_expedition"
+      | "claim_moon_grove_source"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -1473,6 +1494,9 @@ class GardenBoardScene extends Phaser.Scene {
       });
     } else if (action === "claim_moon_fence_expedition") {
       claimMoonFenceFirstExpeditionReward(gameState);
+      this.pendingFx = { kind: "moonGroveSource", slotId: "facility_expedition_gate" };
+    } else if (action === "claim_moon_grove_source") {
+      claimMoonGroveSource(gameState);
       this.pendingFx = { kind: "moonGroveSource", slotId: "facility_expedition_gate" };
     } else if (action === "care") {
       careSelectedPlot(gameState);
@@ -1689,6 +1713,18 @@ class GardenBoardScene extends Phaser.Scene {
       `;
       this.hud.actions.appendChild(unlockSurface);
     }
+    if (gameState.moonFenceNextClueVisible) {
+      const moonGroveSourceSurface = document.createElement("div");
+      moonGroveSourceSurface.className = "collection-goal-surface";
+      const sourceState = gameState.moonGroveSourceAcquired
+        ? `${gameState.moonGroveSourceSeedId ?? MOON_GROVE_SOURCE_SEED_ID} source 획득 · planting 대기`
+        : `${gameState.moonFenceNextClueId ?? MOON_FENCE_NEXT_CLUE_ID} · 월정 숲 source 확인 대기`;
+      moonGroveSourceSurface.innerHTML = `
+        <strong>월정 숲 source</strong>
+        <span>${sourceState}</span>
+      `;
+      this.hud.actions.appendChild(moonGroveSourceSurface);
+    }
     if (gameState.moonFenceExpeditionState !== "locked" && gameState.moonFenceExpeditionState !== "ready") {
       const moonExpeditionSurface = document.createElement("div");
       moonExpeditionSurface.className = "collection-goal-surface";
@@ -1833,7 +1869,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "package_moon_fence_second_clue"
       | "unlock_moon_fence_route"
       | "start_moon_fence_expedition"
-      | "claim_moon_fence_expedition";
+      | "claim_moon_fence_expedition"
+      | "claim_moon_grove_source";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -1878,6 +1915,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (facility?.kind === "expedition_gate" && state.moonFenceExpeditionState === "returned") {
       return [{ id: "claim_moon_fence_expedition", label: "월정 문 귀환 상자 열기" }];
+    }
+    if (facility?.kind === "expedition_gate" && state.moonFenceNextClueVisible && !state.moonGroveSourceAcquired) {
+      return [{ id: "claim_moon_grove_source", label: "월정 숲 source 확인" }];
     }
     if (facility?.kind === "expedition_gate" && state.expeditionState === "ready") {
       return [{ id: "start_expedition", label: "틈새길 보내기" }];

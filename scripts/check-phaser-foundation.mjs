@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0534-moon-grove-source-runtime-binding";
+const OUT_DIR = "reports/visual/issue-0536-moon-grove-source-acquisition-bridge";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -760,11 +760,30 @@ async function runSmoke() {
       moonFenceRewardMotionVisible: window.__seedGardenMoonFenceRewardMotionVisible ?? false,
       moonFenceNextClueVisible: window.__seedGardenMoonFenceNextClueVisible ?? false,
       moonFenceNextClueId: window.__seedGardenMoonFenceNextClueId ?? "",
+      moonGroveSourceAcquired: window.__seedGardenMoonGroveSourceAcquired ?? false,
+      moonGroveSourceSeedAvailable: window.__seedGardenMoonGroveSourceSeedAvailable ?? false,
+      moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
       receipts: window.__seedGardenReceipts ?? []
     }));
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-expedition-claimed-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "월정 숲 source 확인" }).click();
+    await page.waitForTimeout(220);
+    const moonGroveSourceAcquired = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      moonFenceNextClueVisible: window.__seedGardenMoonFenceNextClueVisible ?? false,
+      moonFenceNextClueId: window.__seedGardenMoonFenceNextClueId ?? "",
+      moonGroveSourceAcquired: window.__seedGardenMoonGroveSourceAcquired ?? false,
+      moonGroveSourceSeedAvailable: window.__seedGardenMoonGroveSourceSeedAvailable ?? false,
+      moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
+      moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
+      moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-grove-source-acquired-393.png`, fullPage: false });
     await page.getByRole("button", { name: "감상" }).click();
     await page.waitForTimeout(180);
     const moonFenceSourceOverview = await page.evaluate(() => ({
@@ -777,6 +796,9 @@ async function runSmoke() {
       innerHeight: window.innerHeight,
       moonFenceNextClueVisible: window.__seedGardenMoonFenceNextClueVisible ?? false,
       moonFenceNextClueId: window.__seedGardenMoonFenceNextClueId ?? "",
+      moonGroveSourceAcquired: window.__seedGardenMoonGroveSourceAcquired ?? false,
+      moonGroveSourceSeedAvailable: window.__seedGardenMoonGroveSourceSeedAvailable ?? false,
+      moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? ""
     }));
@@ -868,6 +890,9 @@ async function runSmoke() {
       moonFenceRewardMotionVisible: window.__seedGardenMoonFenceRewardMotionVisible ?? false,
       moonFenceNextClueVisible: window.__seedGardenMoonFenceNextClueVisible ?? false,
       moonFenceNextClueId: window.__seedGardenMoonFenceNextClueId ?? "",
+      moonGroveSourceAcquired: window.__seedGardenMoonGroveSourceAcquired ?? false,
+      moonGroveSourceSeedAvailable: window.__seedGardenMoonGroveSourceSeedAvailable ?? false,
+      moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
       moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
@@ -1722,6 +1747,15 @@ async function runSmoke() {
     if (!moonFenceExpeditionClaimed.railText.includes("clue_moon_grove_001")) {
       failures.push("missing moon grove clue text in moon fence claimed rail");
     }
+    if (!moonFenceExpeditionClaimed.railText.includes("월정 숲 source 확인")) {
+      failures.push("missing moon grove source claim action in moon fence claimed rail");
+    }
+    if (moonFenceExpeditionClaimed.moonGroveSourceAcquired) {
+      failures.push("moon grove source acquired before source 확인 action");
+    }
+    if (moonFenceExpeditionClaimed.moonGroveSourceSeedAvailable) {
+      failures.push("moon grove source seed available before source 확인 action");
+    }
     if (moonFenceExpeditionClaimed.moonGroveSourceRenderedAssetKey !== "seed_moon_grove_001_icon") {
       failures.push(
         `expected moon grove source asset seed_moon_grove_001_icon, got ${moonFenceExpeditionClaimed.moonGroveSourceRenderedAssetKey}`
@@ -1732,6 +1766,21 @@ async function runSmoke() {
     }
     if (!moonFenceExpeditionClaimed.objective.includes("월정 문 보상 수령")) {
       failures.push("missing moon fence reward claim objective");
+    }
+    if (!moonGroveSourceAcquired.moonGroveSourceAcquired) {
+      failures.push("moon grove source acquired telemetry missing after source 확인");
+    }
+    if (!moonGroveSourceAcquired.moonGroveSourceSeedAvailable) {
+      failures.push("moon grove source seed availability missing after source 확인");
+    }
+    if (moonGroveSourceAcquired.moonGroveSourceSeedId !== "seed_moon_grove_001") {
+      failures.push(`expected moon grove source seed id seed_moon_grove_001, got ${moonGroveSourceAcquired.moonGroveSourceSeedId}`);
+    }
+    if (!moonGroveSourceAcquired.objective.includes("월정 숲 source 획득")) {
+      failures.push("missing moon grove source acquired objective");
+    }
+    if (!moonGroveSourceAcquired.receipts.some((receipt) => receipt.includes("seed_moon_grove_001 source 획득"))) {
+      failures.push("missing moon grove source acquired receipt");
     }
     if (!moonFenceExpeditionClaimed.receipts.some((receipt) => receipt.includes("월정 문 귀환 상자 열기"))) {
       failures.push("missing moon fence reward claim receipt");
@@ -1755,6 +1804,15 @@ async function runSmoke() {
     }
     if (moonFenceSourceOverview.moonFenceNextClueId !== "clue_moon_grove_001") {
       failures.push(`expected source overview clue id clue_moon_grove_001, got ${moonFenceSourceOverview.moonFenceNextClueId}`);
+    }
+    if (!moonFenceSourceOverview.moonGroveSourceAcquired) {
+      failures.push("moon fence source overview acquired telemetry missing");
+    }
+    if (!moonFenceSourceOverview.moonGroveSourceSeedAvailable) {
+      failures.push("moon fence source overview seed available telemetry missing");
+    }
+    if (moonFenceSourceOverview.moonGroveSourceSeedId !== "seed_moon_grove_001") {
+      failures.push(`expected source overview seed id seed_moon_grove_001, got ${moonFenceSourceOverview.moonGroveSourceSeedId}`);
     }
     if (moonFenceSourceOverview.moonGroveSourceRenderedAssetKey !== "seed_moon_grove_001_icon") {
       failures.push(
@@ -1960,6 +2018,15 @@ async function runSmoke() {
     if (evidence.moonFenceNextClueId !== "clue_moon_grove_001") {
       failures.push(`expected final moon fence next clue clue_moon_grove_001, got ${evidence.moonFenceNextClueId}`);
     }
+    if (!evidence.moonGroveSourceAcquired) {
+      failures.push("final moon grove source acquired telemetry missing");
+    }
+    if (!evidence.moonGroveSourceSeedAvailable) {
+      failures.push("final moon grove source seed available telemetry missing");
+    }
+    if (evidence.moonGroveSourceSeedId !== "seed_moon_grove_001") {
+      failures.push(`expected final moon grove source seed id seed_moon_grove_001, got ${evidence.moonGroveSourceSeedId}`);
+    }
     if (!evidence.topologyAssets.includes("seed_moon_grove_001_icon")) {
       failures.push("missing moon grove source seed topology asset key");
     }
@@ -1978,8 +2045,8 @@ async function runSmoke() {
     if (evidence.nightGlassRewardLeaves !== 0) {
       failures.push(`expected final night glass reward leaves 0, got ${evidence.nightGlassRewardLeaves}`);
     }
-    if (!evidence.objective.includes("월정 문 보상 수령") || !evidence.objective.includes("clue_moon_grove_001")) {
-      failures.push("missing moon fence first expedition final objective");
+    if (!evidence.objective.includes("월정 숲 source 획득") || !evidence.objective.includes("seed_moon_grove_001")) {
+      failures.push("missing moon grove source acquisition final objective");
     }
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
@@ -2049,6 +2116,7 @@ async function runSmoke() {
       nightGlassPlanted,
       nightGlassReady,
       nightGlassRevealed,
+      moonGroveSourceAcquired,
       moonFenceSourceOverview,
       overviewMode,
       manageReturn,
@@ -2115,6 +2183,7 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-moon-fence-expedition-traveling-393.png`,
         `${OUT_DIR}/phaser-check-moon-fence-expedition-returned-393.png`,
         `${OUT_DIR}/phaser-check-moon-fence-expedition-claimed-393.png`,
+        `${OUT_DIR}/phaser-check-moon-grove-source-acquired-393.png`,
         `${OUT_DIR}/phaser-check-moon-fence-source-overview-393.png`
       ],
       failures
