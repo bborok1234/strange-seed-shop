@@ -5,7 +5,7 @@
 - Status: active
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #540
-- PR: TBD
+- PR: #541
 - Branch: `codex/v1-moon-grove-harvest-reveal-payoff`
 - 연결: Issue #538, PR #539, main CI `25903165974`
 

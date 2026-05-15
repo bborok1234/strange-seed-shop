@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-15T06:21:12.825Z
+Generated at: 2026-05-15T06:22:47.164Z
 
 ## Current mission
 
-현재 작업은 **월정 숲 source harvest/reveal payoff**다. #538/#539는 source 획득 이후 빈 밭에서 `월정 숲 심기`로 `seed_moon_grove_001` planted state를 만들었고 main CI `25903165974`까지 통과했다. #540 구현은 planted source를 care -> ready -> `월정 숲 수확` -> `월정 숲 새벽이끼` discovery -> 다음 온실/숲길 preview로 연결했으며, 다음 gate는 draft PR publication/check/merge다.
+현재 작업은 **월정 숲 source harvest/reveal payoff**다. #538/#539는 source 획득 이후 빈 밭에서 `월정 숲 심기`로 `seed_moon_grove_001` planted state를 만들었고 main CI `25903165974`까지 통과했다. #540/#541은 planted source를 care -> ready -> `월정 숲 수확` -> `월정 숲 새벽이끼` discovery -> 다음 온실/숲길 preview로 연결했으며, 다음 gate는 PR checks/merge다.
 
 현재 evidence:
 
@@ -18,6 +18,7 @@ Generated at: 2026-05-15T06:21:12.825Z
 - Completed moon grove source planting loop: Issue #538, PR #539, main CI `25903165974`
 - WorkUnit: `items/0286-moon-grove-harvest-reveal-payoff.md`
 - GitHub issue: #540 `월정 숲 source harvest/reveal payoff`
+- Draft PR: #541 `월정 숲 source harvest/reveal payoff`
 - Branch: `codex/v1-moon-grove-harvest-reveal-payoff`
 - Source harvest/reveal bridge: Done locally - care/ready/harvest/reveal telemetry, HUD surface, reward FX binding, checker implemented
 - Browser Use: current-session blocker recorded at `reports/visual/issue-0540-moon-grove-harvest-reveal-payoff/browser-use-blocker-20260515.md`
@@ -31,7 +32,7 @@ Generated at: 2026-05-15T06:21:12.825Z
 1. Intake gate: GitHub issue #540을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정한다.
 2. Implementation gate: 완료. `GardenState`, care/harvest action rail, Phaser HUD/FX routing, telemetry, checker를 source harvest/reveal 기준으로 확장했다.
 3. Local verification gate: 완료. `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과했다.
-4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+4. PR publication gate: 완료. Draft PR #541를 게시했고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
@@ -40,22 +41,22 @@ Generated at: 2026-05-15T06:21:12.825Z
 ## Local state
 
 - Branch: codex/v1-moon-grove-harvest-reveal-payoff
-- Latest commit: f9b8cd8 월정 숲 source harvest reveal을 계획한다
+- Latest commit: bf0f7e4 월정 숲 source 수확 발견을 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-15T06:21:10.958Z
-- Phase: phaser-v1-moon-grove-harvest-reveal-pr
+- Timestamp: 2026-05-15T06:22:45.500Z
+- Phase: phaser-v1-moon-grove-harvest-reveal-pr-checks
 - Issue: 540
-- PR:
+- PR: 541
 - Item: items/0286-moon-grove-harvest-reveal-payoff.md
-- Next action: PR/check gate: publish draft PR for Issue #540 and watch checks
+- Next action: PR/check gate: watch PR #541 checks, mark ready when green, merge, then observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #541 draft 월정 숲 source harvest/reveal payoff — https://github.com/bborok1234/strange-seed-shop/pull/541
 
 ## Open issues
 
