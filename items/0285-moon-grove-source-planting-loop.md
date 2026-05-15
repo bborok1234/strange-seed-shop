@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #538
-- PR: TBD
+- PR: #539
 - Branch: `codex/v1-moon-grove-source-planting-loop`
 - 연결: Issue #536, PR #537, main CI `25902521000`
 

@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-15T05:58:07.753Z
+Generated at: 2026-05-15T06:00:07.312Z
 
 ## Current mission
 
@@ -18,6 +18,7 @@ Generated at: 2026-05-15T05:58:07.753Z
 - Completed moon grove source acquisition bridge: Issue #536, PR #537, main CI `25902521000`
 - WorkUnit: `items/0285-moon-grove-source-planting-loop.md`
 - GitHub issue: #538 `월정 숲 source planting loop`
+- Draft PR: #539 `월정 숲 source planting loop`
 - Branch: `codex/v1-moon-grove-source-planting-loop`
 - Source planting bridge: Done locally - action/reducer/plot marker/telemetry/checker implemented
 - Visual evidence: `reports/visual/issue-0538-moon-grove-source-planting-loop/visual-report-20260515.md`
@@ -31,7 +32,7 @@ Generated at: 2026-05-15T05:58:07.753Z
 1. Intake gate: GitHub issue #538을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
 2. Implementation gate: 완료. `GardenState`, 빈 밭 action rail, Phaser plot render, telemetry, checker를 source planting 기준으로 확장했다.
 3. Local verification gate: 완료. `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과했다.
-4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+4. PR publication gate: 완료. Draft PR #539를 게시했고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
@@ -40,22 +41,22 @@ Generated at: 2026-05-15T05:58:07.753Z
 ## Local state
 
 - Branch: codex/v1-moon-grove-source-planting-loop
-- Latest commit: d792271 월정 숲 source planting loop를 계획한다
+- Latest commit: 9dc077a 월정 숲 source를 빈 밭 planting으로 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-15T05:58:05.883Z
-- Phase: phaser-v1-moon-grove-source-planting-pr
+- Timestamp: 2026-05-15T06:00:05.489Z
+- Phase: phaser-v1-moon-grove-source-planting-pr-checks
 - Issue: 538
-- PR:
+- PR: 539
 - Item: items/0285-moon-grove-source-planting-loop.md
-- Next action: PR/check gate: publish draft PR for Issue #538 and watch checks
+- Next action: PR/check gate: watch PR #539 checks, mark ready when green, merge, then observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #539 draft 월정 숲 source planting loop — https://github.com/bborok1234/strange-seed-shop/pull/539
 
 ## Open issues
 
