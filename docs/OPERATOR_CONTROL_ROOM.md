@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-15T05:12:53.596Z
+Generated at: 2026-05-15T05:15:18.824Z
 
 ## Current mission
 
-현재 작업은 **월정 숲 source runtime binding**이다. #532/#533은 `seed_moon_grove_001_icon.png`, `fx_moon_grove_source_reward_strip_v1.png` 생성/리뷰까지 merge/main CI `25650492343`로 통과했다. #534 구현은 두 asset을 manifest accepted entry와 Phaser reward/source promise 화면에 연결했고, local checks는 통과했다. 남은 gate는 draft PR, PR checks, merge, main CI다.
+현재 작업은 **월정 숲 source runtime binding**이다. #532/#533은 `seed_moon_grove_001_icon.png`, `fx_moon_grove_source_reward_strip_v1.png` 생성/리뷰까지 merge/main CI `25650492343`로 통과했다. #534 구현은 두 asset을 manifest accepted entry와 Phaser reward/source promise 화면에 연결했고, local checks는 통과했다. Draft PR #535가 열렸고 남은 gate는 PR checks, merge, main CI다.
 
 현재 evidence:
 
@@ -18,6 +18,7 @@ Generated at: 2026-05-15T05:12:53.596Z
 - Completed moon grove source asset generation-review: Issue #532, PR #533, main CI `25650492343`
 - WorkUnit: `items/0283-moon-grove-source-runtime-binding.md`
 - GitHub issue: #534 `월정 숲 source runtime binding`
+- Draft PR: #535
 - Branch: `codex/v1-moon-grove-source-runtime-binding`
 - Runtime binding: Implemented - manifest accepted + Phaser render/telemetry
 - Visual evidence: Browser Use current-session blocker + Playwright fallback screenshot
@@ -30,7 +31,7 @@ Generated at: 2026-05-15T05:12:53.596Z
 1. Intake gate: GitHub issue #534를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
 2. Implementation gate: manifest accepted entry와 Phaser preload/render/FX/telemetry를 연결했다.
 3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`를 통과했다.
-4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+4. PR publication gate: draft PR #535를 게시했고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use blocker report + Playwright fallback evidence를 유지한다.
 
@@ -39,22 +40,22 @@ Generated at: 2026-05-15T05:12:53.596Z
 ## Local state
 
 - Branch: codex/v1-moon-grove-source-runtime-binding
-- Latest commit: 0ff120d 월정 숲 source runtime binding을 계획한다
+- Latest commit: 97853d0 월정 숲 source 보상을 런타임에 연결한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-15T05:10:37.361Z
-- Phase: phaser-v1-moon-grove-source-runtime-binding-verify
+- Timestamp: 2026-05-15T05:15:16.528Z
+- Phase: phaser-v1-moon-grove-source-runtime-binding-pr
 - Issue: 534
-- PR:
+- PR: 535
 - Item: items/0283-moon-grove-source-runtime-binding.md
-- Next action: PR publication gate: run full local verification, publish PR for #534, stop only after PR checks and main CI are green
+- Next action: PR checks gate: watch PR #535 checks, mark ready, merge, then observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #535 draft 월정 숲 source runtime binding — https://github.com/bborok1234/strange-seed-shop/pull/535
 
 ## Open issues
 

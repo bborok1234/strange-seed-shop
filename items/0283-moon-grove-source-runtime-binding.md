@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #534
-- PR: pending
+- PR: #535
 - Branch: `codex/v1-moon-grove-source-runtime-binding`
 - 연결: Issue #532, PR #533, main CI `25650492343`
 
