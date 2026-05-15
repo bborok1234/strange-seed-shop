@@ -35,6 +35,7 @@ import {
   MOON_FENCE_UNLOCKED_ROUTE_ID,
   MOON_GROVE_SOURCE_SEED_ID,
   plantLunarSourceSeed,
+  plantMoonGroveSourceSeed,
   plantNightGlassSourceSeed,
   plantResearchNextGoalSeed,
   plantResearchClueSeed,
@@ -444,6 +445,10 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenMoonGroveSourceSeedAvailable = gameState.moonGroveSourceSeedAvailable;
     (window as unknown as { __seedGardenMoonGroveSourceSeedId?: string }).__seedGardenMoonGroveSourceSeedId =
       gameState.moonGroveSourceSeedId ?? "";
+    (window as unknown as { __seedGardenMoonGroveSourceSeedPlanted?: boolean })
+      .__seedGardenMoonGroveSourceSeedPlanted = gameState.moonGroveSourceSeedPlanted;
+    (window as unknown as { __seedGardenMoonGroveSourcePlotId?: string }).__seedGardenMoonGroveSourcePlotId =
+      gameState.moonGroveSourcePlotId ?? "";
     (window as unknown as { __seedGardenMoonGroveSourceRenderedAssetKey?: string })
       .__seedGardenMoonGroveSourceRenderedAssetKey = gameState.moonFenceNextClueVisible
         ? TOPOLOGY_ASSETS.seeds.moonGroveSource.key
@@ -681,6 +686,26 @@ class GardenBoardScene extends Phaser.Scene {
           align: "center",
           backgroundColor: "rgba(51, 43, 92, 0.9)",
           color: "#f9e9ff",
+          fontFamily: "system-ui, sans-serif",
+          fontSize: "10px",
+          fontStyle: "800",
+          padding: { x: 7, y: 2 }
+        })
+        .setOrigin(0.5);
+      container.add(sourceChip);
+    }
+
+    if (plot?.seedId === MOON_GROVE_SOURCE_SEED_ID) {
+      const sourceIcon = this.add.image(0, -18, TOPOLOGY_ASSETS.seeds.moonGroveSource.key);
+      sourceIcon.setDisplaySize(60, 60);
+      sourceIcon.setAlpha(plot.state === "ready" ? 1 : 0.96);
+      container.add(sourceIcon);
+
+      const sourceChip = this.add
+        .text(0, -52, "월정 숲", {
+          align: "center",
+          backgroundColor: "rgba(52, 76, 51, 0.9)",
+          color: "#f4f7d6",
           fontFamily: "system-ui, sans-serif",
           fontSize: "10px",
           fontStyle: "800",
@@ -1414,6 +1439,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "preview_source"
       | "plant_lunar_source"
       | "plant_night_glass_source"
+      | "plant_moon_grove_source"
       | "preview_night_glass"
       | "start_night_glass"
       | "claim_night_glass"
@@ -1459,6 +1485,9 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "plant_night_glass_source") {
       plantNightGlassSourceSeed(gameState);
       this.pendingFx = { kind: "nightGlassAcquire", slotId: selectedSlotId };
+    } else if (action === "plant_moon_grove_source") {
+      plantMoonGroveSourceSeed(gameState);
+      this.pendingFx = { kind: "moonGroveSource", slotId: selectedSlotId };
     } else if (action === "preview_night_glass") {
       previewNightGlassSource(gameState);
       this.pendingFx = { kind: "lunarHarvest", slotId: "facility_expedition_gate" };
@@ -1717,7 +1746,9 @@ class GardenBoardScene extends Phaser.Scene {
       const moonGroveSourceSurface = document.createElement("div");
       moonGroveSourceSurface.className = "collection-goal-surface";
       const sourceState = gameState.moonGroveSourceAcquired
-        ? `${gameState.moonGroveSourceSeedId ?? MOON_GROVE_SOURCE_SEED_ID} source 획득 · planting 대기`
+        ? gameState.moonGroveSourceSeedPlanted
+          ? `${gameState.moonGroveSourceSeedId ?? MOON_GROVE_SOURCE_SEED_ID} 재배 중 · ${gameState.moonGroveSourcePlotId ?? "plot"}`
+          : `${gameState.moonGroveSourceSeedId ?? MOON_GROVE_SOURCE_SEED_ID} source 획득 · planting 대기`
         : `${gameState.moonFenceNextClueId ?? MOON_FENCE_NEXT_CLUE_ID} · 월정 숲 source 확인 대기`;
       moonGroveSourceSurface.innerHTML = `
         <strong>월정 숲 source</strong>
@@ -1860,6 +1891,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "preview_source"
       | "plant_lunar_source"
       | "plant_night_glass_source"
+      | "plant_moon_grove_source"
       | "preview_night_glass"
       | "start_night_glass"
       | "claim_night_glass"
@@ -1983,6 +2015,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.nightGlassSourceSeedAvailable) {
       return [{ id: "plant_night_glass_source", label: "밤유리 심기" }];
+    }
+    if (plot?.state === "empty" && selectedSlot.unlockState === "unlocked" && state.moonGroveSourceSeedAvailable) {
+      return [{ id: "plant_moon_grove_source", label: "월정 숲 심기" }];
     }
     if (selectedSlot.unlockState === "unlocked" && state.researchClueRecordReady && !state.researchClueAlbumRecorded) {
       return [{ id: "record_clue", label: "도감 기록" }];
