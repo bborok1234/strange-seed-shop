@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-15T05:37:26.882Z
+Generated at: 2026-05-15T05:40:55.402Z
 
 ## Current mission
 
@@ -42,18 +42,18 @@ Generated at: 2026-05-15T05:37:26.882Z
 ## Local state
 
 - Branch: codex/v1-moon-grove-source-acquisition-bridge
-- Latest commit: 6198386 월정 숲 source 획득을 플레이어 행동으로 닫는다
+- Latest commit: fcd4aef 월정 숲 source PR 상태를 고정한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-15T05:37:24.934Z
+- Timestamp: 2026-05-15T05:40:53.447Z
 - Phase: phaser-v1-moon-grove-source-acquisition-pr-checks
 - Issue: 536
 - PR: 537
 - Item: items/0284-moon-grove-source-acquisition-bridge.md
-- Next action: Watch PR #537 checks, mark ready when green, merge, then observe main CI
+- Next action: PR/check gate: rerun PR #537 checks, mark ready when green, merge, then observe main CI
 
 ## Open PRs
 
