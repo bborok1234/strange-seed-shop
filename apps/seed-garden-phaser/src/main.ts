@@ -33,6 +33,8 @@ import {
   MOON_FENCE_REQUIRED_MATERIALS,
   MOON_FENCE_NEXT_CLUE_ID,
   MOON_FENCE_UNLOCKED_ROUTE_ID,
+  MOON_GROVE_DISCOVERY_ID,
+  MOON_GROVE_DISCOVERY_NAME,
   MOON_GROVE_SOURCE_SEED_ID,
   plantLunarSourceSeed,
   plantMoonGroveSourceSeed,
@@ -449,6 +451,16 @@ class GardenBoardScene extends Phaser.Scene {
       .__seedGardenMoonGroveSourceSeedPlanted = gameState.moonGroveSourceSeedPlanted;
     (window as unknown as { __seedGardenMoonGroveSourcePlotId?: string }).__seedGardenMoonGroveSourcePlotId =
       gameState.moonGroveSourcePlotId ?? "";
+    (window as unknown as { __seedGardenMoonGroveSourceSeedHarvested?: boolean })
+      .__seedGardenMoonGroveSourceSeedHarvested = gameState.moonGroveSourceSeedHarvested;
+    (window as unknown as { __seedGardenMoonGroveDiscoveryRevealed?: boolean })
+      .__seedGardenMoonGroveDiscoveryRevealed = gameState.moonGroveDiscoveryRevealed;
+    (window as unknown as { __seedGardenMoonGroveDiscoveryId?: string }).__seedGardenMoonGroveDiscoveryId =
+      gameState.moonGroveDiscoveryId ?? "";
+    (window as unknown as { __seedGardenMoonGroveDiscoveryName?: string }).__seedGardenMoonGroveDiscoveryName =
+      gameState.moonGroveDiscoveryName ?? "";
+    (window as unknown as { __seedGardenMoonGroveNextPreviewVisible?: boolean })
+      .__seedGardenMoonGroveNextPreviewVisible = gameState.moonGroveNextPreviewVisible;
     (window as unknown as { __seedGardenMoonGroveSourceRenderedAssetKey?: string })
       .__seedGardenMoonGroveSourceRenderedAssetKey = gameState.moonFenceNextClueVisible
         ? TOPOLOGY_ASSETS.seeds.moonGroveSource.key
@@ -1358,6 +1370,8 @@ class GardenBoardScene extends Phaser.Scene {
         : this.pendingFx.kind === "expeditionReturn"
           ? "expedition-return-reward-once"
           : "harvest-leaf-flyout-once";
+    (window as unknown as { __seedGardenLastFxKey?: string }).__seedGardenLastFxKey = key;
+    (window as unknown as { __seedGardenLastFxKind?: string }).__seedGardenLastFxKind = this.pendingFx.kind;
     const sprite = this.add.sprite(slot.x, slot.y - 28, key);
     sprite.setDepth(60);
     const fxWidth =
@@ -1539,6 +1553,8 @@ class GardenBoardScene extends Phaser.Scene {
             ? "nightGlassAcquire"
             : harvestedSeedId === LUNAR_SOURCE_SEED_ID
               ? "lunarHarvest"
+              : harvestedSeedId === MOON_GROVE_SOURCE_SEED_ID
+                ? "moonGroveSource"
               : "harvest",
         slotId: selectedSlotId
       };
@@ -1746,12 +1762,16 @@ class GardenBoardScene extends Phaser.Scene {
       const moonGroveSourceSurface = document.createElement("div");
       moonGroveSourceSurface.className = "collection-goal-surface";
       const sourceState = gameState.moonGroveSourceAcquired
-        ? gameState.moonGroveSourceSeedPlanted
+        ? gameState.moonGroveDiscoveryRevealed
+          ? `${gameState.moonGroveDiscoveryName ?? MOON_GROVE_DISCOVERY_NAME} · ${gameState.moonGroveDiscoveryId ?? MOON_GROVE_DISCOVERY_ID} · 다음 온실 숲길 preview`
+          : gameState.moonGroveSourceSeedHarvested
+          ? `${gameState.moonGroveSourceSeedId ?? MOON_GROVE_SOURCE_SEED_ID} 수확 완료 · discovery reveal`
+          : gameState.moonGroveSourceSeedPlanted
           ? `${gameState.moonGroveSourceSeedId ?? MOON_GROVE_SOURCE_SEED_ID} 재배 중 · ${gameState.moonGroveSourcePlotId ?? "plot"}`
           : `${gameState.moonGroveSourceSeedId ?? MOON_GROVE_SOURCE_SEED_ID} source 획득 · planting 대기`
         : `${gameState.moonFenceNextClueId ?? MOON_FENCE_NEXT_CLUE_ID} · 월정 숲 source 확인 대기`;
       moonGroveSourceSurface.innerHTML = `
-        <strong>월정 숲 source</strong>
+        <strong>${gameState.moonGroveDiscoveryRevealed ? "월정 숲 발견" : "월정 숲 source"}</strong>
         <span>${sourceState}</span>
       `;
       this.hud.actions.appendChild(moonGroveSourceSurface);
@@ -2034,6 +2054,9 @@ class GardenBoardScene extends Phaser.Scene {
       }
       if (plot.seedId === LUNAR_SOURCE_SEED_ID) {
         return [{ id: "harvest", label: "초승달순 수확" }];
+      }
+      if (plot.seedId === MOON_GROVE_SOURCE_SEED_ID) {
+        return [{ id: "harvest", label: "월정 숲 수확" }];
       }
       return [{ id: "harvest", label: "수확" }];
     }
