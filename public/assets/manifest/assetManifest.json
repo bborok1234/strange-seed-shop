@@ -295,6 +295,31 @@
       ],
       "notes": "Issue #506 night glass source seed icon; generated via gpt-image-2 background=opaque and edge-connected checkerboard alpha cleanup; runtime_generation_allowed=false; must_not_obscure=bottom_action"
     },
+    "seed_moon_grove_001_icon": {
+      "path": "/assets/game/seeds/seed_moon_grove_001_icon.png",
+      "category": "seed_icon",
+      "family": "lunar",
+      "rarity": "rare",
+      "intended_use": "moon_fence_source_seed_preview",
+      "width": 1024,
+      "height": 1024,
+      "status": "accepted",
+      "tags": [
+        "v1",
+        "issue_0532",
+        "issue_0534",
+        "seed",
+        "lunar",
+        "rare",
+        "moon_fence",
+        "moon_grove",
+        "source",
+        "gpt-image-2",
+        "screen_moment:moon_fence_source_reward",
+        "player_verb:claim_moon_fence_expedition"
+      ],
+      "notes": "Issue #532 moon grove source seed icon; generated via gpt-image-2 background=opaque and border-connected checkerboard alpha cleanup; runtime_generation_allowed=false; must_not_obscure=bottom_action"
+    },
     "background_greenhouse_day_001": {
       "path": "/assets/game/backgrounds/background_greenhouse_day_001.png",
       "category": "background",
@@ -1581,6 +1606,52 @@
             "preview_night_glass_source"
           ],
           "routeId": "expedition_night_glass"
+        }
+      }
+    },
+    "fx_moon_grove_source_reward_strip_v1": {
+      "path": "/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png",
+      "category": "fx_strip",
+      "family": "lunar",
+      "rarity": "rare",
+      "intended_use": "moon_fence_source_reward_fx",
+      "width": 768,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "v1",
+        "issue_0532",
+        "issue_0534",
+        "fx_strip",
+        "lunar",
+        "rare",
+        "moon_fence",
+        "moon_grove",
+        "source",
+        "reward",
+        "gpt-image-2",
+        "screen_moment:moon_fence_source_reward",
+        "player_verb:claim_moon_fence_expedition"
+      ],
+      "notes": "Issue #532 moon grove source reward FX; generated via gpt-image-2 background=opaque, alpha-cleaned, normalized to strict 8x96x96 strip; runtime_generation_allowed=false; must_not_obscure=source_icon,bottom_action",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "fx_moon_grove_source_reward_strip_v1",
+        "frames": 8,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "seed_moon_grove_001_icon"
+        ],
+        "binding": {
+          "target": "effect",
+          "slot": "moon_fence_source_reward_fx",
+          "actions": [
+            "claim_moon_fence_expedition"
+          ],
+          "routeId": "expedition_moon_fence_unlocked"
         }
       }
     }
