@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:phaser-2d-game -> game-studio:game-playtest`
 - GitHub issue: #542
-- PR: TBD
+- PR: #543 https://github.com/bborok1234/strange-seed-shop/pull/543
 - Branch: `codex/v1-moon-grove-creature-asset-plan-prompt`
 - 연결: Issue #540, PR #541, main CI `25903872186`
 

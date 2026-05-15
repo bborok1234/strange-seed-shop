@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-15T06:35:22.012Z
+Generated at: 2026-05-15T06:39:05.832Z
 
 ## Current mission
 
@@ -18,6 +18,7 @@ Generated at: 2026-05-15T06:35:22.012Z
 - Completed moon grove harvest/reveal payoff: Issue #540, PR #541, main CI `25903872186`
 - WorkUnit: `items/0287-moon-grove-creature-asset-plan-prompt.md`
 - GitHub issue: #542 `월정 숲 creature/actor asset plan-prompt`
+- Draft PR: #543 https://github.com/bborok1234/strange-seed-shop/pull/543
 - Branch: `codex/v1-moon-grove-creature-asset-plan-prompt`
 - Asset plan/prompt bridge: Done locally - moon grove creature portrait, idle/work actor strips, discovery bloom FX plan/prompt added
 - Current validation: `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass
@@ -29,8 +30,8 @@ Generated at: 2026-05-15T06:35:22.012Z
 1. Intake gate: GitHub issue #542를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
 2. Plan/prompt gate: 완료. `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`에 월정 숲 creature/actor/FX 4개를 추가했다.
 3. Local verification gate: 완료. `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`가 통과했다.
-4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
-5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
+4. PR publication gate: 완료. Draft PR #543을 게시했다.
+5. PR #543 checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use가 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
@@ -38,22 +39,22 @@ Generated at: 2026-05-15T06:35:22.012Z
 ## Local state
 
 - Branch: codex/v1-moon-grove-creature-asset-plan-prompt
-- Latest commit: e345fcf Merge pull request #541 from bborok1234/codex/v1-moon-grove-harvest-reveal-payoff
+- Latest commit: 42f6721 월정 숲 creature asset 계획을 생성한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-15T06:33:43.410Z
-- Phase: phaser-v1-moon-grove-creature-asset-plan
+- Timestamp: 2026-05-15T06:38:57.950Z
+- Phase: phaser-v1-moon-grove-creature-asset-plan-pr
 - Issue: 542
-- PR:
+- PR: 543
 - Item: items/0287-moon-grove-creature-asset-plan-prompt.md
-- Next action: Verification gate: run asset plan/prompt checks then publish draft PR
+- Next action: PR/check gate: watch PR #543 required checks, then ready/merge if green
 
 ## Open PRs
 
-- unavailable or none
+- #543 draft 월정 숲 creature/actor asset plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/543
 
 ## Open issues
 

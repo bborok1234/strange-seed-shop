@@ -1,26 +1,26 @@
 # Studio Harness v3 Live Runner Report
 
-- Runner: `studio-v3-1778826605461`
+- Runner: `studio-v3-1778827166060`
 - Iteration: 1
-- Updated: 2026-05-15T06:30:08.019Z
+- Updated: 2026-05-15T06:39:28.631Z
 - Source of truth: github-authoritative
 - Dry run: true
 - Queue empty is stop: false
-- Decision: `production-game-intake-required`
-- Target: new GitHub issue
-- Next action: Intake gate: create a production game quality WorkUnit from P0.5 Idle Core + Creative Rescue
+- Decision: `watch-pr-checks`
+- Target: PR #543
+- Next action: PR/check gate: update evidence, watch checks, and merge PR #543 when green
 
 ## Open GitHub issues
 
 | Issue | Title | Labels | URL |
 | --- | --- | --- | --- |
-| none | GitHub queue empty |  |  |
+| #542 | 월정 숲 creature/actor asset plan-prompt |  | https://github.com/bborok1234/strange-seed-shop/issues/542 |
 
 ## Open GitHub PRs
 
 | PR | State | Title | Checks | URL |
 | --- | --- | --- | --- | --- |
-| none |  |  |  |  |
+| #543 | draft | 월정 숲 creature/actor asset plan-prompt | Check automerge eligibility:COMPLETED/SUCCESS<br>Verify game baseline:COMPLETED/SUCCESS<br>Art-share gate (stage-art-first enforcement):IN_PROGRESS/pending | https://github.com/bborok1234/strange-seed-shop/pull/543 |
 
 ## Latest main runs
 
