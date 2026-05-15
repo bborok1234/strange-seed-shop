@@ -75,13 +75,34 @@
 
 ## 검증 명령
 
-- `npm run check:phaser`
-- `npm run check:content`
-- `npm run check:asset-provenance`
-- `npm run check:asset-style`
-- `npm run check:asset-alpha`
-- `npm run check:ci`
-- `git diff --check`
+- `npm run check:phaser` - pass
+- `npm run check:content` - pass
+- `npm run check:asset-provenance` - pass
+- `npm run check:asset-style` - pass
+- `npm run check:asset-alpha` - pass
+- `npm run check:ci` - pass
+- `git diff --check` - pass
+
+## 구현 결과
+
+- `GardenState`에 월정 숲 harvest/reveal 상태를 추가했다:
+  - `moonGroveSourceSeedHarvested`
+  - `moonGroveDiscoveryRevealed`
+  - `moonGroveDiscoveryId`
+  - `moonGroveDiscoveryName`
+  - `moonGroveNextPreviewVisible`
+- `seed_moon_grove_001`은 두 번의 `돌보기`로 ready가 되고 `월정 숲 수확` action을 노출한다.
+- 수확 시 plot을 비우고 `월정 숲 새벽이끼`, `discovery_moon_grove_001`, 잎 +72, 다음 온실 숲길 preview를 남긴다.
+- Phaser reward FX routing은 `seed_moon_grove_001` harvest 순간 `fx_moon_grove_source_reward_strip_v1`을 사용한다.
+- `scripts/check-phaser-foundation.mjs`가 source acquisition -> planting -> ready -> harvest/reveal -> overview evidence를 검증한다.
+
+## 증거
+
+- Browser Use blocker: `reports/visual/issue-0540-moon-grove-harvest-reveal-payoff/browser-use-blocker-20260515.md`
+- Visual report: `reports/visual/issue-0540-moon-grove-harvest-reveal-payoff/visual-report-20260515.md`
+- Ready action: `reports/visual/issue-0540-moon-grove-harvest-reveal-payoff/phaser-check-moon-grove-ready-393.png`
+- Harvest reveal: `reports/visual/issue-0540-moon-grove-harvest-reveal-payoff/phaser-check-moon-grove-harvested-393.png`
+- Overview: `reports/visual/issue-0540-moon-grove-harvest-reveal-payoff/phaser-check-moon-fence-source-overview-393.png`
 
 ## 리스크
 

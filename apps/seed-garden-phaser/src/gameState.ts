@@ -24,6 +24,9 @@ export const MOON_FENCE_UNLOCKED_ROUTE_ID = "expedition_moon_fence_unlocked";
 export const MOON_FENCE_FIRST_REWARD_LEAVES = 88;
 export const MOON_FENCE_NEXT_CLUE_ID = "clue_moon_grove_001";
 export const MOON_GROVE_SOURCE_SEED_ID = "seed_moon_grove_001";
+export const MOON_GROVE_DISCOVERY_ID = "discovery_moon_grove_001";
+export const MOON_GROVE_DISCOVERY_NAME = "월정 숲 새벽이끼";
+export const MOON_GROVE_HARVEST_REWARD_LEAVES = 72;
 
 export interface BoardSlot {
   id: string;
@@ -150,6 +153,11 @@ export interface GardenState {
   moonGroveSourceSeedId?: string;
   moonGroveSourceSeedPlanted: boolean;
   moonGroveSourcePlotId?: string;
+  moonGroveSourceSeedHarvested: boolean;
+  moonGroveDiscoveryRevealed: boolean;
+  moonGroveDiscoveryId?: string;
+  moonGroveDiscoveryName?: string;
+  moonGroveNextPreviewVisible: boolean;
   moonFenceRequiredExplorerId?: string;
   nextRareRoutePreviewId?: string;
   nightGlassRewardLeaves: number;
@@ -389,6 +397,11 @@ export function createGardenState(): GardenState {
     moonGroveSourceSeedId: undefined,
     moonGroveSourceSeedPlanted: false,
     moonGroveSourcePlotId: undefined,
+    moonGroveSourceSeedHarvested: false,
+    moonGroveDiscoveryRevealed: false,
+    moonGroveDiscoveryId: undefined,
+    moonGroveDiscoveryName: undefined,
+    moonGroveNextPreviewVisible: false,
     moonFenceRequiredExplorerId: undefined,
     nextRareRoutePreviewId: undefined,
     nightGlassRewardLeaves: 0
@@ -567,9 +580,26 @@ export function careSelectedPlot(state: GardenState): void {
   }
 
   plot.careCount += 1;
-  const growthDelta = plot.seedId === LUNAR_SOURCE_SEED_ID ? 36 : plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID ? 28 : 34;
+  const growthDelta =
+    plot.seedId === MOON_GROVE_SOURCE_SEED_ID
+      ? 37
+      : plot.seedId === LUNAR_SOURCE_SEED_ID
+      ? 36
+      : plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID
+      ? 28
+      : 34;
   plot.growth = Math.min(100, plot.growth + growthDelta);
   plot.state = plot.growth >= 100 ? "ready" : "growing";
+  if (plot.seedId === MOON_GROVE_SOURCE_SEED_ID) {
+    state.objective =
+      plot.state === "ready"
+        ? "월정 숲 수확 준비 · 다음 온실 발견 reveal 대기"
+        : `월정 숲 source 성장 ${plot.growth}% · 새벽이끼 응축`;
+    state.receipts.unshift(
+      plot.state === "ready" ? "월정 숲 수확 준비 완료 · 새벽이끼 맺힘" : `월정 숲 source 돌보기 +${growthDelta}%`
+    );
+    return;
+  }
   if (plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID) {
     state.objective =
       plot.state === "ready" ? "밤유리 수확 준비 · rare reveal 대기" : `밤유리 성장 ${plot.growth}% · source 결정화`;
@@ -609,12 +639,23 @@ export function harvestSelectedPlot(state: GardenState): void {
   const lunarSproutHarvest = plot.seedId === "seed_lunar_sprout_001";
   const lunarSourceHarvest = plot.seedId === LUNAR_SOURCE_SEED_ID;
   const nightGlassSourceHarvest = plot.seedId === NIGHT_GLASS_SOURCE_SEED_ID;
+  const moonGroveSourceHarvest = plot.seedId === MOON_GROVE_SOURCE_SEED_ID;
   const firstPoriDiscovery = !state.actors.some((actor) => actor.id === "actor_pori");
   plot.state = "empty";
   plot.seedId = undefined;
   plot.growth = 0;
   plot.careCount = 0;
-  state.resources.leaves += clueHarvest ? 18 : lunarSproutHarvest ? 22 : lunarSourceHarvest ? 44 : nightGlassSourceHarvest ? 96 : 12;
+  state.resources.leaves += clueHarvest
+    ? 18
+    : lunarSproutHarvest
+    ? 22
+    : lunarSourceHarvest
+    ? 44
+    : nightGlassSourceHarvest
+    ? 96
+    : moonGroveSourceHarvest
+    ? MOON_GROVE_HARVEST_REWARD_LEAVES
+    : 12;
   if (clueHarvest) {
     state.researchClueHarvested = true;
     state.researchClueRecordReady = true;
@@ -661,6 +702,19 @@ export function harvestSelectedPlot(state: GardenState): void {
     state.objective = `${NIGHT_GLASS_RARE_CREATURE_NAME} 발견 · 오로 합류 · 월정 문 preview`;
     state.receipts.unshift(`${NIGHT_GLASS_RARE_CREATURE_NAME} 합류 · ${NEXT_EXPEDITION_ROUTE_PREVIEW_ID} preview`);
     state.receipts.unshift(`밤유리 수확 · ${NIGHT_GLASS_RARE_CREATURE_NAME} 발견 · 잎 +96`);
+    return;
+  }
+  if (moonGroveSourceHarvest) {
+    state.moonGroveSourceSeedPlanted = false;
+    state.moonGroveSourceSeedHarvested = true;
+    state.moonGroveDiscoveryRevealed = true;
+    state.moonGroveDiscoveryId = MOON_GROVE_DISCOVERY_ID;
+    state.moonGroveDiscoveryName = MOON_GROVE_DISCOVERY_NAME;
+    state.moonGroveNextPreviewVisible = true;
+    state.objective = `${MOON_GROVE_DISCOVERY_NAME} 발견 · 다음 온실 숲길 preview`;
+    state.receipts.unshift(
+      `${MOON_GROVE_DISCOVERY_NAME} 발견 · ${MOON_GROVE_DISCOVERY_ID} · 잎 +${MOON_GROVE_HARVEST_REWARD_LEAVES}`
+    );
     return;
   }
   if (firstPoriDiscovery) {

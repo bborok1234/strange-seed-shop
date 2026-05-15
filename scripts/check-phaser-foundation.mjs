@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0538-moon-grove-source-planting-loop";
+const OUT_DIR = "reports/visual/issue-0540-moon-grove-harvest-reveal-payoff";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -815,11 +815,67 @@ async function runSmoke() {
       moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
       moonGroveSourceSeedPlanted: window.__seedGardenMoonGroveSourceSeedPlanted ?? false,
       moonGroveSourcePlotId: window.__seedGardenMoonGroveSourcePlotId ?? "",
+      moonGroveSourceSeedHarvested: window.__seedGardenMoonGroveSourceSeedHarvested ?? false,
+      moonGroveDiscoveryRevealed: window.__seedGardenMoonGroveDiscoveryRevealed ?? false,
+      moonGroveDiscoveryId: window.__seedGardenMoonGroveDiscoveryId ?? "",
+      moonGroveDiscoveryName: window.__seedGardenMoonGroveDiscoveryName ?? "",
+      moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
+      lastFxKey: window.__seedGardenLastFxKey ?? "",
+      lastFxKind: window.__seedGardenLastFxKind ?? "",
       plotStates: window.__seedGardenPlotStates ?? [],
       receipts: window.__seedGardenReceipts ?? []
     }));
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-grove-planted-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "돌보기" }).click();
+    await page.waitForTimeout(140);
+    await page.getByRole("button", { name: "돌보기" }).click();
+    await page.waitForTimeout(180);
+    const moonGroveReady = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      moonGroveSourceAcquired: window.__seedGardenMoonGroveSourceAcquired ?? false,
+      moonGroveSourceSeedAvailable: window.__seedGardenMoonGroveSourceSeedAvailable ?? false,
+      moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
+      moonGroveSourceSeedPlanted: window.__seedGardenMoonGroveSourceSeedPlanted ?? false,
+      moonGroveSourcePlotId: window.__seedGardenMoonGroveSourcePlotId ?? "",
+      moonGroveSourceSeedHarvested: window.__seedGardenMoonGroveSourceSeedHarvested ?? false,
+      moonGroveDiscoveryRevealed: window.__seedGardenMoonGroveDiscoveryRevealed ?? false,
+      moonGroveDiscoveryId: window.__seedGardenMoonGroveDiscoveryId ?? "",
+      moonGroveDiscoveryName: window.__seedGardenMoonGroveDiscoveryName ?? "",
+      moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
+      lastFxKey: window.__seedGardenLastFxKey ?? "",
+      lastFxKind: window.__seedGardenLastFxKind ?? "",
+      plotStates: window.__seedGardenPlotStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-grove-ready-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "월정 숲 수확" }).click();
+    await page.waitForTimeout(220);
+    const moonGroveHarvested = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      leaves: document.querySelector('[data-hud="leaves"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      moonGroveSourceAcquired: window.__seedGardenMoonGroveSourceAcquired ?? false,
+      moonGroveSourceSeedAvailable: window.__seedGardenMoonGroveSourceSeedAvailable ?? false,
+      moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
+      moonGroveSourceSeedPlanted: window.__seedGardenMoonGroveSourceSeedPlanted ?? false,
+      moonGroveSourcePlotId: window.__seedGardenMoonGroveSourcePlotId ?? "",
+      moonGroveSourceSeedHarvested: window.__seedGardenMoonGroveSourceSeedHarvested ?? false,
+      moonGroveDiscoveryRevealed: window.__seedGardenMoonGroveDiscoveryRevealed ?? false,
+      moonGroveDiscoveryId: window.__seedGardenMoonGroveDiscoveryId ?? "",
+      moonGroveDiscoveryName: window.__seedGardenMoonGroveDiscoveryName ?? "",
+      moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
+      moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
+      moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
+      lastFxKey: window.__seedGardenLastFxKey ?? "",
+      lastFxKind: window.__seedGardenLastFxKind ?? "",
+      plotStates: window.__seedGardenPlotStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-grove-harvested-393.png`, fullPage: false });
     await page.getByRole("button", { name: "감상" }).click();
     await page.waitForTimeout(180);
     const moonFenceSourceOverview = await page.evaluate(() => ({
@@ -837,8 +893,15 @@ async function runSmoke() {
       moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
       moonGroveSourceSeedPlanted: window.__seedGardenMoonGroveSourceSeedPlanted ?? false,
       moonGroveSourcePlotId: window.__seedGardenMoonGroveSourcePlotId ?? "",
+      moonGroveSourceSeedHarvested: window.__seedGardenMoonGroveSourceSeedHarvested ?? false,
+      moonGroveDiscoveryRevealed: window.__seedGardenMoonGroveDiscoveryRevealed ?? false,
+      moonGroveDiscoveryId: window.__seedGardenMoonGroveDiscoveryId ?? "",
+      moonGroveDiscoveryName: window.__seedGardenMoonGroveDiscoveryName ?? "",
+      moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
+      lastFxKey: window.__seedGardenLastFxKey ?? "",
+      lastFxKind: window.__seedGardenLastFxKind ?? "",
       plotStates: window.__seedGardenPlotStates ?? []
     }));
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-fence-source-overview-393.png`, fullPage: false });
@@ -934,8 +997,15 @@ async function runSmoke() {
       moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
       moonGroveSourceSeedPlanted: window.__seedGardenMoonGroveSourceSeedPlanted ?? false,
       moonGroveSourcePlotId: window.__seedGardenMoonGroveSourcePlotId ?? "",
+      moonGroveSourceSeedHarvested: window.__seedGardenMoonGroveSourceSeedHarvested ?? false,
+      moonGroveDiscoveryRevealed: window.__seedGardenMoonGroveDiscoveryRevealed ?? false,
+      moonGroveDiscoveryId: window.__seedGardenMoonGroveDiscoveryId ?? "",
+      moonGroveDiscoveryName: window.__seedGardenMoonGroveDiscoveryName ?? "",
+      moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
+      lastFxKey: window.__seedGardenLastFxKey ?? "",
+      lastFxKind: window.__seedGardenLastFxKind ?? "",
       moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
       nextRareRoutePreviewId: window.__seedGardenNextRareRoutePreviewId ?? "",
       nightGlassRewardLeaves: window.__seedGardenNightGlassRewardLeaves ?? 0,
@@ -972,7 +1042,7 @@ async function runSmoke() {
     ) {
       failures.push("overview mode has body/document scroll");
     }
-    if (evidence.leaves !== "387") failures.push(`expected 387 leaves after moon fence reward claim, got ${evidence.leaves}`);
+    if (evidence.leaves !== "459") failures.push(`expected 459 leaves after moon grove harvest, got ${evidence.leaves}`);
     if (evidence.seeds !== "0") failures.push(`expected rewarded third-plot seed planted and spent, got ${evidence.seeds}`);
     if (!evidence.receipts.some((receipt) => receipt.includes("주문 상자 납품"))) {
       failures.push("missing order crate delivery receipt");
@@ -1873,6 +1943,61 @@ async function runSmoke() {
     if (!moonGrovePlanted.receipts.some((receipt) => receipt.includes("seed_moon_grove_001 재배 시작"))) {
       failures.push("missing moon grove planted receipt");
     }
+    const moonGroveReadyPlot = moonGroveReady.plotStates.find((plot) => plot.seedId === "seed_moon_grove_001");
+    if (!moonGroveReadyPlot || moonGroveReadyPlot.state !== "ready" || moonGroveReadyPlot.growth !== 100) {
+      failures.push(`expected seed_moon_grove_001 ready after care actions, got ${JSON.stringify(moonGroveReadyPlot)}`);
+    }
+    if (!moonGroveReady.railText.includes("월정 숲 수확")) {
+      failures.push("missing moon grove harvest action");
+    }
+    if (!moonGroveReady.objective.includes("월정 숲 수확 준비")) {
+      failures.push("missing moon grove ready objective");
+    }
+    if (moonGroveReady.moonGroveSourceSeedHarvested) {
+      failures.push("moon grove source harvested before harvest click");
+    }
+    if (moonGroveReady.moonGroveDiscoveryRevealed) {
+      failures.push("moon grove discovery revealed before harvest click");
+    }
+    if (!moonGroveReady.receipts.some((receipt) => receipt.includes("월정 숲 수확 준비 완료"))) {
+      failures.push("missing moon grove ready receipt");
+    }
+    if (moonGroveHarvested.moonGroveSourceSeedPlanted) {
+      failures.push("moon grove source planted telemetry stayed true after harvest");
+    }
+    if (!moonGroveHarvested.moonGroveSourceSeedHarvested) {
+      failures.push("moon grove source harvest telemetry missing");
+    }
+    if (!moonGroveHarvested.moonGroveDiscoveryRevealed) {
+      failures.push("moon grove discovery reveal telemetry missing");
+    }
+    if (moonGroveHarvested.moonGroveDiscoveryId !== "discovery_moon_grove_001") {
+      failures.push(`expected moon grove discovery id discovery_moon_grove_001, got ${moonGroveHarvested.moonGroveDiscoveryId}`);
+    }
+    if (moonGroveHarvested.moonGroveDiscoveryName !== "월정 숲 새벽이끼") {
+      failures.push(`expected moon grove discovery name 월정 숲 새벽이끼, got ${moonGroveHarvested.moonGroveDiscoveryName}`);
+    }
+    if (!moonGroveHarvested.moonGroveNextPreviewVisible) {
+      failures.push("moon grove next preview telemetry missing");
+    }
+    if (!moonGroveHarvested.objective.includes("월정 숲 새벽이끼 발견")) {
+      failures.push("missing moon grove harvest reveal objective");
+    }
+    if (!moonGroveHarvested.railText.includes("월정 숲 발견")) {
+      failures.push("missing moon grove reveal HUD surface");
+    }
+    if (!moonGroveHarvested.railText.includes("다음 온실 숲길 preview")) {
+      failures.push("missing moon grove next preview HUD text");
+    }
+    if (moonGroveHarvested.lastFxKey !== "fx_moon_grove_source_reward_strip_v1" || moonGroveHarvested.lastFxKind !== "moonGroveSource") {
+      failures.push(`expected moon grove harvest FX binding, got ${moonGroveHarvested.lastFxKind}/${moonGroveHarvested.lastFxKey}`);
+    }
+    if (moonGroveHarvested.plotStates.some((plot) => plot.seedId === "seed_moon_grove_001")) {
+      failures.push("seed_moon_grove_001 plot stayed occupied after moon grove harvest");
+    }
+    if (!moonGroveHarvested.receipts.some((receipt) => receipt.includes("discovery_moon_grove_001"))) {
+      failures.push("missing moon grove discovery receipt");
+    }
     if (moonFenceSourceOverview.viewMode !== "overview") {
       failures.push(`expected moon fence source overview mode, got ${moonFenceSourceOverview.viewMode}`);
     }
@@ -1902,11 +2027,23 @@ async function runSmoke() {
     if (moonFenceSourceOverview.moonGroveSourceSeedId !== "seed_moon_grove_001") {
       failures.push(`expected source overview seed id seed_moon_grove_001, got ${moonFenceSourceOverview.moonGroveSourceSeedId}`);
     }
-    if (!moonFenceSourceOverview.moonGroveSourceSeedPlanted) {
-      failures.push("moon fence source overview planted telemetry missing");
+    if (moonFenceSourceOverview.moonGroveSourceSeedPlanted) {
+      failures.push("moon fence source overview planted telemetry stayed true after harvest");
     }
-    if (!moonFenceSourceOverview.plotStates.some((plot) => plot.seedId === "seed_moon_grove_001")) {
-      failures.push("moon fence source overview missing seed_moon_grove_001 plot");
+    if (!moonFenceSourceOverview.moonGroveSourceSeedHarvested) {
+      failures.push("moon fence source overview harvest telemetry missing");
+    }
+    if (!moonFenceSourceOverview.moonGroveDiscoveryRevealed) {
+      failures.push("moon fence source overview discovery telemetry missing");
+    }
+    if (!moonFenceSourceOverview.moonGroveNextPreviewVisible) {
+      failures.push("moon fence source overview next preview telemetry missing");
+    }
+    if (moonFenceSourceOverview.moonGroveDiscoveryId !== "discovery_moon_grove_001") {
+      failures.push(`expected source overview discovery id discovery_moon_grove_001, got ${moonFenceSourceOverview.moonGroveDiscoveryId}`);
+    }
+    if (moonFenceSourceOverview.plotStates.some((plot) => plot.seedId === "seed_moon_grove_001")) {
+      failures.push("moon fence source overview seed_moon_grove_001 plot stayed occupied after harvest");
     }
     if (moonFenceSourceOverview.moonGroveSourceRenderedAssetKey !== "seed_moon_grove_001_icon") {
       failures.push(
@@ -2121,11 +2258,26 @@ async function runSmoke() {
     if (evidence.moonGroveSourceSeedId !== "seed_moon_grove_001") {
       failures.push(`expected final moon grove source seed id seed_moon_grove_001, got ${evidence.moonGroveSourceSeedId}`);
     }
-    if (!evidence.moonGroveSourceSeedPlanted) {
-      failures.push("final moon grove source planted telemetry missing");
+    if (evidence.moonGroveSourceSeedPlanted) {
+      failures.push("final moon grove source planted telemetry stayed true after harvest");
     }
     if (!evidence.moonGroveSourcePlotId) {
       failures.push("final moon grove source plot id missing");
+    }
+    if (!evidence.moonGroveSourceSeedHarvested) {
+      failures.push("final moon grove source harvested telemetry missing");
+    }
+    if (!evidence.moonGroveDiscoveryRevealed) {
+      failures.push("final moon grove discovery reveal telemetry missing");
+    }
+    if (evidence.moonGroveDiscoveryId !== "discovery_moon_grove_001") {
+      failures.push(`expected final moon grove discovery id discovery_moon_grove_001, got ${evidence.moonGroveDiscoveryId}`);
+    }
+    if (evidence.moonGroveDiscoveryName !== "월정 숲 새벽이끼") {
+      failures.push(`expected final moon grove discovery name 월정 숲 새벽이끼, got ${evidence.moonGroveDiscoveryName}`);
+    }
+    if (!evidence.moonGroveNextPreviewVisible) {
+      failures.push("final moon grove next preview telemetry missing");
     }
     if (!evidence.topologyAssets.includes("seed_moon_grove_001_icon")) {
       failures.push("missing moon grove source seed topology asset key");
@@ -2139,14 +2291,17 @@ async function runSmoke() {
     if (evidence.moonGroveSourceFxKey !== "fx_moon_grove_source_reward_strip_v1") {
       failures.push(`expected final moon grove source FX key fx_moon_grove_source_reward_strip_v1, got ${evidence.moonGroveSourceFxKey}`);
     }
-    if (evidence.leaves !== "387") {
-      failures.push(`expected final leaves 387 after moon fence reward claim, got ${evidence.leaves}`);
+    if (evidence.lastFxKey !== "fx_moon_grove_source_reward_strip_v1" || evidence.lastFxKind !== "moonGroveSource") {
+      failures.push(`expected final moon grove harvest FX binding, got ${evidence.lastFxKind}/${evidence.lastFxKey}`);
+    }
+    if (evidence.leaves !== "459") {
+      failures.push(`expected final leaves 459 after moon grove harvest, got ${evidence.leaves}`);
     }
     if (evidence.nightGlassRewardLeaves !== 0) {
       failures.push(`expected final night glass reward leaves 0, got ${evidence.nightGlassRewardLeaves}`);
     }
-    if (!evidence.objective.includes("월정 숲 source 재배 중") || !evidence.objective.includes("seed_moon_grove_001")) {
-      failures.push("missing moon grove source planting final objective");
+    if (!evidence.objective.includes("월정 숲 새벽이끼 발견") || !evidence.objective.includes("다음 온실 숲길 preview")) {
+      failures.push("missing moon grove discovery final objective");
     }
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
@@ -2155,10 +2310,8 @@ async function runSmoke() {
       failures.push(`expected seed_lunar_002 plot to be cleared after harvest, got ${JSON.stringify(sourcePlot)}`);
     }
     const moonGroveFinalPlot = evidence.plotStates.find((plot) => plot.seedId === "seed_moon_grove_001");
-    if (!moonGroveFinalPlot) {
-      failures.push("expected seed_moon_grove_001 plot to remain planted at final evidence");
-    } else if (moonGroveFinalPlot.state !== "planted" || moonGroveFinalPlot.growth !== 26) {
-      failures.push(`expected seed_moon_grove_001 planted growth 26, got ${JSON.stringify(moonGroveFinalPlot)}`);
+    if (moonGroveFinalPlot) {
+      failures.push(`expected seed_moon_grove_001 plot to be cleared after harvest, got ${JSON.stringify(moonGroveFinalPlot)}`);
     }
     const storage = evidence.facilityStates.find((facility) => facility.slotId === "facility_storage");
     if (!storage || storage.level !== 1 || storage.visualState !== "active") {
@@ -2225,6 +2378,8 @@ async function runSmoke() {
       moonGroveSourceAcquired,
       moonGrovePlantAction,
       moonGrovePlanted,
+      moonGroveReady,
+      moonGroveHarvested,
       moonFenceSourceOverview,
       overviewMode,
       manageReturn,
@@ -2294,6 +2449,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-moon-grove-source-acquired-393.png`,
         `${OUT_DIR}/phaser-check-moon-grove-plant-action-393.png`,
         `${OUT_DIR}/phaser-check-moon-grove-planted-393.png`,
+        `${OUT_DIR}/phaser-check-moon-grove-ready-393.png`,
+        `${OUT_DIR}/phaser-check-moon-grove-harvested-393.png`,
         `${OUT_DIR}/phaser-check-moon-fence-source-overview-393.png`
       ],
       failures
