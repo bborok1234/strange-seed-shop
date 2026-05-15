@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-15T05:35:43.490Z
+Generated at: 2026-05-15T05:37:26.882Z
 
 ## Current mission
 
@@ -18,6 +18,7 @@ Generated at: 2026-05-15T05:35:43.490Z
 - Completed moon grove source runtime binding: Issue #534, PR #535, main CI `25901742983`
 - WorkUnit: `items/0284-moon-grove-source-acquisition-bridge.md`
 - GitHub issue: #536 `월정 숲 source acquisition bridge`
+- Draft PR: #537 `월정 숲 source acquisition bridge`
 - Branch: `codex/v1-moon-grove-source-acquisition-bridge`
 - Runtime binding: Done - manifest accepted + Phaser render/telemetry
 - Source acquisition bridge: Done locally - action/reducer/HUD/playfield/checker implemented
@@ -32,7 +33,7 @@ Generated at: 2026-05-15T05:35:43.490Z
 1. Intake gate: GitHub issue #536을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
 2. Implementation gate: 완료. `GardenState`, action rail, Phaser render, telemetry, checker를 source acquisition 기준으로 확장했다.
 3. Local verification gate: 완료. `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과했다.
-4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
+4. PR publication gate: 완료. Draft PR #537을 게시했고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
 6. runtime generation 지시가 없어야 하며 Browser Use unavailable blocker report + Playwright fallback evidence를 유지한다.
 
@@ -41,22 +42,22 @@ Generated at: 2026-05-15T05:35:43.490Z
 ## Local state
 
 - Branch: codex/v1-moon-grove-source-acquisition-bridge
-- Latest commit: 839b5fc 월정 숲 source 획득 브리지를 계획한다
+- Latest commit: 6198386 월정 숲 source 획득을 플레이어 행동으로 닫는다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-15T05:35:41.747Z
-- Phase: phaser-v1-moon-grove-source-acquisition-pr
+- Timestamp: 2026-05-15T05:37:24.934Z
+- Phase: phaser-v1-moon-grove-source-acquisition-pr-checks
 - Issue: 536
-- PR:
+- PR: 537
 - Item: items/0284-moon-grove-source-acquisition-bridge.md
-- Next action: Publish draft PR for Issue #536 and watch checks
+- Next action: Watch PR #537 checks, mark ready when green, merge, then observe main CI
 
 ## Open PRs
 
-- unavailable or none
+- #537 draft 월정 숲 source acquisition bridge — https://github.com/bborok1234/strange-seed-shop/pull/537
 
 ## Open issues
 

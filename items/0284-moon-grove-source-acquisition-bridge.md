@@ -5,7 +5,7 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #536
-- PR: TBD
+- PR: #537
 - Branch: `codex/v1-moon-grove-source-acquisition-bridge`
 - 연결: Issue #534, PR #535, main CI `25901742983`
 
