@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-15T05:15:18.824Z
+Generated at: 2026-05-15T05:25:04.602Z
 
 ## Current mission
 
-현재 작업은 **월정 숲 source runtime binding**이다. #532/#533은 `seed_moon_grove_001_icon.png`, `fx_moon_grove_source_reward_strip_v1.png` 생성/리뷰까지 merge/main CI `25650492343`로 통과했다. #534 구현은 두 asset을 manifest accepted entry와 Phaser reward/source promise 화면에 연결했고, local checks는 통과했다. Draft PR #535가 열렸고 남은 gate는 PR checks, merge, main CI다.
+현재 작업은 **월정 숲 source acquisition bridge**다. #534/#535는 `clue_moon_grove_001` reward promise를 accepted `seed_moon_grove_001_icon`과 `fx_moon_grove_source_reward_strip_v1`로 runtime에 연결했고 PR #535 merge/main CI `25901742983`까지 통과했다. 다음 blocker는 아직 `월정 숲 source 확인` player verb와 `seed_moon_grove_001 source 획득` state가 없어 planting loop로 이어질 근거가 약한 점이다.
 
 현재 evidence:
 
@@ -15,51 +15,51 @@ Generated at: 2026-05-15T05:15:18.824Z
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed moon grove source asset generation-review: Issue #532, PR #533, main CI `25650492343`
-- WorkUnit: `items/0283-moon-grove-source-runtime-binding.md`
-- GitHub issue: #534 `월정 숲 source runtime binding`
-- Draft PR: #535
-- Branch: `codex/v1-moon-grove-source-runtime-binding`
-- Runtime binding: Implemented - manifest accepted + Phaser render/telemetry
-- Visual evidence: Browser Use current-session blocker + Playwright fallback screenshot
-- Current validation: `npm run check:phaser`, `npm run check:ci`, `git diff --check` PASS
+- Completed moon grove source runtime binding: Issue #534, PR #535, main CI `25901742983`
+- WorkUnit: `items/0284-moon-grove-source-acquisition-bridge.md`
+- GitHub issue: #536 `월정 숲 source acquisition bridge`
+- Branch: `codex/v1-moon-grove-source-acquisition-bridge`
+- Runtime binding: Done - manifest accepted + Phaser render/telemetry
+- Current target: add source acquisition verb/state/telemetry
+- Visual evidence: Pending - Browser Use or current blocker + Playwright screenshot
+- Current validation: plan-first artifact and issue #536 created; implementation pending
 - Heartbeat: `reports/operations/operator-heartbeat-20260515.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #533 이후 accepted asset 후보가 runtime 화면 없이 멈추는 production gap을 해소한다.
-1. Intake gate: GitHub issue #534를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
-2. Implementation gate: manifest accepted entry와 Phaser preload/render/FX/telemetry를 연결했다.
-3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`를 통과했다.
-4. PR publication gate: draft PR #535를 게시했고 checks를 감시한다.
+0. Studio Campaign Gate: 다음 slice는 #535 이후 source promise가 acquisition state 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue #536을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
+2. Implementation gate: `GardenState`, action rail, Phaser render, telemetry, checker를 source acquisition 기준으로 확장한다.
+3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`를 통과시킨다.
+4. PR publication gate: 구현 branch를 draft PR로 게시하고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
-6. runtime generation 지시가 없어야 하며 Browser Use blocker report + Playwright fallback evidence를 유지한다.
+6. runtime generation 지시가 없어야 하며 Browser Use가 계속 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
 
 ## Local state
 
-- Branch: codex/v1-moon-grove-source-runtime-binding
-- Latest commit: 97853d0 월정 숲 source 보상을 런타임에 연결한다
+- Branch: codex/v1-moon-grove-source-acquisition-bridge
+- Latest commit: d573500 Merge pull request #535 from bborok1234/codex/v1-moon-grove-source-runtime-binding
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-15T05:15:16.528Z
-- Phase: phaser-v1-moon-grove-source-runtime-binding-pr
-- Issue: 534
-- PR: 535
-- Item: items/0283-moon-grove-source-runtime-binding.md
-- Next action: PR checks gate: watch PR #535 checks, mark ready, merge, then observe main CI
+- Timestamp: 2026-05-15T05:25:02.575Z
+- Phase: phaser-v1-moon-grove-source-acquisition-plan
+- Issue: 536
+- PR:
+- Item: items/0284-moon-grove-source-acquisition-bridge.md
+- Next action: Implementation gate: add moon grove source acquisition verb/state/telemetry for Issue #536
 
 ## Open PRs
 
-- #535 draft 월정 숲 source runtime binding — https://github.com/bborok1234/strange-seed-shop/pull/535
+- unavailable or none
 
 ## Open issues
 
-- #534 월정 숲 source runtime binding — https://github.com/bborok1234/strange-seed-shop/issues/534
+- #536 월정 숲 source acquisition bridge — https://github.com/bborok1234/strange-seed-shop/issues/536
 
 ## Playable mode
 
