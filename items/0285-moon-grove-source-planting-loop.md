@@ -2,7 +2,7 @@
 
 ## 상태
 
-- Status: planned
+- Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #538
 - PR: TBD
@@ -76,13 +76,29 @@
 
 ## 검증 명령
 
-- `npm run check:phaser`
-- `npm run check:content`
-- `npm run check:asset-provenance`
-- `npm run check:asset-style`
-- `npm run check:asset-alpha`
-- `npm run check:ci`
-- `git diff --check`
+- `npm run check:phaser` - pass
+- `npm run check:content` - pass
+- `npm run check:asset-provenance` - pass
+- `npm run check:asset-style` - pass
+- `npm run check:asset-alpha` - pass
+- `npm run check:ci` - pass
+- `git diff --check` - pass
+
+## 구현 결과
+
+- `GardenState`에 `moonGroveSourceSeedPlanted`, `moonGroveSourcePlotId`를 추가했다.
+- `월정 숲 source 확인` 후 빈 밭 선택 시 `월정 숲 심기` action을 제공한다.
+- `plantMoonGroveSourceSeed` reducer가 source availability를 소비하고 `seed_moon_grove_001`을 selected plot에 planted state로 연결한다.
+- Phaser plot render path가 accepted `seed_moon_grove_001_icon`을 planted marker/chip으로 표시한다.
+- `scripts/check-phaser-foundation.mjs`가 source acquisition -> 빈 밭 action -> planted plot -> overview telemetry/screenshot을 검증한다.
+
+## 증거
+
+- Browser Use blocker: `reports/visual/issue-0538-moon-grove-source-planting-loop/browser-use-blocker-20260515.md`
+- Visual report: `reports/visual/issue-0538-moon-grove-source-planting-loop/visual-report-20260515.md`
+- Plant action: `reports/visual/issue-0538-moon-grove-source-planting-loop/phaser-check-moon-grove-plant-action-393.png`
+- Planted plot: `reports/visual/issue-0538-moon-grove-source-planting-loop/phaser-check-moon-grove-planted-393.png`
+- Overview: `reports/visual/issue-0538-moon-grove-source-planting-loop/phaser-check-moon-fence-source-overview-393.png`
 
 ## 리스크
 
