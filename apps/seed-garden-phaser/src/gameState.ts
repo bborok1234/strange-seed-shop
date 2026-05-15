@@ -23,6 +23,7 @@ export const MOON_FENCE_REQUIRED_MATERIALS = 3;
 export const MOON_FENCE_UNLOCKED_ROUTE_ID = "expedition_moon_fence_unlocked";
 export const MOON_FENCE_FIRST_REWARD_LEAVES = 88;
 export const MOON_FENCE_NEXT_CLUE_ID = "clue_moon_grove_001";
+export const MOON_GROVE_SOURCE_SEED_ID = "seed_moon_grove_001";
 
 export interface BoardSlot {
   id: string;
@@ -144,6 +145,9 @@ export interface GardenState {
   moonFenceRewardMotionVisible: boolean;
   moonFenceNextClueVisible: boolean;
   moonFenceNextClueId?: string;
+  moonGroveSourceAcquired: boolean;
+  moonGroveSourceSeedAvailable: boolean;
+  moonGroveSourceSeedId?: string;
   moonFenceRequiredExplorerId?: string;
   nextRareRoutePreviewId?: string;
   nightGlassRewardLeaves: number;
@@ -378,6 +382,9 @@ export function createGardenState(): GardenState {
     moonFenceRewardMotionVisible: false,
     moonFenceNextClueVisible: false,
     moonFenceNextClueId: undefined,
+    moonGroveSourceAcquired: false,
+    moonGroveSourceSeedAvailable: false,
+    moonGroveSourceSeedId: undefined,
     moonFenceRequiredExplorerId: undefined,
     nextRareRoutePreviewId: undefined,
     nightGlassRewardLeaves: 0
@@ -440,6 +447,12 @@ export function selectSlot(state: GardenState, slotId: string): void {
     return;
   }
   if (facility?.kind === "expedition_gate") {
+    if (state.moonFenceNextClueVisible) {
+      state.objective = state.moonGroveSourceAcquired
+        ? `${MOON_GROVE_SOURCE_SEED_ID} source 획득 · 빈 밭 planting 대기`
+        : `월정 숲 source 확인 대기 · ${MOON_FENCE_NEXT_CLUE_ID}`;
+      return;
+    }
     if (state.nightGlassSourcePreviewVisible) {
       if (state.nightGlassAcquisitionState === "ready") {
         state.objective = "밤유리 온실 조사 준비 · expedition_night_glass";
@@ -1161,6 +1174,24 @@ export function claimMoonFenceFirstExpeditionReward(state: GardenState): void {
   state.moonFenceNextClueId = MOON_FENCE_NEXT_CLUE_ID;
   state.objective = `월정 문 보상 수령 · ${MOON_FENCE_NEXT_CLUE_ID} · 다음 source promise`;
   state.receipts.unshift(`월정 문 귀환 상자 열기 · 잎 +${rewardLeaves} · ${MOON_FENCE_NEXT_CLUE_ID} source promise`);
+}
+
+export function claimMoonGroveSource(state: GardenState): void {
+  if (!state.moonFenceNextClueVisible || state.moonGroveSourceAcquired) {
+    return;
+  }
+
+  const expeditionGate = getFacilityBySlot(state, "facility_expedition_gate");
+  if (expeditionGate) {
+    expeditionGate.visualState = "active";
+    expeditionGate.progress = 0;
+  }
+  state.selectedSlotId = "facility_expedition_gate";
+  state.moonGroveSourceAcquired = true;
+  state.moonGroveSourceSeedAvailable = true;
+  state.moonGroveSourceSeedId = MOON_GROVE_SOURCE_SEED_ID;
+  state.objective = `월정 숲 source 획득 · ${MOON_GROVE_SOURCE_SEED_ID} source 보관`;
+  state.receipts.unshift(`월정 숲 source 확인 · ${MOON_GROVE_SOURCE_SEED_ID} source 획득`);
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {

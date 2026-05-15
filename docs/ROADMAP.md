@@ -85,7 +85,8 @@ Phase naming rule: `Phase 0`은 baseline product/economy/safety contract이고, 
 | 월정 문 첫 원정 payoff | done | Issue #528, PR #529, main CI `25649482785`, `items/0280-moon-fence-first-expedition-payoff.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0528-moon-fence-first-expedition-payoff/visual-report-20260511.md` | #527 이후 `expedition_moon_fence_unlocked` route는 열렸지만 실제 `월정 문 원정 보내기`, 귀환 상자, reward claim, 다음 clue/source promise가 없던 blocker를 해결했다. local checks, PR checks, merge, main CI가 통과했다 |
 | 월정 문 source asset plan-prompt | done | Issue #530, PR #531, main CI `25649871624`, `items/0281-moon-grove-source-asset-plan-prompt.md`, `assets/source/asset_plan.json`, `assets/source/asset_prompts.json` | #529 이후 `clue_moon_grove_001`은 promise telemetry에 머물렀다. `seed_moon_grove_001_icon`과 `fx_moon_grove_source_reward_strip_v1` plan/prompt를 추가했고 local checks, PR checks, merge, main CI가 통과했다 |
 | 월정 숲 source asset generation-review | done | Issue #532, PR #533, main CI `25650492343`, `items/0282-moon-grove-source-asset-generation-review.md`, `public/assets/game/seeds/seed_moon_grove_001_icon.png`, `public/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png`, `reports/assets/moon_grove_source_asset_review_20260511.md`, `reports/assets/moon_grove_source_asset_contact_sheet_20260511.png` | #531 이후 plan/prompt는 있으나 실제 PNG workspace asset이 없던 blocker를 해소했다. 두 asset을 gpt-image-2 opaque 후보로 생성하고 seed alpha cleanup, FX strict 8x96x96 normalization을 적용했으며 local checks, PR checks, merge, main CI가 통과했다 |
-| 월정 숲 source runtime binding | review | Issue #534, PR #535, `items/0283-moon-grove-source-runtime-binding.md`, `public/assets/manifest/assetManifest.json`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0534-moon-grove-source-runtime-binding/visual-report-20260515.md` | #533 이후 PNG 후보는 있으나 manifest accepted entry와 Phaser reward/source promise binding이 없어 `clue_moon_grove_001`이 텍스트 promise에 머문 blocker를 해결했다. seed icon/FX를 accepted asset과 runtime telemetry로 연결했고 `npm run check:phaser`, `npm run check:ci`, `git diff --check`가 통과했다. PR checks/merge/main CI 대기 |
+| 월정 숲 source runtime binding | done | Issue #534, PR #535, main CI `25901742983`, `items/0283-moon-grove-source-runtime-binding.md`, `public/assets/manifest/assetManifest.json`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0534-moon-grove-source-runtime-binding/visual-report-20260515.md` | #533 이후 PNG 후보는 있으나 manifest accepted entry와 Phaser reward/source promise binding이 없어 `clue_moon_grove_001`이 텍스트 promise에 머문 blocker를 해결했다. seed icon/FX를 accepted asset과 runtime telemetry로 연결했고 local checks, PR checks, merge, main CI가 통과했다 |
+| 월정 숲 source acquisition bridge | review | Issue #536, PR #537, `items/0284-moon-grove-source-acquisition-bridge.md`, `apps/seed-garden-phaser/src/gameState.ts`, `apps/seed-garden-phaser/src/main.ts`, `scripts/check-phaser-foundation.mjs`, `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/visual-report-20260515.md` | #535 이후 source icon/FX promise는 보이지만 `월정 숲 source 확인` player verb와 `seed_moon_grove_001 source 획득` state가 없던 blocker를 해결했다. Source 확인 action, acquisition telemetry, accepted source icon/FX marker, Browser Use current blocker + Playwright screenshot evidence를 추가했고 local checks가 통과했다. PR #537 checks/merge gate 대기 |
 | Phaser carry claim reward FX | blocked | Issue #432, `items/0231-phaser-carry-claim-reward-fx.md` | 보류. carry/claim/reward FX는 actor task/path와 modular facility/crate asset spec 이후 재작성한다 |
 | Seed goal one-tap planting CTA | review | PR #426, `items/0226-seed-goal-plant-cta-fix.md`, `reports/visual/issue-seed-goal-plant-cta/visual-report-20260507.md`, Browser Use before/after | `젤리콩 씨앗` 목표 CTA가 정원 이동 no-op이 아니라 구매 가능 시 `구매하고 심기`로 한 번에 씨앗 구매, 잎 차감, 연구 source 심기, receipt 표시까지 이어지고 PR CI 중복 `check:ci` 실행을 제거함 |
 | Seed tab economy affordance | done | Issue #428, PR #429, main CI `25473096297`, `items/0227-seed-economy-affordance.md`, `reports/visual/issue-0227-seed-economy-affordance/visual-report-20260507.md`, Browser Use before/after/interaction | 씨앗 row와 도감 목표 CTA가 비용 재화, 현재 잎 보유량, 구매 후 결과, 부족/잠김 사유를 같은 시선 안에 보여준다. Browser Use `iab`에서 `구매 60 잎` 클릭 후 `보유 1개`와 `정원에 심기` 전환을 확인했고 PR #429 merge/main CI까지 통과함 |
@@ -411,7 +412,7 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 
 ## Current Next Action
 
-현재 작업은 **월정 숲 source runtime binding**이다. #532/#533은 `seed_moon_grove_001_icon.png`, `fx_moon_grove_source_reward_strip_v1.png` 생성/리뷰까지 merge/main CI `25650492343`로 통과했다. #534 구현은 두 asset을 manifest accepted entry와 Phaser reward/source promise 화면에 연결했고, local checks는 통과했다. Draft PR #535가 열렸고 남은 gate는 PR checks, merge, main CI다.
+현재 작업은 **월정 숲 source acquisition bridge**다. #534/#535는 `clue_moon_grove_001` reward promise를 accepted `seed_moon_grove_001_icon`과 `fx_moon_grove_source_reward_strip_v1`로 runtime에 연결했고 PR #535 merge/main CI `25901742983`까지 통과했다. #536 구현은 source promise를 `월정 숲 source 확인` player verb와 `seed_moon_grove_001 source 획득` state로 전환했으며, 다음 gate는 draft PR publication/check/merge다.
 
 현재 evidence:
 
@@ -419,24 +420,26 @@ Goal: only after Milestones 6-8 are proven, attempt a 24-hour bot that behaves l
 - Active game source: `docs/GAME_BIBLE.md`
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
-- Completed moon grove source asset generation-review: Issue #532, PR #533, main CI `25650492343`
-- WorkUnit: `items/0283-moon-grove-source-runtime-binding.md`
-- GitHub issue: #534 `월정 숲 source runtime binding`
-- Draft PR: #535
-- Branch: `codex/v1-moon-grove-source-runtime-binding`
-- Runtime binding: Implemented - manifest accepted + Phaser render/telemetry
-- Visual evidence: Browser Use current-session blocker + Playwright fallback screenshot
-- Current validation: `npm run check:phaser`, `npm run check:ci`, `git diff --check` PASS
+- Completed moon grove source runtime binding: Issue #534, PR #535, main CI `25901742983`
+- WorkUnit: `items/0284-moon-grove-source-acquisition-bridge.md`
+- GitHub issue: #536 `월정 숲 source acquisition bridge`
+- Draft PR: #537 `월정 숲 source acquisition bridge`
+- Branch: `codex/v1-moon-grove-source-acquisition-bridge`
+- Runtime binding: Done - manifest accepted + Phaser render/telemetry
+- Source acquisition bridge: Done locally - action/reducer/HUD/playfield/checker implemented
+- Visual evidence: `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/visual-report-20260515.md`
+- Browser Use: current-session blocker recorded at `reports/visual/issue-0536-moon-grove-source-acquisition-bridge/browser-use-blocker-20260515.md`
+- Current validation: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260515.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #533 이후 accepted asset 후보가 runtime 화면 없이 멈추는 production gap을 해소한다.
-1. Intake gate: GitHub issue #534를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
-2. Implementation gate: manifest accepted entry와 Phaser preload/render/FX/telemetry를 연결했다.
-3. Local verification gate: `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`를 통과했다.
-4. PR publication gate: draft PR #535를 게시했고 checks를 감시한다.
+0. Studio Campaign Gate: 다음 slice는 #535 이후 source promise가 acquisition state 없이 멈추는 production gap을 해소한다.
+1. Intake gate: GitHub issue #536을 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
+2. Implementation gate: 완료. `GardenState`, action rail, Phaser render, telemetry, checker를 source acquisition 기준으로 확장했다.
+3. Local verification gate: 완료. `npm run check:phaser`, `npm run check:content`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과했다.
+4. PR publication gate: 완료. Draft PR #537을 게시했고 checks를 감시한다.
 5. PR checks가 green이면 ready/merge 후 main CI를 관찰한다.
-6. runtime generation 지시가 없어야 하며 Browser Use blocker report + Playwright fallback evidence를 유지한다.
+6. runtime generation 지시가 없어야 하며 Browser Use unavailable blocker report + Playwright fallback evidence를 유지한다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
