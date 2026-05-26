@@ -5,7 +5,7 @@
 - Status: active
 - Game Studio route: `game-studio:game-studio -> game-studio:sprite-pipeline -> game-studio:game-playtest -> game-studio:phaser-2d-game`
 - GitHub issue: #546
-- PR: pending
+- PR: #547 https://github.com/bborok1234/strange-seed-shop/pull/547
 - Branch: `codex/0289-moon-grove-creature-asset-generation-review`
 - 연결: Issue #542, PR #543, Issue #546, recovery Issue #544/PR #545, main CI `26427781203`
 

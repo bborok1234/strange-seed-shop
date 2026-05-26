@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-26T02:22:58.288Z
+Generated at: 2026-05-26T02:26:10.349Z
 
 ## Current mission
 
@@ -21,6 +21,7 @@ Generated at: 2026-05-26T02:22:58.288Z
 - WorkUnit: `items/0289-moon-grove-creature-asset-generation-review.md`
 - GitHub issue: #546 `월정 숲 creature/actor asset generation-review`
 - Branch: `codex/0289-moon-grove-creature-asset-generation-review`
+- Draft PR: #547 https://github.com/bborok1234/strange-seed-shop/pull/547
 - Current validation: `npm run check:moon-grove-creature-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:dashboard`, `npm run check:ops-live`, `npm run check:ci`, `git diff --check` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
 
@@ -32,29 +33,29 @@ Generated at: 2026-05-26T02:22:58.288Z
 3. Review/postprocess gate: portrait는 alpha-cleanup, actor/FX는 strict 8 frames, 96x96, intended fps/binding evidence로 normalize했다.
 4. Evidence gate: `assets/source/asset_generation_status.json`, `assets/source/gpt_image_asset_provenance.json`, review report, contact sheet를 갱신했다.
 5. Local verification gate: `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과했다.
-6. PR/main gate: PR checks, merge, main CI green 후 다음 runtime binding WorkUnit으로 이어간다.
+6. PR/main gate: Draft PR #547을 게시했다. PR checks, merge, main CI green 후 다음 runtime binding WorkUnit으로 이어간다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
 
 ## Local state
 
 - Branch: codex/0289-moon-grove-creature-asset-generation-review
-- Latest commit: 0e2eba6 main CI dashboard stale을 별도 복구한다
+- Latest commit: 0e57d61 월정 숲 새벽이끼 asset 후보를 생성한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-26T02:22:56.078Z
-- Phase: moon-grove-creature-asset-generation-review-pr
+- Timestamp: 2026-05-26T02:26:08.049Z
+- Phase: moon-grove-creature-asset-generation-review-pr-checks
 - Issue: 546
-- PR: none
+- PR: 547
 - Item: items/0289-moon-grove-creature-asset-generation-review.md
-- Next action: PR publication gate: commit, push, publish draft PR for #546, watch checks, merge, then observe main CI
+- Next action: PR/check gate: watch PR #547 checks, mark ready, merge, then observe main CI green
 
 ## Open PRs
 
-- unavailable or none
+- #547 draft 월정 숲 새벽이끼 asset 후보 생성 — https://github.com/bborok1234/strange-seed-shop/pull/547
 
 ## Open issues
 
