@@ -1340,6 +1340,61 @@
         "animation.binding is moon_fence.reward.action.claim_source_clue",
         "FX reads at 96px and does not obscure the expedition gate or bottom action rail"
       ]
+    },
+    {
+      "asset_id": "creature_moon_grove_001",
+      "output_path": "public/assets/game/creatures/creature_moon_grove_001.png",
+      "prompt": "Use case: stylized-concept\nAsset type: idle web game rare creature reveal portrait\nPrimary request: Create creature_moon_grove_001 for 이상한 씨앗상회 v1, the named 월정 숲 새벽이끼 discovery revealed after seed_moon_grove_001 harvest.\nSubject: A tiny moon-grove plant creature named 새벽이끼 미루, with a soft mossy body, crescent-leaf ears, dew bead eyes, pale mint sprout crown, and gentle silver-lavender glow. It should feel like a friendly rare greenhouse creature that can later help tend a moon-grove route.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game creature portrait, soft rounded shapes, crisp readable silhouette, subtle painterly texture, clean raster PNG edges, no text.\nComposition/framing: Centered full creature portrait with generous padding, transparent or clean removable background, readable at 64px and 128px, no UI frame or label baked in.\nColor palette: moonlit mint, soft moss green, pale cream glow, silver lavender, tiny leaf-yellow highlights, deep greenhouse teal shadows.\nConstraints: Raster PNG output only; no SVG/vector/code-native accepted game graphic; no text, letters, numbers, logo, watermark, UI label, full background, or existing character resemblance. Must be distinct from creature_lunar_uncommon_001 and creature_lunar_rare_001.\nAvoid: Photorealism, dark horror, occult symbols, generic fairy, generic mushroom mascot, hard neon, cluttered particles, baked UI card, copyrighted character resemblance, living artist imitation.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches cute-strange greenhouse collectible style",
+        "readable as a named moon-grove creature at 64px and 128px",
+        "distinct from lunar source and night-glass rare creatures",
+        "transparent or clean removable background with no UI frame"
+      ]
+    },
+    {
+      "asset_id": "actor_moon_grove_miru_idle_strip_v1",
+      "output_path": "public/assets/game/actors/actor_moon_grove_miru_idle_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser actor sprite sheet\nPrimary request: Create actor_moon_grove_miru_idle_strip_v1 for 이상한 씨앗상회 v1.\nSubject: The moon-grove creature 새벽이끼 미루 idling on the greenhouse playfield: tiny mossy body, crescent-leaf ears, dew bead eyes, gentle breathing motion, and a soft lunar sprout glow.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game sprite strip, soft rounded shapes, crisp readable silhouette, subtle painterly texture, clean raster PNG edges, no text.\nComposition/framing: One horizontal actor sprite strip with exactly 8 frames, each frame 96x96, transparent background, consistent ground anchor and scale, centered creature with no baked shadow larger than the frame.\nColor palette: moonlit mint, soft moss green, silver lavender, pale cream glow, tiny leaf-yellow highlights, deep greenhouse teal accents.\nConstraints: Intended fps 8; animation.binding moon_grove.discovery.actor.idle; behavior loop. Raster PNG output only; no SVG/vector/code-native accepted game graphic; no text, UI label, frame, full background, logo, or watermark.\nAvoid: Large frame-to-frame camera shifts, hard neon, dark horror, occult symbols, photorealism, cluttered particles, generic mushroom, copyrighted character resemblance, living artist imitation.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches creature_moon_grove_001 style and silhouette",
+        "exactly 8 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is moon_grove.discovery.actor.idle",
+        "idle loop reads at 64px and does not obscure plots or HUD"
+      ]
+    },
+    {
+      "asset_id": "actor_moon_grove_miru_work_strip_v1",
+      "output_path": "public/assets/game/actors/actor_moon_grove_miru_work_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser actor sprite sheet\nPrimary request: Create actor_moon_grove_miru_work_strip_v1 for 이상한 씨앗상회 v1.\nSubject: 새벽이끼 미루 performing a small greenhouse work motion: leaning forward to tend a moon-grove sprout, shaking dew from crescent leaves, and sending tiny mint pollen toward a future grove route marker.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game sprite strip, soft rounded shapes, crisp readable silhouette, subtle painterly texture, clean raster PNG edges, no text.\nComposition/framing: One horizontal actor sprite strip with exactly 8 frames, each frame 96x96, transparent background, consistent ground anchor and scale, compact motion safe for a mobile Phaser playfield.\nColor palette: moonlit mint, soft moss green, silver lavender, pale cream glow, tiny leaf-yellow highlights, deep greenhouse teal accents.\nConstraints: Intended fps 10; animation.binding moon_grove.discovery.actor.work; behavior loop. Raster PNG output only; no SVG/vector/code-native accepted game graphic; no text, UI label, frame, full background, logo, or watermark.\nAvoid: Large sweeping effects that hide the actor, hard neon, dark horror, occult symbols, photorealism, cluttered particles, baked route marker, copyrighted character resemblance, living artist imitation.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches creature_moon_grove_001 and idle strip style",
+        "exactly 8 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is moon_grove.discovery.actor.work",
+        "work loop reads at 64px and keeps motion inside the frame"
+      ]
+    },
+    {
+      "asset_id": "fx_moon_grove_discovery_bloom_strip_v1",
+      "output_path": "public/assets/game/fx/fx_moon_grove_discovery_bloom_strip_v1.png",
+      "prompt": "Use case: stylized-concept\nAsset type: horizontal Phaser FX sprite sheet\nPrimary request: Create fx_moon_grove_discovery_bloom_strip_v1 for the 월정 숲 새벽이끼 discovery reveal after seed_moon_grove_001 harvest.\nSubject: A gentle moon-grove bloom reveal pulse: crescent moss leaves opening, dew motes lifting, soft mint pollen, and a small silver-lavender halo that feels like a named creature has emerged.\nStyle/medium: Cute-strange greenhouse collectible style, polished 2D mobile game FX, soft rounded particles, crisp readable silhouettes, subtle lunar glow, clean raster PNG edges, no text.\nComposition/framing: One horizontal FX strip with exactly 8 frames, each frame 96x96, transparent background, consistent center, compact reveal bloom that stays inside frame and is safe near a plot and bottom action rail.\nColor palette: moonlit mint, soft moss green, silver lavender, pale cream glow, tiny leaf-yellow sparkles, deep greenhouse teal accent.\nConstraints: Intended fps 12; animation.binding moon_grove.discovery.action.reveal; behavior once. Raster PNG output only; no SVG/vector/code-native accepted game graphic; no text, UI label, frame, full background, character portrait baked into the FX, logo, or watermark.\nAvoid: Large explosion, hard neon, dark horror magic, occult symbols, realistic fire, cluttered particles, unreadable tiny details, baked UI button/card, copyrighted character resemblance, living artist imitation.",
+      "acceptance": [
+        "raster PNG output path, no SVG/vector/code-native accepted game graphic",
+        "no text, watermark, logo, or copyrighted character resemblance",
+        "matches moon-grove creature and source FX color language",
+        "exactly 8 frames in a horizontal strip",
+        "each frame is 96x96",
+        "animation.binding is moon_grove.discovery.action.reveal",
+        "FX reads at 96px and does not obscure the plot or bottom action rail"
+      ]
     }
   ]
 }

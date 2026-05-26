@@ -1620,6 +1620,100 @@
         "behavior": "once"
       },
       "notes": "Horizontal FX strip for claiming clue_moon_grove_001 after the first moon fence expedition reward. Should feel like a soft moon-grove source reveal, compact enough for the expedition gate and action rail."
+    },
+    {
+      "id": "creature_moon_grove_001",
+      "category": "creature",
+      "family": "moon_grove",
+      "rarity": "rare",
+      "growth_stage": "complete",
+      "intended_use": "moon_grove_discovery_reveal_album_portrait",
+      "output_path": "public/assets/game/creatures/creature_moon_grove_001.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "creature",
+        "moon_grove",
+        "discovery",
+        "issue_0542"
+      ],
+      "notes": "Generation-ready portrait for 월정 숲 새벽이끼 / discovery_moon_grove_001. Must read as a named moon-grove plant creature, not a seed icon or generic lunar creature."
+    },
+    {
+      "id": "actor_moon_grove_miru_idle_strip_v1",
+      "category": "actor_sprite_strip",
+      "family": "moon_grove",
+      "rarity": "rare",
+      "growth_stage": "complete",
+      "intended_use": "phaser_moon_grove_actor_idle",
+      "output_path": "public/assets/game/actors/actor_moon_grove_miru_idle_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "actor",
+        "sprite_strip",
+        "moon_grove",
+        "issue_0542"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 8,
+      "animation": {
+        "binding": "moon_grove.discovery.actor.idle",
+        "behavior": "loop"
+      },
+      "notes": "Horizontal idle actor strip for the moon-grove discovery creature after reveal. Small breathing/glow motion should work on the Phaser playfield without obscuring plots."
+    },
+    {
+      "id": "actor_moon_grove_miru_work_strip_v1",
+      "category": "actor_sprite_strip",
+      "family": "moon_grove",
+      "rarity": "rare",
+      "growth_stage": "complete",
+      "intended_use": "phaser_moon_grove_actor_work",
+      "output_path": "public/assets/game/actors/actor_moon_grove_miru_work_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "actor",
+        "sprite_strip",
+        "moon_grove",
+        "work",
+        "issue_0542"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 10,
+      "animation": {
+        "binding": "moon_grove.discovery.actor.work",
+        "behavior": "loop"
+      },
+      "notes": "Horizontal work actor strip for the moon-grove discovery creature. Motion should imply tending a new grove route or greenhouse sprout, ready for later runtime binding."
+    },
+    {
+      "id": "fx_moon_grove_discovery_bloom_strip_v1",
+      "category": "fx_strip",
+      "family": "moon_grove",
+      "rarity": "rare",
+      "growth_stage": "not_applicable",
+      "intended_use": "moon_grove_discovery_reveal_fx",
+      "output_path": "public/assets/game/fx/fx_moon_grove_discovery_bloom_strip_v1.png",
+      "manifest_tags": [
+        "v1",
+        "phaser",
+        "fx",
+        "moon_grove",
+        "discovery",
+        "issue_0542"
+      ],
+      "frame_count": 8,
+      "frame_size": "96x96",
+      "intended_fps": 12,
+      "animation": {
+        "binding": "moon_grove.discovery.action.reveal",
+        "behavior": "once"
+      },
+      "notes": "Horizontal reveal bloom FX strip for 월정 숲 새벽이끼 discovery. Should feel like a gentle moon-grove bloom distinct from source claim FX."
     }
   ]
 }
