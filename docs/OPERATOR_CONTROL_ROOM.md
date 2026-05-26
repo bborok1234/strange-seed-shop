@@ -23,7 +23,7 @@ Generated at: 2026-05-26T04:20:58.929Z
 - Completed moon grove Miru research handoff: Issue #550, PR #551, main CI `26430497298`
 - WorkUnit: `items/0292-moon-grove-greenhouse-path-map.md`
 - GitHub issue: #552 `온실 숲길 clue map v0`
-- PR: pending
+- PR: #553 https://github.com/bborok1234/strange-seed-shop/pull/553
 - Branch: `codex/0292-moon-grove-greenhouse-path-map`
 - Current validation: plan-first artifact, GitHub issue, Phaser state/action/render/checker implementation, Browser Use blocker report, Playwright screenshot evidence, `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `git diff --check`, and `npm run check:ci` are complete. Remaining gates are PR checks, merge, and main CI.
 - Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
@@ -52,10 +52,10 @@ Generated at: 2026-05-26T04:20:58.929Z
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-26T04:21:49Z
-- Phase: moon-grove-greenhouse-path-map-local-ci-pass
+- Timestamp: 2026-05-26T04:26:03Z
+- Phase: moon-grove-greenhouse-path-map-pr-checks
 - Issue: 552
-- PR: pending
+- PR: 553
 - Item: items/0292-moon-grove-greenhouse-path-map.md
 - Next action: PR gate: commit, push, draft PR, watch PR checks, merge, then main CI
 

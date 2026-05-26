@@ -5,7 +5,7 @@
 - Status: local CI verified
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #552 https://github.com/bborok1234/strange-seed-shop/issues/552
-- PR: pending
+- PR: #553 https://github.com/bborok1234/strange-seed-shop/pull/553
 - Branch: `codex/0292-moon-grove-greenhouse-path-map`
 - 연결: Issue #550, PR #551, main CI `26430497298`
 
