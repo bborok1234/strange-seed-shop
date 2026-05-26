@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-26T02:26:10.349Z
+Generated at: 2026-05-26T02:53:01.780Z
 
 ## Current mission
 
-현재 작업은 **월정 숲 creature/actor asset generation-review**다. #542/#543은 `월정 숲 새벽이끼` 전용 creature portrait, idle/work actor strip, discovery bloom FX plan-prompt를 main에 merge했고, #544/#545로 merge 후 red main CI도 green으로 복구했다. 이제 plan/prompt에 대응하는 실제 workspace PNG와 strict strip 후보, review evidence, generation provenance를 만들어 후속 runtime binding이 accepted manifest asset을 참조할 수 있게 한다.
+현재 작업은 **월정 숲 creature/actor runtime binding**이다. #546/#547은 `월정 숲 새벽이끼` 전용 creature portrait, idle/work actor strip, discovery bloom FX를 generated workspace asset 후보와 review evidence로 만들었고 main CI `26428876014`가 green이다. 이제 이 후보를 accepted manifest entry와 Phaser preload/render/telemetry에 연결해 harvest reveal이 source badge/old source FX가 아니라 전용 creature/actor/FX로 화면에 남게 한다.
 
 현재 evidence:
 
@@ -18,48 +18,51 @@ Generated at: 2026-05-26T02:26:10.349Z
 - Completed moon grove harvest/reveal payoff: Issue #540, PR #541, main CI `25903872186`
 - Completed moon grove creature plan/prompt merge: Issue #542, PR #543, merge commit `49e49e11`
 - Completed main CI recovery: Issue #544, PR #545, main CI `26427781203`
-- WorkUnit: `items/0289-moon-grove-creature-asset-generation-review.md`
-- GitHub issue: #546 `월정 숲 creature/actor asset generation-review`
-- Branch: `codex/0289-moon-grove-creature-asset-generation-review`
-- Draft PR: #547 https://github.com/bborok1234/strange-seed-shop/pull/547
-- Current validation: `npm run check:moon-grove-creature-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:dashboard`, `npm run check:ops-live`, `npm run check:ci`, `git diff --check` pass
+- Completed moon grove creature generation-review: Issue #546, PR #547, main CI `26428876014`
+- WorkUnit: `items/0290-moon-grove-creature-runtime-binding.md`
+- GitHub issue: #548 `월정 숲 creature/actor runtime binding`
+- Branch: `codex/0290-moon-grove-creature-runtime-binding`
+- Current validation: runtime/manifest/checker implementation complete; `npm run build:phaser`, `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-normalization`, `npm run check:asset-alpha`, `npm run check:asset-style`, `npm run check:ops-live`, `npm run check:ci`, `git diff --check` pass after heartbeat/control-room refresh
 - Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
+- Visual evidence: `reports/visual/issue-0548-moon-grove-creature-runtime-binding/`
+- Browser Use blocker: `reports/visual/issue-0548-moon-grove-creature-runtime-binding/browser-use-blocker-20260526.md`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 이번 slice는 #543 이후 `월정 숲 새벽이끼`가 전용 generated creature/actor asset 없이 source badge에 머무는 production gap을 해소해야 한다.
-1. Intake gate: GitHub issue #546과 WorkUnit을 생성했다.
-2. Generation gate: `creature_moon_grove_001`, `actor_moon_grove_miru_idle_strip_v1`, `actor_moon_grove_miru_work_strip_v1`, `fx_moon_grove_discovery_bloom_strip_v1`을 `SEED_ASSET_IMAGE_BACKGROUND=opaque` gpt-image-2 path로 생성했다.
-3. Review/postprocess gate: portrait는 alpha-cleanup, actor/FX는 strict 8 frames, 96x96, intended fps/binding evidence로 normalize했다.
-4. Evidence gate: `assets/source/asset_generation_status.json`, `assets/source/gpt_image_asset_provenance.json`, review report, contact sheet를 갱신했다.
-5. Local verification gate: `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과했다.
-6. PR/main gate: Draft PR #547을 게시했다. PR checks, merge, main CI green 후 다음 runtime binding WorkUnit으로 이어간다.
+0. Studio Campaign Gate: 이번 slice는 #547 이후 `월정 숲 새벽이끼`가 전용 generated asset 후보를 갖고도 runtime에서 source badge/old FX에 머무는 production gap을 해소해야 한다.
+1. Intake gate: GitHub issue와 WorkUnit을 생성한다.
+2. Manifest gate: 4개 asset을 accepted manifest entry로 등록하고 actor/FX animation metadata와 `animation.binding`을 고정한다.
+3. Runtime gate: Phaser preload, animation, harvest reveal/playfield actor/overview telemetry가 전용 portrait, idle/work actor strip, discovery bloom FX를 사용한다.
+4. QA gate: `scripts/check-phaser-foundation.mjs`가 topology asset, harvested state, overview state, last FX binding, HUD surface를 검증한다.
+5. Visual gate: Browser Use 또는 기록된 blocker + Playwright screenshot evidence를 `reports/visual/`에 남긴다.
+6. Local verification gate: `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과해야 한다.
+7. PR/main gate: PR checks, merge, main CI green 후 다음 playable vertical slice로 이어간다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
 
 ## Local state
 
-- Branch: codex/0289-moon-grove-creature-asset-generation-review
-- Latest commit: 0e57d61 월정 숲 새벽이끼 asset 후보를 생성한다
+- Branch: codex/0290-moon-grove-creature-runtime-binding
+- Latest commit: 568eb70 월정 숲 새벽이끼 asset 후보를 생성한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-26T02:26:08.049Z
-- Phase: moon-grove-creature-asset-generation-review-pr-checks
-- Issue: 546
-- PR: 547
-- Item: items/0289-moon-grove-creature-asset-generation-review.md
-- Next action: PR/check gate: watch PR #547 checks, mark ready, merge, then observe main CI green
+- Timestamp: 2026-05-26T02:52:43.883Z
+- Phase: moon-grove-creature-runtime-binding-pr
+- Issue: 548
+- PR: none
+- Item: items/0290-moon-grove-creature-runtime-binding.md
+- Next action: PR publication gate: commit, push, publish draft PR for #548, watch checks, merge, then observe main CI
 
 ## Open PRs
 
-- #547 draft 월정 숲 새벽이끼 asset 후보 생성 — https://github.com/bborok1234/strange-seed-shop/pull/547
+- unavailable or none
 
 ## Open issues
 
-- #546 월정 숲 creature/actor asset generation-review — https://github.com/bborok1234/strange-seed-shop/issues/546
+- #548 월정 숲 creature/actor runtime binding — https://github.com/bborok1234/strange-seed-shop/issues/548
 
 ## Playable mode
 

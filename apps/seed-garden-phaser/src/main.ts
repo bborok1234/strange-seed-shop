@@ -33,8 +33,10 @@ import {
   MOON_FENCE_REQUIRED_MATERIALS,
   MOON_FENCE_NEXT_CLUE_ID,
   MOON_FENCE_UNLOCKED_ROUTE_ID,
+  MOON_GROVE_CREATURE_ID,
   MOON_GROVE_DISCOVERY_ID,
   MOON_GROVE_DISCOVERY_NAME,
+  MOON_GROVE_MIRU_ACTOR_ID,
   MOON_GROVE_SOURCE_SEED_ID,
   plantLunarSourceSeed,
   plantMoonGroveSourceSeed,
@@ -100,6 +102,10 @@ const TOPOLOGY_ASSETS = {
     lunarRare: {
       key: "creature_lunar_rare_001",
       path: "/assets/game/creatures/creature_lunar_rare_001.png"
+    },
+    moonGrove: {
+      key: "creature_moon_grove_001",
+      path: "/assets/game/creatures/creature_moon_grove_001.png"
     }
   },
   facilities: {
@@ -134,6 +140,18 @@ const TOPOLOGY_ASSETS = {
       path: "/assets/game/sprites/actor_momo_carrier_strip_v1.png",
       frameWidth: 128,
       frameHeight: 128
+    },
+    moonGroveIdle: {
+      key: "actor_moon_grove_miru_idle_strip_v1",
+      path: "/assets/game/actors/actor_moon_grove_miru_idle_strip_v1.png",
+      frameWidth: 96,
+      frameHeight: 96
+    },
+    moonGroveWork: {
+      key: "actor_moon_grove_miru_work_strip_v1",
+      path: "/assets/game/actors/actor_moon_grove_miru_work_strip_v1.png",
+      frameWidth: 96,
+      frameHeight: 96
     }
   },
   fx: {
@@ -170,6 +188,12 @@ const TOPOLOGY_ASSETS = {
     moonGroveSourceReward: {
       key: "fx_moon_grove_source_reward_strip_v1",
       path: "/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png",
+      frameWidth: 96,
+      frameHeight: 96
+    },
+    moonGroveDiscoveryBloom: {
+      key: "fx_moon_grove_discovery_bloom_strip_v1",
+      path: "/assets/game/fx/fx_moon_grove_discovery_bloom_strip_v1.png",
       frameWidth: 96,
       frameHeight: 96
     }
@@ -240,7 +264,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "expeditionReturn"
       | "lunarHarvest"
       | "nightGlassAcquire"
-      | "moonGroveSource";
+      | "moonGroveSource"
+      | "moonGroveDiscovery";
     slotId: string;
   };
   private viewMode: ViewMode = "manage";
@@ -281,6 +306,7 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderNightGlassAcquisitionMarker();
     this.renderLunarSourceReveal();
     this.renderNightGlassRareReveal();
+    this.renderMoonGroveDiscoveryReveal();
     this.renderActors();
     this.renderPendingFx();
     this.applyViewModeCamera();
@@ -467,6 +493,22 @@ class GardenBoardScene extends Phaser.Scene {
         : "";
     (window as unknown as { __seedGardenMoonGroveSourceFxKey?: string }).__seedGardenMoonGroveSourceFxKey =
       gameState.moonFenceNextClueVisible ? TOPOLOGY_ASSETS.fx.moonGroveSourceReward.key : "";
+    (window as unknown as { __seedGardenMoonGroveCreatureAssetKey?: string })
+      .__seedGardenMoonGroveCreatureAssetKey = gameState.moonGroveDiscoveryRevealed
+        ? TOPOLOGY_ASSETS.creatures.moonGrove.key
+        : "";
+    (window as unknown as { __seedGardenMoonGroveCreatureId?: string }).__seedGardenMoonGroveCreatureId =
+      gameState.moonGroveDiscoveryRevealed ? MOON_GROVE_CREATURE_ID : "";
+    (window as unknown as { __seedGardenMoonGroveIdleActorKey?: string }).__seedGardenMoonGroveIdleActorKey =
+      gameState.moonGroveDiscoveryRevealed ? TOPOLOGY_ASSETS.actors.moonGroveIdle.key : "";
+    (window as unknown as { __seedGardenMoonGroveWorkActorKey?: string }).__seedGardenMoonGroveWorkActorKey =
+      gameState.moonGroveDiscoveryRevealed ? TOPOLOGY_ASSETS.actors.moonGroveWork.key : "";
+    (window as unknown as { __seedGardenMoonGroveDiscoveryFxKey?: string }).__seedGardenMoonGroveDiscoveryFxKey =
+      gameState.moonGroveDiscoveryRevealed ? TOPOLOGY_ASSETS.fx.moonGroveDiscoveryBloom.key : "";
+    (window as unknown as { __seedGardenMoonGroveActorVisible?: boolean }).__seedGardenMoonGroveActorVisible =
+      gameState.actors.some((actor) => actor.id === MOON_GROVE_MIRU_ACTOR_ID);
+    (window as unknown as { __seedGardenMoonGroveActorId?: string }).__seedGardenMoonGroveActorId =
+      gameState.actors.some((actor) => actor.id === MOON_GROVE_MIRU_ACTOR_ID) ? MOON_GROVE_MIRU_ACTOR_ID : "";
     (window as unknown as { __seedGardenMoonFenceRequiredExplorerId?: string }).__seedGardenMoonFenceRequiredExplorerId =
       gameState.moonFenceRequiredExplorerId ?? "";
     (window as unknown as { __seedGardenNextRareRoutePreviewId?: string }).__seedGardenNextRareRoutePreviewId =
@@ -560,6 +602,24 @@ class GardenBoardScene extends Phaser.Scene {
     this.anims.create({
       key: "moon-grove-source-reward-once",
       frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.moonGroveSourceReward.key, { start: 0, end: 7 }),
+      frameRate: 12,
+      repeat: 0
+    });
+    this.anims.create({
+      key: "moon-grove-miru-idle-loop",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.actors.moonGroveIdle.key, { start: 0, end: 7 }),
+      frameRate: 8,
+      repeat: -1
+    });
+    this.anims.create({
+      key: "moon-grove-miru-work-loop",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.actors.moonGroveWork.key, { start: 0, end: 7 }),
+      frameRate: 10,
+      repeat: -1
+    });
+    this.anims.create({
+      key: "moon-grove-discovery-bloom-once",
+      frames: this.anims.generateFrameNumbers(TOPOLOGY_ASSETS.fx.moonGroveDiscoveryBloom.key, { start: 0, end: 7 }),
       frameRate: 12,
       repeat: 0
     });
@@ -1159,6 +1219,57 @@ class GardenBoardScene extends Phaser.Scene {
     this.renderLayer?.add(container);
   }
 
+  private renderMoonGroveDiscoveryReveal() {
+    if (!gameState.moonGroveDiscoveryRevealed) {
+      return;
+    }
+    const container = this.add.container(202, 204);
+    container.setDepth(58);
+
+    const bloom = this.add.sprite(0, -2, TOPOLOGY_ASSETS.fx.moonGroveDiscoveryBloom.key);
+    bloom.setDisplaySize(118, 96);
+    bloom.setAlpha(0.84);
+    bloom.play("moon-grove-discovery-bloom-once");
+    container.add(bloom);
+
+    const shadow = this.add.image(0, 42, TOPOLOGY_ASSETS.facilities.shadow.key);
+    shadow.setDisplaySize(84, 30);
+    shadow.setAlpha(0.38);
+    container.add(shadow);
+
+    const creature = this.add.image(0, -4, TOPOLOGY_ASSETS.creatures.moonGrove.key);
+    creature.setDisplaySize(74, 74);
+    creature.setAlpha(0.99);
+    container.add(creature);
+
+    const idleActor = this.add.sprite(46, 30, TOPOLOGY_ASSETS.actors.moonGroveIdle.key);
+    idleActor.setDisplaySize(46, 46);
+    idleActor.setAlpha(0.94);
+    idleActor.play("moon-grove-miru-idle-loop");
+    container.add(idleActor);
+
+    const workActor = this.add.sprite(-46, 31, TOPOLOGY_ASSETS.actors.moonGroveWork.key);
+    workActor.setDisplaySize(46, 46);
+    workActor.setAlpha(0.9);
+    workActor.play("moon-grove-miru-work-loop");
+    container.add(workActor);
+
+    const label = this.add
+      .text(0, 62, `${MOON_GROVE_DISCOVERY_NAME}\n발견`, {
+        align: "center",
+        backgroundColor: "rgba(33, 74, 62, 0.9)",
+        color: "#eefbd0",
+        fontFamily: "system-ui, sans-serif",
+        fontSize: "11px",
+        fontStyle: "800",
+        lineSpacing: 1,
+        padding: { x: 8, y: 3 }
+      })
+      .setOrigin(0.5);
+    container.add(label);
+    this.renderLayer?.add(container);
+  }
+
   private renderNightGlassSourcePreview() {
     if (!gameState.nightGlassSourcePreviewVisible) {
       return;
@@ -1301,7 +1412,18 @@ class GardenBoardScene extends Phaser.Scene {
     shadow.fillEllipse(0, 42, 54, 18);
     container.add(shadow);
 
-    if (actor.id === NIGHT_GLASS_ORO_ACTOR_ID) {
+    if (actor.id === MOON_GROVE_MIRU_ACTOR_ID) {
+      const bloom = this.add.sprite(0, 10, TOPOLOGY_ASSETS.fx.moonGroveDiscoveryBloom.key);
+      bloom.setDisplaySize(70, 56);
+      bloom.setAlpha(0.46);
+      bloom.play("moon-grove-discovery-bloom-once");
+      container.add(bloom);
+
+      const sprite = this.add.sprite(0, 5, TOPOLOGY_ASSETS.actors.moonGroveWork.key);
+      sprite.setDisplaySize(62, 62);
+      sprite.play("moon-grove-miru-work-loop");
+      container.add(sprite);
+    } else if (actor.id === NIGHT_GLASS_ORO_ACTOR_ID) {
       const aura = this.add.sprite(0, 3, TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key);
       aura.setDisplaySize(72, 64);
       aura.setAlpha(0.68);
@@ -1353,6 +1475,8 @@ class GardenBoardScene extends Phaser.Scene {
           ? TOPOLOGY_ASSETS.fx.nightGlassSourceUnlock.key
         : this.pendingFx.kind === "moonGroveSource"
           ? TOPOLOGY_ASSETS.fx.moonGroveSourceReward.key
+        : this.pendingFx.kind === "moonGroveDiscovery"
+          ? TOPOLOGY_ASSETS.fx.moonGroveDiscoveryBloom.key
         : this.pendingFx.kind === "lunarHarvest"
           ? TOPOLOGY_ASSETS.fx.lunarHarvest.key
         : this.pendingFx.kind === "expeditionReturn"
@@ -1365,6 +1489,8 @@ class GardenBoardScene extends Phaser.Scene {
           ? "night-glass-source-unlock-once"
         : this.pendingFx.kind === "moonGroveSource"
           ? "moon-grove-source-reward-once"
+        : this.pendingFx.kind === "moonGroveDiscovery"
+          ? "moon-grove-discovery-bloom-once"
         : this.pendingFx.kind === "lunarHarvest"
           ? "lunar-harvest-moonburst-once"
         : this.pendingFx.kind === "expeditionReturn"
@@ -1381,6 +1507,8 @@ class GardenBoardScene extends Phaser.Scene {
           ? 132
         : this.pendingFx.kind === "moonGroveSource"
           ? 132
+        : this.pendingFx.kind === "moonGroveDiscovery"
+          ? 136
         : this.pendingFx.kind === "expeditionReturn"
           ? 132
           : this.pendingFx.kind === "lunarHarvest"
@@ -1393,6 +1521,8 @@ class GardenBoardScene extends Phaser.Scene {
           ? 108
         : this.pendingFx.kind === "moonGroveSource"
           ? 96
+        : this.pendingFx.kind === "moonGroveDiscovery"
+          ? 104
         : this.pendingFx.kind === "expeditionReturn"
           ? 92
           : this.pendingFx.kind === "lunarHarvest"
@@ -1405,7 +1535,8 @@ class GardenBoardScene extends Phaser.Scene {
       this.pendingFx.kind === "expeditionReturn" ||
       this.pendingFx.kind === "lunarHarvest" ||
       this.pendingFx.kind === "nightGlassAcquire" ||
-      this.pendingFx.kind === "moonGroveSource"
+      this.pendingFx.kind === "moonGroveSource" ||
+      this.pendingFx.kind === "moonGroveDiscovery"
     ) {
       this.tweens.add({
         targets: sprite,
@@ -1554,7 +1685,7 @@ class GardenBoardScene extends Phaser.Scene {
             : harvestedSeedId === LUNAR_SOURCE_SEED_ID
               ? "lunarHarvest"
               : harvestedSeedId === MOON_GROVE_SOURCE_SEED_ID
-                ? "moonGroveSource"
+                ? "moonGroveDiscovery"
               : "harvest",
         slotId: selectedSlotId
       };
@@ -1763,7 +1894,7 @@ class GardenBoardScene extends Phaser.Scene {
       moonGroveSourceSurface.className = "collection-goal-surface";
       const sourceState = gameState.moonGroveSourceAcquired
         ? gameState.moonGroveDiscoveryRevealed
-          ? `${gameState.moonGroveDiscoveryName ?? MOON_GROVE_DISCOVERY_NAME} · ${gameState.moonGroveDiscoveryId ?? MOON_GROVE_DISCOVERY_ID} · 다음 온실 숲길 preview`
+          ? `${gameState.moonGroveDiscoveryName ?? MOON_GROVE_DISCOVERY_NAME} · ${gameState.moonGroveDiscoveryId ?? MOON_GROVE_DISCOVERY_ID} · 새벽이끼 미루 합류 · 다음 온실 숲길 preview`
           : gameState.moonGroveSourceSeedHarvested
           ? `${gameState.moonGroveSourceSeedId ?? MOON_GROVE_SOURCE_SEED_ID} 수확 완료 · discovery reveal`
           : gameState.moonGroveSourceSeedPlanted

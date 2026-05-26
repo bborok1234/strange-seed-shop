@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0540-moon-grove-harvest-reveal-payoff";
+const OUT_DIR = "reports/visual/issue-0548-moon-grove-creature-runtime-binding";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -17,6 +17,7 @@ const REQUIRED_TOPOLOGY_ASSETS = [
   "seed_moon_grove_001_icon",
   "creature_lunar_uncommon_001",
   "creature_lunar_rare_001",
+  "creature_moon_grove_001",
   "facility_workbench_v1",
   "facility_order_crate_empty_v1",
   "facility_order_crate_filled_v1",
@@ -25,12 +26,15 @@ const REQUIRED_TOPOLOGY_ASSETS = [
   "ui_shadow_soft_v1",
   "actor_pori_caretaker_strip_v1",
   "actor_momo_carrier_strip_v1",
+  "actor_moon_grove_miru_idle_strip_v1",
+  "actor_moon_grove_miru_work_strip_v1",
   "fx_care_spark_strip_v1",
   "fx_harvest_leaf_flyout_strip_v1",
   "fx_lunar_harvest_moonburst_001",
   "fx_expedition_return_reward_strip_v1",
   "fx_night_glass_source_unlock_strip_v1",
-  "fx_moon_grove_source_reward_strip_v1"
+  "fx_moon_grove_source_reward_strip_v1",
+  "fx_moon_grove_discovery_bloom_strip_v1"
 ];
 
 function waitForServer(url, timeoutMs = 30_000) {
@@ -858,6 +862,7 @@ async function runSmoke() {
       railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
       leaves: document.querySelector('[data-hud="leaves"]')?.textContent ?? "",
       selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      actorIds: window.__seedGardenActorIds ?? [],
       moonGroveSourceAcquired: window.__seedGardenMoonGroveSourceAcquired ?? false,
       moonGroveSourceSeedAvailable: window.__seedGardenMoonGroveSourceSeedAvailable ?? false,
       moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
@@ -870,6 +875,13 @@ async function runSmoke() {
       moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
+      moonGroveCreatureAssetKey: window.__seedGardenMoonGroveCreatureAssetKey ?? "",
+      moonGroveCreatureId: window.__seedGardenMoonGroveCreatureId ?? "",
+      moonGroveIdleActorKey: window.__seedGardenMoonGroveIdleActorKey ?? "",
+      moonGroveWorkActorKey: window.__seedGardenMoonGroveWorkActorKey ?? "",
+      moonGroveDiscoveryFxKey: window.__seedGardenMoonGroveDiscoveryFxKey ?? "",
+      moonGroveActorVisible: window.__seedGardenMoonGroveActorVisible ?? false,
+      moonGroveActorId: window.__seedGardenMoonGroveActorId ?? "",
       lastFxKey: window.__seedGardenLastFxKey ?? "",
       lastFxKind: window.__seedGardenLastFxKind ?? "",
       plotStates: window.__seedGardenPlotStates ?? [],
@@ -900,6 +912,13 @@ async function runSmoke() {
       moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
+      moonGroveCreatureAssetKey: window.__seedGardenMoonGroveCreatureAssetKey ?? "",
+      moonGroveCreatureId: window.__seedGardenMoonGroveCreatureId ?? "",
+      moonGroveIdleActorKey: window.__seedGardenMoonGroveIdleActorKey ?? "",
+      moonGroveWorkActorKey: window.__seedGardenMoonGroveWorkActorKey ?? "",
+      moonGroveDiscoveryFxKey: window.__seedGardenMoonGroveDiscoveryFxKey ?? "",
+      moonGroveActorVisible: window.__seedGardenMoonGroveActorVisible ?? false,
+      moonGroveActorId: window.__seedGardenMoonGroveActorId ?? "",
       lastFxKey: window.__seedGardenLastFxKey ?? "",
       lastFxKind: window.__seedGardenLastFxKind ?? "",
       plotStates: window.__seedGardenPlotStates ?? []
@@ -1004,6 +1023,13 @@ async function runSmoke() {
       moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
+      moonGroveCreatureAssetKey: window.__seedGardenMoonGroveCreatureAssetKey ?? "",
+      moonGroveCreatureId: window.__seedGardenMoonGroveCreatureId ?? "",
+      moonGroveIdleActorKey: window.__seedGardenMoonGroveIdleActorKey ?? "",
+      moonGroveWorkActorKey: window.__seedGardenMoonGroveWorkActorKey ?? "",
+      moonGroveDiscoveryFxKey: window.__seedGardenMoonGroveDiscoveryFxKey ?? "",
+      moonGroveActorVisible: window.__seedGardenMoonGroveActorVisible ?? false,
+      moonGroveActorId: window.__seedGardenMoonGroveActorId ?? "",
       lastFxKey: window.__seedGardenLastFxKey ?? "",
       lastFxKind: window.__seedGardenLastFxKind ?? "",
       moonFenceRequiredExplorerId: window.__seedGardenMoonFenceRequiredExplorerId ?? "",
@@ -1989,7 +2015,30 @@ async function runSmoke() {
     if (!moonGroveHarvested.railText.includes("다음 온실 숲길 preview")) {
       failures.push("missing moon grove next preview HUD text");
     }
-    if (moonGroveHarvested.lastFxKey !== "fx_moon_grove_source_reward_strip_v1" || moonGroveHarvested.lastFxKind !== "moonGroveSource") {
+    if (moonGroveHarvested.moonGroveCreatureAssetKey !== "creature_moon_grove_001") {
+      failures.push(
+        `expected moon grove creature asset creature_moon_grove_001, got ${moonGroveHarvested.moonGroveCreatureAssetKey}`
+      );
+    }
+    if (moonGroveHarvested.moonGroveCreatureId !== "creature_moon_grove_001") {
+      failures.push(`expected moon grove creature id creature_moon_grove_001, got ${moonGroveHarvested.moonGroveCreatureId}`);
+    }
+    if (moonGroveHarvested.moonGroveIdleActorKey !== "actor_moon_grove_miru_idle_strip_v1") {
+      failures.push(`expected moon grove idle actor key, got ${moonGroveHarvested.moonGroveIdleActorKey}`);
+    }
+    if (moonGroveHarvested.moonGroveWorkActorKey !== "actor_moon_grove_miru_work_strip_v1") {
+      failures.push(`expected moon grove work actor key, got ${moonGroveHarvested.moonGroveWorkActorKey}`);
+    }
+    if (moonGroveHarvested.moonGroveDiscoveryFxKey !== "fx_moon_grove_discovery_bloom_strip_v1") {
+      failures.push(`expected moon grove discovery FX key, got ${moonGroveHarvested.moonGroveDiscoveryFxKey}`);
+    }
+    if (!moonGroveHarvested.moonGroveActorVisible || moonGroveHarvested.moonGroveActorId !== "actor_moon_grove_miru") {
+      failures.push(`expected moon grove actor visible, got ${moonGroveHarvested.moonGroveActorId}`);
+    }
+    if (!moonGroveHarvested.actorIds.includes("actor_moon_grove_miru")) {
+      failures.push("missing actor_moon_grove_miru after moon grove harvest");
+    }
+    if (moonGroveHarvested.lastFxKey !== "fx_moon_grove_discovery_bloom_strip_v1" || moonGroveHarvested.lastFxKind !== "moonGroveDiscovery") {
       failures.push(`expected moon grove harvest FX binding, got ${moonGroveHarvested.lastFxKind}/${moonGroveHarvested.lastFxKey}`);
     }
     if (moonGroveHarvested.plotStates.some((plot) => plot.seedId === "seed_moon_grove_001")) {
@@ -2052,6 +2101,21 @@ async function runSmoke() {
     }
     if (moonFenceSourceOverview.moonGroveSourceFxKey !== "fx_moon_grove_source_reward_strip_v1") {
       failures.push(`expected source overview FX key, got ${moonFenceSourceOverview.moonGroveSourceFxKey}`);
+    }
+    if (moonFenceSourceOverview.moonGroveCreatureAssetKey !== "creature_moon_grove_001") {
+      failures.push(`expected source overview creature asset key, got ${moonFenceSourceOverview.moonGroveCreatureAssetKey}`);
+    }
+    if (moonFenceSourceOverview.moonGroveIdleActorKey !== "actor_moon_grove_miru_idle_strip_v1") {
+      failures.push(`expected source overview idle actor key, got ${moonFenceSourceOverview.moonGroveIdleActorKey}`);
+    }
+    if (moonFenceSourceOverview.moonGroveWorkActorKey !== "actor_moon_grove_miru_work_strip_v1") {
+      failures.push(`expected source overview work actor key, got ${moonFenceSourceOverview.moonGroveWorkActorKey}`);
+    }
+    if (moonFenceSourceOverview.moonGroveDiscoveryFxKey !== "fx_moon_grove_discovery_bloom_strip_v1") {
+      failures.push(`expected source overview discovery FX key, got ${moonFenceSourceOverview.moonGroveDiscoveryFxKey}`);
+    }
+    if (!moonFenceSourceOverview.moonGroveActorVisible || moonFenceSourceOverview.moonGroveActorId !== "actor_moon_grove_miru") {
+      failures.push(`expected source overview moon grove actor visible, got ${moonFenceSourceOverview.moonGroveActorId}`);
     }
     if (nightGlassRevealed.plotStates.some((plot) => plot.seedId === "seed_rare_001")) {
       failures.push("seed_rare_001 plot stayed occupied after harvest");
@@ -2285,13 +2349,46 @@ async function runSmoke() {
     if (!evidence.topologyAssets.includes("fx_moon_grove_source_reward_strip_v1")) {
       failures.push("missing moon grove source FX topology asset key");
     }
+    if (!evidence.topologyAssets.includes("creature_moon_grove_001")) {
+      failures.push("missing moon grove creature topology asset key");
+    }
+    if (!evidence.topologyAssets.includes("actor_moon_grove_miru_idle_strip_v1")) {
+      failures.push("missing moon grove idle actor topology asset key");
+    }
+    if (!evidence.topologyAssets.includes("actor_moon_grove_miru_work_strip_v1")) {
+      failures.push("missing moon grove work actor topology asset key");
+    }
+    if (!evidence.topologyAssets.includes("fx_moon_grove_discovery_bloom_strip_v1")) {
+      failures.push("missing moon grove discovery bloom FX topology asset key");
+    }
     if (evidence.moonGroveSourceRenderedAssetKey !== "seed_moon_grove_001_icon") {
       failures.push(`expected final moon grove source asset key seed_moon_grove_001_icon, got ${evidence.moonGroveSourceRenderedAssetKey}`);
     }
     if (evidence.moonGroveSourceFxKey !== "fx_moon_grove_source_reward_strip_v1") {
       failures.push(`expected final moon grove source FX key fx_moon_grove_source_reward_strip_v1, got ${evidence.moonGroveSourceFxKey}`);
     }
-    if (evidence.lastFxKey !== "fx_moon_grove_source_reward_strip_v1" || evidence.lastFxKind !== "moonGroveSource") {
+    if (evidence.moonGroveCreatureAssetKey !== "creature_moon_grove_001") {
+      failures.push(`expected final moon grove creature asset key creature_moon_grove_001, got ${evidence.moonGroveCreatureAssetKey}`);
+    }
+    if (evidence.moonGroveCreatureId !== "creature_moon_grove_001") {
+      failures.push(`expected final moon grove creature id creature_moon_grove_001, got ${evidence.moonGroveCreatureId}`);
+    }
+    if (evidence.moonGroveIdleActorKey !== "actor_moon_grove_miru_idle_strip_v1") {
+      failures.push(`expected final moon grove idle actor key, got ${evidence.moonGroveIdleActorKey}`);
+    }
+    if (evidence.moonGroveWorkActorKey !== "actor_moon_grove_miru_work_strip_v1") {
+      failures.push(`expected final moon grove work actor key, got ${evidence.moonGroveWorkActorKey}`);
+    }
+    if (evidence.moonGroveDiscoveryFxKey !== "fx_moon_grove_discovery_bloom_strip_v1") {
+      failures.push(`expected final moon grove discovery FX key, got ${evidence.moonGroveDiscoveryFxKey}`);
+    }
+    if (!evidence.moonGroveActorVisible || evidence.moonGroveActorId !== "actor_moon_grove_miru") {
+      failures.push(`expected final moon grove actor visible, got ${evidence.moonGroveActorId}`);
+    }
+    if (!evidence.actorIds.includes("actor_moon_grove_miru")) {
+      failures.push("final actor_moon_grove_miru missing");
+    }
+    if (evidence.lastFxKey !== "fx_moon_grove_discovery_bloom_strip_v1" || evidence.lastFxKind !== "moonGroveDiscovery") {
       failures.push(`expected final moon grove harvest FX binding, got ${evidence.lastFxKind}/${evidence.lastFxKey}`);
     }
     if (evidence.leaves !== "459") {

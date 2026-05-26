@@ -169,6 +169,28 @@
       ],
       "notes": "Gameplay entity lunar_rare_001. Distinct rare mascot with crescent halo and glassy night bloom."
     },
+    "creature_moon_grove_001": {
+      "path": "/assets/game/creatures/creature_moon_grove_001.png",
+      "category": "creature",
+      "family": "moon_grove",
+      "rarity": "rare",
+      "intended_use": "moon_grove_discovery_reveal_album_portrait",
+      "width": 1024,
+      "height": 1024,
+      "status": "accepted",
+      "tags": [
+        "v1",
+        "issue_0546",
+        "issue_0548",
+        "creature",
+        "moon_grove",
+        "rare",
+        "gpt-image-2",
+        "screen_moment:moon_grove_discovery_reveal",
+        "player_verb:harvest_moon_grove_source"
+      ],
+      "notes": "Issue #546/#548 moon grove named discovery portrait; generated via gpt-image-2 background=opaque, alpha-cleaned; runtime_generation_allowed=false; must_not_obscure=plot_label,bottom_action"
+    },
     "seed_herb_001_icon": {
       "path": "/assets/game/seeds/seed_herb_001_icon.png",
       "category": "seed_icon",
@@ -1481,6 +1503,100 @@
         }
       }
     },
+    "actor_moon_grove_miru_idle_strip_v1": {
+      "path": "/assets/game/actors/actor_moon_grove_miru_idle_strip_v1.png",
+      "category": "sprite_strip",
+      "family": "moon_grove",
+      "rarity": "rare",
+      "intended_use": "moon_grove_discovery_actor_idle_strip",
+      "width": 768,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "v1",
+        "issue_0546",
+        "issue_0548",
+        "sprite_strip",
+        "actor",
+        "idle",
+        "moon_grove",
+        "rare",
+        "gpt-image-2",
+        "screen_moment:moon_grove_discovery_reveal",
+        "player_verb:harvest_moon_grove_source"
+      ],
+      "notes": "Issue #546/#548 moon grove Miru idle strip; generated via gpt-image-2 background=opaque, alpha-cleaned, normalized to strict 8x96x96 strip; runtime_generation_allowed=false; must_not_obscure=plot_label,bottom_action",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "actor_moon_grove_miru_idle_strip_v1",
+        "frames": 8,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 8,
+        "repeat": -1,
+        "sourceAssetIds": [
+          "creature_moon_grove_001"
+        ],
+        "binding": {
+          "target": "actor",
+          "slot": "moon_grove.discovery.actor.idle",
+          "creatureIds": [
+            "creature_moon_grove_001"
+          ],
+          "actions": [
+            "harvest_moon_grove_source"
+          ],
+          "discoveryId": "discovery_moon_grove_001"
+        }
+      }
+    },
+    "actor_moon_grove_miru_work_strip_v1": {
+      "path": "/assets/game/actors/actor_moon_grove_miru_work_strip_v1.png",
+      "category": "sprite_strip",
+      "family": "moon_grove",
+      "rarity": "rare",
+      "intended_use": "moon_grove_discovery_actor_work_strip",
+      "width": 768,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "v1",
+        "issue_0546",
+        "issue_0548",
+        "sprite_strip",
+        "actor",
+        "work",
+        "moon_grove",
+        "rare",
+        "gpt-image-2",
+        "screen_moment:moon_grove_discovery_reveal",
+        "player_verb:harvest_moon_grove_source"
+      ],
+      "notes": "Issue #546/#548 moon grove Miru work strip; generated via gpt-image-2 background=opaque, alpha-cleaned, normalized to strict 8x96x96 strip; runtime_generation_allowed=false; must_not_obscure=plot_label,bottom_action",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "actor_moon_grove_miru_work_strip_v1",
+        "frames": 8,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 10,
+        "repeat": -1,
+        "sourceAssetIds": [
+          "creature_moon_grove_001"
+        ],
+        "binding": {
+          "target": "actor",
+          "slot": "moon_grove.discovery.actor.work",
+          "creatureIds": [
+            "creature_moon_grove_001"
+          ],
+          "actions": [
+            "harvest_moon_grove_source"
+          ],
+          "discoveryId": "discovery_moon_grove_001"
+        }
+      }
+    },
     "facility_expedition_gate_v1": {
       "path": "/assets/game/facilities/facility_expedition_gate_v1.png",
       "category": "facility",
@@ -1652,6 +1768,50 @@
             "claim_moon_fence_expedition"
           ],
           "routeId": "expedition_moon_fence_unlocked"
+        }
+      }
+    },
+    "fx_moon_grove_discovery_bloom_strip_v1": {
+      "path": "/assets/game/fx/fx_moon_grove_discovery_bloom_strip_v1.png",
+      "category": "fx_strip",
+      "family": "moon_grove",
+      "rarity": "rare",
+      "intended_use": "moon_grove_discovery_reveal_fx",
+      "width": 768,
+      "height": 96,
+      "status": "accepted",
+      "tags": [
+        "v1",
+        "issue_0546",
+        "issue_0548",
+        "fx_strip",
+        "moon_grove",
+        "rare",
+        "discovery",
+        "reveal",
+        "gpt-image-2",
+        "screen_moment:moon_grove_discovery_reveal",
+        "player_verb:harvest_moon_grove_source"
+      ],
+      "notes": "Issue #546/#548 moon grove discovery bloom FX; generated via gpt-image-2 background=opaque, alpha-cleaned, normalized to strict 8x96x96 strip; runtime_generation_allowed=false; must_not_obscure=creature_portrait,bottom_action",
+      "animation": {
+        "kind": "spritesheet",
+        "key": "fx_moon_grove_discovery_bloom_strip_v1",
+        "frames": 8,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "sourceAssetIds": [
+          "creature_moon_grove_001"
+        ],
+        "binding": {
+          "target": "effect",
+          "slot": "moon_grove.discovery.action.reveal",
+          "actions": [
+            "harvest_moon_grove_source"
+          ],
+          "discoveryId": "discovery_moon_grove_001"
         }
       }
     }
