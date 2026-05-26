@@ -5,9 +5,9 @@
 - Status: review
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #548
-- PR: pending
+- PR: #549 draft
 - Branch: `codex/0290-moon-grove-creature-runtime-binding`
-- 연결: Issue #546, PR #547, Issue #548, main CI `26428876014`
+- 연결: Issue #546, PR #547, Issue #548, PR #549, main CI `26428876014`
 
 ## 배경
 

@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-26T02:53:01.780Z
+Generated at: 2026-05-26T02:55:59.545Z
 
 ## Current mission
 
@@ -21,6 +21,7 @@ Generated at: 2026-05-26T02:53:01.780Z
 - Completed moon grove creature generation-review: Issue #546, PR #547, main CI `26428876014`
 - WorkUnit: `items/0290-moon-grove-creature-runtime-binding.md`
 - GitHub issue: #548 `월정 숲 creature/actor runtime binding`
+- Draft PR: #549 https://github.com/bborok1234/strange-seed-shop/pull/549
 - Branch: `codex/0290-moon-grove-creature-runtime-binding`
 - Current validation: runtime/manifest/checker implementation complete; `npm run build:phaser`, `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-normalization`, `npm run check:asset-alpha`, `npm run check:asset-style`, `npm run check:ops-live`, `npm run check:ci`, `git diff --check` pass after heartbeat/control-room refresh
 - Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
@@ -43,22 +44,22 @@ Generated at: 2026-05-26T02:53:01.780Z
 ## Local state
 
 - Branch: codex/0290-moon-grove-creature-runtime-binding
-- Latest commit: 568eb70 월정 숲 새벽이끼 asset 후보를 생성한다
+- Latest commit: 560bd8d 월정 숲 새벽이끼를 runtime discovery로 보이게 한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-26T02:52:43.883Z
-- Phase: moon-grove-creature-runtime-binding-pr
+- Timestamp: 2026-05-26T02:55:50.965Z
+- Phase: moon-grove-creature-runtime-binding-pr-checks
 - Issue: 548
-- PR: none
+- PR: 549
 - Item: items/0290-moon-grove-creature-runtime-binding.md
-- Next action: PR publication gate: commit, push, publish draft PR for #548, watch checks, merge, then observe main CI
+- Next action: PR/check gate: watch PR #549 checks, mark ready, merge, then observe main CI green
 
 ## Open PRs
 
-- unavailable or none
+- #549 draft 월정 숲 새벽이끼 runtime discovery 연결 — https://github.com/bborok1234/strange-seed-shop/pull/549
 
 ## Open issues
 
