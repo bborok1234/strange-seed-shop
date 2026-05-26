@@ -2,8 +2,8 @@
   "source_prompts": "assets/source/asset_prompts.json",
   "generated_at": "2026-05-08",
   "generation_mode": "hybrid_codex_native_and_openai_images_api",
-  "total": 72,
-  "completed": 72,
+  "total": 76,
+  "completed": 76,
   "missing": [],
   "blocked": false,
   "notes": [
@@ -19,7 +19,8 @@
     "issue_0237_topology_asset_generation_review: 14 gpt-image-2 topology candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque after transparent background was rejected; review report marks non-background assets for alpha/background cleanup before manifest/runtime integration.",
     "issue_0494_expedition_gate_raster_review: 3 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque after transparent background was rejected; facilities alpha-cleaned and FX normalized to strict 8x96x96 strip for review.",
     "issue_0506_night_glass_source_asset_generation_review: 2 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque; rare source icon alpha-cleaned and unlock FX normalized to strict 8x96x96 strip for review.",
-    "issue_0532_moon_grove_source_asset_generation_review: 2 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque; seed alpha-cleaned and reward FX normalized to strict 8x96x96 strip for review."
+    "issue_0532_moon_grove_source_asset_generation_review: 2 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque; seed alpha-cleaned and reward FX normalized to strict 8x96x96 strip for review.",
+    "issue_0546_moon_grove_creature_asset_generation_review: 4 gpt-image-2 candidates generated with SEED_ASSET_IMAGE_BACKGROUND=opaque; portrait alpha-cleaned and actor/FX strips normalized to strict 8x96x96 for review."
   ],
   "outputs": [
     "public/assets/game/creatures/creature_herb_common_001.png",
@@ -93,7 +94,11 @@
     "public/assets/game/seeds/seed_rare_001_icon.png",
     "public/assets/game/fx/fx_night_glass_source_unlock_strip_v1.png",
     "public/assets/game/seeds/seed_moon_grove_001_icon.png",
-    "public/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png"
+    "public/assets/game/fx/fx_moon_grove_source_reward_strip_v1.png",
+    "public/assets/game/creatures/creature_moon_grove_001.png",
+    "public/assets/game/actors/actor_moon_grove_miru_idle_strip_v1.png",
+    "public/assets/game/actors/actor_moon_grove_miru_work_strip_v1.png",
+    "public/assets/game/fx/fx_moon_grove_discovery_bloom_strip_v1.png"
   ],
   "batches": {
     "p0_5_core_asset_generation_first_pass": {
@@ -1109,6 +1114,153 @@
             "expectedWidth": 768,
             "expectedHeight": 96,
             "binding": "moon_fence.reward.action.claim_source_clue"
+          }
+        }
+      ]
+    },
+    "issue_0546_moon_grove_creature_asset_generation_review": {
+      "total": 4,
+      "completed": 4,
+      "missing": [],
+      "blocked": false,
+      "generated_at": "2026-05-26T02:17:08.170Z",
+      "completed_assets": [
+        {
+          "asset_id": "creature_moon_grove_001",
+          "output_path": "public/assets/game/creatures/creature_moon_grove_001.png",
+          "status": "manifest_candidate_requires_runtime_binding",
+          "width": 1024,
+          "height": 1024,
+          "channels": 4,
+          "has_alpha": true,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/creature_moon_grove_001/2026-05-26T01-58-51-274Z.png",
+          "review_required": true,
+          "post_processing": [
+            "border_connected_checkerboard_alpha_cleanup"
+          ],
+          "notes": "Issue #546 gpt-image-2 opaque candidate with border-connected checkerboard alpha cleanup; manifest/runtime binding remains follow-up.",
+          "cleanup": {
+            "width": 1024,
+            "height": 1024,
+            "clearedPixels": 734566,
+            "clearedPercent": 70.05,
+            "backgroundSamples": 12
+          }
+        },
+        {
+          "asset_id": "actor_moon_grove_miru_idle_strip_v1",
+          "output_path": "public/assets/game/actors/actor_moon_grove_miru_idle_strip_v1.png",
+          "status": "normalized_runtime_strip_requires_manifest_binding",
+          "width": 768,
+          "height": 96,
+          "channels": 4,
+          "has_alpha": true,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/actor_moon_grove_miru_idle_strip_v1/2026-05-26T02-01-51-945Z.png",
+          "review_required": true,
+          "post_processing": [
+            "border_connected_checkerboard_alpha_cleanup",
+            "strict_strip_normalization",
+            "frame_edge_fragment_cleanup"
+          ],
+          "notes": "Issue #546 normalized strict 8x96x96 runtime strip from gpt-image-2 opaque source candidate; animation.binding=moon_grove.discovery.actor.idle; manifest/runtime binding remains follow-up.",
+          "cleanup": {
+            "width": 1024,
+            "height": 1024,
+            "clearedPixels": 956804,
+            "clearedPercent": 91.25,
+            "backgroundSamples": 12
+          },
+          "normalization": {
+            "frames": 8,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 8,
+            "repeat": -1,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 96,
+            "binding": "moon_grove.discovery.actor.idle"
+          }
+        },
+        {
+          "asset_id": "actor_moon_grove_miru_work_strip_v1",
+          "output_path": "public/assets/game/actors/actor_moon_grove_miru_work_strip_v1.png",
+          "status": "normalized_runtime_strip_requires_manifest_binding",
+          "width": 768,
+          "height": 96,
+          "channels": 4,
+          "has_alpha": true,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/actor_moon_grove_miru_work_strip_v1/2026-05-26T02-04-52-480Z.png",
+          "review_required": true,
+          "post_processing": [
+            "border_connected_checkerboard_alpha_cleanup",
+            "strict_strip_normalization",
+            "frame_edge_fragment_cleanup"
+          ],
+          "notes": "Issue #546 normalized strict 8x96x96 runtime strip from gpt-image-2 opaque source candidate; animation.binding=moon_grove.discovery.actor.work; manifest/runtime binding remains follow-up.",
+          "cleanup": {
+            "width": 1024,
+            "height": 1024,
+            "clearedPixels": 962488,
+            "clearedPercent": 91.79,
+            "backgroundSamples": 17
+          },
+          "normalization": {
+            "frames": 8,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 10,
+            "repeat": -1,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 96,
+            "binding": "moon_grove.discovery.actor.work"
+          }
+        },
+        {
+          "asset_id": "fx_moon_grove_discovery_bloom_strip_v1",
+          "output_path": "public/assets/game/fx/fx_moon_grove_discovery_bloom_strip_v1.png",
+          "status": "normalized_runtime_strip_requires_manifest_binding",
+          "width": 768,
+          "height": 96,
+          "channels": 4,
+          "has_alpha": true,
+          "provider": "openai_images_api",
+          "model": "gpt-image-2",
+          "raw_output_path": "assets/source/generated/gpt-image/fx_moon_grove_discovery_bloom_strip_v1/2026-05-26T02-07-49-205Z.png",
+          "review_required": true,
+          "post_processing": [
+            "border_connected_checkerboard_alpha_cleanup",
+            "strict_strip_normalization",
+            "frame_edge_fragment_cleanup"
+          ],
+          "notes": "Issue #546 normalized strict 8x96x96 runtime strip from gpt-image-2 opaque source candidate; animation.binding=moon_grove.discovery.action.reveal; manifest/runtime binding remains follow-up.",
+          "cleanup": {
+            "width": 1024,
+            "height": 1024,
+            "clearedPixels": 993302,
+            "clearedPercent": 94.73,
+            "backgroundSamples": 14
+          },
+          "normalization": {
+            "frames": 8,
+            "frameWidth": 96,
+            "frameHeight": 96,
+            "frameRate": 12,
+            "repeat": 0,
+            "margin": 0,
+            "spacing": 0,
+            "expectedWidth": 768,
+            "expectedHeight": 96,
+            "binding": "moon_grove.discovery.action.reveal"
           }
         }
       ]
