@@ -24,6 +24,7 @@ body {
 .garden-hud {
   position: fixed;
   inset: 0;
+  z-index: 10;
   pointer-events: none;
   display: grid;
   grid-template-rows: auto auto 1fr auto;

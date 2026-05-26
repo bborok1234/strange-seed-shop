@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-26T03:23:03.356Z
+Generated at: 2026-05-26T04:20:58.929Z
 
 ## Current mission
 
-현재 작업은 **새벽이끼 미루 research handoff**다. #548/#549는 `월정 숲 새벽이끼` 전용 portrait, idle/work actor strip, discovery bloom FX를 accepted manifest와 Phaser runtime에 연결했고 main CI `26429733838`이 green이다. 이제 수확 이후 화면에 남은 `새벽이끼 미루`가 단순 collection 보상에 머물지 않도록 연구 선반에서 `미루 연구 맡기기` action을 열고, researcher actor handoff와 `온실 숲길 단서` playfield/HUD preview로 다음 route를 예고한다.
+현재 작업은 **온실 숲길 clue map v0**다. #550/#551은 `새벽이끼 미루`를 연구 선반 researcher actor로 연결했고 main CI `26430497298`이 green이다. 이제 `온실 숲길 단서`를 receipt/HUD 텍스트에서 끝내지 않고, 연구 선반에서 `숲길 지도 펼치기` action으로 3-node clue map을 열어 다음 `route_moon_grove_greenhouse_path`와 `물안개 source silhouette`를 보여준다.
 
 현재 evidence:
 
@@ -20,22 +20,23 @@ Generated at: 2026-05-26T03:23:03.356Z
 - Completed main CI recovery: Issue #544, PR #545, main CI `26427781203`
 - Completed moon grove creature generation-review: Issue #546, PR #547, main CI `26428876014`
 - Completed moon grove creature runtime binding: Issue #548, PR #549, main CI `26429733838`
-- WorkUnit: `items/0291-moon-grove-miru-research-handoff.md`
-- GitHub issue: #550 `새벽이끼 미루 research handoff`
-- Draft PR: #551 https://github.com/bborok1234/strange-seed-shop/pull/551
-- Branch: `codex/0291-moon-grove-miru-research-handoff`
-- Current validation: runtime/checker implementation complete; Browser Use blocker recorded; `npm run build:phaser`, `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `git diff --check`, and `npm run check:ci` pass. Draft PR #551 is open; remaining gates are PR checks, merge, and main CI.
+- Completed moon grove Miru research handoff: Issue #550, PR #551, main CI `26430497298`
+- WorkUnit: `items/0292-moon-grove-greenhouse-path-map.md`
+- GitHub issue: #552 `온실 숲길 clue map v0`
+- PR: pending
+- Branch: `codex/0292-moon-grove-greenhouse-path-map`
+- Current validation: plan-first artifact, GitHub issue, Phaser state/action/render/checker implementation, Browser Use blocker report, Playwright screenshot evidence, `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `git diff --check`, and `npm run check:ci` are complete. Remaining gates are PR checks, merge, and main CI.
 - Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
-- Visual evidence: `reports/visual/issue-0550-moon-grove-miru-research-handoff/`
-- Browser Use blocker: `reports/visual/issue-0550-moon-grove-miru-research-handoff/browser-use-blocker-20260526.md`
+- Visual evidence: `reports/visual/issue-0552-moon-grove-greenhouse-path-map/`
+- Browser Use blocker: `reports/visual/issue-0552-moon-grove-greenhouse-path-map/browser-use-blocker-20260526.md`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 이번 slice는 #549 이후 `새벽이끼 미루`가 전용 actor로 화면에 남지만 progression/research 역할이 없어 다음 node payoff가 약한 production gap을 해소해야 한다.
+0. Studio Campaign Gate: 이번 slice는 #551 이후 `온실 숲길 단서`가 다음 node map이 아니라 텍스트 promise에 머무는 production gap을 해소해야 한다.
 1. Intake gate: GitHub issue와 WorkUnit을 생성한다.
-2. Runtime gate: `GardenState`에 research handoff 상태를 추가하고, `actor_moon_grove_miru`를 researcher 역할/연구 선반 target으로 anchoring한다.
-3. Action gate: 월정 숲 수확 후 연구 선반에서 `미루 연구 맡기기` action을 제공하고, 수행 후 `research_moon_grove_path`와 `route_moon_grove_greenhouse_path` preview를 남긴다.
-4. QA gate: `scripts/check-phaser-foundation.mjs`가 handoff action, telemetry, actor target/task, research shelf active state, HUD surface, screenshot evidence를 검증한다.
+2. Runtime gate: `GardenState`에 moon grove clue map open/record state와 next node ids를 추가한다.
+3. Action gate: 미루 research handoff 이후 연구 선반에서 `숲길 지도 펼치기` action을 제공하고, 수행 후 `research_moon_grove_path -> route_moon_grove_greenhouse_path -> 물안개 source silhouette`를 남긴다.
+4. QA gate: `scripts/check-phaser-foundation.mjs`가 clue map action, telemetry, actor persistence, research shelf marker, HUD surface, screenshot evidence를 검증한다.
 5. Visual gate: Browser Use 또는 기록된 blocker + Playwright screenshot evidence를 `reports/visual/`에 남긴다.
 6. Local verification gate: `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`가 통과해야 한다.
 7. PR/main gate: PR checks, merge, main CI green 후 다음 playable vertical slice로 이어간다.
@@ -44,27 +45,27 @@ Generated at: 2026-05-26T03:23:03.356Z
 
 ## Local state
 
-- Branch: codex/0291-moon-grove-miru-research-handoff
-- Latest commit: fa57465 새벽이끼 미루가 다음 연구 단서로 이어지게 한다
+- Branch: codex/0292-moon-grove-greenhouse-path-map
+- Latest commit: 8c2c1ee Merge pull request #551 from bborok1234/codex/0291-moon-grove-miru-research-handoff
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-26T03:22:56.858Z
-- Phase: moon-grove-miru-research-handoff-pr-checks
-- Issue: 550
-- PR: 551
-- Item: items/0291-moon-grove-miru-research-handoff.md
-- Next action: PR gate: watch PR #551 checks, mark ready, merge, then main CI gate
+- Timestamp: 2026-05-26T04:21:49Z
+- Phase: moon-grove-greenhouse-path-map-local-ci-pass
+- Issue: 552
+- PR: pending
+- Item: items/0292-moon-grove-greenhouse-path-map.md
+- Next action: PR gate: commit, push, draft PR, watch PR checks, merge, then main CI
 
 ## Open PRs
 
-- #551 draft 새벽이끼 미루 research handoff — https://github.com/bborok1234/strange-seed-shop/pull/551
+- unavailable or none
 
 ## Open issues
 
-- #550 새벽이끼 미루 research handoff — https://github.com/bborok1234/strange-seed-shop/issues/550
+- #552 온실 숲길 clue map v0 — https://github.com/bborok1234/strange-seed-shop/issues/552
 
 ## Playable mode
 
