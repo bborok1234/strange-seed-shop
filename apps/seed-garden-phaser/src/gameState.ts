@@ -24,8 +24,11 @@ export const MOON_FENCE_UNLOCKED_ROUTE_ID = "expedition_moon_fence_unlocked";
 export const MOON_FENCE_FIRST_REWARD_LEAVES = 88;
 export const MOON_FENCE_NEXT_CLUE_ID = "clue_moon_grove_001";
 export const MOON_GROVE_SOURCE_SEED_ID = "seed_moon_grove_001";
+export const MOON_GROVE_CREATURE_ID = "creature_moon_grove_001";
 export const MOON_GROVE_DISCOVERY_ID = "discovery_moon_grove_001";
 export const MOON_GROVE_DISCOVERY_NAME = "월정 숲 새벽이끼";
+export const MOON_GROVE_MIRU_ACTOR_ID = "actor_moon_grove_miru";
+export const MOON_GROVE_MIRU_ACTOR_NAME = "새벽이끼 미루";
 export const MOON_GROVE_HARVEST_REWARD_LEAVES = 72;
 
 export interface BoardSlot {
@@ -711,6 +714,16 @@ export function harvestSelectedPlot(state: GardenState): void {
     state.moonGroveDiscoveryId = MOON_GROVE_DISCOVERY_ID;
     state.moonGroveDiscoveryName = MOON_GROVE_DISCOVERY_NAME;
     state.moonGroveNextPreviewVisible = true;
+    if (!state.actors.some((actor) => actor.id === MOON_GROVE_MIRU_ACTOR_ID)) {
+      state.actors.push({
+        id: MOON_GROVE_MIRU_ACTOR_ID,
+        name: MOON_GROVE_MIRU_ACTOR_NAME,
+        role: "caretaker",
+        slotId: slot.id,
+        targetSlotId: "facility_research_shelf",
+        task: "care_plot"
+      });
+    }
     state.objective = `${MOON_GROVE_DISCOVERY_NAME} 발견 · 다음 온실 숲길 preview`;
     state.receipts.unshift(
       `${MOON_GROVE_DISCOVERY_NAME} 발견 · ${MOON_GROVE_DISCOVERY_ID} · 잎 +${MOON_GROVE_HARVEST_REWARD_LEAVES}`
