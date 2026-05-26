@@ -32,6 +32,7 @@ export const MOON_GROVE_MIRU_ACTOR_NAME = "새벽이끼 미루";
 export const MOON_GROVE_HARVEST_REWARD_LEAVES = 72;
 export const MOON_GROVE_RESEARCH_NODE_ID = "research_moon_grove_path";
 export const MOON_GROVE_FOREST_PATH_PREVIEW_ID = "route_moon_grove_greenhouse_path";
+export const MOON_GROVE_CLUE_MAP_LOCKED_NODE_ID = "source_mist_greenhouse_silhouette";
 
 export interface BoardSlot {
   id: string;
@@ -168,6 +169,11 @@ export interface GardenState {
   moonGroveResearchNodeId?: string;
   moonGroveForestPathPreviewVisible: boolean;
   moonGroveForestPathPreviewId?: string;
+  moonGroveClueMapAvailable: boolean;
+  moonGroveClueMapOpened: boolean;
+  moonGroveClueMapCurrentNodeId?: string;
+  moonGroveClueMapNextNodeId?: string;
+  moonGroveClueMapLockedNodeId?: string;
   moonFenceRequiredExplorerId?: string;
   nextRareRoutePreviewId?: string;
   nightGlassRewardLeaves: number;
@@ -417,6 +423,11 @@ export function createGardenState(): GardenState {
     moonGroveResearchNodeId: undefined,
     moonGroveForestPathPreviewVisible: false,
     moonGroveForestPathPreviewId: undefined,
+    moonGroveClueMapAvailable: false,
+    moonGroveClueMapOpened: false,
+    moonGroveClueMapCurrentNodeId: undefined,
+    moonGroveClueMapNextNodeId: undefined,
+    moonGroveClueMapLockedNodeId: undefined,
     moonFenceRequiredExplorerId: undefined,
     nextRareRoutePreviewId: undefined,
     nightGlassRewardLeaves: 0
@@ -1334,9 +1345,44 @@ export function handoffMoonGroveMiruResearch(state: GardenState): void {
   state.moonGroveResearchNodeId = MOON_GROVE_RESEARCH_NODE_ID;
   state.moonGroveForestPathPreviewVisible = true;
   state.moonGroveForestPathPreviewId = MOON_GROVE_FOREST_PATH_PREVIEW_ID;
+  state.moonGroveClueMapAvailable = true;
   state.objective = `${MOON_GROVE_MIRU_ACTOR_NAME} 연구 맡김 · 온실 숲길 단서 기록`;
   state.receipts.unshift(
     `${MOON_GROVE_MIRU_ACTOR_NAME} 연구 선반 배치 · ${MOON_GROVE_RESEARCH_NODE_ID} 기록`
+  );
+}
+
+export function openMoonGroveClueMap(state: GardenState): void {
+  if (!state.moonGroveResearchHandoffRecorded || !state.moonGroveClueMapAvailable || state.moonGroveClueMapOpened) {
+    return;
+  }
+
+  const researchSlot = getSlot(state, "facility_research_shelf");
+  const researchShelf = getFacilityBySlot(state, "facility_research_shelf");
+  researchSlot.unlockState = "unlocked";
+  if (researchShelf) {
+    researchShelf.level = Math.max(researchShelf.level, 1);
+    researchShelf.visualState = "active";
+    researchShelf.progress = Math.max(researchShelf.progress, 88);
+  }
+
+  const miruActor = state.actors.find((actor) => actor.id === MOON_GROVE_MIRU_ACTOR_ID);
+  if (miruActor) {
+    miruActor.role = "researcher";
+    miruActor.slotId = "facility_research_shelf";
+    miruActor.targetSlotId = "facility_research_shelf";
+    miruActor.task = "research_clue";
+  }
+
+  state.selectedSlotId = "facility_research_shelf";
+  state.moonGroveClueMapAvailable = false;
+  state.moonGroveClueMapOpened = true;
+  state.moonGroveClueMapCurrentNodeId = MOON_GROVE_RESEARCH_NODE_ID;
+  state.moonGroveClueMapNextNodeId = MOON_GROVE_FOREST_PATH_PREVIEW_ID;
+  state.moonGroveClueMapLockedNodeId = MOON_GROVE_CLUE_MAP_LOCKED_NODE_ID;
+  state.objective = "온실 숲길 지도 펼침 · 물안개 source silhouette";
+  state.receipts.unshift(
+    `온실 숲길 지도 펼침 · ${MOON_GROVE_RESEARCH_NODE_ID} -> ${MOON_GROVE_FOREST_PATH_PREVIEW_ID} -> ${MOON_GROVE_CLUE_MAP_LOCKED_NODE_ID}`
   );
 }
 
