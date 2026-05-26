@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 
 const PORT = 4183;
 const URL = `http://127.0.0.1:${PORT}/`;
-const OUT_DIR = "reports/visual/issue-0548-moon-grove-creature-runtime-binding";
+const OUT_DIR = "reports/visual/issue-0550-moon-grove-miru-research-handoff";
 const REQUIRED_TOPOLOGY_ASSETS = [
   "bg_garden_terrain_open_v1",
   "tile_plot_empty_v1",
@@ -824,6 +824,11 @@ async function runSmoke() {
       moonGroveDiscoveryId: window.__seedGardenMoonGroveDiscoveryId ?? "",
       moonGroveDiscoveryName: window.__seedGardenMoonGroveDiscoveryName ?? "",
       moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
+      moonGroveResearchHandoffAvailable: window.__seedGardenMoonGroveResearchHandoffAvailable ?? false,
+      moonGroveResearchHandoffRecorded: window.__seedGardenMoonGroveResearchHandoffRecorded ?? false,
+      moonGroveResearchNodeId: window.__seedGardenMoonGroveResearchNodeId ?? "",
+      moonGroveForestPathPreviewVisible: window.__seedGardenMoonGroveForestPathPreviewVisible ?? false,
+      moonGroveForestPathPreviewId: window.__seedGardenMoonGroveForestPathPreviewId ?? "",
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       lastFxKey: window.__seedGardenLastFxKey ?? "",
       lastFxKind: window.__seedGardenLastFxKind ?? "",
@@ -863,6 +868,7 @@ async function runSmoke() {
       leaves: document.querySelector('[data-hud="leaves"]')?.textContent ?? "",
       selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
       actorIds: window.__seedGardenActorIds ?? [],
+      actorStates: window.__seedGardenActorStates ?? [],
       moonGroveSourceAcquired: window.__seedGardenMoonGroveSourceAcquired ?? false,
       moonGroveSourceSeedAvailable: window.__seedGardenMoonGroveSourceSeedAvailable ?? false,
       moonGroveSourceSeedId: window.__seedGardenMoonGroveSourceSeedId ?? "",
@@ -873,6 +879,11 @@ async function runSmoke() {
       moonGroveDiscoveryId: window.__seedGardenMoonGroveDiscoveryId ?? "",
       moonGroveDiscoveryName: window.__seedGardenMoonGroveDiscoveryName ?? "",
       moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
+      moonGroveResearchHandoffAvailable: window.__seedGardenMoonGroveResearchHandoffAvailable ?? false,
+      moonGroveResearchHandoffRecorded: window.__seedGardenMoonGroveResearchHandoffRecorded ?? false,
+      moonGroveResearchNodeId: window.__seedGardenMoonGroveResearchNodeId ?? "",
+      moonGroveForestPathPreviewVisible: window.__seedGardenMoonGroveForestPathPreviewVisible ?? false,
+      moonGroveForestPathPreviewId: window.__seedGardenMoonGroveForestPathPreviewId ?? "",
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
       moonGroveCreatureAssetKey: window.__seedGardenMoonGroveCreatureAssetKey ?? "",
@@ -888,6 +899,41 @@ async function runSmoke() {
       receipts: window.__seedGardenReceipts ?? []
     }));
     await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-grove-harvested-393.png`, fullPage: false });
+    await clickUntilAction(page, [[80, 500], [80, 540], [120, 500]], "미루 연구 맡기기");
+    await page.waitForTimeout(160);
+    const moonGroveResearchReady = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      actorIds: window.__seedGardenActorIds ?? [],
+      actorStates: window.__seedGardenActorStates ?? [],
+      moonGroveResearchHandoffAvailable: window.__seedGardenMoonGroveResearchHandoffAvailable ?? false,
+      moonGroveResearchHandoffRecorded: window.__seedGardenMoonGroveResearchHandoffRecorded ?? false,
+      moonGroveResearchNodeId: window.__seedGardenMoonGroveResearchNodeId ?? "",
+      moonGroveForestPathPreviewVisible: window.__seedGardenMoonGroveForestPathPreviewVisible ?? false,
+      moonGroveForestPathPreviewId: window.__seedGardenMoonGroveForestPathPreviewId ?? "",
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-grove-miru-research-ready-393.png`, fullPage: false });
+    await page.getByRole("button", { name: "미루 연구 맡기기" }).click();
+    await page.waitForTimeout(220);
+    const moonGroveResearchHandoff = await page.evaluate(() => ({
+      objective: document.querySelector('[data-testid="phaser-objective"]')?.textContent ?? "",
+      railText: document.querySelector('[data-testid="phaser-action-rail"]')?.textContent ?? "",
+      selectedText: document.querySelector(".selected-entity")?.textContent ?? "",
+      actorIds: window.__seedGardenActorIds ?? [],
+      actorStates: window.__seedGardenActorStates ?? [],
+      moonGroveResearchHandoffAvailable: window.__seedGardenMoonGroveResearchHandoffAvailable ?? false,
+      moonGroveResearchHandoffRecorded: window.__seedGardenMoonGroveResearchHandoffRecorded ?? false,
+      moonGroveResearchNodeId: window.__seedGardenMoonGroveResearchNodeId ?? "",
+      moonGroveForestPathPreviewVisible: window.__seedGardenMoonGroveForestPathPreviewVisible ?? false,
+      moonGroveForestPathPreviewId: window.__seedGardenMoonGroveForestPathPreviewId ?? "",
+      lastFxKey: window.__seedGardenLastFxKey ?? "",
+      lastFxKind: window.__seedGardenLastFxKind ?? "",
+      facilityStates: window.__seedGardenFacilityStates ?? [],
+      receipts: window.__seedGardenReceipts ?? []
+    }));
+    await page.screenshot({ path: `${OUT_DIR}/phaser-check-moon-grove-miru-research-handoff-393.png`, fullPage: false });
     await page.getByRole("button", { name: "감상" }).click();
     await page.waitForTimeout(180);
     const moonFenceSourceOverview = await page.evaluate(() => ({
@@ -910,6 +956,11 @@ async function runSmoke() {
       moonGroveDiscoveryId: window.__seedGardenMoonGroveDiscoveryId ?? "",
       moonGroveDiscoveryName: window.__seedGardenMoonGroveDiscoveryName ?? "",
       moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
+      moonGroveResearchHandoffAvailable: window.__seedGardenMoonGroveResearchHandoffAvailable ?? false,
+      moonGroveResearchHandoffRecorded: window.__seedGardenMoonGroveResearchHandoffRecorded ?? false,
+      moonGroveResearchNodeId: window.__seedGardenMoonGroveResearchNodeId ?? "",
+      moonGroveForestPathPreviewVisible: window.__seedGardenMoonGroveForestPathPreviewVisible ?? false,
+      moonGroveForestPathPreviewId: window.__seedGardenMoonGroveForestPathPreviewId ?? "",
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
       moonGroveCreatureAssetKey: window.__seedGardenMoonGroveCreatureAssetKey ?? "",
@@ -938,6 +989,7 @@ async function runSmoke() {
       canvasCount: document.querySelectorAll("canvas").length,
       topologyAssets: window.__seedGardenTopologyAssets ?? [],
       actorIds: window.__seedGardenActorIds ?? [],
+      actorStates: window.__seedGardenActorStates ?? [],
       orderCrateProgress: window.__seedGardenOrderCrateProgress ?? 0,
       completedDeliveries: window.__seedGardenCompletedDeliveries ?? 0,
       storageCapacity: window.__seedGardenStorageCapacity ?? 0,
@@ -1021,6 +1073,11 @@ async function runSmoke() {
       moonGroveDiscoveryId: window.__seedGardenMoonGroveDiscoveryId ?? "",
       moonGroveDiscoveryName: window.__seedGardenMoonGroveDiscoveryName ?? "",
       moonGroveNextPreviewVisible: window.__seedGardenMoonGroveNextPreviewVisible ?? false,
+      moonGroveResearchHandoffAvailable: window.__seedGardenMoonGroveResearchHandoffAvailable ?? false,
+      moonGroveResearchHandoffRecorded: window.__seedGardenMoonGroveResearchHandoffRecorded ?? false,
+      moonGroveResearchNodeId: window.__seedGardenMoonGroveResearchNodeId ?? "",
+      moonGroveForestPathPreviewVisible: window.__seedGardenMoonGroveForestPathPreviewVisible ?? false,
+      moonGroveForestPathPreviewId: window.__seedGardenMoonGroveForestPathPreviewId ?? "",
       moonGroveSourceRenderedAssetKey: window.__seedGardenMoonGroveSourceRenderedAssetKey ?? "",
       moonGroveSourceFxKey: window.__seedGardenMoonGroveSourceFxKey ?? "",
       moonGroveCreatureAssetKey: window.__seedGardenMoonGroveCreatureAssetKey ?? "",
@@ -2047,6 +2104,73 @@ async function runSmoke() {
     if (!moonGroveHarvested.receipts.some((receipt) => receipt.includes("discovery_moon_grove_001"))) {
       failures.push("missing moon grove discovery receipt");
     }
+    if (!moonGroveHarvested.moonGroveResearchHandoffAvailable) {
+      failures.push("moon grove research handoff was not available after harvest");
+    }
+    if (moonGroveHarvested.moonGroveResearchHandoffRecorded) {
+      failures.push("moon grove research handoff recorded before action");
+    }
+    const miruAfterHarvest = moonGroveHarvested.actorStates.find((actor) => actor.id === "actor_moon_grove_miru");
+    if (!miruAfterHarvest || miruAfterHarvest.role !== "researcher" || miruAfterHarvest.task !== "research_clue") {
+      failures.push(`expected Miru researcher state after harvest, got ${JSON.stringify(miruAfterHarvest)}`);
+    }
+    if (!moonGroveResearchReady.moonGroveResearchHandoffAvailable) {
+      failures.push("moon grove research handoff action was not available on research shelf");
+    }
+    if (!moonGroveResearchReady.railText.includes("미루 연구 맡기기")) {
+      failures.push("missing Miru research handoff action");
+    }
+    if (!moonGroveResearchReady.railText.includes("온실 숲길 단서")) {
+      failures.push("missing moon grove research clue HUD before handoff");
+    }
+    if (moonGroveResearchReady.selectedText !== "연구 선반") {
+      failures.push(`expected research shelf selected for Miru handoff, got ${moonGroveResearchReady.selectedText}`);
+    }
+    if (moonGroveResearchHandoff.moonGroveResearchHandoffAvailable) {
+      failures.push("moon grove research handoff availability stayed true after handoff");
+    }
+    if (!moonGroveResearchHandoff.moonGroveResearchHandoffRecorded) {
+      failures.push("moon grove research handoff recorded telemetry missing");
+    }
+    if (moonGroveResearchHandoff.moonGroveResearchNodeId !== "research_moon_grove_path") {
+      failures.push(`expected moon grove research node id research_moon_grove_path, got ${moonGroveResearchHandoff.moonGroveResearchNodeId}`);
+    }
+    if (!moonGroveResearchHandoff.moonGroveForestPathPreviewVisible) {
+      failures.push("moon grove forest path preview telemetry missing");
+    }
+    if (moonGroveResearchHandoff.moonGroveForestPathPreviewId !== "route_moon_grove_greenhouse_path") {
+      failures.push(
+        `expected moon grove forest path preview id route_moon_grove_greenhouse_path, got ${moonGroveResearchHandoff.moonGroveForestPathPreviewId}`
+      );
+    }
+    if (!moonGroveResearchHandoff.objective.includes("온실 숲길 단서")) {
+      failures.push("missing moon grove research handoff objective");
+    }
+    if (!moonGroveResearchHandoff.railText.includes("새벽이끼 미루 연구")) {
+      failures.push("missing Miru research HUD surface after handoff");
+    }
+    if (!moonGroveResearchHandoff.railText.includes("research_moon_grove_path")) {
+      failures.push("missing moon grove research node HUD text after handoff");
+    }
+    const miruResearchActor = moonGroveResearchHandoff.actorStates.find((actor) => actor.id === "actor_moon_grove_miru");
+    if (
+      !miruResearchActor ||
+      miruResearchActor.role !== "researcher" ||
+      miruResearchActor.slotId !== "facility_research_shelf" ||
+      miruResearchActor.targetSlotId !== "facility_research_shelf" ||
+      miruResearchActor.task !== "research_clue"
+    ) {
+      failures.push(`expected Miru anchored to research shelf after handoff, got ${JSON.stringify(miruResearchActor)}`);
+    }
+    const miruResearchShelf = moonGroveResearchHandoff.facilityStates.find(
+      (facility) => facility.slotId === "facility_research_shelf"
+    );
+    if (!miruResearchShelf || miruResearchShelf.visualState !== "active" || miruResearchShelf.progress < 65) {
+      failures.push(`expected active research shelf after Miru handoff, got ${JSON.stringify(miruResearchShelf)}`);
+    }
+    if (!moonGroveResearchHandoff.receipts.some((receipt) => receipt.includes("research_moon_grove_path"))) {
+      failures.push("missing moon grove research handoff receipt");
+    }
     if (moonFenceSourceOverview.viewMode !== "overview") {
       failures.push(`expected moon fence source overview mode, got ${moonFenceSourceOverview.viewMode}`);
     }
@@ -2087,6 +2211,20 @@ async function runSmoke() {
     }
     if (!moonFenceSourceOverview.moonGroveNextPreviewVisible) {
       failures.push("moon fence source overview next preview telemetry missing");
+    }
+    if (!moonFenceSourceOverview.moonGroveResearchHandoffRecorded) {
+      failures.push("moon fence source overview research handoff telemetry missing");
+    }
+    if (moonFenceSourceOverview.moonGroveResearchNodeId !== "research_moon_grove_path") {
+      failures.push(`expected overview research node id research_moon_grove_path, got ${moonFenceSourceOverview.moonGroveResearchNodeId}`);
+    }
+    if (!moonFenceSourceOverview.moonGroveForestPathPreviewVisible) {
+      failures.push("moon fence source overview forest path preview telemetry missing");
+    }
+    if (moonFenceSourceOverview.moonGroveForestPathPreviewId !== "route_moon_grove_greenhouse_path") {
+      failures.push(
+        `expected overview forest path preview id route_moon_grove_greenhouse_path, got ${moonFenceSourceOverview.moonGroveForestPathPreviewId}`
+      );
     }
     if (moonFenceSourceOverview.moonGroveDiscoveryId !== "discovery_moon_grove_001") {
       failures.push(`expected source overview discovery id discovery_moon_grove_001, got ${moonFenceSourceOverview.moonGroveDiscoveryId}`);
@@ -2343,6 +2481,23 @@ async function runSmoke() {
     if (!evidence.moonGroveNextPreviewVisible) {
       failures.push("final moon grove next preview telemetry missing");
     }
+    if (evidence.moonGroveResearchHandoffAvailable) {
+      failures.push("final moon grove research handoff availability stayed true");
+    }
+    if (!evidence.moonGroveResearchHandoffRecorded) {
+      failures.push("final moon grove research handoff recorded telemetry missing");
+    }
+    if (evidence.moonGroveResearchNodeId !== "research_moon_grove_path") {
+      failures.push(`expected final moon grove research node id research_moon_grove_path, got ${evidence.moonGroveResearchNodeId}`);
+    }
+    if (!evidence.moonGroveForestPathPreviewVisible) {
+      failures.push("final moon grove forest path preview telemetry missing");
+    }
+    if (evidence.moonGroveForestPathPreviewId !== "route_moon_grove_greenhouse_path") {
+      failures.push(
+        `expected final moon grove forest path preview id route_moon_grove_greenhouse_path, got ${evidence.moonGroveForestPathPreviewId}`
+      );
+    }
     if (!evidence.topologyAssets.includes("seed_moon_grove_001_icon")) {
       failures.push("missing moon grove source seed topology asset key");
     }
@@ -2388,6 +2543,16 @@ async function runSmoke() {
     if (!evidence.actorIds.includes("actor_moon_grove_miru")) {
       failures.push("final actor_moon_grove_miru missing");
     }
+    const finalMiruActor = evidence.actorStates.find((actor) => actor.id === "actor_moon_grove_miru");
+    if (
+      !finalMiruActor ||
+      finalMiruActor.role !== "researcher" ||
+      finalMiruActor.slotId !== "facility_research_shelf" ||
+      finalMiruActor.targetSlotId !== "facility_research_shelf" ||
+      finalMiruActor.task !== "research_clue"
+    ) {
+      failures.push(`expected final Miru researcher actor state, got ${JSON.stringify(finalMiruActor)}`);
+    }
     if (evidence.lastFxKey !== "fx_moon_grove_discovery_bloom_strip_v1" || evidence.lastFxKind !== "moonGroveDiscovery") {
       failures.push(`expected final moon grove harvest FX binding, got ${evidence.lastFxKind}/${evidence.lastFxKey}`);
     }
@@ -2397,8 +2562,8 @@ async function runSmoke() {
     if (evidence.nightGlassRewardLeaves !== 0) {
       failures.push(`expected final night glass reward leaves 0, got ${evidence.nightGlassRewardLeaves}`);
     }
-    if (!evidence.objective.includes("월정 숲 새벽이끼 발견") || !evidence.objective.includes("다음 온실 숲길 preview")) {
-      failures.push("missing moon grove discovery final objective");
+    if (!evidence.objective.includes("온실 숲길 단서")) {
+      failures.push("missing moon grove research handoff final objective");
     }
     if (!evidence.unlockedSlotIds.includes("plot_03")) failures.push("third plot slot did not unlock");
     if (!evidence.plotIds.includes("plot_03")) failures.push("third plot entity was not created");
@@ -2424,15 +2589,15 @@ async function runSmoke() {
       failures.push(`expected storage fill ratio 0 after claim, got ${evidence.storageFillRatio}`);
     }
     if (!evidence.unlockedSlotIds.includes("facility_storage")) failures.push("storage slot did not unlock");
-    if (!evidence.previewSlotIds.includes("facility_research_shelf")) {
-      failures.push("research shelf did not enter preview state");
+    if (!evidence.unlockedSlotIds.includes("facility_research_shelf")) {
+      failures.push("research shelf did not unlock after Miru handoff");
     }
     if (!evidence.unlockedSlotIds.includes("facility_expedition_gate")) {
       failures.push("expedition gate did not enter unlocked state after depart");
     }
     const researchShelf = evidence.facilityStates.find((facility) => facility.slotId === "facility_research_shelf");
-    if (!researchShelf || researchShelf.kind !== "research_shelf" || researchShelf.visualState !== "preview") {
-      failures.push(`expected research shelf preview facility, got ${JSON.stringify(researchShelf)}`);
+    if (!researchShelf || researchShelf.kind !== "research_shelf" || researchShelf.visualState !== "active") {
+      failures.push(`expected research shelf active facility after Miru handoff, got ${JSON.stringify(researchShelf)}`);
     }
     for (const assetId of REQUIRED_TOPOLOGY_ASSETS) {
       if (!evidence.topologyAssets.includes(assetId)) {
@@ -2477,6 +2642,8 @@ async function runSmoke() {
       moonGrovePlanted,
       moonGroveReady,
       moonGroveHarvested,
+      moonGroveResearchReady,
+      moonGroveResearchHandoff,
       moonFenceSourceOverview,
       overviewMode,
       manageReturn,
@@ -2548,6 +2715,8 @@ async function runSmoke() {
         `${OUT_DIR}/phaser-check-moon-grove-planted-393.png`,
         `${OUT_DIR}/phaser-check-moon-grove-ready-393.png`,
         `${OUT_DIR}/phaser-check-moon-grove-harvested-393.png`,
+        `${OUT_DIR}/phaser-check-moon-grove-miru-research-ready-393.png`,
+        `${OUT_DIR}/phaser-check-moon-grove-miru-research-handoff-393.png`,
         `${OUT_DIR}/phaser-check-moon-fence-source-overview-393.png`
       ],
       failures

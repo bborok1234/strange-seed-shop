@@ -2,7 +2,7 @@ export type SlotKind = "plot" | "facility" | "decor";
 export type UnlockState = "unlocked" | "preview" | "locked";
 export type PlotState = "empty" | "planted" | "growing" | "ready";
 export type FacilityKind = "workbench" | "order_crate" | "storage" | "research_shelf" | "expedition_gate";
-export type ActorRole = "caretaker" | "carrier" | "explorer";
+export type ActorRole = "caretaker" | "carrier" | "explorer" | "researcher";
 export type ExpeditionState = "locked" | "ready" | "traveling" | "returned" | "claimed";
 export type NightGlassAcquisitionState = "locked" | "ready" | "traveling" | "returned" | "claimed";
 
@@ -30,6 +30,8 @@ export const MOON_GROVE_DISCOVERY_NAME = "월정 숲 새벽이끼";
 export const MOON_GROVE_MIRU_ACTOR_ID = "actor_moon_grove_miru";
 export const MOON_GROVE_MIRU_ACTOR_NAME = "새벽이끼 미루";
 export const MOON_GROVE_HARVEST_REWARD_LEAVES = 72;
+export const MOON_GROVE_RESEARCH_NODE_ID = "research_moon_grove_path";
+export const MOON_GROVE_FOREST_PATH_PREVIEW_ID = "route_moon_grove_greenhouse_path";
 
 export interface BoardSlot {
   id: string;
@@ -67,7 +69,7 @@ export interface ActorEntity {
   role: ActorRole;
   slotId: string;
   targetSlotId: string;
-  task: "care_plot" | "carry_leaves" | "expedition" | "idle";
+  task: "care_plot" | "carry_leaves" | "expedition" | "research_clue" | "idle";
 }
 
 export interface GardenState {
@@ -161,6 +163,11 @@ export interface GardenState {
   moonGroveDiscoveryId?: string;
   moonGroveDiscoveryName?: string;
   moonGroveNextPreviewVisible: boolean;
+  moonGroveResearchHandoffAvailable: boolean;
+  moonGroveResearchHandoffRecorded: boolean;
+  moonGroveResearchNodeId?: string;
+  moonGroveForestPathPreviewVisible: boolean;
+  moonGroveForestPathPreviewId?: string;
   moonFenceRequiredExplorerId?: string;
   nextRareRoutePreviewId?: string;
   nightGlassRewardLeaves: number;
@@ -405,6 +412,11 @@ export function createGardenState(): GardenState {
     moonGroveDiscoveryId: undefined,
     moonGroveDiscoveryName: undefined,
     moonGroveNextPreviewVisible: false,
+    moonGroveResearchHandoffAvailable: false,
+    moonGroveResearchHandoffRecorded: false,
+    moonGroveResearchNodeId: undefined,
+    moonGroveForestPathPreviewVisible: false,
+    moonGroveForestPathPreviewId: undefined,
     moonFenceRequiredExplorerId: undefined,
     nextRareRoutePreviewId: undefined,
     nightGlassRewardLeaves: 0
@@ -718,12 +730,13 @@ export function harvestSelectedPlot(state: GardenState): void {
       state.actors.push({
         id: MOON_GROVE_MIRU_ACTOR_ID,
         name: MOON_GROVE_MIRU_ACTOR_NAME,
-        role: "caretaker",
+        role: "researcher",
         slotId: slot.id,
         targetSlotId: "facility_research_shelf",
-        task: "care_plot"
+        task: "research_clue"
       });
     }
+    state.moonGroveResearchHandoffAvailable = true;
     state.objective = `${MOON_GROVE_DISCOVERY_NAME} 발견 · 다음 온실 숲길 preview`;
     state.receipts.unshift(
       `${MOON_GROVE_DISCOVERY_NAME} 발견 · ${MOON_GROVE_DISCOVERY_ID} · 잎 +${MOON_GROVE_HARVEST_REWARD_LEAVES}`
@@ -1287,6 +1300,44 @@ export function claimMoonGroveSource(state: GardenState): void {
   state.moonGroveSourceSeedId = MOON_GROVE_SOURCE_SEED_ID;
   state.objective = `월정 숲 source 획득 · ${MOON_GROVE_SOURCE_SEED_ID} source 보관`;
   state.receipts.unshift(`월정 숲 source 확인 · ${MOON_GROVE_SOURCE_SEED_ID} source 획득`);
+}
+
+export function handoffMoonGroveMiruResearch(state: GardenState): void {
+  if (
+    !state.moonGroveDiscoveryRevealed ||
+    !state.moonGroveResearchHandoffAvailable ||
+    state.moonGroveResearchHandoffRecorded
+  ) {
+    return;
+  }
+
+  const researchSlot = getSlot(state, "facility_research_shelf");
+  const researchShelf = getFacilityBySlot(state, "facility_research_shelf");
+  researchSlot.unlockState = "unlocked";
+  if (researchShelf) {
+    researchShelf.level = Math.max(researchShelf.level, 1);
+    researchShelf.visualState = "active";
+    researchShelf.progress = Math.max(researchShelf.progress, 65);
+  }
+
+  const miruActor = state.actors.find((actor) => actor.id === MOON_GROVE_MIRU_ACTOR_ID);
+  if (miruActor) {
+    miruActor.role = "researcher";
+    miruActor.slotId = "facility_research_shelf";
+    miruActor.targetSlotId = "facility_research_shelf";
+    miruActor.task = "research_clue";
+  }
+
+  state.selectedSlotId = "facility_research_shelf";
+  state.moonGroveResearchHandoffAvailable = false;
+  state.moonGroveResearchHandoffRecorded = true;
+  state.moonGroveResearchNodeId = MOON_GROVE_RESEARCH_NODE_ID;
+  state.moonGroveForestPathPreviewVisible = true;
+  state.moonGroveForestPathPreviewId = MOON_GROVE_FOREST_PATH_PREVIEW_ID;
+  state.objective = `${MOON_GROVE_MIRU_ACTOR_NAME} 연구 맡김 · 온실 숲길 단서 기록`;
+  state.receipts.unshift(
+    `${MOON_GROVE_MIRU_ACTOR_NAME} 연구 선반 배치 · ${MOON_GROVE_RESEARCH_NODE_ID} 기록`
+  );
 }
 
 export function claimWorkbenchProduction(state: GardenState): void {
