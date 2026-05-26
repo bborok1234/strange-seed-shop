@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-26T02:55:59.545Z
+Generated at: 2026-05-26T03:23:03.356Z
 
 ## Current mission
 
-현재 작업은 **월정 숲 creature/actor runtime binding**이다. #546/#547은 `월정 숲 새벽이끼` 전용 creature portrait, idle/work actor strip, discovery bloom FX를 generated workspace asset 후보와 review evidence로 만들었고 main CI `26428876014`가 green이다. 이제 이 후보를 accepted manifest entry와 Phaser preload/render/telemetry에 연결해 harvest reveal이 source badge/old source FX가 아니라 전용 creature/actor/FX로 화면에 남게 한다.
+현재 작업은 **새벽이끼 미루 research handoff**다. #548/#549는 `월정 숲 새벽이끼` 전용 portrait, idle/work actor strip, discovery bloom FX를 accepted manifest와 Phaser runtime에 연결했고 main CI `26429733838`이 green이다. 이제 수확 이후 화면에 남은 `새벽이끼 미루`가 단순 collection 보상에 머물지 않도록 연구 선반에서 `미루 연구 맡기기` action을 열고, researcher actor handoff와 `온실 숲길 단서` playfield/HUD preview로 다음 route를 예고한다.
 
 현재 evidence:
 
@@ -19,51 +19,52 @@ Generated at: 2026-05-26T02:55:59.545Z
 - Completed moon grove creature plan/prompt merge: Issue #542, PR #543, merge commit `49e49e11`
 - Completed main CI recovery: Issue #544, PR #545, main CI `26427781203`
 - Completed moon grove creature generation-review: Issue #546, PR #547, main CI `26428876014`
-- WorkUnit: `items/0290-moon-grove-creature-runtime-binding.md`
-- GitHub issue: #548 `월정 숲 creature/actor runtime binding`
-- Draft PR: #549 https://github.com/bborok1234/strange-seed-shop/pull/549
-- Branch: `codex/0290-moon-grove-creature-runtime-binding`
-- Current validation: runtime/manifest/checker implementation complete; `npm run build:phaser`, `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-normalization`, `npm run check:asset-alpha`, `npm run check:asset-style`, `npm run check:ops-live`, `npm run check:ci`, `git diff --check` pass after heartbeat/control-room refresh
+- Completed moon grove creature runtime binding: Issue #548, PR #549, main CI `26429733838`
+- WorkUnit: `items/0291-moon-grove-miru-research-handoff.md`
+- GitHub issue: #550 `새벽이끼 미루 research handoff`
+- Draft PR: #551 https://github.com/bborok1234/strange-seed-shop/pull/551
+- Branch: `codex/0291-moon-grove-miru-research-handoff`
+- Current validation: runtime/checker implementation complete; Browser Use blocker recorded; `npm run build:phaser`, `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `git diff --check`, and `npm run check:ci` pass. Draft PR #551 is open; remaining gates are PR checks, merge, and main CI.
 - Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
-- Visual evidence: `reports/visual/issue-0548-moon-grove-creature-runtime-binding/`
-- Browser Use blocker: `reports/visual/issue-0548-moon-grove-creature-runtime-binding/browser-use-blocker-20260526.md`
+- Visual evidence: `reports/visual/issue-0550-moon-grove-miru-research-handoff/`
+- Browser Use blocker: `reports/visual/issue-0550-moon-grove-miru-research-handoff/browser-use-blocker-20260526.md`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 이번 slice는 #547 이후 `월정 숲 새벽이끼`가 전용 generated asset 후보를 갖고도 runtime에서 source badge/old FX에 머무는 production gap을 해소해야 한다.
+0. Studio Campaign Gate: 이번 slice는 #549 이후 `새벽이끼 미루`가 전용 actor로 화면에 남지만 progression/research 역할이 없어 다음 node payoff가 약한 production gap을 해소해야 한다.
 1. Intake gate: GitHub issue와 WorkUnit을 생성한다.
-2. Manifest gate: 4개 asset을 accepted manifest entry로 등록하고 actor/FX animation metadata와 `animation.binding`을 고정한다.
-3. Runtime gate: Phaser preload, animation, harvest reveal/playfield actor/overview telemetry가 전용 portrait, idle/work actor strip, discovery bloom FX를 사용한다.
-4. QA gate: `scripts/check-phaser-foundation.mjs`가 topology asset, harvested state, overview state, last FX binding, HUD surface를 검증한다.
+2. Runtime gate: `GardenState`에 research handoff 상태를 추가하고, `actor_moon_grove_miru`를 researcher 역할/연구 선반 target으로 anchoring한다.
+3. Action gate: 월정 숲 수확 후 연구 선반에서 `미루 연구 맡기기` action을 제공하고, 수행 후 `research_moon_grove_path`와 `route_moon_grove_greenhouse_path` preview를 남긴다.
+4. QA gate: `scripts/check-phaser-foundation.mjs`가 handoff action, telemetry, actor target/task, research shelf active state, HUD surface, screenshot evidence를 검증한다.
 5. Visual gate: Browser Use 또는 기록된 blocker + Playwright screenshot evidence를 `reports/visual/`에 남긴다.
-6. Local verification gate: `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과해야 한다.
+6. Local verification gate: `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`가 통과해야 한다.
 7. PR/main gate: PR checks, merge, main CI green 후 다음 playable vertical slice로 이어간다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
 
 ## Local state
 
-- Branch: codex/0290-moon-grove-creature-runtime-binding
-- Latest commit: 560bd8d 월정 숲 새벽이끼를 runtime discovery로 보이게 한다
+- Branch: codex/0291-moon-grove-miru-research-handoff
+- Latest commit: fa57465 새벽이끼 미루가 다음 연구 단서로 이어지게 한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-26T02:55:50.965Z
-- Phase: moon-grove-creature-runtime-binding-pr-checks
-- Issue: 548
-- PR: 549
-- Item: items/0290-moon-grove-creature-runtime-binding.md
-- Next action: PR/check gate: watch PR #549 checks, mark ready, merge, then observe main CI green
+- Timestamp: 2026-05-26T03:22:56.858Z
+- Phase: moon-grove-miru-research-handoff-pr-checks
+- Issue: 550
+- PR: 551
+- Item: items/0291-moon-grove-miru-research-handoff.md
+- Next action: PR gate: watch PR #551 checks, mark ready, merge, then main CI gate
 
 ## Open PRs
 
-- #549 draft 월정 숲 새벽이끼 runtime discovery 연결 — https://github.com/bborok1234/strange-seed-shop/pull/549
+- #551 draft 새벽이끼 미루 research handoff — https://github.com/bborok1234/strange-seed-shop/pull/551
 
 ## Open issues
 
-- #548 월정 숲 creature/actor runtime binding — https://github.com/bborok1234/strange-seed-shop/issues/548
+- #550 새벽이끼 미루 research handoff — https://github.com/bborok1234/strange-seed-shop/issues/550
 
 ## Playable mode
 

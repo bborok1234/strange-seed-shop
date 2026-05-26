@@ -15,6 +15,7 @@ import {
   getFacilityBySlot,
   getPlotBySlot,
   getSlot,
+  handoffMoonGroveMiruResearch,
   harvestSelectedPlot,
   inspectMoonFenceRoute,
   inspectMoonFenceRequirements,
@@ -36,7 +37,9 @@ import {
   MOON_GROVE_CREATURE_ID,
   MOON_GROVE_DISCOVERY_ID,
   MOON_GROVE_DISCOVERY_NAME,
+  MOON_GROVE_FOREST_PATH_PREVIEW_ID,
   MOON_GROVE_MIRU_ACTOR_ID,
+  MOON_GROVE_RESEARCH_NODE_ID,
   MOON_GROVE_SOURCE_SEED_ID,
   plantLunarSourceSeed,
   plantMoonGroveSourceSeed,
@@ -313,6 +316,14 @@ class GardenBoardScene extends Phaser.Scene {
     (window as unknown as { __seedGardenActorIds?: string[] }).__seedGardenActorIds = gameState.actors.map(
       (actor) => actor.id
     );
+    (window as unknown as { __seedGardenActorStates?: Array<Pick<ActorEntity, "id" | "role" | "slotId" | "targetSlotId" | "task">> })
+      .__seedGardenActorStates = gameState.actors.map((actor) => ({
+        id: actor.id,
+        role: actor.role,
+        slotId: actor.slotId,
+        targetSlotId: actor.targetSlotId,
+        task: actor.task
+      }));
     (window as unknown as { __seedGardenViewMode?: ViewMode }).__seedGardenViewMode = this.viewMode;
     (window as unknown as { __seedGardenHudCollapsed?: boolean }).__seedGardenHudCollapsed =
       this.viewMode === "overview";
@@ -487,6 +498,16 @@ class GardenBoardScene extends Phaser.Scene {
       gameState.moonGroveDiscoveryName ?? "";
     (window as unknown as { __seedGardenMoonGroveNextPreviewVisible?: boolean })
       .__seedGardenMoonGroveNextPreviewVisible = gameState.moonGroveNextPreviewVisible;
+    (window as unknown as { __seedGardenMoonGroveResearchHandoffAvailable?: boolean })
+      .__seedGardenMoonGroveResearchHandoffAvailable = gameState.moonGroveResearchHandoffAvailable;
+    (window as unknown as { __seedGardenMoonGroveResearchHandoffRecorded?: boolean })
+      .__seedGardenMoonGroveResearchHandoffRecorded = gameState.moonGroveResearchHandoffRecorded;
+    (window as unknown as { __seedGardenMoonGroveResearchNodeId?: string })
+      .__seedGardenMoonGroveResearchNodeId = gameState.moonGroveResearchNodeId ?? "";
+    (window as unknown as { __seedGardenMoonGroveForestPathPreviewVisible?: boolean })
+      .__seedGardenMoonGroveForestPathPreviewVisible = gameState.moonGroveForestPathPreviewVisible;
+    (window as unknown as { __seedGardenMoonGroveForestPathPreviewId?: string })
+      .__seedGardenMoonGroveForestPathPreviewId = gameState.moonGroveForestPathPreviewId ?? "";
     (window as unknown as { __seedGardenMoonGroveSourceRenderedAssetKey?: string })
       .__seedGardenMoonGroveSourceRenderedAssetKey = gameState.moonFenceNextClueVisible
         ? TOPOLOGY_ASSETS.seeds.moonGroveSource.key
@@ -885,6 +906,40 @@ class GardenBoardScene extends Phaser.Scene {
           .setOrigin(0.5);
         container.add(familyChip);
       }
+    }
+
+    if (facility?.kind === "research_shelf" && gameState.moonGroveForestPathPreviewVisible) {
+      const bloom = this.add.sprite(28, -24, TOPOLOGY_ASSETS.fx.moonGroveDiscoveryBloom.key);
+      bloom.setDisplaySize(54, 44);
+      bloom.setAlpha(0.72);
+      bloom.play("moon-grove-discovery-bloom-once");
+      container.add(bloom);
+
+      const pathChip = this.add
+        .text(0, -58, "숲길 단서", {
+          align: "center",
+          backgroundColor: "rgba(33, 74, 62, 0.9)",
+          color: "#eefbd0",
+          fontFamily: "system-ui, sans-serif",
+          fontSize: "9px",
+          fontStyle: "800",
+          padding: { x: 7, y: 2 }
+        })
+        .setOrigin(0.5);
+      container.add(pathChip);
+    } else if (facility?.kind === "research_shelf" && gameState.moonGroveResearchHandoffAvailable) {
+      const miruChip = this.add
+        .text(0, -58, "미루 연구", {
+          align: "center",
+          backgroundColor: "rgba(42, 97, 74, 0.88)",
+          color: "#eefbd0",
+          fontFamily: "system-ui, sans-serif",
+          fontSize: "9px",
+          fontStyle: "800",
+          padding: { x: 7, y: 2 }
+        })
+        .setOrigin(0.5);
+      container.add(miruChip);
     }
 
     if (facility?.kind === "expedition_gate" && slot.unlockState === "preview") {
@@ -1596,6 +1651,7 @@ class GardenBoardScene extends Phaser.Scene {
       | "start_moon_fence_expedition"
       | "claim_moon_fence_expedition"
       | "claim_moon_grove_source"
+      | "handoff_moon_grove_research"
   ) {
     const selectedSlotId = gameState.selectedSlotId;
     if (action === "plant") {
@@ -1672,6 +1728,9 @@ class GardenBoardScene extends Phaser.Scene {
     } else if (action === "claim_moon_grove_source") {
       claimMoonGroveSource(gameState);
       this.pendingFx = { kind: "moonGroveSource", slotId: "facility_expedition_gate" };
+    } else if (action === "handoff_moon_grove_research") {
+      handoffMoonGroveMiruResearch(gameState);
+      this.pendingFx = { kind: "moonGroveDiscovery", slotId: "facility_research_shelf" };
     } else if (action === "care") {
       careSelectedPlot(gameState);
       this.pendingFx = { kind: "care", slotId: selectedSlotId };
@@ -1907,6 +1966,18 @@ class GardenBoardScene extends Phaser.Scene {
       `;
       this.hud.actions.appendChild(moonGroveSourceSurface);
     }
+    if (gameState.moonGroveResearchHandoffAvailable || gameState.moonGroveResearchHandoffRecorded) {
+      const miruResearchSurface = document.createElement("div");
+      miruResearchSurface.className = "collection-goal-surface";
+      const miruResearchText = gameState.moonGroveResearchHandoffRecorded
+        ? `${gameState.moonGroveResearchNodeId ?? MOON_GROVE_RESEARCH_NODE_ID} · ${gameState.moonGroveForestPathPreviewId ?? MOON_GROVE_FOREST_PATH_PREVIEW_ID} preview`
+        : "연구 선반에 맡기기 대기 · 온실 숲길 단서";
+      miruResearchSurface.innerHTML = `
+        <strong>새벽이끼 미루 연구</strong>
+        <span>${miruResearchText}</span>
+      `;
+      this.hud.actions.appendChild(miruResearchSurface);
+    }
     if (gameState.moonFenceExpeditionState !== "locked" && gameState.moonFenceExpeditionState !== "ready") {
       const moonExpeditionSurface = document.createElement("div");
       moonExpeditionSurface.className = "collection-goal-surface";
@@ -1969,6 +2040,8 @@ class GardenBoardScene extends Phaser.Scene {
             ? selectedFacility.progress > 0
               ? `주문 준비 ${selectedFacility.progress}%`
               : "다음 상자 준비"
+            : selectedFacility?.kind === "research_shelf" && gameState.moonGroveResearchHandoffRecorded
+              ? "온실 숲길 단서 기록됨"
             : selectedFacility?.kind === "storage" && selectedSlot.unlockState === "unlocked"
               ? `오프라인 보관 ${gameState.storedLeaves}/${gameState.storageCapacity}`
               : selectedFacility?.kind === "research_shelf" && selectedSlot.unlockState === "preview"
@@ -2053,7 +2126,8 @@ class GardenBoardScene extends Phaser.Scene {
       | "unlock_moon_fence_route"
       | "start_moon_fence_expedition"
       | "claim_moon_fence_expedition"
-      | "claim_moon_grove_source";
+      | "claim_moon_grove_source"
+      | "handoff_moon_grove_research";
     label: string;
   }> {
     const plot = getPlotBySlot(state, selectedSlot.id);
@@ -2101,6 +2175,9 @@ class GardenBoardScene extends Phaser.Scene {
     }
     if (facility?.kind === "expedition_gate" && state.moonFenceNextClueVisible && !state.moonGroveSourceAcquired) {
       return [{ id: "claim_moon_grove_source", label: "월정 숲 source 확인" }];
+    }
+    if (facility?.kind === "research_shelf" && state.moonGroveResearchHandoffAvailable) {
+      return [{ id: "handoff_moon_grove_research", label: "미루 연구 맡기기" }];
     }
     if (facility?.kind === "expedition_gate" && state.expeditionState === "ready") {
       return [{ id: "start_expedition", label: "틈새길 보내기" }];
