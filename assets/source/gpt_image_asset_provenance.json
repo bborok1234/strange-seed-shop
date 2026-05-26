@@ -1263,7 +1263,149 @@
         "expectedHeight": 96,
         "binding": "moon_fence.reward.action.claim_source_clue"
       }
+    },
+    {
+      "asset_id": "creature_moon_grove_001",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/creature_moon_grove_001/2026-05-26T01-58-51-274Z.png",
+      "accepted_output_path": "public/assets/game/creatures/creature_moon_grove_001.png",
+      "generated_at": "2026-05-26T02:01:43.424Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "border_connected_checkerboard_alpha_cleanup"
+      ],
+      "review_report": "reports/assets/moon_grove_creature_asset_review_20260526.md",
+      "contact_sheet": "reports/assets/moon_grove_creature_asset_contact_sheet_20260526.png"
+    },
+    {
+      "asset_id": "actor_moon_grove_miru_idle_strip_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/actor_moon_grove_miru_idle_strip_v1/2026-05-26T02-01-51-945Z.png",
+      "accepted_output_path": "public/assets/game/actors/actor_moon_grove_miru_idle_strip_v1.png",
+      "generated_at": "2026-05-26T02:04:46.849Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "border_connected_checkerboard_alpha_cleanup",
+        "strict_strip_normalization",
+        "frame_edge_fragment_cleanup"
+      ],
+      "review_report": "reports/assets/moon_grove_creature_asset_review_20260526.md",
+      "contact_sheet": "reports/assets/moon_grove_creature_asset_contact_sheet_20260526.png",
+      "normalization": {
+        "frames": 8,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 8,
+        "repeat": -1,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 96,
+        "binding": "moon_grove.discovery.actor.idle"
+      }
+    },
+    {
+      "asset_id": "actor_moon_grove_miru_work_strip_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/actor_moon_grove_miru_work_strip_v1/2026-05-26T02-04-52-480Z.png",
+      "accepted_output_path": "public/assets/game/actors/actor_moon_grove_miru_work_strip_v1.png",
+      "generated_at": "2026-05-26T02:07:43.294Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "border_connected_checkerboard_alpha_cleanup",
+        "strict_strip_normalization",
+        "frame_edge_fragment_cleanup"
+      ],
+      "review_report": "reports/assets/moon_grove_creature_asset_review_20260526.md",
+      "contact_sheet": "reports/assets/moon_grove_creature_asset_contact_sheet_20260526.png",
+      "normalization": {
+        "frames": 8,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 10,
+        "repeat": -1,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 96,
+        "binding": "moon_grove.discovery.actor.work"
+      }
+    },
+    {
+      "asset_id": "fx_moon_grove_discovery_bloom_strip_v1",
+      "provider": "openai_images_api",
+      "model": "gpt-image-2",
+      "source_prompt_path": "assets/source/asset_prompts.json",
+      "style_bible_path": "assets/source/asset_style_bible.json",
+      "raw_output_path": "assets/source/generated/gpt-image/fx_moon_grove_discovery_bloom_strip_v1/2026-05-26T02-07-49-205Z.png",
+      "accepted_output_path": "public/assets/game/fx/fx_moon_grove_discovery_bloom_strip_v1.png",
+      "generated_at": "2026-05-26T02:11:07.549Z",
+      "review_required": true,
+      "style_reference_asset_ids": [
+        "creature_herb_common_001",
+        "creature_herb_common_002",
+        "creature_lunar_common_001",
+        "seed_herb_001_icon",
+        "seed_lunar_001_icon",
+        "ui_order_crate_leaf_001",
+        "fx_production_tick_leaf_001"
+      ],
+      "post_processing": [
+        "border_connected_checkerboard_alpha_cleanup",
+        "strict_strip_normalization",
+        "frame_edge_fragment_cleanup"
+      ],
+      "review_report": "reports/assets/moon_grove_creature_asset_review_20260526.md",
+      "contact_sheet": "reports/assets/moon_grove_creature_asset_contact_sheet_20260526.png",
+      "normalization": {
+        "frames": 8,
+        "frameWidth": 96,
+        "frameHeight": 96,
+        "frameRate": 12,
+        "repeat": 0,
+        "margin": 0,
+        "spacing": 0,
+        "expectedWidth": 768,
+        "expectedHeight": 96,
+        "binding": "moon_grove.discovery.action.reveal"
+      }
     }
   ],
-  "updated_at": "2026-05-11T04:26:08.870Z"
+  "updated_at": "2026-05-26T02:17:08.178Z"
 }

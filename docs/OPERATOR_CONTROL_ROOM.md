@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-26T01:46:19.395Z
+Generated at: 2026-05-26T02:22:58.288Z
 
 ## Current mission
 
-현재 작업은 **PR #543 이후 main CI dashboard stale 복구**다. #542/#543은 `월정 숲 새벽이끼` 전용 creature portrait, idle/work actor strip, discovery bloom FX plan-prompt를 main에 merge했지만, merge 후 main CI `26427334732`가 dashboard stale로 red가 됐다. #544는 닫힌 PR evidence backfill이 아니라 main CI 복구용 harness-defect WorkUnit으로, dashboard/control-room/heartbeat를 현재 브랜치와 issue에 맞게 갱신한다.
+현재 작업은 **월정 숲 creature/actor asset generation-review**다. #542/#543은 `월정 숲 새벽이끼` 전용 creature portrait, idle/work actor strip, discovery bloom FX plan-prompt를 main에 merge했고, #544/#545로 merge 후 red main CI도 green으로 복구했다. 이제 plan/prompt에 대응하는 실제 workspace PNG와 strict strip 후보, review evidence, generation provenance를 만들어 후속 runtime binding이 accepted manifest asset을 참조할 수 있게 한다.
 
 현재 evidence:
 
@@ -17,50 +17,48 @@ Generated at: 2026-05-26T01:46:19.395Z
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
 - Completed moon grove harvest/reveal payoff: Issue #540, PR #541, main CI `25903872186`
 - Completed moon grove creature plan/prompt merge: Issue #542, PR #543, merge commit `49e49e11`
-- Red main CI to recover: run `26427334732`, failure `docs/DASHBOARD.md is stale; run npm run update:dashboard`
-- WorkUnit: `items/0288-main-ci-dashboard-stale-after-pr543.md`
-- GitHub issue: #544 `PR #543 이후 main CI dashboard stale 복구`
-- Branch: `codex/0288-main-ci-dashboard-stale-after-pr543`
-- Draft PR: #545 https://github.com/bborok1234/strange-seed-shop/pull/545
-- Current validation: `npm run check:dashboard`, `npm run check:ops-live`, `npm run check:seed-ops-queue`, `npm run check:ci`, `git diff --check` pass
+- Completed main CI recovery: Issue #544, PR #545, main CI `26427781203`
+- WorkUnit: `items/0289-moon-grove-creature-asset-generation-review.md`
+- GitHub issue: #546 `월정 숲 creature/actor asset generation-review`
+- Branch: `codex/0289-moon-grove-creature-asset-generation-review`
+- Current validation: `npm run check:moon-grove-creature-assets`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:dashboard`, `npm run check:ops-live`, `npm run check:ci`, `git diff --check` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Red-main recovery gate: main CI가 red인 동안 다음 asset generation/runtime slice로 넘어가지 않는다.
-0a. Studio Campaign Gate: red main 복구 후 다음 게임 slice는 #543 이후 `월정 숲 새벽이끼`가 전용 generated creature/actor asset 없이 source badge에 머무는 production gap을 해소해야 한다.
-1. Intake gate: GitHub issue #544와 WorkUnit을 생성했다.
-2. Dashboard gate: `npm run update:dashboard`와 `npm run check:dashboard`를 통과시켰다.
-3. Ops-live gate: control room과 heartbeat를 #544 브랜치/issue로 갱신한다.
-4. Local verification gate: `npm run check:ci`, `git diff --check`가 통과해야 한다.
-5. PR publication gate: 완료. Draft PR #545를 게시했다.
-6. Main CI gate: merge 후 main CI가 green으로 돌아오면 월정 숲 creature/actor asset generation/review/runtime binding WorkUnit으로 이어간다.
+0. Studio Campaign Gate: 이번 slice는 #543 이후 `월정 숲 새벽이끼`가 전용 generated creature/actor asset 없이 source badge에 머무는 production gap을 해소해야 한다.
+1. Intake gate: GitHub issue #546과 WorkUnit을 생성했다.
+2. Generation gate: `creature_moon_grove_001`, `actor_moon_grove_miru_idle_strip_v1`, `actor_moon_grove_miru_work_strip_v1`, `fx_moon_grove_discovery_bloom_strip_v1`을 `SEED_ASSET_IMAGE_BACKGROUND=opaque` gpt-image-2 path로 생성했다.
+3. Review/postprocess gate: portrait는 alpha-cleanup, actor/FX는 strict 8 frames, 96x96, intended fps/binding evidence로 normalize했다.
+4. Evidence gate: `assets/source/asset_generation_status.json`, `assets/source/gpt_image_asset_provenance.json`, review report, contact sheet를 갱신했다.
+5. Local verification gate: `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:asset-alpha`, `npm run check:ci`, `git diff --check`가 통과했다.
+6. PR/main gate: PR checks, merge, main CI green 후 다음 runtime binding WorkUnit으로 이어간다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
 
 ## Local state
 
-- Branch: codex/0288-main-ci-dashboard-stale-after-pr543
-- Latest commit: 3fe82f8 main CI dashboard stale을 별도 복구한다
+- Branch: codex/0289-moon-grove-creature-asset-generation-review
+- Latest commit: 0e2eba6 main CI dashboard stale을 별도 복구한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-26T01:46:14.401Z
-- Phase: main-ci-dashboard-recovery-pr-checks
-- Issue: 544
-- PR: 545
-- Item: items/0288-main-ci-dashboard-stale-after-pr543.md
-- Next action: PR/check gate: watch PR #545 checks, mark ready, merge, then observe main CI green
+- Timestamp: 2026-05-26T02:22:56.078Z
+- Phase: moon-grove-creature-asset-generation-review-pr
+- Issue: 546
+- PR: none
+- Item: items/0289-moon-grove-creature-asset-generation-review.md
+- Next action: PR publication gate: commit, push, publish draft PR for #546, watch checks, merge, then observe main CI
 
 ## Open PRs
 
-- #545 draft PR #543 이후 main CI dashboard stale 복구 — https://github.com/bborok1234/strange-seed-shop/pull/545
+- unavailable or none
 
 ## Open issues
 
-- #544 PR #543 이후 main CI dashboard stale 복구 — https://github.com/bborok1234/strange-seed-shop/issues/544
+- #546 월정 숲 creature/actor asset generation-review — https://github.com/bborok1234/strange-seed-shop/issues/546
 
 ## Playable mode
 
