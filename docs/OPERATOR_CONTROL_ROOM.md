@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-26T03:21:32.752Z
+Generated at: 2026-05-26T03:23:03.356Z
 
 ## Current mission
 
@@ -22,9 +22,9 @@ Generated at: 2026-05-26T03:21:32.752Z
 - Completed moon grove creature runtime binding: Issue #548, PR #549, main CI `26429733838`
 - WorkUnit: `items/0291-moon-grove-miru-research-handoff.md`
 - GitHub issue: #550 `새벽이끼 미루 research handoff`
-- PR: pending
+- Draft PR: #551 https://github.com/bborok1234/strange-seed-shop/pull/551
 - Branch: `codex/0291-moon-grove-miru-research-handoff`
-- Current validation: runtime/checker implementation complete; Browser Use blocker recorded; `npm run build:phaser`, `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `git diff --check`, and `npm run check:ci` pass. Remaining gates are PR checks, merge, and main CI.
+- Current validation: runtime/checker implementation complete; Browser Use blocker recorded; `npm run build:phaser`, `npm run check:phaser`, `npm run check:asset-provenance`, `npm run check:asset-style`, `git diff --check`, and `npm run check:ci` pass. Draft PR #551 is open; remaining gates are PR checks, merge, and main CI.
 - Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
 - Visual evidence: `reports/visual/issue-0550-moon-grove-miru-research-handoff/`
 - Browser Use blocker: `reports/visual/issue-0550-moon-grove-miru-research-handoff/browser-use-blocker-20260526.md`
@@ -45,22 +45,22 @@ Generated at: 2026-05-26T03:21:32.752Z
 ## Local state
 
 - Branch: codex/0291-moon-grove-miru-research-handoff
-- Latest commit: f010b8d 새벽이끼 미루가 다음 연구 단서로 이어지게 한다
+- Latest commit: fa57465 새벽이끼 미루가 다음 연구 단서로 이어지게 한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-26T03:21:25.699Z
-- Phase: moon-grove-miru-research-handoff-pr-gate
+- Timestamp: 2026-05-26T03:22:56.858Z
+- Phase: moon-grove-miru-research-handoff-pr-checks
 - Issue: 550
-- PR: pending
+- PR: 551
 - Item: items/0291-moon-grove-miru-research-handoff.md
-- Next action: PR gate: push branch, create draft PR, watch checks, mark ready, merge, then main CI gate
+- Next action: PR gate: watch PR #551 checks, mark ready, merge, then main CI gate
 
 ## Open PRs
 
-- unavailable or none
+- #551 draft 새벽이끼 미루 research handoff — https://github.com/bborok1234/strange-seed-shop/pull/551
 
 ## Open issues
 

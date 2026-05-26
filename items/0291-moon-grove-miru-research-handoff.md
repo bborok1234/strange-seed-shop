@@ -2,10 +2,10 @@
 
 ## 상태
 
-- Status: implemented-local-verification
+- Status: pr-open
 - Game Studio route: `game-studio:game-studio -> game-studio:phaser-2d-game -> game-studio:game-ui-frontend -> game-studio:game-playtest`
 - GitHub issue: #550
-- PR: pending
+- PR: #551 https://github.com/bborok1234/strange-seed-shop/pull/551
 - Branch: `codex/0291-moon-grove-miru-research-handoff`
 - 연결: Issue #548, PR #549, main CI `26429733838`
 
@@ -95,7 +95,7 @@
   - `reports/visual/issue-0550-moon-grove-miru-research-handoff/phaser-check-moon-grove-miru-research-ready-393.png`
   - `reports/visual/issue-0550-moon-grove-miru-research-handoff/phaser-check-moon-grove-miru-research-handoff-393.png`
 - Browser Use blocker: `reports/visual/issue-0550-moon-grove-miru-research-handoff/browser-use-blocker-20260526.md`
-- Remaining gates: PR checks, merge, main CI.
+- Remaining gates: PR #551 checks, merge, main CI.
 
 ## Subagent/Team Routing
 
