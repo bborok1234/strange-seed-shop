@@ -3,7 +3,7 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-26T01:44:48.627Z
+Generated at: 2026-05-26T01:46:19.395Z
 
 ## Current mission
 
@@ -21,7 +21,8 @@ Generated at: 2026-05-26T01:44:48.627Z
 - WorkUnit: `items/0288-main-ci-dashboard-stale-after-pr543.md`
 - GitHub issue: #544 `PR #543 이후 main CI dashboard stale 복구`
 - Branch: `codex/0288-main-ci-dashboard-stale-after-pr543`
-- Current validation: `npm run check:dashboard` pass, `git diff --check` pass, `npm run check:ci` found additional stale ops-live state to update
+- Draft PR: #545 https://github.com/bborok1234/strange-seed-shop/pull/545
+- Current validation: `npm run check:dashboard`, `npm run check:ops-live`, `npm run check:seed-ops-queue`, `npm run check:ci`, `git diff --check` pass
 - Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
@@ -32,7 +33,7 @@ Generated at: 2026-05-26T01:44:48.627Z
 2. Dashboard gate: `npm run update:dashboard`와 `npm run check:dashboard`를 통과시켰다.
 3. Ops-live gate: control room과 heartbeat를 #544 브랜치/issue로 갱신한다.
 4. Local verification gate: `npm run check:ci`, `git diff --check`가 통과해야 한다.
-5. PR publication gate: #544 복구 PR을 게시하고 checks green 후 merge한다.
+5. PR publication gate: 완료. Draft PR #545를 게시했다.
 6. Main CI gate: merge 후 main CI가 green으로 돌아오면 월정 숲 creature/actor asset generation/review/runtime binding WorkUnit으로 이어간다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
@@ -40,22 +41,22 @@ Generated at: 2026-05-26T01:44:48.627Z
 ## Local state
 
 - Branch: codex/0288-main-ci-dashboard-stale-after-pr543
-- Latest commit: acac324 main CI dashboard stale을 별도 복구한다
+- Latest commit: 3fe82f8 main CI dashboard stale을 별도 복구한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-26T01:44:37.855Z
-- Phase: main-ci-dashboard-recovery-pr
+- Timestamp: 2026-05-26T01:46:14.401Z
+- Phase: main-ci-dashboard-recovery-pr-checks
 - Issue: 544
-- PR: none
+- PR: 545
 - Item: items/0288-main-ci-dashboard-stale-after-pr543.md
-- Next action: PR/check gate: publish #544 recovery PR, watch checks, merge, then observe main CI green
+- Next action: PR/check gate: watch PR #545 checks, mark ready, merge, then observe main CI green
 
 ## Open PRs
 
-- unavailable or none
+- #545 draft PR #543 이후 main CI dashboard stale 복구 — https://github.com/bborok1234/strange-seed-shop/pull/545
 
 ## Open issues
 

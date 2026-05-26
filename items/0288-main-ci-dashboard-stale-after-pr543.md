@@ -5,6 +5,7 @@
 - Status: active
 - Game Studio route: `game-studio:game-studio -> studio-harness-v3-ci-recovery`
 - GitHub issue: #544
+- PR: #545 https://github.com/bborok1234/strange-seed-shop/pull/545
 - Branch: `codex/0288-main-ci-dashboard-stale-after-pr543`
 - 연결: PR #543, main CI run `26427334732`
 
