@@ -3,11 +3,11 @@
 <!-- OPERATOR_CONTROL_ROOM_SNAPSHOT:START -->
 ## Live Snapshot
 
-Generated at: 2026-05-15T06:39:05.832Z
+Generated at: 2026-05-26T01:44:48.627Z
 
 ## Current mission
 
-현재 작업은 **월정 숲 creature/actor asset plan-prompt**다. #540/#541은 `seed_moon_grove_001`을 `월정 숲 새벽이끼` discovery reveal과 다음 온실/숲길 preview로 닫았고 main CI `25903872186`까지 통과했다. #542는 이 discovery가 source badge에 머물지 않도록 dedicated creature portrait, idle/work actor strip, discovery bloom FX를 generation-ready plan/prompt로 고정한다.
+현재 작업은 **PR #543 이후 main CI dashboard stale 복구**다. #542/#543은 `월정 숲 새벽이끼` 전용 creature portrait, idle/work actor strip, discovery bloom FX plan-prompt를 main에 merge했지만, merge 후 main CI `26427334732`가 dashboard stale로 red가 됐다. #544는 닫힌 PR evidence backfill이 아니라 main CI 복구용 harness-defect WorkUnit으로, dashboard/control-room/heartbeat를 현재 브랜치와 issue에 맞게 갱신한다.
 
 현재 evidence:
 
@@ -16,49 +16,50 @@ Generated at: 2026-05-15T06:39:05.832Z
 - Production companion: `docs/GAME_PRODUCTION_SPEC.md`
 - Phaser foundation: `docs/phaser/REBOOT_FOUNDATION_SPEC.md`
 - Completed moon grove harvest/reveal payoff: Issue #540, PR #541, main CI `25903872186`
-- WorkUnit: `items/0287-moon-grove-creature-asset-plan-prompt.md`
-- GitHub issue: #542 `월정 숲 creature/actor asset plan-prompt`
-- Draft PR: #543 https://github.com/bborok1234/strange-seed-shop/pull/543
-- Branch: `codex/v1-moon-grove-creature-asset-plan-prompt`
-- Asset plan/prompt bridge: Done locally - moon grove creature portrait, idle/work actor strips, discovery bloom FX plan/prompt added
-- Current validation: `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check` pass
-- Heartbeat: `reports/operations/operator-heartbeat-20260515.jsonl`, `.omx/state/operator-heartbeat.json`
+- Completed moon grove creature plan/prompt merge: Issue #542, PR #543, merge commit `49e49e11`
+- Red main CI to recover: run `26427334732`, failure `docs/DASHBOARD.md is stale; run npm run update:dashboard`
+- WorkUnit: `items/0288-main-ci-dashboard-stale-after-pr543.md`
+- GitHub issue: #544 `PR #543 이후 main CI dashboard stale 복구`
+- Branch: `codex/0288-main-ci-dashboard-stale-after-pr543`
+- Current validation: `npm run check:dashboard` pass, `git diff --check` pass, `npm run check:ci` found additional stale ops-live state to update
+- Heartbeat: `reports/operations/operator-heartbeat-20260526.jsonl`, `.omx/state/operator-heartbeat.json`
 
 즉시 적용할 gate:
 
-0. Studio Campaign Gate: 다음 slice는 #541 이후 `월정 숲 새벽이끼`가 전용 creature/actor asset 없이 source badge에 머무는 production gap을 해소한다.
-1. Intake gate: GitHub issue #542를 생성하고 WorkUnit/ROADMAP/heartbeat에 issue 번호를 고정했다.
-2. Plan/prompt gate: 완료. `assets/source/asset_plan.json`, `assets/source/asset_prompts.json`에 월정 숲 creature/actor/FX 4개를 추가했다.
-3. Local verification gate: 완료. `npm run check:topology-asset-plan`, `npm run check:asset-provenance`, `npm run check:asset-style`, `npm run check:ci`, `git diff --check`가 통과했다.
-4. PR publication gate: 완료. Draft PR #543을 게시했다.
-5. PR #543 checks가 green이면 ready/merge 후 main CI를 관찰한다.
-6. runtime generation 지시가 없어야 하며 Browser Use가 unavailable이면 blocker report + Playwright fallback evidence를 유지한다.
+0. Red-main recovery gate: main CI가 red인 동안 다음 asset generation/runtime slice로 넘어가지 않는다.
+0a. Studio Campaign Gate: red main 복구 후 다음 게임 slice는 #543 이후 `월정 숲 새벽이끼`가 전용 generated creature/actor asset 없이 source badge에 머무는 production gap을 해소해야 한다.
+1. Intake gate: GitHub issue #544와 WorkUnit을 생성했다.
+2. Dashboard gate: `npm run update:dashboard`와 `npm run check:dashboard`를 통과시켰다.
+3. Ops-live gate: control room과 heartbeat를 #544 브랜치/issue로 갱신한다.
+4. Local verification gate: `npm run check:ci`, `git diff --check`가 통과해야 한다.
+5. PR publication gate: #544 복구 PR을 게시하고 checks green 후 merge한다.
+6. Main CI gate: merge 후 main CI가 green으로 돌아오면 월정 숲 creature/actor asset generation/review/runtime binding WorkUnit으로 이어간다.
 
 다음 Studio Harness v3 foreground operator issue는 경쟁작 production gap과 concrete visual/game-feel payoff를 함께 명시해야 한다. 기존 asset 재사용만으로는 통과하지 않는다; 최소 하나의 playfield state, HUD affordance, sprite/FX, order crate visual state, reward motion 중 하나를 player verb와 연결해야 한다. 새 accepted manifest game asset은 Codex native image generation 또는 gpt-image-2 provenance를 남기고 `OPENAI_API_KEY`, `SEED_ASSET_IMAGE_MODEL` 조건과 `npm run check:asset-provenance`, `npm run check:asset-style` gate를 통과해야 한다. Sprite/FX payoff는 `animation.binding`과 frame count/size/rate를 명시한다. 단순 주문 추가, copy tweak, test-only 작업은 이 payoff를 동반하고 vertical slice blocker를 제거할 때만 선택한다.
 
 ## Local state
 
-- Branch: codex/v1-moon-grove-creature-asset-plan-prompt
-- Latest commit: 42f6721 월정 숲 creature asset 계획을 생성한다
+- Branch: codex/0288-main-ci-dashboard-stale-after-pr543
+- Latest commit: acac324 main CI dashboard stale을 별도 복구한다
 - Dirty files: present
 
 ## Heartbeat
 
 - Source: .omx/state/operator-heartbeat.json
-- Timestamp: 2026-05-15T06:38:57.950Z
-- Phase: phaser-v1-moon-grove-creature-asset-plan-pr
-- Issue: 542
-- PR: 543
-- Item: items/0287-moon-grove-creature-asset-plan-prompt.md
-- Next action: PR/check gate: watch PR #543 required checks, then ready/merge if green
+- Timestamp: 2026-05-26T01:44:37.855Z
+- Phase: main-ci-dashboard-recovery-pr
+- Issue: 544
+- PR: none
+- Item: items/0288-main-ci-dashboard-stale-after-pr543.md
+- Next action: PR/check gate: publish #544 recovery PR, watch checks, merge, then observe main CI green
 
 ## Open PRs
 
-- #543 draft 월정 숲 creature/actor asset plan-prompt — https://github.com/bborok1234/strange-seed-shop/pull/543
+- unavailable or none
 
 ## Open issues
 
-- #542 월정 숲 creature/actor asset plan-prompt — https://github.com/bborok1234/strange-seed-shop/issues/542
+- #544 PR #543 이후 main CI dashboard stale 복구 — https://github.com/bborok1234/strange-seed-shop/issues/544
 
 ## Playable mode
 
